@@ -1,0 +1,213 @@
+
+/**********************************/
+/******* General Formatting *******/
+/**********************************/
+
+body {
+	background: #f9f9f9;
+}
+.clear {
+	clear: both;
+}
+.contain {
+	max-width: 1000px;
+	margin: 0 auto;
+}
+
+/**********************************/
+/****** Navigation Bar ************/
+/**********************************/
+
+
+.navbar {
+	border-radius: 0px;
+	margin: 0;
+	margin-bottom: -60px;
+	height: 50px;
+	opacity: .95;
+	background: #f9f9f9;
+	border:none;
+	border-bottom: 1px solid #eee;
+}
+.navbar-center form input {
+	width: 100%;
+}
+#menuitems li a {
+	transition: color .2s;
+	font-weight: 200;
+}
+#menuitems li a:hover {
+	color: #444;
+	text-decoration: underline;
+}
+.searchbutton {
+	color: white;
+}
+
+#mobilesearch-container {
+	padding: 15px;
+}
+
+.desktopsearchbar {
+	padding-top: 10px;
+	margin: 0 auto;
+	width: 35%;
+	max-width: 650px;
+}
+
+.customsearchbar form {
+	height: 32px;
+	border:1px solid red;
+}
+.customsearchbar input {
+	height: 30px;
+	border-radius: 0px;
+	width: 100%;
+	float: left;
+	border-right: none;
+	margin: 0;
+	padding-right: 45px;
+}
+
+.customsearchbar button {
+	float: left;
+	height: 30px;
+	width: 40px;
+	margin-left: -40px;
+	border-radius: 0px;
+	border:1px solid #ccc;
+	background: #f4f4f4;
+	color: #777;
+	font-size: 12px;
+	line-height: 15px;
+	transition: background .2s;
+}
+.customsearchbar .blueborder {
+	outline: 0;
+	border-top:1px solid #66afe9;
+	border-right:1px solid #66afe9;
+	border-bottom:1px solid #66afe9;
+	border-left: 1px solid #66afe9;
+}
+	
+.customsearchbar button:hover {
+	background: #ddd;
+}
+.autosuggest {
+	background: white;
+	height: 300px;
+	width: 100%;
+	z-index: 999;
+	position: relative;
+	margin-top: -11px;
+	border:1px solid #ccc;
+	display: none;
+}
+.intro-container {
+	max-width: 1000px;
+	margin: 0 auto;
+}
+.intro {
+	max-width: 500px;
+	margin-top: 150px;
+	margin-left: 5%;
+	text-align: left;
+	float: left;	
+}
+.intro h1 {
+	font-weight: 200;
+	box-shadow: 0 0 2px #fff;
+	margin-top: 0px;
+	padding: 20px;
+	margin-bottom: 15px;
+	background: black;
+	opacity: .6;
+	border-radius: 4px;
+	color: white;
+}
+.intro h1 span {
+	font-weight: 800;
+}
+.intro button {
+	display: block;
+	color: white;
+	background: #3B9C85;
+	box-shadow: 0 0 4px #fff;
+	border-radius: 4px;
+	text-align: center;
+	margin-bottom: 10px;
+	padding: 0px 20px;
+	width: 230px;
+	font-weight: 800;
+	text-transform: uppercase;
+	text-decoration: none;
+	transition: background .2s;
+	outline: none;
+	float: left;
+	height: 35px;
+	line-height: 35px;
+}
+.intro button:hover {
+	background: #257A66;
+	color: #fff;
+}
+.action form select {
+	width: 250px;
+	box-shadow: 0 0 4px #fff;
+	float: left;
+	height: 35px;
+	margin-right: 20px;
+}
+@media (max-width: 768px) {
+	.intro{
+		margin-left: auto;
+		margin-right: auto;
+		
+		float: none;
+	}
+	.intro h1 {
+		text-align: center;
+	}
+	.intro button {
+		margin: 0 auto;
+	}
+}
+
+
+/**********************************/
+/******  Footer *******************/
+/**********************************/
+footer ul{
+	list-style-type: none;
+	text-align: center;
+	margin: 20px auto;
+}
+footer ul li {
+	display: inline-block;
+	padding: 0 3px;
+	margin: 4px 0;
+}
+footer ul li a {
+	color: #999;
+	font-size: 12px;
+	font-weight: 200;
+	transition: color .2s;
+}
+footer ul li a:hover {
+	color: #444;
+}	
+@media (max-width: 768px) {
+	footer ul .dot{
+		display: none;
+	}
+	footer ul li a {
+		display: block;
+		padding: 6px 0;
+	}
+	footer ul li {
+		display: block;
+	}
+}
+
+
+

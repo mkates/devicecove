@@ -1,3 +1,144 @@
-body {
-	background: red;
+/**********************************/
+/******* Landing Page *************/
+/**********************************/
+
+.herobg {
+	background: url("{{STATIC_URL}}psd/doctor.jpg") no-repeat top center / cover;
+	height: 400px;
+	width: 100%;
+	opacity: 1;
+	overflow: auto;
+}
+
+/**********************************/
+/****** Guarantee Section *********/
+/**********************************/
+
+.guarantee {
+	margin: 90px auto;
+	max-width: 1000px;
+}
+.guaranteetext {
+	margin-top: 15px;
+	color: #777;
+	line-height: 26px;
+	font-size: 16px;
+	font-weight: 200;
+}
+.guaranteetext span {
+	font-weight: 800;
+}
+.guaranteeimage {
+	text-align: center;
+	opacity: .5;
+}
+.guaranteeimage img {
+	width: 200px;
+}
+
+/**********************************/
+/****** Featured Products *********/
+/**********************************/
+
+.featuredcontainer {
+	padding: 30px 0 60px 0;
+	background: #f4f4f4;
+}
+.featured {	
+	min-height: 400px;
+	text-align: left;
+	max-width: 1000px;
+	margin: 0 auto;
+}
+.featured h2 {
+	margin-left: 20px;
+	color: #bbb;
+	text-shadow: 0 0 1px #ddd;
+	opacity: .4;
+}
+.featured .itemcontainer {
+	margin-top: 10px;
+}
+.featured .itemcontainer a:hover {
+	text-decoration: none;
+	display: block;
+}
+
+
+/*****Individual Feature *******/
+
+.item {
+	margin: 10px 3px;
+	height: 355px;
+	width: 300px;
+	background: white;
+	border:1px solid #ddd;
+	border-radius: 4px;
+	box-shadow: 0 0 2px #ccc;
+	transition: box-shadow .2s;
+} 
+.item:hover {
+	box-shadow: 0 0 6px #999;
+}
+
+.pricebox {
+	margin-left:5px;
+	margin-right: 3px;
+	margin-top: 10px;
+	width: 141px;
+	height: 45px;
+	background: #f4f4f4;
+	border:1px solid #ddd;
+	float: left;
+	text-align: center;
+	border-radius: 3px;
+	color: #aaa;
+	font-weight: 200;
+}
+.pricebox2 {
+	margin-left: 3px;
+	margin-right: 5px;
+}
+.pricebox p {
+	line-height: 14px;
+	margin: 0;
+	padding: 0;
+}
+.pricebox .price {
+	font-weight: 800;
+	line-height: 28px;
+	font-size: 20px;
+	color: #6BB3D6;
+}
+.pricebox .pricelabel {
+	font-size: 12px;
+}
+.pricebox .goodprice {
+	color: #64B56A;
+}
+.pricebox .badprice {
+	color: #d16666;
+}
+.itemimage {
+	height: 250px;
+	overflow: hidden;
+}
+.itemimage img {
+	max-width: 298px;
+	text-align: center;
+}
+.itemname {
+	font-weight: 200;
+	margin-top: 2px;
+	padding: 0 7px;
+	height: 20px;
+	overflow: hidden;
+	text-decoration: none;
+}
+.itemsoldby {
+	font-size: 12px;
+	color: #999;
+	padding: 0 7px;
+	height: 22px;
+	text-decoration: none;
 }
