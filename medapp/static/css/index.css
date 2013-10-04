@@ -3,7 +3,7 @@
 /**********************************/
 
 .herobg {
-	background: url("{{STATIC_URL}}psd/doctor.jpg") no-repeat top center / cover;
+	background: url("../psd/doctor.jpg") no-repeat top center / cover;
 	height: 400px;
 	width: 100%;
 	opacity: 1;
@@ -59,6 +59,7 @@
 .featured .itemcontainer {
 	margin-top: 10px;
 }
+
 .featured .itemcontainer a:hover {
 	text-decoration: none;
 	display: block;
@@ -68,7 +69,6 @@
 /*****Individual Feature *******/
 
 .item {
-	margin: 10px 3px;
 	height: 355px;
 	width: 300px;
 	background: white;
@@ -76,6 +76,7 @@
 	border-radius: 4px;
 	box-shadow: 0 0 2px #ccc;
 	transition: box-shadow .2s;
+	margin: 10px auto;
 } 
 .item:hover {
 	box-shadow: 0 0 6px #999;

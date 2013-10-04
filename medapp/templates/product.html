@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+{% block headercss %}
+<link href="{{STATIC_URL}}css/base.css" rel="stylesheet" type="text/css" />
+<link href="{{STATIC_URL}}css/index.css" rel="stylesheet" type="text/css" />
+<style>
+
+body {
+	background: #eee;
+}
+.product {
+	margin: 0 auto;
+	max-width: 1000px;
+}
+.mainproductcontainer, .sideproductcontainer {
+	padding: 5px;
+}
+.topbarcontainer {
+	max-width: 1000px;
+	margin: 60px auto 0 auto;
+	text-align: center;
+	padding: 25px 5px 5px 5px;
+}
+.topbar {
+	border:1px solid #ddd;
+	background: white;
+	height: 80px;
+	
+}
+.product .mainproduct {
+	margin: 0px;
+	border:1px solid #ddd;
+	background: white;
+	min-height: 600px;
+}
+.product .sideproduct {
+	border:1px solid #ddd;
+	background: white;
+	height: 200px;
+	margin: 0px;
+	margin-bottom: 10px;
+}
+
+
+
+</style>
+{% endblock%}
+
+
+{% block content %}
+<div class="topbarcontainer">
+	<div class="topbar">
+	
+	</div>
+</div>
+<div class="row product">
+  <div class="col-xs-12 col-sm-8 col-md-8 mainproductcontainer">
+  	<div class="mainproduct">
+  	
+  	</div>
+  </div>
+  <div class="col-xs-12 col-sm-4 col-md-4 sideproductcontainer">
+  	<div class="sideproduct">
+  	
+  	</div>
+  	<div class="sideproduct">
+  	
+  	</div>
+  </div>
+</div>
+
+{% endblock %}
+
+{% block jsblock %}
+<script>
+
+</script>
+{% endblock %}

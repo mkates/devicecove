@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% block headertitle %}<title>MedBay | Search</title>{% endblock%}
+
+{% block headercss %}
+	<link href="{{STATIC_URL}}css/login.css" rel="stylesheet" type="text/css" />
+
+{% endblock %}
+
+{% block jsblock %}
+<script>
+
+</script>
+{% endblock %}
+
+{% block content %}
+<div class="clear"></div>
+
+<div class="logincontainer">
+	<div class="login">
+		<div class="loginheader">
+			<h1>Log In</h1>
+			<h2>Don't have an account? <a href="signup"> Signup here</a></h2>
+		</div>
+		<form class="loginform">
+			<p>Email</p>
+			<input class="form-control" type="email" placeholder="ex. joedoe@gmail.com">
+			<p>Password</p>
+			<input class="form-control" type="password">
+			<a class="forgotpassword" href="/forgotpassword">Forgot Password?</a>
+			<button class="btn" value="submit">Login</button>
+			<div class="clear"></div>
+		</form>
+	</div>
+</div>
+{% endblock %}

@@ -1,0 +1,131 @@
+{% extends 'base.html' %}
+{% block headertitle %}<title>MedBay | Search</title>{% endblock%}
+
+{% block headercss %}
+	<link href="{{STATIC_URL}}css/addproduct.css" rel="stylesheet" type="text/css" />
+{% endblock %}
+
+{% block jsblock %}
+<script>
+///***********************************************************************
+///This script controls functionality to select the quality of the product
+///***********************************************************************
+$(document).ready(function() {
+    var currentvalue = "4";
+	$("select").css("opacity",".4");
+	var q1 = "Condition: <span>Damaged</span><p>Equipment has serious defects or malfunctions</p>";
+	var q2 = "Condition: <span>Very Poor</span><p>Equipment has minor defects, unworkable parts</p>";
+	var q3 = "Condition: <span>Average</span><p>Equipment has minor defects or malfunctions, but works normally</p>";
+	var q4 = "Condition: <span>Good</span><p>Equipment works as advertised, has minor wear and tear</p>";
+	var q5 = "Condition: <span>Like New</span><p>Equipment looks new. No defects or use of wear</p>";
+	var q6 = "Condition: <span>New</span><p>Equipment has not yet been used. Brand spanking new!</p>";
+	$(".qualitydescription p").html(q4);
+	var qualitydict = {"1":q1,"2":q2,"3":q3,"4":q4,"5":q5,"6":q6};
+	$(".qualitynumber").click(function() {
+		var handle = $(this);
+		var value = $(handle).html();
+		if (currentvalue != value) {
+			currentvalue = value;
+			//Change opacities of the numbers
+			$(".qualitynumber").css("opacity",".3");
+			handle.css("opacity","1");
+			//Move the arrow
+			var margintomove = "";
+			console.log(value);
+			if (value == 1) {margintomove = '8px'};
+			if (value == 2) {margintomove = '52px'};
+			if (value == 3) {margintomove = '96px'};
+			if (value == 4) {margintomove = '140px'};
+			if (value == 5) {margintomove = '184px'};
+			if (value == 6) {margintomove = '228px'};
+			console.log(margintomove);
+			$(".downarrow").animate({"margin-left":margintomove},400);
+			$(".qualitydescription p").fadeOut('fast',function() {
+				$(".qualitydescription p").html(qualitydict[value]);
+				$(".qualitydescription p").fadeIn();
+			});
+		}		
+	});
+});
+</script>
+{% endblock %}
+
+{% block content %}
+<div class="clear"></div>
+<div class="featuredcontainer">
+	<div class="row featured">
+	  <div class="errormessage">
+	  	<p>Please provide the make of your product, upload at least one photo, describe how your product was used.</p>
+	  </div>
+	  <div class="col-sm-6 col-md-4 itemcontainer">
+	  	<div class="item">
+	  		<div class="itemheader">
+	  			<p><span>1</span>Upload Pictures</p>
+	  		</div>
+	  		<div class="itemcontent">
+				<select class="form-control">
+					<option>Company</option>
+					<option>Bayer</option>
+					<option>Pfizer</option>					
+				</select>
+				<select class="form-control" disabled="disabled">
+					<option>Product Name</option>
+				</select>
+				<select class="form-control" disabled="disabled">
+					<option>Model Number</option>
+				</select>
+				<p class="textareadescriber picturelabel">Your Uploaded Photos</p>
+				<div class="itemview">
+				</div>
+	  		</div>
+	  	</div>
+	  </div>
+	  <div class="col-sm-6 col-md-4 itemcontainer">
+	  	<div class="item">
+	  		<div class="itemheader">
+	  			<p><span>2</span>Describe Your Item</p>
+	  		</div>
+	  		<div class="itemcontent">
+	  			<p class="textareadescriber">Describe how the product was used</p>
+				<textarea class="form-control" placeholder="Ex. This machine was used by our technican on a daily basis for xrays. We have been the sole owners of the machine"></textarea>
+				<p class="textareadescriber">Mention any product defects or issues</p>
+				<textarea class="form-control" placeholder="Ex. This machine was one dent on the right side about 2 inches wide but has not affected machine performance"></textarea>
+				
+	  		</div>
+	  	</div>
+	  </div>
+	  <div class="col-sm-6 col-md-4 itemcontainer">
+	  	<div class="item">
+	  		<div class="itemheader">
+	  			<p><span>3</span>Condition, Price, and List!</p>
+	  		</div>
+	  		<div class="qualitybox">
+	  			<div class="qualitydescription">
+	  				<p></p>
+	  			</div>
+	  			<div class="downarrow"></div>
+	  			<div class="selectors">
+	  				<div class="qualitynumber quality1">1</div>
+	  				<div class="qualitynumber quality2">2</div>
+	  				<div class="qualitynumber quality3">3</div>
+	  				<div class="qualitynumber quality4">4</div>
+	  				<div class="qualitynumber quality5">5</div>
+	  				<div class="qualitynumber quality6">6</div>
+	  			</div>
+	  		</div>
+	  		<div class="pricing">
+	  			<div class="suggestedprice">
+	  				<h4>$24,000 - $27,000</h4>
+	  				<p> Suggested Price Range </p>
+	  			</div>
+	  			<div class="listprice">
+	  				<input type="number" step="1" class="form-control" placeholder="Ex: 20000" />
+	  				<p> Your Listing Price </p>
+	  			</div>
+	  		</div>
+	  		<button class="btn postbutton">Post Equipment</button>
+	  	</div>
+	  </div>
+	</div>
+</div>
+{% endblock %}

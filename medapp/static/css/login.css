@@ -1,0 +1,67 @@
+.logincontainer {
+	padding: 10px;
+	max-width: 1000px;
+	margin: 0 auto;
+	text-align: center;
+}
+.login {
+	max-width: 1000px;
+	background: #fff;
+	border:1px solid #eee;
+	box-shadow: 0 0 2px #fff;
+	margin: 40px 10px;
+}
+.login h1 {
+	font-weight: 200;
+	font-size: 30px;
+	color: #333;
+	margin-top: 30px;
+}
+.login h2 {
+	font-weight: 200;
+	font-size: 13px;
+	line-height: 13px;
+	margin: 0;
+	height: 30px;
+	padding-top: 10px;
+}
+
+.login p {
+	color: #aaa;
+
+}
+.loginheader {
+	width: 400px;
+	margin: 0 auto;
+	border-bottom: 1px solid #ccc;
+}
+.loginform {
+	width: 300px;
+	text-align: left;
+	margin: 30px auto 60px auto;
+}
+.loginform p {
+	margin-top: 20px;
+	color #777;
+	font-weight: 200;
+	line-height: 12px;
+}
+.loginform button {
+	margin-top: 20px;
+	background: #3B9C85;
+	transition: background .2s;
+	color: white;
+	font-weight: 800;
+	float: left;
+}
+.loginform button:hover {
+	background: #296E5D;
+	color: white;
+}
+.forgotpassword {
+	float: right;
+	display: block;
+	margin-top: 25px;
+	margin-left: 20px;
+	font-weight: 200;
+}
