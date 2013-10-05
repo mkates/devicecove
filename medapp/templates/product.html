@@ -1,77 +1,195 @@
 {% extends 'base.html' %}
 {% block headercss %}
 <link href="{{STATIC_URL}}css/base.css" rel="stylesheet" type="text/css" />
-<link href="{{STATIC_URL}}css/index.css" rel="stylesheet" type="text/css" />
-<style>
-
-body {
-	background: #eee;
-}
-.product {
-	margin: 0 auto;
-	max-width: 1000px;
-}
-.mainproductcontainer, .sideproductcontainer {
-	padding: 5px;
-}
-.topbarcontainer {
-	max-width: 1000px;
-	margin: 60px auto 0 auto;
-	text-align: center;
-	padding: 25px 5px 5px 5px;
-}
-.topbar {
-	border:1px solid #ddd;
-	background: white;
-	height: 80px;
-	
-}
-.product .mainproduct {
-	margin: 0px;
-	border:1px solid #ddd;
-	background: white;
-	min-height: 600px;
-}
-.product .sideproduct {
-	border:1px solid #ddd;
-	background: white;
-	height: 200px;
-	margin: 0px;
-	margin-bottom: 10px;
-}
-
-
-
-</style>
+<link href="{{STATIC_URL}}css/productitem.css" rel="stylesheet" type="text/css" />
+<link href="{{STATIC_URL}}css/product.css" rel="stylesheet" type="text/css" />
 {% endblock%}
 
 
 {% block content %}
 <div class="topbarcontainer">
 	<div class="topbar">
-	
+		<p class="backbutton-container"><a class="backbutton" href="../">Back to Ultrasounds</a></p>
+		<p class="breadcrumbs"><a href="#">Home</a> / <a href="#">Veterinary</a> / <a href="#">Ultrasounds</a> / <a href="#">XP4 GM Ultrasound</a></p>
 	</div>
 </div>
 <div class="row product">
   <div class="col-xs-12 col-sm-8 col-md-8 mainproductcontainer">
   	<div class="mainproduct">
-  	
+  		<div class="mainproduct-header">
+  			<h6 class="star star4"></h6>
+  			<h2>Portable 800Hz Digital X-Ray Machine</h2>
+  			<h3>Made By: <a href='#'>Redtera Manufacturers</a></h3>
+  			<div id="zoomcontainer">
+				<span class='zoom' id='ex1'>
+					<img id="mainimage" src='http://www.jacklmoore.com/img/daisy.jpg' alt='Daisy on the Ohoopee'/>
+				</span>
+ 				<div class="thumbnails">
+ 					<div class="thumbnail-container"><img src="http://xraydiagcentre.com/images/xray-machine.jpg"/></div>
+ 					<div class="thumbnail-container"><img src="http://web.tradekorea.com/upload_file2/product/263/P00264263/cbe9caa5_6d72bce3_9d52_4e07_87d8_e511af0c6777.jpg"/></div>
+ 					<div class="thumbnail-container"><img src="http://xraydiagcentre.com/images/xray-machine.jpg"/></div>
+ 					<div class="thumbnail-container"><img src="http://xraydiagcentre.com/images/xray-machine.jpg"/></div>
+ 					<div class="thumbnail-container"><img src="http://xraydiagcentre.com/images/xray-machine.jpg"/></div>
+ 				</div>
+  			</div>
+  		</div>
   	</div>
+  	
+  	<div class="mainproduct productdetails">
+  		<h2> Product Description</h2>
+  		<p> This unit is in good working condition. Just removed the unit to upgrade and install a digital panoramic x-ray. Included are head stabilizers, bite sticks (2), film cassette and manual. Don't really want to deal with shipping item so I have listed it as local pick-up only. I can help you load it in a trailer or moving truck if you purchase and come to pick it up yourself. Make sure you know where Ely, Nevada is before bidding. It's a pretty good drive from Salt Lake City, UT Las Vegas, NV Twin Falls, ID or Reno, NV.The sale of this item may be subject to strict regulation by the US Food and Drug Administration and state and local regulatory agencies. If so, do not bid on this item unless you are an authorized purchaser. If the item is subject to state or FDA regulation, you must provide verification that you are an authorized user.
+		The machine is currently out of the office and placed on a wood pallet. If buyer arranged, it could be shipped. I will try and upload a photo of it in the pallet.</p>
+  	</div>
+  	<div class="mainproduct productdetails">
+  		<h2> Product Condition</h2>
+  		<p> This unit is in good working condition. Just removed the unit to upgrade and install a digital panoramic x-ray. Included are head stabilizers, bite sticks (2), film cassette and manual. Don't really want to deal with shipping item so I have listed it as local pick-up only. I can help you load it in a trailer or moving truck if you purchase and come to pick it up yourself. Make sure you know where Ely, Nevada is before bidding. It's a pretty good drive from Salt Lake City, UT Las Vegas, NV Twin Falls, ID or Reno, NV.The sale of this item may be subject to strict regulation by the US Food and Drug Administration and state and local regulatory agencies. If so, do not bid on this item unless you are an authorized purchaser. If the item is subject to </p>
+  	</div>
+  	<div class="mainproduct productdetails">
+  		<h2>Customer Who Viewed This Item Also Viewed</h2>
+  		<div id="slider-code">
+			<a class="buttons prev" href="#"> &lsaquo;</a>
+			<div class="viewport">
+				<ul class="overview">
+					<li>
+						<div class="product-box">
+							<a href="#"><div class="item">
+								<div class="itemname"> Portal X-Ray Dental System</div>
+								<div class="itemsoldby">sold by Colts Neck Equine (NJ)</div>
+								<div class="itemimage">
+									<img src="{{STATIC_URL}}psd/dentisttemp.jpg"/>
+								</div>
+								<div class="price">
+									<div class="pricebox">
+										<p class="price">$24,300</p>
+										<p class="pricelabel">MB Estimated Value</p>
+									</div>
+									<div class="pricebox pricebox2">
+										<p class="price goodprice">$18,200</p>
+										<p class="pricelabel">Current Listed Price</p>
+									</div>
+								</div>
+							</div></a>
+						</div>
+					</li>
+					<li>
+						<div class="product-box">
+							<a href="#"><div class="item">
+								<div class="itemname"> Portal X-Ray Dental System</div>
+								<div class="itemsoldby">sold by Colts Neck Equine (NJ)</div>
+								<div class="itemimage">
+									<img src="{{STATIC_URL}}psd/dentisttemp.jpg"/>
+								</div>
+								<div class="price">
+									<div class="pricebox">
+										<p class="price">$24,300</p>
+										<p class="pricelabel">MB Estimated Value</p>
+									</div>
+									<div class="pricebox pricebox2">
+										<p class="price goodprice">$18,200</p>
+										<p class="pricelabel">Current Listed Price</p>
+									</div>
+								</div>
+							</div></a>
+						</div>
+					</li>
+					<li>
+						<div class="product-box">
+							<a href="#"><div class="item">
+								<div class="itemname"> Portal X-Ray Dental System</div>
+								<div class="itemsoldby">sold by Colts Neck Equine (NJ)</div>
+								<div class="itemimage">
+									<img src="{{STATIC_URL}}psd/dentisttemp.jpg"/>
+								</div>
+								<div class="price">
+									<div class="pricebox">
+										<p class="price">$24,300</p>
+										<p class="pricelabel">MB Estimated Value</p>
+									</div>
+									<div class="pricebox pricebox2">
+										<p class="price goodprice">$18,200</p>
+										<p class="pricelabel">Current Listed Price</p>
+									</div>
+								</div>
+							</div></a>
+						</div>
+					</li>
+				</ul>
+			</div>
+    		<a class="buttons next" href="#">&rsaquo;</a>
+		</div>
+  		
+  	</div>
+    	
   </div>
+  
+  
   <div class="col-xs-12 col-sm-4 col-md-4 sideproductcontainer">
-  	<div class="sideproduct">
-  	
+  	<div class="sideproduct actionbox">
+  		<div class="seller">
+  			<div class="sellerinfo">
+  				<h4>Sold By: <a href="#">Colts Neck Equine (NJ)</a></h4>
+  				<h5>(100% Positive Feedback)</h5>
+  			</div>
+  			<div class="clear"></div>
+  		</div>
+  		<div class="retailprice">
+  			<h6>$24,323</h6>
+  			<p>MB Estimated Value: $27,231</p>
+  		</div>
+  		<div class="actionbuttons">
+  			<button class="btn actionbtn"><a href="#">Call the Seller</a></button>
+  			<button class="btn actionbtn actionsave"><a href="#">Add to Watchlist</a></button>
+  		</div>
   	</div>
-  	<div class="sideproduct">
-  	
+  	<div class="sideproduct" id="buyerprotect">
+  		<h2>Free Manufacturer Warranty</h2>  
+  		<img class="buyerbadge" src="{{STATIC_URL}}img/blueshield.png"/> 		
+  		<p> This product comes with a <span> 2 year refurbishment </span> from the manufacturer that covers software failure and a 1 year warranty on all parts</p>
+  	</div>
+  	<div class="sideproduct" id="productcondition">
+  		<h2>Product Condition</h2>  
+  		<h3>LIKE NEW</h3>
+  		<h4> This product has been used fewer than 10 times and has no scratches or marks of wear and tear</h4>
+  	</div>
+  	<div class="sideproduct" id="productspecs">
+  		<h2>Product Specs</h2>
+  		<p><span>Condition </span>Like New</p>
+  		<p><span>Manufacturer </span>General Electric</p>
+  		<p><span>Power </span>560m/s</p>
+  		<p><span>Process </span>X-Ray</p>
+  		<p><span>Quality </span>720MB</p>
+  		<p><span>Transportable </span>Yes</p>
   	</div>
   </div>
+  
+  
+  
+  
 </div>
 
 {% endblock %}
 
 {% block jsblock %}
+<script src="{{STATIC_URL}}js/jquery.zoom.js" type="text/javascript" ></script>
+<script src="{{STATIC_URL}}js/jquery.tinycarousel.js" type="text/javascript" ></script>
 <script>
-
+$(document).ready(function(){
+	 $('#slider-code').tinycarousel({ 
+	 	display: 2,
+	 	duration: 500
+	 });
+	 
+	 
+	// $('#ex1').zoom();
+	$(".thumbnail-container img").click(function() {
+		$('#ex1').trigger('zoom.destroy'); // remove zoom
+		$("#mainimage").attr("src",$(this).attr("src"));
+// 		$("#mainimage").css("height", $(this).css("height"));
+// 		$("#mainimage").css("width", $(this).css("width"));
+		console.log($("#mainimage").css("width"));
+		//if (parseInt($("#mainimage").css("height").split("p")[0]) > 400) {
+			// $('#ex1').zoom();
+	});
+});
 </script>
 {% endblock %}

@@ -9,7 +9,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
 <!--CSS-->
-<link href="{{STATIC_URL}}css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+<link href="{{STATIC_URL}}css/bootstrap.css" rel="stylesheet" type="text/css" />
 <link href="{{STATIC_URL}}css/base.css" rel="stylesheet" type="text/css" />
 {% block headercss %}{% endblock %}
 
@@ -54,7 +54,7 @@
 	
 	<!--Desktop Search Bar-->
 	<div class="desktopsearchbar navbar-center hidden-xs">
-		<form class="customsearchbar">
+		<form class="customsearchbar" action="search">
 			<input class="form-control" type="text" placeholder="Search Equipment"></input>
 			<button type="submit" class="btn">Go</button>
 			<div class="clear"></div>

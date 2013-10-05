@@ -5,6 +5,8 @@
 
 body {
 	background: #f9f9f9;
+	font-family: "helvetica neue",arial,helvetica,freesans,"liberation sans","numbus sans l",sans-serif;
+	line-height: 1.5;
 }
 .clear {
 	clear: both;
@@ -186,6 +188,8 @@ a {
 footer {
 	border-top:1px solid #eee;
 	margin-top: 20px;
+	border-bottom: 1px solid #333;
+	background: #333;
 }
 footer ul{
 	list-style-type: none;
@@ -204,7 +208,7 @@ footer ul li a {
 	transition: color .2s;
 }
 footer ul li a:hover {
-	color: #444;
+	color: #bbb;
 }	
 @media (max-width: 768px) {
 	footer ul .dot{
@@ -219,5 +223,28 @@ footer ul li a:hover {
 	}
 }
 
+
+/**********************************/
+/******  Stars  *******************/
+/**********************************/
+.star {
+	height: 16px;
+	width: 85px;
+	overflow: hidden;
+	background-image: url("../img/blackstars.png");
+}
+
+.star4 {
+	background-position: -17px 0;
+}
+.star3 {
+	background-position: -34px 0;
+}
+.star2 {
+	background-position: -51px 0;
+}
+.star1 {
+	background-position: -68px 0;
+}
 
 

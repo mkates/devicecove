@@ -1,0 +1,403 @@
+{% extends 'base.html' %}
+{% block headercss %}
+<link href="{{STATIC_URL}}css/base.css" rel="stylesheet" type="text/css" />
+<link href="{{STATIC_URL}}css/productitem.css" rel="stylesheet" type="text/css" />
+<link href="{{STATIC_URL}}css/search.css" rel="stylesheet" type="text/css" />
+<link href="{{STATIC_URL}}css/jquery-ui-1.10.3.custom.css" rel="stylesheet" type="text/css" />
+<style>
+.filterbox{
+	padding: 0px 10px 0 10px;
+}
+.filter-category {
+	padding: 20px 0;
+	border-bottom:1px solid #e3e3e3;
+	border-top:1px solid #fff;
+}
+.filter-category h2 {
+	padding: 0;
+	margin: 0;
+	padding-bottom: 5px;
+	font-size: 14px;
+	color: #444;
+	font-weight: 800;
+}
+
+/*Checkbox Formatting */
+
+label {
+	display: inline-block;
+	cursor: pointer;
+	position: relative;
+	padding-left: 25px;
+	margin-right: 15px;
+	font-size: 13px;
+}
+.wrapper {
+	width: 500px;
+	margin: 50px auto;
+}
+input[type=radio],
+input[type=checkbox] {
+	display: none;
+}
+label:before {
+	content: "";
+	display: inline-block;
+
+	width: 16px;
+	height: 16px;
+
+	margin-right: 10px;
+	position: absolute;
+	left: 0;
+	bottom: 1px;
+	background-color: #bbb;
+	box-shadow: inset 0px 2px 3px 0px rgba(0, 0, 0, .3), 0px 1px 0px 0px rgba(255, 255, 255, .8);
+}
+
+.radio label:before {
+	border-radius: 8px;
+}
+.checkbox label {
+	margin-bottom: 10px;
+}
+.checkbox label:before {
+    border-radius: 3px;
+}
+
+input[type=radio]:checked + label:before {
+    content: "\2022";
+    color: #f3f3f3;
+    font-size: 30px;
+    text-align: center;
+    line-height: 18px;
+}
+
+input[type=checkbox]:checked + label:before {
+	content: "\2713";
+	text-shadow: 1px 1px 1px rgba(0, 0, 0, .2);
+	font-size: 15px;
+	color: #f3f3f3;
+	text-align: center;
+    line-height: 15px;
+}
+#milecategory h2 {	
+	margin-bottom: 15px;
+}
+#milecategory select {
+	margin-left: 20px;
+	width: 130px;
+	height: 30px;
+	display: inline-block;
+	padding: 3px 4px;
+	background: #fcfcfc;
+}
+#milecategory p {
+	display: inline-block;
+	padding-left: 7px;
+	color: #777;
+	font-size: 12px;
+}
+#milecategory input {
+	margin-left: 20px;
+	margin-top: 3px;
+	background: #fcfcfc;
+	width: 170px;
+	text-align: center;
+}
+#pricecategory {
+	border-bottom: none;
+}
+#price-slider-container {
+	width: 200px;
+	margin: 10px auto;
+}
+#price-slider-container #lowprice {
+	float: left;
+}
+#price-slider-container #highprice {
+	float: right;
+}
+ .ui-slider-range {
+/* IE10 Consumer Preview */ 
+background-image: -ms-linear-gradient(top, #BFBFBF 0%, #919191 100%);
+
+/* Mozilla Firefox */ 
+background-image: -moz-linear-gradient(top, #BFBFBF 0%, #919191 100%);
+
+/* Opera */ 
+background-image: -o-linear-gradient(top, #BFBFBF 0%, #919191 100%);
+
+/* Webkit (Safari/Chrome 10) */ 
+background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #BFBFBF), color-stop(1, #919191));
+
+/* Webkit (Chrome 11+) */ 
+background-image: -webkit-linear-gradient(top, #BFBFBF 0%, #919191 100%);
+
+/* W3C Markup, IE10 Release Preview */ 
+background-image: linear-gradient(to bottom, #BFBFBF 0%, #919191 100%);
+}	
+/**********************************/
+/******Light Gradient *************/
+/**********************************/
+.light-gradient {
+	/* IE10 Consumer Preview */ 
+	background-image: -ms-linear-gradient(top, #FAFAFA 0%, #DBDBDB 100%);
+
+	/* Mozilla Firefox */ 
+	background-image: -moz-linear-gradient(top, #FAFAFA 0%, #DBDBDB 100%);
+
+	/* Opera */ 
+	background-image: -o-linear-gradient(top, #FAFAFA 0%, #DBDBDB 100%);
+
+	/* Webkit (Safari/Chrome 10) */ 
+	background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #FAFAFA), color-stop(1, #DBDBDB));
+
+	/* Webkit (Chrome 11+) */ 
+	background-image: -webkit-linear-gradient(top, #FAFAFA 0%, #DBDBDB 100%);
+
+	/* W3C Markup, IE10 Release Preview */ 
+	background-image: linear-gradient(to bottom, #FAFAFA 0%, #DBDBDB 100%);
+}
+.ui-slider-horizontal .ui-slider-handle {
+	background: #f4f4f4;
+	height: 20px;
+	width: 15px;
+	outline: none;
+}
+.ui-slider-horizontal .ui-slider-handle:hover {
+	cursor:pointer;
+	background: #eee;
+}
+
+#treeflow {
+	font-size: 12px;
+	padding: 10px 0 10px 15px;
+}
+#treeflow a {
+	display: block;
+}
+#treeflow #industrytree {
+	margin-left: 15px;
+}
+#treeflow #devicecategorytree {
+	margin-left: 30px;
+}
+#treeflow #deviceitemstree {
+	margin-left: 45px;
+}
+
+
+</style>
+{% endblock%}
+
+
+{% block content %}
+
+<div class="row searchcontainer">
+ 
+  <!--Filter Container -->
+  <div class="col-xs-12 col-sm-3 filtercontainer">
+  	<div id="treeflow" class="filterbox">
+  		<a href="#" id="toptree">All Industries</a>
+  		<a href="#" id="industrytree">Veterinary</a>
+  		<a href="#" id="devicecategorytree">Radiology</a>
+  		<a href="#" id="deviceitemstree">X-Ray Monitors</a>
+  		<a href="#" id="deviceitemstree">X-Ray Generators</a>
+  		<a href="#" id="deviceitemstree">X-Ray Plates</a>
+  	</div>
+  	<div class="filterbox">
+  		<div class="filter-category">
+  			<h2>Condition</h2>
+  			<div class="checkbox">
+				<input id="check1" type="checkbox" name="check" value="check1" checked="checked">
+				<label for="check1">New</label>
+				<br>
+				<input id="check2" type="checkbox" name="check" value="check2" checked="checked">
+				<label for="check2">Like New</label>
+				<br>
+				<input id="check3" type="checkbox" name="check" value="check3" checked="checked">
+				<label for="check3">Gently Used</label>
+				<br>
+				<input id="check4" type="checkbox" name="check" value="check4" checked="checked">
+				<label for="check4">Average</label>
+				<br>
+				<input id="check5" type="checkbox" name="check" value="check5" checked="checked">
+				<label for="check5">Below Average</label>
+				<br>
+				<input id="check6" type="checkbox" name="check" value="check6" checked="checked">
+				<label for="check6">Good for Parts Only</label>
+			</div>
+  		</div>
+  		<div class="filter-category">
+  			<h2>Features</h2>
+  			<div class="checkbox">
+				<input id="check1_1" type="checkbox" name="check" value="check1_1" checked="checked">
+				<label for="check1_1">New</label>
+				<br>
+				<input id="check2_1" type="checkbox" name="check" value="check2_1" checked="checked">
+				<label for="check2_1">3rd Party Refurbished</label>
+				<br>
+				<input id="check3_1" type="checkbox" name="check" value="check3_1" checked="checked">
+				<label for="check3_1">Manufacturer Refurbished</label>
+			</div>
+  		</div>
+  		<div id="milecategory" class="filter-category">
+  			<h2>Distance</h2>
+  			<select class="form-control">
+  				<option>Any Miles</option>
+  				<option>500 Miles</option>
+  				<option>250 Miles</option>
+  				<option>100 Miles</option>
+  				<option>50 Miles</option>
+  				<option>25 Miles</option>
+  			</select>
+  			<p>from</p>
+  			<input class="form-control" placeholder="Zipcode" type="number" maxlength="5"/>
+  		</div>
+  		<div id="pricecategory" class="filter-category">
+  			<h2>Price</h2>
+  			<div id="price-slider-container">
+  				<p id="lowprice">$<span>0</span></p>
+  				<p id="highprice">$<span>20000</span></p>
+  				<div class="clear"></div>
+  				<div id="price-range" class="light-gradient"></div>
+  			</div>
+  		</div>
+  		
+  	</div>
+  </div>
+  
+  <!--Results Container -->
+  <div class="col-xs-12 col-sm-9 resultscontainer">
+  	<div class="resultsbox resultsnav">
+  		<div class="" id="resultsparameter">
+  		Searching for. . . LG Ultrasounds in Veterinary Equipment
+  		</div>
+  		<div id="sortby">
+  			<p> Sort By: </p>
+  			<select class="form-control">
+  				<option> Relevance </option>
+  				<option> Price </option>
+  				<option> Best Deal </option>
+  				<option> Most Viewed</option>
+  				<option> Newest</option>
+  			</select>
+  		</div>
+  		<div id="numberofresults">2038 Results</div>
+  		<img class="viewtypeimg" src="{{STATIC_URL}}img/listview.png"/>
+  		<p> List View </p>
+  		<img class="viewtypeimg" src="{{STATIC_URL}}img/gridview.png"/>
+  		<p> Grid View </p>
+  		
+  	</div>
+  	<div class="resultsbox" id="resultssbody">
+  		<a href="product"><div class="resultitem">
+  			<p> $24,300</p>
+  			<img src="http://xraydiagcentre.com/images/xray-machine.jpg"/>
+  			<div class="resulttext">
+  				<h2> Dual Powered X-Ray Machine with Optical Imaging</h2>
+  				<h3> Sold By: Colts Neck Equine (NJ)</h3>
+  				<h4> MB Estimated Value: $27,320</h4>
+  				<div class="resulttags">
+  					<h5>Poor Condition</h5>
+  					<h5>Manufacturer Warranted</h5>
+  					<h5>Financing Available</h5>
+  				</div>
+  			</div>
+  			<div class="clear"></div>
+  		</div></a>
+  		<a href="product"><div class="resultitem">
+  			<p> $24,300</p>
+  			<img src="http://xraydiagcentre.com/images/xray-machine.jpg"/>
+  			<div class="resulttext">
+  				<h2> Dual Powered X-Ray Machine with Optical Imaging</h2>
+  				<h3> Sold By: Colts Neck Equine (NJ)</h3>
+  				<h4> MB Estimated Value: $27,320</h4>
+  				<div class="resulttags">
+  					<h5>Poor Condition</h5>
+  				</div>
+  			</div>
+  			<div class="clear"></div>
+  		</div></a>
+  		<a href="product"><div class="resultitem">
+  			<p> $24,300</p>
+  			<img src="http://xraydiagcentre.com/images/xray-machine.jpg"/>
+  			<div class="resulttext">
+  				<h2> Dual Powered X-Ray Machine with Optical Imaging</h2>
+  				<h3> Sold By: Colts Neck Equine (NJ)</h3>
+  				<h4> MB Estimated Value: $27,320</h4>
+  				<div class="resulttags">
+  					<h5>Poor Condition</h5>
+  					<h5>Manufacturer Warranted</h5>
+  					<h5>Financing Available</h5>
+  				</div>
+  			</div>
+  			<div class="clear"></div>
+  		</div></a>
+  		<a href="product"><div class="resultitem">
+  			<p> $24,300</p>
+  			<img src="http://xraydiagcentre.com/images/xray-machine.jpg"/>
+  			<div class="resulttext">
+  				<h2> Dual Powered X-Ray Machine with Optical Imaging</h2>
+  				<h3> Sold By: Colts Neck Equine (NJ)</h3>
+  				<h4> MB Estimated Value: $27,320</h4>
+  				<div class="resulttags">
+  					<h5>Poor Condition</h5>
+  					<h5>Manufacturer Warranted</h5>
+  					<h5>Financing Available</h5>
+  				</div>
+  			</div>
+  			<div class="clear"></div>
+  		</div></a>
+  	</div>
+  	<div id="showmorebutton" class="resultsbox">
+  		<p>Show More Results</p>
+  		<img src="..{{STATIC_URL}}img/ajax-loader.gif"/>
+  	</div>
+  </div>
+  	
+</div>
+{% endblock %}
+
+{% block jsblock %}
+<script src="{{STATIC_URL}}js/jquery-ui-1.10.3.custom.min.js" type="text/javascript" ></script>
+<script>
+String.prototype.splice = function( idx, rem, s ) {
+    return (this.slice(0,idx) + s + this.slice(idx + Math.abs(rem)));
+};
+$(document).ready(function(){
+	$("#showmorebutton").click(function() {
+		$("#showmorebutton p").css("display","none");
+		$("#showmorebutton img").css("display","block");
+		//Ajax call for more data and return to the show more button
+	});
+	
+	$(function() {
+		$( "#price-range" ).slider({
+			range: true,
+			min: 0,
+			max: 20000,
+			step: 200,
+			values: [ 0, 20000 ],
+			slide: function( event, ui ) {
+				$( "#amount" ).val( "$" + ui.values[ 0 ] + " - $" + ui.values[ 1 ] );
+				var newhighvalue = ui.values[1].toString();
+				var newlowvalue = ui.values[0].toString();
+				if (newlowvalue.length > 3 ) {
+					var newlowvalue = newlowvalue.splice( newlowvalue.length-3, 0, "," );
+				} 
+				if (newhighvalue.length > 3) {
+					var newhighvalue = newhighvalue.splice( newhighvalue.length-3, 0, "," );
+				}
+				$("#lowprice span").html(newlowvalue);
+				$("#highprice span").html(newhighvalue);
+			}
+			});
+			$( "#amount" ).val( "$" + $( "#slider-range" ).slider( "values", 0 ) +
+			" - $" + $( "#slider-range" ).slider( "values", 1 ) );
+		});
+	});
+
+</script>
+{% endblock %}

@@ -1,0 +1,349 @@
+/**************************/
+/* Layout formatting ******/
+/**************************/
+
+body {
+	background: #eee;
+}
+
+.product {
+	margin: 0 auto;
+	max-width: 1000px;
+}
+.mainproductcontainer, .sideproductcontainer {
+	padding: 5px;
+}
+.topbarcontainer {
+	max-width: 1000px;
+	margin: 60px auto 0 auto;
+	text-align: center;
+	padding: 25px 5px 5px 5px;
+}
+.mainproductcontainer .mainproduct {
+	margin: 0px;
+	border:1px solid #ddd;
+	background: white;
+	
+}
+.sideproductcontainer .sideproduct {
+	border:1px solid #ddd;
+	background: white;
+	margin: 0px;
+	margin-bottom: 10px;
+}
+
+/**************************/
+/* TopBar ******/
+/**************************/
+
+.topbar {
+	border:1px solid #ddd;
+	background: white;
+	height: 53px;
+	text-align: left;
+}
+
+.topbar .breadcrumbs {
+	font-weight: 200;
+	text-align: left;
+	padding: 16px 15px 5px 12px;
+	font-size: 13px;
+	float: right;
+}
+.backbutton {
+	padding: 8px 10px;
+	background: #aaa;
+	text-align: left;
+	margin-left: 10px;
+	font-size: 13px;
+	line-height: 13px;
+	border-radius: 4px;
+	color: white;
+	transition: background .2s;
+}
+.backbutton-container {
+	margin-top: 15px;
+	float: left;
+}
+.backbutton:hover {
+	color:white;
+	text-decoration: none;
+	background: #777;
+}
+
+/**************************/
+/* Action Box *************/
+/**************************/
+
+.actionbox {	
+	text-align: center;
+	padding: 14px 0;
+}
+.actionbox .actionbtn {
+	background: #DBAE27;
+	transition: background .2s;
+	margin: 0 5px;
+}
+.actionbox .actionsave {
+	background: #3B9C85;
+}
+.actionbox .actionbtn:hover {
+	background: #B58E19;
+}
+.actionbox .actionsave:hover {
+	background: #296E5D;
+}
+.actionbox .actionbtn a {
+	color: white;
+}
+.actionbuttons {
+	width: 270px;
+	margin: 0 auto 15px auto;
+	border-top: 1px solid #eee;
+	padding-top: 15px;
+}
+.seller {
+	width: 270px;
+	margin: 0 auto 10px auto;
+	text-align: center;
+}
+.sellerinfo {
+	margin-left: 10px;
+}
+.sellerinfo p {
+	line-height: 11px;
+	font-size: 12px;
+	padding: 0;
+	margin: 0;
+	color: #999;
+}
+.sellerinfo h4 {
+	font-size: 14px;
+	color: #999;
+}
+.sellerinfo h4 a{
+	line-height: 12px;
+	font-size: 14px;
+	padding: 5px 0;
+	margin: 0;
+}
+.sellerinfo h5 {
+	line-height: 12px;
+	font-size: 12px;
+	padding: 0;
+	margin: 0;
+	color: #777;
+}
+
+.retailprice {
+	width: 270px;
+	margin: 15px auto;
+	color: #999;
+	font-weight: 200;
+	border-top: 1px solid #eee;
+	padding-top: 15px;
+}
+.retailprice p {
+	font-size: 13px;
+	line-height: 28px;
+}
+.retailprice h6 {
+	font-size: 30px;
+	line-height: 30px;
+	padding: 0;
+	margin: 0;
+	color: green;
+	font-weight: 800;
+}
+
+/***************************/
+/* Main Product Box *******/
+/**************************/
+.star {
+	float: right;
+	margin-top: 7px;
+}
+
+.product .mainproduct {
+	padding: 20px;
+	margin-bottom: 10px;
+}
+.mainproduct h2 {
+	margin: 0;
+	font-size: 22px;
+}
+.mainproduct h3 {
+	font-size: 15px;
+	font-weight: 200;
+	margin: 5px 0;
+	color: #999;
+}
+#zoomcontainer {
+	width: 620px;
+	text-align: center;
+	margin: 20px 0;
+}
+
+#ex1 {
+	display:inline-block;
+	position: relative;
+	border:1px solid #ddd;
+}
+
+#mainimage {
+	display: block;
+	max-width: 620px;
+	height: 400px;
+}
+.thumbnails {
+	text-align: center;
+}
+.thumbnail-container {
+	display: inline-block;
+}
+.thumbnail-container img {
+	max-height: 80px;
+	max-width: 80px;
+	border:1px solid #ddd;
+	opacity: .8;
+}
+.thumbnail-container img:hover {
+	opacity: 1;
+	cursor: pointer;
+}
+.zoom img::selection { background-color: transparent; }
+
+/**************************/
+/* Product Specs **********/
+/**************************/
+
+#productspecs {
+	padding: 0 20px 20px 20px;
+}
+.sideproduct h2{
+	font-size: 14px;
+	color: #ccc;
+	text-align: center;
+}
+#productspecs p {
+	border-bottom: 1px dotted #eee;
+	width: 280px;
+	margin: 0 auto;
+	text-align: right;
+	padding: 2px 0;
+	color: #555;
+	font-weight: 600;
+}
+#productspecs p span {
+	float: left;
+	text-align: left;
+	color:#888;
+	font-weight: 200;
+}
+
+/**************************/
+/* Product Details ********/
+/**************************/
+
+.productdetails h2 {
+	font-size: 18px;
+	color: #ccc;
+	padding-bottom: 10px;
+}
+.productdetails p {
+	line-height: 20px;
+	font-size: 14px;
+	color: #333;
+	font-weight: 400;
+}
+
+/**************************/
+/* Product Condition ******/
+/**************************/
+
+#productcondition {
+	padding: 0px 20px;
+	text-align: center;
+}
+#productcondition h3{
+	font-size: 18px;
+	color: #2589B0;
+	margin: 0;
+	font-weight: 800;
+}
+#productcondition h4{
+	font-size: 14px;
+	color: #333;
+	line-height: 20px;
+	font-weight: 400;
+	margin-bottom: 0;
+	padding-bottom: 25px;
+}
+
+/**************************/
+/* Buyer Guarantee ********/
+/**************************/
+
+#buyerprotect {
+	padding: 0 20px;
+	text-align: center;
+}
+.buyerbadge {
+	width: 250px;
+	height: 50px;
+}
+#buyerprotect p {
+	padding: 15px 0;
+	line-height: 20px;
+	font-size: 14px;
+	color: #333;
+	font-weight: 400;
+	margin-bottom: 0;
+}
+
+
+
+/*************************************/
+/* Product-box (reduce to 270px) *****/
+/*************************************/
+
+.product-box .item {
+	float: left;
+	width: 270px;
+	
+}
+.product-box img {	
+	width: 270px;
+}
+.product-box .pricebox {
+	width: 126px;
+}
+
+
+/**************************/
+/* Slider Code *** ********/
+/**************************/
+#slider-code { height: 385px; overflow:hidden; width: 635px;margin-left: -10px}
+#slider-code .viewport {float: left; width: 560px; height: 380px; overflow: hidden; position: relative; }
+#slider-code .buttons { 
+	display: block; 
+	margin: 150px 10px 0 0; 
+	float: left;
+	font-size: 60px;
+	font-family: "arial";
+	outline: none;
+	color: #777;
+	transition: color .2s;
+ }
+ #slider-code .buttons:active {
+ 	outline: none;
+ }
+ #slider-code .buttons:hover {
+ 	text-decoration: none;
+ 	color: #333;
+ }
+#slider-code .next { margin: 150px 0 0 10px; }
+#slider-code .disable { visibility: hidden; }
+#slider-code .overview { list-style: none; position: absolute; padding: 0; margin: 0; left: 0; top: 0; }
+#slider-code .overview li{ float: left; margin: 0 14px 0 0; padding: 1px; height: 355px; width: 272px;}
+                    
