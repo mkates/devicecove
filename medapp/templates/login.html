@@ -21,11 +21,17 @@
 			<h1>Log In</h1>
 			<h2>Don't have an account? <a href="signup"> Signup here</a></h2>
 		</div>
-		<form class="loginform">
+		<p>{{ outcome }}</p>
+		{% if next %}
+		<form class="loginform" action="/lgnrequest/?next={{next}}" method="post" >
+		{%else%}
+		<form class="loginform" action="lgnrequest" method="post">
+		{% endif %}
+			{% csrf_token %}
 			<p>Email</p>
-			<input class="form-control" type="email" placeholder="ex. joedoe@gmail.com">
+			<input name="email" class="form-control" type="email" placeholder="ex. joedoe@gmail.com">
 			<p>Password</p>
-			<input class="form-control" type="password">
+			<input name="password" class="form-control" type="password">
 			<a class="forgotpassword" href="/forgotpassword">Forgot Password?</a>
 			<button class="btn" value="submit">Login</button>
 			<div class="clear"></div>

@@ -2,22 +2,27 @@
 /* Layout formatting ******/
 /**************************/
 
-body {
-	background: #eee;
-}
+
 
 .product {
 	margin: 0 auto;
 	max-width: 1000px;
+	
+}
+.sellers {
+	max-width: 1000px;
+	border:1px solid #ddd;
+	background: white;
+	margin: 20px auto;
+	display: none;
 }
 .mainproductcontainer, .sideproductcontainer {
 	padding: 5px;
 }
 .topbarcontainer {
-	max-width: 1000px;
-	margin: 60px auto 0 auto;
-	text-align: center;
-	padding: 25px 5px 5px 5px;
+	padding: 15px 0px 0px 0px;
+	background: white;
+	margin-bottom: 10px;
 }
 .mainproductcontainer .mainproduct {
 	margin: 0px;
@@ -33,42 +38,204 @@ body {
 }
 
 /**************************/
+/* Sellers ****************/
+/**************************/
+.sellerhead {
+	width: 960px;
+	border-bottom: 1px solid #bbb;
+	margin: 0 auto;
+}
+.sellerhead p {
+	display:inline-block;
+	text-align: left;
+	line-height: 40px;
+	padding: 0;
+	margin: 0;
+	font-weight: 800;
+}
+#pricetr { 
+	width: 140px;
+}
+#descriptiontr {
+	width: 670px;
+	padding-left: 18px;
+}
+#buytr {
+	width: 140px;
+	padding-left: 20px;
+}
+.sellerdiv {
+	margin: 10px auto;
+	padding: 0 0 10px; 0;
+	width: 960px;
+	border-bottom:1px solid #eee;
+}
+.sellerdiv .pricediv {
+	width: 140px;
+	float: left;
+}
+.sellerdiv .pricediv h3 {
+	color: #333;
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+.sellerdiv .pricediv h4 {
+	font-size: 11px;
+	background: #C2DAED;
+	color: #3F7DB0;
+	padding: 5px 10px;
+	display: inline-block;
+	border-radius: 4px;
+	margin: 5px 0;
+}
+.sellerdiv .pricediv .verifiedseller {
+	background: #C0E0BC;
+	color: #5D9157;
+}
+.sellerdiv .descriptiondiv {
+	float: left;
+	padding: 2px 20px;
+	width: 680px;
+	margin-top: 10px;
+}
+
+.sellerdiv .descriptiondiv h5 {
+	margin-top: 0px;
+	float: left;
+	display:inline-block;
+	font-size: 16px;
+	font-weight: 800;
+}
+
+.sellerdiv .descriptiondiv h6 {	
+	margin-top: 3px;
+	float: right;
+	display:inline-block;
+	font-size: 16px;
+	font-weight: 800;
+}
+.sellerdiv .descriptiondiv p{
+	clear: both;
+	text-align: justify;
+}
+.sellerdiv .descriptiondiv .thumbnailimage {
+	width: 60px;
+	height: 60px;
+	background: #DDD;
+	float: left;
+	border-right:5px solid white;
+	border-bottom:5px solid white;
+}
+.actiondiv {
+	text-align: center;
+	width: 140px;
+	float: left;
+}
+.actiondiv a {
+	margin-top: 15px;
+	color: black;
+	font-size: 16px;
+	padding: 10px 18px;
+	display: inline-block;
+	background: orange;
+	border-radius: 4px;
+	font-weight: 800;
+}
+
+
+/**************************/
 /* TopBar ******/
 /**************************/
 
 .topbar {
-	border:1px solid #ddd;
-	background: white;
-	height: 53px;
+	margin: 0 auto;
+	width: 990px;
 	text-align: left;
 }
 
 .topbar .breadcrumbs {
 	font-weight: 200;
 	text-align: left;
-	padding: 16px 15px 5px 12px;
+	padding: 0px 0px 0px 0px;
 	font-size: 13px;
 	float: right;
 }
-.backbutton {
-	padding: 8px 10px;
+.topbar h2 {
+	border-top: 1px solid #eee;	
+	margin-top: 0px;
+	padding-top: 30px;
+	margin-bottom: 30px;
+	
+}
+.topbar .actionsave {
+	padding: 5px 10px;
+	font-size: 12px;
+	background: #3B9C85;
+	color: white;
 	background: #aaa;
+	transition: background .2s;
+}
+.topbar .actionsave a {
+	color: white;
+}
+.topbar .actionsave:hover {
+	background: #777;
+}
+.tabbar {
+	width: 990px;
+	margin: 0 auto;
+}
+.tabbar a {
+	float: left;
+	display: block;
+	margin-right: 15px;
+	font-weight: 800;
+	color: #333;
+	text-decoration: none;
+	padding: 8px 15px;
+	font-size: 14px;
+	border-top-right-radius: 2px;
+	border-top-left-radius: 2px;
+	border:1px solid #ddd;
+	background: white;
+	transition: background .2s;
+	margin-bottom: -1px;
+}
+.tabbar a:hover {
+	background: #eee;
+	cursor: pointer;
+}
+#tabbar .borderbottom {
+	clear:both;
+	height:1px;
+	background: #ddd;
+	width: 100%;
+}
+#tabbar {
+	z-index: 9999;
+	padding-top: 10px;
+	text-align: center;
+	background: white;
+	width: 100%;
+	border-bottom:1px solid #ddd;
+}
+.tabbar .active {
+	background: #f9f9f9;
+	border-bottom: 1px solid #f9f9f9;
+}
+.tabbar .active:hover {
+	background: #f9f9f9;
+}
+.backbutton {
 	text-align: left;
-	margin-left: 10px;
 	font-size: 13px;
 	line-height: 13px;
-	border-radius: 4px;
-	color: white;
 	transition: background .2s;
 }
 .backbutton-container {
-	margin-top: 15px;
 	float: left;
 }
 .backbutton:hover {
-	color:white;
-	text-decoration: none;
-	background: #777;
 }
 
 /**************************/
@@ -181,7 +348,7 @@ body {
 #zoomcontainer {
 	width: 620px;
 	text-align: center;
-	margin: 20px 0;
+	margin: 0px 0;
 }
 
 #ex1 {

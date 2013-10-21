@@ -27,7 +27,6 @@ a {
 .navbar {
 	border-radius: 0px;
 	margin: 0;
-	margin-bottom: -60px;
 	height: 50px;
 	opacity: .95;
 	/* background: #f9f9f9; */
@@ -248,3 +247,37 @@ footer ul li a:hover {
 }
 
 
+/**********************************/
+/******  Buttons ******************/
+/**********************************/
+.btn-standard {
+	padding: 8px 20px;
+	border-radius: 3px;
+	background: #FFC508;
+	transition: background .2s;
+	color: white;
+	font-weight: 800;
+	border:1px solid #CC8C14;
+	 	
+
+/* IE10 Consumer Preview */ 
+background-image: -ms-linear-gradient(top, #FFC219 0%, #EBB607 100%);
+
+/* Mozilla Firefox */ 
+background-image: -moz-linear-gradient(top, #FFC219 0%, #EBB607 100%);
+
+/* Opera */ 
+background-image: -o-linear-gradient(top, #FFC219 0%, #EBB607 100%);
+
+/* Webkit (Safari/Chrome 10) */ 
+background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #FFC219), color-stop(1, #EBB607));
+
+/* Webkit (Chrome 11+) */ 
+background-image: -webkit-linear-gradient(top, #FFC219 0%, #EBB607 100%);
+
+/* W3C Markup, IE10 Release Preview */ 
+background-image: linear-gradient(to bottom, #FFC219 0%, #EBB607 100%);
+	
+}
+.btn-standard:hover {
+	background: orange;

@@ -1,0 +1,34 @@
+[
+	{
+		"pk": 1,
+		"model": "deviceapp.industry",
+		"fields": {
+			"name": "Veterinary - Large Animal"
+		}
+	},
+	
+	{
+		"pk": 2,
+		"model": "deviceapp.industry",
+		"fields": {
+			"name": "Veterinary - Small Animal"
+		}
+	},
+	
+	{
+		"pk": 3,
+		"model": "deviceapp.industry",
+		"fields": {
+			"name": "Dentistry"
+		}
+	},
+	
+	{
+		"pk": 1,
+		"model": "deviceapp.devicecategory",
+		"fields": {
+			"name": "Ultrasound",
+			"industries" : [1,2]
+		}
+	}
+]

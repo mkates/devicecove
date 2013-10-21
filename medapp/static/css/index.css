@@ -9,6 +9,9 @@
 	opacity: 1;
 	overflow: auto;
 }
+body {
+	background: #fff;
+}
 
 /**********************************/
 /****** Guarantee Section *********/

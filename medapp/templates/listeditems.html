@@ -1,0 +1,10 @@
+{% extends 'account.html' %}
+
+{% block listeditems %}active{% endblock %}
+
+{% block maintitle %}Listed Items{% endblock %}
+
+{% block maincontent %}
+		<p id="nolistings"> You do not have any items currently listed with MedBay</p>
+		<a class="btn btn-primary" id="listbutton" href="addproduct.html">List Your Equipment</a>
+{% endblock %}

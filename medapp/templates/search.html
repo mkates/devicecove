@@ -5,190 +5,233 @@
 <link href="{{STATIC_URL}}css/search.css" rel="stylesheet" type="text/css" />
 <link href="{{STATIC_URL}}css/jquery-ui-1.10.3.custom.css" rel="stylesheet" type="text/css" />
 <style>
-.filterbox{
-	padding: 0px 10px 0 10px;
+
+.resultitem {
+	border-bottom:1px solid #f2f2f2;
+	padding-bottom: 20px;
 }
-.filter-category {
-	padding: 20px 0;
-	border-bottom:1px solid #e3e3e3;
-	border-top:1px solid #fff;
+.resultitem:hover {
+	cursor:pointer;
+	color: #222;
+	box-shadow: 0 0 4px #ccc;
 }
-.filter-category h2 {
-	padding: 0;
-	margin: 0;
-	padding-bottom: 5px;
-	font-size: 14px;
+.resultsbox a {
 	color: #444;
-	font-weight: 800;
 }
-
-/*Checkbox Formatting */
-
-label {
-	display: inline-block;
-	cursor: pointer;
-	position: relative;
-	padding-left: 25px;
-	margin-right: 15px;
-	font-size: 13px;
+.resultsbox a:hover {
+	text-decoration: none;
 }
-.wrapper {
-	width: 500px;
-	margin: 50px auto;
-}
-input[type=radio],
-input[type=checkbox] {
-	display: none;
-}
-label:before {
-	content: "";
-	display: inline-block;
-
-	width: 16px;
-	height: 16px;
-
-	margin-right: 10px;
-	position: absolute;
-	left: 0;
-	bottom: 1px;
-	background-color: #bbb;
-	box-shadow: inset 0px 2px 3px 0px rgba(0, 0, 0, .3), 0px 1px 0px 0px rgba(255, 255, 255, .8);
-}
-
-.radio label:before {
-	border-radius: 8px;
-}
-.checkbox label {
-	margin-bottom: 10px;
-}
-.checkbox label:before {
-    border-radius: 3px;
-}
-
-input[type=radio]:checked + label:before {
-    content: "\2022";
-    color: #f3f3f3;
-    font-size: 30px;
-    text-align: center;
-    line-height: 18px;
-}
-
-input[type=checkbox]:checked + label:before {
-	content: "\2713";
-	text-shadow: 1px 1px 1px rgba(0, 0, 0, .2);
-	font-size: 15px;
-	color: #f3f3f3;
-	text-align: center;
-    line-height: 15px;
-}
-#milecategory h2 {	
-	margin-bottom: 15px;
-}
-#milecategory select {
-	margin-left: 20px;
-	width: 130px;
-	height: 30px;
-	display: inline-block;
-	padding: 3px 4px;
-	background: #fcfcfc;
-}
-#milecategory p {
-	display: inline-block;
-	padding-left: 7px;
-	color: #777;
-	font-size: 12px;
-}
-#milecategory input {
-	margin-left: 20px;
-	margin-top: 3px;
-	background: #fcfcfc;
-	width: 170px;
-	text-align: center;
-}
-#pricecategory {
-	border-bottom: none;
-}
-#price-slider-container {
-	width: 200px;
-	margin: 10px auto;
-}
-#price-slider-container #lowprice {
-	float: left;
-}
-#price-slider-container #highprice {
-	float: right;
-}
- .ui-slider-range {
-/* IE10 Consumer Preview */ 
-background-image: -ms-linear-gradient(top, #BFBFBF 0%, #919191 100%);
-
-/* Mozilla Firefox */ 
-background-image: -moz-linear-gradient(top, #BFBFBF 0%, #919191 100%);
-
-/* Opera */ 
-background-image: -o-linear-gradient(top, #BFBFBF 0%, #919191 100%);
-
-/* Webkit (Safari/Chrome 10) */ 
-background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #BFBFBF), color-stop(1, #919191));
-
-/* Webkit (Chrome 11+) */ 
-background-image: -webkit-linear-gradient(top, #BFBFBF 0%, #919191 100%);
-
-/* W3C Markup, IE10 Release Preview */ 
-background-image: linear-gradient(to bottom, #BFBFBF 0%, #919191 100%);
-}	
-/**********************************/
-/******Light Gradient *************/
-/**********************************/
-.light-gradient {
-	/* IE10 Consumer Preview */ 
-	background-image: -ms-linear-gradient(top, #FAFAFA 0%, #DBDBDB 100%);
-
-	/* Mozilla Firefox */ 
-	background-image: -moz-linear-gradient(top, #FAFAFA 0%, #DBDBDB 100%);
-
-	/* Opera */ 
-	background-image: -o-linear-gradient(top, #FAFAFA 0%, #DBDBDB 100%);
-
-	/* Webkit (Safari/Chrome 10) */ 
-	background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #FAFAFA), color-stop(1, #DBDBDB));
-
-	/* Webkit (Chrome 11+) */ 
-	background-image: -webkit-linear-gradient(top, #FAFAFA 0%, #DBDBDB 100%);
-
-	/* W3C Markup, IE10 Release Preview */ 
-	background-image: linear-gradient(to bottom, #FAFAFA 0%, #DBDBDB 100%);
-}
-.ui-slider-horizontal .ui-slider-handle {
-	background: #f4f4f4;
-	height: 20px;
-	width: 15px;
+.resultitem:active {
 	outline: none;
 }
-.ui-slider-horizontal .ui-slider-handle:hover {
-	cursor:pointer;
-	background: #eee;
+
+.resultitem .imgdiv {
+	width: 160px;
+	height: 130px;
+	float: right;
+	margin: 20px 20px 20px 0px;
+	text-align: center;
+}
+.resultitem .imgdiv img {
+	max-width: 160px;
+	max-height: 130px;
+	border:1px solid #ccc;
+}
+.resultitem .pricediv {
+	width: 150px;
+	float: left;
+	margin-left: 0px;
+	padding-top: 23px;
+	text-align: center;
+}
+.resultitem .pricediv h6 {
+	color: #aaa;
+	font-size: 11px;
+	letter-spacing: .2px;
+	font-weight: 200;
+	padding: 0;
+	margin: 0;
+	line-height: 11px;
+}
+.resultitem .pricediv p {
+	font-size: 20px;
+	font-weight: 800;
+	color: black;
+	padding-bottom:10px;
+}
+.resultitem .pricediv a {
+	
+}
+.resultitem .textdiv {
+	float: left;
+	width: 440px;
+	overflow: hidden;
+	padding-top: 20px;
 }
 
-#treeflow {
-	font-size: 12px;
-	padding: 10px 0 10px 15px;
+.resultitem .textdiv h2{
+	padding: 0;
+	margin: 0;
+	font-size: 16px;
+	height: 18px;
+	overflow: hidden;
 }
-#treeflow a {
+.resultitem .textdiv h2:hover {
+	color: #2A6496;
+	text-decoration: underline;
+}
+.resultitem .textdiv h3{
+	padding: 0;
+	margin: 3px 0 10px 0;
+	font-size: 12px;
+	font-weight: 200;
+}
+
+.resultitem .textdiv h4 {
+	font-size: 12px;
+	width: 420px;
+	display: block;
+	padding: 5px 0px;
+	color: black;
+	margin: 0;
+	line-height: 13px;
+	border-bottom: 1px dotted #bbb;
+}
+.resultitem .textdiv h4:hover {
+	background: #f9f9f9;
+}
+
+.resultitem .textdiv h4 span {
+	color: #4EA3BF;
+	float: right;
+}
+.resultitem .textdiv h4 a {
 	display: block;
 }
-#treeflow #industrytree {
+
+.resultitem .buttondiv {
+	margin-top: 20px;
+	width: 400px;
+}
+.infobutton {
+	background: #ddd;
+	border:1px solid #ccc;
+	border-radius: 2px;
+	color: #444;
+	font-size: 12px;
+	padding: 0 15px;
+	margin-bottom: 5px;
+	margin-right: 10px;
+}
+.infobutton:hover {
+	background: #ccc;
+}
+
+.activeinfo {
+	border-bottom: 1px solid #fff;
+	margin-bottom: 0px;
+	padding-bottom: 5px;
+	border-bottom-left-radius: 0px;
+	border-bottom-right-radius: 0px;
+	background: white;
+}
+.activeinfo:hover {
+	background: #fff;
+}
+
+.detailsdiv {
+	margin-left: 20px;
+	margin-right: 20px;
+	padding: 0px;
+	margin-top: -1px;
+	height: 250px;
+	border-top: 1px solid #ccc;
+}
+.detailtext {
+	width: 530px;
+	height: 220px;
+	float: left;
+	padding: 15px;
+	height: 200px;
+	overflow: hidden;
+	font-size: 13px;
+	line-height: 18px;
+	color: #333;
+}
+
+.imagegallery {
+	width: 200px;
+	height: 220px;
+	padding: 0;
+	margin-right: 2px;
+	float: right;
+	padding-top: 16px;
+}
+.imagegallery .imagethumbnail {
+	float: right;
+	border:3px solid #fff;
+	background:blue;
+	width: 60px;
+	height: 60px;
+}
+.imageviewer {
+	position: absolute;
+	z-index: 999;
+	height: 452px;
+	width: 560px;
+	background: #333;
+	opacity: .8;
+	display: none;
+}
+.morediv {
+	clear: both;
+	height: 30px;
+}
+.morediv a {
+	text-align: left;
+	display: block;
+	float: left;
 	margin-left: 15px;
+	color: #3EA7B8;
 }
-#treeflow #devicecategorytree {
-	margin-left: 30px;
+.morediv a:hover {
+	text-decoration: underline;
 }
-#treeflow #deviceitemstree {
-	margin-left: 45px;
+.morediv .closebutton {
+	float: right;
+	background: #ddd;
+	padding: 0px;
 }
-
-
+.hidden {
+	display: none;
+}
+#loadingoverlay {
+	position:absolute;
+	display: none;
+	width: 100%;
+	margin-right: 5px;
+	height: 100%;
+	background-image: url("{{STATIC_URL}}img/whitetransparency.png");
+}
+#loaderdiv {
+	width: 350px;
+	height: 160px;
+	margin-left: 220px;
+	position: fixed;
+	margin-top: 150px;
+	background-image: url("{{STATIC_URL}}img/blacktransparency.png");
+	border-radius: 6px;
+	text-align: center;
+}
+#loaderdiv h3 {
+	margin-top: 40px;
+	margin-bottom: 20px;
+	color: white;
+	font-size: 18px;
+}
 </style>
+
+
 {% endblock%}
 
 
@@ -212,19 +255,14 @@ background-image: linear-gradient(to bottom, #BFBFBF 0%, #919191 100%);
   			<div class="checkbox">
 				<input id="check1" type="checkbox" name="check" value="check1" checked="checked">
 				<label for="check1">New</label>
-				<br>
 				<input id="check2" type="checkbox" name="check" value="check2" checked="checked">
 				<label for="check2">Like New</label>
-				<br>
 				<input id="check3" type="checkbox" name="check" value="check3" checked="checked">
 				<label for="check3">Gently Used</label>
-				<br>
 				<input id="check4" type="checkbox" name="check" value="check4" checked="checked">
 				<label for="check4">Average</label>
-				<br>
 				<input id="check5" type="checkbox" name="check" value="check5" checked="checked">
 				<label for="check5">Below Average</label>
-				<br>
 				<input id="check6" type="checkbox" name="check" value="check6" checked="checked">
 				<label for="check6">Good for Parts Only</label>
 			</div>
@@ -270,6 +308,12 @@ background-image: linear-gradient(to bottom, #BFBFBF 0%, #919191 100%);
   
   <!--Results Container -->
   <div class="col-xs-12 col-sm-9 resultscontainer">
+  	<div id="loadingoverlay">
+  		<div id="loaderdiv">
+  			<h3> Filtering search results . . .</h3>
+  			<img src="{{STATIC_URL}}img/ajax-loader2.gif"/>
+  		</div>
+  	</div>
   	<div class="resultsbox resultsnav">
   		<div class="" id="resultsparameter">
   		Searching for. . . LG Ultrasounds in Veterinary Equipment
@@ -289,67 +333,98 @@ background-image: linear-gradient(to bottom, #BFBFBF 0%, #919191 100%);
   		<p> List View </p>
   		<img class="viewtypeimg" src="{{STATIC_URL}}img/gridview.png"/>
   		<p> Grid View </p>
-  		
+  		<div class="clear"></div>
   	</div>
+  	
   	<div class="resultsbox" id="resultssbody">
-  		<a href="product"><div class="resultitem">
-  			<p> $24,300</p>
-  			<img src="http://xraydiagcentre.com/images/xray-machine.jpg"/>
-  			<div class="resulttext">
+  		<div class="resultitem">
+  			<div class="imageviewer"></div>
+  			<div class="imgdiv"><img src="http://www.sivanienterprises.com/images/papercup_SE930.jpg"/></div>
+  			<div class="pricediv">
+  				<h6>pre-owned from</h6>
+  				<p>$14,300</p>
+  				<a class="btn btn-standard" href='#'>Select</a>
+  			</div>
+  			<div class="textdiv">
   				<h2> Dual Powered X-Ray Machine with Optical Imaging</h2>
-  				<h3> Sold By: Colts Neck Equine (NJ)</h3>
-  				<h4> MB Estimated Value: $27,320</h4>
-  				<div class="resulttags">
-  					<h5>Poor Condition</h5>
-  					<h5>Manufacturer Warranted</h5>
-  					<h5>Financing Available</h5>
+  				<h3> Sonosite Systems | 2006 Model</h3>
+  				<h4><a>New (2) <span>$27,480</span></a></h4>
+  				<h4><a>Refurbished (1) <span>$20,120</span></a></h4>
+  				<h4><a>Preowned (4) <span>$14,300</span></a></h4>
+  				<div class="buttondiv">
+  					<button class="infobutton">Details</button>
+  					<button class="infobutton">Specs</button>
+  					<button class="infobutton">Buyer Protection</button>
   				</div>
   			</div>
   			<div class="clear"></div>
-  		</div></a>
-  		<a href="product"><div class="resultitem">
-  			<p> $24,300</p>
-  			<img src="http://xraydiagcentre.com/images/xray-machine.jpg"/>
-  			<div class="resulttext">
-  				<h2> Dual Powered X-Ray Machine with Optical Imaging</h2>
-  				<h3> Sold By: Colts Neck Equine (NJ)</h3>
-  				<h4> MB Estimated Value: $27,320</h4>
-  				<div class="resulttags">
-  					<h5>Poor Condition</h5>
+  			<div class="detailsdiv hidden">
+  				<div class="detailtext">
+  					<p>Lameness Locator® by Equinosis® is the culmination of almost 20 years of research on gait analysis at the University of Missouri’s Colleges of Veterinary Medicine and Engineering with the support of the E. Paige Laurie Endowed Program in Equine Lameness. Lameness Locator® objectively detects and quantifies body movement asymmetry in a horse using small, wireless, body-mounted inertial sensors and a hand-held tablet PC.</p>
+  				</div>
+  				<div class="imagegallery">
+  					<div class="imagethumbnail"></div>
+  					<div class="imagethumbnail"></div>
+  					<div class="imagethumbnail"></div>
+  					<div class="imagethumbnail"></div>
+  					<div class="imagethumbnail"></div>
+  					<div class="imagethumbnail"></div>
+  					<div class="imagethumbnail"></div>
+  					<div class="imagethumbnail"></div>
+  					<div class="imagethumbnail"></div>
+  				</div>
+  				<div class="morediv">
+  					<a> Show all product details &#8594;</a>
+  					<button class="closebutton">Close</button>
   				</div>
   			</div>
   			<div class="clear"></div>
-  		</div></a>
-  		<a href="product"><div class="resultitem">
-  			<p> $24,300</p>
-  			<img src="http://xraydiagcentre.com/images/xray-machine.jpg"/>
-  			<div class="resulttext">
+  			
+  		</div>
+  		<div class="resultitem">
+  			<div class="imageviewer"></div>
+  			<div class="imgdiv"><img src="http://www.sivanienterprises.com/images/papercup_SE930.jpg"/></div>
+  			<div class="pricediv">
+  				<h6>pre-owned from</h6>
+  				<p>$14,300</p>
+  				<a class="btn btn-standard" href='#'>Select</a>
+  			</div>
+  			<div class="textdiv">
   				<h2> Dual Powered X-Ray Machine with Optical Imaging</h2>
-  				<h3> Sold By: Colts Neck Equine (NJ)</h3>
-  				<h4> MB Estimated Value: $27,320</h4>
-  				<div class="resulttags">
-  					<h5>Poor Condition</h5>
-  					<h5>Manufacturer Warranted</h5>
-  					<h5>Financing Available</h5>
+  				<h3> Sonosite Systems | 2006 Model</h3>
+  				<h4><a>New (2) <span>$27,480</span></a></h4>
+  				<h4><a>Refurbished (1) <span>$20,120</span></a></h4>
+  				<h4><a>Preowned (4) <span>$14,300</span></a></h4>
+  				<div class="buttondiv">
+  					<button class="infobutton">Details</button>
+  					<button class="infobutton">Specs</button>
+  					<button class="infobutton">Buyer Protection</button>
   				</div>
   			</div>
   			<div class="clear"></div>
-  		</div></a>
-  		<a href="product"><div class="resultitem">
-  			<p> $24,300</p>
-  			<img src="http://xraydiagcentre.com/images/xray-machine.jpg"/>
-  			<div class="resulttext">
-  				<h2> Dual Powered X-Ray Machine with Optical Imaging</h2>
-  				<h3> Sold By: Colts Neck Equine (NJ)</h3>
-  				<h4> MB Estimated Value: $27,320</h4>
-  				<div class="resulttags">
-  					<h5>Poor Condition</h5>
-  					<h5>Manufacturer Warranted</h5>
-  					<h5>Financing Available</h5>
+  			<div class="detailsdiv hidden">
+  				<div class="detailtext">
+  					<p>Lameness Locator® by Equinosis® is the culmination of almost 20 years of research on gait analysis at the University of Missouri’s Colleges of Veterinary Medicine and Engineering with the support of the E. Paige Laurie Endowed Program in Equine Lameness. Lameness Locator® objectively detects and quantifies body movement asymmetry in a horse using small, wireless, body-mounted inertial sensors and a hand-held tablet PC.</p>
+  				</div>
+  				<div class="imagegallery">
+  					<div class="imagethumbnail"></div>
+  					<div class="imagethumbnail"></div>
+  					<div class="imagethumbnail"></div>
+  					<div class="imagethumbnail"></div>
+  					<div class="imagethumbnail"></div>
+  					<div class="imagethumbnail"></div>
+  					<div class="imagethumbnail"></div>
+  					<div class="imagethumbnail"></div>
+  					<div class="imagethumbnail"></div>
+  				</div>
+  				<div class="morediv">
+  					<a> Show all product details &#8594;</a>
+  					<button class="closebutton">Close</button>
   				</div>
   			</div>
   			<div class="clear"></div>
-  		</div></a>
+  			
+  		</div>
   	</div>
   	<div id="showmorebutton" class="resultsbox">
   		<p>Show More Results</p>
@@ -399,5 +474,42 @@ $(document).ready(function(){
 		});
 	});
 
+$(document).ready(function() {
+	$(".infobutton").click(function() {
+		togglebuttons($(this));
+	});
+	$(".closebutton").click(function() {
+		$(this).parent().parent().addClass("hidden");
+		var buttons = $(this).parent().parent().parent().children("div.textdiv").children("div.buttondiv").children();
+		for (var b=0; b < buttons.length; b++) {
+				$(buttons[b]).removeClass("activeinfo");
+			}
+	});
+	$(".imgdiv img").click(function() {
+		togglebuttons($($(this).parent().parent().children("div.textdiv").children("div.buttondiv").children()[0]));
+	});
+	$(".imagethumbnail").hover(function() {
+		$(this).parent().parent().parent().children("div.imageviewer").css("display","block");
+	}, function() {
+		$(this).parent().parent().parent().children("div.imageviewer").css("display","none");
+	});
+});
+
+var togglebuttons = function togglebutton(handler) {
+	var buttons = handler.parent().children();
+		if (!(handler.hasClass("activeinfo"))) {
+			for (var b=0; b < buttons.length; b++) {
+				$(buttons[b]).removeClass("activeinfo");
+				handler.addClass("activeinfo");
+			}
+			handler.parent().parent().parent().children("div.detailsdiv").removeClass("hidden");
+		}
+}
+
+var loading = function loading() {
+	$("#loadingoverlay").css("display","block");
+	//Make ajax calls for new products or apply filters
+	$("#loadingoverlay").css("display","none");
+}
 </script>
 {% endblock %}

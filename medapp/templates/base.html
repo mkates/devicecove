@@ -9,7 +9,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
 <!--CSS-->
-<link href="{{STATIC_URL}}css/bootstrap.css" rel="stylesheet" type="text/css" />
+<link href="{{STATIC_URL}}css/bootstrap.min.css" rel="stylesheet" type="text/css" />
 <link href="{{STATIC_URL}}css/base.css" rel="stylesheet" type="text/css" />
 {% block headercss %}{% endblock %}
 
@@ -36,10 +36,26 @@
 	<div class="navbar-collapse collapse navbar-right">
 	  <ul class="nav navbar-nav" id="menuitems">
 		<li><a href="signup">Join</a></li>
-		<li><a href="login">Login</a></li>
 		<li><a href="addproduct">List</a></li>
+		{% if user.is_authenticated %}
+		<li class="dropdown">
+			<a href="#" class="dropdown-toggle" data-toggle="dropdown">{{user.username}}<b class="caret"></b></a>
+			<ul class="dropdown-menu">
+			  <li><a href="saveditems">Saved Items</a></li>
+			  <li><a href="listeditems">Your Listed Items</a></li>
+			  <li><a href="accounthistory">Account History</a></li>
+			  <li><a href="settings">Settings</a></li>
+			  <li><a href="profile">Profile</a></li>
+			  <li><a href="logout">Logout</a></li>
+			</ul>
+		</li>
+		{% else %}
+		<li><a href="login">Login</a></li>
+		{% endif %}
 	  </ul>  
 	</div>
+	
+	
 	
 	<!--Hidden Mobile Search Bar-->
 	<div class="navbar-collapse2 collapse navbar-right">
