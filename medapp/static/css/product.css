@@ -7,14 +7,13 @@
 .product {
 	margin: 0 auto;
 	max-width: 1000px;
-	
+	display:none;
 }
 .sellers {
 	max-width: 1000px;
 	border:1px solid #ddd;
 	background: white;
 	margin: 20px auto;
-	display: none;
 }
 .mainproductcontainer, .sideproductcontainer {
 	padding: 5px;
