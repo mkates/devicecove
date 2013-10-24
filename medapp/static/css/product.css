@@ -3,11 +3,9 @@
 /**************************/
 
 
-
 .product {
 	margin: 0 auto;
 	max-width: 1000px;
-	display:none;
 }
 .sellers {
 	max-width: 1000px;
@@ -163,7 +161,7 @@
 	border-top: 1px solid #eee;	
 	margin-top: 0px;
 	padding-top: 30px;
-	margin-bottom: 30px;
+	margin-bottom: 0px;
 	
 }
 .topbar .actionsave {
@@ -187,21 +185,18 @@
 .tabbar a {
 	float: left;
 	display: block;
-	margin-right: 15px;
 	font-weight: 800;
-	color: #333;
+	color: #1D6DCF;
 	text-decoration: none;
-	padding: 8px 15px;
+	padding: 8px 0px 3px 0px;
 	font-size: 14px;
-	border-top-right-radius: 2px;
-	border-top-left-radius: 2px;
-	border:1px solid #ddd;
+	border-bottom:3px solid transparent;
 	background: white;
 	transition: background .2s;
-	margin-bottom: -1px;
+	margin:0px 25px 15px 0;
 }
 .tabbar a:hover {
-	background: #eee;
+	color: black;
 	cursor: pointer;
 }
 #tabbar .borderbottom {
@@ -219,11 +214,12 @@
 	border-bottom:1px solid #ddd;
 }
 .tabbar .active {
-	background: #f9f9f9;
-	border-bottom: 1px solid #f9f9f9;
+	border-bottom: 3px solid orange;
+	color: black;
 }
 .tabbar .active:hover {
-	background: #f9f9f9;
+	border-bottom: 3px solid orange;
+	color: black;
 }
 .backbutton {
 	text-align: left;
@@ -245,6 +241,9 @@
 	text-align: center;
 	padding: 14px 0;
 }
+.actionbox h2 {
+	margin: 0;
+}
 .actionbox .actionbtn {
 	background: #DBAE27;
 	transition: background .2s;
@@ -252,6 +251,7 @@
 }
 .actionbox .actionsave {
 	background: #3B9C85;
+	color: white;
 }
 .actionbox .actionbtn:hover {
 	background: #B58E19;
@@ -268,60 +268,38 @@
 	border-top: 1px solid #eee;
 	padding-top: 15px;
 }
-.seller {
-	width: 270px;
-	margin: 0 auto 10px auto;
-	text-align: center;
-}
-.sellerinfo {
-	margin-left: 10px;
-}
-.sellerinfo p {
-	line-height: 11px;
-	font-size: 12px;
-	padding: 0;
-	margin: 0;
-	color: #999;
-}
-.sellerinfo h4 {
-	font-size: 14px;
-	color: #999;
-}
-.sellerinfo h4 a{
-	line-height: 12px;
-	font-size: 14px;
-	padding: 5px 0;
-	margin: 0;
-}
-.sellerinfo h5 {
-	line-height: 12px;
-	font-size: 12px;
-	padding: 0;
-	margin: 0;
-	color: #777;
-}
 
 .retailprice {
-	width: 270px;
+	width: 240px;
+	text-align: left;
+	margin: 0 auto;
 	margin: 15px auto;
 	color: #999;
 	font-weight: 200;
-	border-top: 1px solid #eee;
-	padding-top: 15px;
 }
 .retailprice p {
-	font-size: 13px;
-	line-height: 28px;
+	padding: 5px 0;
+	margin: 0;
+	border-bottom:1px dotted #ddd;
 }
-.retailprice h6 {
-	font-size: 30px;
-	line-height: 30px;
+.retailprice .condition {
+	font-size: 13px;
+	line-height: 13px;
+	margin-top: 10px;
+}
+
+.retailprice .price {
+	font-size: 18px;
+	line-height: 18px;
 	padding: 0;
 	margin: 0;
+	float: right;
 	color: green;
 	font-weight: 800;
 }
-
+.retailprice .noborder {
+	border:none;
+}
 /***************************/
 /* Main Product Box *******/
 /**************************/
@@ -336,6 +314,7 @@
 }
 .mainproduct h2 {
 	margin: 0;
+	margin-bottom: 10px;
 	font-size: 22px;
 }
 .mainproduct h3 {
@@ -455,11 +434,11 @@
 	text-align: center;
 }
 .buyerbadge {
-	width: 250px;
-	height: 50px;
+	max-width: 80px;
+	max-height: 80px;
 }
 #buyerprotect p {
-	padding: 15px 0;
+	padding: 0px 0 15px 0;
 	line-height: 20px;
 	font-size: 14px;
 	color: #333;

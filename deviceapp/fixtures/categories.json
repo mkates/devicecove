@@ -1,0 +1,29 @@
+[
+	{
+		"pk": 1,
+		"model": "deviceapp.industry",
+		"fields": {
+			"name": "Veterinary"
+		}
+	},
+	{"pk": 1,"model": "deviceapp.devicecategory","fields": {"name": "anesthesia","industries" : [1]}},
+	{"pk": 2,"model": "deviceapp.devicecategory","fields": {"name": "monitors","industries" : [1]}},
+	{"pk": 3,"model": "deviceapp.devicecategory","fields": {"name": "tables","industries" : [1]}},
+	{"pk": 4,"model": "deviceapp.devicecategory","fields": {"name": "sterilizers","industries" : [1]}},
+	{"pk": 5,"model": "deviceapp.devicecategory","fields": {"name": "centrifuges","industries" : [1]}},
+	{"pk": 6,"model": "deviceapp.devicecategory","fields": {"name": "defibrillators","industries" : [1]}},
+	{"pk": 7,"model": "deviceapp.devicecategory","fields": {"name": "lasers","industries" : [1]}},
+	{"pk": 8,"model": "deviceapp.devicecategory","fields": {"name": "dental","industries" : [1]}},
+	{"pk": 9,"model": "deviceapp.devicecategory","fields": {"name": "electrosurgical","industries" : [1]}},
+	{"pk": 10,"model": "deviceapp.devicecategory","fields": {"name": "endoscopy","industries" : [1]}},
+	{"pk": 11,"model": "deviceapp.devicecategory","fields": {"name": "incubators","industries" : [1]}},
+	{"pk": 12,"model": "deviceapp.devicecategory","fields": {"name": "infusion pumps","industries" : [1]}},
+	{"pk": 13,"model": "deviceapp.devicecategory","fields": {"name": "medical gas","industries" : [1]}},
+	{"pk": 14,"model": "deviceapp.devicecategory","fields": {"name": "microscopes","industries" : [1]}},
+	{"pk": 15,"model": "deviceapp.devicecategory","fields": {"name": "respiratory ventilators","industries" : [1]}},
+	{"pk": 16,"model": "deviceapp.devicecategory","fields": {"name": "scales","industries" : [1]}},
+	{"pk": 17,"model": "deviceapp.devicecategory","fields": {"name": "syringe pumps","industries" : [1]}},
+	{"pk": 18,"model": "deviceapp.devicecategory","fields": {"name": "ultrasounds","industries" : [1]}},
+	{"pk": 19,"model": "deviceapp.devicecategory","fields": {"name": "warming units","industries" : [1]}},
+	{"pk": 20,"model": "deviceapp.devicecategory","fields": {"name": "x-ray imaging","industries" : [1]}}
+]

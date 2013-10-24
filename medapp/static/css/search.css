@@ -23,13 +23,13 @@
 	background: #e9e9e9;
 	border-radius: 3px;
 	background: #f9f9f9;
-	border:1px solid #e8e8e8;
+	border:1px solid #ddd;
 	margin-bottom: 10px;
 }
 
 .resultsbox {
 	background: #fff;
-	border:1px solid #e8e8e8;
+	border:1px solid #ddd;
 	border-radius: 3px;
 	margin-bottom: 6px;
 }
@@ -328,7 +328,6 @@ background-image: linear-gradient(to bottom, #BFBFBF 0%, #919191 100%);
 /*****Result Item *****************/
 /**********************************/
 
-
 .resultitem {
 	border-bottom:1px solid #f2f2f2;
 	padding-bottom: 20px;
@@ -527,6 +526,30 @@ background-image: linear-gradient(to bottom, #BFBFBF 0%, #919191 100%);
 }
 .hidden {
 	display: none;
+}
+#loadingoverlay {
+	position:absolute;
+	display: none;
+	width: 100%;
+	margin-right: 5px;
+	height: 100%;
+	background-image: url('{{STATIC_URL}}img/whitetransparency.png');
+}
+#loaderdiv {
+	width: 350px;
+	height: 160px;
+	margin-left: 220px;
+	position: fixed;
+	margin-top: 150px;
+	background-image: url('{{STATIC_URL}}img/blacktransparency.png');
+	border-radius: 6px;
+	text-align: center;
+}
+#loaderdiv h3 {
+	margin-top: 40px;
+	margin-bottom: 20px;
+	color: white;
+	font-size: 18px;
 }
 
 

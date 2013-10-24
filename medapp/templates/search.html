@@ -1,288 +1,59 @@
 {% extends 'base.html' %}
 {% block headercss %}
-<link href="{{STATIC_URL}}css/base.css" rel="stylesheet" type="text/css" />
-<link href="{{STATIC_URL}}css/productitem.css" rel="stylesheet" type="text/css" />
-<link href="{{STATIC_URL}}css/search.css" rel="stylesheet" type="text/css" />
-<link href="{{STATIC_URL}}css/jquery-ui-1.10.3.custom.css" rel="stylesheet" type="text/css" />
-<style>
-
-.resultitem {
-	border-bottom:1px solid #f2f2f2;
-	padding-bottom: 20px;
-}
-.resultitem:hover {
-	cursor:pointer;
-	color: #222;
-	box-shadow: 0 0 4px #ccc;
-}
-.resultsbox a {
-	color: #444;
-}
-.resultsbox a:hover {
-	text-decoration: none;
-}
-.resultitem:active {
-	outline: none;
-}
-
-.resultitem .imgdiv {
-	width: 160px;
-	height: 130px;
-	float: right;
-	margin: 20px 20px 20px 0px;
-	text-align: center;
-}
-.resultitem .imgdiv img {
-	max-width: 160px;
-	max-height: 130px;
-	border:1px solid #ccc;
-}
-.resultitem .pricediv {
-	width: 150px;
-	float: left;
-	margin-left: 0px;
-	padding-top: 23px;
-	text-align: center;
-}
-.resultitem .pricediv h6 {
-	color: #aaa;
-	font-size: 11px;
-	letter-spacing: .2px;
-	font-weight: 200;
-	padding: 0;
-	margin: 0;
-	line-height: 11px;
-}
-.resultitem .pricediv p {
-	font-size: 20px;
-	font-weight: 800;
-	color: black;
-	padding-bottom:10px;
-}
-.resultitem .pricediv a {
-	
-}
-.resultitem .textdiv {
-	float: left;
-	width: 440px;
-	overflow: hidden;
-	padding-top: 20px;
-}
-
-.resultitem .textdiv h2{
-	padding: 0;
-	margin: 0;
-	font-size: 16px;
-	height: 18px;
-	overflow: hidden;
-}
-.resultitem .textdiv h2:hover {
-	color: #2A6496;
-	text-decoration: underline;
-}
-.resultitem .textdiv h3{
-	padding: 0;
-	margin: 3px 0 10px 0;
-	font-size: 12px;
-	font-weight: 200;
-}
-
-.resultitem .textdiv h4 {
-	font-size: 12px;
-	width: 420px;
-	display: block;
-	padding: 5px 0px;
-	color: black;
-	margin: 0;
-	line-height: 13px;
-	border-bottom: 1px dotted #bbb;
-}
-.resultitem .textdiv h4:hover {
-	background: #f9f9f9;
-}
-
-.resultitem .textdiv h4 span {
-	color: #4EA3BF;
-	float: right;
-}
-.resultitem .textdiv h4 a {
-	display: block;
-}
-
-.resultitem .buttondiv {
-	margin-top: 20px;
-	width: 400px;
-}
-.infobutton {
-	background: #ddd;
-	border:1px solid #ccc;
-	border-radius: 2px;
-	color: #444;
-	font-size: 12px;
-	padding: 0 15px;
-	margin-bottom: 5px;
-	margin-right: 10px;
-}
-.infobutton:hover {
-	background: #ccc;
-}
-
-.activeinfo {
-	border-bottom: 1px solid #fff;
-	margin-bottom: 0px;
-	padding-bottom: 5px;
-	border-bottom-left-radius: 0px;
-	border-bottom-right-radius: 0px;
-	background: white;
-}
-.activeinfo:hover {
-	background: #fff;
-}
-
-.detailsdiv {
-	margin-left: 20px;
-	margin-right: 20px;
-	padding: 0px;
-	margin-top: -1px;
-	height: 250px;
-	border-top: 1px solid #ccc;
-}
-.detailtext {
-	width: 530px;
-	height: 220px;
-	float: left;
-	padding: 15px;
-	height: 200px;
-	overflow: hidden;
-	font-size: 13px;
-	line-height: 18px;
-	color: #333;
-}
-
-.imagegallery {
-	width: 200px;
-	height: 220px;
-	padding: 0;
-	margin-right: 2px;
-	float: right;
-	padding-top: 16px;
-}
-.imagegallery .imagethumbnail {
-	float: right;
-	border:3px solid #fff;
-	background:blue;
-	width: 60px;
-	height: 60px;
-}
-.imageviewer {
-	position: absolute;
-	z-index: 999;
-	height: 452px;
-	width: 560px;
-	background: #333;
-	opacity: .8;
-	display: none;
-}
-.morediv {
-	clear: both;
-	height: 30px;
-}
-.morediv a {
-	text-align: left;
-	display: block;
-	float: left;
-	margin-left: 15px;
-	color: #3EA7B8;
-}
-.morediv a:hover {
-	text-decoration: underline;
-}
-.morediv .closebutton {
-	float: right;
-	background: #ddd;
-	padding: 0px;
-}
-.hidden {
-	display: none;
-}
-#loadingoverlay {
-	position:absolute;
-	display: none;
-	width: 100%;
-	margin-right: 5px;
-	height: 100%;
-	background-image: url("{{STATIC_URL}}img/whitetransparency.png");
-}
-#loaderdiv {
-	width: 350px;
-	height: 160px;
-	margin-left: 220px;
-	position: fixed;
-	margin-top: 150px;
-	background-image: url("{{STATIC_URL}}img/blacktransparency.png");
-	border-radius: 6px;
-	text-align: center;
-}
-#loaderdiv h3 {
-	margin-top: 40px;
-	margin-bottom: 20px;
-	color: white;
-	font-size: 18px;
-}
-</style>
-
+<link href='{{STATIC_URL}}css/base.css' rel='stylesheet' type='text/css' />
+<link href='{{STATIC_URL}}css/productitem.css' rel='stylesheet' type='text/css' />
+<link href='{{STATIC_URL}}css/search.css' rel='stylesheet' type='text/css' />
+<link href='{{STATIC_URL}}css/jquery-ui-1.10.3.custom.css' rel='stylesheet' type='text/css' />
 
 {% endblock%}
 
 
 {% block content %}
 
-<div class="row searchcontainer">
- 
+<div class='row searchcontainer'>
   <!--Filter Container -->
-  <div class="col-xs-12 col-sm-3 filtercontainer">
-  	<div id="treeflow" class="filterbox">
-  		<a href="#" id="toptree">All Industries</a>
-  		<a href="#" id="industrytree">Veterinary</a>
-  		<a href="#" id="devicecategorytree">Radiology</a>
-  		<a href="#" id="deviceitemstree">X-Ray Monitors</a>
-  		<a href="#" id="deviceitemstree">X-Ray Generators</a>
-  		<a href="#" id="deviceitemstree">X-Ray Plates</a>
+  <div class='col-xs-12 col-sm-3 filtercontainer'>
+  	<div id='treeflow' class='filterbox'>
+  		<a href='/search' id='toptree'>All Industries</a>
+  		<a href='/' id='industrytree'>{{ industry }}</a>
+  		{% for cat in category %}
+  			<a href='#' id='devicecategorytree'>{{ cat.name }}</a>
+  		{% endfor %}
   	</div>
-  	<div class="filterbox">
-  		<div class="filter-category">
+  	<div class='filterbox'>
+  		<div class='filter-category'>
   			<h2>Condition</h2>
-  			<div class="checkbox">
-				<input id="check1" type="checkbox" name="check" value="check1" checked="checked">
-				<label for="check1">New</label>
-				<input id="check2" type="checkbox" name="check" value="check2" checked="checked">
-				<label for="check2">Like New</label>
-				<input id="check3" type="checkbox" name="check" value="check3" checked="checked">
-				<label for="check3">Gently Used</label>
-				<input id="check4" type="checkbox" name="check" value="check4" checked="checked">
-				<label for="check4">Average</label>
-				<input id="check5" type="checkbox" name="check" value="check5" checked="checked">
-				<label for="check5">Below Average</label>
-				<input id="check6" type="checkbox" name="check" value="check6" checked="checked">
-				<label for="check6">Good for Parts Only</label>
+  			<div class='checkbox'>
+				<input id='check1' type='checkbox' name='check' value='check1' checked='checked'>
+				<label for='check1'>New</label>
+				<input id='check2' type='checkbox' name='check' value='check2' checked='checked'>
+				<label for='check2'>Like New</label>
+				<input id='check3' type='checkbox' name='check' value='check3' checked='checked'>
+				<label for='check3'>Gently Used</label>
+				<input id='check4' type='checkbox' name='check' value='check4' checked='checked'>
+				<label for='check4'>Average</label>
+				<input id='check5' type='checkbox' name='check' value='check5' checked='checked'>
+				<label for='check5'>Below Average</label>
+				<input id='check6' type='checkbox' name='check' value='check6' checked='checked'>
+				<label for='check6'>Good for Parts Only</label>
 			</div>
   		</div>
-  		<div class="filter-category">
+  		<div class='filter-category'>
   			<h2>Features</h2>
-  			<div class="checkbox">
-				<input id="check1_1" type="checkbox" name="check" value="check1_1" checked="checked">
-				<label for="check1_1">New</label>
+  			<div class='checkbox'>
+				<input id='check1_1' type='checkbox' name='check' value='check1_1' checked='checked'>
+				<label for='check1_1'>New</label>
 				<br>
-				<input id="check2_1" type="checkbox" name="check" value="check2_1" checked="checked">
-				<label for="check2_1">3rd Party Refurbished</label>
+				<input id='check2_1' type='checkbox' name='check' value='check2_1' checked='checked'>
+				<label for='check2_1'>3rd Party Refurbished</label>
 				<br>
-				<input id="check3_1" type="checkbox" name="check" value="check3_1" checked="checked">
-				<label for="check3_1">Manufacturer Refurbished</label>
+				<input id='check3_1' type='checkbox' name='check' value='check3_1' checked='checked'>
+				<label for='check3_1'>Manufacturer Refurbished</label>
 			</div>
   		</div>
-  		<div id="milecategory" class="filter-category">
+  		<div id='milecategory' class='filter-category'>
   			<h2>Distance</h2>
-  			<select class="form-control">
+  			<select class='form-control'>
   				<option>Any Miles</option>
   				<option>500 Miles</option>
   				<option>250 Miles</option>
@@ -291,15 +62,15 @@
   				<option>25 Miles</option>
   			</select>
   			<p>from</p>
-  			<input class="form-control" placeholder="Zipcode" type="number" maxlength="5"/>
+  			<input class='form-control' placeholder='Zipcode' type='number' maxlength='5'/>
   		</div>
-  		<div id="pricecategory" class="filter-category">
+  		<div id='pricecategory' class='filter-category'>
   			<h2>Price</h2>
-  			<div id="price-slider-container">
-  				<p id="lowprice">$<span>0</span></p>
-  				<p id="highprice">$<span>20000</span></p>
-  				<div class="clear"></div>
-  				<div id="price-range" class="light-gradient"></div>
+  			<div id='price-slider-container'>
+  				<p id='lowprice'>$<span>0</span></p>
+  				<p id='highprice'>$<span>20000</span></p>
+  				<div class='clear'></div>
+  				<div id='price-range' class='light-gradient'></div>
   			</div>
   		</div>
   		
@@ -307,20 +78,20 @@
   </div>
   
   <!--Results Container -->
-  <div class="col-xs-12 col-sm-9 resultscontainer">
-  	<div id="loadingoverlay">
-  		<div id="loaderdiv">
+  <div class='col-xs-12 col-sm-9 resultscontainer'>
+  	<div id='loadingoverlay'>
+  		<div id='loaderdiv'>
   			<h3> Filtering search results . . .</h3>
-  			<img src="{{STATIC_URL}}img/ajax-loader2.gif"/>
+  			<img src='{{STATIC_URL}}img/ajax-loader2.gif'/>
   		</div>
   	</div>
-  	<div class="resultsbox resultsnav">
-  		<div class="" id="resultsparameter">
-  		Searching for. . . LG Ultrasounds in Veterinary Equipment
+  	<div class='resultsbox resultsnav'>
+  		<div class='' id='resultsparameter'>
+  		Searching for {{ search }}
   		</div>
-  		<div id="sortby">
+  		<div id='sortby'>
   			<p> Sort By: </p>
-  			<select class="form-control">
+  			<select class='form-control'>
   				<option> Relevance </option>
   				<option> Price </option>
   				<option> Best Deal </option>
@@ -328,107 +99,65 @@
   				<option> Newest</option>
   			</select>
   		</div>
-  		<div id="numberofresults">2038 Results</div>
-  		<img class="viewtypeimg" src="{{STATIC_URL}}img/listview.png"/>
+  		<div id='numberofresults'>2038 Results</div>
+  		<img class='viewtypeimg' src='{{STATIC_URL}}img/listview.png'/>
   		<p> List View </p>
-  		<img class="viewtypeimg" src="{{STATIC_URL}}img/gridview.png"/>
+  		<img class='viewtypeimg' src='{{STATIC_URL}}img/gridview.png'/>
   		<p> Grid View </p>
-  		<div class="clear"></div>
+  		<div class='clear'></div>
   	</div>
   	
-  	<div class="resultsbox" id="resultssbody">
-  		<div class="resultitem">
-  			<div class="imageviewer"></div>
-  			<div class="imgdiv"><img src="http://www.sivanienterprises.com/images/papercup_SE930.jpg"/></div>
-  			<div class="pricediv">
+  	<div class='resultsbox' id='resultsbody'>
+  		{%for product in products %}
+  		<div class='resultitem'>
+  			<div class='imageviewer'></div>
+  			<div class='imgdiv'><img src='{{product.mainimage}}'/></div>
+  			<div class='pricediv'>
   				<h6>pre-owned from</h6>
   				<p>$14,300</p>
-  				<a class="btn btn-standard" href='#'>Select</a>
+  				<a class='btn btn-standard' href="/product/{{product.id}}/details">Select</a>
   			</div>
-  			<div class="textdiv">
-  				<h2> Dual Powered X-Ray Machine with Optical Imaging</h2>
-  				<h3> Sonosite Systems | 2006 Model</h3>
+  			<div class='textdiv'>
+  				<h2>{{ product.name }}</h2>
+  				<h3> {{product.manufacturer }}</h3>
   				<h4><a>New (2) <span>$27,480</span></a></h4>
   				<h4><a>Refurbished (1) <span>$20,120</span></a></h4>
   				<h4><a>Preowned (4) <span>$14,300</span></a></h4>
-  				<div class="buttondiv">
-  					<button class="infobutton">Details</button>
-  					<button class="infobutton">Specs</button>
-  					<button class="infobutton">Buyer Protection</button>
+  				<div class='buttondiv'>
+  					<button class='infobutton'>Details</button>
+  					<button class='infobutton'>Specs</button>
+  					<button class='infobutton'>Buyer Protection</button>
   				</div>
   			</div>
-  			<div class="clear"></div>
-  			<div class="detailsdiv hidden">
-  				<div class="detailtext">
-  					<p>Lameness Locator® by Equinosis® is the culmination of almost 20 years of research on gait analysis at the University of Missouri’s Colleges of Veterinary Medicine and Engineering with the support of the E. Paige Laurie Endowed Program in Equine Lameness. Lameness Locator® objectively detects and quantifies body movement asymmetry in a horse using small, wireless, body-mounted inertial sensors and a hand-held tablet PC.</p>
+  			<div class='clear'></div>
+  			<div class='detailsdiv hidden'>
+  				<div class='detailtext'>
+  					<p>{{product.description}}</p>
   				</div>
-  				<div class="imagegallery">
-  					<div class="imagethumbnail"></div>
-  					<div class="imagethumbnail"></div>
-  					<div class="imagethumbnail"></div>
-  					<div class="imagethumbnail"></div>
-  					<div class="imagethumbnail"></div>
-  					<div class="imagethumbnail"></div>
-  					<div class="imagethumbnail"></div>
-  					<div class="imagethumbnail"></div>
-  					<div class="imagethumbnail"></div>
+  				<div class='imagegallery'>
+  					<div class='imagethumbnail'></div>
+  					<div class='imagethumbnail'></div>
+  					<div class='imagethumbnail'></div>
+  					<div class='imagethumbnail'></div>
+  					<div class='imagethumbnail'></div>
+  					<div class='imagethumbnail'></div>
+  					<div class='imagethumbnail'></div>
+  					<div class='imagethumbnail'></div>
+  					<div class='imagethumbnail'></div>
   				</div>
-  				<div class="morediv">
-  					<a> Show all product details &#8594;</a>
-  					<button class="closebutton">Close</button>
+  				<div class='morediv'>
+  					<a href="/product/{{product.id}}/details"> Show all product details &#8594;</a>
+  					<button class='closebutton'>Close</button>
   				</div>
   			</div>
-  			<div class="clear"></div>
-  			
+  			<div class='clear'></div>
+
   		</div>
-  		<div class="resultitem">
-  			<div class="imageviewer"></div>
-  			<div class="imgdiv"><img src="http://www.sivanienterprises.com/images/papercup_SE930.jpg"/></div>
-  			<div class="pricediv">
-  				<h6>pre-owned from</h6>
-  				<p>$14,300</p>
-  				<a class="btn btn-standard" href='#'>Select</a>
-  			</div>
-  			<div class="textdiv">
-  				<h2> Dual Powered X-Ray Machine with Optical Imaging</h2>
-  				<h3> Sonosite Systems | 2006 Model</h3>
-  				<h4><a>New (2) <span>$27,480</span></a></h4>
-  				<h4><a>Refurbished (1) <span>$20,120</span></a></h4>
-  				<h4><a>Preowned (4) <span>$14,300</span></a></h4>
-  				<div class="buttondiv">
-  					<button class="infobutton">Details</button>
-  					<button class="infobutton">Specs</button>
-  					<button class="infobutton">Buyer Protection</button>
-  				</div>
-  			</div>
-  			<div class="clear"></div>
-  			<div class="detailsdiv hidden">
-  				<div class="detailtext">
-  					<p>Lameness Locator® by Equinosis® is the culmination of almost 20 years of research on gait analysis at the University of Missouri’s Colleges of Veterinary Medicine and Engineering with the support of the E. Paige Laurie Endowed Program in Equine Lameness. Lameness Locator® objectively detects and quantifies body movement asymmetry in a horse using small, wireless, body-mounted inertial sensors and a hand-held tablet PC.</p>
-  				</div>
-  				<div class="imagegallery">
-  					<div class="imagethumbnail"></div>
-  					<div class="imagethumbnail"></div>
-  					<div class="imagethumbnail"></div>
-  					<div class="imagethumbnail"></div>
-  					<div class="imagethumbnail"></div>
-  					<div class="imagethumbnail"></div>
-  					<div class="imagethumbnail"></div>
-  					<div class="imagethumbnail"></div>
-  					<div class="imagethumbnail"></div>
-  				</div>
-  				<div class="morediv">
-  					<a> Show all product details &#8594;</a>
-  					<button class="closebutton">Close</button>
-  				</div>
-  			</div>
-  			<div class="clear"></div>
-  			
-  		</div>
+  		{% endfor %}
   	</div>
-  	<div id="showmorebutton" class="resultsbox">
+  	<div id='showmorebutton' class='resultsbox'>
   		<p>Show More Results</p>
-  		<img src="..{{STATIC_URL}}img/ajax-loader.gif"/>
+  		<img src='..{{STATIC_URL}}img/ajax-loader.gif'/>
   	</div>
   </div>
   	
@@ -436,80 +165,185 @@
 {% endblock %}
 
 {% block jsblock %}
-<script src="{{STATIC_URL}}js/jquery-ui-1.10.3.custom.min.js" type="text/javascript" ></script>
+<script src='{{STATIC_URL}}js/jquery-ui-1.10.3.custom.min.js' type='text/javascript' ></script>
 <script>
-String.prototype.splice = function( idx, rem, s ) {
-    return (this.slice(0,idx) + s + this.slice(idx + Math.abs(rem)));
-};
+//*********************************************
+//Global variable dictionary ******************
+//*********************************************
+var variables = {'querytype':'product','query':'ultrasound','industry':'veterinary','sortby':'relevance','pricelow':0,'pricehigh':100000,'new':true,'refurbished':true,'used':true};
+
+//*********************************************
+//*** Miscellaneous Page Functions ************
+//*********************************************
 $(document).ready(function(){
-	$("#showmorebutton").click(function() {
-		$("#showmorebutton p").css("display","none");
-		$("#showmorebutton img").css("display","block");
-		//Ajax call for more data and return to the show more button
+	activateResultsBoxItems();
+	//When the show more button is pressed, load in more products
+	$('#showmorebutton').click(function() {
+		$('#showmorebutton p').css('display','none');
+		$('#showmorebutton img').css('display','block');
+		$.ajax({
+			url: '/searchquery',
+			type: 'GET',
+			data: variables,
+			cache: false,
+			dataType: 'json',
+			success: function(response){
+				$.each(response, function( key, pd) {
+					generateProduct(pd['name'],pd['manufacturer'],pd['description'],pd['lowprice']);
+					console.log("Generating more products");
+				});
+				$('#showmorebutton p').css('display','block');
+				$('#showmorebutton img').css('display','none');
+			}
+		});
 	});
 	
+	//The price filter functionality when it is toggled
 	$(function() {
-		$( "#price-range" ).slider({
+		$( '#price-range' ).slider({
 			range: true,
 			min: 0,
 			max: 20000,
 			step: 200,
 			values: [ 0, 20000 ],
 			slide: function( event, ui ) {
-				$( "#amount" ).val( "$" + ui.values[ 0 ] + " - $" + ui.values[ 1 ] );
+				$( '#amount' ).val( '$' + ui.values[ 0 ] + ' - $' + ui.values[ 1 ] );
 				var newhighvalue = ui.values[1].toString();
 				var newlowvalue = ui.values[0].toString();
 				if (newlowvalue.length > 3 ) {
-					var newlowvalue = newlowvalue.splice( newlowvalue.length-3, 0, "," );
+					var newlowvalue = newlowvalue.splice( newlowvalue.length-3, 0, ',' );
 				} 
 				if (newhighvalue.length > 3) {
-					var newhighvalue = newhighvalue.splice( newhighvalue.length-3, 0, "," );
+					var newhighvalue = newhighvalue.splice( newhighvalue.length-3, 0, ',' );
 				}
-				$("#lowprice span").html(newlowvalue);
-				$("#highprice span").html(newhighvalue);
+				$('#lowprice span').html(newlowvalue);
+				$('#highprice span').html(newhighvalue);
 			}
 			});
-			$( "#amount" ).val( "$" + $( "#slider-range" ).slider( "values", 0 ) +
-			" - $" + $( "#slider-range" ).slider( "values", 1 ) );
+			$( '#amount' ).val( '$' + $( '#slider-range' ).slider( 'values', 0 ) +
+			' - $' + $( '#slider-range' ).slider( 'values', 1 ) );
 		});
 	});
 
-$(document).ready(function() {
-	$(".infobutton").click(function() {
-		togglebuttons($(this));
-	});
-	$(".closebutton").click(function() {
-		$(this).parent().parent().addClass("hidden");
-		var buttons = $(this).parent().parent().parent().children("div.textdiv").children("div.buttondiv").children();
-		for (var b=0; b < buttons.length; b++) {
-				$(buttons[b]).removeClass("activeinfo");
-			}
-	});
-	$(".imgdiv img").click(function() {
-		togglebuttons($($(this).parent().parent().children("div.textdiv").children("div.buttondiv").children()[0]));
-	});
-	$(".imagethumbnail").hover(function() {
-		$(this).parent().parent().parent().children("div.imageviewer").css("display","block");
-	}, function() {
-		$(this).parent().parent().parent().children("div.imageviewer").css("display","none");
-	});
-});
-
+//Functionality for the show more buttons
 var togglebuttons = function togglebutton(handler) {
 	var buttons = handler.parent().children();
-		if (!(handler.hasClass("activeinfo"))) {
+		if (!(handler.hasClass('activeinfo'))) {
 			for (var b=0; b < buttons.length; b++) {
-				$(buttons[b]).removeClass("activeinfo");
-				handler.addClass("activeinfo");
+				$(buttons[b]).removeClass('activeinfo');
+				handler.addClass('activeinfo');
 			}
-			handler.parent().parent().parent().children("div.detailsdiv").removeClass("hidden");
+			handler.parent().parent().parent().children('div.detailsdiv').removeClass('hidden');
 		}
 }
 
-var loading = function loading() {
-	$("#loadingoverlay").css("display","block");
-	//Make ajax calls for new products or apply filters
-	$("#loadingoverlay").css("display","none");
+//Update function when a filter is called
+var update = function loading() {
+	$('#loadingoverlay').css('display','block');
+	$.ajax({
+		url: '/searchquery',
+		type: 'GET',
+		data: variables,
+		cache:false,
+		dataType: 'json',
+		success: function(response){
+			console.log(response)
+			$('#showmorebutton p').css('display','block');
+			$('#showmorebutton img').css('display','none');
+		}
+	});
+	$('#loadingoverlay').css('display','none');
 }
+
+//*********************************************
+//*** Product Box Generator *******************
+//*********************************************
+
+var generateProduct = function(name,manufacturer,description,lowprice) {
+	productString="<div class='resultitem'> \
+  			<div class='imageviewer'></div> \
+  			<div class='imgdiv'><img src='http://www.sivanienterprises.com/images/papercup_SE930.jpg'/></div> \
+  			<div class='pricediv'> \
+  				<h6>pre-owned from</h6> \
+  				<p>"+lowprice+"</p> \
+  				<a class='btn btn-standard' href='#'>Select</a> \
+  			</div> \
+  			<div class='textdiv'> \
+  				<h2>"+name+"</h2> \
+  				<h3>"+manufacturer+" | 2006 Model</h3> \
+  				<h4><a>New (2) <span>$27,480</span></a></h4> \
+  				<h4><a>Refurbished (1) <span>$20,120</span></a></h4> \
+  				<h4><a>Preowned (4) <span>$14,300</span></a></h4> \
+  				<div class='buttondiv'> \
+  					<button class='infobutton'>Details</button> \
+  					<button class='infobutton'>Specs</button> \
+  					<button class='infobutton'>Buyer Protection</button> \
+  				</div> \
+  			</div> \
+  			<div class='clear'></div> \
+  			<div class='detailsdiv hidden'> \
+  				<div class='detailtext'> \
+  					<p>"+description+"</p> \
+  				</div> \
+  				<div class='imagegallery'> \
+  					<div class='imagethumbnail'></div> \
+  					<div class='imagethumbnail'></div> \
+  					<div class='imagethumbnail'></div> \
+  					<div class='imagethumbnail'></div> \
+  					<div class='imagethumbnail'></div> \
+  					<div class='imagethumbnail'></div> \
+  					<div class='imagethumbnail'></div> \
+  					<div class='imagethumbnail'></div> \
+  					<div class='imagethumbnail'></div> \
+  				</div> \
+  				<div class='morediv'> \
+  					<a> Show all product details &#8594;</a> \
+  					<button class='closebutton'>Close</button> \
+  				</div> \
+  			</div> \
+  			<div class='clear'></div> \
+  		</div>";
+  					
+  	$("#resultsbody").append(productString);
+  	activateResultsBoxItems();
+}
+
+// We must rebind all the actions when results are added to the page
+var activateResultsBoxItems = function activateResultsBoxItems() {	
+	//When user clicks for more information
+	$('.infobutton').click(function() {
+		togglebuttons($(this));
+	});
+	
+	//When user closes the more information
+	$('.closebutton').click(function() {
+		$(this).parent().parent().addClass('hidden');
+		var buttons = $(this).parent().parent().parent().children('div.textdiv').children('div.buttondiv').children();
+		for (var b=0; b < buttons.length; b++) {
+				$(buttons[b]).removeClass('activeinfo');
+			}
+	});
+	//When a user clicks on an image
+	$('.imgdiv img').click(function() {
+		togglebuttons($($(this).parent().parent().children('div.textdiv').children('div.buttondiv').children()[0]));
+	});
+	
+	//When a user hovers over a thumbnail
+	$('.imagethumbnail').hover(function() {
+		$(this).parent().parent().parent().children('div.imageviewer').css('display','block');
+	}, function() {
+		$(this).parent().parent().parent().children('div.imageviewer').css('display','none');
+	});
+};
+
+
+//*********************************************
+//*** Helper Functions ************************
+//*********************************************
+
+//Used by the slider to convert a number back to an integer
+String.prototype.splice = function( idx, rem, s ) {
+    return (this.slice(0,idx) + s + this.slice(idx + Math.abs(rem)));
+};
 </script>
 {% endblock %}

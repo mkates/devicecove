@@ -4,7 +4,7 @@
 
 .herobg {
 	background: url("../img/operatingroom.png") no-repeat top center / cover;
-	height: 400px;
+	height: 480px;
 	width: 100%;
 	opacity: 1;
 	overflow: auto;
@@ -12,6 +12,80 @@
 body {
 	background: #fff;
 }
+
+/**********************************/
+/******* Introduction *************/
+/**********************************/
+
+.intro-container {
+	max-width: 1000px;
+	margin: 0 auto;
+}
+.intro {
+	max-width: 1000px;
+	margin-top: 150px;
+	margin: 50px auto 20px auto;
+	text-align: left;	
+	text-align: center;
+}
+.intro h1 {
+	font-weight: 900;
+	/* box-shadow: 0 0 2px #fff; */
+	margin-top: 0px;
+	padding: 20px;
+	margin-bottom: 15px;
+	opacity: 1;
+	border-radius: 4px;
+	font-size: 42px;
+	color: black;
+	text-shadow: 0 0 8px #ddd;
+}
+.intro h2 {
+	font-weight: 200;
+	box-shadow: 0 0 2px #fff;
+	margin-top: 20px;
+	padding: 20px;
+	margin-bottom: 15px;
+	background: black;
+	opacity: .7;
+	font-size: 20px;
+	line-height: 50px;
+	border-radius: 4px;
+	color: white;
+	width: 200px;
+	float: left;
+	margin-right: 66px;
+}
+#nomargin {
+	margin-right: 0px;
+}
+.intro h2 a {
+	display: block;
+	color: white;
+}
+.intro h2 a:hover {
+	text-decoration: underline;
+	cursor:pointer;
+}
+.intro h1 span {
+	font-weight: 800;
+}
+
+@media (max-width: 768px) {
+	.intro{
+		margin-left: auto;
+		margin-right: auto;
+		
+		float: none;
+	}
+	.intro h1 {
+		text-align: center;
+	}
+	.intro button {
+		margin: 0 auto;
+	}
+}
+
 
 /**********************************/
 /****** Guarantee Section *********/
@@ -58,4 +132,5 @@ body {
 	color: #bbb;
 	text-shadow: 0 0 1px #ddd;
 	opacity: .4;
+	text-align: left;
 }

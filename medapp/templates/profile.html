@@ -1,10 +1,234 @@
 {% extends 'account.html' %}
 
+{% block headersubcss %}
+<style>
+.profilediv {
+	margin: 20px;
+}
+.profileitem {
+	font-size: 14px;
+	text-align: left;
+	line-height: 40px;
+	width: 700px;
+}
+.profileitem tr {
+	border-bottom:1px dotted #ddd;
+	height: 45px;
+}
+.profileitem form {
+	padding: 0;
+	margin: 0;
+}
+.profileitem input {
+	width: 200px;
+	display: inline-block;
+	margin-left: 0;
+	line-height: 28px;
+	padding: 0 3px;
+	height: 28px;
+}
+.profileitem form {
+	display: none;
+}
+.profileitem button {
+	display: inline-block;
+	margin-right: 10px;
+	height: 30px;
+}
+.profileitem .category {
+	width: 200px;
+	font-weight: 800;
+	font-size: 14px;
+}
+.profileitem .uservalue {
+	padding-left: 3px;
+	min-width: 400px;
+	font-weight: 200;
+}
+.profileitem .edit {
+	width: 100px;
+	text-align: right;
+	font-size: 12px;
+	color: #aaa;
+	transition: color .2s;
+}
+.profileitem .uservalue p {
+	padding: 0;
+	margin: 0;
+}
+.profileitem .edit:hover {
+	text-decoration:underline;
+	cursor: pointer;
+	color: #333;
+}
+
+</style>
+{% endblock %}
+{% block jsblock %}
+<script>
+
+$(document).ready(function() {
+	var inputs = $(".uservalue p");
+	$(".edit").click(function() {
+		$(this).prev().children('p').css("display","none");
+		$(this).prev().children('form').css("display","inline-block");
+		$(this).prev().children("form").children(".forminput").val($(this).prev().children('p').text());
+	});
+	$(".cancel").click(function() {
+		$(this).parent().css("display","none");
+		$(this).parent().prev().css("display","inline-block");
+		return false;
+	});
+
+});
+</script>
+{% endblock %}
 {% block profile %}active{% endblock %}
 
 {% block maintitle %}Profile{% endblock %}
 
 {% block maincontent %}
-		<p id="nolistings"> coming. . . </p>
+	<div class="profilediv">
+		<div class="profileitem">
+			<table>
+				<tr>
+					<td class="category">Business Type</td>
+					<td class="uservalue">
+						<p>{{basicuser.businesstype}}</p>
+						<form method="post" action="/profsettings/businesstype">
+							{% csrf_token %}
+							<input type="text" class="forminput form-control" name="businesstype" value="{{basicuser.businesstype}}" />
+							<button value="submit" class="btn btn-success">Save</button><button type="button" class="btn cancel">Cancel</button>
+						</form>
+					</td>
+					<td class="edit">edit</td>
+				</tr>
+				<tr>
+					<td class="category">Name</td>
+					<td class="uservalue">
+						<p>{{basicuser.name}}</p>
+						<form method="post" action="/profsettings/name">
+							{% csrf_token %}
+							<input type="text" class="forminput form-control" name="name" value="{{basicuser.name}}" />
+							<button value="submit" class="btn btn-success">Save</button><button type="button" class="btn cancel">Cancel</button>
+						</form>
+					</td>
+					<td class="edit">edit</td>
+				</tr>
+				<tr>
+					<td class="category">Company</td>
+					<td class="uservalue">
+						<p>{{basicuser.company}}</p>
+						<form method="post" action="/profsettings/company">
+							{% csrf_token %}
+							<input type="text" class="forminput form-control" name="company" value="{{basicuser.company}}" />
+							<button value="submit" class="btn btn-success">Save</button><button type="button" class="btn cancel">Cancel</button>
+						</form>
+					</td>
+					<td class="edit">edit</td>
+				</tr>
+				<tr>
+					<td class="category">Contact Email</td>
+					<td class="uservalue">
+						<p>{{basicuser.email}}</p>
+						<form method="post" action="/profsettings/email">
+							{% csrf_token %}
+							<input type="text" class="forminput form-control" name="email" value="{{basicuser.email}}" />
+							<button value="submit" class="btn btn-success">Save</button><button type="button" class="btn cancel">Cancel</button>
+						</form>
+					</td>
+					<td class="edit">edit</td>
+				</tr>
+				<tr>
+					<td class="category">Address</td>
+					<td class="uservalue">
+						<p>{{basicuser.address}}</p>
+						<form method="post" action="/profsettings/address">
+							{% csrf_token %}
+							<input type="text" class="forminput form-control" name="address" value="{{basicuser.address}}" />
+							<button value="submit" class="btn btn-success">Save</button><button type="button" class="btn cancel">Cancel</button>
+						</form>
+					</td>
+					<td class="edit">edit</td>
+				</tr>
+				<tr>
+					<td class="category">Zipcode</td>
+					<td class="uservalue">
+						<p>{{basicuser.zipcode}}</p>
+						<form method="post" action="/profsettings/zipcode">
+							{% csrf_token %}
+							<input type="text" class="forminput form-control" name="zipcode" value="{{basicuser.zipcode}}" />
+							<button value="submit" class="btn btn-success">Save</button><button type="button" class="btn cancel">Cancel</button>
+						</form>
+					</td>
+					<td class="edit">edit</td>
+				</tr>
+				<tr>
+					<td class="category">City</td>
+					<td class="uservalue">
+						<p>{{basicuser.city}}</p>
+						<form method="post" action="/profsettings/city">
+							{% csrf_token %}
+							<input type="text" class="forminput form-control" name="city" value="{{basicuser.city}}" />
+							<button value="submit" class="btn btn-success">Save</button><button type="button" class="btn cancel">Cancel</button>
+						</form>
+					</td>
+					<td class="edit">edit</td>
+				</tr>
+				<tr>
+					<td class="category">State</td>
+					<td class="uservalue">
+						<p>{{basicuser.state}}</p>
+						<form method="post" action="/profsettings/state">
+							{% csrf_token %}
+							<input type="text" class="form-control" name="state" value="{{basicuser.state}}" />
+							<button value="submit" class="btn btn-success">Save</button><button type="button" class="btn cancel">Cancel</button>
+						</form>
+					</td>
+					<td class="edit">edit</td>
+				</tr>
+				<tr>
+					<td class="category">Website</td>
+					<td class="uservalue">
+						<p>{{basicuser.website}}</p>
+						<form method="post" action="/profsettings/website">
+							{% csrf_token %}
+							<input type="text" class="forminput form-control" name="website" value="{{basicuser.website}}" />
+							<button value="submit" class="btn btn-success">Save</button><button type="button" class="btn cancel">Cancel</button>
+						</form>
+					</td>
+					<td class="edit">edit</td>
+				</tr>
+				<tr>
+					<td class="category">Phone Number</td>
+					<td class="uservalue">
+						<p>{{basicuser.phonenumber}}</p>
+						<form method="post" action="/profsettings/phonenumber">
+							{% csrf_token %}
+							<input type="text" class="forminput form-control" name="phonenumber" value="{{basicuser.phonenumber}}" />
+							<button value="submit" class="btn btn-success">Save</button><button type="button" class="btn cancel">Cancel</button>
+						</form>
+					</td>
+					<td class="edit">edit</td>
+				</tr>
+				<tr>
+					<td class="category">Password</td>
+					<td class="uservalue">
+						<p>*******</p>
+						<form method="post" action="/profsettings/password">
+							{% csrf_token %}
+							<input type="password" class="forminput form-control" name="password" placeholder="NewPassword" />
+							<button value="submit" class="btn btn-success">Save</button><button type="button" class="btn cancel">Cancel</button>
+						</form>
+					</td>
+					<td class="edit">edit</td>
+				</tr>
 
+
+
+
+			</table>
+		</div>
+	</div>
+	
 {% endblock %}

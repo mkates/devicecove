@@ -1,0 +1,18 @@
+[
+	{
+		"pk": 2,
+		"model": "deviceapp.user",
+		"user":1,
+		"businesstype": "individual",
+		"name": "Test User",
+		"company" : "Colts Neck Equine",
+		"email":"cnequine@test.com",
+		"address":"1 main street",
+		"zipcode": "02215" ,
+		"city":"Colts Neck",
+		"state":"NJ",
+		"website":"www.test.com",
+		"phonenumber":"732-547-4516",
+		"password":"test"
+	},
+]

@@ -3,7 +3,132 @@
 {% block saveditems %}active{% endblock %}
 
 {% block maintitle %}Saved Items{% endblock %}
+{% block headersubcss %}
+<style>
+#nolistings {
+	display: none;
+}
+.saveditem {
+	margin: 20px 20px 20px 20px;
+	padding: 20px 20px 40px 20px;
+	border-bottom: 1px solid #ddd;
+}
+.imagecontainer {
+	max-width: 160px;
+	max-height: 160px;
+	float: right;
+}
+.imagecontainer img {
+	max-height: 160px;
+	max-width: 160px;
+	border:1px solid #ddd;
+}
+.actionbuttons {
+	width: 500px;
+	text-align: left;
+}
+.actionbuttons a {
+	margin: 3px;
+	font-size: 12px;
+	padding: 3px 6px;
+}
+.savedinfo {
+	width: 500px;
+}
+.savedinfo a {
+	color: #333;
+	text-decoration: none;
+}
+.savedinfo h3:hover {
+	text-decoration: underline;
+}
+.savedinfo h3 {
+	color: #333;
+	font-size: 16px;
+	margin: 0;
+	text-align: left;
+	padding: 0;
+	line-height: 20px;
+}
+.savedinfo h4 {
+	font-size: 12px;
+	text-align: left;
+	margin: 4px 0 0 0;
+	padding: 0;
+	color: #444;
+	line-height: 13px;
+}
+.savedinfo h5 {
+	text-align: left;
+	font-weight: 400;
+	font-size: 12px;
+	line-height: 17px;
+}
+.savedinfo .condition, .savedinfo .seller {
+	color: #999;
+	font-weight: 200;
+}
+.xmark {
+	text-align: right;
+	display: block;
+}
 
+</style>
+{% endblock %}
 {% block maincontent %}
 		<p id="nolistings"> You do not have any items currently saved on MedBay</p>
+  		<div class="saveditem">
+			<div class="imagecontainer">
+				<img src="http://www.sivanienterprises.com/images/papercup_SE930.jpg"/>
+			</div>
+			<div class="savedinfo">
+				<a href="#"><h3>XT4500 Mega Ultrasound with Touch Enabled Sonograph</h3></a>
+				<h4><span class="condition">List Price:</span> $24,300 | <span class="condition">Condition:</span> Lightly Used | <span class="seller">Seller:</span> Colts Neck Equine, NJ</h4>
+				<h5>Lameness Locator® by Equinosis® is the culmination of almost 20 years of research on gait analysis at the University of Missouri’s Colleges of Veterinary Medicine and Engineering with the support of the E. Paige Laurie Endowed Program in Equine Lameness. Lameness Locator® objectively detects and quantifies body movement asymmetry in a horse using small, wireless, body-mounted inertial sensors and a hand-held tablet PC</h5>
+				<div class="actionbuttons">
+					<a class="btn btn-success">Buy this Item</a>
+					<a class="btn btn-default">Contact Seller</a>
+					<a class="btn btn-default">Other Sellers</a>
+					<a class="btn btn-default">Product Details</a>
+					<a class="btn btn-default">Remove</a>
+				</div>
+			</div>
+		<div class="clear"></div>
+  		</div>
+  		<div class="saveditem">
+			<div class="imagecontainer">
+				<img src="http://www.sivanienterprises.com/images/papercup_SE930.jpg"/>
+			</div>
+			<div class="savedinfo">
+				<a href="#"><h3>XT4500 Mega Ultrasound with Touch Enabled Sonograph</h3></a>
+				<h4><span class="condition">List Price:</span> $24,300 | <span class="condition">Condition:</span> Lightly Used | <span class="seller">Seller:</span> Colts Neck Equine, NJ</h4>
+				<h5>Lameness Locator® by Equinosis® is the culmination of almost 20 years of research on gait analysis at the University of Missouri’s Colleges of Veterinary Medicine and Engineering with the support of the E. Paige Laurie Endowed Program in Equine Lameness. Lameness Locator® objectively detects and quantifies body movement asymmetry in a horse using small, wireless, body-mounted inertial sensors and a hand-held tablet PCLameness Locator® by Equinosis® is the culmination of almost 20 years of research on gait analysis at the University of Missouri’s Colleges of Veterinary Medicine and Engineering with the support of the E. Paige Laurie Endowed Program in Equine Lameness. Lameness Locator® objectively detects and quantifies body movement asymmetry in a horse using small, wireless, body-mounted inertial sensors and a hand-held tablet PC</h5>
+				<div class="actionbuttons">
+					<a class="btn btn-success">Buy this Item</a>
+					<a class="btn btn-default">Contact Seller</a>
+					<a class="btn btn-default">Other Sellers</a>
+					<a class="btn btn-default">Product Details</a>
+					<a class="btn btn-default">Remove</a>
+				</div>
+			</div>
+		<div class="clear"></div>
+  		</div>
+  		<div class="saveditem">
+			<div class="imagecontainer">
+				<img src="http://www.sivanienterprises.com/images/papercup_SE930.jpg"/>
+			</div>
+			<div class="savedinfo">
+				<a href="#"><h3>XT4500 Mega Ultrasound with Touch Enabled Sonograph</h3></a>
+				<h4><span class="condition">List Price:</span> $24,300 | <span class="condition">Condition:</span> Lightly Used | <span class="seller">Seller:</span> Colts Neck Equine, NJ</h4>
+				<h5>Lameness Locator® by Equinosis® is the culmination of almost 20 years of research on gait analysis at the University of Missouri’s Colleges of Veterinary Medicine and Engineering with the support of the E. Paige Laurie Endowed Program in Equine Lameness. Lameness Locator® objectively detects and quantifies body movement asymmetry in a horse using small, wireless, body-mounted inertial sensors and a hand-held tablet PC</h5>
+				<div class="actionbuttons">
+					<a class="btn btn-success">Buy this Item</a>
+					<a class="btn btn-default">Contact Seller</a>
+					<a class="btn btn-default">Other Sellers</a>
+					<a class="btn btn-default">Product Details</a>
+					<a class="btn btn-default">Remove</a>
+				</div>
+			</div>
+		<div class="clear"></div>
+  		</div>
 {% endblock %}

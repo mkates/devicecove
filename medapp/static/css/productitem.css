@@ -1,5 +1,7 @@
 .product-box {
 	margin-top: 10px;
+	display:inline-block;
+	text-align: center;
 }
 .product-box a:hover {
 	text-decoration: none;
@@ -8,9 +10,13 @@
 
 
 /*****Individual Feature *******/
-
+.product-box a {
+	text-align: center;
+}
 .product-box .item {
 	height: 355px;
+	text-align: center;
+	display:inline-block;
 	width: 300px;
 	background: white;
 	border:1px solid #ddd;
@@ -73,15 +79,19 @@
 }
 .product-box .itemname {
 	font-weight: 200;
-	margin-top: 2px;
 	padding: 0 7px;
 	height: 20px;
 	overflow: hidden;
+	color: #eee;
+	border-top-right-radius: 4px;
+	border-top-left-radius: 4px;
 	text-decoration: none;
+	background: #222;
 }
 .product-box .itemsoldby {
 	font-size: 12px;
-	color: #999;
+	color: #ccc;
+	background: #222;
 	padding: 0 7px;
 	height: 22px;
 	text-decoration: none;

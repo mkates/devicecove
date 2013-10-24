@@ -4,7 +4,51 @@
 
 {% block maintitle %}Settings{% endblock %}
 
+{% block headersubcss %}
+<style>
+h4 {
+	text-align: left;
+	margin-left: 20px;
+	margin-top: 30px;
+	margin-bottom: 10px;
+}
+.udpates {
+	text-align: left;
+	margin-left: 20px;
+}
+.deleteaccount {
+	text-align: left;
+}
+.deleteaccount a {
+	margin-left: 20px;
+	display: inline-block;
+	margin-bottom: 40px;
+}
+
+</style>
+{% endblock %}
 {% block maincontent %}
-		<p id="nolistings"> coming. . . </p>
+	<h4> Notifications </h4>
+		<form class="udpates">
+			<div class="checkbox">
+				<label>
+					<input type="checkbox"> Receive weekly emails with specials and promotions
+				</label>
+			</div>
+			<div class="checkbox">
+				<label>
+					<input type="checkbox"> Email me when someone adds a new product to an item I have saved
+				</label>
+			</div>
+			<div class="checkbox">
+				<label>
+					<input type="checkbox"> Text me when someone buys a product I have listed
+				</label>
+			</div>
+		</form>
+	<h4> Account </h4>
+		<form class="deleteaccount">
+			<a href="/delete" class="btn btn-danger">Delete Account</a>
+		</form>
 
 {% endblock %}

@@ -4,12 +4,11 @@ from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.models import User
 
 
-#admin.site.register(Industry)
+admin.site.register(Industry)
 admin.site.register(DeviceCategory)
-admin.site.register(DeviceSubCategory)
 admin.site.register(Product)
-
-
+admin.site.register(Item)
+admin.site.register(UserImage)
 # class BasicUserInline(admin.StackedInline):
 # 	model = BasicUser
 # 

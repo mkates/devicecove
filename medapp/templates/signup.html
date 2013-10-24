@@ -199,12 +199,10 @@ var validateinput = function validateinput(handler) {
 	var submittable = true;
 	$.each(formelements, function(index,value) {
 		if (value == false) {
-			console.log(index);
-			console.log(value);
 			submittable = false;
 		}
 	});
-	if (submittable == false) {
+	if (submittable == true) {
 		$("#submitbutton").removeAttr("disabled");
 	} else {
 		$("#submitbutton").attr("disabled","disabled");

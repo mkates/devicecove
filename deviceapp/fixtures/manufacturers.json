@@ -1,0 +1,5 @@
+[
+	{"pk": 1,"model": "deviceapp.manufacturer","fields": {"name": "3M"}},
+	{"pk": 2,"model": "deviceapp.manufacturer","fields": {"name": "Fuji"}},
+	{"pk": 3,"model": "deviceapp.manufacturer","fields": {"name": "Sonosite"}}
+]
