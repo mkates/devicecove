@@ -1,0 +1,190 @@
+{% extends 'base.html' %}
+{% block headertitle %}<title>MedBay | Search</title>{% endblock%}
+
+{% block headercss %}
+	<link href="{{STATIC_URL}}css/addproduct.css" rel="stylesheet" type="text/css" />
+<style>
+.productcontainer {
+	width: 1000px;
+	min-height: 150px;
+	margin: 40px auto;	
+}
+.item {
+	width: 960px;
+	height: 410px;
+	margin-bottom: 60px;
+}
+.photodiv {
+	width: 345px;
+	height: 200px;
+	border:2px dotted #888;
+	border-radius: 6px;
+	float: left;
+	margin: 20px 40px 40px 40px;
+}
+.photodiv p {
+	width: 340px;
+}
+
+#postbuttondiv {
+	text-align: right;
+	width: 130px;
+	float: right;
+	margin-right: 20px;
+}
+#postbuttondiv .saveforlater {
+	display: block;
+	font-size: 11px;
+	margin-top: 5px;
+}
+#postbuttondiv .saveforlater:hover {
+	text-decoration: underline;
+}
+#uploadercontainer {
+	margin-left: 98px;
+	text-align: center;
+}
+#fileupload {
+	width: 100%;
+	height: 40px;
+}
+#currentimages p {
+	font-size: 15px;
+	font-weight: 200;
+	color: #999;
+	text-align: center;
+	padding: 20px;
+	margin-top: 60px;
+}
+.fileinput-button {
+  position: relative;
+  overflow: hidden;
+  margin-top: 75px;
+}
+.fileinput-button {
+	background: #3B9C85;
+	border:1px solid #ddd;
+	transition: background .3s;
+}
+.fileinput-button:hover {
+	background: #2A7D69;
+}
+.fileinput-button input {
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin: 0;
+  opacity: 0;
+  -ms-filter: 'alpha(opacity=0)';
+  font-size: 200px;
+  direction: ltr;
+  cursor: pointer;
+}
+#imageloadercontainer {
+	display: block;
+	margin: 20px auto;
+}
+#imgloader {
+	display: none;
+}
+/* Fixes for IE < 8 */
+@media screen\9 {
+  .fileinput-button input {
+    filter: alpha(opacity=0);
+    font-size: 100%;
+    height: 100%;
+  }
+}
+</style>
+{% endblock %}
+
+{% block jsblock %}
+<script src="http://malsup.github.com/jquery.form.js"></script> 
+<script>
+
+$(document).ajaxSend(function(event, xhr, settings) {
+    function getCookie(name) {
+        var cookieValue = null;
+        if (document.cookie && document.cookie != '') {
+            var cookies = document.cookie.split(';');
+            for (var i = 0; i < cookies.length; i++) {
+                var cookie = jQuery.trim(cookies[i]);
+                // Does this cookie string begin with the name we want?
+                if (cookie.substring(0, name.length + 1) == (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+    function sameOrigin(url) {
+        // url could be relative or scheme relative or absolute
+        var host = document.location.host; // host + port
+        var protocol = document.location.protocol;
+        var sr_origin = '//' + host;
+        var origin = protocol + sr_origin;
+        // Allow absolute or scheme relative URLs to same origin
+        return (url == origin || url.slice(0, origin.length + 1) == origin + '/') ||
+            (url == sr_origin || url.slice(0, sr_origin.length + 1) == sr_origin + '/') ||
+            // or any other URL that isn't scheme relative or absolute i.e relative.
+            !(/^(\/\/|http:|https:).*/.test(url));
+    }
+    function safeMethod(method) {
+        return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+    }
+
+    if (!safeMethod(settings.type) && sameOrigin(settings.url)) {
+        xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
+    }
+});
+
+$(document).ready(function() {
+	$("#fileupload").change(function() { 
+		$("#imgloader").fadeIn('fast');
+		$("#fileform").submit();
+	});
+	$('#fileform').ajaxForm(function(e) { 
+			 $.each(e,function(index,value) {
+			 	$("#imgloader").fadeOut('fast');
+			 	$("#currentimages").append("<img id='image "+e+"' width='150' height='150' src='"+e[index][1]+"'/>");
+			 });
+		});
+});
+</script>
+{% endblock %}
+
+{% block content %}
+<div class="clear"></div>
+<div class="productcontainer">
+	 <div class="col-sm-6 col-md-4 itemcontainer">
+		<div class="item">
+			<div class="itemheader">
+				<p><span>4</span>Add Photos and Post Your Equipment!</p>
+			</div>
+			<div class="itemcontent">
+				<div id="uploadercontainer" class="photodiv">
+					<span class="btn btn-success fileinput-button">
+						<span>Select pictures to upload...</span>
+						<!-- The file input field used as target for the file upload widget -->
+						<form id="fileform" method="post" action="/imageupload">
+							{% csrf_token %}
+							<input id="fileupload" type="file" name="files" multiple>
+						</form>
+					</span>
+					<div id="imageloadercontainer">
+						<img id="imgloader" src="{{STATIC_URL}}img/ajax-loader.gif"/>
+					</div>
+				</div>
+				<div id="currentimages" class="photodiv">
+					<p>You have not yet uploaded any photos yet</p>
+				</div>
+			</div>
+			<div id="postbuttondiv">
+			<a href='#' class="btn-custom-orange">Post Your Item</a>
+			<a href='#' class="saveforlater">or save and post later</a>
+		</div>
+		</div>
+	  </div>
+</div>
+{% endblock %}

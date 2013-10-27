@@ -7,8 +7,11 @@ admin.autodiscover()
 urlpatterns = patterns('',
     # Examples:
     url(r'^$','deviceapp.views.index'),
+    url(r'^imageupload','deviceapp.views.imageupload'),
     url(r'^searchquery','deviceapp.views.searchquery'),
     url(r'^autosuggest','deviceapp.views.autosuggest'),
+    url(r'^productpreview/(?P<itemid>\w+)','deviceapp.views.productpreview'),
+    url(r'^productsearch/(?P<industryterm>\w+)/(?P<devicecategoryterm>\w+)','deviceapp.views.productsearch'),
     url(r'^search','deviceapp.views.search'),
     url(r'^login','deviceapp.views.loginview'),
     url(r'^signup','deviceapp.views.signup'),

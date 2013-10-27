@@ -9,8 +9,7 @@ from django.shortcuts import render
 from django.core.exceptions import ObjectDoesNotExist
 import json
 import math
-
-
+import difflib
 
 ###########################################
 #### Static Pages #########################
@@ -19,42 +18,92 @@ import math
 def index(request):
 	return render_to_response('index.html',context_instance=RequestContext(request))
 
+def imageupload(request):
+	imagehandlers = []
+	for file in request.FILES.getlist('files'):
+		it = TestImage(name="testname",photo=file,thumbnail=file)
+		it.save()
+		print it.id
+		imagehandlers.append([it.id,it.photo.url])
+	return HttpResponse(json.dumps(imagehandlers), mimetype='application/json')
+	
+def imageformsubmit(request):
+	username = request.form["username"]
+	full_name = request.form["full_name"]
+	avatar_url = request.form["avatar_url"]
+	print avatar_url
+	return render_to_response('index.html',context_instance=RequestContext(request))
 
 ###########################################
 #### Search ###############################
 ###########################################	
 def search(request):
-	if request.method == 'GET':
-		#Generate a search tree. STILL NEEDS SOME WORK 
-		searchtree = {}
-		requestparams = {'category':request.GET.get('category','').lower(),'industry':request.GET.get('industry','').lower()}
-		if len(requestparams['industry']) and len(requestparams['category']) > 0:
-			searchtree['industry'] = requestparams['industry']
-			industry = Industry.objects.get(name=requestparams['industry'])
-			categories = DeviceCategory.objects.filter(industries=industry)
-			searchtree['category'] = categories
-			searchtree['search'] = requestparams['category']+" in "+requestparams['industry']
-			#Get all products that match the device category and industry if applicable
-			devicecategory = DeviceCategory.objects.filter(name=requestparams['category'])
-			products = Product.objects.filter(industries=industry).filter(devicecategory=devicecategory)
-			searchtree['products'] = products
+	searchvalue = request.GET.get('q','')
+	tree = Industry.objects.all()
+	allproducts = Product.objects.all()
+	products = []
+	for p in allproducts:
+		print difflib.SequenceMatcher(None,searchvalue.lower(),p.name.lower()).ratio()
+		if difflib.SequenceMatcher(None,searchvalue.lower(),p.name.lower()).ratio() > .4 or len(searchvalue) == 0:
+			products.append(p)
+	return render_to_response('search.html',{'products':products,'tree':tree},context_instance=RequestContext(request))
+
+def productsearch(request,industryterm,devicecategoryterm):
+	industry = {}
+	catlist = DeviceCategory.objects.order_by('totalunits').reverse()
+	manufacturers = Manufacturer.objects.all()
+	pricelow = 1000000
+	pricehigh = 0
+	if (industryterm == "all"):
+		industrysearch = Industry.objects.all()
+		searchquery = ""
+	else:
+		industrysearch = Industry.objects.get(name=industryterm)
+		searchquery = " in "+industryterm
+	if (devicecategoryterm == "all"):
+		searchquery = "all products"+searchquery
+		categorysearch = catlist
+		products = Product.objects.filter(industries=industrysearch)
+	else:
+		searchquery = devicecategoryterm+searchquery
+		categorysearch = DeviceCategory.objects.get(name=devicecategoryterm)
+		products = Product.objects.filter(industries=industrysearch).filter(devicecategory=categorysearch)
+	for pro in products:
+		for items in pro.item_set.all():
+			pricelow = min(pricelow,items.price)	
+			pricehigh = max(pricehigh,items.price)		
 			
-	return render_to_response('search.html',searchtree,context_instance=RequestContext(request))
-	
+	return render_to_response('search.html',{'pricelow':pricelow,'pricehigh':pricehigh,'searchquery':searchquery,'products':products,'categories':catlist,'ind':industryterm,'manufacturer':manufacturers},context_instance=RequestContext(request))
+
 def autosuggest(request):
 	results=[]
-	if request.method == 'GET':
-		searchterm = request.GET['searchterm']
-		categories = DeviceCategory.objects.filter(name__icontains=searchterm)
-		for cat in categories:
-			results.append({'type':'category','name':cat.name,'industry':"",'link':"/search?querytype=category&query="+cat.name})
-			industries = cat.industries.all()
-			for ind in industries:
-				results.append({'type':'category','name':cat.name,'industry':" in "+ind.name.lower(),"link":"/search?querytype=category&industry="+ind.name+"&query="+cat.name});
-		results = results[0:10]
-		products = Product.objects.filter(name__icontains=searchterm)
-		for pro in products:
-			results.append({'type':'product','name':pro.name,'category':pro.devicecategory.name,'image':pro.mainimage,'link':"/product/"+str(pro.id)+"/details"});
+	searchterm = request.GET['searchterm']
+	#Find all categories that match the search term
+	categories = DeviceCategory.objects.filter(name__icontains=searchterm)
+	for cat in categories:
+		results.append({'type':'category','name':cat.name,'industry':"",'link':"/productsearch/all/"+cat.name})
+		industries = cat.industries.all()
+		for ind in industries:
+			results.append({'type':'category','name':cat.name,'industry':" in "+ind.name.lower(),"link":"/productsearch/"+ind.name+"/"+cat.name});
+	results = results[0:10]
+	
+	#Find all products that match the search term
+	products = Product.objects.filter(name__icontains=searchterm)
+	for pro in products:
+		results.append({'type':'product','name':pro.name,'category':pro.devicecategory.name,'image':pro.mainimage,'link':"/product/"+str(pro.id)+"/details"});
+	
+	#Do a relative match if no results are found
+	if len(results) == 0:
+		print 'here'
+		allproducts = Product.objects.all()
+		productnames = []
+		matchlist = []
+		for p in allproducts:
+			productnames.append(str(p.name))
+			if difflib.SequenceMatcher(None,searchterm,p.name.lower()).ratio() > .35:
+				matchlist.append(p)
+		for pro in matchlist:
+			results.append({'type':'product','name':pro.name,'category':pro.devicecategory.name,'image':pro.mainimage,'link':"/product/"+str(pro.id)+"/details"});	
 	return HttpResponse(json.dumps(results[0:20]), mimetype='application/json')
 	
 def searchquery(request):
@@ -112,6 +161,10 @@ def profile(request):
 def addproduct(request):
 	return render_to_response('addproduct.html',context_instance=RequestContext(request))
 
+@login_required
+def productpreview(request,itemid):
+	images = TestImage.objects.all()
+	return render_to_response('addproduct2.html',{'images':images},context_instance=RequestContext(request))
 
 ###########################################
 #### Product Pages ########################

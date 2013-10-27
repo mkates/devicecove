@@ -9,6 +9,7 @@ admin.site.register(DeviceCategory)
 admin.site.register(Product)
 admin.site.register(Item)
 admin.site.register(UserImage)
+admin.site.register(TestImage)
 # class BasicUserInline(admin.StackedInline):
 # 	model = BasicUser
 # 

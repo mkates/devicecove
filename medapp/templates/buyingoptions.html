@@ -2,6 +2,14 @@
 
 {% block buyingoptions %}active{% endblock %}
 
+{%block lightbox %}
+<script type="text/javascript" src="{{STATIC_URL}}js/jquery.fancybox.js"></script>
+<script>
+$(document).ready(function() {
+	$('.fancybox').fancybox();
+});
+</script>
+{% endblock %}
 {% block productmain %}
 <div class="sellers">
 	<div class="sellerhead">
@@ -21,13 +29,15 @@
 			<h6> Sold by <span>{{seller.seller.user.company}}</span></h6>
 			<p>{{seller.seller.description}}</p>
 			<div class="thumbnails">
-				{%for images in seller.images %}
-				<div class="thumbnailimage">{{images}}</div>
-				{% endfor %}
+				<p>
+					{%for images in seller.images %}
+						<a class="fancybox" href="http://www.respondsystems.com/images/luminexVet/luminexvet.jpg" data-fancybox-group="gallery" title="Image provided by {{seller.seller.user.company}}"><img src="http://www.respondsystems.com/images/luminexVet/luminexvet.jpg" alt="" /></a>
+					//{% endfor %}
+				</p>
 			</div>
 		</div>
 		<div class="actiondiv">
-			<a href="#">Buy Now</a>
+			<a class="btn-custom-orange" href="#">Buy Now</a>
 		</div>
 		<div class="clear"></div>
 	</div>
@@ -42,14 +52,9 @@
 			<h5> Used - <span>Very Good</span></h5>
 			<h6> Sold by <span>Colts Neck Equine</span></h6>
 			<p> Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-			<div class="thumbnails">
-				<div class="thumbnailimage"></div>
-				<div class="thumbnailimage"></div>
-				<div class="thumbnailimage"></div>
-			</div>
 		</div>
 		<div class="actiondiv">
-			<a href="#">Buy Now</a>
+			<a class="btn-custom-orange" href="#">Buy Now</a>
 		</div>
 		<div class="clear"></div>
 	</div>
@@ -70,7 +75,7 @@
 			</div>
 		</div>
 		<div class="actiondiv">
-			<a href="#">Buy Now</a>
+			<a class="btn-custom-orange" href="#">Buy Now</a>
 		</div>
 		<div class="clear"></div>
 	</div>
@@ -84,7 +89,7 @@
 			<p> Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
 		</div>
 		<div class="actiondiv">
-			<a href="#">Buy Now</a>
+			<a class="btn-custom-orange" href="#">Buy Now</a>
 		</div>
 		<div class="clear"></div>
 	</div>

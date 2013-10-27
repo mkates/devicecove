@@ -4,7 +4,40 @@
 <link href='{{STATIC_URL}}css/productitem.css' rel='stylesheet' type='text/css' />
 <link href='{{STATIC_URL}}css/search.css' rel='stylesheet' type='text/css' />
 <link href='{{STATIC_URL}}css/jquery-ui-1.10.3.custom.css' rel='stylesheet' type='text/css' />
+<style>
+.catlink {
+	display: block;
+	padding-left: 3px;
+	padding-right: 5px;
+	font-size: 13px;
+}
+label .floatright {
+	float: right;
+}
+.catlink:hover {
+	background: #eee;
+	text-decoration: none;
+}
+.noresults {
+	opacity: .9;
+	max-width: 230px;
+}
+#noresults {
+	text-align: center;
+	margin: 30px auto;
+	padding: 0 40px;
+}
+#noresults p {
+	font-size: 14px;
+	font-weight: 200;
+}
+#noresults .noluck {
+	font-size: 23px;
+	font-weight: 200;
+	padding-bottom: 15px;
+}
 
+</style>
 {% endblock%}
 
 
@@ -13,45 +46,55 @@
 <div class='row searchcontainer'>
   <!--Filter Container -->
   <div class='col-xs-12 col-sm-3 filtercontainer'>
-  	<div id='treeflow' class='filterbox'>
-  		<a href='/search' id='toptree'>All Industries</a>
-  		<a href='/' id='industrytree'>{{ industry }}</a>
-  		{% for cat in category %}
-  			<a href='#' id='devicecategorytree'>{{ cat.name }}</a>
-  		{% endfor %}
-  	</div>
   	<div class='filterbox'>
+  		<div class='filter-category'>
+			<h2>Other {{ind | title}} Categories</h2>
+			{% for cat in categories %} 
+				{% if cat.totalunits > 0 %} 			
+					<a class="catlink" href="/productsearch/{{ind}}/{{cat.name}}">{{cat.name | title}} ({{cat.totalunits}})</a>
+				{% endif %}
+			{% endfor %}
+			{% for cat in categorieshidden %}  			
+				<a class="catlink" href="/productsearch/{{ind}}/{{cat.name}}">{{cat.name}}</a>
+			{% endfor %}
+		</div>
   		<div class='filter-category'>
   			<h2>Condition</h2>
   			<div class='checkbox'>
 				<input id='check1' type='checkbox' name='check' value='check1' checked='checked'>
 				<label for='check1'>New</label>
 				<input id='check2' type='checkbox' name='check' value='check2' checked='checked'>
-				<label for='check2'>Like New</label>
+				<label for='check2'>Refurbished</label>
 				<input id='check3' type='checkbox' name='check' value='check3' checked='checked'>
-				<label for='check3'>Gently Used</label>
+				<label for='check3'>Remanufactured</label>
 				<input id='check4' type='checkbox' name='check' value='check4' checked='checked'>
-				<label for='check4'>Average</label>
+				<label for='check4'>Pre-owned</label>
 				<input id='check5' type='checkbox' name='check' value='check5' checked='checked'>
-				<label for='check5'>Below Average</label>
-				<input id='check6' type='checkbox' name='check' value='check6' checked='checked'>
-				<label for='check6'>Good for Parts Only</label>
 			</div>
   		</div>
   		<div class='filter-category'>
-  			<h2>Features</h2>
+  			<h2>Service Contract</h2>
   			<div class='checkbox'>
 				<input id='check1_1' type='checkbox' name='check' value='check1_1' checked='checked'>
-				<label for='check1_1'>New</label>
-				<br>
+				<label for='check1_1'>Included<span class="floatright">$24,321</span></label>
 				<input id='check2_1' type='checkbox' name='check' value='check2_1' checked='checked'>
-				<label for='check2_1'>3rd Party Refurbished</label>
-				<br>
+				<label for='check2_1'>Optional<span class="floatright">$22,321</span></label>
 				<input id='check3_1' type='checkbox' name='check' value='check3_1' checked='checked'>
-				<label for='check3_1'>Manufacturer Refurbished</label>
+				<label for='check3_1'>Not Included<span class="floatright">$18,321</span></label>
 			</div>
   		</div>
-  		<div id='milecategory' class='filter-category'>
+  		<div class='filter-category'>
+  			<h2>Manufacturers</h2>
+  			<div class='checkbox'>
+				{% for man in manufacturer %}
+					<input id='{{man.name}}' type='checkbox' name='check' value='check1_1' checked='checked'>
+					<label for='{{man.name}}'>{{man.name}}</label>
+				{% endfor %}
+			</div>
+  		</div>
+  		
+  		<!-- 
+<div id='milecategory' class='filter-category'>
   			<h2>Distance</h2>
   			<select class='form-control'>
   				<option>Any Miles</option>
@@ -64,11 +107,12 @@
   			<p>from</p>
   			<input class='form-control' placeholder='Zipcode' type='number' maxlength='5'/>
   		</div>
+ -->
   		<div id='pricecategory' class='filter-category'>
-  			<h2>Price</h2>
+  			<h2>Price Range</h2>
   			<div id='price-slider-container'>
-  				<p id='lowprice'>$<span>0</span></p>
-  				<p id='highprice'>$<span>20000</span></p>
+  				<p id='lowprice'>$<span>{{pricelow}}</span></p>
+  				<p id='highprice'>$<span>{{pricehigh}}</span></p>
   				<div class='clear'></div>
   				<div id='price-range' class='light-gradient'></div>
   			</div>
@@ -87,7 +131,7 @@
   	</div>
   	<div class='resultsbox resultsnav'>
   		<div class='' id='resultsparameter'>
-  		Searching for {{ search }}
+  		Searching for {{ searchquery }}
   		</div>
   		<div id='sortby'>
   			<p> Sort By: </p>
@@ -108,25 +152,26 @@
   	</div>
   	
   	<div class='resultsbox' id='resultsbody'>
-  		{%for product in products %}
+  		{% if products %}
+  		{% for product in products %}
   		<div class='resultitem'>
   			<div class='imageviewer'></div>
   			<div class='imgdiv'><img src='{{product.mainimage}}'/></div>
   			<div class='pricediv'>
   				<h6>pre-owned from</h6>
   				<p>$14,300</p>
-  				<a class='btn btn-standard' href="/product/{{product.id}}/details">Select</a>
+  				<a class='btn-custom-orange' href="/product/{{product.id}}/details">Select</a>
   			</div>
   			<div class='textdiv'>
-  				<h2>{{ product.name }}</h2>
-  				<h3> {{product.manufacturer }}</h3>
+  				<a href="/product/{{product.id}}/details"><h2>{{ product.name }}</h2></a>
+  				<h3>{{ product.manufacturer }}</h3>
   				<h4><a>New (2) <span>$27,480</span></a></h4>
   				<h4><a>Refurbished (1) <span>$20,120</span></a></h4>
   				<h4><a>Preowned (4) <span>$14,300</span></a></h4>
   				<div class='buttondiv'>
-  					<button class='infobutton'>Details</button>
-  					<button class='infobutton'>Specs</button>
-  					<button class='infobutton'>Buyer Protection</button>
+  					<button class='btn-custom-gray infobutton'>Details</button>
+  					<button class='btn-custom-gray infobutton'>Specs</button>
+  					<button class='btn-custom-gray infobutton'>Buyer Protection</button>
   				</div>
   			</div>
   			<div class='clear'></div>
@@ -147,17 +192,24 @@
   				</div>
   				<div class='morediv'>
   					<a href="/product/{{product.id}}/details"> Show all product details &#8594;</a>
-  					<button class='closebutton'>Close</button>
+  					<button class='btn-custom-gray closebutton'>Close</button>
   				</div>
   			</div>
   			<div class='clear'></div>
 
   		</div>
   		{% endfor %}
+  		{% else %}
+  			<div id="noresults">
+				<p class="noluck">Sorry, we can't find anything that matches your search</p>
+				<img class="noresults" src="{{STATIC_URL}}img/saddog.jpg"/>
+				<p>Try changing your filters, or call us with what you want and we will let you know when one becomes available!</p>
+  			</div>
+  		{% endif %}
   	</div>
   	<div id='showmorebutton' class='resultsbox'>
   		<p>Show More Results</p>
-  		<img src='..{{STATIC_URL}}img/ajax-loader.gif'/>
+  		<img src='{{STATIC_URL}}img/ajax-loader.gif'/>
   	</div>
   </div>
   	
@@ -202,10 +254,10 @@ $(document).ready(function(){
 	$(function() {
 		$( '#price-range' ).slider({
 			range: true,
-			min: 0,
-			max: 20000,
-			step: 200,
-			values: [ 0, 20000 ],
+			min: {{pricelow}},
+			max: {{pricehigh}},
+			step: 100,
+			values: [ {{pricelow}}, {{pricehigh}} ],
 			slide: function( event, ui ) {
 				$( '#amount' ).val( '$' + ui.values[ 0 ] + ' - $' + ui.values[ 1 ] );
 				var newhighvalue = ui.values[1].toString();

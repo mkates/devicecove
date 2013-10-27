@@ -1,6 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import User
-
+import uuid
+import os
+from sorl.thumbnail import ImageField
 ############################################
 ####### Product Database Models ############
 ############################################
@@ -20,6 +22,7 @@ class Manufacturer(models.Model):
 class DeviceCategory(models.Model):
 	name = models.CharField(max_length=60)
 	industries = models.ManyToManyField(Industry)
+	totalunits = models.IntegerField()
 	def __unicode__(self):
 		return self.name
 
@@ -32,6 +35,7 @@ class Product(models.Model):
 	features = models.TextField()
 	manufacturer = models.ForeignKey(Manufacturer)
 	mainimage = models.CharField(max_length=100)
+	totalunits = models.IntegerField()
 	def __unicode__(self):
 		return self.name
 	
@@ -72,7 +76,24 @@ class Item(models.Model):
 	price = models.FloatField(max_length=20)
 	def __unicode__(self):
 		return self.product.name+" from "+self.user.name
+	def save(self, *args, **kwargs):
+		self.product.totalunits += 1
+		self.product.devicecategory.totalunits += 1
+		self.product.save()
+		self.product.devicecategory.save()
+		super(Item, self).save(*args, **kwargs)
 	
 class UserImage(models.Model):
 	item = models.ForeignKey(Item)
-	#userimageurl = models.CharField(max_length=200)		
+	#userimageurl = models.CharField(max_length=200)	
+
+#This function generates a random name for the uploaded image
+def get_file_path(instance, filename):
+	ext = filename.split('.')[-1]
+	filename = "%s.%s" % (uuid.uuid4(), ext)
+	return os.path.join('userimages', filename)
+    
+class TestImage(models.Model):
+	name = models.CharField(max_length=100)
+	photo = models.ImageField(upload_to=get_file_path)
+	thumbnail =  models.ImageField(upload_to=get_file_path)

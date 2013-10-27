@@ -6,6 +6,7 @@
 	max-width: 1060px;
 	margin: 0 auto;
 	margin-top: 30px;
+	margin-bottom: 30px;
 }
 .filtercontainer {
 	max-width: 250px;
@@ -22,7 +23,7 @@
 .filterbox {
 	background: #e9e9e9;
 	border-radius: 3px;
-	background: #f9f9f9;
+	background: #fafafa;
 	border:1px solid #ddd;
 	margin-bottom: 10px;
 }
@@ -138,7 +139,7 @@
 .filter-category h2 {
 	padding: 0;
 	margin: 0;
-	padding-bottom: 5px;
+	padding-bottom: 10px;
 	font-size: 14px;
 	color: #444;
 	font-weight: 800;
@@ -180,8 +181,14 @@ label:before {
 .radio label:before {
 	border-radius: 8px;
 }
+.checkbox {
+	padding: 0;
+	margin: 0;
+	margin-left: 2px;
+}
 .checkbox label {
 	display: block;
+	margin-right: 0;
 }
 .checkbox label:hover {
 	background: #eee;
@@ -274,41 +281,47 @@ background-image: linear-gradient(to bottom, #BFBFBF 0%, #919191 100%);
 }	
 
 /******Light Gradient *************/
-.light-gradient {
-	/* IE10 Consumer Preview */ 
-	background-image: -ms-linear-gradient(top, #FAFAFA 0%, #DBDBDB 100%);
-
-	/* Mozilla Firefox */ 
-	background-image: -moz-linear-gradient(top, #FAFAFA 0%, #DBDBDB 100%);
-
-	/* Opera */ 
-	background-image: -o-linear-gradient(top, #FAFAFA 0%, #DBDBDB 100%);
-
-	/* Webkit (Safari/Chrome 10) */ 
-	background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #FAFAFA), color-stop(1, #DBDBDB));
-
-	/* Webkit (Chrome 11+) */ 
-	background-image: -webkit-linear-gradient(top, #FAFAFA 0%, #DBDBDB 100%);
-
-	/* W3C Markup, IE10 Release Preview */ 
-	background-image: linear-gradient(to bottom, #FAFAFA 0%, #DBDBDB 100%);
+#price-range {
+width:200px;
+height:10px;
+background:#aaa;
+position:relative;
+margin:0;
+padding:0 10px;
 }
-.ui-slider-horizontal .ui-slider-handle {
-	background: #f4f4f4;
-	height: 20px;
-	width: 15px;
-	outline: none;
+ 
+#price-range  .ui-slider-handle {
+width:24px;
+height:24px;
+position:absolute;
+top:-7px;
+margin-left:-12px;
+z-index:200;
+border: none;
+background:url("../img/slider/slider-button.png");
 }
-.ui-slider-horizontal .ui-slider-handle:hover {
+#price-range  .ui-slider-handle:hover {	
 	cursor:pointer;
-	background: #eee;
+	background:url("../img/slider/slider-button-dark.png");
+}
+#price-range .ui-widget-header {
+background:url("../img/slider/fill.png") no-repeat left;
+height:8px;
+left:1px;
+top:0px;
+position:absolute;
+}
+ 
+#price-range a {
+outline:none;
+-moz-outline-style:none;
 }
 
 /*******Navigation Tree *********/
 
 #treeflow {
 	font-size: 12px;
-	padding: 10px 0 10px 15px;
+	padding: 0px 0 10px 15px;
 }
 #treeflow a {
 	display: block;
@@ -332,13 +345,10 @@ background-image: linear-gradient(to bottom, #BFBFBF 0%, #919191 100%);
 	border-bottom:1px solid #f2f2f2;
 	padding-bottom: 20px;
 }
-.resultitem:hover {
+.resultitem h2:hover {
 	cursor:pointer;
 	color: #222;
 	box-shadow: 0 0 4px #ccc;
-}
-.resultsbox a {
-	color: #444;
 }
 .resultsbox a:hover {
 	text-decoration: none;
@@ -358,6 +368,9 @@ background-image: linear-gradient(to bottom, #BFBFBF 0%, #919191 100%);
 	max-width: 160px;
 	max-height: 130px;
 	border:1px solid #ccc;
+}
+.resultitem .imgdiv img:hover {
+	cursor: pointer;
 }
 .resultitem .pricediv {
 	width: 150px;
@@ -398,8 +411,12 @@ background-image: linear-gradient(to bottom, #BFBFBF 0%, #919191 100%);
 	height: 18px;
 	overflow: hidden;
 }
-.resultitem .textdiv h2:hover {
+.resultitem .textdiv a h2 {
+	color: #222;
+}
+.resultitem .textdiv a h2:hover {
 	color: #2A6496;
+	box-shadow: none;
 	text-decoration: underline;
 }
 .resultitem .textdiv h3{
@@ -435,21 +452,18 @@ background-image: linear-gradient(to bottom, #BFBFBF 0%, #919191 100%);
 	margin-top: 20px;
 	width: 400px;
 }
-.infobutton {
-	background: #ddd;
-	border:1px solid #ccc;
-	border-radius: 2px;
-	color: #444;
+.resultitem .infobutton {
+	color: #333;
 	font-size: 12px;
-	padding: 0 15px;
+	padding: 0px 8px;
+	line-height: 20px;
+	margin-right: 12px;
 	margin-bottom: 5px;
-	margin-right: 10px;
 }
-.infobutton:hover {
-	background: #ccc;
+.resultitem .infobutton:hover {
+	cursor:pointer;
 }
-
-.activeinfo {
+.resultitem .activeinfo {
 	border-bottom: 1px solid #fff;
 	margin-bottom: 0px;
 	padding-bottom: 5px;
@@ -521,8 +535,6 @@ background-image: linear-gradient(to bottom, #BFBFBF 0%, #919191 100%);
 }
 .morediv .closebutton {
 	float: right;
-	background: #ddd;
-	padding: 0px;
 }
 .hidden {
 	display: none;

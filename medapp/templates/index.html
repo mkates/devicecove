@@ -245,6 +245,13 @@ $(document).ready(function() {
 	$(".customsearchbar input").blur(function() {
 		$(".customsearchbar button").removeClass("blueborder");
 	});
+	$(".intro h2").animate({
+		marginTop: '20px',
+		opacity: .8
+		}, 600, function() {
+			console.log("here");
+	});
+	$(".intro h1").animate({opacity: 1},800);
 });
 </script>
 {% endblock %}
