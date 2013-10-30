@@ -3,16 +3,19 @@
 /**********************************/
 
 .searchcontainer {
-	max-width: 1060px;
+	max-width: 1000px;
+	background: none;
 	margin: 0 auto;
 	margin-top: 30px;
 	margin-bottom: 30px;
+	
 }
 .filtercontainer {
 	max-width: 250px;
 	float: left;
 	background: none;
 	padding: 0 3px;
+	
 }
 .resultscontainer {
 	background: none;
@@ -21,11 +24,28 @@
 	padding: 0 3px;
 }
 .filterbox {
-	background: #e9e9e9;
+	background: #fff;
 	border-radius: 3px;
 	background: #fafafa;
 	border:1px solid #ddd;
 	margin-bottom: 10px;
+ 	/* IE10 Consumer Preview */ 
+background-image: -ms-linear-gradient(left, #FFFFFF 0%, #F2F2F2 100%);
+
+/* Mozilla Firefox */ 
+background-image: -moz-linear-gradient(left, #FFFFFF 0%, #F2F2F2 100%);
+
+/* Opera */ 
+background-image: -o-linear-gradient(left, #FFFFFF 0%, #F2F2F2 100%);
+
+/* Webkit (Safari/Chrome 10) */ 
+background-image: -webkit-gradient(linear, left top, right top, color-stop(0, #FFFFFF), color-stop(1, #F2F2F2));
+
+/* Webkit (Chrome 11+) */ 
+background-image: -webkit-linear-gradient(left, #FFFFFF 0%, #F2F2F2 100%);
+
+/* W3C Markup, IE10 Release Preview */ 
+background-image: linear-gradient(to right, #FFFFFF 0%, #F2F2F2 100%);
 }
 
 .resultsbox {
@@ -33,6 +53,7 @@
 	border:1px solid #ddd;
 	border-radius: 3px;
 	margin-bottom: 6px;
+	box-shadow: 0 0 4px #ccc;
 }
 
 /**********************************/
@@ -129,13 +150,14 @@
 /*******General *******/
 .filterbox{
 	padding: 0px 10px 0 10px;
-	background: #fcfcfc;
+	box-shadow: 0 0 4px #ccc;
 }
 .filter-category {
 	padding: 20px 0;
 	border-bottom:1px solid #e3e3e3;
 	border-top:1px solid #fff;
 }
+
 .filter-category h2 {
 	padding: 0;
 	margin: 0;
@@ -143,6 +165,17 @@
 	font-size: 14px;
 	color: #444;
 	font-weight: 800;
+}
+.catlink {
+	clear: both;
+	color: #333;
+}
+.catlink span {
+	float: right;
+	color: #aaa;
+}
+.filter-category .active {
+	background: #ddd;
 }
 
 /*******Checkbox Formatting *******/
@@ -191,7 +224,7 @@ label:before {
 	margin-right: 0;
 }
 .checkbox label:hover {
-	background: #eee;
+	background: #f2f2f2;
 }
 .checkbox label:before {
     border-radius: 3px;
@@ -243,12 +276,11 @@ input[type=checkbox]:checked + label:before {
 	width: 170px;
 	text-align: center;
 }
-
+.notopborder {
+	border-top: none;
+}
 /******* Price Filter *******/
 
-#pricecategory {
-	border-bottom: none;
-}
 #price-slider-container {
 	width: 200px;
 	margin: 10px auto;
@@ -345,6 +377,9 @@ outline:none;
 	border-bottom:1px solid #f2f2f2;
 	padding-bottom: 20px;
 }
+.resultitem:hover {
+	box-shadow: 0 0 4px #999;
+}
 .resultitem h2:hover {
 	cursor:pointer;
 	color: #222;
@@ -399,7 +434,7 @@ outline:none;
 }
 .resultitem .textdiv {
 	float: left;
-	width: 440px;
+	width: 400px;
 	overflow: hidden;
 	padding-top: 20px;
 }
@@ -428,7 +463,7 @@ outline:none;
 
 .resultitem .textdiv h4 {
 	font-size: 12px;
-	width: 420px;
+	width: 400px;
 	display: block;
 	padding: 5px 0px;
 	color: black;
@@ -458,7 +493,6 @@ outline:none;
 	padding: 0px 8px;
 	line-height: 20px;
 	margin-right: 12px;
-	margin-bottom: 5px;
 }
 .resultitem .infobutton:hover {
 	cursor:pointer;
@@ -470,31 +504,55 @@ outline:none;
 	border-bottom-left-radius: 0px;
 	border-bottom-right-radius: 0px;
 	background: white;
+	position: relative;
+	z-index: 999;
 }
 .activeinfo:hover {
 	background: #fff;
 }
 
-.detailsdiv {
+.previewdiv {
 	margin-left: 20px;
 	margin-right: 20px;
 	padding: 0px;
 	margin-top: -1px;
+	z-index: 0;
 	height: 250px;
 	border-top: 1px solid #ccc;
+	position: relative;
 }
 .detailtext {
-	width: 530px;
+	width: 500px;
 	height: 220px;
 	float: left;
 	padding: 15px;
-	height: 200px;
+	height: 150px;
 	overflow: hidden;
 	font-size: 13px;
 	line-height: 18px;
 	color: #333;
 }
-
+.spectext {
+	padding-top: 15px;
+	height: 190px;
+	overflow: hidden;
+}
+.spectext p {
+	width: 290px;
+	font-size: 13px;
+	margin: 0 30px;
+	height: 25px;
+	line-height: 25px;
+	border-bottom:1px dotted #333;
+	float: left;
+	color: #888;
+	font-weight: 200;
+}
+.spectext p span {
+	float: right;
+	color: #000;
+	font-weight: 400;
+}
 .imagegallery {
 	width: 200px;
 	height: 220px;
@@ -512,9 +570,9 @@ outline:none;
 }
 .imageviewer {
 	position: absolute;
-	z-index: 999;
+	z-index: 9999;
 	height: 452px;
-	width: 560px;
+	width: 520px;
 	background: #333;
 	opacity: .8;
 	display: none;
@@ -522,13 +580,15 @@ outline:none;
 .morediv {
 	clear: both;
 	height: 30px;
+	position: absolute;
+	bottom: 0;
+	width: 700px;
 }
 .morediv a {
 	text-align: left;
 	display: block;
 	float: left;
 	margin-left: 15px;
-	color: #3EA7B8;
 }
 .morediv a:hover {
 	text-decoration: underline;
@@ -539,30 +599,35 @@ outline:none;
 .hidden {
 	display: none;
 }
-#loadingoverlay {
-	position:absolute;
-	display: none;
-	width: 100%;
-	margin-right: 5px;
-	height: 100%;
-	background-image: url('{{STATIC_URL}}img/whitetransparency.png');
+
+.sellertable {
+	width: 700px;
+	margin: 15px auto;
+	max-height: 200px;
+	overflow: hidden;
+	font-weight: 200;
+	font-size: 13px;
 }
-#loaderdiv {
-	width: 350px;
-	height: 160px;
-	margin-left: 220px;
-	position: fixed;
-	margin-top: 150px;
-	background-image: url('{{STATIC_URL}}img/blacktransparency.png');
-	border-radius: 6px;
-	text-align: center;
+.sellertable tr {
+	line-height: 30px;
+	border-bottom:1px dotted #333;
 }
-#loaderdiv h3 {
-	margin-top: 40px;
-	margin-bottom: 20px;
-	color: white;
-	font-size: 18px;
+.sellertable .sellerprice {	
+	width: 150px;
+	padding-left: 20px;
+	font-weight: 800;
+	color: green;
 }
+.sellertable .sellercompany {
+	width: 250px;
+}
+.sellertable .sellertype {
+	text-align: right;
+}
+.sellertable a {
+	
+}
+
 
 
 /**********************************/
@@ -572,18 +637,18 @@ outline:none;
 #loadingoverlay {
 	position:absolute;
 	display: none;
-	width: 100%;
+	width: 99%;
 	margin-right: 5px;
 	height: 100%;
-	background-image: url("{{STATIC_URL}}img/whitetransparency.png");
+	background-image: url("../img/whitetransparency.png");
 }
 #loaderdiv {
 	width: 350px;
 	height: 160px;
-	margin-left: 220px;
+	margin-left: 200px;
 	position: fixed;
 	margin-top: 150px;
-	background-image: url("{{STATIC_URL}}img/blacktransparency.png");
+	background-image: url("../img/blacktransparency.png");
 	border-radius: 6px;
 	text-align: center;
 }

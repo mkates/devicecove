@@ -27,6 +27,7 @@
 
 .item {
 	height: 500px;
+	box-shadow: 0 0 10px #ccc;
 	width: 300px;
 	background: white;
 	border:1px solid #ddd;
@@ -50,7 +51,8 @@
 	font-weight: 200;
 }
 .itemheader span {
-	background: #3B9C85;
+	background: #E09B06;
+	text-shadow: 1px 1px 1px #999;
 	color: white;
 	border-radius: 20px;
 	width: 40px;
@@ -91,12 +93,20 @@
 	padding-top: 15px;
 }
 .itemview {
-	height: 220px;
+	height: 150px;
 	width: 90%;
 	margin: 10px auto 10px auto;
 	border:2px dotted #ddd;
+	overflow: scroll;
 }
+.itemview p {
+	font-size: 13px;
+	font-weight: 200;
+	color: #999;
+	text-align: center;
+	padding: 30px;
 
+}
 
 /* Column 3 */
 
@@ -150,19 +160,9 @@
 	cursor: pointer;
 	opacity: 1;
 }
-.postbutton {
+#postitem {
 	margin: 0 auto;
 	display: block;
-	background: #3B9C85;
-	color: white;
-	font-weight: 800;
-	width: 88%;
-	height: 40px;
-	transition: background .2s;
-}
-.postbutton:hover {
-	color: white;
-	background: #296E5D;
 }
 
 .pricing {
@@ -218,4 +218,67 @@
   vertical-align: middle; 
   width: 960px;
   text-align: center; 
+}
+
+/********************/
+/** File Uploader ***/
+/********************/
+#fileupload {
+	width: 100%;
+	height: 40px;
+}
+#currentimages p {
+	font-size: 15px;
+	font-weight: 200;
+	color: #999;
+	text-align: center;
+	padding: 20px;
+	margin-top: 60px;
+}
+.fileinput-button {
+  position: relative;
+  overflow: hidden;
+  float: left;
+  margin: 20px 0 15px 15px;
+}
+.fileinput-button {
+	background: #888;
+	border:1px solid #ddd;
+	transition: background .3s;
+}
+.fileinput-button:hover {
+	background: #666;
+}
+.fileinput-button input {
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin: 0;
+  opacity: 0;
+  -ms-filter: 'alpha(opacity=0)';
+  font-size: 200px;
+  direction: ltr;
+  cursor: pointer;
+}
+#imageloadercontainer {
+	float: right;
+	margin: 22px;
+}
+#imgloader {
+	display: none;
+}
+/* Fixes for IE < 8 */
+@media screen\9 {
+  .fileinput-button input {
+    filter: alpha(opacity=0);
+    font-size: 100%;
+    height: 100%;
+  }
+}
+.imagepreview {
+	max-width: 90px;
+	max-height: 90px;
+	float: left;
+	margin: 5px;
+	border:1px solid #eee;
 }

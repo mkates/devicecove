@@ -5,6 +5,7 @@
 .herobg {
 	background: url("../img/operatingroom.png") no-repeat top center / cover;
 	height: 480px;
+	border-bottom: 1px solid #ddd;
 	width: 100%;
 	opacity: 1;
 	overflow: auto;
@@ -45,12 +46,11 @@
 	margin-top: 0;
 	padding: 20px;
 	margin-bottom: 15px;
-	background: black;
+	background: white;
 	opacity: .7;
 	font-size: 20px;
 	line-height: 50px;
 	border-radius: 4px;
-	color: white;
 	width: 200px;
 	float: left;
 	margin-right: 66px;
@@ -60,7 +60,9 @@
 }
 .intro h2 a {
 	display: block;
-	color: white;
+	color: #333;
+	text-align: left;
+	padding-left: 10px;
 }
 .intro h2 a:hover {
 	text-decoration: underline;

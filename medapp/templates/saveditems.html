@@ -7,150 +7,40 @@
 <script>
 
 $('.textdescription').readmore({maxHeight: 46,moreLink: '<a href="#">See Full Description</a>'});
-
 </script>
 {% endblock %}
 {% block maintitle %}Saved Items{% endblock %}
 {% block headersubcss %}
 <link href="{{STATIC_URL}}css/search.css" rel="stylesheet" type="text/css" />
-<style>
-#nolistings {
-	display: none;
-}
-.actionbuttons {
-	text-align: left;
-	margin-top: 15px;
-}
-.actionbuttons a {
-	color: #333;
-	font-size: 11px;
-	margin-right: 5px;
-	padding: 2px 6px;
-}
-.actionbuttons a:hover {
-	text-decoration: none;
-}
-.resultitem .textdiv {
-	width: 420px;
-}
-
-.resultitem .textdiv a h2 {
-	color: #333;
-	margin: 0;
-	height: 25px;
-	line-height: 25px;
-	font-size: 15px;
-	border-bottom: none;
-	margin-bottom: 5px;
-}
-.resultitem .textdiv p {
-	text-align: left;
-	font-weight: 200;
-	font-size: 12px;
-}
-.resultitem  .textdiv p span {
-	font-weight: 800;
-}
-.resultitem .textdiv h3 {
-	text-align: left;
-	font-weight: 400;
-	min-height: 44px;
-	line-height: 15px;
-	margin: 0;
-	padding: 0;
-}
-.readmore-js-toggle {
-	text-align: left;
-	font-size: 12px;
-}
-</style>
+<link href="{{STATIC_URL}}css/profileitem.css" rel="stylesheet" type="text/css" />
 {% endblock %}
 {% block maincontent %}
 		<p id="nolistings"> You do not have any items currently saved on MedBay</p>
-		
+		{%for item in items %}
   		<div class='resultitem'>
-  			<div class='imageviewer'></div>
-  			<div class='imgdiv'><img src='http://www.sivanienterprises.com/images/papercup_SE930.jpg'/></div>
+  			<div class='imgdiv'><img src='{{item.item.product.mainimage}}'/></div>
   			<div class='pricediv'>
   				<h6>pre-owned from</h6>
-  				<p>$14,300</p>
-  				<a class='btn-custom-orange' href="/product/{{product.id}}/details">Buy Now</a>
+  				<p>${{item.item.price}}</p>
+  				<a class='btn-custom-orange' href="#">Buy Now</a>
   			</div>
   			<div class='textdiv'>
-  				<a href="/product/{{product.id}}/details"><h2>XT4500 Mega Ultrasound with Touch Enabled Sonograph</h2></a>
-  				<p>Sold by: <span>Colts Neck Equine (Colts Neck, NJ)</span></p>
-  				<h3 class="textdescription">Lameness Locator® by Equinosis® is the culmination of almost 20 years of research on gait analysis at the University of Missouri’s Colleges of Veterinary Medicine and Engineering with the support of the E. Paige Laurie Endowed Program in Equine Lameness. Lameness Locator® objectively detects and quantifiessLameness Locator® by Equinosis® is the culmination of almost 20 years of research on gait analysis at the University of Missouri’s Colleges of Veterinary Medicine and Engineering with the support of the E. Paige Laurie Endowed Program in Equine Lameness. Lameness Locator® objectively detects and quantifiess</h3>
+  				<a href="/product/{{item.item.product.id}}/details"><h2>{{item.item.product.name}}</h2></a>
+  				<p>Sold by: <span>{{item.user.company}}</span></p>
+  				<h3 class="textdescription">{{item.item.description}}</h3>
   				<div class="actionbuttons">
 					<a href="#" class="btn-custom-gray">Contact Seller</a>
-					<a href="#" class="btn-custom-gray">Other Sellers</a>
-					<a href="#" class="btn-custom-gray">Product Details</a>
-					<a href="#" class="btn-custom-gray">Remove</a>
+					<a href="/product/{{item.item.product.id}}/buyingoptions" class="btn-custom-gray">Other Sellers</a>
+					<a href="/product/{{item.item.product.id}}/details" class="btn-custom-gray">Product Details</a>
+					<form action="/removeitem" method="POST">
+						{% csrf_token %}
+						<input name="productid" type="hidden" value="{{item.item.id}}"/>
+						<button href="#" value="submit" name="submit" class="btn-custom-gray">Remove</button>
+					</form>
 				</div>
   			</div>
   			<div class='clear'></div>
-  			<div class='detailsdiv hidden'>
-  				<div class='detailtext'>
-  					<p>{{product.description}}</p>
-  				</div>
-  				<div class='imagegallery'>
-  					<div class='imagethumbnail'></div>
-  					<div class='imagethumbnail'></div>
-  					<div class='imagethumbnail'></div>
-  					<div class='imagethumbnail'></div>
-  					<div class='imagethumbnail'></div>
-  					<div class='imagethumbnail'></div>
-  					<div class='imagethumbnail'></div>
-  					<div class='imagethumbnail'></div>
-  					<div class='imagethumbnail'></div>
-  				</div>
-  				<div class='morediv'>
-  					<a href="/product/{{product.id}}/details"> Show all product details &#8594;</a>
-  					<button class='btn-custom-gray closebutton'>Close</button>
-  				</div>
-  			</div>
-  			<div class='clear'></div>
   		</div>
+  		{% endfor %}
   		
-  		<div class='resultitem'>
-  			<div class='imageviewer'></div>
-  			<div class='imgdiv'><img src='http://www.sivanienterprises.com/images/papercup_SE930.jpg'/></div>
-  			<div class='pricediv'>
-  				<h6>pre-owned from</h6>
-  				<p>$14,300</p>
-  				<a class='btn-custom-orange' href="/product/{{product.id}}/details">Buy Now</a>
-  			</div>
-  			<div class='textdiv'>
-  				<a href="/product/{{product.id}}/details"><h2>XT4500 Mega Ultrasound with Touch Enabled Sonograph</h2></a>
-  				
-  				<h3 class="textdescription">Lameness Locator® by Equinosis® is the culmination of  Lameness Locator® by Equinosis® is the culmination of Lameness Locator® by Equinosis® is the culmination of almost 20 years of research on gait analysis at the University of Missr® objectively detects and quantifiess</h3>
-  				<div class="actionbuttons">
-					<a href="#" class="btn-custom-gray">Contact Seller</a>
-					<a href="#" class="btn-custom-gray">Other Sellers</a>
-					<a href="#" class="btn-custom-gray">Product Details</a>
-					<a href="#" class="btn-custom-gray">Remove</a>
-				</div>
-  			</div>
-  			<div class='clear'></div>
-  			<div class='detailsdiv hidden'>
-  				<div class='detailtext'>
-  					<p>{{product.description}}</p>
-  				</div>
-  				<div class='imagegallery'>
-  					<div class='imagethumbnail'></div>
-  					<div class='imagethumbnail'></div>
-  					<div class='imagethumbnail'></div>
-  					<div class='imagethumbnail'></div>
-  					<div class='imagethumbnail'></div>
-  					<div class='imagethumbnail'></div>
-  					<div class='imagethumbnail'></div>
-  					<div class='imagethumbnail'></div>
-  					<div class='imagethumbnail'></div>
-  				</div>
-  				<div class='morediv'>
-  					<a href="/product/{{product.id}}/details"> Show all product details &#8594;</a>
-  					<button class='btn-custom-gray closebutton'>Close</button>
-  				</div>
-  			</div>
-  			<div class='clear'></div>
-  		</div>
 {% endblock %}

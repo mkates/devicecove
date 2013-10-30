@@ -3,8 +3,52 @@
 {% block listeditems %}active{% endblock %}
 
 {% block maintitle %}Listed Items{% endblock %}
+{% block headersubcss %}
+<link href="{{STATIC_URL}}css/product.css" rel="stylesheet" type="text/css" />
+<link href="{{STATIC_URL}}css/profileitem.css" rel="stylesheet" type="text/css" />
+<link href="{{STATIC_URL}}css/jquery.fancybox.css" rel="stylesheet" type="text/css" />
+<style>
+.sellerdiv .descriptiondiv {
+	width: 600px;
+}
+</style>
+{% endblock %}
+
+{% block jsblock %}
+<script type="text/javascript" src="{{STATIC_URL}}js/jquery.fancybox.js"></script>
+<script>
+$(document).ready(function() {
+	$('.fancybox').fancybox();
+});
+</script>
+{% endblock %}
 
 {% block maincontent %}
+	{% if items %}
+		{% for item in items %}
+			<div class="sellerdiv">
+				<div class="pricediv">
+					<h3>${{item.price}}</h3>
+					<h4 class="verifiedseller">Verified Seller</h4>
+					<h4>Under Warranty</h4>
+				</div>
+				<div class="descriptiondiv">
+					<h5> {{item.product.name}} | Used - <span>{{item.condition}}</span></h5>
+					<h6> Sold by <span>{{item.user.company}}</span></h6>
+					<p>{{item.description}}</p>
+					<div class="thumbnails">
+						<p>
+						{%for pics in item.pictures %}
+							<a class="fancybox" href="{{pics.photo.url}}" data-fancybox-group="gallery" title="Image provided by {{item.user.company}}"><img src="{{pics.photo.url}}" alt="" /></a>
+						{% endfor %}
+						</p>
+					</div>
+				</div>
+				<div class="clear"></div>
+			</div>
+		{% endfor %}
+	{% else %}
 		<p id="nolistings"> You do not have any items currently listed with MedBay</p>
-		<a class="btn btn-primary" id="listbutton" href="addproduct.html">List Your Equipment</a>
+		<a class="btn btn-custom-orange" id="listbutton" href="addproduct.html">List Your Equipment</a>
+	{% endif %}
 {% endblock %}

@@ -6,6 +6,7 @@
 .product {
 	margin: 0 auto;
 	max-width: 1000px;
+	font-family: Arial,sans-serif;
 }
 .sellers {
 	max-width: 1000px;
@@ -17,15 +18,16 @@
 	padding: 5px;
 }
 .topbarcontainer {
-	padding: 15px 0px 0px 0px;
+	padding: 25px 0px 0px 0px;
 	background: white;
 	margin-bottom: 20px;
-	box-shadow: 0 3px 3px #ccc;
+	box-shadow: 0 3px 3px #ddd;
 }
 .mainproductcontainer .mainproduct {
 	margin: 0px;
 	border:1px solid #ddd;
 	background: white;
+	box-shadow: 0 0px 3px #ccc;
 	
 }
 .sideproductcontainer .sideproduct {
@@ -33,6 +35,7 @@
 	background: white;
 	margin: 0px;
 	margin-bottom: 10px;
+	box-shadow: 0 0px 3px #ccc;
 }
 
 /**************************/
@@ -106,20 +109,21 @@
 }
 
 .sellerdiv .descriptiondiv h6 {	
-	margin-top: 3px;
+	margin-top: 1px;
 	float: right;
 	display:inline-block;
-	font-size: 16px;
+	font-size: 14px;
 	font-weight: 800;
 }
 .sellerdiv .descriptiondiv p{
 	clear: both;
+	font-size: 13px;
 	text-align: justify;
 }
 .sellerdiv .descriptiondiv .thumbnails p a img {
 	max-width: 60px;
 	max-height: 60px;
-	background: #DDD;
+	background: #fff;
 	float: left;
 	border-right:5px solid white;
 	border-bottom:5px solid white;
@@ -130,11 +134,25 @@
 	float: left;
 	margin-top: 15px;
 }
+.actiondiv button {
+	clear: both;
+}
+.actiondiv img {
+	display: block;
+	margin: 10px auto;
+	display: none;
+}
 .actiondiv a:hover {
 	text-decoration: none;
 }
 
-
+.savebutton {
+	margin-top: 10px;
+	width: 90px;
+}
+.saveloader {
+	clear: both;
+}
 
 /**************************/
 /* TopBar ******/
@@ -152,6 +170,7 @@
 .topbar .backbutton-container a {
 	padding: 0;
 	margin: 0;
+	font-weight: 200;
 	line-height: 13px;
 	float: left;
 	margin-top: 2px;
@@ -195,7 +214,7 @@
 	float: left;
 	display: block;
 	font-weight: 800;
-	color: #1D6DCF;
+	color: #428BCA;
 	text-decoration: none;
 	padding: 0px 0px 3px 0px;
 	font-size: 14px;
@@ -421,8 +440,8 @@
 }
 .productdetails p {
 	line-height: 20px;
-	font-size: 14px;
-	color: #333;
+	font-size: 13px;
+	color: #222;
 	font-weight: 400;
 }
 
@@ -464,7 +483,7 @@
 #buyerprotect p {
 	padding: 0px 0 15px 0;
 	line-height: 20px;
-	font-size: 14px;
+	font-size: 13px;
 	color: #333;
 	font-weight: 400;
 	margin-bottom: 0;

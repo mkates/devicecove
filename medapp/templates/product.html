@@ -13,8 +13,8 @@
 {% block content %}
 <div class="topbarcontainer">
 	<div class="topbar">
-		<p class="backbutton-container"><a class="backbutton" href="/productsearch/{{industry.name}}/{{product.devicecategory.name}}">&#8592; view {{industry.name}} {{product.devicecategory.name}}</a></p>
-		<p class="breadcrumbs"><a href="/">Home</a> / <a href="/productsearch/{{industry.name}}/all">{{industry.name}}</a> / <a href="/productsearch/{{industry.name}}/{{product.devicecategory}}">{{product.devicecategory}}</a> / <a>{{product.name}}</a></p>
+		<p class="backbutton-container"><a class="backbutton" href="/productsearch/{{industry.name}}/{{product.devicecategory.name}}">&#8592; View {{industry.displayname}} {{product.devicecategory.displayname}}</a></p>
+		<p class="breadcrumbs"><a href="/">Home</a> / <a href="/productsearch/{{industry.name}}/all">{{industry.displayname}}</a> / <a href="/productsearch/{{industry.name}}/{{product.devicecategory.name}}">{{product.devicecategory.displayname}}</a> / <a href='#'>{{product.name}}</a></p>
 		<div class="clear"></div>
 		<h2>{{ product.name }}</h2>
 		<div class="otherviewers"><span>14</span> other people have purchased this product</div>

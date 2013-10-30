@@ -10,21 +10,24 @@ from sorl.thumbnail import ImageField
 # Industry
 class Industry(models.Model):
 	name = models.CharField(max_length=40)
+	displayname = models.CharField(max_length=50)
 	def __unicode__(self):
-		return self.name
+		return self.displayname
 
 class Manufacturer(models.Model):
 	name = models.CharField(max_length=100)
+	displayname = models.CharField(max_length=50)
 	def __unicode__(self):
-		return self.name
+		return self.displayname
 	
 # Device Category (ex. ultrasounds)
 class DeviceCategory(models.Model):
 	name = models.CharField(max_length=60)
+	displayname = models.CharField(max_length=50)
 	industries = models.ManyToManyField(Industry)
 	totalunits = models.IntegerField()
 	def __unicode__(self):
-		return self.name
+		return self.displayname
 
 # A product (i.e. Ultrasound XT500), which belongs to a device subcategory
 class Product(models.Model):
@@ -35,6 +38,7 @@ class Product(models.Model):
 	features = models.TextField()
 	manufacturer = models.ForeignKey(Manufacturer)
 	mainimage = models.CharField(max_length=100)
+	specs = models.CharField(max_length=1000)
 	totalunits = models.IntegerField()
 	def __unicode__(self):
 		return self.name
@@ -57,43 +61,42 @@ class BasicUser(models.Model):
 	state = models.CharField(max_length=60)
 	website = models.CharField(max_length=60,null=True)
 	phonenumber = models.CharField(max_length=60)
-	password = models.CharField(max_length=60)
 			
 	def __unicode__(self):
 		return self.user.username
-		
-#A one-to-many which stores the list of items a basic user has saved		
-class SavedItem(models.Model):
-	user = models.ForeignKey(BasicUser)
-	product = models.ForeignKey(Product)
-		
+
 #An individual item for sale associated with a product and a user
 class Item(models.Model):
 	product = models.ForeignKey(Product)
 	condition = models.IntegerField(max_length=1) #1 being parts only to 6 being new
+	type = models.CharField(max_length = 24)
 	user = models.ForeignKey(BasicUser)
 	description = models.TextField()
 	price = models.FloatField(max_length=20)
+	picturearray = models.CharField(max_length=100)
+	status = models.IntegerField(max_length=1) #1 being inactive, #2 being active, #3 being sold
+	savedcount = models.IntegerField()
 	def __unicode__(self):
 		return self.product.name+" from "+self.user.name
+		
 	def save(self, *args, **kwargs):
 		self.product.totalunits += 1
 		self.product.devicecategory.totalunits += 1
 		self.product.save()
 		self.product.devicecategory.save()
 		super(Item, self).save(*args, **kwargs)
-	
-class UserImage(models.Model):
-	item = models.ForeignKey(Item)
-	#userimageurl = models.CharField(max_length=200)	
 
+class SavedItem(models.Model):
+	user = models.ForeignKey(BasicUser)
+	item = models.ForeignKey(Item)
+	
+	
 #This function generates a random name for the uploaded image
 def get_file_path(instance, filename):
 	ext = filename.split('.')[-1]
 	filename = "%s.%s" % (uuid.uuid4(), ext)
 	return os.path.join('userimages', filename)
     
-class TestImage(models.Model):
-	name = models.CharField(max_length=100)
+class UserImage(models.Model):
+	item = models.ForeignKey(Item,blank=True,null=True)
 	photo = models.ImageField(upload_to=get_file_path)
-	thumbnail =  models.ImageField(upload_to=get_file_path)

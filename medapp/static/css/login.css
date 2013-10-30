@@ -7,8 +7,9 @@
 .login {
 	max-width: 1000px;
 	background: #fff;
+	border-radius: 3px;
 	border:1px solid #eee;
-	box-shadow: 0 0 2px #fff;
+	box-shadow: 0 0 4px #ccc;
 	margin: 40px 10px;
 }
 .login h1 {

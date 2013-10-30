@@ -121,10 +121,6 @@
   			<p id="here"><span class="condition">New (1)</span> <span class="price">$27,542</span></p>
   			<p><span class="condition">Refurbished (1)</span> <span class="price">$24,323</span></p>
   			<p class="noborder"><span class="condition">Pre-owned (0)</span> <span class="price">N/A</span></p>
-  			<!-- 
-<h6>$24,323</h6>
-  			<p>preowned, New from $28,743</p>
- -->
   		</div>
   		<div class="actionbuttons">
   			<a class="btn-custom-orange" href="buyingoptions">See All Buying Options</a>
@@ -137,18 +133,11 @@
   	</div>
   	<div class="sideproduct" id="productspecs">
   		<h2>Product Specs</h2>
-  		<p><span>Condition </span>Like New</p>
-  		<p><span>Manufacturer </span>General Electric</p>
-  		<p><span>Power </span>560m/s</p>
-  		<p><span>Process </span>X-Ray</p>
-  		<p><span>Quality </span>720MB</p>
-  		<p><span>Transportable </span>Yes</p>
+  		{% for spec in specs %}
+  			<p><span>{{spec.0}}</span>{{spec.1}}</p>
+  		{% endfor $%}
   	</div>
   </div>
-  
-  
-  
-  
 </div>
 {% endblock %}
 

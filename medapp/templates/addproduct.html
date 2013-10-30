@@ -6,11 +6,14 @@
 {% endblock %}
 
 {% block jsblock %}
+<script src="http://malsup.github.com/jquery.form.js"></script> 
 <script>
 ///***********************************************************************
 ///This script controls functionality to select the quality of the product
 ///***********************************************************************
 $(document).ready(function() {
+	var pagevariables = {'productid':1,'pictureid':[],'quality':4,'price':0,'description':""};
+	
     var currentvalue = "4";
 	$("select").css("opacity",".4");
 	var q1 = "Condition: <span>Damaged</span><p>Equipment has serious defects or malfunctions</p>";
@@ -38,7 +41,7 @@ $(document).ready(function() {
 			if (value == 4) {margintomove = '140px'};
 			if (value == 5) {margintomove = '184px'};
 			if (value == 6) {margintomove = '228px'};
-			console.log(margintomove);
+			pagevariables['quality'] = value;
 			$(".downarrow").animate({"margin-left":margintomove},400);
 			$(".qualitydescription p").fadeOut('fast',function() {
 				$(".qualitydescription p").html(qualitydict[value]);
@@ -46,7 +49,44 @@ $(document).ready(function() {
 			});
 		}		
 	});
+	$("#fileupload").change(function() { 
+		$("#imgloader").fadeIn('fast');
+		$("#fileform").submit();
+	});
+	$('#fileform').ajaxForm(function(e) { 
+		 $.each(e,function(index,value) {
+			$("#imgloader").fadeOut('fast');
+			$("#noimages").css('display','none');
+			console.log(e[index][0]);
+			pagevariables['pictureid'].push(e[index][0]);
+			$("#imagepreview").append("<img class='imagepreview' id='image "+e[index][0]+"' src='"+e[index][1]+"'/>");
+		 });
+	});
+	$("#priceinput").blur(function() { 
+		pagevariables['price'] = $("#priceinput").val();
+	});
+	$("#descriptiontext").blur(function() { 
+		pagevariables['description'] = $("#descriptiontext").val();
+	});
+	$("#postitem").click(function() { 
+		$.ajax({
+            type : "POST",
+            data : pagevariables,
+            url : "/postitem",
+            success : function(data) {
+            	console.log(data)
+            	if (data == '100') {
+                	window.location.href = "/listeditems";
+                }
+            }, 
+            error : function(jqXHR, textStatus, errorThrown) {
+                alert("Error posting product. Please try again later or email us so we can diagnose the problem");
+            }
+        });
+	});
 });
+
+
 </script>
 {% endblock %}
 
@@ -57,7 +97,7 @@ $(document).ready(function() {
 	  <div class="errormessage">
 	  	<p>Please provide the make of your product, upload at least one photo, describe how your product was used.</p>
 	  </div>
-	  <form action="post" method='/addprocut'>
+	  <div>
 	 	 <div class="col-sm-6 col-md-4 itemcontainer">
 			<div class="item">
 				<div class="itemheader">
@@ -75,8 +115,19 @@ $(document).ready(function() {
 					<select class="form-control" disabled="disabled">
 						<option>Model Number</option>
 					</select>
-					<p class="textareadescriber picturelabel">Product Image Preview</p>
-					<div class="itemview">
+					<span class="btn btn-success fileinput-button">
+						<span>Select pictures to upload...</span>
+						<!-- The file input field used as target for the file upload widget -->
+						<form id="fileform" method="post" action="/imageupload">
+							{% csrf_token %}
+							<input id="fileupload" type="file" name="files" multiple>
+						</form>
+					</span>
+					<div id="imageloadercontainer">
+						<img id="imgloader" src="{{STATIC_URL}}img/ajax-loader.gif"/>
+					</div>
+					<div id="imagepreview" class="itemview">
+						<p id="noimages">Upload multiple photos at once to go along to show any product defects or damages</p>
 					</div>
 				</div>
 			</div>
@@ -88,7 +139,7 @@ $(document).ready(function() {
 				</div>
 				<div class="itemcontent">
 					<p class="textareadescriber">Describe how the product was used, any repairs or maintenance, and any parts of the product that are not working</p>
-					<textarea class="form-control" placeholder="Ex. This machine was used by our technican on a daily basis for xrays. We have been the sole owners of the machine"></textarea>
+					<textarea id="descriptiontext" class="form-control" placeholder="Ex. This machine was used by our technican on a daily basis for xrays. We have been the sole owners of the machine"></textarea>
 				</div>
 			</div>
 		  </div>
@@ -117,14 +168,14 @@ $(document).ready(function() {
 						<p> Suggested Price Range </p>
 					</div>
 					<div class="listprice">
-						<input type="number" step="1" class="form-control" placeholder="Ex: 20000" />
+						<span><input id="priceinput" type="number" step="1" class="form-control" placeholder="Ex: 20000" /></span>
 						<p> Your Listing Price </p>
 					</div>
 				</div>
-				<button class="btn postbutton">Create Your Free Listing!</button>
+				<button id="postitem" class="btn btn-custom-orange">Create Your Free Listing!</button>
 			</div>
 		  </div>
-	  </form>
+	  </div>
 	</div>
 </div>
 {% endblock %}

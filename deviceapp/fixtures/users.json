@@ -1,6 +1,6 @@
 [
 	{
-		"pk": 2,
+		"pk": 1,
 		"model": "deviceapp.user",
 		"user":1,
 		"businesstype": "individual",
@@ -14,5 +14,5 @@
 		"website":"www.test.com",
 		"phonenumber":"732-547-4516",
 		"password":"test"
-	},
+	}
 ]

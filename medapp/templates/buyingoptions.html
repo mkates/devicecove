@@ -7,6 +7,39 @@
 <script>
 $(document).ready(function() {
 	$('.fancybox').fancybox();
+	
+	//Save Button Functionality
+	$('.savebutton').click(function() {
+		if ($(this).text() == 'Save') {
+			var data = {'action':'save','id':$(this).val()}
+		} else {
+			var data = {'action':'delete','id':$(this).val()}
+		}
+		var savebutton = $(this);
+		savebutton.css('display','none');
+		$(this).parent().children(".saveloader").css('display','block');
+		$.ajax({
+            type : "POST",
+            data : data,
+            url : "/saveitem",
+            success : function(data) {
+            	savebutton.parent().children(".saveloader").css('display','none');
+            	savebutton.css('display','inline-block');
+            	if (savebutton.text() == "Save") {
+            		savebutton.text("Saved");
+            		savebutton.addClass("btn-custom-green");
+            		savebutton.removeClass("btn-custom-large-gray");
+            	} else {
+            		savebutton.text("Save");
+            		savebutton.removeClass("btn-custom-green");
+            		savebutton.addClass("btn-custom-large-gray");
+            	}
+            }, 
+            error : function(jqXHR, textStatus, errorThrown) {
+                alert("Error saving product");
+            }
+        });
+	});
 });
 </script>
 {% endblock %}
@@ -20,78 +53,33 @@ $(document).ready(function() {
 	{% for seller in sellers %}
 	<div class="sellerdiv">
 		<div class="pricediv">
-		 	<h3>{{seller.seller.price}}</h3>
+		 	<h3>{{seller.price}}</h3>
 		 	<h4 class="verifiedseller">Verified Seller</h4>
 		 	<h4>Under Warranty</h4>
 		</div>
 		<div class="descriptiondiv">
-			<h5> Used - <span>{{seller.seller.condition}}</span></h5>
-			<h6> Sold by <span>{{seller.seller.user.company}}</span></h6>
-			<p>{{seller.seller.description}}</p>
+			<h5> Used - <span>{{seller.condition}}</span></h5>
+			<h6> Sold by <span>{{seller.user.company}}</span></h6>
+			<p>{{seller.description}}</p>
 			<div class="thumbnails">
 				<p>
-					{%for images in seller.images %}
-						<a class="fancybox" href="http://www.respondsystems.com/images/luminexVet/luminexvet.jpg" data-fancybox-group="gallery" title="Image provided by {{seller.seller.user.company}}"><img src="http://www.respondsystems.com/images/luminexVet/luminexvet.jpg" alt="" /></a>
-					//{% endfor %}
+					{%for image in seller.pictures %}
+						<a class="fancybox" href="{{image.photo.url}}" data-fancybox-group="gallery" title="Image provided by {{seller.user.company}}"><img src="{{image.photo.url}}" alt="" /></a>
+					{% endfor %}
 				</p>
 			</div>
 		</div>
 		<div class="actiondiv">
 			<a class="btn-custom-orange" href="#">Buy Now</a>
+			<img class="saveloader" src="{{STATIC_URL}}img/ajax-loader.gif"/>
+			{%if seller.saved %}
+			<button class="savebutton btn-custom btn-custom-green" value="{{seller.id}}">Saved</button>
+			{% else %}
+			<button class="savebutton btn-custom btn-custom-large-gray" value="{{seller.id}}">Save</button>
+			{% endif %}
 		</div>
 		<div class="clear"></div>
 	</div>
 	{% endfor %}
-	<div class="sellerdiv">
-		<div class="pricediv">
-		 	<h3>$24,350</h3>
-		 	<h4 class="verifiedseller">Verified Seller</h4>
-		 	<h4>Under Warranty</h4>
-		</div>
-		<div class="descriptiondiv">
-			<h5> Used - <span>Very Good</span></h5>
-			<h6> Sold by <span>Colts Neck Equine</span></h6>
-			<p> Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-		</div>
-		<div class="actiondiv">
-			<a class="btn-custom-orange" href="#">Buy Now</a>
-		</div>
-		<div class="clear"></div>
-	</div>
-	<div class="sellerdiv">
-		<div class="pricediv">
-		 	<h3>$24,350</h3>
-		 	<h4 class="verifiedseller">Verified Seller</h4>
-		 	<h4>Under Warranty</h4>
-		</div>
-		<div class="descriptiondiv">
-			<h5> Used - <span>Very Good</span></h5>
-			<h6> Sold by <span>Colts Neck Equine</span></h6>
-			<p> Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-			<div class="thumbnails">
-				<div class="thumbnailimage"></div>
-				<div class="thumbnailimage"></div>
-				<div class="thumbnailimage"></div>
-			</div>
-		</div>
-		<div class="actiondiv">
-			<a class="btn-custom-orange" href="#">Buy Now</a>
-		</div>
-		<div class="clear"></div>
-	</div>
-	<div class="sellerdiv">
-		<div class="pricediv">
-		 	<h3>$24,350</h3>
-		</div>
-		<div class="descriptiondiv">
-			<h5> Used - <span>Very Good</span></h5>
-			<h6> Sold by <span>Colts Neck Equine</span></h6>
-			<p> Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-		</div>
-		<div class="actiondiv">
-			<a class="btn-custom-orange" href="#">Buy Now</a>
-		</div>
-		<div class="clear"></div>
-	</div>
 </div>
 {% endblock %}
