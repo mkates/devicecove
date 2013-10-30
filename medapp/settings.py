@@ -130,7 +130,6 @@ INSTALLED_APPS = (
     'django.contrib.admindocs',
     'deviceapp',
     'storages',
-    'sorl.thumbnail'
     'boto'
 )
 CACHES = {
