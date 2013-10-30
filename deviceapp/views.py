@@ -12,7 +12,6 @@ import math
 import difflib
 import locale
 
-locale.setlocale(locale.LC_ALL, 'en_US')
 
 #If you want to test network latency
 #import time
@@ -178,7 +177,7 @@ def getProductElementsFromItems(items,prod):
 	number_products = 0
 	for item in items:
 		lowprice = min(lowprice,item.price)
-	return {'product':prod,'items':items,'lowprice':locale.format("%d", lowprice, grouping=True)}
+	return {'product':prod,'items':items,'lowprice':lowprice}
 ###########################################
 #### Account Settings #####################
 ###########################################
