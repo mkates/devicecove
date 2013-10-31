@@ -364,5 +364,6 @@ def setUserProfileDict(field,value,usermodel):
 
 def numberToMoney(amount):
 	amount = str(int(amount))
-	return amount
+	if len(amount > 3):
+		return
 			
