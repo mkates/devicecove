@@ -3,256 +3,35 @@
 		"pk": 1,
 		"model": "deviceapp.industry",
 		"fields": {
-			"name": "veterinary",
-			"displayname" : "Veterinary" 
-		}
-	},
-	{"pk": 1,"model": "deviceapp.devicecategory","fields": {"name": "anesthesia","displayname":"Anesthesia","industries" : [1],"totalunits": 0}},
-	{"pk": 2,"model": "deviceapp.devicecategory","fields": {"name": "monitors","displayname":"Monitors","industries" : [1],"totalunits": 0}},
-	{"pk": 3,"model": "deviceapp.devicecategory","fields": {"name": "tables","displayname":"Surgical Tables","industries" : [1],"totalunits": 0}},
-	{"pk": 4,"model": "deviceapp.devicecategory","fields": {"name": "sterilizers","displayname":"Sterilizers","industries" : [1],"totalunits":0}},
-	{"pk": 5,"model": "deviceapp.devicecategory","fields": {"name": "centrifuges","displayname":"Centrifuges","industries" : [1],"totalunits":0}},
-	{"pk": 6,"model": "deviceapp.devicecategory","fields": {"name": "defibrillators","displayname":"Defibrillators","industries" : [1],"totalunits":0}},
-	{"pk": 7,"model": "deviceapp.devicecategory","fields": {"name": "ultrasound","displayname":"Ultrasound","industries" : [1],"totalunits":0}},
-	{"pk": 8,"model": "deviceapp.devicecategory","fields": {"name": "dental","displayname":"Dental","industries" : [1],"totalunits":0}},
-	{"pk": 9,"model": "deviceapp.devicecategory","fields": {"name": "Electrosurgical","displayname":"Anesthesia","industries" : [1],"totalunits":0}},
-	{"pk": 10,"model": "deviceapp.devicecategory","fields": {"name": "xray","displayname":"X-Ray Machines","industries" : [1],"totalunits":0}},
-	
-	{"pk": 1,"model": "deviceapp.manufacturer","fields": {"name": "3M","displayname":"3M"}},
-	{"pk": 2,"model": "deviceapp.manufacturer","fields": {"name": "Fuji","displayname":"Fuji"}},
-	{"pk": 3,"model": "deviceapp.manufacturer","fields": {"name": "Sonosite","displayname":"Sonosite Systems"}},
-	
-	{
-		"pk": 1,
-		"model": "deviceapp.product",
-		"fields": {
-			"name": "Fazone CB Ultrasound",
-			"devicecategory" : 7,
-			"industries" : [1],
-			"description" : "The New Fazone CB Ultrasound with Zone Sonography Technology. Anytime, anywhere 'CB' usability is stress free and easy, regardless of place or occasion. This elegant, ultra high quality ultrasound easily moves from the exam room to your vehicle bringing all aspects of FujiFilms' attention to detail along with it. Features include a full screen, 12-inch LCD monitor, instant one touch image optimization, intuitive operation with keys grouped by functionality, fast boot-up time, easy on and off cart capability, and stylish compact design",
-			"manufacturer": 1,
-			"features" : "Small, lightweight, and high portability means it can be used anywhere; Can be lifted or lowered simply by pulling the side lever; CB main unit can easily be attached or removed simply by pulling the front lever; Operates for up to an hour without external power supply (when the optional battery is installed)",
-			"mainimage" : "http://www.veteldiagnostics.com/images/bin/2322.jpg",
-			"specs" : "Weight!18lbs;Year!2006;Manufacturer!Sonosite;Power!560watts;Memory!720MB;Portable!Yes",
-			"totalunits" : 0
+			"name": "large_veterinary",
+			"displayname" : "Large Animal" 
 		}
 	},
 	{
 		"pk": 2,
-		"model": "deviceapp.product",
+		"model": "deviceapp.industry",
 		"fields": {
-			"name": "Ultra High Powered Ultrasound",
-			"devicecategory" : 7,
-			"industries" : [1],
-			"description" : "The New Fazone CB Ultrasound with Zone Sonography Technology. Anytime, anywhere 'CB' usability is stress free and easy, regardless of place or occasion. This elegant, ultra high quality ultrasound easily moves from the exam room to your vehicle bringing all aspects of FujiFilms' attention to detail along with it. Features include a full screen, 12-inch LCD monitor, instant one touch image optimization, intuitive operation with keys grouped by functionality, fast boot-up time, easy on and off cart capability, and stylish compact design",
-			"manufacturer": 1,
-			"features" : "Small, lightweight, and high portability means it can be used anywhere; Can be lifted or lowered simply by pulling the side lever; CB main unit can easily be attached or removed simply by pulling the front lever; Operates for up to an hour without external power supply (when the optional battery is installed)",
-			"mainimage" : "http://www.veteldiagnostics.com/images/bin/2322.jpg",
-			"specs" : "Weight!18lbs;Year!2006;Manufacturer!Sonosite;Power!560watts;Memory!720MB;Portable!Yes",
-			"totalunits" : 0
+			"name": "small_veterinary",
+			"displayname" : "Small Animal" 
 		}
 	},
 	{
 		"pk": 3,
-		"model": "deviceapp.product",
+		"model": "deviceapp.industry",
 		"fields": {
-			"name": "Speedlight XT4500 Ultrasound",
-			"devicecategory" : 7,
-			"industries" : [1],
-			"description" : "The New Fazone CB Ultrasound with Zone Sonography Technology. Anytime, anywhere 'CB' usability is stress free and easy, regardless of place or occasion. This elegant, ultra high quality ultrasound easily moves from the exam room to your vehicle bringing all aspects of FujiFilms' attention to detail along with it. Features include a full screen, 12-inch LCD monitor, instant one touch image optimization, intuitive operation with keys grouped by functionality, fast boot-up time, easy on and off cart capability, and stylish compact design",
-			"manufacturer": 1,
-			"features" : "Small, lightweight, and high portability means it can be used anywhere; Can be lifted or lowered simply by pulling the side lever; CB main unit can easily be attached or removed simply by pulling the front lever; Operates for up to an hour without external power supply (when the optional battery is installed)",
-			"mainimage" : "http://www.veteldiagnostics.com/images/bin/2322.jpg",
-			"specs" : "Weight!18lbs;Year!2006;Manufacturer!Sonosite;Power!560watts;Memory!720MB;Portable!Yes",
-			"totalunits" : 0
+			"name": "research_veterinary",
+			"displayname" : "Veterinary Research" 
 		}
 	},
-	{
-		"pk": 4,
-		"model": "deviceapp.product",
-		"fields": {
-			"name": "Geurilla Glue UltraPoweres Sound Plus",
-			"devicecategory" : 7,
-			"industries" : [1],
-			"description" : "The New Fazone CB Ultrasound with Zone Sonography Technology. Anytime, anywhere 'CB' usability is stress free and easy, regardless of place or occasion. This elegant, ultra high quality ultrasound easily moves from the exam room to your vehicle bringing all aspects of FujiFilms' attention to detail along with it. Features include a full screen, 12-inch LCD monitor, instant one touch image optimization, intuitive operation with keys grouped by functionality, fast boot-up time, easy on and off cart capability, and stylish compact design",
-			"manufacturer": 1,
-			"features" : "Small, lightweight, and high portability means it can be used anywhere; Can be lifted or lowered simply by pulling the side lever; CB main unit can easily be attached or removed simply by pulling the front lever; Operates for up to an hour without external power supply (when the optional battery is installed)",
-			"mainimage" : "http://www.veteldiagnostics.com/images/bin/2322.jpg",
-			"specs" : "Weight!18lbs;Year!2006;Manufacturer!Sonosite;Power!560watts;Memory!720MB;Portable!Yes",
-			"totalunits" : 0
-		}
-	},
-	{
-		"pk": 5,
-		"model": "deviceapp.product",
-		"fields": {
-			"name": "Ultra Ultra SoundXTreme",
-			"devicecategory" : 7,
-			"industries" : [1],
-			"description" : "The New Fazone CB Ultrasound with Zone Sonography Technology. Anytime, anywhere 'CB' usability is stress free and easy, regardless of place or occasion. This elegant, ultra high quality ultrasound easily moves from the exam room to your vehicle bringing all aspects of FujiFilms' attention to detail along with it. Features include a full screen, 12-inch LCD monitor, instant one touch image optimization, intuitive operation with keys grouped by functionality, fast boot-up time, easy on and off cart capability, and stylish compact design",
-			"manufacturer": 1,
-			"features" : "Small, lightweight, and high portability means it can be used anywhere; Can be lifted or lowered simply by pulling the side lever; CB main unit can easily be attached or removed simply by pulling the front lever; Operates for up to an hour without external power supply (when the optional battery is installed)",
-			"mainimage" : "http://www.veteldiagnostics.com/images/bin/2322.jpg",
-			"specs" : "Weight!18lbs;Year!2006;Manufacturer!Sonosite;Power!560watts;Memory!720MB;Portable!Yes",
-			"totalunits" : 0
-		}
-	},
-	{
-		"pk": 6,
-		"model": "deviceapp.product",
-		"fields": {
-			"name": "Oldie but goodie ultrasound",
-			"devicecategory" : 7,
-			"industries" : [1],
-			"description" : "The New Fazone CB Ultrasound with Zone Sonography Technology. Anytime, anywhere 'CB' usability is stress free and easy, regardless of place or occasion. This elegant, ultra high quality ultrasound easily moves from the exam room to your vehicle bringing all aspects of FujiFilms' attention to detail along with it. Features include a full screen, 12-inch LCD monitor, instant one touch image optimization, intuitive operation with keys grouped by functionality, fast boot-up time, easy on and off cart capability, and stylish compact design",
-			"manufacturer": 1,
-			"features" : "Small, lightweight, and high portability means it can be used anywhere; Can be lifted or lowered simply by pulling the side lever; CB main unit can easily be attached or removed simply by pulling the front lever; Operates for up to an hour without external power supply (when the optional battery is installed)",
-			"mainimage" : "http://www.veteldiagnostics.com/images/bin/2322.jpg",
-			"specs" : "Weight!18lbs;Year!2006;Manufacturer!Sonosite;Power!560watts;Memory!720MB;Portable!Yes",
-			"totalunits" : 0
-		}
-	},
-	{
-    "pk": 1, 
-    "model": "auth.user", 
-    "fields": {
-        "username": "a", 
-        "first_name": "", 
-        "last_name": "", 
-        "is_active": true, 
-        "is_superuser": true, 
-        "is_staff": true, 
-        "last_login": "2013-10-28T04:37:02.515Z", 
-        "groups": [], 
-        "user_permissions": [], 
-        "password": "pbkdf2_sha256$10000$xSO9oRFz88LQ$XGNybzF63vtLfbJllBzLt6hfO0tTY2W3BXaln8ncgBM=", 
-        "email": "a@a.com", 
-        "date_joined": "2013-10-28T04:36:12.295Z"
-    }
-},
-{
-    "pk": 2, 
-    "model": "auth.user", 
-    "fields": {
-        "username": "brooke@aim.com", 
-        "first_name": "", 
-        "last_name": "", 
-        "is_active": true, 
-        "is_superuser": false, 
-        "is_staff": false, 
-        "last_login": "2013-10-28T04:37:27.969Z", 
-        "groups": [], 
-        "user_permissions": [], 
-        "password": "pbkdf2_sha256$10000$baG2jbKu2fmr$GQMak8dwaoerfKjoVBxom27VVhAlm5IAOlcE5wW1fQw=", 
-        "email": "brooke@aim.com", 
-        "date_joined": "2013-10-28T04:37:27.969Z"
-    }
-},
-{
-	"pk": 1,
-	"model": "deviceapp.basicuser",
-	"fields": {
-		"user":2,
-		"businesstype": "individual",
-		"name": "Brooke Johnson",
-		"company" : "Colts Neck Equine",
-		"email":"brooke@aim.com",
-		"address":"1 main street",
-		"zipcode": "02215" ,
-		"city":"Colts Neck",
-		"state":"NJ",
-		"website":"www.test.com",
-		"phonenumber":"732-547-4516"
-	}
-},
-{
-    "pk": 1, 
-    "model": "deviceapp.item", 
-    "fields": {
-        "status": 2,
-        "type": "refurbished", 
-        "product": 1, 
-        "savedcount": 0, 
-        "description": "this is a test iem", 
-        "price": 16430.0, 
-        "user": 1, 
-        "picturearray": "2", 
-        "condition": 2
-    }
-},
-{
-    "pk": 2, 
-    "model": "deviceapp.item", 
-    "fields": {
-        "status": 2, 
-        "type": "preowned",
-        "product": 2, 
-        "savedcount": 0, 
-        "description": "", 
-        "price": 21321, 
-        "user": 1, 
-        "picturearray": "[]", 
-        "condition": 4
-    }
-},
-{
-    "pk": 3, 
-    "model": "deviceapp.item", 
-    "fields": {
-        "status": 2, 
-        "type": "new",
-        "product": 3, 
-        "savedcount": 0, 
-        "description": "more products", 
-        "price": 23445.0, 
-        "user": 1, 
-        "picturearray": "[]", 
-        "condition": 3
-    }
-},
-{
-    "pk": 4, 
-    "model": "deviceapp.item", 
-    "fields": {
-        "status": 2, 
-        "type": "new",
-        "product": 1, 
-        "savedcount": 0, 
-        "description": "this is a test iem", 
-        "price": 20123, 
-        "user": 1, 
-        "picturearray": "2", 
-        "condition": 2
-    }
-},
-{
-    "pk": 5, 
-    "model": "deviceapp.item", 
-    "fields": {
-        "status": 2,
-        "type": "new", 
-        "product": 2, 
-        "savedcount": 0, 
-        "description": "", 
-        "price": 30123, 
-        "user": 1, 
-        "picturearray": "[]", 
-        "condition": 4
-    }
-},
-{
-    "pk": 6, 
-    "model": "deviceapp.item", 
-    "fields": {
-        "status": 2, 
-        "type": "new",
-        "product": 3, 
-        "savedcount": 1, 
-        "description": "more products", 
-        "price": 40445.0, 
-        "user": 1, 
-        "picturearray": "[]", 
-        "condition": 3
-    }
-}
+	{"pk": 1,"model": "deviceapp.devicecategory","fields": {"name": "anesthesia","displayname":"Anesthesia","industries" : [1,2,3],"totalunits": 0}},
+	{"pk": 2,"model": "deviceapp.devicecategory","fields": {"name": "monitors","displayname":"Monitors","industries" : [1,2],"totalunits": 0}},
+	{"pk": 3,"model": "deviceapp.devicecategory","fields": {"name": "tables","displayname":"Surgical Tables","industries" : [1,3],"totalunits": 0}},
+	{"pk": 4,"model": "deviceapp.devicecategory","fields": {"name": "sterilizers","displayname":"Sterilizers","industries" : [1,2,3],"totalunits":0}},
+	{"pk": 5,"model": "deviceapp.devicecategory","fields": {"name": "centrifuges","displayname":"Centrifuges","industries" : [1,2,3],"totalunits":0}},
+	{"pk": 6,"model": "deviceapp.devicecategory","fields": {"name": "defibrillators","displayname":"Defibrillators","industries" : [1,2],"totalunits":0}},
+	{"pk": 7,"model": "deviceapp.devicecategory","fields": {"name": "Lasers","displayname":"Lasers","industries" : [1,3],"totalunits":0}},
+	{"pk": 8,"model": "deviceapp.devicecategory","fields": {"name": "Dental","displayname":"Dental","industries" : [1,2,3],"totalunits":0}},
+	{"pk": 9,"model": "deviceapp.devicecategory","fields": {"name": "Electrosurgical","displayname":"Anesthesia","industries" : [1,2],"totalunits":0}},
+	{"pk": 10,"model": "deviceapp.devicecategory","fields": {"name": "xray","displayname":"X-Ray Machines","industries" : [2],"totalunits":0}}
+
 ]
