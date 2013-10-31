@@ -9,3 +9,4 @@ static==0.4
 wsgiref==0.1.2
 boto>=2.3.0
 django-storages
+PIL==1.1.7

@@ -361,4 +361,8 @@ def setUserProfileDict(field,value,usermodel):
 		usermodel.password = value
 	usermodel.save()
 	return
-	
+
+def numberToMoney(amount):
+	amount = str(int(amount))
+	return amount
+			
