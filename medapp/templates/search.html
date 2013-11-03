@@ -25,8 +25,11 @@ label .floatright {
 }
 #noresults {
 	text-align: center;
-	margin: 30px auto;
-	padding: 0 40px;
+	margin: 10px auto;
+	padding: 30px 40px;
+	{% if items %}
+	display: none;
+	{% endif %}
 }
 #noresults p {
 	font-size: 14px;
@@ -104,6 +107,7 @@ label .floatright {
   		</div>
   		
  -->
+
   		<!-- 
 <div id='milecategory' class='filter-category'>
   			<h2>Distance</h2>
@@ -154,87 +158,94 @@ label .floatright {
   	</div>
   	
   	<div class='resultsbox' id='resultsbody'>
-  		{% if products %}
-  		{% for product in products %}
+  		{% for item in items %}
+  		<div id="resultcontainer">
   		<div class='resultitem'>
   			<div class='imageviewer'></div>
-  			<div class='imgdiv'><img src='{{product.mainimage}}'/></div>
+  			<div class='imgdiv'><img src='{{item.mainimage.photo.url}}'/></div>
   			<div class='pricediv'>
-  				<h6>pre-owned from</h6>
   				<p>$14,300</p>
-  				<a class='btn-custom-orange' href="/product/{{product.id}}/details">Select</a>
+  				<a class='btn-custom-orange' href="/item/{{item.id}}/details">Select</a>
   			</div>
   			<div class='textdiv'>
-  				<a href="/product/{{product.id}}/details"><h2>{{ product.name }}</h2></a>
-  				<h3>{{ product.manufacturer }}</h3>
-  				<h4><a>New (2) <span>$27,480</span></a></h4>
-  				<h4><a>Refurbished (1) <span>$20,120</span></a></h4>
-  				<h4><a>Preowned (4) <span>$14,300</span></a></h4>
+  				<a href="/item/{{item.id}}/details"><h2>{{ item.name }}</h2></a>
+  				<h6 class="resulttag">
+  					{% if item.type == 'new' %}
+  					<span class="new">new</span>
+  					{% endif %} 
+  					{% if item.type == 'refurbished' %}
+  					<span class="refurbished">refurbished</span>
+  					{% endif %} 
+  					{% if item.type == 'preowned' %}
+  					<span class="preowned">preowned</span>
+  					{% endif %} 
+  					{% if item.verified %}
+  					<span class="verified">verified seller</span>
+  					{% endif %} 
+  					{% if item.contract == 'contractincluded' %}
+  					<span class="lightgreen">service contract</span>
+  					{% endif %} 
+  					{% if item.contract == 'contractoptional' %}
+  					<span class="lightred">service contract option</span>
+  					{% endif %} 
+  					
+  				</h6>
+  				<h4><a>Seller<span>{{ item.user.company }}</span></a></h4>
+  				<h4><a>Product Age<span>{{ item.age }}</span></a></h4>
+  				<h4><a>Condition<span>{{item.condition }}</span></a></h4>
   				<div class='buttondiv'>
   					<button class='btn-custom-gray infobutton detailsbutton'>Details</button>
   					<button class='btn-custom-gray infobutton specsbutton'>Specs</button>
-  					<button class='btn-custom-gray infobutton sellersbutton'>Sellers</button>
+  					<button class='btn-custom-gray infobutton conditionbutton'>Condition</button>
   				</div>
   			</div>
   			<div class='clear'></div>
   			<div class='detailsdiv hidden previewdiv'>
   				<div class='detailtext'>
-  					<p>{{product.description}}</p>
+  					<p>{{item.productdescription}}</p>
   				</div>
   				<div class='imagegallery'>
-  					<div class='imagethumbnail'></div>
-  					<div class='imagethumbnail'></div>
-  					<div class='imagethumbnail'></div>
-  					<div class='imagethumbnail'></div>
-  					<div class='imagethumbnail'></div>
-  					<div class='imagethumbnail'></div>
-  					<div class='imagethumbnail'></div>
-  					<div class='imagethumbnail'></div>
-  					<div class='imagethumbnail'></div>
+  					{% for image in item.itemimage_set.all %}
+  						{% if forloop.counter < 6 %}
+							<div class='imagethumbnail'><img src="{{image.photo.url}}"/></div>
+						{% endif %}
+  						<div class='imagethumbnail'><img src="{{image.photo.url}}"/></div>
+  					{% endfor %}
+
   				</div>
   				<div class='morediv'>
-  					<a href="/product/{{product.id}}/details"> Show all product details &#8594;</a>
+  					<a href="/item/{{item.id}}/details"> Show all product details &#8594;</a>
   					<button class='btn-custom-gray closebutton'>Close</button>
   				</div>
   			</div>
   			<div class='specsdiv hidden previewdiv'>
   				<div class="spectext">
-  					{% for spec in product.specifications %}
+  					{% for spec in item.specifications %}
 						<p><span>{{spec.1}}</span>{{spec.0}}</p>
 					{% endfor $%}
   				</div>
   				<div class='morediv'>
-  					<a href="/product/{{product.id}}/details"> Show all product specifications &#8594;</a>
+  					<a href="/item/{{item.id}}/details"> Show all product specifications &#8594;</a>
   					<button class='btn-custom-gray closebutton'>Close</button>
   				</div>
   			</div>
-  			<div class='sellerdiv hidden previewdiv'>
-  				<table class="sellertable">
-				{% for seller in product.sellers %}
-					<tr>
-						<td class='sellerprice'>${{seller.price}}</td>
-						<td class='sellercompany'>{{seller.user.company}}</td>
-						<td class='sellercondition'>{{seller.type | title}}</td>
-						<td class='sellertype'><a href='/product/{{product.id}}/buyingoptions' class="">View Buying Options</a></td>
-					</tr>
-				{% endfor %}
-				</table>
+  			<div class='conditiondiv hidden previewdiv'>
+				<p>{{ item.conditiondescription }}</p>
   				<div class='morediv'>
-  					<a href="/product/{{product.id}}/buyingoptions"> Show all sellers &#8594;</a>
+  					<a href="/item/{{item.id}}/buyingoptions"> View all condition details &#8594;</a>
   					<button class='btn-custom-gray closebutton'>Close</button>
   				</div>
   			</div>
   			<div class='clear'></div>
 
   		</div>
+  		</div>
   		{% endfor %}
-  		{% else %}
-  			<div id="noresults">
-				<p class="noluck">Sorry, we can't find anything that matches your search</p>
-				<img class="noresults" src="{{STATIC_URL}}img/saddog.jpg"/>
-				<p>Try changing your filters, or call us with what you want and we will let you know when one becomes available!</p>
-  			</div>
-  		{% endif %}
+		<div id="noresults" class="resultitem">
+			<p class="noluck">Sorry, we can't find anything that matches your search</p>
+			<img class="noresults" src="{{STATIC_URL}}img/saddog.jpg"/>
+			<p>Try changing your filters, or call us with what you want and we will let you know when one becomes available!</p>
+		</div>
   	</div>
   	<div id='showmorebutton' class='resultsbox'>
   		<p>Show More Results</p>
@@ -247,6 +258,7 @@ label .floatright {
 
 {% block jsblock %}
 <script src='{{STATIC_URL}}js/jquery-ui-1.10.3.custom.min.js' type='text/javascript' ></script>
+<script src='{{STATIC_URL}}js/searchbox.js' type='text/javascript' ></script>
 
 <script>
 //*********************************************
@@ -259,12 +271,13 @@ var variables = {'category':'{{category.name}}','sortby':'relevance','pricelow':
 //*********************************************
 $(document).ready(function(){
 	activateResultsBoxItems();
-	
+	$('input').prop('checked', true);
 	$("input").change(function() {
 		var checkboxname = $(this).attr('id');
 		variables[checkboxname] = ($(this).is(":checked")) ? true: false;
 		update();
 	});
+	
 	//The price filter functionality when it is toggled
 	$(function() {
 		$( '#price-range' ).slider({
@@ -308,70 +321,19 @@ var update = function loading() {
 		dataType: 'html',
 		success: function(response){
 			$('#loadingoverlay').css('display','none');
-			$("#resultsbody").empty();
-			$("#resultsbody").append(response);
+			$("#resultcontainer").empty();
+			$("#resultcontainer").append(response);
+			if ($('#resultcontainer').is(":empty")) {
+				console.log("here");
+				$("#noresults").css('display','block');
+			} else {
+				$("#noresults").css('display','none');
+			}
 			activateResultsBoxItems();
 		}
 	});
 }
 
-
-//*********************************************
-//*** Product Box Generator *******************
-//*********************************************
-
-
-// We must rebind all the actions when results are added to the page
-var activateResultsBoxItems = function activateResultsBoxItems() {	
-	//When user clicks for more information
-	$('.infobutton').click(function() {
-		togglebuttons($(this));
-	});
-	
-	//When user closes the more information
-	$('.closebutton').click(function() {
-		$(this).parent().parent().addClass('hidden');
-		var buttons = $(this).parent().parent().parent().children('div.textdiv').children('div.buttondiv').children();
-		for (var b=0; b < buttons.length; b++) {
-				$(buttons[b]).removeClass('activeinfo');
-			}
-	});
-	//When a user clicks on an image
-	$('.imgdiv img').click(function() {
-		togglebuttons($($(this).parent().parent().children('div.textdiv').children('div.buttondiv').children()[0]));
-	});
-	
-	//When a user hovers over a thumbnail
-	$('.imagethumbnail').hover(function() {
-		$(this).parent().parent().parent().children('div.imageviewer').css('display','block');
-	}, function() {
-		$(this).parent().parent().parent().children('div.imageviewer').css('display','none');
-	});
-};
-
-//Functionality for the show more buttons
-var togglebuttons = function togglebutton(handler) {
-	var buttons = handler.parent().children();
-		if (!(handler.hasClass('activeinfo'))) {
-			for (var b=0; b < buttons.length; b++) {
-				$(buttons[b]).removeClass('activeinfo');
-				handler.addClass('activeinfo');
-			}
-			var buttons = handler.parent().parent().parent().children('div.previewdiv');
-			for (var i=0; i < buttons.length; i++) {
-				if (!($(buttons[i]).hasClass("hidden"))) {
-					$(buttons[i]).addClass("hidden");
-				}
-			};
-			if ($(handler).text() == 'Details') {
-				handler.parent().parent().parent().children('div.detailsdiv').removeClass('hidden');
-			} else if ($(handler).text() == 'Specs') {
-				handler.parent().parent().parent().children('div.specsdiv').removeClass('hidden');
-			} else if ($(handler).text() == 'Sellers') {
-				handler.parent().parent().parent().children('div.sellerdiv').removeClass('hidden');
-			} 
-		}
-}
 
 //*********************************************
 //*** Helper Functions ************************

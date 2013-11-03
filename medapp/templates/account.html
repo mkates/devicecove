@@ -25,7 +25,6 @@
 	width: 770px;
 	border-radius: 3px;
 	min-height: 250px;
-	text-align: center;
 }
 .sidecontent ul {
 	padding: 0;
@@ -114,7 +113,7 @@
 <div class="pagecontainer">
 	<div class="sidecontent">
 		<ul>
-			<a href="saveditems"><li class="first {% block saveditems %}{% endblock %}"><h3>Saved Items<span class="arrow">5</span></h3></li></a>
+			<a href="saveditems"><li class="first {% block saveditems %}{% endblock %}"><h3>Saved Items{% if itemcount %}<span class="arrow">{{ itemcount }}</span>{% endif %}</h3></li></a>
 			<a href="listeditems"><li class="{% block listeditems %}{% endblock %}"><h3>Listed Items<span class="arrow">1</span></h3></li></a>
 			<a href="accounthistory"><li class="{% block accounthistory %}{% endblock %}"><h3>Account History</li></a>
 			<a href="profile"><li class="{% block profile %}{% endblock %}"><h3>Profile</li></a>

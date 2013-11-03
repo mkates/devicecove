@@ -551,7 +551,7 @@ background-image: linear-gradient(to bottom, #F5F5F5 5%, #D1D1D1 100%);
 	background-image: linear-gradient(to top, #F6F6F6 50%, #D2D2D2 100%);
 }
 .btn-custom-green {
-	border:1px solid #aaa;
+	border:1px solid #278715;
 	box-shadow:inset 0px 1px 0px 0px #84BF92;
 	background-image: -ms-linear-gradient(top, #14BF08 0%, #227512 100%);
 

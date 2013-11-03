@@ -7,9 +7,9 @@
 			"displayname" : "Veterinary" 
 		}
 	},
-	{"pk": 1,"model": "deviceapp.devicecategory","fields": {"name": "anesthesia","displayname":"Anesthesia","industries" : [1],"totalunits": 0}},
-	{"pk": 2,"model": "deviceapp.devicecategory","fields": {"name": "monitors","displayname":"Monitors","industries" : [1],"totalunits": 0}},
-	{"pk": 3,"model": "deviceapp.devicecategory","fields": {"name": "tables","displayname":"Surgical Tables","industries" : [1],"totalunits": 0}},
+	{"pk": 1,"model": "deviceapp.devicecategory","fields": {"name": "anesthesia","displayname":"Anesthesia","industries" : [1],"totalunits":0}},
+	{"pk": 2,"model": "deviceapp.devicecategory","fields": {"name": "monitors","displayname":"Monitors","industries" : [1],"totalunits":0}},
+	{"pk": 3,"model": "deviceapp.devicecategory","fields": {"name": "tables","displayname":"Surgical Tables","industries" : [1],"totalunits":0}},
 	{"pk": 4,"model": "deviceapp.devicecategory","fields": {"name": "sterilizers","displayname":"Sterilizers","industries" : [1],"totalunits":0}},
 	{"pk": 5,"model": "deviceapp.devicecategory","fields": {"name": "centrifuges","displayname":"Centrifuges","industries" : [1],"totalunits":0}},
 	{"pk": 6,"model": "deviceapp.devicecategory","fields": {"name": "defibrillators","displayname":"Defibrillators","industries" : [1],"totalunits":0}},
@@ -21,7 +21,7 @@
 	{"pk": 1,"model": "deviceapp.manufacturer","fields": {"name": "3M","displayname":"3M"}},
 	{"pk": 2,"model": "deviceapp.manufacturer","fields": {"name": "Fuji","displayname":"Fuji"}},
 	{"pk": 3,"model": "deviceapp.manufacturer","fields": {"name": "Sonosite","displayname":"Sonosite Systems"}},
-	
+
 	{
 		"pk": 1,
 		"model": "deviceapp.product",
@@ -31,10 +31,7 @@
 			"industries" : [1],
 			"description" : "The New Fazone CB Ultrasound with Zone Sonography Technology. Anytime, anywhere 'CB' usability is stress free and easy, regardless of place or occasion. This elegant, ultra high quality ultrasound easily moves from the exam room to your vehicle bringing all aspects of FujiFilms' attention to detail along with it. Features include a full screen, 12-inch LCD monitor, instant one touch image optimization, intuitive operation with keys grouped by functionality, fast boot-up time, easy on and off cart capability, and stylish compact design",
 			"manufacturer": 1,
-			"features" : "Small, lightweight, and high portability means it can be used anywhere; Can be lifted or lowered simply by pulling the side lever; CB main unit can easily be attached or removed simply by pulling the front lever; Operates for up to an hour without external power supply (when the optional battery is installed)",
-			"mainimage" : "http://www.veteldiagnostics.com/images/bin/2322.jpg",
-			"specs" : "Weight!18lbs;Year!2006;Manufacturer!Sonosite;Power!560watts;Memory!720MB;Portable!Yes",
-			"totalunits" : 0
+			"specs" : "Weight!18lbs;Year!2006;Manufacturer!Sonosite;Power!560watts;Memory!720MB;Portable!Yes"
 		}
 	},
 	{
@@ -46,10 +43,7 @@
 			"industries" : [1],
 			"description" : "The New Fazone CB Ultrasound with Zone Sonography Technology. Anytime, anywhere 'CB' usability is stress free and easy, regardless of place or occasion. This elegant, ultra high quality ultrasound easily moves from the exam room to your vehicle bringing all aspects of FujiFilms' attention to detail along with it. Features include a full screen, 12-inch LCD monitor, instant one touch image optimization, intuitive operation with keys grouped by functionality, fast boot-up time, easy on and off cart capability, and stylish compact design",
 			"manufacturer": 1,
-			"features" : "Small, lightweight, and high portability means it can be used anywhere; Can be lifted or lowered simply by pulling the side lever; CB main unit can easily be attached or removed simply by pulling the front lever; Operates for up to an hour without external power supply (when the optional battery is installed)",
-			"mainimage" : "http://www.veteldiagnostics.com/images/bin/2322.jpg",
-			"specs" : "Weight!18lbs;Year!2006;Manufacturer!Sonosite;Power!560watts;Memory!720MB;Portable!Yes",
-			"totalunits" : 0
+			"specs" : "Weight!18lbs;Year!2006;Manufacturer!Sonosite;Power!560watts;Memory!720MB;Portable!Yes"
 		}
 	},
 	{
@@ -61,10 +55,7 @@
 			"industries" : [1],
 			"description" : "The New Fazone CB Ultrasound with Zone Sonography Technology. Anytime, anywhere 'CB' usability is stress free and easy, regardless of place or occasion. This elegant, ultra high quality ultrasound easily moves from the exam room to your vehicle bringing all aspects of FujiFilms' attention to detail along with it. Features include a full screen, 12-inch LCD monitor, instant one touch image optimization, intuitive operation with keys grouped by functionality, fast boot-up time, easy on and off cart capability, and stylish compact design",
 			"manufacturer": 1,
-			"features" : "Small, lightweight, and high portability means it can be used anywhere; Can be lifted or lowered simply by pulling the side lever; CB main unit can easily be attached or removed simply by pulling the front lever; Operates for up to an hour without external power supply (when the optional battery is installed)",
-			"mainimage" : "http://www.veteldiagnostics.com/images/bin/2322.jpg",
-			"specs" : "Weight!18lbs;Year!2006;Manufacturer!Sonosite;Power!560watts;Memory!720MB;Portable!Yes",
-			"totalunits" : 0
+			"specs" : "Weight!18lbs;Year!2006;Manufacturer!Sonosite;Power!560watts;Memory!720MB;Portable!Yes"
 		}
 	},
 	{
@@ -76,10 +67,7 @@
 			"industries" : [1],
 			"description" : "The New Fazone CB Ultrasound with Zone Sonography Technology. Anytime, anywhere 'CB' usability is stress free and easy, regardless of place or occasion. This elegant, ultra high quality ultrasound easily moves from the exam room to your vehicle bringing all aspects of FujiFilms' attention to detail along with it. Features include a full screen, 12-inch LCD monitor, instant one touch image optimization, intuitive operation with keys grouped by functionality, fast boot-up time, easy on and off cart capability, and stylish compact design",
 			"manufacturer": 1,
-			"features" : "Small, lightweight, and high portability means it can be used anywhere; Can be lifted or lowered simply by pulling the side lever; CB main unit can easily be attached or removed simply by pulling the front lever; Operates for up to an hour without external power supply (when the optional battery is installed)",
-			"mainimage" : "http://www.veteldiagnostics.com/images/bin/2322.jpg",
-			"specs" : "Weight!18lbs;Year!2006;Manufacturer!Sonosite;Power!560watts;Memory!720MB;Portable!Yes",
-			"totalunits" : 0
+			"specs" : "Weight!18lbs;Year!2006;Manufacturer!Sonosite;Power!560watts;Memory!720MB;Portable!Yes"
 		}
 	},
 	{
@@ -91,10 +79,7 @@
 			"industries" : [1],
 			"description" : "The New Fazone CB Ultrasound with Zone Sonography Technology. Anytime, anywhere 'CB' usability is stress free and easy, regardless of place or occasion. This elegant, ultra high quality ultrasound easily moves from the exam room to your vehicle bringing all aspects of FujiFilms' attention to detail along with it. Features include a full screen, 12-inch LCD monitor, instant one touch image optimization, intuitive operation with keys grouped by functionality, fast boot-up time, easy on and off cart capability, and stylish compact design",
 			"manufacturer": 1,
-			"features" : "Small, lightweight, and high portability means it can be used anywhere; Can be lifted or lowered simply by pulling the side lever; CB main unit can easily be attached or removed simply by pulling the front lever; Operates for up to an hour without external power supply (when the optional battery is installed)",
-			"mainimage" : "http://www.veteldiagnostics.com/images/bin/2322.jpg",
-			"specs" : "Weight!18lbs;Year!2006;Manufacturer!Sonosite;Power!560watts;Memory!720MB;Portable!Yes",
-			"totalunits" : 0
+			"specs" : "Weight!18lbs;Year!2006;Manufacturer!Sonosite;Power!560watts;Memory!720MB;Portable!Yes"
 		}
 	},
 	{
@@ -106,10 +91,7 @@
 			"industries" : [1],
 			"description" : "The New Fazone CB Ultrasound with Zone Sonography Technology. Anytime, anywhere 'CB' usability is stress free and easy, regardless of place or occasion. This elegant, ultra high quality ultrasound easily moves from the exam room to your vehicle bringing all aspects of FujiFilms' attention to detail along with it. Features include a full screen, 12-inch LCD monitor, instant one touch image optimization, intuitive operation with keys grouped by functionality, fast boot-up time, easy on and off cart capability, and stylish compact design",
 			"manufacturer": 1,
-			"features" : "Small, lightweight, and high portability means it can be used anywhere; Can be lifted or lowered simply by pulling the side lever; CB main unit can easily be attached or removed simply by pulling the front lever; Operates for up to an hour without external power supply (when the optional battery is installed)",
-			"mainimage" : "http://www.veteldiagnostics.com/images/bin/2322.jpg",
-			"specs" : "Weight!18lbs;Year!2006;Manufacturer!Sonosite;Power!560watts;Memory!720MB;Portable!Yes",
-			"totalunits" : 0
+			"specs" : "Weight!18lbs;Year!2006;Manufacturer!Sonosite;Power!560watts;Memory!720MB;Portable!Yes"
 		}
 	},
 	{
@@ -167,92 +149,37 @@
 },
 {
     "pk": 1, 
-    "model": "deviceapp.item", 
+    "model": "deviceapp.image", 
     "fields": {
-        "status": 2,
-        "type": "refurbished", 
-        "product": 1, 
-        "savedcount": 0, 
-        "description": "this is a test iem", 
-        "price": 16430.0, 
-        "user": 1, 
-        "picturearray": "2", 
-        "condition": 2
+        "photo": "userimages/8ac18e92-9e78-4ddd-a35a-104da7b6a189.png"
     }
 },
 {
-    "pk": 2, 
-    "model": "deviceapp.item", 
+    "pk": 1, 
+    "model": "deviceapp.itemimage", 
     "fields": {
-        "status": 2, 
-        "type": "preowned",
-        "product": 2, 
-        "savedcount": 0, 
-        "description": "", 
-        "price": 21321, 
-        "user": 1, 
-        "picturearray": "[]", 
-        "condition": 4
+        "item": 1
     }
 },
 {
-    "pk": 3, 
+    "pk": 1, 
     "model": "deviceapp.item", 
     "fields": {
-        "status": 2, 
-        "type": "new",
-        "product": 3, 
-        "savedcount": 0, 
-        "description": "more products", 
-        "price": 23445.0, 
-        "user": 1, 
-        "picturearray": "[]", 
-        "condition": 3
-    }
-},
-{
-    "pk": 4, 
-    "model": "deviceapp.item", 
-    "fields": {
-        "status": 2, 
-        "type": "new",
-        "product": 1, 
-        "savedcount": 0, 
-        "description": "this is a test iem", 
-        "price": 20123, 
-        "user": 1, 
-        "picturearray": "2", 
-        "condition": 2
-    }
-},
-{
-    "pk": 5, 
-    "model": "deviceapp.item", 
-    "fields": {
-        "status": 2,
-        "type": "new", 
-        "product": 2, 
-        "savedcount": 0, 
-        "description": "", 
-        "price": 30123, 
-        "user": 1, 
-        "picturearray": "[]", 
-        "condition": 4
-    }
-},
-{
-    "pk": 6, 
-    "model": "deviceapp.item", 
-    "fields": {
-        "status": 2, 
-        "type": "new",
-        "product": 3, 
-        "savedcount": 1, 
-        "description": "more products", 
-        "price": 40445.0, 
-        "user": 1, 
-        "picturearray": "[]", 
-        "condition": 3
+    	"user": 1, 
+    	"name": "XT450 Power UltraSound Machine", 
+    	"devicecategory": 7,
+    	"manufacturer" : 2,
+    	"specs" : "Weight!18lbs;Year!2006;Manufacturer!Sonosite;Power!560watts;Memory!720MB;Portable!Yes", 
+    	"condition": 2,
+    	"age":18,
+    	"conditiondescription":"This product was mainly used in mobile veterinary trucks and carried from farm to farm. There are a couple scratches on the machine but otherwise it is in great working order",
+    	"productdescription": "The New Fazone CB Ultrasound with Zone Sonography Technology. Anytime, anywhere 'CB' usability is stress free and easy, regardless of place or occasion. This elegant, ultra high quality ultrasound easily moves from the exam room to your vehicle bringing all aspects of FujiFilms' attention to detail along with it. Features include a full screen, 12-inch LCD monitor, instant one touch image optimization, intuitive operation with keys grouped by functionality, fast boot-up time, easy on and off cart capability, and stylish compact design",
+		"type": "refurbished", 
+        "contract": "contractoptional", 
+        "liststatus": "active",
+        "price": 16430,
+        "mainimage": 1,
+        "savedcount" : 0
     }
 }
 ]

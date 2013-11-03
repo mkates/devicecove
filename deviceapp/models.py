@@ -34,18 +34,24 @@ class Product(models.Model):
 	devicecategory = models.ForeignKey(DeviceCategory)
 	industries = models.ManyToManyField(Industry)
 	description = models.TextField()
-	features = models.TextField()
 	manufacturer = models.ForeignKey(Manufacturer)
-	mainimage = models.CharField(max_length=100)
 	specs = models.CharField(max_length=1000)
-	totalunits = models.IntegerField()
 	def __unicode__(self):
 		return self.name
 	
 ############################################
 ####### Users Database #####################
 ############################################
+#This function generates a random name for the uploaded image
+def get_file_path(instance, filename):
+	ext = filename.split('.')[-1]
+	filename = "%s.%s" % (uuid.uuid4(), ext)
+	return os.path.join('userimages', filename)
 
+class Image(models.Model):
+	photo = models.ImageField(upload_to=get_file_path)
+	id = models.AutoField(primary_key = True)
+	
 # Generic User already includes email/password
 
 class BasicUser(models.Model):
@@ -66,36 +72,63 @@ class BasicUser(models.Model):
 
 #An individual item for sale associated with a product and a user
 class Item(models.Model):
-	product = models.ForeignKey(Product)
-	condition = models.IntegerField(max_length=1) #1 being parts only to 6 being new
-	type = models.CharField(max_length = 24)
 	user = models.ForeignKey(BasicUser)
-	description = models.TextField()
+	
+	#General Product Information
+	name = models.CharField(max_length=200)
+	product = models.ForeignKey(Product,null=True,blank=True)
+	devicecategory = models.ForeignKey(DeviceCategory)
+	manufacturer = models.ForeignKey(Manufacturer)
+	specs = models.CharField(max_length=1000)
+	
+	#Specific Product Information
+	condition = models.IntegerField(max_length=1) #1 being parts only to 6 being brand new
+	age = models.FloatField()
+	conditiondescription = models.TextField()
+	productdescription = models.TextField()
+	TYPE_OPTIONS =  (
+		('new', 'New'),
+		('refurbished', 'Refurbished'),
+		('preowned', 'Pre-Owned')
+	)
+	type = models.CharField(max_length=20, choices=TYPE_OPTIONS)
+	CONTRACT_OPTIONS =  (
+		('contractincluded', 'Service Contract Included'),
+		('contractoptional', 'Service Contact Optional'),
+		('contractnone', 'No Service Contract')
+	)
+	contract = models.CharField(max_length=30, choices=CONTRACT_OPTIONS)
+	LISTSTATUS_OPTIONS =  (
+		('active', 'Active'),
+		('inactive', 'Inactive'),
+		('sold', 'Sold'),
+		('deleted', 'Deleted')
+	)
+	liststatus = models.CharField(max_length=30, choices=LISTSTATUS_OPTIONS)
 	price = models.FloatField(max_length=20)
-	picturearray = models.CharField(max_length=100)
-	status = models.IntegerField(max_length=1) #1 being inactive, #2 being active, #3 being sold
 	savedcount = models.IntegerField()
+	verified = models.BooleanField()
+	listeddate = models.DateField(auto_now_add = True,blank=True)
+	mainimage = models.ForeignKey(Image,null=True)
+	
 	def __unicode__(self):
-		return self.product.name+" from "+self.user.name
+		return self.name+" from "+self.user.name
 		
 	def save(self, *args, **kwargs):
-		self.product.totalunits += 1
-		self.product.devicecategory.totalunits += 1
-		self.product.save()
-		self.product.devicecategory.save()
+		self.devicecategory.totalunits += 1
+		self.devicecategory.save()
 		super(Item, self).save(*args, **kwargs)
 
 class SavedItem(models.Model):
 	user = models.ForeignKey(BasicUser)
 	item = models.ForeignKey(Item)
+
 	
-	
-#This function generates a random name for the uploaded image
-def get_file_path(instance, filename):
-	ext = filename.split('.')[-1]
-	filename = "%s.%s" % (uuid.uuid4(), ext)
-	return os.path.join('userimages', filename)
-    
-class UserImage(models.Model):
-	item = models.ForeignKey(Item,blank=True,null=True)
-	photo = models.ImageField(upload_to=get_file_path)
+class ProductImage(Image):
+	item = models.ManyToManyField(Item)
+	product = models.ForeignKey(Product)
+
+#Should be a one to one field
+class ItemImage(Image):
+	item = models.ForeignKey(Item,blank=True,null=True)	
+

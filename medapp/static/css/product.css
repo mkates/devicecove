@@ -93,6 +93,7 @@
 	background: #C0E0BC;
 	color: #5D9157;
 }
+
 .sellerdiv .descriptiondiv {
 	float: left;
 	padding: 2px 20px;
@@ -147,8 +148,7 @@
 }
 
 .savebutton {
-	margin-top: 10px;
-	width: 90px;
+
 }
 .saveloader {
 	clear: both;
@@ -161,7 +161,12 @@
 .topbar {
 	margin: 0 auto;
 	width: 990px;
+	padding: 0 3px;
 	text-align: left;
+}
+.topbar .topnavigation {
+	border-bottom:1px solid #eee;
+	margin-bottom: 15px;
 }
 .topbar .backbutton-container{
 	padding: 0;
@@ -184,34 +189,28 @@
 	float: right;
 }
 .topbar h2 {
-	border-top: 1px solid #eee;	
 	margin-top: 0px;
 	padding-top: 10px;
 	margin-bottom: 0px;
 	font-size: 25px;
 	font-weight: 800;
+	width: 600px;
 	
 }
-.topbar .actionsave {
-	padding: 5px 10px;
-	font-size: 12px;
-	background: #3B9C85;
-	color: white;
-	background: #aaa;
-	transition: background .2s;
+.topbar h5 {
+	text-align: left;
+	display:inline-block;
+	color: #555;
+	font-weight: 200;
+	font-size: 15px;
 }
-.topbar .actionsave a {
-	color: white;
-}
-.topbar .actionsave:hover {
-	background: #777;
-}
+
 .tabbar {
 	width: 990px;
 	margin: 0 auto;
+	text-align: left;
 }
 .tabbar a {
-	float: left;
 	display: block;
 	font-weight: 800;
 	color: #428BCA;
@@ -263,11 +262,25 @@
 
 .otherviewers {
 	float: right;
-	padding: 12px 0px 0 10px;
+	padding: 0px 0px 0 10px;
 	border-radius: 4px;
 	color: #777;
+	float: right;
+	text-align: right;
 	font-weight: 200;
 	font-size: 13px;
+}
+.otherviewers .savebutton {
+	display:block;
+	text-align: right;
+}
+#save {
+	padding: 3px 13px;
+	width: 80px;
+	margin-top: 10px;
+	margin-bottom: 6px;
+	font-size: 12px;
+	display:inline-block;
 }
 .otherviewers span {
 	font-weight: 800;
@@ -283,6 +296,18 @@
 }
 .actionbox h2 {
 	margin: 0;
+}
+.actionbox h3 {
+	margin: 20px 0 15px 0;
+	font-size: 35px;
+	color: green;
+	font-weight: 800;
+}
+.actionbox p {
+	font-weight: 200;
+	font-size: 12px;
+	color: #777;
+	padding: 0 20px;
 }
 .actionbox .actionbtn {
 	background: #DBAE27;

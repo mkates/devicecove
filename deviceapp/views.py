@@ -28,7 +28,7 @@ def index(request):
 def imageupload(request):
 	imagehandlers = []
 	for file in request.FILES.getlist('files'):
-		ui = UserImage(photo=file)
+		ui = ItemImage(photo=file)
 		ui.save()
 		imagehandlers.append([ui.id,ui.photo.url])
 	return HttpResponse(json.dumps(imagehandlers), mimetype='application/json')
@@ -39,21 +39,28 @@ def imageupload(request):
 
 def postitem(request):
 	if request.method == "POST":
+		print request
 		if request.user.is_authenticated():
-			productid = request.POST['productid']
-			try:
-				pictureidlist = request.POST['pictureid[]']
-			except:
-				pictureidlist = []
-			description = request.POST['description']
+			name = request.POST['name']
+			manufacturer = request.POST['manufacturer']
+			manufacturer = Manufacturer.objects.get(name = manufacturer)
+			category = request.POST['category']
+			category = DeviceCategory.objects.get(name=category)
+			specs = request.POST['specs']
+			itempicsidlist = request.POST.getlist('pictureid[]','')
+			productpicsidlist = request.POST.getlist('productpicid[]','')
+			description = request.POST['productdescription']
+			conditiondescription = request.POST['conditiondescription']
 			price = request.POST['price']
 			quality = request.POST['quality']
+			contract = request.POST['contract']
 			bu = BasicUser.objects.get(user=request.user)
-			product = Product.objects.get(id=productid)
-			itemhandle = Item(product=product,condition=quality,status=2,savedcount=0,user=bu,description=description, price=price,picturearray=pictureidlist)
+			mainimage = Image.objects.get(id=1)
+			itemhandle = Item(user=bu,type='new',name=name,devicecategory=category,manufacturer=manufacturer,specs=specs,productdescription=description,conditiondescription=conditiondescription,contract=contract,condition=quality,price=price,age=1,liststatus="active",listeddate="2013-11-01",mainimage=mainimage,savedcount=0)
 			itemhandle.save()
-			for picid in pictureidlist:
-				pichandle = UserImage.objects.get(id=picid)
+			print specs
+			for pics in itempicsidlist:
+				pichandle = ItemImage.objects.get(id=pics)
 				pichandle.item = itemhandle
 				pichandle.save()
 			return HttpResponse(json.dumps("100"), mimetype='application/json')
@@ -64,28 +71,25 @@ def postitem(request):
 def saveitem(request):
 	if request.method == "POST" and request.user.is_authenticated():
 		item = Item.objects.get(id=request.POST['id'])
+		print request.POST['action']
 		if (request.POST['action'] == "save"):
-			try:
-				si = SavedItem.objects.get(user = BasicUser.objects.get(user=request.user),item=item)
-			except:
+			if not SavedItem.objects.filter(user = BasicUser.objects.get(user=request.user),item=item).exists():
 				si = SavedItem(user = BasicUser.objects.get(user=request.user),item=item)
 				si.save()
 		else:
-			try:
+			if SavedItem.objects.filter(user = BasicUser.objects.get(user=request.user),item=item).exists():
 				si = SavedItem.objects.get(user = BasicUser.objects.get(user=request.user),item=item)
 				si.delete()
-			except:
-				print 'Product already exists'
 		return HttpResponse(json.dumps("100"), mimetype='application/json')
 	else:
 		return HttpResponse(json.dumps("500"), mimetype='application/json')
 
 def removeitem(request):
 	if request.method == "POST" and request.user.is_authenticated():
-		item = Item.objects.get(id=request.POST['productid'])
+		item = Item.objects.get(id=request.POST['itemid'])
 		si = SavedItem.objects.get(user = BasicUser.objects.get(user=request.user),item=item)
 		si.delete()
-		return HttpResponseRedirect("/profile")
+		return HttpResponseRedirect("/saveditems")
 	return render_to_response('index.html',context_instance=RequestContext(request))
 		
 ###########################################
@@ -101,19 +105,19 @@ def productsearch(request,industryterm,devicecategoryterm):
 	industryterm = industrysearch.displayname
 	searchquery = category.displayname+" in "+industryterm
 	categorysearch = catlist
-	products = Product.objects.filter(industries=industrysearch).filter(devicecategory=category)
-	for pro in products:
-		for items in pro.item_set.all():
-			pricelow = min(pricelow,items.price)	
-			pricehigh = max(pricehigh,items.price)	
+	itemqs = Item.objects.filter(devicecategory=category)
+	#Get price range for price slider
+	for itm in itemqs:
+		pricelow = min(pricelow,itm.price)	
+		pricehigh = max(pricehigh,itm.price)	
 	# Parse product specifications	
-	for p in range(len(products)):
-		specs = products[p].specs.split(";")
-		for i in range(len(specs)):
-			specs[i] = specs[i].split("!")
-		products[p].specifications = specs
-		products[p].sellers = products[p].item_set.all();
-	return render_to_response('search.html',{'pricelow':pricelow,'pricehigh':pricehigh,'searchquery':searchquery,'products':products,'categories':catlist,'category':category,'ind':industrysearch.name,'manufacturer':manufacturers},context_instance=RequestContext(request))
+	for i in range(len(itemqs)):
+		specs = itemqs[i].specs.split(";")
+		for j in range(len(specs)):
+			specs[j] = specs[j].split("!")
+		itemqs[i].specifications = specs
+		
+	return render_to_response('search.html',{'pricelow':pricelow,'pricehigh':pricehigh,'searchquery':searchquery,'items':itemqs,'categories':catlist,'category':category,'ind':industrysearch.name,'manufacturer':manufacturers},context_instance=RequestContext(request))
 
 def autosuggest(request):
 	results=[]
@@ -121,53 +125,85 @@ def autosuggest(request):
 	industry = Industry.objects.get(id=1)
 	#Find all categories that match the search term
 	categories = DeviceCategory.objects.filter(name__icontains=searchterm)
+	#Add all matched categories
 	for cat in categories:
 		results.append({'type':'category','name':cat.displayname,'industry':"",'link':"/productsearch/"+industry.name+"/"+cat.name})
 		results = results[0:10]
 	
-	#Find all products that match the search term
-	products = Product.objects.filter(name__icontains=searchterm)
-	for pro in products:
-		results.append({'type':'product','name':pro.name,'category':pro.devicecategory.displayname,'image':pro.mainimage,'link':"/product/"+str(pro.id)+"/details"});
+	#Find all items that match the search term
+	item = Item.objects.filter(devicecategory__name__icontains=searchterm)
+	for itm in item:
+		results.append({'type':'product','name':itm.name,'category':itm.user.company,'mainimage':itm.mainimage.photo.url,'link':"/item/"+str(itm.id)+"/details"});
 	
 	#Do a relative match if no results are found
 	if len(results) == 0:
-		print 'here'
-		allproducts = Product.objects.all()
-		productnames = []
+		allitems = Item.objects.all()
+		itemnames = []
 		matchlist = []
-		for p in allproducts:
-			productnames.append(str(p.name))
+		for p in allitems:
+			itemnames.append(str(p.name))
 			if difflib.SequenceMatcher(None,searchterm,p.name.lower()).ratio() > .35:
 				matchlist.append(p)
-		for pro in matchlist:
-			results.append({'type':'product','name':pro.name,'category':pro.devicecategory.displayname,'image':pro.mainimage,'link':"/product/"+str(pro.id)+"/details"});	
+		for itm in matchlist:
+			results.append({'type':'product','name':itm.name,'category':itm.user.company,'mainimage':itm.mainimage.photo.url,'link':"/item/"+str(itm.id)+"/details"});
 	return HttpResponse(json.dumps(results[0:20]), mimetype='application/json')
+
+def customsearch(request):
+	if request.method == "GET":
+		searchword = request.GET['q']
+		allitems = Item.objects.all()
+		itemnames = []
+		itemqs = []
+		for p in allitems:
+			itemnames.append(str(p.name))
+			if difflib.SequenceMatcher(None,searchword,p.name.lower()).real_quick_ratio() > .25:
+				itemqs.append(p)
+		pricelow = 1000000
+		pricehigh = 0
+		industrysearch = Industry.objects.get(id=1)
+		industryterm = industrysearch.displayname
+		searchquery = searchword
+		catlist = DeviceCategory.objects.order_by('totalunits').reverse()
+		manufacturers = Manufacturer.objects.all()
+		#Get price range for price slider
+		for itm in itemqs:
+			pricelow = min(pricelow,itm.price)	
+			pricehigh = max(pricehigh,itm.price)	
+		# Parse product specifications	
+		for i in range(len(itemqs)):
+			specs = itemqs[i].specs.split(";")
+			for j in range(len(specs)):
+				specs[j] = specs[j].split("!")
+			itemqs[i].specifications = specs
+		
+		return render_to_response('search.html',{'pricelow':pricelow,'pricehigh':pricehigh,'searchquery':searchquery,'items':itemqs,'categories':catlist,'ind':industrysearch.name,'manufacturer':manufacturers},context_instance=RequestContext(request))
+
+
+
 	
 def searchquery(request):
-	productdict = []
+	itemdict = []
 	if request.method == "GET":
-		productdict = []
+		itemdict = []
 		filters = {'pricehigh':request.GET['pricehigh'],'pricelow':request.GET['pricelow'],'new':request.GET['new'],'refurbished':request.GET['refurbished'],'preowned':request.GET['preowned']}
-		dc = DeviceCategory.objects.get(name=request.GET['category'],)
-		products = Product.objects.filter(devicecategory=dc)
-		for prod in products:
-			itemqs = prod.item_set.all()
-			#Convert the query set into a list
-			items = []
-			for qs in itemqs:
-				items.append(qs)
-			itemspassed = []
-			for i in range(len(items)):
-				if items[i].price < int(filters['pricehigh']) and items[i].price > int(filters['pricelow']):
-					if (items[i].type == 'new' and filters['new']=='true') or (items[i].type == 'refurbished' and filters['refurbished']=='true') or (items[i].type == 'preowned' and filters['preowned']=='true'):
-						itemspassed.append(items[i])
-			#If an item passes all test, then generate its product
-			if len(itemspassed) > 0:
-				productdict.append(getProductElementsFromItems(itemspassed,prod));	
-	html = render(request, 'productsearchitem.html', {'products':productdict},content_type="application/html")
+		try:
+			dc = DeviceCategory.objects.get(name=request.GET['category'])
+			items = Item.objects.filter(devicecategory=dc)
+		except:
+			items = Item.objects.all()
+		itemspassed = []
+		for item in items:
+			if item.price <= int(filters['pricehigh']) and item.price >= int(filters['pricelow']):
+				if (item.type == 'new' and filters['new']=='true') or (item.type == 'refurbished' and filters['refurbished']=='true') or (item.type == 'preowned' and filters['preowned']=='true'):
+					specs = item.specs.split(";")
+					for j in range(len(specs)):
+						specs[j] = specs[j].split("!")
+						item.specifications = specs
+					itemspassed.append(item)
+	html = render(request, 'productsearchitem.html', {'items':itemspassed,'resultscount':len(itemspassed)},content_type="application/html")
 	return HttpResponse(html)
 
+#Will eventually use this function later on with a product centric search view
 def getProductElementsFromItems(items,prod):
 	specs = prod.specs.split(";")
 	for i in range(len(specs)):
@@ -196,11 +232,12 @@ def updateprofsettings(request,field):
 def saveditems(request):
 	if request.user.is_authenticated():
 		bu = BasicUser.objects.get(user=request.user)
-		items = bu.saveditem_set.all()
-		for item in items:
-			pictures = UserImage.objects.filter(item=item)
-			item.pictures = pictures
-		return render_to_response('saveditems.html',{"items":items},context_instance=RequestContext(request))
+		saveditems = bu.saveditem_set.all()
+		itemcount = len(saveditems)
+		items = []
+		for si in saveditems:
+			items.append(si.item)
+		return render_to_response('saveditems.html',{"items":items,"itemcount":itemcount},context_instance=RequestContext(request))
 	else:
    		return render_to_response('index.html', context_instance=RequestContext(request))
    		
@@ -209,9 +246,6 @@ def listeditems(request):
 	if request.user.is_authenticated():
 		bu = BasicUser.objects.get(user=request.user)
 		items = bu.item_set.all()
-		for item in items:
-			pictures = UserImage.objects.filter(item=item)
-			item.pictures = pictures
 		return render_to_response('listeditems.html',{"items":items},context_instance=RequestContext(request))
 	else:
    		return render_to_response('index.html', context_instance=RequestContext(request))
@@ -233,6 +267,11 @@ def profile(request):
 @login_required
 def addproduct(request):
 	return render_to_response('addproduct.html',context_instance=RequestContext(request))
+@login_required
+def listproduct(request):
+	manufacturers = Manufacturer.objects.all()
+	categories = DeviceCategory.objects.all()
+	return render_to_response('listproduct.html',{'manufacturers':manufacturers,'devicecategories':categories},context_instance=RequestContext(request))
 
 @login_required
 def productpreview(request,itemid):
@@ -243,15 +282,19 @@ def productpreview(request,itemid):
 #### Product Pages ########################
 ###########################################
 
-def productdetails(request,productid):
-	product = Product.objects.get(id=int(productid))
-	industry = product.devicecategory.industries.all()[0]
-	specs = product.specs.split(";")
+def itemdetails(request,itemid):
+	item = Item.objects.get(id=int(itemid))
+	industry = Industry.objects.get(id=1)
+	saved = False
+	if request.user.is_authenticated():
+		if SavedItem.objects.filter(user = BasicUser.objects.get(user=request.user),item=item).exists():
+			saved = True
+	specs = item.specs.split(";")
 	for i in range(len(specs)):
 		specs[i] = specs[i].split("!")
-	return render_to_response('productdetails.html',{'product':product,'industry':industry,'specs':specs},context_instance=RequestContext(request))
+	return render_to_response('productdetails.html',{'saved':saved,'item':item,'industry':industry,'specs':specs},context_instance=RequestContext(request))
 
-def buyingoptions(request,productid):
+def itemoptions(request,itemid):
 	product = Product.objects.get(id=int(productid))
 	industry = product.devicecategory.industries.all()[0]
 	sellers = Item.objects.filter(product=product)

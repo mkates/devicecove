@@ -37,7 +37,7 @@
 	<div class="navbar-collapse collapse navbar-right">
 	  <ul class="nav navbar-nav" id="menuitems">
 		{% if user.is_authenticated %}
-		<li><a href="/addproduct">List</a></li>
+		<li><a href="/listproduct">List</a></li>
 		<li class="dropdown">
 			<a href="#" class="dropdown-toggle" data-toggle="dropdown">{{user.username}}<b class="caret"></b></a>
 			<ul class="dropdown-menu">
@@ -52,18 +52,17 @@
 		{% else %}
 		<li><a href="/signup">Join</a></li>
 		<li><a href="/login">Login</a></li>
-		<li id="listequipment"><a href="/addproduct">List Equipment</a></li>
+		<li id="listequipment"><a href="/listproduct">List Equipment</a></li>
 		{% endif %}
 	  </ul>  
 	</div>
 	
 	<div id="desktopsearchbar" class="desktopsearchbar navbar-center">
-		<form id="searchform" class="customsearchbar" action="/search" method="get">
+		<form id="searchform" class="customsearchbar" action="/customsearch" method="get">
 			<input name="q" id="searchinput" autocomplete="off" class="form-control" type="text" placeholder="Search Equipment"></input>
 			<button type="submit" class="btn">Go</button>
 			<div class="clear"></div>
 			<div id="autosuggest">
-				
 				<div class="section categoriesheader">
 					Categories
 				</div>
@@ -139,7 +138,7 @@
 							$(".categoriesheader").css('display','block');
 							resultshandle.push(so);
 						} else if (value['type'] == 'product'){
-							var so = $("<a class='searchoption' href='"+value['link']+"'><div class='productitem'><img src='"+value['image']+"'/><div class='producttext'><p class='displaytext' class='productname'>"+value['name']+"</p><p class='productsubtext'>"+value['category']+"</p></div><div class='clear'></div></div></a></div>");
+							var so = $("<a class='searchoption' href='"+value['link']+"'><div class='productitem'><img src='"+value['mainimage']+"'/><div class='producttext'><p class='displaytext' class='productname'>"+value['name']+"</p><p class='productsubtext'>"+value['category']+"</p></div><div class='clear'></div></div></a></div>");
 							$("#productssection").append(so);
 							resultshandle.push(so);
 							$(".productsheader").css('display','block');

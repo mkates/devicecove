@@ -122,19 +122,21 @@ background-image: linear-gradient(to right, #FFFFFF 0%, #F2F2F2 100%);
 #showmorebutton {
 	text-align: center;
 	font-size: 13px;
-	border-radius: 5px;
+	border-radius: 3px;
 	margin: 5px 0 25px 0;
 	display: block;
 	padding: 10px;
 	color: #428BCA;	
 	height: 45px;
+	display: none;
 }
 #showmorebutton p {
 	padding: 0;
 	margin: 0;
 }
 #showmorebutton:hover {
-	background: #f9f9f9;
+	box-shadow: 0 0 4px #999;
+	background: #f4f4f4;
 	cursor: pointer;
 	text-decoration: underline;
 }
@@ -372,10 +374,18 @@ outline:none;
 /**********************************/
 /*****Result Item *****************/
 /**********************************/
-
+#resultsbody {
+	background: none;
+	box-shadow: none;
+	border: none;
+}
 .resultitem {
 	border-bottom:1px solid #f2f2f2;
 	padding-bottom: 20px;
+	border-radius: 3px;
+	box-shadow: 0 0 4px #ccc;
+	margin-bottom: 10px;
+	background: white;
 }
 .resultitem:hover {
 	box-shadow: 0 0 4px #999;
@@ -411,17 +421,46 @@ outline:none;
 	width: 150px;
 	float: left;
 	margin-left: 0px;
-	padding-top: 23px;
+	padding-top: 35px;
 	text-align: center;
 }
-.resultitem .pricediv h6 {
-	color: #aaa;
-	font-size: 11px;
+.resulttag span {
+	display: inline-block;
+	padding: 4px 8px;
+	font-size: 10px;
 	letter-spacing: .2px;
-	font-weight: 200;
-	padding: 0;
+	font-weight: 400;
+	text-shadow: 0 1px 1px #fff;
 	margin: 0;
-	line-height: 11px;
+	border-radius: 5px;
+	background: #C2DAED;
+	color: #3F7DB0;
+	line-height: 10px;
+	text-transform: uppercase;
+}
+.resulttag .preowned {
+	background: #C2DAED;
+	color: #3F7DB0;
+}
+.resulttag .new {
+	background: #C0E0BC;
+	color: #5D9157;
+}
+.resulttag .refurbished {
+	background: #EED8F2;
+	color: #7F2691;
+}
+.resulttag .verified {
+	background: #F2D577;
+	color: #8F6511;
+}
+.resulttag .lightred {
+	background: #F2C9CF;
+	color: #B52639;
+}
+.resulttag .lightgreen {
+	background: #EDEFB3;
+	color: #6F8C12;
 }
 .resultitem .pricediv p {
 	font-size: 20px;
@@ -430,7 +469,6 @@ outline:none;
 	padding-bottom:10px;
 }
 .resultitem .pricediv a {
-	
 }
 .resultitem .textdiv {
 	float: left;
@@ -438,7 +476,10 @@ outline:none;
 	overflow: hidden;
 	padding-top: 20px;
 }
-
+.resultitem .textdiv a {
+	color: #555;
+	font-weight: 200;
+}
 .resultitem .textdiv h2{
 	padding: 0;
 	margin: 0;
@@ -452,7 +493,6 @@ outline:none;
 .resultitem .textdiv a h2:hover {
 	color: #2A6496;
 	box-shadow: none;
-	text-decoration: underline;
 }
 .resultitem .textdiv h3{
 	padding: 0;
@@ -472,7 +512,6 @@ outline:none;
 	border-bottom: 1px dotted #bbb;
 }
 .resultitem .textdiv h4:hover {
-	background: #f9f9f9;
 }
 
 .resultitem .textdiv h4 span {
@@ -517,33 +556,35 @@ outline:none;
 	padding: 0px;
 	margin-top: -1px;
 	z-index: 0;
-	height: 250px;
+	height: 200px;
 	border-top: 1px solid #ccc;
 	position: relative;
 }
 .detailtext {
 	width: 500px;
-	height: 220px;
 	float: left;
 	padding: 15px;
-	height: 150px;
 	overflow: hidden;
-	font-size: 13px;
+	font-size: 12px;
 	line-height: 18px;
 	color: #333;
 }
 .spectext {
 	padding-top: 15px;
-	height: 190px;
+	height: 180px;
 	overflow: hidden;
+}
+.conditiondiv p {
+	font-size:12px;
+	padding: 20px;
 }
 .spectext p {
 	width: 290px;
-	font-size: 13px;
+	font-size: 12px;
 	margin: 0 30px;
 	height: 25px;
 	line-height: 25px;
-	border-bottom:1px dotted #333;
+	border-bottom:1px dotted #aaa;
 	float: left;
 	color: #888;
 	font-weight: 200;
@@ -555,7 +596,7 @@ outline:none;
 }
 .imagegallery {
 	width: 200px;
-	height: 220px;
+	height: 150px;
 	padding: 0;
 	margin-right: 2px;
 	float: right;
@@ -564,18 +605,32 @@ outline:none;
 .imagegallery .imagethumbnail {
 	float: right;
 	border:3px solid #fff;
-	background:blue;
 	width: 60px;
 	height: 60px;
+}
+.imagegallery .imagethumbnail img {
+	max-width: 60px;
+	max-height: 60px;
 }
 .imageviewer {
 	position: absolute;
 	z-index: 9999;
-	height: 452px;
+	height: 416px;
 	width: 520px;
-	background: #333;
-	opacity: .8;
+	background: url("../img/blacktransparency.png");
+	opacity: 1;
 	display: none;
+}
+.imageviewer .verticalalign {
+	vertical-align: middle;
+	height: 416px;
+	width: 520px;
+	text-align: center;
+	display: table-cell;
+}
+.imageviewer img {
+	max-width: 520px;
+	max-height: 416px;
 }
 .morediv {
 	clear: both;
@@ -599,35 +654,6 @@ outline:none;
 .hidden {
 	display: none;
 }
-
-.sellertable {
-	width: 700px;
-	margin: 15px auto;
-	max-height: 200px;
-	overflow: hidden;
-	font-weight: 200;
-	font-size: 13px;
-}
-.sellertable tr {
-	line-height: 30px;
-	border-bottom:1px dotted #333;
-}
-.sellertable .sellerprice {	
-	width: 150px;
-	padding-left: 20px;
-	font-weight: 800;
-	color: green;
-}
-.sellertable .sellercompany {
-	width: 250px;
-}
-.sellertable .sellertype {
-	text-align: right;
-}
-.sellertable a {
-	
-}
-
 
 
 /**********************************/

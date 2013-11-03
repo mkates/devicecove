@@ -5,7 +5,9 @@
 <link href="{{STATIC_URL}}css/product.css" rel="stylesheet" type="text/css" />
 <link rel="stylesheet" type="text/css" href="{{STATIC_URL}}css/jquery.fancybox.css" media="screen" />
 <style>
-
+#saveloader {
+	display: none;
+}
 </style>
 {% endblock%}
 
@@ -13,20 +15,36 @@
 {% block content %}
 <div class="topbarcontainer">
 	<div class="topbar">
-		<p class="backbutton-container"><a class="backbutton" href="/productsearch/{{industry.name}}/{{product.devicecategory.name}}">&#8592; View {{industry.displayname}} {{product.devicecategory.displayname}}</a></p>
-		<p class="breadcrumbs"><a href="/">Home</a> / <a href="/productsearch/{{industry.name}}/all">{{industry.displayname}}</a> / <a href="/productsearch/{{industry.name}}/{{product.devicecategory.name}}">{{product.devicecategory.displayname}}</a> / <a href='#'>{{product.name}}</a></p>
-		<div class="clear"></div>
-		<h2>{{ product.name }}</h2>
-		<div class="otherviewers"><span>14</span> other people have purchased this product</div>
+		<div class="topnavigation">
+			<p class="backbutton-container"><a class="backbutton" href="/productsearch/{{industry.name}}/{{item.devicecategory.name}}">&#8592; View All {{industry.displayname}} {{item.devicecategory.displayname}}</a></p>
+			<p class="breadcrumbs"><a href="/">Home</a> / <a href="/">{{industry.displayname}}</a> / <a href="/productsearch/{{industry.name}}/{{item.devicecategory.name}}">{{item.devicecategory.displayname}}</a> / {{item.name}}</p>
+			<div class="clear"></div>
+		</div>
+		<div class="otherviewers">	
+			<div class="savebutton">
+				<img id="saveloader" src="{{STATIC_URL}}img/ajax-loader.gif"/>
+				{% if saved %}
+					<button id="save" class="btn-custom btn-custom-green">Saved</button>
+				{% else %}
+					<button id="save" class="btn-custom btn-custom-large-gray">Save</button>
+				{% endif %}
+			</div>
+			<p>This item was listed on <span>{{item.listeddate }}</p>
+		</div>
+		<h2>{{ item.name }}</h2>
+		<h5>Sold by Colts Neck Equine</h5>
 	</div>
+<!-- 
 	<div id="tabbar">
 		<div class="tabbar">
 			<a href="/product/{{product.id}}/details" class="detailstab {% block details %}{% endblock %}">Product Details</a>
 			<a href="/product/{{product.id}}/buyingoptions" class="detailstab {% block buyingoptions %}{% endblock %}">Buying Options (4)</a>
 			<div class="clear"></div>
 		</div>
+
 		<div class="clear"></div>
 	</div>
+ -->
 </div>
 
 {% block productmain %}
@@ -42,17 +60,45 @@ $(document).ready(function(){
 	 	display: 2,
 	 	duration: 500
 	 });
-	//  $("#tabbar").sticky({topSpacing:0});
-	 
-	// $('#ex1').zoom();
 	$(".thumbnail-container img").click(function() {
-		$('#ex1').trigger('zoom.destroy'); // remove zoom
 		$("#mainimage").attr("src",$(this).attr("src"));
-// 		$("#mainimage").css("height", $(this).css("height"));
-// 		$("#mainimage").css("width", $(this).css("width"));
 		console.log($("#mainimage").css("width"));
-		//if (parseInt($("#mainimage").css("height").split("p")[0]) > 400) {
-			// $('#ex1').zoom();
+	});
+});
+$(document).ready(function() {
+	//Save Button Functionality
+	$('#save').click(function() {
+		if ($(this).text() == 'Save') {
+			var data = {'action':'save','id':{{item.id}}};
+			var action = 'save';
+		} else {
+			var data = {'action':'delete','id':{{item.id}}};
+			var action = 'delete'
+		}
+		$(this).html('<img class="saveloader" src="{{STATIC_URL}}img/ajax-loader.gif"/>');
+		savebutton = $(this);
+		savebutton.prop("disabled",true);
+		$.ajax({
+            type : "POST",
+            data : data,
+            url : "/saveitem",
+            success : function(data) {
+            	savebutton.css('display','inline-block');
+            	if (action == "save") {
+            		savebutton.html("Saved");
+            		savebutton.addClass("btn-custom-green");
+            		savebutton.removeClass("btn-custom-large-gray");
+            	} else {
+            		savebutton.html("Save");
+            		savebutton.removeClass("btn-custom-green");
+            		savebutton.addClass("btn-custom-large-gray");
+            	}
+            	savebutton.prop("disabled",false);
+            }, 
+            error : function(jqXHR, textStatus, errorThrown) {
+                alert("Error saving product");
+            }
+        });
 	});
 });
 </script>

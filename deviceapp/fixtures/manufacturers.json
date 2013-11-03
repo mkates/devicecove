@@ -1,5 +1,984 @@
 [
-	{"pk": 1,"model": "deviceapp.manufacturer","fields": {"name": "3M","displayname":"3M"}},
-	{"pk": 2,"model": "deviceapp.manufacturer","fields": {"name": "Fuji","displayname":"Fuji"}},
-	{"pk": 3,"model": "deviceapp.manufacturer","fields": {"name": "Sonosite","displayname":"Sonosite Systems"}}
+{
+    "pk": 1, 
+    "model": "contenttypes.contenttype", 
+    "fields": {
+        "model": "permission", 
+        "name": "permission", 
+        "app_label": "auth"
+    }
+},
+{
+    "pk": 2, 
+    "model": "contenttypes.contenttype", 
+    "fields": {
+        "model": "group", 
+        "name": "group", 
+        "app_label": "auth"
+    }
+},
+{
+    "pk": 3, 
+    "model": "contenttypes.contenttype", 
+    "fields": {
+        "model": "user", 
+        "name": "user", 
+        "app_label": "auth"
+    }
+},
+{
+    "pk": 4, 
+    "model": "contenttypes.contenttype", 
+    "fields": {
+        "model": "contenttype", 
+        "name": "content type", 
+        "app_label": "contenttypes"
+    }
+},
+{
+    "pk": 5, 
+    "model": "contenttypes.contenttype", 
+    "fields": {
+        "model": "session", 
+        "name": "session", 
+        "app_label": "sessions"
+    }
+},
+{
+    "pk": 6, 
+    "model": "contenttypes.contenttype", 
+    "fields": {
+        "model": "site", 
+        "name": "site", 
+        "app_label": "sites"
+    }
+},
+{
+    "pk": 7, 
+    "model": "contenttypes.contenttype", 
+    "fields": {
+        "model": "logentry", 
+        "name": "log entry", 
+        "app_label": "admin"
+    }
+},
+{
+    "pk": 8, 
+    "model": "contenttypes.contenttype", 
+    "fields": {
+        "model": "industry", 
+        "name": "industry", 
+        "app_label": "deviceapp"
+    }
+},
+{
+    "pk": 9, 
+    "model": "contenttypes.contenttype", 
+    "fields": {
+        "model": "manufacturer", 
+        "name": "manufacturer", 
+        "app_label": "deviceapp"
+    }
+},
+{
+    "pk": 10, 
+    "model": "contenttypes.contenttype", 
+    "fields": {
+        "model": "devicecategory", 
+        "name": "device category", 
+        "app_label": "deviceapp"
+    }
+},
+{
+    "pk": 11, 
+    "model": "contenttypes.contenttype", 
+    "fields": {
+        "model": "product", 
+        "name": "product", 
+        "app_label": "deviceapp"
+    }
+},
+{
+    "pk": 12, 
+    "model": "contenttypes.contenttype", 
+    "fields": {
+        "model": "basicuser", 
+        "name": "basic user", 
+        "app_label": "deviceapp"
+    }
+},
+{
+    "pk": 13, 
+    "model": "contenttypes.contenttype", 
+    "fields": {
+        "model": "item", 
+        "name": "item", 
+        "app_label": "deviceapp"
+    }
+},
+{
+    "pk": 14, 
+    "model": "contenttypes.contenttype", 
+    "fields": {
+        "model": "saveditem", 
+        "name": "saved item", 
+        "app_label": "deviceapp"
+    }
+},
+{
+    "pk": 15, 
+    "model": "contenttypes.contenttype", 
+    "fields": {
+        "model": "userimage", 
+        "name": "user image", 
+        "app_label": "deviceapp"
+    }
+},
+{
+    "pk": "ywwkgljd0lzu53gs19nodw4chk9s0eq0", 
+    "model": "sessions.session", 
+    "fields": {
+        "expire_date": "2013-11-13T21:58:38.185Z", 
+        "session_data": "ZTI4MjYxMzQyZDExNjQ2ZTRjYTNiNjkzY2I2MWQ2YzhhN2RmYzA5MTp7fQ=="
+    }
+},
+{
+    "pk": 1, 
+    "model": "sites.site", 
+    "fields": {
+        "domain": "example.com", 
+        "name": "example.com"
+    }
+},
+{
+    "pk": 1, 
+    "model": "deviceapp.industry", 
+    "fields": {
+        "displayname": "Large Animal", 
+        "name": "large_veterinary"
+    }
+},
+{
+    "pk": 2, 
+    "model": "deviceapp.industry", 
+    "fields": {
+        "displayname": "Small Animal", 
+        "name": "small_veterinary"
+    }
+},
+{
+    "pk": 3, 
+    "model": "deviceapp.industry", 
+    "fields": {
+        "displayname": "Veterinary Research", 
+        "name": "research_veterinary"
+    }
+},
+{
+    "pk": 1, 
+    "model": "deviceapp.manufacturer", 
+    "fields": {
+        "displayname": "3M", 
+        "name": "3M"
+    }
+},
+{
+    "pk": 2, 
+    "model": "deviceapp.manufacturer", 
+    "fields": {
+        "displayname": "Fuji", 
+        "name": "Fuji"
+    }
+},
+{
+    "pk": 3, 
+    "model": "deviceapp.manufacturer", 
+    "fields": {
+        "displayname": "Sonosite Systems", 
+        "name": "Sonosite"
+    }
+},
+{
+    "pk": 1, 
+    "model": "deviceapp.devicecategory", 
+    "fields": {
+        "industries": [
+            1, 
+            2, 
+            3
+        ], 
+        "displayname": "Anesthesia", 
+        "name": "anesthesia", 
+        "totalunits": 0
+    }
+},
+{
+    "pk": 2, 
+    "model": "deviceapp.devicecategory", 
+    "fields": {
+        "industries": [
+            1, 
+            2
+        ], 
+        "displayname": "Monitors", 
+        "name": "monitors", 
+        "totalunits": 0
+    }
+},
+{
+    "pk": 3, 
+    "model": "deviceapp.devicecategory", 
+    "fields": {
+        "industries": [
+            1, 
+            3
+        ], 
+        "displayname": "Surgical Tables", 
+        "name": "tables", 
+        "totalunits": 0
+    }
+},
+{
+    "pk": 4, 
+    "model": "deviceapp.devicecategory", 
+    "fields": {
+        "industries": [
+            1, 
+            2, 
+            3
+        ], 
+        "displayname": "Sterilizers", 
+        "name": "sterilizers", 
+        "totalunits": 0
+    }
+},
+{
+    "pk": 5, 
+    "model": "deviceapp.devicecategory", 
+    "fields": {
+        "industries": [
+            1, 
+            2, 
+            3
+        ], 
+        "displayname": "Centrifuges", 
+        "name": "centrifuges", 
+        "totalunits": 0
+    }
+},
+{
+    "pk": 6, 
+    "model": "deviceapp.devicecategory", 
+    "fields": {
+        "industries": [
+            1, 
+            2
+        ], 
+        "displayname": "Defibrillators", 
+        "name": "defibrillators", 
+        "totalunits": 0
+    }
+},
+{
+    "pk": 7, 
+    "model": "deviceapp.devicecategory", 
+    "fields": {
+        "industries": [
+            1, 
+            3
+        ], 
+        "displayname": "Lasers", 
+        "name": "Lasers", 
+        "totalunits": 0
+    }
+},
+{
+    "pk": 8, 
+    "model": "deviceapp.devicecategory", 
+    "fields": {
+        "industries": [
+            1, 
+            2, 
+            3
+        ], 
+        "displayname": "Dental", 
+        "name": "Dental", 
+        "totalunits": 0
+    }
+},
+{
+    "pk": 9, 
+    "model": "deviceapp.devicecategory", 
+    "fields": {
+        "industries": [
+            1, 
+            2
+        ], 
+        "displayname": "Anesthesia", 
+        "name": "Electrosurgical", 
+        "totalunits": 0
+    }
+},
+{
+    "pk": 10, 
+    "model": "deviceapp.devicecategory", 
+    "fields": {
+        "industries": [
+            2
+        ], 
+        "displayname": "X-Ray Machines", 
+        "name": "xray", 
+        "totalunits": 0
+    }
+},
+{
+    "pk": 1, 
+    "model": "deviceapp.product", 
+    "fields": {
+        "industries": [
+            1
+        ], 
+        "features": "Small, lightweight, and high portability means it can be used anywhere; Can be lifted or lowered simply by pulling the side lever; CB main unit can easily be attached or removed simply by pulling the front lever; Operates for up to an hour without external power supply (when the optional battery is installed)", 
+        "devicecategory": 7, 
+        "description": "The New Fazone CB Ultrasound with Zone Sonography Technology. Anytime, anywhere 'CB' usability is stress free and easy, regardless of place or occasion. This elegant, ultra high quality ultrasound easily moves from the exam room to your vehicle bringing all aspects of FujiFilms' attention to detail along with it. Features include a full screen, 12-inch LCD monitor, instant one touch image optimization, intuitive operation with keys grouped by functionality, fast boot-up time, easy on and off cart capability, and stylish compact design", 
+        "name": "Fazone CB Ultrasound", 
+        "totalunits": 0, 
+        "manufacturer": 1, 
+        "specs": "Weight!18lbs;Year!2006;Manufacturer!Sonosite;Power!560watts;Memory!720MB;Portable!Yes", 
+        "mainimage": "http://www.veteldiagnostics.com/images/bin/2322.jpg"
+    }
+},
+{
+    "pk": 2, 
+    "model": "deviceapp.product", 
+    "fields": {
+        "industries": [
+            1
+        ], 
+        "features": "Small, lightweight, and high portability means it can be used anywhere; Can be lifted or lowered simply by pulling the side lever; CB main unit can easily be attached or removed simply by pulling the front lever; Operates for up to an hour without external power supply (when the optional battery is installed)", 
+        "devicecategory": 7, 
+        "description": "The New Fazone CB Ultrasound with Zone Sonography Technology. Anytime, anywhere 'CB' usability is stress free and easy, regardless of place or occasion. This elegant, ultra high quality ultrasound easily moves from the exam room to your vehicle bringing all aspects of FujiFilms' attention to detail along with it. Features include a full screen, 12-inch LCD monitor, instant one touch image optimization, intuitive operation with keys grouped by functionality, fast boot-up time, easy on and off cart capability, and stylish compact design", 
+        "name": "Ultra High Powered Ultrasound", 
+        "totalunits": 0, 
+        "manufacturer": 1, 
+        "specs": "Weight!18lbs;Year!2006;Manufacturer!Sonosite;Power!560watts;Memory!720MB;Portable!Yes", 
+        "mainimage": "http://www.veteldiagnostics.com/images/bin/2322.jpg"
+    }
+},
+{
+    "pk": 3, 
+    "model": "deviceapp.product", 
+    "fields": {
+        "industries": [
+            1
+        ], 
+        "features": "Small, lightweight, and high portability means it can be used anywhere; Can be lifted or lowered simply by pulling the side lever; CB main unit can easily be attached or removed simply by pulling the front lever; Operates for up to an hour without external power supply (when the optional battery is installed)", 
+        "devicecategory": 7, 
+        "description": "The New Fazone CB Ultrasound with Zone Sonography Technology. Anytime, anywhere 'CB' usability is stress free and easy, regardless of place or occasion. This elegant, ultra high quality ultrasound easily moves from the exam room to your vehicle bringing all aspects of FujiFilms' attention to detail along with it. Features include a full screen, 12-inch LCD monitor, instant one touch image optimization, intuitive operation with keys grouped by functionality, fast boot-up time, easy on and off cart capability, and stylish compact design", 
+        "name": "Speedlight XT4500 Ultrasound", 
+        "totalunits": 0, 
+        "manufacturer": 1, 
+        "specs": "Weight!18lbs;Year!2006;Manufacturer!Sonosite;Power!560watts;Memory!720MB;Portable!Yes", 
+        "mainimage": "http://www.veteldiagnostics.com/images/bin/2322.jpg"
+    }
+},
+{
+    "pk": 4, 
+    "model": "deviceapp.product", 
+    "fields": {
+        "industries": [
+            1
+        ], 
+        "features": "Small, lightweight, and high portability means it can be used anywhere; Can be lifted or lowered simply by pulling the side lever; CB main unit can easily be attached or removed simply by pulling the front lever; Operates for up to an hour without external power supply (when the optional battery is installed)", 
+        "devicecategory": 7, 
+        "description": "The New Fazone CB Ultrasound with Zone Sonography Technology. Anytime, anywhere 'CB' usability is stress free and easy, regardless of place or occasion. This elegant, ultra high quality ultrasound easily moves from the exam room to your vehicle bringing all aspects of FujiFilms' attention to detail along with it. Features include a full screen, 12-inch LCD monitor, instant one touch image optimization, intuitive operation with keys grouped by functionality, fast boot-up time, easy on and off cart capability, and stylish compact design", 
+        "name": "Geurilla Glue UltraPoweres Sound Plus", 
+        "totalunits": 0, 
+        "manufacturer": 1, 
+        "specs": "Weight!18lbs;Year!2006;Manufacturer!Sonosite;Power!560watts;Memory!720MB;Portable!Yes", 
+        "mainimage": "http://www.veteldiagnostics.com/images/bin/2322.jpg"
+    }
+},
+{
+    "pk": 5, 
+    "model": "deviceapp.product", 
+    "fields": {
+        "industries": [
+            1
+        ], 
+        "features": "Small, lightweight, and high portability means it can be used anywhere; Can be lifted or lowered simply by pulling the side lever; CB main unit can easily be attached or removed simply by pulling the front lever; Operates for up to an hour without external power supply (when the optional battery is installed)", 
+        "devicecategory": 7, 
+        "description": "The New Fazone CB Ultrasound with Zone Sonography Technology. Anytime, anywhere 'CB' usability is stress free and easy, regardless of place or occasion. This elegant, ultra high quality ultrasound easily moves from the exam room to your vehicle bringing all aspects of FujiFilms' attention to detail along with it. Features include a full screen, 12-inch LCD monitor, instant one touch image optimization, intuitive operation with keys grouped by functionality, fast boot-up time, easy on and off cart capability, and stylish compact design", 
+        "name": "Ultra Ultra SoundXTreme", 
+        "totalunits": 0, 
+        "manufacturer": 1, 
+        "specs": "Weight!18lbs;Year!2006;Manufacturer!Sonosite;Power!560watts;Memory!720MB;Portable!Yes", 
+        "mainimage": "http://www.veteldiagnostics.com/images/bin/2322.jpg"
+    }
+},
+{
+    "pk": 6, 
+    "model": "deviceapp.product", 
+    "fields": {
+        "industries": [
+            1
+        ], 
+        "features": "Small, lightweight, and high portability means it can be used anywhere; Can be lifted or lowered simply by pulling the side lever; CB main unit can easily be attached or removed simply by pulling the front lever; Operates for up to an hour without external power supply (when the optional battery is installed)", 
+        "devicecategory": 7, 
+        "description": "The New Fazone CB Ultrasound with Zone Sonography Technology. Anytime, anywhere 'CB' usability is stress free and easy, regardless of place or occasion. This elegant, ultra high quality ultrasound easily moves from the exam room to your vehicle bringing all aspects of FujiFilms' attention to detail along with it. Features include a full screen, 12-inch LCD monitor, instant one touch image optimization, intuitive operation with keys grouped by functionality, fast boot-up time, easy on and off cart capability, and stylish compact design", 
+        "name": "Oldie but goodie ultrasound", 
+        "totalunits": 0, 
+        "manufacturer": 1, 
+        "specs": "Weight!18lbs;Year!2006;Manufacturer!Sonosite;Power!560watts;Memory!720MB;Portable!Yes", 
+        "mainimage": "http://www.veteldiagnostics.com/images/bin/2322.jpg"
+    }
+},
+{
+    "pk": 1, 
+    "model": "deviceapp.item", 
+    "fields": {
+        "status": 2, 
+        "product": 1, 
+        "savedcount": 0, 
+        "description": "this is a test iem", 
+        "price": 16430.0, 
+        "user": 1, 
+        "type": "refurbished", 
+        "picturearray": "2", 
+        "condition": 2
+    }
+},
+{
+    "pk": 2, 
+    "model": "deviceapp.item", 
+    "fields": {
+        "status": 2, 
+        "product": 1, 
+        "savedcount": 0, 
+        "description": "", 
+        "price": 21321.0, 
+        "user": 1, 
+        "type": "preowned", 
+        "picturearray": "[]", 
+        "condition": 4
+    }
+},
+{
+    "pk": 3, 
+    "model": "deviceapp.item", 
+    "fields": {
+        "status": 2, 
+        "product": 1, 
+        "savedcount": 0, 
+        "description": "more products", 
+        "price": 23445.0, 
+        "user": 1, 
+        "type": "new", 
+        "picturearray": "[]", 
+        "condition": 3
+    }
+},
+{
+    "pk": 4, 
+    "model": "deviceapp.item", 
+    "fields": {
+        "status": 2, 
+        "product": 2, 
+        "savedcount": 0, 
+        "description": "this is a test iem", 
+        "price": 20123.0, 
+        "user": 1, 
+        "type": "new", 
+        "picturearray": "2", 
+        "condition": 2
+    }
+},
+{
+    "pk": 5, 
+    "model": "deviceapp.item", 
+    "fields": {
+        "status": 2, 
+        "product": 2, 
+        "savedcount": 0, 
+        "description": "", 
+        "price": 30123.0, 
+        "user": 1, 
+        "type": "new", 
+        "picturearray": "[]", 
+        "condition": 4
+    }
+},
+{
+    "pk": 6, 
+    "model": "deviceapp.item", 
+    "fields": {
+        "status": 2, 
+        "product": 2, 
+        "savedcount": 1, 
+        "description": "more products", 
+        "price": 40445.0, 
+        "user": 1, 
+        "type": "new", 
+        "picturearray": "[]", 
+        "condition": 3
+    }
+},
+{
+    "pk": 1, 
+    "model": "auth.permission", 
+    "fields": {
+        "codename": "add_permission", 
+        "name": "Can add permission", 
+        "content_type": 1
+    }
+},
+{
+    "pk": 2, 
+    "model": "auth.permission", 
+    "fields": {
+        "codename": "change_permission", 
+        "name": "Can change permission", 
+        "content_type": 1
+    }
+},
+{
+    "pk": 3, 
+    "model": "auth.permission", 
+    "fields": {
+        "codename": "delete_permission", 
+        "name": "Can delete permission", 
+        "content_type": 1
+    }
+},
+{
+    "pk": 4, 
+    "model": "auth.permission", 
+    "fields": {
+        "codename": "add_group", 
+        "name": "Can add group", 
+        "content_type": 2
+    }
+},
+{
+    "pk": 5, 
+    "model": "auth.permission", 
+    "fields": {
+        "codename": "change_group", 
+        "name": "Can change group", 
+        "content_type": 2
+    }
+},
+{
+    "pk": 6, 
+    "model": "auth.permission", 
+    "fields": {
+        "codename": "delete_group", 
+        "name": "Can delete group", 
+        "content_type": 2
+    }
+},
+{
+    "pk": 7, 
+    "model": "auth.permission", 
+    "fields": {
+        "codename": "add_user", 
+        "name": "Can add user", 
+        "content_type": 3
+    }
+},
+{
+    "pk": 8, 
+    "model": "auth.permission", 
+    "fields": {
+        "codename": "change_user", 
+        "name": "Can change user", 
+        "content_type": 3
+    }
+},
+{
+    "pk": 9, 
+    "model": "auth.permission", 
+    "fields": {
+        "codename": "delete_user", 
+        "name": "Can delete user", 
+        "content_type": 3
+    }
+},
+{
+    "pk": 10, 
+    "model": "auth.permission", 
+    "fields": {
+        "codename": "add_contenttype", 
+        "name": "Can add content type", 
+        "content_type": 4
+    }
+},
+{
+    "pk": 11, 
+    "model": "auth.permission", 
+    "fields": {
+        "codename": "change_contenttype", 
+        "name": "Can change content type", 
+        "content_type": 4
+    }
+},
+{
+    "pk": 12, 
+    "model": "auth.permission", 
+    "fields": {
+        "codename": "delete_contenttype", 
+        "name": "Can delete content type", 
+        "content_type": 4
+    }
+},
+{
+    "pk": 13, 
+    "model": "auth.permission", 
+    "fields": {
+        "codename": "add_session", 
+        "name": "Can add session", 
+        "content_type": 5
+    }
+},
+{
+    "pk": 14, 
+    "model": "auth.permission", 
+    "fields": {
+        "codename": "change_session", 
+        "name": "Can change session", 
+        "content_type": 5
+    }
+},
+{
+    "pk": 15, 
+    "model": "auth.permission", 
+    "fields": {
+        "codename": "delete_session", 
+        "name": "Can delete session", 
+        "content_type": 5
+    }
+},
+{
+    "pk": 16, 
+    "model": "auth.permission", 
+    "fields": {
+        "codename": "add_site", 
+        "name": "Can add site", 
+        "content_type": 6
+    }
+},
+{
+    "pk": 17, 
+    "model": "auth.permission", 
+    "fields": {
+        "codename": "change_site", 
+        "name": "Can change site", 
+        "content_type": 6
+    }
+},
+{
+    "pk": 18, 
+    "model": "auth.permission", 
+    "fields": {
+        "codename": "delete_site", 
+        "name": "Can delete site", 
+        "content_type": 6
+    }
+},
+{
+    "pk": 19, 
+    "model": "auth.permission", 
+    "fields": {
+        "codename": "add_logentry", 
+        "name": "Can add log entry", 
+        "content_type": 7
+    }
+},
+{
+    "pk": 20, 
+    "model": "auth.permission", 
+    "fields": {
+        "codename": "change_logentry", 
+        "name": "Can change log entry", 
+        "content_type": 7
+    }
+},
+{
+    "pk": 21, 
+    "model": "auth.permission", 
+    "fields": {
+        "codename": "delete_logentry", 
+        "name": "Can delete log entry", 
+        "content_type": 7
+    }
+},
+{
+    "pk": 22, 
+    "model": "auth.permission", 
+    "fields": {
+        "codename": "add_industry", 
+        "name": "Can add industry", 
+        "content_type": 8
+    }
+},
+{
+    "pk": 23, 
+    "model": "auth.permission", 
+    "fields": {
+        "codename": "change_industry", 
+        "name": "Can change industry", 
+        "content_type": 8
+    }
+},
+{
+    "pk": 24, 
+    "model": "auth.permission", 
+    "fields": {
+        "codename": "delete_industry", 
+        "name": "Can delete industry", 
+        "content_type": 8
+    }
+},
+{
+    "pk": 25, 
+    "model": "auth.permission", 
+    "fields": {
+        "codename": "add_manufacturer", 
+        "name": "Can add manufacturer", 
+        "content_type": 9
+    }
+},
+{
+    "pk": 26, 
+    "model": "auth.permission", 
+    "fields": {
+        "codename": "change_manufacturer", 
+        "name": "Can change manufacturer", 
+        "content_type": 9
+    }
+},
+{
+    "pk": 27, 
+    "model": "auth.permission", 
+    "fields": {
+        "codename": "delete_manufacturer", 
+        "name": "Can delete manufacturer", 
+        "content_type": 9
+    }
+},
+{
+    "pk": 28, 
+    "model": "auth.permission", 
+    "fields": {
+        "codename": "add_devicecategory", 
+        "name": "Can add device category", 
+        "content_type": 10
+    }
+},
+{
+    "pk": 29, 
+    "model": "auth.permission", 
+    "fields": {
+        "codename": "change_devicecategory", 
+        "name": "Can change device category", 
+        "content_type": 10
+    }
+},
+{
+    "pk": 30, 
+    "model": "auth.permission", 
+    "fields": {
+        "codename": "delete_devicecategory", 
+        "name": "Can delete device category", 
+        "content_type": 10
+    }
+},
+{
+    "pk": 31, 
+    "model": "auth.permission", 
+    "fields": {
+        "codename": "add_product", 
+        "name": "Can add product", 
+        "content_type": 11
+    }
+},
+{
+    "pk": 32, 
+    "model": "auth.permission", 
+    "fields": {
+        "codename": "change_product", 
+        "name": "Can change product", 
+        "content_type": 11
+    }
+},
+{
+    "pk": 33, 
+    "model": "auth.permission", 
+    "fields": {
+        "codename": "delete_product", 
+        "name": "Can delete product", 
+        "content_type": 11
+    }
+},
+{
+    "pk": 34, 
+    "model": "auth.permission", 
+    "fields": {
+        "codename": "add_basicuser", 
+        "name": "Can add basic user", 
+        "content_type": 12
+    }
+},
+{
+    "pk": 35, 
+    "model": "auth.permission", 
+    "fields": {
+        "codename": "change_basicuser", 
+        "name": "Can change basic user", 
+        "content_type": 12
+    }
+},
+{
+    "pk": 36, 
+    "model": "auth.permission", 
+    "fields": {
+        "codename": "delete_basicuser", 
+        "name": "Can delete basic user", 
+        "content_type": 12
+    }
+},
+{
+    "pk": 37, 
+    "model": "auth.permission", 
+    "fields": {
+        "codename": "add_item", 
+        "name": "Can add item", 
+        "content_type": 13
+    }
+},
+{
+    "pk": 38, 
+    "model": "auth.permission", 
+    "fields": {
+        "codename": "change_item", 
+        "name": "Can change item", 
+        "content_type": 13
+    }
+},
+{
+    "pk": 39, 
+    "model": "auth.permission", 
+    "fields": {
+        "codename": "delete_item", 
+        "name": "Can delete item", 
+        "content_type": 13
+    }
+},
+{
+    "pk": 40, 
+    "model": "auth.permission", 
+    "fields": {
+        "codename": "add_saveditem", 
+        "name": "Can add saved item", 
+        "content_type": 14
+    }
+},
+{
+    "pk": 41, 
+    "model": "auth.permission", 
+    "fields": {
+        "codename": "change_saveditem", 
+        "name": "Can change saved item", 
+        "content_type": 14
+    }
+},
+{
+    "pk": 42, 
+    "model": "auth.permission", 
+    "fields": {
+        "codename": "delete_saveditem", 
+        "name": "Can delete saved item", 
+        "content_type": 14
+    }
+},
+{
+    "pk": 43, 
+    "model": "auth.permission", 
+    "fields": {
+        "codename": "add_userimage", 
+        "name": "Can add user image", 
+        "content_type": 15
+    }
+},
+{
+    "pk": 44, 
+    "model": "auth.permission", 
+    "fields": {
+        "codename": "change_userimage", 
+        "name": "Can change user image", 
+        "content_type": 15
+    }
+},
+{
+    "pk": 45, 
+    "model": "auth.permission", 
+    "fields": {
+        "codename": "delete_userimage", 
+        "name": "Can delete user image", 
+        "content_type": 15
+    }
+},
+{
+    "pk": 1, 
+    "model": "auth.user", 
+    "fields": {
+        "username": "a", 
+        "first_name": "", 
+        "last_name": "", 
+        "is_active": true, 
+        "is_superuser": true, 
+        "is_staff": true, 
+        "last_login": "2013-10-28T04:37:02.515Z", 
+        "groups": [], 
+        "user_permissions": [], 
+        "password": "pbkdf2_sha256$10000$xSO9oRFz88LQ$XGNybzF63vtLfbJllBzLt6hfO0tTY2W3BXaln8ncgBM=", 
+        "email": "a@a.com", 
+        "date_joined": "2013-10-28T04:36:12.295Z"
+    }
+},
+{
+    "pk": 2, 
+    "model": "auth.user", 
+    "fields": {
+        "username": "brooke@aim.com", 
+        "first_name": "", 
+        "last_name": "", 
+        "is_active": true, 
+        "is_superuser": false, 
+        "is_staff": false, 
+        "last_login": "2013-10-28T04:37:27.969Z", 
+        "groups": [], 
+        "user_permissions": [], 
+        "password": "pbkdf2_sha256$10000$baG2jbKu2fmr$GQMak8dwaoerfKjoVBxom27VVhAlm5IAOlcE5wW1fQw=", 
+        "email": "brooke@aim.com", 
+        "date_joined": "2013-10-28T04:37:27.969Z"
+    }
+},
+{
+    "pk": 1, 
+    "model": "deviceapp.basicuser", 
+    "fields": {
+        "website": "www.test.com", 
+        "city": "Colts Neck", 
+        "businesstype": "individual", 
+        "name": "Brooke Johnson", 
+        "company": "Colts Neck Equine", 
+        "zipcode": 2215, 
+        "state": "NJ", 
+        "phonenumber": "732-547-4516", 
+        "user": 2, 
+        "address": "1 main street", 
+        "email": "brooke@aim.com"
+    }
+}
 ]
