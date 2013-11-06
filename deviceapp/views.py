@@ -12,7 +12,7 @@ import math
 import difflib
 import locale
 
-
+import time
 #If you want to test network latency
 #import time
 #time.sleep(5)
@@ -22,6 +22,9 @@ import locale
 
 def index(request):
 	return render_to_response('index.html',context_instance=RequestContext(request))
+
+def listintro(request):
+	return render_to_response('listintro.html',context_instance=RequestContext(request))
 
 #Save an image to S3 and send back the id of the userimage object, so when the item post is completed
 #it can use the id to attach an item to the userimage object
@@ -46,23 +49,34 @@ def postitem(request):
 			manufacturer = Manufacturer.objects.get(name = manufacturer)
 			category = request.POST['category']
 			category = DeviceCategory.objects.get(name=category)
-			specs = request.POST['specs']
+			serialno = request.POST['serialno']
 			itempicsidlist = request.POST.getlist('pictureid[]','')
-			productpicsidlist = request.POST.getlist('productpicid[]','')
+			shippingincluded = request.POST['shippingincluded']
+			year = request.POST['year']
+			type = request.POST['type']
 			description = request.POST['productdescription']
 			conditiondescription = request.POST['conditiondescription']
 			price = request.POST['price']
 			quality = request.POST['quality']
 			contract = request.POST['contract']
+			ownedlength = request.POST['ownedlength'].split("/")
+			ownedlength = ownedlength[2]+"-"+ownedlength[0]+"-"+ownedlength[1]
 			bu = BasicUser.objects.get(user=request.user)
-			mainimage = Image.objects.get(id=1)
-			itemhandle = Item(user=bu,type='new',name=name,devicecategory=category,manufacturer=manufacturer,specs=specs,productdescription=description,conditiondescription=conditiondescription,contract=contract,condition=quality,price=price,age=1,liststatus="active",listeddate="2013-11-01",mainimage=mainimage,savedcount=0)
+			try:
+				mainimage = Image.objects.get(id=request.POST['mainpicid'])
+			except:
+				mainimage = Image.objects.get(id=1)
+			itemhandle = Item(user=bu,type=type,name=name,devicecategory=category,manufacturer=manufacturer,productdescription=description,conditiondescription=conditiondescription,year=year,contract=contract,condition=quality,price=price,dateacquired=ownedlength,liststatus="active",mainimage=mainimage,savedcount=0)
 			itemhandle.save()
-			print specs
 			for pics in itempicsidlist:
-				pichandle = ItemImage.objects.get(id=pics)
-				pichandle.item = itemhandle
-				pichandle.save()
+				try:
+					pichandle = ItemImage.objects.get(id=pics)
+					pichandle.item = itemhandle
+					pichandle.save()
+				except:
+					pihandle = ProductImage.objects.get(id=pics)
+					pihandle.item.add(pihandle)
+					pihandle.save()
 			return HttpResponse(json.dumps("100"), mimetype='application/json')
 		else:
 			return HttpResponse(json.dumps("500"), mimetype='application/json')
@@ -110,13 +124,6 @@ def productsearch(request,industryterm,devicecategoryterm):
 	for itm in itemqs:
 		pricelow = min(pricelow,itm.price)	
 		pricehigh = max(pricehigh,itm.price)	
-	# Parse product specifications	
-	for i in range(len(itemqs)):
-		specs = itemqs[i].specs.split(";")
-		for j in range(len(specs)):
-			specs[j] = specs[j].split("!")
-		itemqs[i].specifications = specs
-		
 	return render_to_response('search.html',{'pricelow':pricelow,'pricehigh':pricehigh,'searchquery':searchquery,'items':itemqs,'categories':catlist,'category':category,'ind':industrysearch.name,'manufacturer':manufacturers},context_instance=RequestContext(request))
 
 def autosuggest(request):
@@ -169,13 +176,6 @@ def customsearch(request):
 		for itm in itemqs:
 			pricelow = min(pricelow,itm.price)	
 			pricehigh = max(pricehigh,itm.price)	
-		# Parse product specifications	
-		for i in range(len(itemqs)):
-			specs = itemqs[i].specs.split(";")
-			for j in range(len(specs)):
-				specs[j] = specs[j].split("!")
-			itemqs[i].specifications = specs
-		
 		return render_to_response('search.html',{'pricelow':pricelow,'pricehigh':pricehigh,'searchquery':searchquery,'items':itemqs,'categories':catlist,'ind':industrysearch.name,'manufacturer':manufacturers},context_instance=RequestContext(request))
 
 
@@ -195,10 +195,6 @@ def searchquery(request):
 		for item in items:
 			if item.price <= int(filters['pricehigh']) and item.price >= int(filters['pricelow']):
 				if (item.type == 'new' and filters['new']=='true') or (item.type == 'refurbished' and filters['refurbished']=='true') or (item.type == 'preowned' and filters['preowned']=='true'):
-					specs = item.specs.split(";")
-					for j in range(len(specs)):
-						specs[j] = specs[j].split("!")
-						item.specifications = specs
 					itemspassed.append(item)
 	html = render(request, 'productsearchitem.html', {'items':itemspassed,'resultscount':len(itemspassed)},content_type="application/html")
 	return HttpResponse(html)
@@ -233,11 +229,12 @@ def saveditems(request):
 	if request.user.is_authenticated():
 		bu = BasicUser.objects.get(user=request.user)
 		saveditems = bu.saveditem_set.all()
-		itemcount = len(saveditems)
+		saveditemcount = len(saveditems)
+		listeditemcount = bu.item_set.all().count()
 		items = []
 		for si in saveditems:
 			items.append(si.item)
-		return render_to_response('saveditems.html',{"items":items,"itemcount":itemcount},context_instance=RequestContext(request))
+		return render_to_response('saveditems.html',{"items":items,"saveditemcount":saveditemcount,"listeditemcount":listeditemcount},context_instance=RequestContext(request))
 	else:
    		return render_to_response('index.html', context_instance=RequestContext(request))
    		
@@ -245,22 +242,41 @@ def saveditems(request):
 def listeditems(request):
 	if request.user.is_authenticated():
 		bu = BasicUser.objects.get(user=request.user)
+		listeditems = bu.item_set.all()
+		listeditemcount = len(listeditems)
+		saveditemcount = bu.saveditem_set.all().count()
 		items = bu.item_set.all()
-		return render_to_response('listeditems.html',{"items":items},context_instance=RequestContext(request))
+		return render_to_response('listeditems.html',{"items":items,"saveditemcount":saveditemcount,"listeditemcount":listeditemcount},context_instance=RequestContext(request))
 	else:
    		return render_to_response('index.html', context_instance=RequestContext(request))
    		
 @login_required
 def accounthistory(request):
-	return render_to_response('accounthistory.html',context_instance=RequestContext(request))
+	if request.user.is_authenticated():
+		bu = BasicUser.objects.get(user=request.user)
+		listeditemcount = bu.item_set.all().count()
+		saveditemcount = bu.saveditem_set.all().count()
+		return render_to_response('accounthistory.html',{"saveditemcount":saveditemcount,"listeditemcount":listeditemcount},context_instance=RequestContext(request))
+	else:
+   		return render_to_response('index.html',context_instance=RequestContext(request))
+
 @login_required
 def settings(request):
-	return render_to_response('settings.html',context_instance=RequestContext(request))
+	if request.user.is_authenticated():
+		bu = BasicUser.objects.get(user=request.user)
+		listeditemcount = bu.item_set.all().count()
+		saveditemcount = bu.saveditem_set.all().count()
+		return render_to_response('settings.html',{"saveditemcount":saveditemcount,"listeditemcount":listeditemcount},context_instance=RequestContext(request))
+	else:
+   		return render_to_response('index.html',context_instance=RequestContext(request))
+
 @login_required
 def profile(request):
 	if request.user.is_authenticated():
 		bu = BasicUser.objects.get(user=request.user)
-		return render_to_response('profile.html',{'basicuser':bu},context_instance=RequestContext(request))
+		listeditemcount = bu.item_set.all().count()
+		saveditemcount = bu.saveditem_set.all().count()
+		return render_to_response('profile.html',{'basicuser':bu,"saveditemcount":saveditemcount,"listeditemcount":listeditemcount},context_instance=RequestContext(request))
 	else:
    		return render_to_response('index.html',context_instance=RequestContext(request))
 
@@ -289,10 +305,7 @@ def itemdetails(request,itemid):
 	if request.user.is_authenticated():
 		if SavedItem.objects.filter(user = BasicUser.objects.get(user=request.user),item=item).exists():
 			saved = True
-	specs = item.specs.split(";")
-	for i in range(len(specs)):
-		specs[i] = specs[i].split("!")
-	return render_to_response('productdetails.html',{'saved':saved,'item':item,'industry':industry,'specs':specs},context_instance=RequestContext(request))
+	return render_to_response('productdetails.html',{'saved':saved,'item':item,'industry':industry},context_instance=RequestContext(request))
 
 def itemoptions(request,itemid):
 	product = Product.objects.get(id=int(productid))
@@ -408,5 +421,4 @@ def setUserProfileDict(field,value,usermodel):
 def numberToMoney(amount):
 	amount = str(int(amount))
 	if len(amount > 3):
-		return
-			
+		return		

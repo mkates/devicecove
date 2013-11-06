@@ -4,49 +4,32 @@
 
 {% block maintitle %}Listed Items{% endblock %}
 {% block headersubcss %}
+<link href="{{STATIC_URL}}css/search.css" rel="stylesheet" type="text/css" />
 <link href="{{STATIC_URL}}css/product.css" rel="stylesheet" type="text/css" />
 <link href="{{STATIC_URL}}css/profileitem.css" rel="stylesheet" type="text/css" />
 <link href="{{STATIC_URL}}css/jquery.fancybox.css" rel="stylesheet" type="text/css" />
 <style>
-.sellerdiv .descriptiondiv {
-	width: 600px;
-}
+.maincontent .title {
+	   border-radius: 5px;
+	   background: white;
+	   box-shadow: 0 0 3px #ccc;
+	   border:1px solid #ddd;
+	}
+	.maincontent {
+		background: none;
+		box-shadow: none;
+	}
+
 </style>
 {% endblock %}
 
 {% block jsblock %}
-<script type="text/javascript" src="{{STATIC_URL}}js/jquery.fancybox.js"></script>
-<script>
-$(document).ready(function() {
-	$('.fancybox').fancybox();
-});
-</script>
+<script src='{{STATIC_URL}}js/searchbox.js' type='text/javascript' ></script>
 {% endblock %}
 
 {% block maincontent %}
 	{% if items %}
-		{% for item in items %}
-			<div class="sellerdiv">
-				<div class="pricediv">
-					<h3>${{item.price}}</h3>
-					<h4 class="verifiedseller">Verified Seller</h4>
-					<h4>Under Warranty</h4>
-				</div>
-				<div class="descriptiondiv">
-					<h5> {{item.product.name}} | Used - <span>{{item.condition}}</span></h5>
-					<h6> Sold by <span>{{item.user.company}}</span></h6>
-					<p>{{item.description}}</p>
-					<div class="thumbnails">
-						<p>
-						{%for pics in item.pictures %}
-							<a class="fancybox" href="{{pics.photo.url}}" data-fancybox-group="gallery" title="Image provided by {{item.user.company}}"><img src="{{pics.photo.url}}" alt="" /></a>
-						{% endfor %}
-						</p>
-					</div>
-				</div>
-				<div class="clear"></div>
-			</div>
-		{% endfor %}
+		{% include 'productsearchitem.html' %}
 	{% else %}
 		<p id="nolistings"> You do not have any items currently listed with MedBay</p>
 		<a class="btn btn-custom-orange" id="listbutton" href="addproduct.html">List Your Equipment</a>

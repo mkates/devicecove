@@ -2,7 +2,7 @@
 {% block headertitle %}<title>MedBay | Account</title>{% endblock%}
 
 {% block headercss %}
-	<link href="{{STATIC_URL}}css/account.css" rel="stylesheet" type="text/css" />
+<link href="{{STATIC_URL}}css/account.css" rel="stylesheet" type="text/css" />
 <style>
 .pagecontainer {
 	width: 1000px;
@@ -19,12 +19,11 @@
 }
 .maincontent {
 	float: left;
-	border:1px solid #ddd;
-	box-shadow: 0 0 4px #ccc;
-	background: white;
 	width: 770px;
 	border-radius: 3px;
 	min-height: 250px;
+	background: white;
+	box-shadow: 0 0 3px #aaa;
 }
 .sidecontent ul {
 	padding: 0;
@@ -79,15 +78,16 @@
 	font-size: 12px;
 	color: white;
 }
-.maincontent h2 {
+.maincontent .title {
 	margin: 0;
 	padding: 0;
 	font-size: 20px;
 	padding-left: 20px;
+	background: white;
+	border-radius: 2px;
+	margin-bottom: 10px;
 	line-height: 45px;
-	border-bottom:1px soldi #ddd;
-	margin-bottom:0px;
-	border-bottom:1px solid #f4f4f4;
+	border-bottom:1px solid #ddd;
 	text-align: left;
 }
 #nolistings {
@@ -113,8 +113,8 @@
 <div class="pagecontainer">
 	<div class="sidecontent">
 		<ul>
-			<a href="saveditems"><li class="first {% block saveditems %}{% endblock %}"><h3>Saved Items{% if itemcount %}<span class="arrow">{{ itemcount }}</span>{% endif %}</h3></li></a>
-			<a href="listeditems"><li class="{% block listeditems %}{% endblock %}"><h3>Listed Items<span class="arrow">1</span></h3></li></a>
+			<a href="saveditems"><li class="first {% block saveditems %}{% endblock %}"><h3>Saved Items{% if saveditemcount %}<span class="arrow">{{ saveditemcount }}</span>{% endif %}</h3></li></a>
+			<a href="listeditems"><li class="{% block listeditems %}{% endblock %}"><h3>Listed Items{% if listeditemcount %}<span class="arrow">{{ listeditemcount }}</span>{% endif %}</span></h3></li></a>
 			<a href="accounthistory"><li class="{% block accounthistory %}{% endblock %}"><h3>Account History</li></a>
 			<a href="profile"><li class="{% block profile %}{% endblock %}"><h3>Profile</li></a>
 			<a href="settings"><li class="{% block settings %}{% endblock %}"><h3>Settings</h3></li></a>
@@ -122,7 +122,7 @@
 		</ul>
 	</div>
 	<div class="maincontent">
-		<h2>{% block maintitle %}{% endblock %}</h2>
+		<h2 class="title">{% block maintitle %}{% endblock %}</h2>
 		{% block maincontent %}
 		<p id="nolistings"> You do not have any items currently listed with MedBay</p>
 		<a class="btn btn-primary" id="listbutton" href="addproduct.html">List Your Equipment</a>

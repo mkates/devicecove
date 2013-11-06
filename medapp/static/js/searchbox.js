@@ -19,11 +19,11 @@ var activateResultsBoxItems = function activateResultsBoxItems() {
 	});
 	
 	//When a user hovers over a thumbnail
-	$('.imagethumbnail img').hover(function() {
-		$(this).parent().parent().parent().parent().children('div.imageviewer').css('display','table-cell');
-		$(this).parent().parent().parent().parent().children('div.imageviewer').html("<div class='verticalalign'><img src='"+$(this).attr('src')+"'/></div>");
+	$('.imagethumbnail').hover(function() {
+		$(this).parent().parent().parent().children('div.imageviewer').css('display','table-cell');
+		$(this).parent().parent().parent().children('div.imageviewer').html("<div class='verticalalign'><img src='"+$(this).children('img').attr('src')+"'/></div>");
 	}, function() {
-		$(this).parent().parent().parent().parent().children('div.imageviewer').css('display','none');
+		$(this).parent().parent().parent().children('div.imageviewer').css('display','none');
 		
 	});
 	
@@ -46,10 +46,14 @@ var togglebuttons = function togglebutton(handler) {
 			};
 			if ($(handler).text() == 'Details') {
 				handler.parent().parent().parent().children('div.detailsdiv').removeClass('hidden');
-			} else if ($(handler).text() == 'Specs') {
+			} else if ($(handler).text() == 'Quick Facts') {
 				handler.parent().parent().parent().children('div.specsdiv').removeClass('hidden');
 			} else if ($(handler).text() == 'Condition') {
 				handler.parent().parent().parent().children('div.conditiondiv').removeClass('hidden');
 			} 
 		}
 }
+
+$(document).ready(function() {
+	activateResultsBoxItems();
+});

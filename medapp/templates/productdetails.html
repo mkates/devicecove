@@ -13,15 +13,18 @@
   			<h3>Made By: <a href='#'>Redtera Manufacturers</a></h3>
  -->
   			<div id="zoomcontainer">
-				<span class='zoom' id='ex1'>
-					<img id="mainimage" src='http://www.jacklmoore.com/img/daisy.jpg' alt='Daisy on the Ohoopee'/>
-				</span>
+				<div class='mainimage-div' id='ex1'>
+					<div class="mainimage-align">
+						<img id="mainimage" src="{{ item.mainimage.photo.url}}" alt="{{item.name}}"/>
+					</div>
+				</div>
  				<div class="thumbnails">
- 					<div class="thumbnail-container"><img src="http://xraydiagcentre.com/images/xray-machine.jpg"/></div>
- 					<div class="thumbnail-container"><img src="http://web.tradekorea.com/upload_file2/product/263/P00264263/cbe9caa5_6d72bce3_9d52_4e07_87d8_e511af0c6777.jpg"/></div>
- 					<div class="thumbnail-container"><img src="http://xraydiagcentre.com/images/xray-machine.jpg"/></div>
- 					<div class="thumbnail-container"><img src="http://xraydiagcentre.com/images/xray-machine.jpg"/></div>
- 					<div class="thumbnail-container"><img src="http://xraydiagcentre.com/images/xray-machine.jpg"/></div>
+					{% for img in item.itemimage_set.all %}
+						<div class="thumbnail-container"><img src="{{img.photo.url}}"/></div>
+					{% endfor %}
+					{% for img in item.productimage_set.all %}
+						<div class="thumbnail-container"><img src="{{img.photo.url}}"/></div>
+					{% endfor %}
  				</div>
   			</div>
   		</div>
@@ -145,10 +148,12 @@
   		<p><span>Location</span>{{item.user.city}}, {{item.user.state}}</p>
   	</div>
   	<div class="sideproduct" id="productspecs">
-  		<h2>Product Specs</h2>
-  		{% for spec in specs %}
-  			<p><span>{{spec.0}}</span>{{spec.1}}</p>
-  		{% endfor $%}
+  		<h2>Product Information</h2>
+		<p><span>Device Category</span>{{item.devicecategory}}</p>
+		<p><span>Service Contract</span>{{item.contract | title}}</p>
+		<p><span>Model Year</span>{{item.year}}</p>
+		<p><span>Condition</span>{{item.condition}}</p>
+		<p><span>Manufacturer</span>{{item.manufacturer}}</p>
   	</div>
   </div>
 </div>

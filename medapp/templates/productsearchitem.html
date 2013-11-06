@@ -1,81 +1,95 @@
+{% load humanize %}
 {% for item in items %}
-<div class='resultitem'>
-	<div class='imageviewer'></div>
-	<div class='imgdiv'><img src='{{item.mainimage.photo.url}}'/></div>
-	<div class='pricediv'>
-		<p>$14,300</p>
-		<a class='btn-custom-orange' href="/item/{{item.id}}/details">Select</a>
-	</div>
-	<div class='textdiv'>
-		<a href="/item/{{item.id}}/details"><h2>{{ item.name }}</h2></a>
-		<h6 class="resulttag">
-			{% if item.type == 'new' %}
-			<span class="new">new</span>
-			{% endif %} 
-			{% if item.type == 'refurbished' %}
-			<span class="refurbished">refurbished</span>
-			{% endif %} 
-			{% if item.type == 'preowned' %}
-			<span class="preowned">preowned</span>
-			{% endif %} 
-			{% if item.verified %}
-			<span class="verified">verified seller</span>
-			{% endif %} 
-			{% if item.contract == 'contractincluded' %}
-			<span class="lightgreen">service contract</span>
-			{% endif %} 
-			{% if item.contract == 'contractoptional' %}
-			<span class="lightred">service contract option</span>
-			{% endif %} 
-			
-		</h6>
-		<h4><a>Seller<span>{{ item.user.company }}</span></a></h4>
-		<h4><a>Product Age<span>{{ item.age }}</span></a></h4>
-		<h4><a>Condition<span>{{item.condition }}</span></a></h4>
-		<div class='buttondiv'>
-			<button class='btn-custom-gray infobutton detailsbutton'>Details</button>
-			<button class='btn-custom-gray infobutton specsbutton'>Specs</button>
-			<button class='btn-custom-gray infobutton conditionbutton'>Condition</button>
+<div id="resultcontainer">
+	<div class='resultitem'>
+		<form action='/removeitem' method='post' id="removeform">
+			{% csrf_token %}
+			<input type='hidden' name="itemid" value="{{item.id}}"/>
+			<button value="submit" class="removebutton"/>Remove</button>
+		</form>
+		<div class='imageviewer'></div>
+		<div class='imgdiv'><img src='{{item.mainimage.photo.url}}'/></div>
+		<div class='pricediv'>
+			<p>${{item.price|floatformat|intcomma}}</p>
+			<a class='btn-custom-orange' href="/item/{{item.id}}/details">Select</a>
 		</div>
-	</div>
-	<div class='clear'></div>
-	<div class='detailsdiv hidden previewdiv'>
-		<div class='detailtext'>
-			<p>{{item.productdescription}}</p>
+		<div class='textdiv'>
+			<a href="/item/{{item.id}}/details"><h2>{{ item.name }}</h2></a>
+			<h6 class="resulttag">
+				{% if item.type == 'new' %}
+				<span class="new">new</span>
+				{% endif %} 
+				{% if item.type == 'refurbished' %}
+				<span class="refurbished">refurbished</span>
+				{% endif %} 
+				{% if item.type == 'preowned' %}
+				<span class="preowned">preowned</span>
+				{% endif %} 
+				{% if item.verified %}
+				<span class="verified">verified seller</span>
+				{% endif %} 
+				{% if item.contract == 'contractincluded' %}
+				<span class="lightgreen">service contract</span>
+				{% endif %} 
+				{% if item.contract == 'contractoptional' %}
+				<span class="lightred">service contract option</span>
+				{% endif %} 
+				
+			</h6>
+			<h4><a>Seller<span>{{ item.user.company }}</span></a></h4>
+			<h4><a>Location<span>{{ item.user.city }}, {{item.user.state}}</span></a></h4>
+			<h4><a>List Date<span>{{item.listeddate}}</span></a></h4>
+			<div class='buttondiv'>
+				<button class='btn-custom-gray infobutton detailsbutton'>Details</button>
+				<button class='btn-custom-gray infobutton specsbutton'>Quick Facts</button>
+				<button class='btn-custom-gray infobutton conditionbutton'>Condition</button>
+			</div>
 		</div>
-		<div class='imagegallery'>
-			<div class='imagethumbnail'></div>
-			<div class='imagethumbnail'></div>
-			<div class='imagethumbnail'></div>
-			<div class='imagethumbnail'></div>
-			<div class='imagethumbnail'></div>
-			<div class='imagethumbnail'></div>
+		<div class='clear'></div>
+		<div class='detailsdiv hidden previewdiv'>
+			<div class='detailtext'>
+				<p>{{item.productdescription}}</p>
+			</div>
+			<div class='imagegallery'>
+				{% for image in item.itemimage_set.all %}
+					{% if forloop.counter < 6 %}
+						<div class='imagethumbnail'><img src="{{image.photo.url}}"/></div>
+					{% endif %}
+				{% endfor %}
 
+			</div>
+			<div class='morediv'>
+				<a href="/item/{{item.id}}/details"> Show all product details &#8594;</a>
+				<button class='btn-custom-gray closebutton'>Close</button>
+			</div>
 		</div>
-		<div class='morediv'>
-			<a href="/item/{{item.id}}/details"> Show all product details &#8594;</a>
-			<button class='btn-custom-gray closebutton'>Close</button>
-		</div>
-	</div>
-	<div class='specsdiv hidden previewdiv'>
-		<div class="spectext">
-			{% for spec in item.specifications %}
-				<p><span>{{spec.1}}</span>{{spec.0}}</p>
-			{% endfor $%}
-		</div>
-		<div class='morediv'>
-			<a href="/item/{{item.id}}/details"> Show all product specifications &#8594;</a>
-			<button class='btn-custom-gray closebutton'>Close</button>
-		</div>
-	</div>
-	<div class='conditiondiv hidden previewdiv'>
-		<p>{{ item.conditiondescription }}</p>
-		<div class='morediv'>
-			<a href="/item/{{item.id}}/buyingoptions"> View all condition details &#8594;</a>
-			<button class='btn-custom-gray closebutton'>Close</button>
-		</div>
-	</div>
-	<div class='clear'></div>
+		<div class='specsdiv hidden previewdiv'>
+			<div class="spectext">
+				<p><span>{{item.user.name}}</span>Seller Name</p>
+				<p><span>{{item.devicecategory}}</span>Device Category</p>
+				<p><span>{{item.user.company}}</span>Seller Company</p>
+				<p><span>{{item.contract | title}}</span>Service Contract</p>
+				<p><span>{{item.user.website}}</span>Website</p>
+				<p><span>{{item.year}}</span>Model Year</p>
+				<p><span>{{item.condition}}</span>Condition</p>
+				<p><span>{{item.manufacturer}}</span>Manufacturer</p>
 
+				<p><span>{{item.serialno}}</span>Serial #</p>
+			</div>
+			<div class='morediv'>
+				<a href="/item/{{item.id}}/details"> Show all product specifications &#8594;</a>
+				<button class='btn-custom-gray closebutton'>Close</button>
+			</div>
+		</div>
+		<div class='conditiondiv hidden previewdiv'>
+			<p>{{ item.conditiondescription }}</p>
+			<div class='morediv'>
+				<a href="/item/{{item.id}}/details"> View all condition details &#8594;</a>
+				<button class='btn-custom-gray closebutton'>Close</button>
+			</div>
+		</div>
+		<div class='clear'></div>
+
+	</div>
 </div>
 {% endfor %}
