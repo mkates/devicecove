@@ -1,5 +1,6 @@
 // We must rebind all the actions when results are added to the page
 var activateResultsBoxItems = function activateResultsBoxItems() {	
+	console.log('this');
 	//When user clicks for more information
 	$('.infobutton').click(function() {
 		togglebuttons($(this));

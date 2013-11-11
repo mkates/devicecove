@@ -1,4 +1,4 @@
-from django.conf.urls import patterns, include, url
+from django.conf.urls import *
 
 # Uncomment the next two lines to enable the admin:
 from django.contrib import admin
@@ -12,6 +12,7 @@ urlpatterns = patterns('',
     url(r'^autosuggest','deviceapp.views.autosuggest'),
     url(r'^saveitem','deviceapp.views.saveitem'),
     url(r'^removeitem','deviceapp.views.removeitem'),
+	url(r'^edititem/(?P<itemid>\d+)','deviceapp.views.edititem'),
     url(r'^productsearch/(?P<industryterm>\w+)/(?P<devicecategoryterm>\w+)','deviceapp.views.productsearch'),
     url(r'^login','deviceapp.views.loginview'),
     url(r'^signup','deviceapp.views.signup'),
@@ -38,3 +39,5 @@ urlpatterns = patterns('',
     # Uncomment the next line to enable the admin:
     url(r'^admin/', include(admin.site.urls)),
 )
+
+urlpatterns += (url(r'^admin/django-ses/', include('django_ses.urls')),)

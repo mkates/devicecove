@@ -54,7 +54,8 @@
 								</div>
 								<div class="price">
 									<div class="pricebox">
-										<p class="price">$24,300</p>
+									    {% load humanize %}
+										<p class="price">$23,122</p>
 										<p class="pricelabel">MB Estimated Value</p>
 									</div>
 									<div class="pricebox pricebox2">
@@ -120,7 +121,7 @@
   <div class="col-xs-12 col-sm-4 col-md-4 sideproductcontainer">
   	<div class="sideproduct actionbox">
   		<h2>Buy This Item</h2>  
-  		<h3>$23,450</h3>
+  		<h3>${{item.price|floatformat|intcomma}}</h3>
   		<p>Service Contract will be acquired for free after the purchase is made. Not including shipping.</p>
   		<!-- 
 <div class="retailprice">
@@ -129,7 +130,6 @@
   			<p class="noborder"><span class="condition">Pre-owned (0)</span> <span class="price">N/A</span></p>
   		</div>
  -->
- 		
   		<div class="actionbuttons">
   			<a class="btn-custom-orange" href="#">Buy Now</a>
   		</div>

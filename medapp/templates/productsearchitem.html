@@ -1,12 +1,17 @@
 {% load humanize %}
-{% for item in items %}
 <div id="resultcontainer">
+{% for item in items %}
 	<div class='resultitem'>
+		{%if savedpage %}
 		<form action='/removeitem' method='post' id="removeform">
 			{% csrf_token %}
 			<input type='hidden' name="itemid" value="{{item.id}}"/>
 			<button value="submit" class="removebutton"/>Remove</button>
 		</form>
+		{% endif %}
+		{%if listpage %}
+			<a href="/edititem/{{item.id}}" value="submit" class="removebutton editbutton"/>Edit</a>
+		{% endif %}
 		<div class='imageviewer'></div>
 		<div class='imgdiv'><img src='{{item.mainimage.photo.url}}'/></div>
 		<div class='pricediv'>
@@ -91,5 +96,5 @@
 		<div class='clear'></div>
 
 	</div>
-</div>
 {% endfor %}
+</div>

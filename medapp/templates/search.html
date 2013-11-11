@@ -40,6 +40,12 @@ label .floatright {
 	font-weight: 200;
 	padding-bottom: 15px;
 }
+/***If more than 10 items, display the showmore button**/
+{% if more %}
+.showmorebutton {
+	display: block;
+}
+{% endif %}
 
 </style>
 {% endblock%}
@@ -136,40 +142,39 @@ label .floatright {
   		</div>
   	</div>
   	<div class='resultsbox resultsnav'>
-  		<div class='' id='resultsparameter'>
+  		<!-- 
+<div class='' id='resultsparameter'>
   		Searching for {{ searchquery }}
   		</div>
+ -->
   		<div id='sortby'>
   			<p> Sort By: </p>
   			<select class='form-control'>
-  				<option> Relevance </option>
   				<option> Price </option>
-  				<option> Best Deal </option>
-  				<option> Most Viewed</option>
-  				<option> Newest</option>
   			</select>
   		</div>
-  		<div id='numberofresults'>2038 Results</div>
-  		<img class='viewtypeimg' src='{{STATIC_URL}}img/listview.png'/>
+  		<div id='numberofresults'>{{ resultcount }} Results</div>
+  		<p>Searching for {{ searchquery }}</p>
+  		<!-- 
+<img class='viewtypeimg' src='{{STATIC_URL}}img/listview.png'/>
   		<p> View By Product </p>
   		<img class='viewtypeimg' src='{{STATIC_URL}}img/gridview.png'/>
   		<p> View By Seller </p>
+ -->
   		<div class='clear'></div>
   	</div>
   	
   	<div class='resultsbox' id='resultsbody'>
-  		{% for item in items %}
-  			{% include 'productsearchitem.html' %}
-  		{% endfor %}
+  		{% include 'productsearchitem.html' %}
 		<div id="noresults" class="resultitem">
 			<p class="noluck">Sorry, we can't find anything that matches your search</p>
 			<img class="noresults" src="{{STATIC_URL}}img/saddog.jpg"/>
 			<p>Try changing your filters, or call us with what you want and we will let you know when one becomes available!</p>
 		</div>
-  	</div>
-  	<div id='showmorebutton' class='resultsbox'>
-  		<p>Show More Results</p>
-  		<img src='{{STATIC_URL}}img/ajax-loader.gif'/>
+		<div class='showmorebutton resultsbox'>
+			<p>Show More Results</p>
+			<img src='{{STATIC_URL}}img/ajax-loader.gif'/>
+		</div>
   	</div>
   </div>
   	
@@ -184,7 +189,7 @@ label .floatright {
 //*********************************************
 //Global variable dictionary ******************
 //*********************************************
-var variables = {'category':'{{category.name}}','sortby':'relevance','pricelow':0,'pricehigh':10000000,'new':true,'refurbished':true,'preowned':true};
+var variables = {'page':0,'category':'{{category.name}}','sortby':'price','pricelow':0,'pricehigh':10000000,'new':true,'refurbished':true,'preowned':true};
 
 //*********************************************
 //*** Miscellaneous Page Functions ************
@@ -195,9 +200,15 @@ $(document).ready(function(){
 	$("input").change(function() {
 		var checkboxname = $(this).attr('id');
 		variables[checkboxname] = ($(this).is(":checked")) ? true: false;
+		variables['page'] = 0;
 		update();
 	});
-	
+	$('.showmorebutton').click(function() {
+		$('.showmorebutton p').css('display','none');
+		$('.showmorebutton img').css('display','block');
+		variables['page'] = variables['page']+1;
+		update();
+	});
 	//The price filter functionality when it is toggled
 	$(function() {
 		$( '#price-range' ).slider({
@@ -222,6 +233,7 @@ $(document).ready(function(){
 			stop: function(event,ui ) {
 				variables['pricelow'] = ui.values[ 0 ];
 				variables['pricehigh'] = ui.values[ 1 ];
+				variables['page'] = 0;
 				update();
 			}
 			});
@@ -232,23 +244,35 @@ $(document).ready(function(){
 
 //Update function when a filter is called
 var update = function loading() {
-	$('#loadingoverlay').css('display','block');
+	if (variables['page'] == 0) {
+		$('#loadingoverlay').css('display','block');
+	}
 	$.ajax({
 		url: '/searchquery',
 		type: 'GET',
 		data: variables,
-		cache:false,
-		dataType: 'html',
+		cache: false,
+		dataType: 'json',
 		success: function(response){
 			$('#loadingoverlay').css('display','none');
-			$("#resultcontainer").empty();
-			$("#resultcontainer").append(response);
-			if ($('#resultcontainer').is(":empty")) {
-				console.log("here");
+			$('.showmorebutton p').css('display','block');
+			$('.showmorebutton img').css('display','none');
+			//If a new search, empty results
+			if (variables['page'] == 0) {
+				$("#resultcontainer").empty();
+			}
+			$("#resultcontainer").append(response['result']);
+			if ($('.resultitem').length <= 1) {
 				$("#noresults").css('display','block');
 			} else {
 				$("#noresults").css('display','none');
 			}
+			if (response['more'] == true) {
+				$('.showmorebutton').css('display','block');
+			} else {
+				$('.showmorebutton').css('display','none');
+			}
+			$("#numberofresults").html(response['resultscount']+" Results");
 			activateResultsBoxItems();
 		}
 	});
@@ -266,25 +290,6 @@ String.prototype.splice = function( idx, rem, s ) {
 //*********************************************
 //*** Unused Functions ************************
 //*********************************************
-	//When the show more button is pressed, load in more products
-	// $('#showmorebutton').click(function() {
-// 		$('#showmorebutton p').css('display','none');
-// 		$('#showmorebutton img').css('display','block');
-// 		$.ajax({
-// 			url: '/searchquery',
-// 			type: 'GET',
-// 			data: variables,
-// 			cache: false,
-// 			dataType: 'json',
-// 			success: function(response){
-// 				$.each(response, function( key, pd) {
-// 					generateProduct(pd['name'],pd['manufacturer'],pd['description'],pd['lowprice']);
-// 					console.log("Generating more products");
-// 				});
-// 				$('#showmorebutton p').css('display','block');
-// 				$('#showmorebutton img').css('display','none');
-// 			}
-// 		});
-// 	});
+
 </script>
 {% endblock %}

@@ -131,7 +131,8 @@ INSTALLED_APPS = (
     'django.contrib.humanize',
     'deviceapp',
     'storages',
-    'boto'
+    'boto',
+    'django_ses'
 )
 CACHES = {
     'default': {
@@ -169,8 +170,8 @@ LOGGING = {
     }
 }
 # Parse database configuration from $DATABASE_URL
-import dj_database_url
-DATABASES['default'] =  dj_database_url.config()
+#import dj_database_url
+#DATABASES['default'] =  dj_database_url.config()
 
 # Honor the 'X-Forwarded-Proto' header for request.is_secure()
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
@@ -195,6 +196,12 @@ TEMPLATE_DIRS = (
 #Amazon shtuff
 AWS_ACCESS_KEY_ID = 'AKIAJOLZ5657Q7HHW2CA'
 AWS_SECRET_ACCESS_KEY = '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'
+
+AWS_SES_REGION_NAME = 'us-east-1'
+AWS_SES_REGION_ENDPOINT = 'email.us-east-1.amazonaws.com'
+EMAIL_BACKEND = 'django_ses.SESBackend'
+AWS_SES_AUTO_THROTTLE = 0.5
+
 DEFAULT_FILE_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
 STATICFILES_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
 AWS_STORAGE_BUCKET_NAME = 'devicerock'
