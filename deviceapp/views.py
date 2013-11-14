@@ -22,19 +22,24 @@ import time
 ###########################################
 
 def index(request):
-	return render_to_response('index.html',context_instance=RequestContext(request))
+	items = Item.objects.order_by('savedcount')[:9]
+	
+	return render_to_response('index.html',{'featured':items},context_instance=RequestContext(request))
 
 def listintro(request):
 	return render_to_response('listintro.html',context_instance=RequestContext(request))
 
+def faq(request):
+	return render_to_response('faqs.html',context_instance=RequestContext(request))
+	
 #Save an image to S3 and send back the id of the userimage object, so when the item post is completed
 #it can use the id to attach an item to the userimage object
 def imageupload(request):
 	imagehandlers = []
 	for file in request.FILES.getlist('files'):
-		ui = ItemImage(photo=file)
+		ui = ItemImage(photo=file,photo_small=file,photo_medium=file)
 		ui.save()
-		imagehandlers.append([ui.id,ui.photo.url])
+		imagehandlers.append([ui.id,ui.photo_small.url])
 	return HttpResponse(json.dumps(imagehandlers), mimetype='application/json')
 
 ###########################################
@@ -43,7 +48,6 @@ def imageupload(request):
 
 def postitem(request):
 	if request.method == "POST":
-		print request
 		if request.user.is_authenticated():
 			name = request.POST['name']
 			manufacturer = request.POST['manufacturer']
@@ -51,7 +55,10 @@ def postitem(request):
 			category = request.POST['category']
 			category = DeviceCategory.objects.get(name=category)
 			serialno = request.POST['serialno']
-			itempicsidlist = request.POST.getlist('pictureid[]','')
+			try:
+				itempicsidlist = request.POST.getlist('pictureid[]','')
+			except:
+				itempicsidlist = []
 			shippingincluded = request.POST['shippingincluded']
 			year = request.POST['year']
 			type = request.POST['type']
@@ -64,10 +71,10 @@ def postitem(request):
 			ownedlength = ownedlength[2]+"-"+ownedlength[0]+"-"+ownedlength[1]
 			bu = BasicUser.objects.get(user=request.user)
 			try:
-				mainimage = Image.objects.get(id=request.POST['mainpicid'])
+				mainimage = Image.objects.get(id=request.POST['mainimageid'])
 			except:
-				mainimage = Image.objects.get(id=1)
-			itemhandle = Item(user=bu,type=type,name=name,devicecategory=category,manufacturer=manufacturer,productdescription=description,conditiondescription=conditiondescription,year=year,contract=contract,condition=quality,price=price,dateacquired=ownedlength,liststatus="active",mainimage=mainimage,savedcount=0)
+				mainimage = None
+			itemhandle = Item(user=bu,type=type,name=name,devicecategory=category,shippingincluded=shippingincluded,manufacturer=manufacturer,productdescription=description,conditiondescription=conditiondescription,serialno=serialno,year=year,contract=contract,condition=quality,price=price,dateacquired=ownedlength,liststatus="active",mainimage=mainimage,savedcount=0,verified=False)
 			itemhandle.save()
 			for pics in itempicsidlist:
 				try:
@@ -83,22 +90,79 @@ def postitem(request):
 			return HttpResponse(json.dumps("500"), mimetype='application/json')
 	return render_to_response('index.html',context_instance=RequestContext(request))
 
-def saveitem(request):
-	if request.method == "POST" and request.user.is_authenticated():
+@login_required
+def editform(request):
+	if request.user.is_authenticated() and request.method == "POST":
+		bu = BasicUser.objects.get(user=request.user)
 		item = Item.objects.get(id=request.POST['id'])
-		print request.POST['action']
+		if item.user == bu:
+			item.name = request.POST['name']
+			manufacturer = request.POST['manufacturer']
+			item.manufacturer = Manufacturer.objects.get(name = manufacturer)
+			category = request.POST['category']
+			item.devicecategory = DeviceCategory.objects.get(name=category)
+			item.serialno = request.POST['serialno']
+			try:
+				itempicsidlist = request.POST.getlist('pictureid[]','')
+			except:
+				itempicsidlist = []
+			item.shippingincluded = request.POST['shippingincluded']
+			item.year = request.POST['year']
+			item.type = request.POST['type']
+			item.productdescription = request.POST['productdescription']
+			item.conditiondescription = request.POST['conditiondescription']
+			item.price = request.POST['price']
+			if int(request.POST['mainimageid']) != -1:
+				item.mainimage = Image.objects.get(id=request.POST['mainimageid'])
+			else:
+				item.mainimage = None
+			item.quality = request.POST['quality']
+			item.contract = request.POST['contract']
+			ownedlength = request.POST['ownedlength'].split("/")
+			item.dateacquired = ownedlength[2]+"-"+ownedlength[0]+"-"+ownedlength[1]
+			#Delete item pictures they remove
+			oldPictureIdhandle = item.itemimage_set.all()
+			sentlist = []
+			for ipil in itempicsidlist:
+				sentlist.append(int(ipil))
+			for p in oldPictureIdhandle:
+				if int(p.id) not in sentlist:
+					itemimage = ItemImage.objects.get(id=p.id)
+					item.itemimage_set.remove(itemimage)
+			#Update the picture item relationships
+			for pics in sentlist:
+				try:
+					pichandle = ItemImage.objects.get(id=pics)
+					pichandle.item = item
+					pichandle.save()
+				except:
+					pihandle = ProductImage.objects.get(id=pics)
+					pihandle.item.add(pihandle)
+					pihandle.save()
+			item.save()
+			return HttpResponseRedirect("/listeditems")
+		return HttpResponse("Error")
+	return HttpResponse("Error")
+
+def saveitem(request):
+	item = Item.objects.get(id=request.POST['id'])
+	if request.method == "POST" and request.user.is_authenticated():
 		if (request.POST['action'] == "save"):
 			if not SavedItem.objects.filter(user = BasicUser.objects.get(user=request.user),item=item).exists():
 				si = SavedItem(user = BasicUser.objects.get(user=request.user),item=item)
+				item.savedcount += 1
 				si.save()
 		else:
 			if SavedItem.objects.filter(user = BasicUser.objects.get(user=request.user),item=item).exists():
 				si = SavedItem.objects.get(user = BasicUser.objects.get(user=request.user),item=item)
 				si.delete()
-		return HttpResponse(json.dumps("100"), mimetype='application/json')
+				item.savedcount -= 1
+		return HttpResponse(json.dumps({'status':"100"}), mimetype='application/json')
 	else:
-		return HttpResponse(json.dumps("500"), mimetype='application/json')
+		redirectURL = str('/login?next=/item/'+str(item.id)+"/details")
+		return HttpResponse(json.dumps({'status':"400",'redirect':redirectURL}), mimetype='application/json')
 
+@login_required
 def removeitem(request):
 	if request.method == "POST" and request.user.is_authenticated():
 		item = Item.objects.get(id=request.POST['itemid'])
@@ -145,7 +209,7 @@ def autosuggest(request):
 	#Find all items that match the search term
 	item = Item.objects.filter(devicecategory__name__icontains=searchterm)
 	for itm in item:
-		results.append({'type':'product','name':itm.name,'category':itm.user.company,'mainimage':itm.mainimage.photo.url,'link':"/item/"+str(itm.id)+"/details"});
+		results.append({'type':'product','name':itm.name,'category':itm.user.company,'mainimage':itm.mainimage.photo_small.url,'link':"/item/"+str(itm.id)+"/details"});
 	
 	#Do a relative match if no results are found
 	if len(results) == 0:
@@ -157,7 +221,7 @@ def autosuggest(request):
 			if difflib.SequenceMatcher(None,searchterm,p.name.lower()).ratio() > .35:
 				matchlist.append(p)
 		for itm in matchlist:
-			results.append({'type':'product','name':itm.name,'category':itm.user.company,'mainimage':itm.mainimage.photo.url,'link':"/item/"+str(itm.id)+"/details"});
+			results.append({'type':'product','name':itm.name,'category':itm.user.company,'mainimage':itm.mainimage.photo_small.url,'link':"/item/"+str(itm.id)+"/details"});
 	return HttpResponse(json.dumps(results[0:10]), mimetype='application/json')
 
 def customsearch(request):
@@ -217,7 +281,10 @@ def searchquery(request):
 def updateprofsettings(request,field):
 	if request.user.is_authenticated():
 		bu = BasicUser.objects.get(user=request.user)
-		setUserProfileDict(field,request.POST[field],bu)
+		if field == 'password':
+			change = setUserProfileDict(field,[request.POST['password1'],request.POST['password2']],bu)
+			if change != 'Success':
+				return HttpResponseRedirect("/profile?e=password")
 		return HttpResponseRedirect("/profile")
 	else:
    		return render_to_response('index.html',context_instance=RequestContext(request))
@@ -249,10 +316,6 @@ def listeditems(request):
    		return render_to_response('index.html', context_instance=RequestContext(request))
  
 @login_required
-def edititem(request,itemid):
-	  return render_to_response('index.html', context_instance=RequestContext(request))
-
-@login_required
 def accounthistory(request):
 	if request.user.is_authenticated():
 		bu = BasicUser.objects.get(user=request.user)
@@ -278,19 +341,47 @@ def profile(request):
 		bu = BasicUser.objects.get(user=request.user)
 		listeditemcount = bu.item_set.all().count()
 		saveditemcount = bu.saveditem_set.all().count()
-		return render_to_response('profile.html',{'basicuser':bu,"saveditemcount":saveditemcount,"listeditemcount":listeditemcount},context_instance=RequestContext(request))
+		dict = {'basicuser':bu,"saveditemcount":saveditemcount,"listeditemcount":listeditemcount}
+		if request.method == "GET":
+			try:
+				error = request.GET['e']
+				if error == 'password':
+					dict['error']= "Password"
+			except:
+				print 'error code wrong'
+		return render_to_response('profile.html',dict,context_instance=RequestContext(request))
 	else:
    		return render_to_response('index.html',context_instance=RequestContext(request))
 
 @login_required
 def addproduct(request):
 	return render_to_response('addproduct.html',context_instance=RequestContext(request))
+
 @login_required
 def listproduct(request):
 	manufacturers = Manufacturer.objects.all()
 	categories = DeviceCategory.objects.all()
 	return render_to_response('listproduct.html',{'manufacturers':manufacturers,'devicecategories':categories},context_instance=RequestContext(request))
 
+@login_required
+def edititem(request,itemid):
+	item = Item.objects.get(id=itemid)
+	images = item.itemimage_set.all()
+	imageids = []
+	for img in images:
+		imageids.append(img.id)
+	item.imageids = imageids
+	manufacturers = Manufacturer.objects.all()
+	for mans in manufacturers:
+		if item.manufacturer == mans:
+			mans.active = True
+	categories = DeviceCategory.objects.all()
+	for cats in categories:
+		if item.devicecategory == cats:
+			cats.active = True
+	return render_to_response('editlisting.html',{'manufacturers':manufacturers,'devicecategories':categories,'editing':True,'item':item},context_instance=RequestContext(request))
+
+			
 @login_required
 def productpreview(request,itemid):
 	images = TestImage.objects.all()
@@ -307,7 +398,13 @@ def itemdetails(request,itemid):
 	if request.user.is_authenticated():
 		if SavedItem.objects.filter(user = BasicUser.objects.get(user=request.user),item=item).exists():
 			saved = True
-	return render_to_response('productdetails.html',{'saved':saved,'item':item,'industry':industry},context_instance=RequestContext(request))
+	related = Item.objects.filter(devicecategory = item.devicecategory).order_by('savedcount')[:6]
+	dict = {'saved':saved,'item':item,'industry':industry,'related':related}
+	if request.user.is_authenticated():
+		bu = BasicUser.objects.get(user=request.user)
+		if item.user == bu:
+			dict['userloggedin'] = bu
+	return render_to_response('productdetails.html',dict,context_instance=RequestContext(request))
 
 def itemoptions(request,itemid):
 	product = Product.objects.get(id=int(productid))
@@ -376,7 +473,7 @@ def newuserform(request):
 			newuser = User.objects.create_user(email,email,password)
 			newuser.save()
 			nbu = BasicUser(user=newuser,name=name,businesstype=businesstype,company=company,email=email,address=address,zipcode=zipcode,city=city,
-			state=state,website=website,phonenumber=phonenumber,password=password)
+			state=state,website=website,phonenumber=phonenumber)
 			nbu.save()
 			user = authenticate(username=newuser,password=password)
 			login(request,user)
@@ -416,9 +513,13 @@ def setUserProfileDict(field,value,usermodel):
 	elif field == 'phonenumber':
 		usermodel.phonenumber = value
 	elif field == 'password':
-		usermodel.password = value
+		if usermodel.user.check_password(value[0]):
+			usermodel.user.set_password(value[1])
+			usermodel.user.save()
+		else:
+			return "Error"
 	usermodel.save()
-	return
+	return "Success"
 
 def numberToMoney(amount):
 	amount = str(int(amount))

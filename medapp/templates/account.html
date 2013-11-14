@@ -10,12 +10,6 @@
 }
 .sidecontent {
 	float: left;
-	width: 180px;
-	margin-right: 50px;
-	background: white;
-	border-radius: 4px;
-	border:1px solid #ddd;
-	box-shadow: 0 0 4px #ccc;
 }
 .maincontent {
 	float: left;
@@ -27,7 +21,13 @@
 }
 .sidecontent ul {
 	padding: 0;
+	width: 180px;
 	margin: 0;
+	margin-right: 50px;
+	background: white;
+	border-radius: 4px;
+	border:1px solid #ddd;
+	box-shadow: 0 0 4px #ccc;
 }
 .sidecontent ul li {
 	list-style-type: none;
@@ -99,7 +99,10 @@
 #listbutton {
 	margin: 15px auto;
 }
-
+.listaction {
+	width: 180px;
+	margin-top: 20px;
+}
 </style>
 {% block headersubcss %}
 {% endblock %}
@@ -120,6 +123,7 @@
 			<a href="settings"><li class="{% block settings %}{% endblock %}"><h3>Settings</h3></li></a>
 
 		</ul>
+		<a href='/listintro' class="listaction button button-rounded button-primary">List Equipment</a>
 	</div>
 	<div class="maincontent">
 		<h2 class="title">{% block maintitle %}{% endblock %}</h2>

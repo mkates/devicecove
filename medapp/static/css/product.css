@@ -148,7 +148,7 @@
 }
 
 .savebutton {
-
+	
 }
 .saveloader {
 	clear: both;
@@ -274,13 +274,9 @@
 	display:block;
 	text-align: right;
 }
-#save {
-	padding: 3px 13px;
-	width: 80px;
-	margin-top: 10px;
-	margin-bottom: 6px;
-	font-size: 12px;
+#save, .editaction {
 	display:inline-block;
+	margin: 5px 0;
 }
 .otherviewers span {
 	font-weight: 800;
@@ -560,14 +556,68 @@ background-image: linear-gradient(to bottom, #F5F5F5 0%, #FFFFFF 100%);
 	width: 270px;
 	
 }
-.product-box img {	
-	width: 270px;
+.product-box .itemimage {
+	width: 268px;
 }
-.product-box .pricebox {
-	width: 126px;
+.product-box .itemimage .verticalaligner {
+	width: 268px;
 }
-
-
+.product-box .itemimage .verticalaligner img {
+	max-width: 268px;
+}
+/**************************/
+/* Buy Now ****************/
+/**************************/
+#buynowcontainer {
+	position:absolute;
+	top: 0;
+	z-index: 9999;
+	height: 100%;
+	width: 100%;
+	min-height: 40px;
+	min-width: 40px;
+	position:fixed;
+	/* display: table; */
+	display: none;
+    text-align: center;
+}
+#buynowbackalign {
+	display: table-cell;
+    vertical-align: middle;
+    text-align: center;
+	background: url("../img/blacktransparency.png");
+}
+.buynowbox {
+	width: 600px;
+	margin: 0 auto;
+	height: 400px;
+	border-radius: 6px;
+	border:3px solid #fff;
+	background-image: -ms-linear-gradient(bottom, #FFFFFF 0%, #EFEFEF 80%, #DDDDDD 100%);
+	background-image: -moz-linear-gradient(bottom, #FFFFFF 0%, #EFEFEF 80%, #DDDDDD 100%);
+	background-image: -o-linear-gradient(bottom, #FFFFFF 0%, #EFEFEF 80%, #DDDDDD 100%);
+	background-image: -webkit-gradient(linear, left bottom, left top, color-stop(0, #FFFFFF), color-stop(0.8, #EFEFEF), color-stop(1, #DDDDDD));
+	background-image: -webkit-linear-gradient(bottom, #FFFFFF 0%, #EFEFEF 80%, #DDDDDD 100%);
+	background-image: linear-gradient(to top, #FFFFFF 0%, #EFEFEF 80%, #DDDDDD 100%);
+}
+.buynowbox h3 {
+	font-weight: 400px;
+	color: #444;
+	margin-top: 30px;
+	font-size: 18px;
+}
+.buyonline {
+	width: 300px;
+	height: 380px;
+	border-right:2px solid #ddd;
+	float: left;
+}
+.buydirect {
+	width: 290px;
+	height: 380px;
+	height: 100%;
+	float: left;
+}
 /**************************/
 /* Slider Code *** ********/
 /**************************/

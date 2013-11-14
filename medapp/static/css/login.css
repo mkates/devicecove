@@ -39,7 +39,7 @@
 .loginform {
 	width: 300px;
 	text-align: left;
-	margin: 30px auto 60px auto;
+	margin: 30px auto 0px auto;
 }
 .loginform p {
 	margin-top: 20px;
@@ -54,6 +54,7 @@
 	color: white;
 	font-weight: 800;
 	float: left;
+	margin-bottom: 40px;
 }
 .loginform button:hover {
 	background: #296E5D;

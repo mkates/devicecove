@@ -1,0 +1,24 @@
+{% extends "password_reset/base.html" %}{% load i18n %}
+
+{% block title %}{% trans "New password set" %}{% endblock %}
+
+{% block headercss %}
+<link href="{{STATIC_URL}}css/login.css" rel="stylesheet" type="text/css" />
+<style>
+.login h3 {
+	padding: 50px;
+	text-align: center;
+	font-weight: 200;
+	font-size: 14px;
+	color: #444;
+}
+</style>
+{% endblock %}
+{% block content %}
+	<div class="logincontainer">
+		<div class="login">
+        	<h3>{% trans "Your password has successfully been reset. You can use it right now on the login page." %}</h3>
+		</div>
+	</div>
+       
+{% endblock %}

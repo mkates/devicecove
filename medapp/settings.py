@@ -54,8 +54,7 @@ USE_TZ = True
 
 # Absolute filesystem path to the directory that will hold user-uploaded files.
 # Example: "/var/www/example.com/media/"
-MEDIA_ROOT = ''
-
+MEDIA_ROOT=''
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
 # trailing slash.
 # Examples: "http://example.com/media/", "http://media.example.com/"
@@ -129,10 +128,13 @@ INSTALLED_APPS = (
     # Uncomment the next line to enable admin documentation:
     'django.contrib.admindocs',
     'django.contrib.humanize',
-    'deviceapp',
-    'storages',
     'boto',
-    'django_ses'
+    'django_ses',
+    'deviceapp',
+    'imagekit',
+    'storages',
+    'django_extensions',
+    'password_reset',
 )
 CACHES = {
     'default': {
@@ -192,11 +194,10 @@ TEMPLATE_DIRS = (
      os.path.join(BASE_DIR, 'templates'),
 )
 
-
 #Amazon shtuff
 AWS_ACCESS_KEY_ID = 'AKIAJOLZ5657Q7HHW2CA'
 AWS_SECRET_ACCESS_KEY = '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'
-
+DEFAULT_FROM_EMAIL = 'mkates@mit.edu'
 AWS_SES_REGION_NAME = 'us-east-1'
 AWS_SES_REGION_ENDPOINT = 'email.us-east-1.amazonaws.com'
 EMAIL_BACKEND = 'django_ses.SESBackend'
@@ -205,3 +206,6 @@ AWS_SES_AUTO_THROTTLE = 0.5
 DEFAULT_FILE_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
 STATICFILES_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
 AWS_STORAGE_BUCKET_NAME = 'devicerock'
+
+AWS_BUCKET_NAME = AWS_STORAGE_BUCKET_NAME 
+IMAGEKIT_DEFAULT_FILE_STORAGE = 'storages.backends.s3boto.S3BotoStorage'

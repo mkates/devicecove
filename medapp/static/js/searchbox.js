@@ -22,7 +22,8 @@ var activateResultsBoxItems = function activateResultsBoxItems() {
 	//When a user hovers over a thumbnail
 	$('.imagethumbnail').hover(function() {
 		$(this).parent().parent().parent().children('div.imageviewer').css('display','table-cell');
-		$(this).parent().parent().parent().children('div.imageviewer').html("<div class='verticalalign'><img src='"+$(this).children('img').attr('src')+"'/></div>");
+		$(this).parent().parent().parent().children('div.imageviewer').html("<div class='verticalalign'><img src='"+$(this).children('img').attr('data-original')+"'/></div>");
+		console.log($(this).children('img'));
 	}, function() {
 		$(this).parent().parent().parent().children('div.imageviewer').css('display','none');
 		

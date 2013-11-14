@@ -3,6 +3,19 @@
 {% block details %}active{% endblock %}
 
 {% block productmain %}
+
+<div id="buynowcontainer">
+	<div id="buynowbackalign">
+		<div class="buynowbox">
+			<div class="buyonline">
+				<h3>Buy Online</h3>
+			</div>
+			<div class="buydirect">
+				<h3>Buy Direct</h3>
+			</div>
+		</div>
+	</div>
+</div>
 <div class="row product">
   <div class="col-xs-12 col-sm-8 col-md-8 mainproductcontainer">
   	<div class="mainproduct">
@@ -15,15 +28,15 @@
   			<div id="zoomcontainer">
 				<div class='mainimage-div' id='ex1'>
 					<div class="mainimage-align">
-						<img id="mainimage" src="{{ item.mainimage.photo.url}}" alt="{{item.name}}"/>
+						<img id="mainimage" src="{{ item.mainimage.photo.url}}"alt="{{item.name}}"/>
 					</div>
 				</div>
  				<div class="thumbnails">
 					{% for img in item.itemimage_set.all %}
-						<div class="thumbnail-container"><img src="{{img.photo.url}}"/></div>
+						<div class="thumbnail-container"><img src="{{img.photo_small.url}}" data-original="{{img.photo.url}}"/></div>
 					{% endfor %}
 					{% for img in item.productimage_set.all %}
-						<div class="thumbnail-container"><img src="{{img.photo.url}}"/></div>
+						<div class="thumbnail-container"><img src="{{img.photo_small.url}}" data-original="{{img.photo.url}}"/></div>
 					{% endfor %}
  				</div>
   			</div>
@@ -44,70 +57,27 @@
 			<a class="buttons prev" href="#"> &lsaquo;</a>
 			<div class="viewport">
 				<ul class="overview">
+				   {%for itm in related %}
 					<li>
 						<div class="product-box">
-							<a href="#"><div class="item">
-								<div class="itemname"> Portal X-Ray Dental System</div>
-								<div class="itemsoldby">sold by Colts Neck Equine (NJ)</div>
+							<a href="/item/{{item.id}}/details"><div class="item">
+								<div class="itemname">{{itm.name}}</div>
+								<div class="itemsoldby">{{itm.user.company}}</div>
 								<div class="itemimage">
-									<img src="{{STATIC_URL}}psd/dentisttemp.jpg"/>
+									<div class="verticalaligner">
+										{%if itm.mainimage%}<img src="{{itm.mainimage.photo.url}}"/>{% else %}<img src="http://www.colourbox.com/preview/2087895-978618-silhouette-of-microscope-isolated-illustration-on-white-background.jpg"/>{% endif %}
+									</div>
 								</div>
 								<div class="price">
 									<div class="pricebox">
-									    {% load humanize %}
-										<p class="price">$23,122</p>
-										<p class="pricelabel">MB Estimated Value</p>
-									</div>
-									<div class="pricebox pricebox2">
-										<p class="price goodprice">$18,200</p>
-										<p class="pricelabel">Current Listed Price</p>
+										<p class="price">${{item.price}}</p>
+										<p class="pricelabel">{{item.get_type_display}} &#8901; {{item.get_contract_display}}</p>
 									</div>
 								</div>
 							</div></a>
 						</div>
 					</li>
-					<li>
-						<div class="product-box">
-							<a href="#"><div class="item">
-								<div class="itemname"> Portal X-Ray Dental System</div>
-								<div class="itemsoldby">sold by Colts Neck Equine (NJ)</div>
-								<div class="itemimage">
-									<img src="{{STATIC_URL}}psd/dentisttemp.jpg"/>
-								</div>
-								<div class="price">
-									<div class="pricebox">
-										<p class="price">$24,300</p>
-										<p class="pricelabel">MB Estimated Value</p>
-									</div>
-									<div class="pricebox pricebox2">
-										<p class="price goodprice">$18,200</p>
-										<p class="pricelabel">Current Listed Price</p>
-									</div>
-								</div>
-							</div></a>
-						</div>
-					</li>
-					<li>
-						<div class="product-box">
-							<a href="#"><div class="item">
-								<div class="itemname"> Portal X-Ray Dental System</div>
-								<div class="itemsoldby">sold by Colts Neck Equine (NJ)</div>
-								<div class="itemimage">
-									<img src="{{STATIC_URL}}psd/dentisttemp.jpg"/>
-								</div>
-								<div class="price">
-									<div class="pricebox">
-										<p class="price">$24,300</p>
-										<p class="pricelabel">MB Estimated Value</p>
-									</div>
-									<div class="pricebox pricebox2">
-										<p class="price goodprice">$18,200</p>
-										<p class="pricelabel">Current Listed Price</p>
-									</div>
-								</div>
-							</div></a>
-						</div>
-					</li>
+					{% endfor %}
 				</ul>
 			</div>
     		<a class="buttons next" href="#">&rsaquo;</a>
@@ -117,7 +87,7 @@
     	
   </div>
   
-  
+ {%load humanize %}
   <div class="col-xs-12 col-sm-4 col-md-4 sideproductcontainer">
   	<div class="sideproduct actionbox">
   		<h2>Buy This Item</h2>  
@@ -131,7 +101,7 @@
   		</div>
  -->
   		<div class="actionbuttons">
-  			<a class="btn-custom-orange" href="#">Buy Now</a>
+  			<a id="buynow" class="button button-rounded button-action" href="#">Buy Now</a>
   		</div>
   	</div>
   	<div class="sideproduct" id="buyerprotect">

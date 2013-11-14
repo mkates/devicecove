@@ -1,11 +1,15 @@
 /**********************************/
 /******* Landing Page *************/
 /**********************************/
-
+body {
+	background: white;
+}
+.navbar {
+	box-shadow: none;
+}
 .herobg {
-	background: url("../img/operatingroom.png") no-repeat top center / cover;
-	height: 480px;
-	border-bottom: 1px solid #ddd;
+	background: url("../img/homebg.png") no-repeat top center;
+	height: 540px;
 	width: 100%;
 	opacity: 1;
 	overflow: auto;
@@ -21,6 +25,7 @@
 	margin: 0 auto;
 }
 .intro {
+	margin-left: -20px;
 	max-width: 1000px;
 	margin-top: 150px;
 	margin: 50px auto 20px auto;
@@ -33,7 +38,6 @@
 	margin-top: 0px;
 	padding: 20px;
 	margin-bottom: 15px;
-	opacity: 0;
 	border-radius: 4px;
 	font-size: 42px;
 	color: black;
@@ -127,6 +131,7 @@
 	text-align: left;
 	max-width: 1000px;
 	margin: 0 auto;
+	margin-top: 30px;
 }
 .featured h2 {
 	margin-left: 20px;

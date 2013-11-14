@@ -23,7 +23,7 @@ body {
 a {
 	outline: none;
 }
-a:hover {
+a:hover, a:focus {
 	text-decoration: none;
 }
 a:active {
@@ -38,7 +38,7 @@ a:active {
 .navbar {
 	border-radius: 0px;
 	margin: 0;
-	height: 50px;
+	height: 55px;
 	background: #fff;
 	box-shadow: 0 0 10px #aaa;
 	/* background-image: url("../img/fabric_plaid_dark.png"); */
@@ -66,16 +66,26 @@ background-image: linear-gradient(to top, #FFFFFF 0%, #FFFFFF 20%, #EFEFEF 100%)
 .navbar-center form input {
 	width: 100%;
 }
+.navbar-brand {
+	padding: 7px;
+}
+.navbar-brand img {
+	width: 100px;
+}
+#menuitems .dropdown-menu li a {
+	line-height: 22px;
+}
 #menuitems li a {
 	transition: color .2s;
 	letter-spacing: .2px;
 	font-weight: 700;
 	text-transform: uppercase;
 	color: #7B858F;
-	margin: 12px 0;
-	padding: 3px 10px;
+	margin: 5px 0 4px 0;
+	padding: 3px 10px 0px 10px;
 	border-radius: 4px;
 	font-size: 12px;
+	line-height: 40px;
 	transition: color .2s;
 	border:1px solid transparent;
 	text-shadow: 0 1px 1px #fff;
@@ -83,7 +93,7 @@ background-image: linear-gradient(to top, #FFFFFF 0%, #FFFFFF 20%, #EFEFEF 100%)
 }
 #menuitems li a:hover {
 	color: #3D4247;
-	background: none;
+	background: #f4f4f4;
 }
 #menuitems li a:focus {
 	background: none;
@@ -95,12 +105,14 @@ background-image: linear-gradient(to top, #FFFFFF 0%, #FFFFFF 20%, #EFEFEF 100%)
 	border-top-color:#3D4247;
 } 
 #menuitems #listequipment a{
+/* 
 	background: #e4e4e4;
-	border:1px solid #ccc;
+	border: 1px solid #ccc;
+ */
 	margin-left: 5px;
 }
 #menuitems #listequipment a:hover {
-	background: #dedede;
+	/* background: #dedede; */
 }
 .searchbutton {
 	color: white;
@@ -113,7 +125,7 @@ background-image: linear-gradient(to top, #FFFFFF 0%, #FFFFFF 20%, #EFEFEF 100%)
 }
 
 #desktopsearchbar {
-	padding-top: 10px;
+	padding-top: 15px;
 	margin: 0 auto;
 	width: 35%;
 	max-width: 650px;
@@ -127,6 +139,7 @@ background-image: linear-gradient(to top, #FFFFFF 0%, #FFFFFF 20%, #EFEFEF 100%)
 .navbar-brand:hover {
 	color: #535A61;
 }
+
 .customsearchbar form {
 	height: 32px;
 	padding: 0;

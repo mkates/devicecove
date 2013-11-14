@@ -31,7 +31,6 @@
 	{% if items %}
 		{% include 'productsearchitem.html' %}
 	{% else %}
-		<p id="nolistings"> You do not have any items currently listed with MedBay</p>
-		<a class="btn btn-custom-orange" id="listbutton" href="addproduct.html">List Your Equipment</a>
+		<p id="nolistings" style="display:block"> You do not have any items currently listed with MedBay</p>
 	{% endif %}
 {% endblock %}

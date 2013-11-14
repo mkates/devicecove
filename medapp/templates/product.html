@@ -22,11 +22,15 @@
 		</div>
 		<div class="otherviewers">	
 			<div class="savebutton">
-				<img id="saveloader" src="{{STATIC_URL}}img/ajax-loader.gif"/>
-				{% if saved %}
-					<button id="save" class="btn-custom btn-custom-green">Saved</button>
+				{% if userloggedin %}
+					<a href="/edititem/{{item.id}}" class="editaction button button-rounded button-highlight">Edit</a>
 				{% else %}
-					<button id="save" class="btn-custom btn-custom-large-gray">Save</button>
+					<img id="saveloader" src="{{STATIC_URL}}img/ajax-loader.gif"/>
+					{% if saved %}
+						<button id="save" class="button button-rounded button-royal">Saved</button>
+					{% else %}
+						<button id="save" class="button button-rounded">Save</button>
+					{% endif %}
 				{% endif %}
 			</div>
 			<p>This item was listed on <span>{{item.listeddate }}</p>
@@ -61,7 +65,7 @@ $(document).ready(function(){
 	 	duration: 500
 	 });
 	$(".thumbnail-container img").click(function() {
-		$("#mainimage").attr("src",$(this).attr("src"));
+		$("#mainimage").attr("src",$(this).attr("data-original"));
 		console.log($("#mainimage").css("width"));
 	});
 });
@@ -83,23 +87,35 @@ $(document).ready(function() {
             data : data,
             url : "/saveitem",
             success : function(data) {
-            	savebutton.css('display','inline-block');
-            	if (action == "save") {
-            		savebutton.html("Saved");
-            		savebutton.addClass("btn-custom-green");
-            		savebutton.removeClass("btn-custom-large-gray");
-            	} else {
-            		savebutton.html("Save");
-            		savebutton.removeClass("btn-custom-green");
-            		savebutton.addClass("btn-custom-large-gray");
-            	}
-            	savebutton.prop("disabled",false);
+            	if (data['status'] != '400'){
+					savebutton.css('display','inline-block');
+					if (action == "save") {
+						savebutton.html("Saved");
+						savebutton.addClass("button-royal");
+					} else {
+						savebutton.html("Save");
+						savebutton.removeClass("button-royal");
+					}
+					savebutton.prop("disabled",false);
+				} else {
+					window.location.href = data['redirect'];
+				}
             }, 
             error : function(jqXHR, textStatus, errorThrown) {
                 alert("Error saving product");
             }
         });
 	});
+	
+	//Buy Now Button
+	$("#buynow").click(function() {
+		$("#buynowcontainer").fadeIn('fast').css('display', 'table');
+	});
+	 $('#buynowcontainer').click(function (e) {
+    		if (e.target.id == 'buynowbackalign') {
+    			$('#buynowcontainer').fadeOut();
+    		}
+  	});
 });
 </script>
 {% block lightbox %}

@@ -14,7 +14,7 @@
 	text-align: center;
 }
 .product-box .item {
-	height: 355px;
+	height: 350px;
 	text-align: center;
 	display:inline-block;
 	width: 300px;
@@ -30,14 +30,11 @@
 }
 
 .product-box .pricebox {
-	margin-left:5px;
-	margin-right: 3px;
-	margin-top: 10px;
-	width: 141px;
+	margin: 0 auto;
+	width: 90%;
 	height: 45px;
 	background: #f4f4f4;
 	border:1px solid #ddd;
-	float: left;
 	text-align: center;
 	border-radius: 3px;
 	color: #aaa;
@@ -72,10 +69,24 @@
 .product-box .itemimage {
 	height: 250px;
 	overflow: hidden;
+	position: relative;
+	width: 300px;
+}
+.product-box .itemimage .verticalaligner {
+	vertical-align: middle;
+	display: table-cell;
+	height: 250px;
+	width: 300px;
+	text-align: center;
 }
 .product-box .itemimage img {
-	max-width: 298px;
-	text-align: center;
+	max-width: 200px;
+	max-height: 200px;
+}
+
+.imageviewer img {
+	max-width: 520px;
+	max-height: 416px;
 }
 .product-box .itemname {
 	font-weight: 200;

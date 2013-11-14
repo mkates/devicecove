@@ -10,6 +10,7 @@
 
 <!--CSS-->
 <link href="{{STATIC_URL}}css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+<link href="{{STATIC_URL}}css/buttons.css" rel="stylesheet" type="text/css" />
 <link href="{{STATIC_URL}}css/base.css" rel="stylesheet" type="text/css" />
 {% block headercss %}{% endblock %}
 
@@ -30,7 +31,7 @@
 		<span class="icon-bar"></span>
 		<span class="icon-bar"></span>
 	  </button>
-	  <a class="navbar-brand" href="/" alt="medbay">Devicerock</a>
+	  <a class="navbar-brand" href="/" alt="medbay"><img src="{{STATIC_URL}}img/vetcove_logo.png" alt="Devicerock"/></a>
 	</div>
 	
 	<!--Menu items-->
@@ -88,15 +89,13 @@
 <div class="clear"></div>
 <footer class="footer">
 	<ul>
-		<li><a href="/addproduct">List Your Equipment</a></li>
+		<li><a href="/listintro">List Your Equipment</a></li>
 		<li class="dot"> &#8901; </li>
-		<li><a href="#">Help</a></li>
+		<li><a href="/faq">FAQ</a></li>
 		<li class="dot"> &#8901; </li>
 		<li><a href="#">About</a></li>
 		<li class="dot"> &#8901; </li>
 		<li><a href="#">Terms</a></li>
-		<li class="dot"> &#8901; </li>
-		<li><a href="#">View Desktop Site</a></li>
 	</ul>
 </footer>
 {% endblock %}

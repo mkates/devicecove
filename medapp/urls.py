@@ -6,6 +6,7 @@ admin.autodiscover()
 
 urlpatterns = patterns('',
     # Examples:
+    url(r'^',include('password_reset.urls')),
     url(r'^$','deviceapp.views.index'),
     url(r'^imageupload','deviceapp.views.imageupload'),
     url(r'^searchquery','deviceapp.views.searchquery'),
@@ -13,6 +14,7 @@ urlpatterns = patterns('',
     url(r'^saveitem','deviceapp.views.saveitem'),
     url(r'^removeitem','deviceapp.views.removeitem'),
 	url(r'^edititem/(?P<itemid>\d+)','deviceapp.views.edititem'),
+	url(r'^editform','deviceapp.views.editform'),
     url(r'^productsearch/(?P<industryterm>\w+)/(?P<devicecategoryterm>\w+)','deviceapp.views.productsearch'),
     url(r'^login','deviceapp.views.loginview'),
     url(r'^signup','deviceapp.views.signup'),
@@ -33,11 +35,12 @@ urlpatterns = patterns('',
     url(r'^item/(?P<itemid>\d+)/buyingoptions','deviceapp.views.itemoptions'),
     url(r'^profsettings/(?P<field>\w+)','deviceapp.views.updateprofsettings'),
     url(r'^customsearch','deviceapp.views.customsearch'),
+     url(r'^faq','deviceapp.views.faq'),
     # Uncomment the admin/doc line below to enable admin documentation:
     url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
 
     # Uncomment the next line to enable the admin:
-    url(r'^admin/', include(admin.site.urls)),
+    url(r'^admin/', include(admin.site.urls))
 )
 
 urlpatterns += (url(r'^admin/django-ses/', include('django_ses.urls')),)

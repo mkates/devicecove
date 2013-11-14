@@ -151,7 +151,9 @@
     "pk": 1, 
     "model": "deviceapp.image", 
     "fields": {
-        "photo": "userimages/8ac18e92-9e78-4ddd-a35a-104da7b6a189.png"
+        "photo": "img/saddog.jpg",
+        "photo_small": "img/saddog.jpg",
+        "photo_medium": "img/saddog.jpg"
     }
 },
 {

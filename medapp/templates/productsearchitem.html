@@ -13,10 +13,12 @@
 			<a href="/edititem/{{item.id}}" value="submit" class="removebutton editbutton"/>Edit</a>
 		{% endif %}
 		<div class='imageviewer'></div>
-		<div class='imgdiv'><img src='{{item.mainimage.photo.url}}'/></div>
+		<div class='imgdiv'>	
+			<img src="{{item.mainimage.photo_medium.url}}" alt="{{item.name}}"/>		
+		</div>
 		<div class='pricediv'>
 			<p>${{item.price|floatformat|intcomma}}</p>
-			<a class='btn-custom-orange' href="/item/{{item.id}}/details">Select</a>
+			<a class='button button-rounded button-highlight' href="/item/{{item.id}}/details">Select</a>
 		</div>
 		<div class='textdiv'>
 			<a href="/item/{{item.id}}/details"><h2>{{ item.name }}</h2></a>
@@ -58,7 +60,7 @@
 			<div class='imagegallery'>
 				{% for image in item.itemimage_set.all %}
 					{% if forloop.counter < 6 %}
-						<div class='imagethumbnail'><img src="{{image.photo.url}}"/></div>
+						<div class='imagethumbnail'><img src="{{image.photo_small.url}}" data-original="{{image.photo.url}}"/></div>
 					{% endif %}
 				{% endfor %}
 
