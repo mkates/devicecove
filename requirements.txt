@@ -11,6 +11,6 @@ boto>=2.3.0
 django-storages
 PIL==1.1.7
 django-ses
-imagekit
+django-imagekit
 django-extensions
-password-reset
+django-password-reset
