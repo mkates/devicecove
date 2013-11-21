@@ -8,6 +8,7 @@ body {
 	line-height: 1.5;
 	background: #f4f4f4;
 	background-image: url("../img/fabric_plaid.png");
+	min-width: 1000px;
 }
 .shadowcontainer {
 	box-shadow: 0 0 10px #ccc;

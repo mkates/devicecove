@@ -22,7 +22,7 @@
 			</div>
 			<div class="floatinput">
 				<h3>Model Name</h3>
-				<input id="inputname" type="text" class="form-control " value="{{item.name}}"/>
+				<input id="inputname" type="text" class="form-control " value="{% if model %}{{model}}{% else %}{{item.name}}{% endif %}"/>
 			</div>	
 			<div class='clear'></div>
 		</div>

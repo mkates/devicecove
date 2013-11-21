@@ -530,19 +530,38 @@ background-image: linear-gradient(to bottom, #F5F5F5 0%, #FFFFFF 100%);
 
 #buyerprotect {
 	padding: 0 20px;
+	padding-top: 25px;
 	text-align: center;
 }
 .buyerbadge {
-	max-width: 80px;
-	max-height: 80px;
+	max-width: 100px;
+	max-height: 100px;
+	float: right;
+	margin-left: 3px;
 }
 #buyerprotect p {
-	padding: 0px 0 15px 0;
-	line-height: 20px;
-	font-size: 13px;
+	padding: 15px 0 15px 0;
+	line-height: 15px;
+	font-size: 11px;
 	color: #333;
 	font-weight: 400;
 	margin-bottom: 0;
+}
+#buyerprotect h3 {
+	font-size: 16px;
+	padding: 0;
+	margin-bottom: 0px;
+	margin-top: 12px;
+	font-weight: 800;
+	color: #1966B3;
+}
+#buyerprotect h4 {
+	font-size: 13px;
+	font-weight: 200;
+	margin-top: 5px;
+}
+#buyerprotect a:hover {
+	text-decoration: underline;
 }
 
 

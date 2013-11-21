@@ -138,6 +138,9 @@ class Item(models.Model):
 		self.devicecategory.save()
 		super(Item, self).save(*args, **kwargs)
 
+############################################
+####### Images #############################
+############################################
 class SavedItem(models.Model):
 	user = models.ForeignKey(BasicUser)
 	item = models.ForeignKey(Item)

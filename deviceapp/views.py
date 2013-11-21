@@ -12,8 +12,8 @@ import json
 import math
 import difflib
 import locale
-
 import time
+
 #If you want to test network latency
 #import time
 #time.sleep(5)
@@ -21,16 +21,17 @@ import time
 #### Static Pages #########################
 ###########################################
 
-def index(request):
-	items = Item.objects.order_by('savedcount')[:9]
-	
-	return render_to_response('index.html',{'featured':items},context_instance=RequestContext(request))
 
 def listintro(request):
-	return render_to_response('listintro.html',context_instance=RequestContext(request))
+	manufacturer = Manufacturer.objects.all()
+	category = DeviceCategory.objects.all().extra(order_by = ['displayname'])
+	return render_to_response('listintro.html',{'manufacturer':manufacturer,'category':category},context_instance=RequestContext(request))
 
 def faq(request):
 	return render_to_response('faqs.html',context_instance=RequestContext(request))
+
+def buyerprotect(request):
+	return render_to_response('buyerprotect.html',context_instance=RequestContext(request))
 	
 #Save an image to S3 and send back the id of the userimage object, so when the item post is completed
 #it can use the id to attach an item to the userimage object
@@ -361,7 +362,21 @@ def addproduct(request):
 def listproduct(request):
 	manufacturers = Manufacturer.objects.all()
 	categories = DeviceCategory.objects.all()
-	return render_to_response('listproduct.html',{'manufacturers':manufacturers,'devicecategories':categories},context_instance=RequestContext(request))
+	dict = {'manufacturers':manufacturers,'devicecategories':categories}
+	if request.method == "GET":
+		try:
+			manufacturer = Manufacturer.objects.get(name=request.GET['manufacturer'])
+			devicecategory = DeviceCategory.objects.get(name=request.GET['category'])
+			for mans in manufacturers:
+				if manufacturer.name == mans.name:
+					mans.active = True
+			for cats in categories:
+				if devicecategory.name == cats.name:
+					cats.active = True
+			dict['model'] = request.GET['name']
+		except:
+			print 'Error with product get'
+	return render_to_response('listproduct.html',dict,context_instance=RequestContext(request))
 
 @login_required
 def edititem(request,itemid):
@@ -520,8 +535,3 @@ def setUserProfileDict(field,value,usermodel):
 			return "Error"
 	usermodel.save()
 	return "Success"
-
-def numberToMoney(amount):
-	amount = str(int(amount))
-	if len(amount > 3):
-		return		
