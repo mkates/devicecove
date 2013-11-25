@@ -5,6 +5,7 @@ var pagevariables = {'name':"",'manufacturer':"",'category':'','serialno':'','ye
 
 
 $(document).ready(function() {
+	pictureBinds();
     var currentvalue = "4";
 	$(".qualitybox select").css("opacity",".4");
 	var q1 = "<span>Parts Only</span><p>This equipment has missing parts or serious defects. This item can be used to replace missing parts on other machines. </p>";

@@ -8,6 +8,7 @@ from django.contrib.auth.decorators import login_required
 from django.utils.html import escape
 from django.shortcuts import render
 from django.core.exceptions import ObjectDoesNotExist
+from haversine import *
 import json
 import math
 import difflib
@@ -20,32 +21,24 @@ import time
 
 
 def productsearch(request,industryterm,devicecategoryterm):
-	catlist = DeviceCategory.objects.order_by('totalunits').reverse()
+	catlist = getCategoriesAndQuantity()
 	manufacturers = Manufacturer.objects.all()
 	category = DeviceCategory.objects.get(name=devicecategoryterm)
-	pricelow = 1000000
-	pricehigh = 0
-	industrysearch = Industry.objects.get(name=industryterm)
-	industryterm = industrysearch.displayname
-	searchquery = category.displayname+" in "+industryterm
-	categorysearch = catlist
+	industry = Industry.objects.get(name=industryterm)
+	searchquery = category.displayname
 	itemqs = Item.objects.filter(devicecategory=category).order_by('price')
-	if len(itemqs) > 5:
-		more = True
-	else:
-		more = False
-	#Get price range for price slider
-	for itm in itemqs:
-		pricelow = min(pricelow,itm.price)	
-		pricehigh = max(pricehigh,itm.price)	
-	return render_to_response('search.html',{'resultcount':len(itemqs),'more':more,'pricelow':pricelow,'pricehigh':pricehigh,'searchquery':searchquery,'items':itemqs[0:5],'categories':catlist,'category':category,'ind':industrysearch.name,'manufacturer':manufacturers},context_instance=RequestContext(request))
+	pricerange = getPriceRange(itemqs)
+	more = True if len(itemqs ) > 5 else False
+	zipcode = getDistances(request,itemqs)
+	dict = {'zipcode':zipcode,'resultcount':len(itemqs),'more':more,'pricerange':pricerange,'searchquery':searchquery,'items':itemqs[0:5],'categories':catlist,'category':category,'ind':industry,'manufacturer':manufacturers}
+	return render_to_response('search.html',dict,context_instance=RequestContext(request))
 
 def autosuggest(request):
 	results=[]
 	searchterm = request.GET['searchterm']
 	industry = Industry.objects.get(id=1)
 	#Find all categories that match the search term
-	categories = DeviceCategory.objects.filter(name__icontains=searchterm)
+	categories = DeviceCategory.objects.filter(name__icontains=searchterm).filter(totalunits__gte=1)
 	#Add all matched categories
 	for cat in categories:
 		results.append({'type':'category','name':cat.displayname,'industry':"",'link':"/productsearch/"+industry.name+"/"+cat.name})
@@ -72,49 +65,110 @@ def autosuggest(request):
 def customsearch(request):
 	if request.method == "GET":
 		searchword = request.GET['q']
-		allitems = Item.objects.all()
-		itemnames = []
-		itemqs = []
-		for p in allitems:
-			itemnames.append(str(p.name))
-			if difflib.SequenceMatcher(None,searchword,p.name.lower()).ratio() > .45:
-				print difflib.SequenceMatcher(None,searchword,p.name.lower()).ratio()
-				itemqs.append(p)
-		pricelow = 1000000
-		pricehigh = 0
-		industrysearch = Industry.objects.get(id=1)
-		industryterm = industrysearch.displayname
+		allitems = Item.objects.all().order_by('price')
+		items = filterItemsByQuery(searchword,allitems)
+		zipcode = getDistances(request,items)
+		industry = Industry.objects.get(id=1)
 		searchquery = searchword
-		catlist = DeviceCategory.objects.order_by('totalunits').reverse()
+		catlist = getCategoriesAndQuantity()
 		manufacturers = Manufacturer.objects.all()
-		#Get price range for price slider
-		for itm in itemqs:
-			pricelow = min(pricelow,itm.price)	
-			pricehigh = max(pricehigh,itm.price)	
-		return render_to_response('search.html',{'pricelow':pricelow,'pricehigh':pricehigh,'searchquery':searchquery,'items':itemqs,'categories':catlist,'ind':industrysearch.name,'manufacturer':manufacturers},context_instance=RequestContext(request))
+		distance = getDistances(request,items)
+		pricerange = getPriceRange(items)
+		more = True if len(items) > 5 else False
+		return render_to_response('search.html',{'zipcode':zipcode,'resultcount':len(items),'searchquery':searchword,'more':more,'pricerange':pricerange,'searchquery':searchquery,'items':items[0:5],'categories':catlist,'ind':industry,'manufacturer':manufacturers},context_instance=RequestContext(request))
 	
 def searchquery(request):
 	itemdict = []
 	if request.method == "GET":
 		itemdict = []
-		filters = {'page':request.GET['page'],'pricehigh':request.GET['pricehigh'],'pricelow':request.GET['pricelow'],'new':request.GET['new'],'refurbished':request.GET['refurbished'],'preowned':request.GET['preowned']}
+		filters = {'sort':request.GET['sort'],'query':request.GET['query'],'page':request.GET['page'],'zipcode':request.GET['zipcode'],'distance':request.GET['distance'],'pricehigh':request.GET['pricehigh'],'pricelow':request.GET['pricelow'],'new':request.GET['new'],'refurbished':request.GET['refurbished'],'preowned':request.GET['preowned']}
 		try:
 			dc = DeviceCategory.objects.get(name=request.GET['category'])
 			items = Item.objects.filter(devicecategory=dc).order_by('price')
 		except:
-			items = Item.objects.all()
+			items = filterItemsByQuery(filters['query'],Item.objects.all().order_by('price'))
 		itemspassed = []
 		for item in items:
 			if item.price <= int(filters['pricehigh']) and item.price >= int(filters['pricelow']):
 				if (item.type == 'new' and filters['new']=='true') or (item.type == 'refurbished' and filters['refurbished']=='true') or (item.type == 'preowned' and filters['preowned']=='true'):
-					itemspassed.append(item)
-		if len(itemspassed) > int(filters['page'])*5+5:
-			more = True
-		else:
-			more = False
+					if withinDistance(item,filters['zipcode'],filters['distance']) or int(filters['distance']) == -1:	
+						itemspassed.append(item)
+		zipcode = getNewDistances(filters['zipcode'],itemspassed)
+		if filters['sort'] == 'mostrecent':
+			itemspassed.sort(key=lambda x: x.listeddate, reverse=True)
+		if filters['sort'] == 'leastrecent':
+			itemspassed.sort(key=lambda x: x.listeddate, reverse=False)
+		if filters['sort'] == 'distance':
+			itemspassed.sort(key=lambda x: x.distance, reverse=False)
+		more = True if len(itemspassed) > int(filters['page'])*5+5 else False
 		resultscount = len(itemspassed)
 		itemspassed = itemspassed[int(filters['page'])*5:int(filters['page'])*5+5]
 	rts = render_to_string('productsearchitem.html', {'items':itemspassed})
 	html = render(request, 'productsearchitem.html', {'items':itemspassed,'more':more},content_type="application/html")
 	return HttpResponse(json.dumps({'result':rts,'more':more,'resultscount':resultscount}), mimetype='application/json')
+
+
+###########################################
+#### Helper Functions for Search ##########
+###########################################	
+
+#Returns the list of device categories and the number of items in each one
+def getCategoriesAndQuantity():
+	catlist = DeviceCategory.objects.filter(totalunits__gte=1).order_by('totalunits').reverse()
+	return catlist
+
+#Calculates the price range given a set of items
+def getPriceRange(items):
+	pricelow = 1000000
+	pricehigh = 0
+	if len(items) == 0:
+		return [0,0]
+	if len(items) == 1:
+		return [int(items[0].price),int(items[0].price)]
+	else:
+		for itm in items:
+			pricelow = min(pricelow,itm.price)	
+			pricehigh = max(pricehigh,itm.price)
+	return [int(pricelow),int(pricehigh)]
+
+#Uses difflib to determine if an item matches a search query
+#NEEDS TO BE REVISED FOR SCALABILITY
+def filterItemsByQuery(searchword,items):
+	for p in items:
+		if difflib.SequenceMatcher(None,searchword,p.name.lower()).ratio() < .35:
+			items = items.exclude(pk=p.pk)
+	return items
+
+#Get distances given a use request
+def getDistances(request,items):
+	if request.user.is_authenticated():
+		bu = BasicUser.objects.get(user=request.user)
+		zipcode = "%05d" % bu.zipcode
+		for item in items:
+			item.distance = haversineDistance(zipcode,item.user.zipcode)
+	else:
+		zipcode = 00000
+	return zipcode
+
+#Get distances given items and a custom zipcode
+def getNewDistances(zipcode,items):
+	for item in items:
+		item.distance = haversineDistance(zipcode,item.user.zipcode)
+	return zipcode
+
+#Given an item, zipcode, and distance, determine if the item and zip are within the distance
+def withinDistance(item,zipcode,distance):
+	dist = haversineDistance(zipcode,item.user.zipcode)
+	if dist < int(distance):
+		return True
+	else:
+		return False
+	
+	
+	
+	
+	
+	
+	
+	
 	

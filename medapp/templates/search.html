@@ -61,18 +61,18 @@ label .floatright {
 			<h2>Other {{ind | title}} Categories</h2>
 			{% for cat in categories %} 
 				{% if cat.totalunits > -1 %} 			
-					<a class="catlink {% if category.name == cat.name %} active{% endif %}" href="/productsearch/{{ind}}/{{cat.name}}">{{cat.displayname}} <span>{{cat.totalunits}}</span></a>
+					<a class="catlink {% if category.name == cat.name %} active{% endif %}" href="/productsearch/{{ind.name}}/{{cat.name}}">{{cat.displayname}} <span>{{cat.totalunits}}</span></a>
 				{% endif %}
 			{% endfor %}
 			{% for cat in categorieshidden %}  			
-				<a class="catlink" href="/productsearch/{{ind}}/{{cat.name}}">{{cat.displayname}}</a>
+				<a class="catlink" href="/productsearch/{{ind.name}}/{{cat.name}}">{{cat.displayname}}</a>
 			{% endfor %}
 		</div>
 		<div id='pricecategory' class='filter-category'>
   			<h2>Price Range</h2>
   			<div id='price-slider-container'>
-  				<p id='lowprice'>$<span>{{pricelow}}</span></p>
-  				<p id='highprice'>$<span>{{pricehigh}}</span></p>
+  				<p id='lowprice'>$<span>{{pricerange.0}}</span></p>
+  				<p id='highprice'>$<span>{{pricerange.1}}</span></p>
   				<div class='clear'></div>
   				<div id='price-range' class='light-gradient'></div>
   			</div>
@@ -80,27 +80,14 @@ label .floatright {
   		<div class='filter-category'>
   			<h2>Condition</h2>
   			<div class='checkbox'>
-				<input id='new' type='checkbox' name='check' value='new' checked='checked'>
+				<input class="checkbox" id='new' type='checkbox' name='check' value='new' checked='checked'>
 				<label for='new'>New</label>
-				<input id='refurbished' type='checkbox' name='check' value='refurbished' checked='checked'>
+				<input class="checkbox" id='refurbished' type='checkbox' name='check' value='refurbished' checked='checked'>
 				<label for='refurbished'>Refurbished</label>
-				<input id='preowned' type='checkbox' name='check' value='preowned' checked='checked'>
+				<input class="checkbox" id='preowned' type='checkbox' name='check' value='preowned' checked='checked'>
 				<label for='preowned'>Pre-Owned</label>
 			</div>
   		</div>
-  		<!-- 
-<div class='filter-category'>
-  			<h2>Service Contract</h2>
-  			<div class='checkbox'>
-				<input id='check1_1' type='checkbox' name='check' value='check1_1' checked='checked'>
-				<label for='check1_1'>Included<span class="floatright">$24,321</span></label>
-				<input id='check2_1' type='checkbox' name='check' value='check2_1' checked='checked'>
-				<label for='check2_1'>Optional<span class="floatright">$22,321</span></label>
-				<input id='check3_1' type='checkbox' name='check' value='check3_1' checked='checked'>
-				<label for='check3_1'>Not Included<span class="floatright">$18,321</span></label>
-			</div>
-  		</div>
- -->
   		<!-- 
 <div class='filter-category'>
   			<h2>Manufacturers</h2>
@@ -113,22 +100,20 @@ label .floatright {
   		</div>
   		
  -->
-
-  		<!-- 
-<div id='milecategory' class='filter-category'>
+  		<div id='milecategory' class='filter-category'>
   			<h2>Distance</h2>
-  			<select class='form-control'>
-  				<option>Any Miles</option>
-  				<option>500 Miles</option>
-  				<option>250 Miles</option>
-  				<option>100 Miles</option>
-  				<option>50 Miles</option>
-  				<option>25 Miles</option>
+  			<select class='form-control' id="distance-select">
+  				<option value="-1">Any Miles</option>
+  				<option value="500">500 Miles</option>
+  				<option value="250">250 Miles</option>
+  				<option value="100">100 Miles</option>
+  				<option value="50">50 Miles</option>
+  				<option value="25">25 Miles</option>
   			</select>
   			<p>from</p>
-  			<input class='form-control' placeholder='Zipcode' type='number' maxlength='5'/>
+  			<input id="zipcode-input" onkeyup="this.value=this.value.replace(/[^\d]/,'')" class='form-control' placeholder='Zipcode' type='number' maxlength='5' value="{{zipcode}}"/>
   		</div>
- -->
+
   		
   	</div>
   </div>
@@ -149,8 +134,11 @@ label .floatright {
  -->
   		<div id='sortby'>
   			<p> Sort By: </p>
-  			<select class='form-control'>
-  				<option> Price </option>
+  			<select id="sortby-select" class='form-control'>
+  				<option value="price"> Price </option>
+  				<option value="distance">Distance</option>
+  				<option value="mostrecent">Most Recent</option>
+  				<option value="leastrecent">Least Recent</option>
   			</select>
   		</div>
   		<div id='numberofresults'>{{ resultcount }} Results</div>
@@ -189,17 +177,43 @@ label .floatright {
 //*********************************************
 //Global variable dictionary ******************
 //*********************************************
-var variables = {'page':0,'category':'{{category.name}}','sortby':'price','pricelow':0,'pricehigh':10000000,'new':true,'refurbished':true,'preowned':true};
+var variables = {'sort':'','query':'{{searchquery}}','zipcode':'{{zipcode}}','distance':-1,'page':0,'category':'{{category.name}}','sortby':'price','pricelow':0,'pricehigh':10000000,'new':true,'refurbished':true,'preowned':true};
 
 //*********************************************
 //*** Miscellaneous Page Functions ************
 //*********************************************
 $(document).ready(function(){
+	//This code calls an API that updates the zip if user is not logged in
+	if (variables['zipcode'].length != 5) {
+		$.get("http://ipinfo.io", function(response) {
+			variables['zipcode'] = response.postal;
+			$('#zipcode-input').val(response.postal);
+		}, "jsonp");
+	}
+	$("#sortby-select").val("price");
+	$("#distance-select").val(-1);
 	activateResultsBoxItems();
-	$('input').prop('checked', true);
-	$("input").change(function() {
+	$('.checkbox').prop('checked', true);
+	$(".checkbox").change(function() {
 		var checkboxname = $(this).attr('id');
 		variables[checkboxname] = ($(this).is(":checked")) ? true: false;
+		variables['page'] = 0;
+		update();
+	});
+	$('#distance-select').change(function() {
+		variables['distance'] = $(this).val();	
+		update();
+	});
+	$('#zipcode-input').blur(function() {
+		if ($(this).val().length == 5) {
+			variables['zipcode'] = $(this).val();
+			update();
+		} else {
+			$(this).val("");
+		}
+	});
+	$('#sortby-select').change(function() {
+		variables['sort'] = $(this).val();
 		variables['page'] = 0;
 		update();
 	});
@@ -213,10 +227,10 @@ $(document).ready(function(){
 	$(function() {
 		$( '#price-range' ).slider({
 			range: true,
-			min: {{pricelow}},
-			max: {{pricehigh}},
+			min: {{pricerange.0}},
+			max: {{pricerange.1}},
 			step: 100,
-			values: [ {{pricelow}}, {{pricehigh}} ],
+			values: [{{pricerange.0}},{{pricerange.1}}],
 			slide: function( event, ui ) {
 				$( '#amount' ).val( '$' + ui.values[ 0 ] + ' - $' + ui.values[ 1 ] );
 				var newhighvalue = ui.values[1].toString();

@@ -154,7 +154,14 @@
 				</div>
 				<div class='clear'></div>
 				<div id="imagepreview" class="itemview">
-					<p id="noimages">Upload multiple photos to help buyers see what your product looks like</p>					
+				
+					{% if product.productimage_set.all %}
+						{% for p in product.productimage_set.all %}
+							<div class='imagepreviewcontainer'><h6>Make Main Photo</h6><div class='imagepreviewborder'><p class='delete'>&#10006;</p><img class='imagepreview' id='image_{{p.id}}' src='{{p.photo.url}}'/></div></div>
+						{% endfor %}
+					{% else %}
+						<p id="noimages">Upload multiple photos to help buyers see what your product looks like</p>					
+					{% endif %}
 				</div>
 			</div>
 		</div>

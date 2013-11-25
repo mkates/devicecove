@@ -156,16 +156,6 @@
 	</div>
 </div>
 
-<!-- 
-<div class="container">
-	<div class="row guarantee">
-  		<div class="col-md-3 guaranteeimage"><img src="{{STATIC_URL}}img/guarantee.png"/></div>
-  		<div class="col-md-9 guaranteetext"><p> We work directly with manufacturers and redistributors to guarantee that the equipment sold by Medbay is
-		<span>warranted</span> to protect your investment. Enjoy the great savings on used equipment and never worry about the longevity of your equipment. </p></div>
-	</div>
-</div>
- -->
-
 <div class="featuredcontainer">
 	<div class="row featured">
 	  <!-- <h2> Featured Equipment</h2> -->
@@ -198,12 +188,6 @@
 {% block jsblock %}
 <script>
 $(document).ready(function() {
-	$(".customsearchbar input").focus(function() {
-		$(".customsearchbar button").addClass("blueborder");
-	});
-	$(".customsearchbar input").blur(function() {
-		$(".customsearchbar button").removeClass("blueborder");
-	});
 	$(".intro").animate({
 		paddingLeft: '10px',
 		opacity: 1

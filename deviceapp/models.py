@@ -35,11 +35,10 @@ class DeviceCategory(models.Model):
 # A product (i.e. Ultrasound XT500), which belongs to a device subcategory
 class Product(models.Model):
 	name = models.CharField(max_length=150)
+	manufacturer = models.ForeignKey(Manufacturer)
 	devicecategory = models.ForeignKey(DeviceCategory)
 	industries = models.ManyToManyField(Industry)
 	description = models.TextField()
-	manufacturer = models.ForeignKey(Manufacturer)
-	specs = models.CharField(max_length=1000)
 	def __unicode__(self):
 		return self.name
 	
@@ -153,4 +152,17 @@ class ProductImage(Image):
 #Should be a one to one field
 class ItemImage(Image):
 	item = models.ForeignKey(Item,blank=True,null=True)	
+	
+############################################
+####### Lat Long Model #####################
+############################################
+class LatLong(models.Model):
+	zipcode = models.IntegerField(max_length=5)
+	latitude = models.FloatField()
+	longitude = models.FloatField()
+	city = models.CharField(max_length=50)
+	state = models.CharField(max_length=50)
+	county = models.CharField(max_length=50)
+	
+	
 

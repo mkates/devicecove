@@ -29,6 +29,7 @@ urlpatterns = patterns('',
 	url(r'^editform','deviceapp.views.editform'),
     url(r'^addproduct','deviceapp.views.addproduct'),
     url(r'^listproduct','deviceapp.views.listproduct'),
+     url(r'^existingproductcheck','deviceapp.views.existingproductcheck'),
     url(r'^postitem','deviceapp.views.postitem')
 )
 #####################################################################

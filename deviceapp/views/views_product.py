@@ -66,6 +66,18 @@ def imageupload(request):
 #### User Function Pages ##################
 ###########################################
 
+def existingproductcheck(request):
+	if request.method == "GET":
+		manufacturer = request.GET['manufacturer']
+		category = request.GET['category']
+		manufacturer = Manufacturer.objects.get(name = manufacturer)
+		category = DeviceCategory.objects.get(name=category)
+		products = Product.objects.filter(devicecategory=category).filter(manufacturer=manufacturer)
+		product_names = []
+		for pnames in products:
+			product_names.append(pnames.name)
+		return HttpResponse(json.dumps({'products':product_names}), mimetype='application/json')
+
 def postitem(request):
 	if request.method == "POST":
 		if request.user.is_authenticated():

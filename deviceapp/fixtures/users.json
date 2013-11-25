@@ -16,3 +16,4 @@
 		"password":"test"
 	}
 ]
+a = {"pk":1,"zip":a[0],"latitude":a[1],"longitude":a[2],"city":a[3],"state":a[4],"county":a[5]}

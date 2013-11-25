@@ -167,22 +167,25 @@ def addproduct(request):
 
 @login_required
 def listproduct(request):
-	manufacturers = Manufacturer.objects.all()
-	categories = DeviceCategory.objects.all()
-	dict = {'manufacturers':manufacturers,'devicecategories':categories}
 	if request.method == "GET":
+		manufacturers = Manufacturer.objects.all()
+		categories = DeviceCategory.objects.all()
+		dict = {'manufacturers':manufacturers,'devicecategories':categories}
+		manufacturer = Manufacturer.objects.get(name=request.GET['manufacturer'])
+		devicecategory = DeviceCategory.objects.get(name=request.GET['category'])
+		dict['model'] = request.GET['name']
+		name = request.GET['name']
 		try:
-			manufacturer = Manufacturer.objects.get(name=request.GET['manufacturer'])
-			devicecategory = DeviceCategory.objects.get(name=request.GET['category'])
-			for mans in manufacturers:
-				if manufacturer.name == mans.name:
-					mans.active = True
-			for cats in categories:
-				if devicecategory.name == cats.name:
-					cats.active = True
-			dict['model'] = request.GET['name']
+			product = Product.objects.get(name=name)
+			dict['product'] = product
 		except:
-			print 'Error with product get'
+			system_match = False
+		for mans in manufacturers:
+			if manufacturer.name == mans.name:
+				mans.active = True
+		for cats in categories:
+			if devicecategory.name == cats.name:
+				cats.active = True
 	return render_to_response('listproduct.html',dict,context_instance=RequestContext(request))
 
 @login_required

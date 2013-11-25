@@ -41,12 +41,12 @@
 	text-shadow: 0 0 2px #ddd;
 }
 #addform {
-	margin: 30px 0;
+	margin: 70px 0;
 	text-align: center;
 }
 #addform input, #addform select {
 	width: 200px;
-	margin: 0 5px;
+	margin: 0 0px;
 	text-align: left;
 	display: inline-block;
 	height: 30px;
@@ -62,6 +62,7 @@
 #addform button {
 	margin: 0 5px;
 	box-shadow: 0 0 10px #fff;
+	height: 30px;
 }
 .addbox {
 	border:2px solid #29B0D9;
@@ -70,21 +71,29 @@
 	background: white;
 	text-align: center;
 }
-
-#inputname {
-	width: 230px;
+.twitter-typeahead {
+	width: 300px;
+	background: white;
 }
 .twitter-typeahead .tt-dropdown-menu {
 	background: white;
 	border:1px solid #ccc;
 	border-radius: 3px;
-	width: 200px;
+	width: 300px;
+	text-align: left;
+	line-height: 24px;
 	font-size: 13px;
+}
+#addform .twitter-typeahead .tt-hint {
+	color: #bbb;
+	padding-left: 11px;
+	width: 300px; !important
 }
 .twitter-typeahead .tt-dropdown-menu .tt-suggestion p {
 	font-size: 13px;
-	padding: 0 4px;
-	line-height: 20px;
+	margin: 0;
+	padding-left: 11px;
+	line-height: 30px;
 }
 .twitter-typeahead .tt-dropdown-menu .tt-is-under-cursor {
 	background: #eee;
@@ -164,17 +173,33 @@
 #man_select_chosen, #cat_select_chosen {
 	border-radius: 5px;
 }
+#addform #model-select {
+	width: 300px;
+	background: white;
+	border-radius: 0px;
+}
+.model-select-container {
+	display:inline-block;
+	vertical-align: top;
+}
+.twitter-typeahead {
+	background: none;
+}
+.chosen-container-single .chosen-single {
+	border-radius: 0px;
+}
 
 </style>
 {% endblock %}
 
 {% block jsblock %}
-<script src="{{STATIC_URL}}js/typeahead.min.js" type="text/javascript" ></script>
 <script src="{{STATIC_URL}}js/chosen.jquery.min.js" type="text/javascript" ></script>
+<script src="{{STATIC_URL}}js/typeahead.min.js" type="text/javascript" ></script>
 <script>
 $(document).ready(function() {
 	$("#man-select").chosen();
-	$("#cat-select").chosen()
+	$("#cat-select").chosen();
+	retrieveProducts($("#man-select").val(),$("#cat-select").val());
 	$("#addform").submit(function() {
 		submit = true;
 		if ($("#man-select").val() == "Null") {
@@ -209,6 +234,7 @@ $(document).ready(function() {
 		} else {
 			$("#man_select_chosen").removeClass("error");
 		}
+		retrieveProducts($("#man-select").val(),$("#cat-select").val());
 	});
 	$("#cat-select").chosen().change(function() {
 		if ($("#cat-select").val() == "Null") {
@@ -218,17 +244,39 @@ $(document).ready(function() {
 		} else {
 			$("#cat_select_chosen").removeClass("error");
 		}
+		retrieveProducts($("#man-select").val(),$("#cat-select").val());
 	});
 	$("#model-select").blur(function() {
 		if ($("#model-select").val().length < 3) {
-			if (!($("#model-select").hasClass('error'))) {
-				$("#model-select").addClass("error");
-			} 
+			// if (!($("#model-select").hasClass('error'))) {
+// 				$("#model-select").addClass("error");
+// 			} 
 		} else {
 			$("#model-select").removeClass("error");
 		}
 	});
+	remote: 'https://twitter.com/accounts?q=%QUERY'
 });	
+
+var retrieveProducts = function(man,cat) {
+	if (man != 'Null' && cat != 'Null') {
+		$.ajax({
+			url: '/existingproductcheck',
+			type: 'GET',
+			data: {'manufacturer':man,'category':cat},
+			cache: true,
+			dataType: 'json',
+			success: function(response){	
+				$('#model-select').typeahead('destroy');
+				$('#model-select').typeahead({
+				name: Math.random().toString(36).substr(2, 5),
+				local: response['products']
+				});
+			}
+		});
+	}
+
+}
 
 </script>
 {% endblock %}
@@ -243,7 +291,6 @@ $(document).ready(function() {
 			<div class="row">
 				<select id="man-select" name="manufacturer" class="form-control error">
 					<option value="Null">Manufacturer. . .</option>
-					<option>Not Listed</option>
 					{% for man in manufacturer %}
 					<option value="{{man.name}}">{{man.displayname}}</option>
 					{% endfor %}
@@ -254,7 +301,9 @@ $(document).ready(function() {
 					<option value="{{cat.name}}">{{cat.displayname}}</option>
 					{% endfor %}
 				</select>
-				<input id="model-select" type="text" name="name" class="form-control" placeholder="Model"/>
+				<div class="model-select-container">
+					<input id="model-select" class="form-control" type="text" name="name"  placeholder="Model"/>
+				</div>
 				<button type="submit" class="button button-highlight">Get Started</button>
 			</div>
 			

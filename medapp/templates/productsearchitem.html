@@ -44,7 +44,7 @@
 				
 			</h6>
 			<h4><a>Seller<span>{{ item.user.company }}</span></a></h4>
-			<h4><a>Location<span>{{ item.user.city }}, {{item.user.state}}</span></a></h4>
+			<h4><a>Location<span>{{ item.user.city }}, {{item.user.state}} {% if item.distance != -1 %}( ~{{item.distance}} miles away ){% endif %}</span></a></h4>
 			<h4><a>List Date<span>{{item.listeddate}}</span></a></h4>
 			<div class='buttondiv'>
 				<button class='btn-custom-gray infobutton detailsbutton'>Details</button>
@@ -63,6 +63,12 @@
 						<div class='imagethumbnail'><img src="{{image.photo_small.url}}" data-original="{{image.photo.url}}"/></div>
 					{% endif %}
 				{% endfor %}
+				{% for image in item.productimage_set.all %}
+					{% if forloop.counter < 6 %}
+						<div class='imagethumbnail'><img src="{{image.photo_small.url}}" data-original="{{image.photo.url}}"/></div>
+					{% endif %}
+				{% endfor %}
+				
 
 			</div>
 			<div class='morediv'>
