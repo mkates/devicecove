@@ -13,7 +13,7 @@ urlpatterns = patterns('',
     url(r'^admin/', include(admin.site.urls)),
     
     #Password Reset
-    url(r'^',include('password_reset.urls')),
+    url('',include('password_reset.urls')),
     
     #General Pages
     url(r'^$','deviceapp.views.index'),
@@ -29,7 +29,7 @@ urlpatterns = patterns('',
 	url(r'^editform','deviceapp.views.editform'),
     url(r'^addproduct','deviceapp.views.addproduct'),
     url(r'^listproduct','deviceapp.views.listproduct'),
-     url(r'^existingproductcheck','deviceapp.views.existingproductcheck'),
+    url(r'^existingproductcheck','deviceapp.views.existingproductcheck'),
     url(r'^postitem','deviceapp.views.postitem')
 )
 #####################################################################
@@ -58,7 +58,7 @@ urlpatterns += patterns('',
 	url(r'^searchquery','deviceapp.views.searchquery'),
 	url(r'^autosuggest','deviceapp.views.autosuggest'),
 	url(r'^customsearch','deviceapp.views.customsearch'),
-	url(r'^productsearch/(?P<industryterm>\w+)/(?P<devicecategoryterm>\w+)','deviceapp.views.productsearch')
+	url(r'^productsearch/(?P<industryterm>\w+)/(?P<categoryterm>\w+)/(?P<subcategoryterm>\w+)','deviceapp.views.productsearch')
 
 )
 #####################################################################

@@ -31,8 +31,9 @@
 			<p>Email</p>
 			<input name="email" class="form-control" type="email" placeholder="ex. joedoe@gmail.com">
 			<p>Password</p>
+			{% url "password_reset_recover" %}
 			<input name="password" class="form-control" type="password">
-			<a class="forgotpassword" href="{% url "password_reset_recover" %}">Forgot Password?</a>
+			<a class="forgotpassword" href="">Forgot Password?</a>
 			<button class="btn" value="submit">Login</button>
 			<div class="clear"></div>
 		</form>

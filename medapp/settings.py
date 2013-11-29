@@ -134,7 +134,7 @@ INSTALLED_APPS = (
     'imagekit',
     'storages',
     'django_extensions',
-    'password_reset',
+    'password_reset'
 )
 CACHES = {
     'default': {

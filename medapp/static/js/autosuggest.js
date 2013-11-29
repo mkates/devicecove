@@ -5,7 +5,7 @@ var autosuggest = true;
 var displayresults = [];
 var activeid = -1;
 var resultshandle = [];
-var searchtext = '';
+var searchtext = '';						
 var autosuggestcall = function autosuggestcall() {
 	$.ajax({
 		url: '/autosuggest',
@@ -25,8 +25,18 @@ var autosuggestcall = function autosuggestcall() {
 				$(".categoriesheader").css('display','none');
 				$(".productsheader").css('display','none');
 				$.each(displayresults, function( key, value ) {
+					console.log(value['link']);
+					if (!(value['mainimage'])) {
+						value['mainimage'] = noImageURL;
+						console.log("here");
+					}
 					if (value['type'] == 'category') {
-						var so = $("<a class='searchoption' href='"+value['link']+"'><div class='textitem'><p class='displaytext'>"+value['name']+"<span class='industry'>"+value['industry']+"</span></p></div></a>");
+						var so = $("<a class='searchoption' href='"+value['link']+"'><div class='textitem'><p class='displaytext'>"+value['name']+"</p></div></a>");
+						$("#categoriessection").append(so);
+						$(".categoriesheader").css('display','block');
+						resultshandle.push(so);
+					} else if (value['type'] == 'subcategory') {
+						var so = $("<a class='searchoption' href='"+value['link']+"'><div class='textitem'><p class='displaytext'>"+value['name']+"<span class='industry'> in "+value['category']+"</span></p></div></a>");
 						$("#categoriessection").append(so);
 						$(".categoriesheader").css('display','block');
 						resultshandle.push(so);

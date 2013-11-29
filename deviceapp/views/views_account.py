@@ -20,6 +20,7 @@ import time
 ###########################################
 
 def loginview(request):
+	print 'started'
 	try:
 		next = request.GET['next']
 	except:

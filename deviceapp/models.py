@@ -22,22 +22,29 @@ class Manufacturer(models.Model):
 	displayname = models.CharField(max_length=50)
 	def __unicode__(self):
 		return self.displayname
-	
-# Device Category (ex. ultrasounds)
-class DeviceCategory(models.Model):
+
+class Category(models.Model):
 	name = models.CharField(max_length=60)
 	displayname = models.CharField(max_length=50)
-	industries = models.ManyToManyField(Industry)
+	industry = models.ForeignKey(Industry)
 	totalunits = models.IntegerField()
 	def __unicode__(self):
 		return self.displayname
 
+class SubCategory(models.Model):
+	name = models.CharField(max_length=60)
+	displayname = models.CharField(max_length=50)
+	category = models.ForeignKey(Category)
+	totalunits = models.IntegerField()
+	def __unicode__(self):
+		return self.displayname
+	
 # A product (i.e. Ultrasound XT500), which belongs to a device subcategory
 class Product(models.Model):
 	name = models.CharField(max_length=150)
 	manufacturer = models.ForeignKey(Manufacturer)
-	devicecategory = models.ForeignKey(DeviceCategory)
-	industries = models.ManyToManyField(Industry)
+	category = models.ForeignKey(SubCategory)
+	industries = models.ForeignKey(Industry)
 	description = models.TextField()
 	def __unicode__(self):
 		return self.name
@@ -85,11 +92,10 @@ class BasicUser(models.Model):
 #An individual item for sale associated with a product and a user
 class Item(models.Model):
 	user = models.ForeignKey(BasicUser)
-	
 	#General Product Information
 	name = models.CharField(max_length=200)
 	product = models.ForeignKey(Product,null=True,blank=True)
-	devicecategory = models.ForeignKey(DeviceCategory)
+	subcategory = models.ForeignKey(SubCategory)
 	manufacturer = models.ForeignKey(Manufacturer)
 	
 	#Specs
@@ -157,7 +163,7 @@ class ItemImage(Image):
 ####### Lat Long Model #####################
 ############################################
 class LatLong(models.Model):
-	zipcode = models.IntegerField(max_length=5)
+	zipcode = models.IntegerField(max_length=5, db_index=True)
 	latitude = models.FloatField()
 	longitude = models.FloatField()
 	city = models.CharField(max_length=50)

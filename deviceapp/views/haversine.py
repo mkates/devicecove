@@ -1,10 +1,19 @@
 from math import radians, cos,sin,asin,sqrt, atan2
 from deviceapp.models import LatLong
 
-def haversineDistance(zipcode1,zipcode2):
+def haversineDistance(zipcode1,zipcode2,latlongs):
 	try:
-		zip1 = LatLong.objects.get(zipcode = int(zipcode1))
-		zip2 = LatLong.objects.get(zipcode = int(zipcode2))
+		#Check if the zipcode is in latlongs first
+		for zips in latlongs:
+			if zips.zipcode == int(zipcode1):
+				zip1 = zips
+			if zips.zipcode == int(zipcode2):
+				zip2 =zips
+		#Otherwise, query the database directly
+		if not zip1:
+			zip1 = LatLong.objects.get(zipcode = int(zipcode1))
+		if not zip2:
+			zip2 = LatLong.objects.get(zipcode = int(zipcode2))
 		lat1 = zip1.latitude
 		lon1 = zip1.longitude
 		lat2 = zip2.latitude

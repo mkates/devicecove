@@ -3,7 +3,6 @@
 ///***********************************************************************
 var pagevariables = {'name':"",'manufacturer':"",'category':'','serialno':'','year':2013,'type':'preowned','contract':'notincluded','ownedlength':'','quality':4,'conditiondescription':"",'productdescription':'','pictureid':[],'mainimageid':-1,'shippingincluded':true,'price':0};
 
-
 $(document).ready(function() {
 	pictureBinds();
     var currentvalue = "4";

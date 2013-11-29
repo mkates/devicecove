@@ -155,33 +155,53 @@ background-image: linear-gradient(to right, #FFFFFF 0%, #F2F2F2 100%);
 
 /*******General *******/
 .filterbox{
-	padding: 0px 10px 0 10px;
+	padding: 0px 0px 0 0px;
 	box-shadow: 0 0 4px #ccc;
 }
 .filter-category {
-	padding: 20px 0;
+	padding: 10px 10px;
 	border-bottom:1px solid #e3e3e3;
 	border-top:1px solid #fff;
+}
+.filterbox h4 {
+	margin: 0;
+	padding: 0;
+	padding: 3px 0 3px 10px;
+	color: #333;
+	text-shadow: 0 0 1px #fff;
+	font-weight: 800;
+	font-size: 14px;
+	background-image: linear-gradient(to bottom, #A7DBEB 0%, #92D6EB 50%, #49C5EB 100%);
+	border-top-right-radius: 3px;
+	border-top-left-radius: 3px;
+	opacity: 1;
 }
 
 .filter-category h2 {
 	padding: 0;
 	margin: 0;
-	padding-bottom: 10px;
-	font-size: 14px;
-	color: #444;
+	padding-bottom: 5px;
+	font-size: 13px;
+	color: #555;
+	text-shadow: 0 0 1px #fff;
 	font-weight: 800;
 }
 .catlink {
 	clear: both;
-	color: #333;
+	color: #444;
 }
 .catlink span {
 	float: right;
 	color: #aaa;
 }
-.filter-category .active {
-	background: #ddd;
+.filter-category .active, .filter-category .active:hover {
+	background: #aaa;
+	color: white;
+	border-radius: 2px;
+	box-shadow: 0 0 6px #fff;
+}
+.filter-category .active span, .filter-category .active:hover span {
+	color: white;
 }
 
 /*******Checkbox Formatting *******/

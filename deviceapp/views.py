@@ -14,6 +14,7 @@ import difflib
 import locale
 import time
 
+
 #If you want to test network latency
 #import time
 #time.sleep(5)

@@ -18,6 +18,7 @@
 </div>
 <div class="row product">
   <div class="col-xs-12 col-sm-8 col-md-8 mainproductcontainer">
+  	{%if mainimage %}
   	<div class="mainproduct">
   		<div class="mainproduct-header">
   			<!-- 
@@ -42,6 +43,7 @@
   			</div>
   		</div>
   	</div>
+  	{% endif %}
   	
   	<div class="mainproduct productdetails">
   		<h2> Product Description</h2>
@@ -65,7 +67,7 @@
 								<div class="itemsoldby">{{itm.user.company}}</div>
 								<div class="itemimage">
 									<div class="verticalaligner">
-										{%if itm.mainimage%}<img src="{{itm.mainimage.photo.url}}"/>{% else %}<img src="http://www.colourbox.com/preview/2087895-978618-silhouette-of-microscope-isolated-illustration-on-white-background.jpg"/>{% endif %}
+										<img src="{%if itm.mainimage %}{{itm.mainimage.photo_medium.url}}{% else %}{{STATIC_URL}}/img/noimage.jpg{% endif %}" alt="{{itm.name}}"/>		
 									</div>
 								</div>
 								<div class="price">
@@ -121,7 +123,8 @@
   	</div>
   	<div class="sideproduct" id="productspecs">
   		<h2>Product Information</h2>
-		<p><span>Device Category</span>{{item.devicecategory}}</p>
+		<p><span>Device Category</span>{{item.subcategory}}</p>
+		<p><span>Device Type</span>{{item.subcategory.category}}</p>
 		<p><span>Service Contract</span>{{item.get_contract_display}}</p>
 		<p><span>Model Year</span>{{item.year}}</p>
 		<p><span>Condition</span>{{item.condition}}</p>

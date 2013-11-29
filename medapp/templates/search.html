@@ -46,10 +46,26 @@ label .floatright {
 	display: block;
 }
 {% endif %}
-
+.cat-hidden {
+	display:none;
+}
+.seeall {
+	display:none;
+	color: #2BB4EF;
+	font-size: 13px;
+	padding-left: 3px;
+	margin: 0;
+}
+.seeall:hover {
+	text-decoration: underline;
+	color: #27A5DB;
+	cursor: pointer;
+}
+.nobottomborder {
+	border-bottom: none;
+}
 </style>
 {% endblock%}
-
 
 {% block content %}
 {% load humanize %}
@@ -57,18 +73,35 @@ label .floatright {
   <!--Filter Container -->
   <div class='col-xs-12 col-sm-3 filtercontainer'>
   	<div class='filterbox'>
+  		<h4>Categories</h4>
   		<div class='filter-category notopborder'>
-			<h2>Other {{ind | title}} Categories</h2>
+			<h2>{{ind | title}}</h2>
 			{% for cat in categories %} 
-				{% if cat.totalunits > -1 %} 			
-					<a class="catlink {% if category.name == cat.name %} active{% endif %}" href="/productsearch/{{ind.name}}/{{cat.name}}">{{cat.displayname}} <span>{{cat.totalunits}}</span></a>
+				{% if cat.totalunits > -1 %}
+					{% if forloop.counter < 7 %} 			
+						{% if category.name != cat.name %}<a class="catlink" href="/productsearch/{{ind.name}}/{{cat.name}}/all">{{cat.displayname}} <span>{{cat.totalunits}}</span></a>{% endif %}
+					{% else %}
+						<div class="{% if custom == on %}cat-hidden{% endif %}">
+							{% if category.name != cat.name %}<a class="catlink" href="/productsearch/{{ind.name}}/{{cat.name}}/all">{{cat.displayname}} <span>{{cat.totalunits}}</span></a>{% endif %}
+						</div>
+					{% endif %}	
 				{% endif %}
 			{% endfor %}
-			{% for cat in categorieshidden %}  			
-				<a class="catlink" href="/productsearch/{{ind.name}}/{{cat.name}}">{{cat.displayname}}</a>
+			<p class="seeall">Show All Categories</p>
+		</div>
+		{% if custom == on %}
+  		<div class='filter-category nobottomborder'>
+			<h2>{{category.displayname}}</h2>
+			<a class="catlink {% if subcategory == all %}active{% endif %}" href="/productsearch/{{ind.name}}/{{category.name}}/all">All {{category.displayname}}<span>{{category.totalunits}}</span></a>
+			{% for sc in category.subcategory_set.all %} 	
+				<a class="catlink {% if subcategory.name == sc.name %}active{% endif %}" href="/productsearch/{{ind.name}}/{{category.name}}/{{sc.name}}">{{sc.displayname}} <span>{{sc.totalunits}}</span></a>
 			{% endfor %}
 		</div>
-		<div id='pricecategory' class='filter-category'>
+		{% endif %}
+	</div>
+	<div class='filterbox'>
+		<h4>Filters</h4>
+		<div id='pricecategory' class='filter-category notopborder'>
   			<h2>Price Range</h2>
   			<div id='price-slider-container'>
   				<p id='lowprice'>$<span>{{pricerange.0}}</span></p>
@@ -112,9 +145,7 @@ label .floatright {
   			</select>
   			<p>from</p>
   			<input id="zipcode-input" onkeyup="this.value=this.value.replace(/[^\d]/,'')" class='form-control' placeholder='Zipcode' type='number' maxlength='5' value="{{zipcode}}"/>
-  		</div>
-
-  		
+  		</div>		
   	</div>
   </div>
   
@@ -183,12 +214,25 @@ var variables = {'sort':'','query':'{{searchquery}}','zipcode':'{{zipcode}}','di
 //*** Miscellaneous Page Functions ************
 //*********************************************
 $(document).ready(function(){
+	//Show More View
+	if ($(".cat-hidden")) {
+		$(".seeall").css("display","block");
+	}
+	$(".seeall").click(function() {
+		if ($(this).text() == 'Hide More') {
+			$(".cat-hidden").css('display','none');
+			$(this).text("Show All Categories");
+		} else {
+			$(".cat-hidden").fadeIn();
+			$(this).text("Hide More");
+		}
+	});
 	//This code calls an API that updates the zip if user is not logged in
 	if (variables['zipcode'].length != 5) {
-		$.get("http://ipinfo.io", function(response) {
-			variables['zipcode'] = response.postal;
-			$('#zipcode-input').val(response.postal);
-		}, "jsonp");
+		// $.get("http://ipinfo.io", function(response) {
+// 			variables['zipcode'] = response.postal;
+// 			$('#zipcode-input').val(response.postal);
+// 		}, "jsonp");
 	}
 	$("#sortby-select").val("price");
 	$("#distance-select").val(-1);

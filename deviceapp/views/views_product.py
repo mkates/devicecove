@@ -25,7 +25,7 @@ def itemdetails(request,itemid):
 	if request.user.is_authenticated():
 		if SavedItem.objects.filter(user = BasicUser.objects.get(user=request.user),item=item).exists():
 			saved = True
-	related = Item.objects.filter(devicecategory = item.devicecategory).order_by('savedcount')[:6]
+	related = Item.objects.filter(subcategory = item.subcategory).order_by('savedcount')[:6]
 	dict = {'saved':saved,'item':item,'industry':industry,'related':related}
 	if request.user.is_authenticated():
 		bu = BasicUser.objects.get(user=request.user)
@@ -71,8 +71,8 @@ def existingproductcheck(request):
 		manufacturer = request.GET['manufacturer']
 		category = request.GET['category']
 		manufacturer = Manufacturer.objects.get(name = manufacturer)
-		category = DeviceCategory.objects.get(name=category)
-		products = Product.objects.filter(devicecategory=category).filter(manufacturer=manufacturer)
+		category = Category.objects.get(name=category)
+		products = Product.objects.filter(category=category).filter(manufacturer=manufacturer)
 		product_names = []
 		for pnames in products:
 			product_names.append(pnames.name)

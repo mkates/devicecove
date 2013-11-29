@@ -14,41 +14,55 @@ import math
 import difflib
 import locale
 import time
+import medapp.settings as settings
 
 ###########################################
 #### Search ###############################
 ###########################################	
 
 
-def productsearch(request,industryterm,devicecategoryterm):
+def productsearch(request,industryterm,categoryterm,subcategoryterm):
 	catlist = getCategoriesAndQuantity()
-	manufacturers = Manufacturer.objects.all()
-	category = DeviceCategory.objects.get(name=devicecategoryterm)
 	industry = Industry.objects.get(name=industryterm)
-	searchquery = category.displayname
-	itemqs = Item.objects.filter(devicecategory=category).order_by('price')
+	category = Category.objects.get(name=categoryterm)
+	if subcategoryterm == 'all':
+		subcategory = None
+		itemqs = Item.objects.filter(subcategory__in=category.subcategory_set.all()).order_by('price')
+		searchquery = "all "+category.displayname
+	else:
+		subcategory = SubCategory.objects.get(name=subcategoryterm)
+		searchquery = subcategory.displayname+" in "+category.displayname
+		itemqs = Item.objects.filter(subcategory=subcategory).order_by('price')
 	pricerange = getPriceRange(itemqs)
+	itemqs = itemqs[0:5]
 	more = True if len(itemqs ) > 5 else False
-	zipcode = getDistances(request,itemqs)
-	dict = {'zipcode':zipcode,'resultcount':len(itemqs),'more':more,'pricerange':pricerange,'searchquery':searchquery,'items':itemqs[0:5],'categories':catlist,'category':category,'ind':industry,'manufacturer':manufacturers}
+	zipcode = getDistances(request,itemqs[0:5])
+	dict = {'zipcode':zipcode,'resultcount':len(itemqs),'more':more,'pricerange':pricerange,'searchquery':searchquery,'items':itemqs[0:5],'categories':catlist,'category':category,'ind':industry,'subcategory':subcategory}
 	return render_to_response('search.html',dict,context_instance=RequestContext(request))
 
 def autosuggest(request):
 	results=[]
 	searchterm = request.GET['searchterm']
 	industry = Industry.objects.get(id=1)
+	
 	#Find all categories that match the search term
-	categories = DeviceCategory.objects.filter(name__icontains=searchterm).filter(totalunits__gte=1)
+	categories = Category.objects.filter(name__icontains=searchterm).filter(totalunits__gte=0)
 	#Add all matched categories
 	for cat in categories:
-		results.append({'type':'category','name':cat.displayname,'industry':"",'link':"/productsearch/"+industry.name+"/"+cat.name})
+		results.append({'type':'category','name':cat.displayname,'link':"/productsearch/"+industry.name+"/"+cat.name+"/all"})
+		results = results[0:5]
+	
+	#Find all sub-categories that match the search term
+	subcategories = SubCategory.objects.filter(name__icontains=searchterm).filter(totalunits__gte=0)
+	for subcat in subcategories:
+		results.append({'type':'subcategory','name':subcat.displayname,'category':subcat.category.displayname,'link':"/productsearch/"+industry.name+"/"+subcat.category.name+"/"+subcat.name})
 		results = results[0:10]
-	
+		
 	#Find all items that match the search term
-	item = Item.objects.filter(devicecategory__name__icontains=searchterm)
+	item = Item.objects.filter(subcategory__name__icontains=searchterm)
 	for itm in item:
-		results.append({'type':'product','name':itm.name,'category':itm.user.company,'mainimage':itm.mainimage.photo_small.url,'link':"/item/"+str(itm.id)+"/details"});
-	
+		dict = {'type':'product','name':itm.name,'category':itm.user.company,'mainimage':checkMainImage(itm),'link':"/item/"+str(itm.id)+"/details"};
+		results.append(dict);
 	#Do a relative match if no results are found
 	if len(results) == 0:
 		allitems = Item.objects.all()
@@ -59,8 +73,8 @@ def autosuggest(request):
 			if difflib.SequenceMatcher(None,searchterm,p.name.lower()).ratio() > .35:
 				matchlist.append(p)
 		for itm in matchlist:
-			results.append({'type':'product','name':itm.name,'category':itm.user.company,'mainimage':itm.mainimage.photo_small.url,'link':"/item/"+str(itm.id)+"/details"});
-	return HttpResponse(json.dumps(results[0:10]), mimetype='application/json')
+			results.append({'type':'product','name':itm.name,'category':itm.user.company,'mainimage':checkMainImage(itm),'link':"/item/"+str(itm.id)+"/details"});
+	return HttpResponse(json.dumps(results[0:15]), mimetype='application/json')
 
 def customsearch(request):
 	if request.method == "GET":
@@ -75,7 +89,7 @@ def customsearch(request):
 		distance = getDistances(request,items)
 		pricerange = getPriceRange(items)
 		more = True if len(items) > 5 else False
-		return render_to_response('search.html',{'zipcode':zipcode,'resultcount':len(items),'searchquery':searchword,'more':more,'pricerange':pricerange,'searchquery':searchquery,'items':items[0:5],'categories':catlist,'ind':industry,'manufacturer':manufacturers},context_instance=RequestContext(request))
+		return render_to_response('search.html',{'custom':'on','zipcode':zipcode,'resultcount':len(items),'searchquery':searchword,'more':more,'pricerange':pricerange,'searchquery':searchquery,'items':items[0:5],'categories':catlist,'ind':industry,'manufacturer':manufacturers},context_instance=RequestContext(request))
 	
 def searchquery(request):
 	itemdict = []
@@ -91,7 +105,7 @@ def searchquery(request):
 		for item in items:
 			if item.price <= int(filters['pricehigh']) and item.price >= int(filters['pricelow']):
 				if (item.type == 'new' and filters['new']=='true') or (item.type == 'refurbished' and filters['refurbished']=='true') or (item.type == 'preowned' and filters['preowned']=='true'):
-					if withinDistance(item,filters['zipcode'],filters['distance']) or int(filters['distance']) == -1:	
+					if withinDistance(item,filters['zipcode'],filters['distance']):	
 						itemspassed.append(item)
 		zipcode = getNewDistances(filters['zipcode'],itemspassed)
 		if filters['sort'] == 'mostrecent':
@@ -103,8 +117,7 @@ def searchquery(request):
 		more = True if len(itemspassed) > int(filters['page'])*5+5 else False
 		resultscount = len(itemspassed)
 		itemspassed = itemspassed[int(filters['page'])*5:int(filters['page'])*5+5]
-	rts = render_to_string('productsearchitem.html', {'items':itemspassed})
-	html = render(request, 'productsearchitem.html', {'items':itemspassed,'more':more},content_type="application/html")
+	rts = render_to_string('productsearchitem.html', {'items':itemspassed,'STATIC_URL':settings.STATIC_URL})
 	return HttpResponse(json.dumps({'result':rts,'more':more,'resultscount':resultscount}), mimetype='application/json')
 
 
@@ -114,7 +127,7 @@ def searchquery(request):
 
 #Returns the list of device categories and the number of items in each one
 def getCategoriesAndQuantity():
-	catlist = DeviceCategory.objects.filter(totalunits__gte=1).order_by('totalunits').reverse()
+	catlist = Category.objects.filter(totalunits__gte=0).order_by('totalunits').reverse()
 	return catlist
 
 #Calculates the price range given a set of items
@@ -144,27 +157,43 @@ def getDistances(request,items):
 	if request.user.is_authenticated():
 		bu = BasicUser.objects.get(user=request.user)
 		zipcode = "%05d" % bu.zipcode
+		zips = []
+		for itm in items:
+			zips.append(itm.zipcode)
+		latlongs = LatLong.objects.filter(zipcode__in=zips)
 		for item in items:
-			item.distance = haversineDistance(zipcode,item.user.zipcode)
+			item.distance = haversineDistance(zipcode,item.user.zipcode,latlongs)
 	else:
 		zipcode = 00000
 	return zipcode
 
 #Get distances given items and a custom zipcode
 def getNewDistances(zipcode,items):
+	zips = []
+	for itm in items:
+		zips.append(itm.zipcode)
+	latlongs = LatLong.objects.filter(zipcode__in=zips)
 	for item in items:
-		item.distance = haversineDistance(zipcode,item.user.zipcode)
+		item.distance = haversineDistance(zipcode,item.user.zipcode,latlongs)
 	return zipcode
 
 #Given an item, zipcode, and distance, determine if the item and zip are within the distance
 def withinDistance(item,zipcode,distance):
-	dist = haversineDistance(zipcode,item.user.zipcode)
-	if dist < int(distance):
+	if distance < 0:
 		return True
 	else:
-		return False
-	
-	
+		dist = haversineDistance(zipcode,item.user.zipcode)
+		if dist < int(distance):
+			return True
+		else:
+			return False
+
+#Set the main image to none if there is no main image
+def checkMainImage(item):
+	if item.mainimage:
+		return item.mainimage.photo_small
+	else:
+		return None	
 	
 	
 	
