@@ -17,7 +17,7 @@
 	<div class="topbar">
 		<div class="topnavigation">
 			<p class="backbutton-container"><a class="backbutton" href="/productsearch/{{industry.name}}/{{item.subcategory.category.name}}/{{item.subcategory.name}}">&#8592; View all {{item.subcategory.displayname}}</a></p>
-			<p class="breadcrumbs"><a href="/">Home</a> / <a href="/productsearch/{{industry.name}}/{{item.category.name}}/all">{{item.subcategory.category.displayname}}</a> / <a href="/productsearch/{{industry.name}}/{{item.category.name}}/{{item.subcategory.name}}">{{item.subcategory.displayname}}</a> / {{item.name}}</p>
+			<p class="breadcrumbs"><a href="/">Home</a> / <a href="/productsearch/{{industry.name}}/{{item.subcategory.category.name}}/all">{{item.subcategory.category.displayname}}</a> / <a href="/productsearch/{{industry.name}}/{{item.subcategory.category.name}}/{{item.subcategory.name}}">{{item.subcategory.displayname}}</a> / {{item.name}}</p>
 			<div class="clear"></div>
 		</div>
 		<div class="otherviewers">	
@@ -58,7 +58,10 @@
 {% block jsblock %}
 <script src="{{STATIC_URL}}js/jquery.zoom.js" type="text/javascript" ></script>
 <script src="{{STATIC_URL}}js/jquery.tinycarousel.js" type="text/javascript" ></script>
+<script src="http://malsup.github.com/jquery.form.js"></script> 
 <script>
+
+var loggedIn = {% if user.is_authenticated %}true{% else %}false{% endif %};
 $(document).ready(function(){
 	 $('#slider-code').tinycarousel({ 
 	 	display: 2,
@@ -107,15 +110,61 @@ $(document).ready(function() {
         });
 	});
 	
-	//Buy Now Button
-	$("#buynow").click(function() {
-		$("#buynowcontainer").fadeIn('fast').css('display', 'table');
+	//Contact Seller Button
+	$("#contactseller").click(function() {
+		if (loggedIn) {
+			$("#buynowcontainer").fadeIn('fast').css('display', 'table');
+		} else {
+			window.location.href= "/login?next=/item/{{item.id}}/details&action=contactseller";
+		}
 	});
 	 $('#buynowcontainer').click(function (e) {
     		if (e.target.id == 'buynowbackalign') {
     			$('#buynowcontainer').fadeOut();
     		}
   	});
+  	$(".closecontactseller").click(function() {
+  		$('#buynowcontainer').fadeOut();
+  	});
+  	$('#messageseller').ajaxForm(function(e) {
+		$("#contactbox").css('display','none');
+		$("#successbox").fadeIn();
+  	}); 
+  	
+  	//Ask Question
+  	$(".askquestion").click(function() {
+  		if (loggedIn) {
+			$(this).addClass("askquestionactive");
+			$("#newquestion").css('display','block');
+		} else {
+			window.location.href= "/login?next=/item/{{item.id}}/details&action=question";
+		}
+	});
+	$(".askquestioncancel").click(function() {
+		$(".askquestion").removeClass("askquestionactive");
+		$("#newquestion").css('display','none');
+	});
+	//Ask Question
+  	$(".deletequestion").click(function() {
+  		var handle = $(this);
+  		$.ajax({
+            type : "POST",
+            data : {'questionid':$(this).attr("data_questionid")},
+            url : "/deletequestion",
+            success : function(data) {
+            	if (data == 400) {
+            		$(handle.parent().parent()).remove();
+            	}
+            }, 
+            error : function(jqXHR, textStatus, errorThrown) {
+                alert("Error saving product");
+            }
+        });
+	});
+	$(".askquestioncancel").click(function() {
+		$(".askquestion").removeClass("askquestionactive");
+		$("#newquestion").css('display','none');
+	});
 });
 </script>
 {% block lightbox %}

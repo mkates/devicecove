@@ -7,11 +7,22 @@
 <div id="buynowcontainer">
 	<div id="buynowbackalign">
 		<div class="buynowbox">
-			<div class="buyonline">
-				<h3>Buy Online</h3>
+			<div id="contactbox">
+				<h4>Contact Seller</h4>
+				<p>Contact the seller with a personal message if you are interested in viewing this product in person.</p>
+				<form action="/messageseller" method="POST" id="messageseller">
+					{% csrf_token %}
+					<textarea class="form-control"></textarea>
+					<input type="hidden" value="{{item.user.id}}" name="seller">
+					<button value="submit" class="button button-rounded button-primary">Contact Seller</button>
+					<a class="button button-rounded closecontactseller">Cancel</a>
+				</form>
 			</div>
-			<div class="buydirect">
-				<h3>Buy Direct</h3>
+			<div id="successbox">
+				<img src="{{STATIC_URL}}img/checkmark.png"/>
+				<h5> We have notified the seller with your message and contact information. Please allow up to 48 hours
+				for the seller to contact you. If this item is no longer available, please let us know!</h5>
+				<button class="button button-rounded closecontactseller">Return to Product</button>
 			</div>
 		</div>
 	</div>
@@ -52,6 +63,34 @@
   	<div class="mainproduct productdetails" id="features">
   		<h2> Product Condition</h2>
   		<p id="productfeatures">{{item.conditiondescription}}</p>
+  	</div>
+  	<div class="mainproduct productdetails questionbox" id="features">
+  		<h2> Top Buyer Questions</h2>
+  		<a class="button button-rounded button-tiny askquestion">Ask a question</a>
+  		<form id="newquestion" method="post" action="/askquestion">
+  			{% csrf_token %}
+  			<textarea name="question" class="form-control" placeholder="We will contact the seller when a question is asked. Please do not put any peronsably indentifiable information in the question, per our terms of service."></textarea>
+  			<input type="hidden" name="itemid" value="{{item.id}}">
+  			<input type="hidden" name="redirect" value="/item/{{item.id}}/details">
+  			<button class="button button-rounded button-tiny button-primary">Submit Question</button>
+  			<a class="button button-rounded button-tiny askquestioncancel">Cancel</a>
+  		</form>
+  		{% if item.question_set.all %}
+			{% for question in item.question_set.all reversed %}
+				<div class="question">
+					<h5>{{question.question}} <span> asked {{question.date}}</span> {% if question.user.email == user.email %}<span class="deletequestion" data_questionid="{{question.id}}">Delete</span>{% endif %}</h5>
+					{% if question.answer_set.all %}
+						{% for answer in question.answer_set.all%}
+							<p>{{answer.answer}}</p>
+						{% endfor %}
+					{% else %}
+						<p id="notyetanswered">The seller has no yet answered this question</p>
+					{%endif %}
+				</div>
+			{% endfor %}
+		{% else %}
+			<p id="noquestions">There have been no questions answered by the seller</p>
+		{% endif %}
   	</div>
   	<div class="mainproduct productdetails">
   		<h2>Customer Who Viewed This Item Also Viewed</h2>
@@ -103,13 +142,14 @@
   		</div>
  -->
   		<div class="actionbuttons">
+  			<a id="contactseller" class="button button-rounded button-primary" href="#">Schedule Visit</a>
   			<a id="buynow" class="button button-rounded button-action" href="#">Buy Now</a>
   		</div>
   	</div>
   	<div class="sideproduct" id="buyerprotect">
   		<img class="buyerbadge" src="{{STATIC_URL}}img/vetcoveprotected.png"/> 	
   		<h3>Buy With Confidence</h3>
-  		<h4> We've got you covered</h4>
+  		<h4>We've got you covered</h4>
   		<div class="clear"></div>
   		<p>Every product on our system, regardless of warranty, comes with a 14 day product guarantee. If the product does not meet the specifications and condition described, you will receive a full refund. <a href="/buyerprotect" target="_blank">View All Details</a></p>
   	</div>

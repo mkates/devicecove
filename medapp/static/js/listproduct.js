@@ -1,7 +1,7 @@
 ///***********************************************************************
 ///This script controls functionality to select the quality of the product
 ///***********************************************************************
-var pagevariables = {'name':"",'manufacturer':"",'category':'','serialno':'','year':2013,'type':'preowned','contract':'notincluded','ownedlength':'','quality':4,'conditiondescription':"",'productdescription':'','pictureid':[],'mainimageid':-1,'shippingincluded':true,'price':0};
+var pagevariables = {'name':"",'manufacturer':"",'category':'','subcategory':'','serialno':'','year':2013,'type':'preowned','contract':'notincluded','ownedlength':'','quality':4,'conditiondescription':"",'productdescription':'','pictureid':[],'mainimageid':-1,'shippingincluded':true,'price':0};
 
 $(document).ready(function() {
 	pictureBinds();
@@ -136,6 +136,7 @@ var updatePageVariables = function updatePageVariables() {
 	pagevariables['manufacturer'] = $("#inputmanufacturer").val();
 	pagevariables['category'] = $("#inputcategory").val();
 	pagevariables['serialno'] = $("#inputserialno").val();
+	pagevariables['subcategory'] = $("#inputsubcategory").val();
 	pagevariables['productdescription'] = $("#inputproductdescription").val();
 	pagevariables['conditiondescription'] = $("#inputconditiondescription").val();
 	pagevariables['price'] = parseInt($("#inputprice").asNumber());

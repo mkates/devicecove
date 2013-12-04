@@ -43,9 +43,9 @@
 				{% endif %} 
 				
 			</h6>
-			<h4><a>Location<span>{{item.user.state}}{% if item.distance %}( ~{{item.distance}} miles away ){% endif %}</span></a></h4>
+			<h4><a>Location<span>{{item.user.city}}, {{item.user.state}} {% if item.distance %}( ~{{item.distance}} miles away ){% endif %}</span></a></h4>
 			<h4><a>List Date<span>{{item.listeddate}}</span></a></h4>
-			<h4><a>Shipping Included<span>{{ item.shippingincluded }}</span></a></h4>
+			<h4><a>Manufacturer<span>{{ item.manufacturer }}</span></a></h4>
 			<div class='buttondiv'>
 				<button class='btn-custom-gray infobutton detailsbutton'>Details</button>
 				<button class='btn-custom-gray infobutton specsbutton'>Quick Facts</button>

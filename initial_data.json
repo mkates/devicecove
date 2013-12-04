@@ -484,5 +484,43 @@
         "verified" : false,
         "listeddate" : "2013-11-01"
     }
+},
+{
+    "pk": 1, 
+    "model": "deviceapp.question", 
+    "fields": {
+    	"user": 1, 
+    	"question": "Does the ultrasound have an extra probe or carrying case?", 
+    	"item":9,
+    	"date" : "2013-11-01"
+    }
+},
+{
+    "pk": 1, 
+    "model": "deviceapp.answer", 
+    "fields": {
+    	"question": 1, 
+    	"answer": "I do have a carry case that you can use, although it was from the manufacturer so it may be time to upgrade it", 
+    	"date" : "2013-11-01"
+    }
+},
+{
+    "pk": 2, 
+    "model": "deviceapp.question", 
+    "fields": {
+    	"user": 1, 
+    	"question": "Can you explain what you mean by the wire being 'flimsy'?", 
+    	"item":9,
+    	"date" : "2013-11-01"
+    }
+},
+{
+    "pk": 2, 
+    "model": "deviceapp.answer", 
+    "fields": {
+    	"question": 2, 
+    	"answer": "It occasionally needs to be jiggled for the cable to work, but it does not affect the performance", 
+    	"date" : "2013-11-01"
+    }
 }
 ]

@@ -39,7 +39,7 @@
 .loginform {
 	width: 300px;
 	text-align: left;
-	margin: 30px auto 0px auto;
+	margin: 20px auto 0px auto;
 }
 .loginform p {
 	margin-top: 20px;
@@ -66,4 +66,15 @@
 	margin-top: 25px;
 	margin-left: 20px;
 	font-weight: 200;
+}
+.login .errormessage {
+	color: red;
+	font-size: 200;
+	padding: 5px 12px;
+	margin-top: 15px;
+	background: #FFF2F2;
+	display:inline-block;
+	font-weight: 200;
+	border-radius: 4px;
+	
 }

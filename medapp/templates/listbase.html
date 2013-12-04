@@ -5,18 +5,18 @@
 		</div>
 		<div class="slide-content productcategory">
 			<div class="floatinput">
-				<h3>Manufacturer</h3>
-				<select id="inputmanufacturer" class="form-control smallinput">
-					{% for man in manufacturers %}
-					<option {%if man.active %}selected {% endif %} value="{{man.name}}">{{man.displayname}}</option>
+				<h3>Category</h3>
+				<select id="inputcategory" class="form-control smallinput">
+					{% for cat in categories %}
+					<option {%if category.name == cat.name %}selected {% endif %} value="{{cat.name}}">{{cat.displayname}}</option>
 					{% endfor %}
 				</select>
 			</div>
 			<div class="floatinput">
-				<h3>Device Category</h3>
-				<select id="inputcategory" class="form-control smallinput">
-					{% for cat in devicecategories %}
-					<option {%if cat.active %}selected {% endif %} value="{{cat.name}}">{{cat.displayname}}</option>
+				<h3>Item</h3>
+				<select id="inputsubcategory" class=sub"form-control smallinput">
+					{% for subcat in subcategories %}
+					<option {%if subcat.active %}selected {% endif %} value="{{subcat.name}}">{{subcat.displayname}}</option>
 					{% endfor %}
 				</select>
 			</div>
@@ -33,6 +33,12 @@
 			<p><span>2</span>Describe Your Product</p>
 		</div>
 		<div class="slide-content productcategory">
+			<h3>Manufacturer</h3>
+				<select id="inputmanufacturer" class="form-control smallinput">
+					{% for man in manufacturers %}
+					<option value="{{man.name}}">{{man.displayname}}</option>
+					{% endfor %}
+				</select>
 			<div class="clearinput">
 				<h3>Serial # <span> *optional</span></h3>
 				<input id="inputserialno" type="text" class="form-control smallinput" value="{{item.serialno}}"/>

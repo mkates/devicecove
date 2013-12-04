@@ -113,11 +113,11 @@ label .floatright {
   		<div class='filter-category'>
   			<h2>Condition</h2>
   			<div class='checkbox'>
-				<input class="checkbox" id='new' type='checkbox' name='check' value='new' checked='checked'>
+				<input class="checkboxitem" id='new' type='checkbox' name='check' value='new' checked='checked'>
 				<label for='new'>New</label>
-				<input class="checkbox" id='refurbished' type='checkbox' name='check' value='refurbished' checked='checked'>
+				<input class="checkboxitem" id='refurbished' type='checkbox' name='check' value='refurbished' checked='checked'>
 				<label for='refurbished'>Refurbished</label>
-				<input class="checkbox" id='preowned' type='checkbox' name='check' value='preowned' checked='checked'>
+				<input class="checkboxitem" id='preowned' type='checkbox' name='check' value='preowned' checked='checked'>
 				<label for='preowned'>Pre-Owned</label>
 			</div>
   		</div>
@@ -208,7 +208,7 @@ label .floatright {
 //*********************************************
 //Global variable dictionary ******************
 //*********************************************
-var variables = {'sort':'','query':'{{searchquery}}','zipcode':'{{zipcode}}','distance':-1,'page':0,'category':'{{category.name}}','sortby':'price','pricelow':0,'pricehigh':10000000,'new':true,'refurbished':true,'preowned':true};
+var variables = {'sort':'','query':'{{searchquery}}','zipcode':'{{zipcode}}','distance':-1,'page':0,'subcategory':'{{subcategoryname}}','category':'{{categoryname}}','sortby':'price','pricelow':0,'pricehigh':10000000,'new':true,'refurbished':true,'preowned':true};
 
 //*********************************************
 //*** Miscellaneous Page Functions ************

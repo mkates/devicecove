@@ -1,4 +1,4 @@
-Django==1.5.4
+Django==1.6
 distribute==0.6.27
 dj-database-url==0.2.2
 dj-static==0.0.5
@@ -7,10 +7,13 @@ gunicorn==18.0
 psycopg2==2.5.1
 static==0.4
 wsgiref==0.1.2
-boto>=2.3.0
-django-storages
+boto==2.16.0
+django-storages==1.1.8
 PIL==1.1.7
-django-ses
-django-imagekit
-django-extensions
+django-ses==0.4.1
+django-imagekit==3.0.4
+django-extensions==1.2.5
 django-password-reset
+balanced==0.11.14
+django-balanced==0.1.10
+

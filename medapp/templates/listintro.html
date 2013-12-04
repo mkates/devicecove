@@ -49,7 +49,7 @@
 	margin: 0 0px;
 	text-align: left;
 	display: inline-block;
-	height: 30px;
+	height: 32px;
 }
 #addform .chosen-search input {
 	width: 100%;
@@ -170,7 +170,7 @@
 	box-shadow: 0 0 10px red;
 	border:1px solid red;
 }
-#man_select_chosen, #cat_select_chosen {
+#category-select, #subcategory-select {
 	border-radius: 5px;
 }
 #addform #model-select {
@@ -188,7 +188,9 @@
 .chosen-container-single .chosen-single {
 	border-radius: 0px;
 }
-
+.chosen-results {
+	text-align: left;
+}
 </style>
 {% endblock %}
 
@@ -197,21 +199,18 @@
 <script src="{{STATIC_URL}}js/typeahead.min.js" type="text/javascript" ></script>
 <script>
 $(document).ready(function() {
-	$("#man-select").chosen();
-	$("#cat-select").chosen();
-	retrieveProducts($("#man-select").val(),$("#cat-select").val());
 	$("#addform").submit(function() {
 		submit = true;
-		if ($("#man-select").val() == "Null") {
+		if ($("#category-select").val() == "Null") {
 			submit = false;
-			if (!($("#man_select_chosen").hasClass('error'))) {
-				$("#man_select_chosen").addClass("error");
+			if (!($("#category-select").hasClass('error'))) {
+				$("#category-select").addClass("error");
 			}
 		}
-		if ($("#cat-select").val() == "Null") {
+		if ($("#subcategory-select").val() == "Null") {
 			submit = false;
-			if (!($("#cat_select_chosen").hasClass('error'))) {
-				$("#cat_select_chosen").addClass("error");
+			if (!($("#subcategory-select").hasClass('error'))) {
+				$("#subcategory-select").addClass("error");
 			}
 		}
 		if ($("#model-select").val().length < 3) {
@@ -226,55 +225,28 @@ $(document).ready(function() {
 			return false;
 		}
 	});
-	$("#man-select").chosen().change(function() {
-		if ($("#man-select").val() == "Null") {
-			if (!($("#man_select_chosen").hasClass('error'))) {
-				$("#man_select_chosen").addClass("error");
-			}
-		} else {
-			$("#man_select_chosen").removeClass("error");
-		}
-		retrieveProducts($("#man-select").val(),$("#cat-select").val());
+	$("#category-select").change(function() {
+		retrieveCategories($("#category-select").val());
 	});
-	$("#cat-select").chosen().change(function() {
-		if ($("#cat-select").val() == "Null") {
-			if (!($("#cat_select_chosen").hasClass('error'))) {
-				$("#cat_select_chosen").addClass("error");
-			} 
-		} else {
-			$("#cat_select_chosen").removeClass("error");
-		}
-		retrieveProducts($("#man-select").val(),$("#cat-select").val());
-	});
-	$("#model-select").blur(function() {
-		if ($("#model-select").val().length < 3) {
-			// if (!($("#model-select").hasClass('error'))) {
-// 				$("#model-select").addClass("error");
-// 			} 
-		} else {
-			$("#model-select").removeClass("error");
-		}
-	});
-});	
-
-var retrieveProducts = function(man,cat) {
-	if (man != 'Null' && cat != 'Null') {
+});
+	
+var retrieveCategories = function(cat) {
+	if (cat != 'Null') {
 		$.ajax({
-			url: '/existingproductcheck',
+			url: '/getsubcategories',
 			type: 'GET',
-			data: {'manufacturer':man,'category':cat},
+			data: {'category':cat},
 			cache: true,
 			dataType: 'json',
 			success: function(response){	
-				$('#model-select').typeahead('destroy');
-				$('#model-select').typeahead({
-				name: Math.random().toString(36).substr(2, 5),
-				local: response['products']
+				$("#subcategory-select").empty();
+				$("#subcategory-select").append("<option value='Null'>Item. . .</option>");
+				$.each(response,function(index,value) {
+					$("#subcategory-select").append("<option value='"+index+"'>"+value+"</option>");
 				});
 			}
 		});
 	}
-
 }
 
 </script>
@@ -288,20 +260,17 @@ var retrieveProducts = function(man,cat) {
 		<h3>VetCove is the safest and most secure way to sell veterinary equipment</h3>
 		<form id="addform" action="listproduct.html" method="GET">
 			<div class="row">
-				<select id="man-select" name="manufacturer" class="form-control error">
-					<option value="Null">Manufacturer. . .</option>
-					{% for man in manufacturer %}
-					<option value="{{man.name}}">{{man.displayname}}</option>
-					{% endfor %}
-				</select>
-				<select id="cat-select" name="category" class="form-control">
+				<select id="category-select" name="category" class="form-control">
 					<option value="Null">Category. . .</option>
-					{% for cat in category %}
+					{% for cat in categories %}
 					<option value="{{cat.name}}">{{cat.displayname}}</option>
 					{% endfor %}
 				</select>
+				<select id="subcategory-select" name="subcategory" class="form-control">
+					<option value="Null">Item. . .</option>
+				</select>
 				<div class="model-select-container">
-					<input id="model-select" class="form-control" type="text" name="name"  placeholder="Model"/>
+					<input id="model-select" class="form-control" type="text" name="name"  placeholder="Product Name"/>
 				</div>
 				<button type="submit" class="button button-highlight">Get Started</button>
 			</div>

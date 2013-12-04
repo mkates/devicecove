@@ -32,7 +32,7 @@ class Category(models.Model):
 		return self.displayname
 
 class SubCategory(models.Model):
-	name = models.CharField(max_length=60)
+	name = models.CharField(max_length=60,unique=True)
 	displayname = models.CharField(max_length=50)
 	category = models.ForeignKey(Category)
 	totalunits = models.IntegerField()
@@ -139,8 +139,10 @@ class Item(models.Model):
 		return self.name+" from "+self.user.name
 		
 	def save(self, *args, **kwargs):
-		self.devicecategory.totalunits += 1
-		self.devicecategory.save()
+		self.subcategory.category.totalunits += 1
+		self.subcategory.category.save()
+		self.subcategory.totalunits += 1
+		self.subcategory.save()
 		super(Item, self).save(*args, **kwargs)
 
 ############################################
@@ -170,5 +172,16 @@ class LatLong(models.Model):
 	state = models.CharField(max_length=50)
 	county = models.CharField(max_length=50)
 	
-	
+############################################
+####### Questions Model  ###################
+############################################
+class Question(models.Model):
+	question = models.TextField()
+	item = models.ForeignKey(Item)
+	user = models.ForeignKey(BasicUser)
+	date = models.DateField(auto_now_add = True,blank=True)
 
+class Answer(models.Model):
+	answer = models.TextField()
+	question = models.OneToOneField(Question)
+	date = models.DateField(auto_now_add = True,blank=True)
