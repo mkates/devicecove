@@ -2,7 +2,6 @@ from django.db import models
 from django.contrib.auth.models import User
 import uuid
 import os
-from imagekit.models import ImageSpecField
 from imagekit.processors import ResizeToFill, ResizeToFit
 from imagekit.models import ProcessedImageField
 
@@ -152,7 +151,6 @@ class SavedItem(models.Model):
 	user = models.ForeignKey(BasicUser)
 	item = models.ForeignKey(Item)
 
-	
 class ProductImage(Image):
 	item = models.ManyToManyField(Item)
 	product = models.ForeignKey(Product)

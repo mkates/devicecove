@@ -76,6 +76,6 @@ urlpatterns += patterns('',
 #####################################################################
 #########  Django SES Statistics ####################################
 #####################################################################
-urlpatterns += (url(r'^admin/django-ses/', include('django_ses.urls')),)
+#urlpatterns += (url(r'^admin/django-ses/', include('django_ses.urls')),)
 
 handler404 = 'deviceapp.views2.my_404_view'
