@@ -166,7 +166,7 @@
 				<div class="itemsoldby">{{item.user.company}}</div>
 				<div class="itemimage">
 					<div class="verticalaligner">
-						<img src="{%if item.mainimage %}{{item.mainimage.photo_medium.url}}{% else %}{{STATIC_URL}}/img/noimage.jpg{% endif %}" alt="{{item.name}}"/>		
+						<img src="{%if item.mainimage %}{{item.mainimage.photo_medium.url}}{% else %}{{STATIC_URL}}img/noimage.jpg{% endif %}" alt="{{item.name}}"/>		
 					</div>
 				</div>
 				<div class="price">

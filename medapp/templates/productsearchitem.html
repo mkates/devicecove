@@ -14,7 +14,7 @@
 		{% endif %}
 		<div class='imageviewer'></div>
 		<div class='imgdiv'>	
-			<img src="{%if item.mainimage %}{{item.mainimage.photo_medium.url}}{% else %}{{STATIC_URL}}/img/noimage.jpg{% endif %}" alt="{{item.name}}"/>		
+			<img src="{%if item.mainimage %}{{item.mainimage.photo_medium.url}}{% else %}{{STATIC_URL}}img/noimage.jpg{% endif %}" alt="{{item.name}}"/>		
 		</div>
 		<div class='pricediv'>
 			<p>${{item.price|floatformat|intcomma}}</p>
