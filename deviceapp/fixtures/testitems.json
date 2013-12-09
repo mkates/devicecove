@@ -1,3 +1,0 @@
-[
-	{"pk": 1,"model": "deviceapp.item","user":1,"fields": {"product": 1,"condition" : 4,"price":24500, "description":"This is a test description"}}
-]
