@@ -164,24 +164,6 @@ def addproduct(request):
 	return render_to_response('addproduct.html',context_instance=RequestContext(request))
 
 @login_required
-def listproduct(request):
-	if request.method == "GET":
-		manufacturers = Manufacturer.objects.all()
-		categories = Category.objects.all()
-		subcategories = SubCategory.objects.all()
-		subcategory = SubCategory.objects.get(name=request.GET['subcategory'])
-		category = Category.objects.get(name=request.GET['category'])
-		name = request.GET['name']
-		for cats in categories:
-			if cats.name == category.name:
-				cats.active = True
-		for subcats in subcategories:
-			if subcats.name == subcategory.name:
-				subcats.active = True
-		dict = {'model':name,'manufacturers':manufacturers,'categories':categories,'subcategories':subcategories}
-	return render_to_response('listproduct.html',dict,context_instance=RequestContext(request))
-
-@login_required
 def edititem(request,itemid):
 	item = Item.objects.get(id=itemid)
 	images = item.itemimage_set.all()

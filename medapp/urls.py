@@ -22,19 +22,31 @@ urlpatterns = patterns('',
     url(r'^listintro','deviceapp.views2.listintro'),
     
     #User Actions
-    url(r'^imageupload','deviceapp.views2.imageupload'),    
+    url(r'^imageupload/(?P<itemid>\d+)','deviceapp.views2.imageupload'), 
+    url(r'^deleteimage','deviceapp.views2.deleteimage'),  
+    url(r'^setmainimage','deviceapp.views2.setmainimage'),   
     url(r'^saveitem','deviceapp.views2.saveitem'),
     url(r'^removeitem','deviceapp.views2.removeitem'),
 	url(r'^edititem/(?P<itemid>\d+)','deviceapp.views2.edititem'),
 	url(r'^editform','deviceapp.views2.editform'),
     url(r'^addproduct','deviceapp.views2.addproduct'),
-    url(r'^listproduct','deviceapp.views2.listproduct'),
+    url(r'^listproduct/(?P<subcategory>\w+)','deviceapp.views2.listproduct'),
     url(r'getsubcategories','deviceapp.views2.getsubcategories'),
     url(r'^existingproductcheck','deviceapp.views2.existingproductcheck'),
     url(r'^postitem','deviceapp.views2.postitem'),
     url(r'^messageseller','deviceapp.views2.messageseller'),
     url(r'^askquestion','deviceapp.views2.askquestion'),
-    url(r'^deletequestion','deviceapp.views2.deletequestion')
+    url(r'^deletequestion','deviceapp.views2.deletequestion'),
+    
+    url(r'^list/describe/(?P<itemid>\d+)','deviceapp.views2.listitemdescribe'),
+    url(r'^list/details/(?P<itemid>\d+)','deviceapp.views2.listitemdetails'),
+    url(r'^list/photos/(?P<itemid>\d+)','deviceapp.views2.listitemphotos'),
+    url(r'^list/logistics/(?P<itemid>\d+)','deviceapp.views2.listitemlogistics'),
+    url(r'^list/preview/(?P<itemid>\d+)','deviceapp.views2.listitempreview'),
+    url(r'^savedescribe/(?P<itemid>\d+)','deviceapp.views2.savedescribe'),
+    url(r'^savedetails/(?P<itemid>\d+)','deviceapp.views2.savedetails'),
+	url(r'^savelogistics/(?P<itemid>\d+)','deviceapp.views2.savelogistics'),
+    url(r'^savepreview/(?P<itemid>\d+)','deviceapp.views2.savepreview'),
 )
 #####################################################################
 #########  Account ###################################################

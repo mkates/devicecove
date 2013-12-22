@@ -23,7 +23,7 @@
 		<div class="otherviewers">	
 			<div class="savebutton">
 				{% if userloggedin %}
-					<a href="/edititem/{{item.id}}" class="editaction button button-rounded button-highlight">Edit</a>
+					<a href="/list/describe/{{item.id}}" class="editaction button button-rounded button-highlight">Edit</a>
 				{% else %}
 					<img id="saveloader" src="{{STATIC_URL}}img/ajax-loader.gif"/>
 					{% if saved %}
@@ -68,7 +68,7 @@ $(document).ready(function(){
 	 	duration: 500
 	 });
 	$(".thumbnail-container img").click(function() {
-		$("#mainimage").attr("src",$(this).attr("data-original"));
+		$("#ex1").css("background-image",'url('+$(this).attr("data-original")+')');
 		console.log($("#mainimage").css("width"));
 	});
 });

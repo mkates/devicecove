@@ -1,0 +1,72 @@
+{% extends 'item/item_base.html' %}
+
+{% block formcontent %}
+<div class="formcontent row">
+	<div class="formcolumn col-md-6 col-sm-6">
+		<h5>Category</h5>
+		<select id="inputcategory" class="form-control smallinput">
+		{% for cat in categories %}
+			<option {%if cat.name == item.subcategory.category.name %}selected="selected" {% endif %} value="{{cat.name}}">{{cat.displayname}}</option>
+		{% endfor %}
+		</select>
+		<h5>Item</h5>
+		<select id="inputsubcategory" name="subcategory" class="form-control smallinput">
+		{% for subcat in item.subcategory.category.subcategory_set.all %}
+			<option {%if subcat.name == item.subcategory.name %}selected {% endif %} value="{{subcat.name}}">{{subcat.displayname}}</option>
+		{% endfor %}
+		</select>
+		<h5>Manufacturer</h5>
+		<input id="inputmanufacturer" name="manufacturer" type="text" class="form-control" placeholder="eg. Siemens" value="{{item.manufacturer}}"/>
+		<h5>Model Name</h5>
+		<input id="inputname" type="text" name="name" class="form-control " value="{{item.name}}" placeholder="eg. Siemens-Acuson P300 Veterinary Ultrasound"/>
+
+	</div>
+	<div class="formcolumn col-md-6 col-sm-6">
+		<h5>Serial Number <span>( * hidden to sellers )</span></h5>
+		<input id="serialnumber" name="serialnumber" type="text" class="form-control " value="{% if item.serialno != None %}{{item.serialno}}{% endif %}" placeholder="eg. 1298493292"/>
+		<h5>Model Year</h5>
+		<select id="inputyear" name="modelyear" class="form-control smallinput">
+		{% for i in range %}
+			<option {%if item.year == i %}selected {% endif %} value='{{i}}'>{{i}}</option>
+		{% endfor %}
+		</select>
+		<h5>New, reburbished, or preowned</h5>
+		<label class="radio-inline">
+		  <input type="radio" name="conditiontype" id="producttype_new" value="new" {% if item.conditiontype == 'new' %}checked{% endif %}> New
+		</label>
+		<label class="radio-inline">
+		  <input type="radio" name="conditiontype" id="producttype_preowned" value="preowned" {% if item.conditiontype == 'preowned' %}checked{% endif %}> Pre-Owned
+		</label>
+		<label class="radio-inline">
+		  <input type="radio" name="conditiontype" id="producttype_refurbished" value="refurbished" {% if item.conditiontype == 'refurbished' %}checked{% endif %}> Refurbished
+		</label>
+		<h5>Are You the Original Owner?</h5>
+		<label class="radio-inline">
+		  <input type="radio" name="originalowner" id="producttype_preowned" value="True" {%if item.originalowner %}checked{% endif %}> Yes
+		</label>
+		<label class="radio-inline">
+		  <input type="radio" name="originalowner" id="producttype_refurbished" value="False" {%if not item.originalowner %}checked{% endif %}> No
+		</label>
+
+	</div>
+</div>
+
+{% endblock %}
+
+{% block customjs %}
+<script src="{{STATIC_URL}}js/bootstrap-datepicker.js"></script> 
+<script>
+$(document).ready(function() {
+	$('#inputownerlength').datepicker();
+
+});
+</script>
+{% endblock %}
+{% block customcss %}
+<link href="{{STATIC_URL}}css/datepicker.css" rel="stylesheet" type="text/css" />
+
+{% endblock %}
+{% block hidebackbutton%}{% endblock %}
+{% block nextpage %}/list/details/{{item.id}}{% endblock%}
+{% block describeactive %}active{% endblock%}
+{% block formaction %}/savedescribe{% endblock%}

@@ -86,4 +86,4 @@ def parseLatLong():
 	ins.close()
 	out.close()
 
-parseManufacturer()
+#parseManufacturer()

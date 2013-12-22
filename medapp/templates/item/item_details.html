@@ -1,0 +1,238 @@
+{% extends 'item/item_base.html' %}
+
+{% block customcss %}
+<style>
+/*Quality Box */
+.qualitybox {
+	padding-bottom: 20px;
+	margin-top: 15px;
+}
+.qualitybox .qualitydescription {
+	height: 70px;
+	background: #f4f4f4;
+	border:2px solid #ddd;
+	border-radius: 6px;
+	width: 96%;
+	color: #555;
+	margin: 0 auto;
+	font-size: 12px;
+	font-weight: 200;
+	padding: 5px 10px;
+	position: relative;
+	z-index: 0;
+}
+.qualitybox .qualitydescription p {
+	font-size: 12px;
+}
+.qualitybox .qualitydescription span {
+	font-weight: 800;
+}
+.qualitybox .downarrow {
+	width: 30px;
+	background-image: url("{{STATIC_URL}}img/uparrow.png");
+	height: 14px;
+	margin-left: 0%;
+	margin-bottom: -2px;
+	position: relative;
+	z-index: 10;
+	
+}
+.qualitybox .selectors {
+	margin-top: 10px;
+	padding: 0 5px;
+	text-transform: uppercase;
+}
+
+@media (max-width: 768px) {
+	.qualitybox .selectors .qualitynumber {
+		margin-bottom: 5px;
+	}
+}
+.qualitybox .selectors .qualitynumber p {
+	height: 26px;
+	display: block;
+	border-radius: 4px;
+	line-height: 26px;
+	text-align: center;
+	margin: 0 0%;
+	color: white;
+	font-size: 12px;
+	opacity: .3;
+}
+.qualitybox .selectors .quality1 p {background: #169E21;}
+.qualitybox .selectors .quality2 p {background: #169E56;}
+.qualitybox .selectors .quality3 p {background: #169E7E;}
+.qualitybox .selectors .quality4 p {background: #169E9E; opacity:1;}
+.qualitybox .selectors .quality5 p {background: #16759E}
+.qualitybox .selectors .quality6 p {background: #16759E;}
+
+.qualitybox .selectors .qualitynumber:hover {
+	cursor: pointer;
+	opacity: 1;
+}
+
+.formcontent .entry {	
+	padding: 0 20px;
+	margin: 30px 0 30px 0;
+}
+.formcontent textarea {
+	height: 100px;
+	resize: vertical;
+}
+.formcontent .entry p {
+	padding: 0px;
+	margin-bottom: 3px;
+	font-size: 12px;
+}
+#qualitytitle {
+	margin-top: 30px;
+	margin-left: 20px;
+}
+.contractdescription-container {
+	display: none;
+}
+</style>
+{% endblock %}
+
+{% block customjs %}
+<script>
+	$(document).ready(function() {
+		qualityNumberClick($("#quality_{{item.conditionquality}}"));
+		contractChange();
+		$('.contract').change(function() {
+			contractChange();
+		});	
+	});
+	var currentvalue = 0;
+	$(".qualitybox select").css("opacity",".4");
+	var q1 = "<span>Parts Only</span><p>This equipment has missing parts or serious defects. This item can be used to replace missing parts on other machines. </p>";
+	var q2 = "<span>Fairly Used</span><p>This item has normal wear and tear</p>";
+	var q3 = "<span>Gently Used</span><p>This item has small signs of use, but it is fully functional</p>";
+	var q4 = "<span>Refurbished</span><p>This item has been restored to manufacturer standards</p>";
+	var q5 = "<span>New</span><p>This item has not been used</p>";
+	$(".qualitydescription p").html(q4);
+	var qualitydict = {"1":q1,"2":q2,"3":q3,"4":q4,"5":q5};
+	
+	$(".qualitynumber p").click(function() {
+		qualityNumberClick($(this).parent());
+	});
+	
+	var qualityNumberClick = function qualityNumberClick(handle_) {
+		var element = $(handle_).children('p');
+		var handle = $(handle_)
+		var value = $(handle).attr('id').split("_")[1];
+		if (currentvalue != value) {
+			currentvalue = value;
+			$("#conditionquality").val(currentvalue);
+			//Change opacities of the numbers
+			$(".qualitynumber p").css("opacity",".3");
+			element.css("opacity","1");
+			//Move the arrow
+			var margintomove = "";
+			if (value == 1) {margintomove = '7%'};
+			if (value == 2) {margintomove = '23.7%'};
+			if (value == 3) {margintomove = '40.3%'};
+			if (value == 4) {margintomove = '57%'};
+			if (value == 5) {margintomove = '73.7%'};
+			if (value == 6) {margintomove = '90.3%'};
+			$(".downarrow").animate({"margin-left":margintomove},400);
+			$(".qualitydescription p").fadeOut('fast',function() {
+				$(".qualitydescription p").html(qualitydict[value]);
+				$(".qualitydescription p").fadeIn();
+			});
+		}	
+	}
+	var contractChange = function contractChange(handle) {
+		contractvalue = $('input[name=contract]:checked', '#listform').val();
+		if (contractvalue != 'none') {
+				$('.contractdescription-container').fadeIn();
+			} else {
+				$('.contractdescription-container').fadeOut();
+			}
+	}
+</script>
+{% endblock %}
+{% block formcontent %}
+<div class="formcontent row">
+	<input id="conditionquality" type="hidden" name="conditionquality" value="{{item.conditionquality}}">
+	<div class="entry">
+		<h5>What's Included?</h5>
+		<p>Describe any accessories, manuals, and general items that come with this item</p>
+		<textarea id="inputwhatsincluded" name="whatsincluded" type="text" class="form-control" placeholder="Make sure you include any defects, product malfunctions, repairs, or otherwise">{{item.whatsincluded}}</textarea>
+	</div>
+	<h5 id="qualitytitle">Choose Your Item Condition</h5>
+	<div class="qualitybox">
+		<div class="selectors">
+			<div id="quality_1" class="qualitynumber quality1 col-md-2 col-sm-2"><p>Parts Only</p></div>
+			<div id="quality_2" class="qualitynumber quality2 col-md-2 col-sm-2"><p>Acceptable</p></div>
+			<div id="quality_3" class="qualitynumber quality3 col-md-2 col-sm-2"><p>Good</p></div>
+			<div id="quality_4" class="qualitynumber quality4 col-md-2 col-sm-2"><p>Very Good</p></div>
+			<div id="quality_5" class="qualitynumber quality5 col-md-2 col-sm-2"><p>Like New</p></div>
+			<div id="quality_6" class="qualitynumber quality6 col-md-2 col-sm-2"><p>Brand New</p></div>
+		</div>
+		<div class='clear'></div>
+		<div class="downarrow"></div>
+		<div class="qualitydescription">
+			<p></p>
+		</div>
+	</div>
+	<div class="entry">
+		<h5>Item Condition</h5>
+		<p>Describe any defects, product malfunctions, repairs, or otherwise</p>
+		<textarea id="inputconditiondescription" name="conditiondescription" type="text" class="form-control" placeholder="Example: This ultrasound was used in mobile veterinary trucks. I was the s. . . ">{{item.conditiondescription}}</textarea>
+	</div>
+	<div class="entry">
+		<h5>Model Features and Specs</h5>
+		<p>Describe any accessories, manuals, and general items that come with this item</p>
+		<textarea id="inputproductdescription" name="productdescription" type="text" class="form-control" placeholder="Make sure you include any defects, product malfunctions, repairs, or otherwise">{{item.productdescription}}</textarea>
+	</div>
+	<div class="entry">
+		<h5>Warranty / Service Contract</h5>
+		<div class="radio">
+		  <label>
+			<input type="radio" name="contract" class="contract" value="transferwarranty" {% if item.contract == 'transferwarranty' %}checked{% endif %}>
+			This item includes a transferrable warranty
+		  </label>
+		</div>
+		<div class="radio">
+		  <label>
+			<input type="radio" name="contract" class="contract" value="notransferwarranty" {% if item.contract == 'notransferwarranty' %}checked{% endif %}>
+			This item includes a non-transferrable warranty
+		  </label>
+		</div>
+		<div class="radio">
+		  <label>
+			<input type="radio" name="contract" class="contract" value="transferservicecontract" {% if item.contract == 'transferservicecontract' %}checked{% endif %}>
+			This item includes a transferrable service contract
+		  </label>
+		</div>
+		<div class="radio">
+		  <label>
+			<input type="radio" name="contract" class="contract" value="notransferservicecontract" {% if item.contract == 'notransferservicecontract' %}checked{% endif %}>
+			This item includes a non-transferrable service contract
+		  </label>
+		</div>
+		<div class="radio">
+		  <label>
+			<input type="radio" name="contract" class="contract" value="none" {% if item.contract == 'none' %}checked{% endif %}>
+			There is no service contract or warranty associated with this product
+		  </label>
+		</div>
+		<div class="contractdescription-container">
+			<p>Please describe details of the service contract / warranty</p>
+			<textarea id="inputcontractdescription" name="contractdescription" type="text" class="form-control" placeholder="Details of the service contract">{{item.contractdescription}}</textarea>
+		</div>
+	</div>
+	
+</div>
+{% endblock %}
+
+{% block nextpage %}/list/photos/{{item.id}}{% endblock%}
+
+{% block previouspage %}/list/describe/{{item.id}}{% endblock%}
+
+{% block detailactive %}active{% endblock%}
+
+{% block formaction %}/savedetails{% endblock%}
+
+{% block backdescription %}Describe It{% endblock%}

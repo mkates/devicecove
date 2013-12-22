@@ -112,7 +112,7 @@ $(document).ready(function() {
 						<form method="post" action="/profsettings/businesstype">
 							{% csrf_token %}
 							<input type="text" class="forminput form-control" name="businesstype" value="{{basicuser.businesstype}}" />
-							<button value="submit" class="button button-rounded button-primary">Save</button><button type="button" class="button button-rounded cancel">Cancel</button>
+							<button value="submit" class="button button-rounded button-primary button-tiny">Save</button><button type="button" class="button button-rounded cancel button-tiny">Cancel</button>
 						</form>
 					</td>
 					<td class="edit">edit</td>
@@ -124,7 +124,7 @@ $(document).ready(function() {
 						<form method="post" action="/profsettings/name">
 							{% csrf_token %}
 							<input type="text" class="forminput form-control" name="name" value="{{basicuser.name}}" />
-							<button value="submit" class="button button-rounded button-primary">Save</button><button type="button" class="button button-rounded cancel">Cancel</button>
+							<button value="submit" class="button button-rounded button-primary button-tiny">Save</button><button type="button" class="button button-rounded cancel button-tiny">Cancel</button>
 						</form>
 					</td>
 					<td class="edit">edit</td>
@@ -136,7 +136,7 @@ $(document).ready(function() {
 						<form method="post" action="/profsettings/company">
 							{% csrf_token %}
 							<input type="text" class="forminput form-control" name="company" value="{{basicuser.company}}" />
-							<button value="submit" class="button button-rounded button-primary">Save</button><button type="button" class="button button-rounded cancel">Cancel</button>
+							<button value="submit" class="button button-rounded button-primary button-tiny">Save</button><button type="button" class="button button-rounded cancel button-tiny">Cancel</button>
 						</form>
 					</td>
 					<td class="edit">edit</td>
@@ -148,7 +148,7 @@ $(document).ready(function() {
 						<form method="post" action="/profsettings/email">
 							{% csrf_token %}
 							<input type="email" class="forminput form-control" name="email" value="{{basicuser.email}}" />
-							<button value="submit" class="button button-rounded button-primary">Save</button><button type="button" class="button button-rounded cancel">Cancel</button>
+							<button value="submit" class="button button-rounded button-primary button-tiny">Save</button><button type="button" class="button button-rounded cancel button-tiny">Cancel</button>
 						</form>
 					</td>
 					<td class="edit">edit</td>
@@ -160,7 +160,7 @@ $(document).ready(function() {
 						<form method="post" action="/profsettings/address">
 							{% csrf_token %}
 							<input type="text" class="forminput form-control" name="address" value="{{basicuser.address}}" />
-							<button value="submit" class="button button-rounded button-primary">Save</button><button type="button" class="button button-rounded cancel">Cancel</button>
+							<button value="submit" class="button button-rounded button-primary button-tiny">Save</button><button type="button" class="button button-rounded cancel button-tiny">Cancel</button>
 						</form>
 					</td>
 					<td class="edit">edit</td>
@@ -172,7 +172,7 @@ $(document).ready(function() {
 						<form method="post" action="/profsettings/zipcode">
 							{% csrf_token %}
 							<input type="text" class="forminput form-control" name="zipcode" value="{{basicuser.zipcode}}" />
-							<button value="submit" class="button button-rounded button-primary">Save</button><button type="button" class="button button-rounded cancel">Cancel</button>
+							<button value="submit" class="button button-rounded button-primary button-tiny">Save</button><button type="button" class="button button-rounded cancel button-tiny">Cancel</button>
 						</form>
 					</td>
 					<td class="edit">edit</td>
@@ -184,7 +184,7 @@ $(document).ready(function() {
 						<form method="post" action="/profsettings/city">
 							{% csrf_token %}
 							<input type="text" class="forminput form-control" name="city" value="{{basicuser.city}}" />
-							<button value="submit" class="button button-rounded button-primary">Save</button><button type="button" class="button button-rounded cancel">Cancel</button>
+							<button value="submit" class="button button-rounded button-primary button-tiny">Save</button><button type="button" class="button button-rounded cancel button-tiny">Cancel</button>
 						</form>
 					</td>
 					<td class="edit">edit</td>
@@ -196,7 +196,7 @@ $(document).ready(function() {
 						<form method="post" action="/profsettings/state">
 							{% csrf_token %}
 							<input type="text" class="form-control" name="state" value="{{basicuser.state}}" />
-							<button value="submit" class="button button-rounded button-primary">Save</button><button type="button" class="button button-rounded cancel">Cancel</button>
+							<button value="submit" class="button button-rounded button-primary button-tiny">Save</button><button type="button" class="button button-rounded cancel button-tiny">Cancel</button>
 						</form>
 					</td>
 					<td class="edit">edit</td>
@@ -208,7 +208,7 @@ $(document).ready(function() {
 						<form method="post" action="/profsettings/website">
 							{% csrf_token %}
 							<input type="text" class="forminput form-control" name="website" value="{{basicuser.website}}" />
-							<button value="submit" class="button button-rounded button-primary">Save</button><button type="button" class="button button-rounded cancel">Cancel</button>
+							<button value="submit" class="button button-rounded button-primary button-tiny">Save</button><button type="button" class="button button-rounded cancel button-tiny">Cancel</button>
 						</form>
 					</td>
 					<td class="edit">edit</td>
@@ -220,7 +220,7 @@ $(document).ready(function() {
 						<form method="post" action="/profsettings/phonenumber">
 							{% csrf_token %}
 							<input type="text" class="forminput form-control" name="phonenumber" value="{{basicuser.phonenumber}}" />
-							<button value="submit" class="button button-rounded button-primary">Save</button><button type="button" class="button button-rounded cancel">Cancel</button>
+							<button value="submit" class="button button-rounded button-primary button-tiny">Save</button><button type="button" class="button button-rounded cancel button-tiny">Cancel</button>
 						</form>
 					</td>
 					<td class="edit">edit</td>
@@ -235,7 +235,7 @@ $(document).ready(function() {
 							<input type="password" class="forminput form-control" name="password1" placeholder="NewPassword" />
 							<h6> New Password</h6>
 							<input type="password" class="forminput form-control" name="password2" placeholder="NewPassword" />
-							<button value="submit" class="button button-rounded button-primary">Save</button><button type="button" class="button button-rounded cancel">Cancel</button>
+							<button value="submit" class="button button-rounded button-primary button-tiny">Save</button><button type="button" class="button button-rounded cancel button-tiny">Cancel</button>
 						</form>
 					</td>
 					<td class="edit">edit</td>

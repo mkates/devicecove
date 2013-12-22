@@ -14,11 +14,9 @@
 			</div>
 			<div class="floatinput">
 				<h3>Item</h3>
-				<select id="inputsubcategory" class=sub"form-control smallinput">
-					{% for subcat in subcategories %}
-					<option {%if subcat.active %}selected {% endif %} value="{{subcat.name}}">{{subcat.displayname}}</option>
+					{% for subcat in item.subcategory.category.all %}
+					{{subcat}}
 					{% endfor %}
-				</select>
 			</div>
 			<div class="floatinput">
 				<h3>Model Name</h3>

@@ -1,0 +1,55 @@
+{% extends 'item/item_base.html' %}
+
+{% block formcontent %}
+
+<h5> Listing Preview </h5>
+{% include 'productpage.html' %}
+
+{% endblock %}
+{% block customjs %}
+<script>
+$(document).ready(function() {
+	$(".thumbnail-container img").click(function() {
+		$("#ex1").css("background-image",'url('+$(this).attr("data-original")+')');
+		console.log($("#mainimage").css("width"));
+	});
+});
+</script>
+{% endblock %}
+{% block customcss %}
+
+<link href="{{STATIC_URL}}css/productitem.css" rel="stylesheet" type="text/css" />
+<link href="{{STATIC_URL}}css/product.css" rel="stylesheet" type="text/css" />
+<link rel="stylesheet" type="text/css" href="{{STATIC_URL}}css/jquery.fancybox.css" media="screen" />
+<style>
+.product {
+	text-align: left;
+}
+.backbutton {
+	line-height: 32px;
+}
+.listbox .listnav {
+	margin: 30px 35px;
+}
+.actionbuttons a, .askquestion {
+	opacity: .4;
+	pointer-events: none;
+	cursor: default;
+}
+
+</style>
+{% endblock %}
+
+{% block nextpage %}/item/{{item.id}}/details{% endblock%}
+
+{% block previewactive %}active{% endblock%}
+
+{% block previouspage %}/list/logistics/{{item.id}}{% endblock%}
+
+{% block formaction %}/savepreview{% endblock%}
+
+{% block backdescription %}Logistics{% endblock%}
+
+{% block hidesave %}{% endblock %}
+
+{% block continuebutton %}<a id="saveandcontinue" href="/item/{{item.id}}/details" class="button button-rounded button-highlight">List Your Product</a>{% endblock %}

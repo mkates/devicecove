@@ -1,0 +1,159 @@
+{% extends 'item/item_base.html' %}
+{% block customcss %}
+<style>
+.formcontent {
+	margin: 10px 15px 10px 15px;
+}
+.entry {
+	margin: 35px 0;
+}
+.radio {
+}
+.radio span {
+	color: #aaa;
+	font-weight: 200;
+}
+.pricecontainer {
+	background: #f4f4f4;
+	padding: 15px;
+	width: 500px;
+	border:1px solid #ddd;
+	
+}
+.listprice span {
+	float: left;
+	width: 13px;
+	margin-top: 10px;
+	line-height: 30px;
+	font-weight: 800;
+	font-size: 16px;
+	color: #555;
+	
+}
+.listprice input {
+	float: left;
+	padding-left: 10px;
+	width: 150px;
+	font-weight: 800;
+	letter-spacing: .3px;
+	height: 40px;
+	line-height: 40px;
+	font-size: 16px;
+}
+.listprice p {
+	clear: both;
+	font-size: 12px;
+	padding-top: 3px;
+	padding-left: 0px;
+}
+.tos {
+	height: 180px;
+	border:1px solid #ddd;
+	box-shadow: 0 0 2px #aaa;
+	overflow: scroll;
+	padding: 20px;
+	font-size: 13px;
+	margin-bottom: 10px;
+}
+</style>
+{% endblock %}
+{% block customjs %}
+<script src="{{STATIC_URL}}js/jquery.formatCurrency-1.4.0.min.js"></script> 
+<script>
+$(document).ready(function() {
+	$('#inputprice').blur(function() {
+		$('#inputprice').html(null);
+		$(this).formatCurrency({ colorize: true, negativeFormat: '-%s%n', roundToDecimalPlace: 0 });
+	})
+	.keyup(function(e) {
+		var e = window.event || e;
+		var keyUnicode = e.charCode || e.keyCode;
+		if (e !== undefined) {
+			switch (keyUnicode) {
+				case 16: break; // Shift
+				case 17: break; // Ctrl
+				case 18: break; // Alt
+				case 27: this.value = ''; break; // Esc: clear entry
+				case 35: break; // End
+				case 36: break; // Home
+				case 37: break; // cursor left
+				case 38: break; // cursor up
+				case 39: break; // cursor right
+				case 40: break; // cursor down
+				case 78: break; // N (Opera 9.63+ maps the "." from the number key section to the "N" key too!) (See: http://unixpapa.com/js/key.html search for ". Del")
+				case 110: break; // . number block (Opera 9.63+ maps the "." from the number block to the "N" key (78) !!!)
+				case 190: break; // .
+				default: $(this).formatCurrency({ colorize: true, negativeFormat: '-%s%n', roundToDecimalPlace: -1, eventOnDecimalsEntered: true });
+			}
+		}
+	});
+});
+</script>
+{% endblock %}
+{% block formcontent %}
+<div class="formcontent row">
+	<div class="entry">
+		<h5>Shipping Options</h5>
+		<div class="radio">
+		  <label>
+			<input type="radio" name="shippingincluded" class="shippingncluded" value="True" {% if item.shippingincluded %}checked{% endif %}>
+			I will be responsible for paying shipping of the item to anywhere in the United States <span>( * recommended )</span>
+		  </label>
+		</div>
+		<div class="radio">
+		  <label>
+			<input type="radio" name="shippingincluded" class="shippingincluded" value="False" {% if not item.shippingincluded %}checked{% endif %}>
+			The item must be picked up, or the buyer is responsible for organizing shipping of the item
+		  </label>
+		</div>
+	</div>
+	<div class="entry">
+		<h5>Offline Viewing</h5>
+		<div class="radio">
+		  <label>
+			<input type="radio" name="offlineviewing" name="offlineviewing" class="offlineviewing" value="True" {% if item.offlineviewing %}checked{% endif %}>
+			Buyers can contact me to view and/or purchase this item in person <span>( * recommended for items $500 or more )</span>
+		  </label>
+		</div>
+		<div class="radio">
+		  <label>
+			<input type="radio" name="offlineviewing" name="offlineviewing" class="offlineviewing" value="False" {% if not item.offlineviewing %}checked{% endif %}>
+			Buyers can only buy this item online <span>( * recommended for items $499 or less )</span>
+		  </label>
+		</div>
+	</div>
+	
+	
+	<div class="entry">
+		<h5>Price</h5>
+		<div class="pricecontainer">
+			<div class="listprice">
+			{%load humanize %}
+				<input id="inputprice" name="inputprice" step="1" class="form-control" placeholder="Ex: 20000" value="${{item.price|floatformat|intcomma}}" />
+				<input id="inputpriceval" type="hidden" name="inputpriceval" />
+				<p>We suggest you price your product competitively with other products in the system. This price will include tax and any shipping costs if you are responsible for shipping. </p>
+			</div>
+		</div>
+	</div>
+	<div class="entry">
+		<h5>Terms of Listing</h5>
+		<div class="tos">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborumLorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborumLorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum</div>
+		<div class="checkbox">
+			<label>
+				<input id="terms" type="checkbox" name="tos" {%if item.tos %} checked{% endif %}/>I agree to the the terms of service for selling on Medbay
+			</label>
+		</div>
+	</div>
+</div>
+
+{% endblock %}
+
+{% block nextpage %}/list/preview/{{item.id}}{% endblock%}
+
+{% block logisticsactive %}active{% endblock%}
+
+{% block previouspage %}/list/photos/{{item.id}}{% endblock%}
+
+{% block backdescription %}Photos{% endblock%}
+
+{% block formaction %}/savelogistics{% endblock%}

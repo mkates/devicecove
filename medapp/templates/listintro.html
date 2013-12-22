@@ -2,10 +2,9 @@
 {% block headertitle %}<title>MedBay | Search</title>{% endblock%}
 
 {% block headercss %}
-<link href="{{STATIC_URL}}css/chosen.css" rel="stylesheet" type="text/css" />
 <style>
 .addcontainer {
-	width: 1000px;
+	max-width: 1000px;
 	margin: 40px auto;
 	padding-bottom: 40px;
 	box-shadow: 0 0 4px #aaa;
@@ -41,29 +40,27 @@
 	text-shadow: 0 0 2px #ddd;
 }
 #addform {
-	margin: 70px 0;
+	margin: 50px 60px;
 	text-align: center;
 }
-#addform input, #addform select {
-	width: 200px;
-	margin: 0 0px;
-	text-align: left;
-	display: inline-block;
-	height: 32px;
-}
-#addform .chosen-search input {
-	width: 100%;
-	margin: 0;
-}
-.chosen-container-single .chosen-single {
-	height: 30px;
-	line-height: 26px;
+#addform .col-input {
+	width: 40%;
+	float: left;
+	padding: 0 5px;
 }
 #addform button {
-	margin: 0 5px;
+	width: 20%;
+	margin-top: 1px;
 	box-shadow: 0 0 10px #fff;
-	height: 30px;
+	border-radius: 3px;
+	height: 39px;
 }
+#addform select {
+	text-align: left;
+	height: 40px;
+	padding-top: 10px;
+}
+
 .addbox {
 	border:2px solid #29B0D9;
 	margin: 40px 60px;
@@ -71,34 +68,6 @@
 	background: white;
 	text-align: center;
 }
-.twitter-typeahead {
-	width: 300px;
-	background: white;
-}
-.twitter-typeahead .tt-dropdown-menu {
-	background: white;
-	border:1px solid #ccc;
-	border-radius: 3px;
-	width: 300px;
-	text-align: left;
-	line-height: 24px;
-	font-size: 13px;
-}
-#addform .twitter-typeahead .tt-hint {
-	color: #bbb;
-	padding-left: 11px;
-	width: 300px; !important
-}
-.twitter-typeahead .tt-dropdown-menu .tt-suggestion p {
-	font-size: 13px;
-	margin: 0;
-	padding-left: 11px;
-	line-height: 30px;
-}
-.twitter-typeahead .tt-dropdown-menu .tt-is-under-cursor {
-	background: #eee;
-}
-
 .addbox .stepsrow {
 	margin-top: 35px;
 }
@@ -170,27 +139,7 @@
 	box-shadow: 0 0 10px red;
 	border:1px solid red;
 }
-#category-select, #subcategory-select {
-	border-radius: 5px;
-}
-#addform #model-select {
-	width: 300px;
-	background: white;
-	border-radius: 0px;
-}
-.model-select-container {
-	display:inline-block;
-	vertical-align: top;
-}
-.twitter-typeahead {
-	background: none;
-}
-.chosen-container-single .chosen-single {
-	border-radius: 0px;
-}
-.chosen-results {
-	text-align: left;
-}
+
 </style>
 {% endblock %}
 
@@ -200,24 +149,24 @@
 <script>
 $(document).ready(function() {
 	$("#addform").submit(function() {
+		subcategory = $("#subcategory-select").val();
+   		$(this).attr('action', '/listproduct/'+subcategory);
 		submit = true;
 		if ($("#category-select").val() == "Null") {
 			submit = false;
 			if (!($("#category-select").hasClass('error'))) {
 				$("#category-select").addClass("error");
 			}
+		} else {
+			$("#category-select").removeClass("error");
 		}
 		if ($("#subcategory-select").val() == "Null") {
 			submit = false;
 			if (!($("#subcategory-select").hasClass('error'))) {
 				$("#subcategory-select").addClass("error");
 			}
-		}
-		if ($("#model-select").val().length < 3) {
-			submit = false;
-			if (!($("#model-select").hasClass('error'))) {
-				$("#model-select").addClass("error");
-			}
+		} else {
+			$("#subcategory-select").removeClass("error");
 		}
 		if (submit) {
 			return true;
@@ -228,8 +177,27 @@ $(document).ready(function() {
 	$("#category-select").change(function() {
 		retrieveCategories($("#category-select").val());
 	});
+	$("#category-select").blur(function() {
+		if ($("#category-select").val() == "Null") {
+			if (!($("#category-select").hasClass('error'))) {
+				$("#category-select").addClass("error");
+			}
+		} else {
+			$("#category-select").removeClass("error");
+		}
+	});
+	$("#subcategory-select").blur(function() {
+		if ($("#subcategory-select").val() == "Null") {
+			if (!($("#subcategory-select").hasClass('error'))) {
+				$("#subcategory-select").addClass("error");
+			}
+		} else {
+			$("#subcategory-select").removeClass("error");
+		}
+	});
 });
-	
+
+
 var retrieveCategories = function(cat) {
 	if (cat != 'Null') {
 		$.ajax({
@@ -249,6 +217,7 @@ var retrieveCategories = function(cat) {
 	}
 }
 
+
 </script>
 {% endblock %}
 
@@ -258,23 +227,25 @@ var retrieveCategories = function(cat) {
 	<div class="addbg">
 		<h2> What are you selling? </h2>
 		<h3>VetCove is the safest and most secure way to sell veterinary equipment</h3>
-		<form id="addform" action="listproduct.html" method="GET">
-			<div class="row">
-				<select id="category-select" name="category" class="form-control">
-					<option value="Null">Category. . .</option>
-					{% for cat in categories %}
-					<option value="{{cat.name}}">{{cat.displayname}}</option>
-					{% endfor %}
-				</select>
-				<select id="subcategory-select" name="subcategory" class="form-control">
-					<option value="Null">Item. . .</option>
-				</select>
-				<div class="model-select-container">
-					<input id="model-select" class="form-control" type="text" name="name"  placeholder="Product Name"/>
+		<form id="addform" action="/listproduct" method="POST">
+			  {% csrf_token %}
+				<div class="col-input">
+					<select id="category-select" name="category" class="form-control">
+						<option value="Null">Category. . .</option>
+						{% for cat in categories %}
+						<option value="{{cat.name}}">{{cat.displayname}}</option>
+						{% endfor %}
+					</select>
 				</div>
-				<button type="submit" class="button button-highlight">Get Started</button>
-			</div>
-			
+				<div class="col-input">
+					<select id="subcategory-select" name="subcategory" class="form-control">
+						<option value="Null">Item. . .</option>
+					</select>
+				</div>
+				<div class="col-submit">
+					<button type="submit" class="button button-highlight">Get Started</button>
+				</div>
+				<div class="clear"></div>
 		</form>
 		<div class="addbox">
 			<h4>Here's How It Works</h4>

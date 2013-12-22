@@ -8,16 +8,13 @@ class IndustryAdmin(admin.ModelAdmin):
 admin.site.register(Industry, IndustryAdmin)
 
 class ItemAdmin(admin.ModelAdmin):
-	list_display = ['id','user','product','subcategory','type','contract','mainimage','price','savedcount','liststatus']
+	list_display = ['id','user','name','price','liststatus','listeddate','savedcount','subcategory','manufacturer','serialno','modelyear','originalowner','contract','conditiontype','conditionquality','shippingincluded',]
 admin.site.register(Item, ItemAdmin)
 
 class ItemImageAdmin(admin.ModelAdmin):
 	list_display = ['id','item','photo']
 admin.site.register(ItemImage, ItemImageAdmin)
 
-class ProductImageAdmin(admin.ModelAdmin):
-	list_display = ['id','photo']
-admin.site.register(ProductImage, ProductImageAdmin)
 
 admin.site.register(Category)
 admin.site.register(SavedItem)

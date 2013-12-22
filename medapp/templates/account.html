@@ -5,27 +5,22 @@
 <link href="{{STATIC_URL}}css/account.css" rel="stylesheet" type="text/css" />
 <style>
 .pagecontainer {
-	width: 1000px;
 	margin: 50px auto;
+	max-width: 1000px;
 }
-.sidecontent {
-	float: left;
-}
+
 .maincontent {
-	float: left;
-	width: 770px;
 	border-radius: 3px;
+	max-width: 800px;
 	min-height: 250px;
 	background: white;
 	box-shadow: 0 0 3px #aaa;
 }
 .sidecontent ul {
 	padding: 0;
-	width: 180px;
 	margin: 0;
-	margin-right: 50px;
 	background: white;
-	border-radius: 4px;
+	border-radius: 2px;
 	border:1px solid #ddd;
 	box-shadow: 0 0 4px #ccc;
 }
@@ -39,14 +34,7 @@
 	padding-left: 20px;
 	color: #444;
 }
-.sidecontent ul a .first {
-	border-top-right-radius: 4px;
-	border-top-left-radius: 4px;
-}
-.sidecontent ul a .last {
-	border-bottom-right-radius: 4px;
-	border-bottom-left-radius: 4px;
-}
+
 .sidecontent ul a:hover {
 	color: black;
 	cursor: pointer;
@@ -67,17 +55,7 @@
 	padding: 0;
 	margin-top: 12px;
 }
-.sidecontent ul li h3 span {
-	width: 20px;
-	margin-left: 5px;
-	height: 20px;
-	display: inline-block;
-	border-radius: 12px;
-	background: #666;
-	text-align: center;
-	font-size: 12px;
-	color: white;
-}
+
 .maincontent .title {
 	margin: 0;
 	padding: 0;
@@ -100,7 +78,7 @@
 	margin: 15px auto;
 }
 .listaction {
-	width: 180px;
+	width: 100%;
 	margin-top: 20px;
 }
 </style>
@@ -113,22 +91,21 @@
 {% endblock %}
 
 {% block content %}
-<div class="pagecontainer">
-	<div class="sidecontent">
+<div class="pagecontainer row">
+	<div class="sidecontent col-md-3 col-sm-3">
 		<ul>
-			<a href="/saveditems"><li class="first {% block saveditems %}{% endblock %}"><h3>Saved Items{% if saveditemcount %}<span class="arrow">{{ saveditemcount }}</span>{% endif %}</h3></li></a>
-			<a href="/listeditems"><li class="{% block listeditems %}{% endblock %}"><h3>Listed Items{% if listeditemcount %}<span class="arrow">{{ listeditemcount }}</span>{% endif %}</span></h3></li></a>
+			<a href="#"><li class="{% block questions %}{% endblock %}"><h3>Questions <span class="label label-danger">3 Unanswered</span></h3></li></a>
+			<a href="/saveditems"><li class="first {% block saveditems %}{% endblock %}"><h3>Saved Items{% if saveditemcount %} <span class="badge">{{ saveditemcount }}</span>{% endif %}</h3></li></a>
+			<a href="/listeditems"><li class="{% block listeditems %}{% endblock %}"><h3>Active Items{% if listeditemcount %} <span class="badge">{{ listeditemcount }}</span>{% endif %}</span></h3></li></a>
 			<a href="/accounthistory"><li class="{% block accounthistory %}{% endblock %}"><h3>Account History</li></a>
 			<a href="/profile"><li class="{% block profile %}{% endblock %}"><h3>Profile</li></a>
 			<a href="/usersettings"><li class="{% block settings %}{% endblock %}"><h3>Settings</h3></li></a>
-
 		</ul>
 		<a href='/listintro' class="listaction button button-rounded button-primary">List Equipment</a>
 	</div>
-	<div class="maincontent">
+	<div class="sidecontent col-md-9 col-sm-9">
 		<h2 class="title">{% block maintitle %}{% endblock %}</h2>
 		{% block maincontent %}
-		<p id="nolistings"> You do not have any items currently listed with MedBay</p>
 		<a class="btn btn-primary" id="listbutton" href="addproduct.html">List Your Equipment</a>
 		{% endblock %}
 	</div>

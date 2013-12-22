@@ -69,8 +69,8 @@ class Image(models.Model):
 	photo = models.ImageField(upload_to=get_file_path_original)
 	photo_small = ProcessedImageField(upload_to=get_file_path_small, processors=[ResizeToFit(100, 100)],format='JPEG',options={'quality': 60})
 	photo_medium = ProcessedImageField(upload_to=get_file_path_original, processors=[ResizeToFit(500, 500)],format='JPEG',options={'quality': 60})
-	id = models.AutoField(primary_key = True)	
-
+	id = models.AutoField(primary_key = True)
+	
 # Generic User already includes email/password
 class BasicUser(models.Model):
 	user = models.OneToOneField(User)
@@ -91,58 +91,75 @@ class BasicUser(models.Model):
 #An individual item for sale associated with a product and a user
 class Item(models.Model):
 	user = models.ForeignKey(BasicUser)
-	#General Product Information
-	name = models.CharField(max_length=200)
-	product = models.ForeignKey(Product,null=True,blank=True)
-	subcategory = models.ForeignKey(SubCategory)
-	manufacturer = models.ForeignKey(Manufacturer)
 	
-	#Specs
-	serialno = models.CharField(max_length=30,blank=True)
-	year = models.IntegerField(max_length=4)
+	### General Product Information
+	name = models.CharField(max_length=200)
+	subcategory = models.ForeignKey(SubCategory)
+	manufacturer = models.TextField(blank=True)
+	
+	### Specs
+	serialno = models.CharField(max_length=30,null=True,blank=True)
+	modelyear = models.IntegerField(max_length=4,null=True,blank=True)
+	originalowner = models.BooleanField()
+	
+	### Warranty + Service Contracts
+	CONTRACT_OPTIONS =  (
+		('tranferwarranty', 'Warranty'),
+		('notransferwarranty', 'No Transfer Warranty'),
+		('transferservicecontract', 'Service Contract'),
+		('notransferservicecontract', 'No Transfer Service Contract'),
+		('none', 'No Warranty/Service Contract')
+	)
+	contract = models.CharField(max_length=40, choices=CONTRACT_OPTIONS)
+	contractdescription = models.TextField(blank=True)
+	
+	#Condition/Write-Ins
 	TYPE_OPTIONS =  (
 		('new', 'New'),
 		('refurbished', 'Refurbished'),
 		('preowned', 'Pre-Owned')
 	)
-	type = models.CharField(max_length=20, choices=TYPE_OPTIONS)
-	dateacquired = models.DateField()
-	CONTRACT_OPTIONS =  (
-		('contractincluded', 'Service Contract Included'),
-		('contractoptional', 'Service Contact Optional'),
-		('contractnone', 'No Service Contract')
+	conditiontype = models.CharField(max_length=20, choices=TYPE_OPTIONS)
+	CONDITION_OPTIONS =  (
+		(1, 'Parts Only'),
+		(2, 'Acceptable'),
+		(3, 'Good'),
+		(4, 'Very Good'),
+		(5, 'Like New'),
+		(6, 'Brand New')
 	)
-	contract = models.CharField(max_length=30, choices=CONTRACT_OPTIONS)
-	
-	#Product Specifics
-	condition = models.IntegerField(max_length=1) #1 being parts only to 6 being brand new
-	conditiondescription = models.TextField()
-	productdescription = models.TextField()
-	shippingincluded = models.BooleanField()
-	price = models.FloatField(max_length=20)
-	mainimage = models.ForeignKey(Image,null=True)
+	conditionquality = models.IntegerField(max_length=10,choices=CONDITION_OPTIONS) #1 being parts only to 6 being brand new
+	conditiondescription = models.TextField(blank=True)
+	productdescription = models.TextField(blank=True)
+	whatsincluded = models.TextField(blank=True)		
+	#Shipping and Price
+	shippingincluded = models.BooleanField(default=True)
+	offlineviewing = models.BooleanField(default=False)
+	tos = models.BooleanField(default=False)
+	price = models.FloatField(max_length=20,null=True,blank=True)
 	
 	#Miscellaneous 
 	LISTSTATUS_OPTIONS =  (
 		('active', 'Active'),
 		('inactive', 'Inactive'),
+		('incomplete', 'Incomplete'),
 		('sold', 'Sold'),
 		('deleted', 'Deleted')
 	)
+	mainimage = models.ForeignKey(Image,null=True,blank=True)
 	liststatus = models.CharField(max_length=30, choices=LISTSTATUS_OPTIONS)
-	savedcount = models.IntegerField()
-	verified = models.BooleanField()
 	listeddate = models.DateField(auto_now_add = True,blank=True)
-
+	savedcount = models.IntegerField()
+	
 	def __unicode__(self):
 		return self.name+" from "+self.user.name
 		
-	def save(self, *args, **kwargs):
-		self.subcategory.category.totalunits += 1
-		self.subcategory.category.save()
-		self.subcategory.totalunits += 1
-		self.subcategory.save()
-		super(Item, self).save(*args, **kwargs)
+	# def save(self, *args, **kwargs):
+# 		self.subcategory.category.totalunits += 1
+# 		self.subcategory.category.save()
+# 		self.subcategory.totalunits += 1
+# 		self.subcategory.save()
+# 		super(Item, self).save(*args, **kwargs)
 
 ############################################
 ####### Images #############################
@@ -151,14 +168,8 @@ class SavedItem(models.Model):
 	user = models.ForeignKey(BasicUser)
 	item = models.ForeignKey(Item)
 
-class ProductImage(Image):
-	item = models.ManyToManyField(Item)
-	product = models.ForeignKey(Product)
-
-#Should be a one to one field
 class ItemImage(Image):
-	item = models.ForeignKey(Item,blank=True,null=True)	
-	
+	item = models.ForeignKey(Item,null=True)		
 ############################################
 ####### Lat Long Model #####################
 ############################################
