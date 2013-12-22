@@ -14,6 +14,7 @@ import math
 import difflib
 import locale
 import time
+from datetime import datetime
 
 
 ###########################################
@@ -164,10 +165,31 @@ def profile(request):
 def questions(request):
 	if request.user.is_authenticated():
 		bu = BasicUser.objects.get(user=request.user)	
-		return render_to_response('account/questions.html',{},context_instance=RequestContext(request))
+		items = bu.item_set.all()
+		questions = Question.objects.filter(item__in=items)
+		answered = []
+		unanswered = []
+		for question in questions:
+			if question.answer:
+				answered.append(question)
+			else:
+				unanswered.append(question)
+		return render_to_response('account/questions.html',{'answered':answered,'unanswered':unanswered},context_instance=RequestContext(request))
 	else:
    		return render_to_response('general/index.html',context_instance=RequestContext(request))
-   		
+ 
+@login_required
+def answerquestion(request,questionid):
+	if request.user.is_authenticated() and request.method == "POST":
+		bu = BasicUser.objects.get(user=request.user)
+		question = Question.objects.get(id=questionid)
+		if question.item.user.id == bu.id:
+			question.answer = request.POST.get('answer','')
+			question.dateanswered = datetime.now()
+			question.save()
+		return HttpResponseRedirect('/questions')
+	return HttpResponseRedirect('/')
+ 	  		
 #################################################
 ### Helper function to update a user's profile  #
 #################################################

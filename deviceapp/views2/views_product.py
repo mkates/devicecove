@@ -34,7 +34,7 @@ def getsubcategories(request):
 
 @login_required
 def listproduct(request,subcategory):
-	if request.method == "POST" and request.user.is_authenticated:
+	if request.user.is_authenticated:
 		bu = BasicUser.objects.get(user=request.user)
 		subcategory = SubCategory.objects.get(name=subcategory)
  		newitem = Item(user=bu,
@@ -45,18 +45,21 @@ def listproduct(request,subcategory):
  						conditionquality = 4,
  						shippingincluded = True,
  						liststatus = 'incomplete',
+ 						liststage = 0,
  						savedcount = 0)
  						
  		newitem.save();
- 		print newitem.id
 		return HttpResponseRedirect('/list/describe/'+str(newitem.id));
-	return HttpResponse("ERROR");
+	return HttpResponse(request.method);
 
 #Item Description
 @login_required
 def listitemdescribe(request,itemid):
 	if itemOwner(request,itemid):
-		dict = {'item':Item.objects.get(id=itemid),'categories':Category.objects.all(),'manufacturers':Manufacturer.objects.all(),'range':reversed(range(1980,2015))};
+		item = Item.objects.get(id=itemid);
+		item.liststage = max(1,item.liststage)
+		item.save()
+		dict = {'item':item,'categories':Category.objects.all(),'manufacturers':Manufacturer.objects.all(),'range':reversed(range(1980,2015))};
 		categories = Category.objects.all();
 		return render_to_response('item/item_describe.html',dict,context_instance=RequestContext(request))
 	return HttpResponseRedirect('/listintro');
@@ -81,7 +84,10 @@ def savedescribe(request,itemid):
 @login_required
 def listitemdetails(request,itemid):
 	if itemOwner(request,itemid):
-		dict = {'item':Item.objects.get(id=itemid)};
+		item = Item.objects.get(id=itemid);
+		item.liststage = max(2,item.liststage)
+		item.save()
+		dict = {'item':item};
 		categories = Category.objects.all();
 		return render_to_response('item/item_details.html',dict,context_instance=RequestContext(request))
 	return HttpResponseRedirect('/listintro');
@@ -106,7 +112,10 @@ def savedetails(request,itemid):
 @login_required
 def listitemphotos(request,itemid):
 	if itemOwner(request,itemid):
-		dict = {'item':Item.objects.get(id=itemid)};
+		item = Item.objects.get(id=itemid);
+		item.liststage = max(3,item.liststage)
+		item.save()
+		dict = {'item':item};
 		categories = Category.objects.all();
 		return render_to_response('item/item_photos.html',dict,context_instance=RequestContext(request))
 	return HttpResponseRedirect('/listintro');
@@ -157,7 +166,10 @@ def imageupload(request,itemid):
 @login_required
 def listitemlogistics(request,itemid):
 	if itemOwner(request,itemid):
-		dict = {'item':Item.objects.get(id=itemid),'logistics':True};
+		item = Item.objects.get(id=itemid);
+		item.liststage = max(4,item.liststage)
+		item.save()
+		dict = {'item':item,'logistics':True};
 		categories = Category.objects.all();
 		return render_to_response('item/item_logistics.html',dict,context_instance=RequestContext(request))
 	return HttpResponseRedirect('/listintro');
@@ -179,17 +191,31 @@ def savelogistics(request,itemid):
 @login_required
 def listitempreview(request,itemid):
 	if itemOwner(request,itemid):
-		dict = {'item':Item.objects.get(id=itemid),'preview':True};
+		item = Item.objects.get(id=itemid);
+		item.liststage = max(5,item.liststage)
+		item.save()
+		dict = {'item':item,'preview':True};
 		categories = Category.objects.all();
 		return render_to_response('item/item_preview.html',dict,context_instance=RequestContext(request))
 	return HttpResponseRedirect('/listintro');
 
 @login_required
 def savepreview(request,itemid):
-	if request.method == "POST" and itemOwner(request,itemid):
-		return HttpResponse(submitcode)
-	return HttpResponse(500)
+	if request.method == "GET" and itemOwner(request,itemid):
+		item = Item.objects.get(id=itemid)
+		item.liststatus = 'active'
+		item.save()
+		return HttpResponseRedirect('/item/'+itemid+'/details');
+	return HttpResponseRedirect('/listintro');
 
+@login_required
+def deletelisting(request,itemid):
+	if request.method == "GET" and itemOwner(request,itemid):
+		item = Item.objects.get(id=itemid)
+		item.liststatus = 'deleted'
+		item.save()
+		return HttpResponseRedirect('/listeditems');
+	return HttpResponseRedirect('/listintro');
 
 ###########################################
 #### Product Pages ########################
@@ -216,10 +242,11 @@ def askquestion(request):
 		user = BasicUser.objects.get(user=request.user)
 		redirect = request.POST["redirect"]
 		question = request.POST['question']
-		if len(question) > 5: #Make sure it is a legitimate question
-			questionobject = Question(question=question,item=item,date="2000-1-1",user=user)
+		if len(question) > 5: # Make sure it is a legitimate question
+			questionobject = Question(question=question,item=item,buyer=user,dateanswered=None,answer='')
 			questionobject.save() 
 		return HttpResponseRedirect(redirect)
+	return HttpResponseRedirect("ERROR")
 
 ###########################################
 #### User Function Pages ##################

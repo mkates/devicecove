@@ -150,6 +150,15 @@
 				$('.contractdescription-container').fadeOut();
 			}
 	}
+	
+	var submittable = false;
+	var validateInputs = function validateInputs() {
+		submittable = true;
+		$("#inputwhatsincluded").val() != 'none' ? removeError($("#inputwhatsincluded")) : addError($("#inputwhatsincluded"));
+		$("#inputconditiondescription").val().length > 2 ? removeError($("#inputconditiondescription")) : addError($("#inputconditiondescription"));
+		$("#inputproductdescription").val().length > 2 ? removeError($("#inputproductdescription")) : addError($("#inputproductdescription"));
+		return submittable;
+	};
 </script>
 {% endblock %}
 {% block formcontent %}

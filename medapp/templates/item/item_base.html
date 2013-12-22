@@ -13,7 +13,6 @@ h5 span {
 	max-width: 1000px;
 	margin: 10px auto;
 	position:relative;
-	text-align: center;
 	padding-top: 20px;
 }
 .servermessage {
@@ -104,6 +103,21 @@ h5 span {
 	padding-top: 5px;
 	height: 35px;
 }
+.listcontainer .topnav {
+	text-align: left;
+	margin-left: 20px;
+}
+.returntolisting {
+	float: right;
+	margin-right: 20px;
+}
+.formerror {
+	border:1px solid red;
+	box-shadow: 0 0 2px red;
+}
+.header_error {
+	color: red;
+}
 </style>
 {% block customcss %}{% endblock %}
 {% endblock %}
@@ -113,6 +127,7 @@ h5 span {
 <script>
 
 var nextstep = "{% block nextpage %}{% endblock%}";
+var complete = false;
 $(document).ready(function() {
 	$('.saveandcontinue').click(function() {
 		$("#submitcode").val(600);
@@ -138,20 +153,43 @@ $(document).ready(function() {
 				  $(".saved").fadeOut('slow');
 			}, 2000);
 		} else if (e == 600) {
-			window.location.href = nextstep;
+			if (validateInputs()) {
+				window.location.href = nextstep;
+			} else {
+				$("#errorbar").css('display','block');
+			}	
 		} else {
 			$(".errorsaving").fadeIn('fast');
 			setTimeout(function() {
 				  $(".errorsaving").fadeOut('slow');
 			}, 2000);
 		}
+		$("input").blur(function() {
+			validateInputs();
+		});
+		$("textarea").blur(function() {
+			validateInputs();
+		});
+		$("select").change(function() {
+			validateInputs();
+		});
   	}); 
-  	
-  	//Implement this for leaving unsaved changes
-  // 	window.onbeforeunload = function(e) {
-// 		return "Sure you want to leave?";
-// 	};
 });
+
+var removeError = function removeError(handle) {
+	$(handle).removeClass("formerror")
+	var header = $(handle).parent().children('h5');
+	$(header).removeClass("header_error")
+}
+var addError = function addError(handle) {
+	if (!($(handle).hasClass("formerror"))) {
+		$(handle).addClass("formerror");
+	}
+	var header = $(handle).parent().children('h5');
+	if (!($(header).hasClass("header_error"))) {
+		$(header).addClass("header_error");
+	}	submittable = false;
+}
 </script>
 {% block customjs %}{% endblock %}
 {% endblock %}
@@ -159,29 +197,32 @@ $(document).ready(function() {
 <div class="saved servermessage">&#x2713; Saved</div>
 <div class="errorsaving servermessage">&#x2717; Error Saving</div>
 <div class="listcontainer">
+	{% if item.liststatus != 'incomplete' %}
+	<p class="topnav"><a class="tolisteditems button button-tiny" href="/listeditems">&#8592; Return To Listed Items</a><a class="returntolisting button button-tiny" href="/item/{{item.id}}/details">View Listing</a></p>
+	{% endif %}
 	<div class="covebox listbox">
 		<div class="listbar">
 			<div class="col-md-2 col-sm-2 col-xs-6 liststep">
 				<a class="{% block describeactive %}{% endblock%}" href="/list/describe/{{item.id}}"><span class="badge">1</span>Describe It</a>
 			</div>
 			<div class="col-md-2 col-sm-2 col-xs-6 liststep">
-				<a class="{% block detailactive %}{% endblock%}" href="/list/details/{{item.id}}"><span class="badge">2</span>Details</a>
+				<a class="{% block detailactive %}{% endblock%}" {%if item.liststage > 1 %}href="/list/details/{{item.id}}"{% endif %}><span class="badge">2</span>Details</a>
 			</div>
 			<div class="col-md-2 col-sm-2 col-xs-6 liststep">
-				<a class="{% block photosactive %}{% endblock%}" href="/list/photos/{{item.id}}"><span class="badge">3</span>Photos</a>
+				<a class="{% block photosactive %}{% endblock%}" {%if item.liststage > 2 %}href="/list/photos/{{item.id}}"{% endif %}><span class="badge">3</span>Photos</a>
 			</div>
 			<div class="col-md-2 col-sm-2 col-xs-6 liststep">
-				<a class="{% block logisticsactive %}{% endblock%}" href="/list/logistics/{{item.id}}"><span class="badge">4</span>Logistics</a>
+				<a class="{% block logisticsactive %}{% endblock%}" {%if item.liststage > 3 %}href="/list/logistics/{{item.id}}"{% endif %}><span class="badge">4</span>Logistics</a>
 			</div>
 			<div class="col-md-2 col-sm-2 col-xs-6 liststep">
-				<a class="{% block previewactive %}{% endblock%}" href="/list/preview/{{item.id}}"><span class="badge">5</span>Preview</a>
+				<a class="{% block previewactive %}{% endblock%}" {%if item.liststage > 4 %}href="/list/preview/{{item.id}}"{% endif %}><span class="badge">5</span>Preview</a>
 			</div>
 			<div class="clear"></div>
 		</div>
 		{% if preview %}
 		<div class="listnav">
 			<a href="/list/logistics/{{item.id}}" class="backbutton button button-rounded">Back to Logistics</a>
-			<a href="/item/{{item.id}}/details" class="saveandcontinue button button-rounded button-highlight">List Your Product</a>
+			<a href="/savepreview/{{item.id}}" class="saveandcontinue button button-rounded button-highlight">List Your Product</a>
 			<div class="clear"></div>
 		</div>
 		{% endif %}

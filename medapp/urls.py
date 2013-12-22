@@ -27,16 +27,14 @@ urlpatterns = patterns('',
     url(r'^setmainimage','deviceapp.views2.setmainimage'),   
     url(r'^saveitem','deviceapp.views2.saveitem'),
     url(r'^removeitem','deviceapp.views2.removeitem'),
-	url(r'^edititem/(?P<itemid>\d+)','deviceapp.views2.edititem'),
-	url(r'^editform','deviceapp.views2.editform'),
-    url(r'^addproduct','deviceapp.views2.addproduct'),
     url(r'^listproduct/(?P<subcategory>\w+)','deviceapp.views2.listproduct'),
     url(r'getsubcategories','deviceapp.views2.getsubcategories'),
     url(r'^existingproductcheck','deviceapp.views2.existingproductcheck'),
-    url(r'^postitem','deviceapp.views2.postitem'),
     url(r'^messageseller','deviceapp.views2.messageseller'),
     url(r'^askquestion','deviceapp.views2.askquestion'),
     url(r'^deletequestion','deviceapp.views2.deletequestion'),
+    url(r'^answerquestion/(?P<questionid>\d+)','deviceapp.views2.answerquestion'),
+    
     
     #Listing and edit listing pages
     url(r'^list/describe/(?P<itemid>\d+)','deviceapp.views2.listitemdescribe'),
@@ -48,6 +46,7 @@ urlpatterns = patterns('',
     url(r'^savedetails/(?P<itemid>\d+)','deviceapp.views2.savedetails'),
 	url(r'^savelogistics/(?P<itemid>\d+)','deviceapp.views2.savelogistics'),
     url(r'^savepreview/(?P<itemid>\d+)','deviceapp.views2.savepreview'),
+    url(r'^deletelisting/(?P<itemid>\d+)','deviceapp.views2.deletelisting'),
 )
 #####################################################################
 #########  Account ###################################################
@@ -84,8 +83,7 @@ urlpatterns += patterns('',
 #####################################################################
 
 urlpatterns += patterns('',
-	url(r'^item/(?P<itemid>\d+)/details','deviceapp.views2.itemdetails'),
-    url(r'^item/(?P<itemid>\d+)/buyingoptions','deviceapp.views2.itemoptions')
+	url(r'^item/(?P<itemid>\d+)/details','deviceapp.views2.itemdetails')
 )
 #####################################################################
 #########  Django SES Statistics ####################################

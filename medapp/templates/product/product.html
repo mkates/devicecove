@@ -35,8 +35,8 @@
 			</div>
 			<p>This item was listed on <span>{{item.listeddate }}</p>
 		</div>
-		<h2>{{ item.name }}</h2>
-		<h5>Sold by Colts Neck Equine</h5>
+		<h2>{% if item.name %}{{ item.name }}{% else %}VetCove{% endif %}</h2>
+		<h5>{{item.subcategory}}</h5>
 	</div>
 <!-- 
 	<div id="tabbar">

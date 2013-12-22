@@ -3,7 +3,7 @@
 {% block formcontent %}
 
 <h5> Listing Preview </h5>
-{% include 'productpage.html' %}
+{% include 'product/productpage.html' %}
 
 {% endblock %}
 {% block customjs %}
@@ -52,4 +52,4 @@ $(document).ready(function() {
 
 {% block hidesave %}{% endblock %}
 
-{% block continuebutton %}<a id="saveandcontinue" href="/item/{{item.id}}/details" class="button button-rounded button-highlight">List Your Product</a>{% endblock %}
+{% block continuebutton %}<a href="/savepreview/{{item.id}}" class="saveandcontinue button button-rounded button-highlight">List Your Product</a>{% endblock %}

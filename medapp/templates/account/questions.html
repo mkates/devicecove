@@ -4,8 +4,114 @@
 
 {% block maintitle %}Buyer Questions{% endblock %}
 
-{% block maincontent %}
-	<div class="maincontent-container covebox">
-		<p id="nolistings"> You have not yet purchased or sold any items</p>
-	</div>
+{% block headersubcss %}
+<style>
+
+.questions-container h5 {
+	font-size: 16px;
+	color: #333;
+	border-bottom: 1px solid #eee;
+	padding-bottom: 5px;	
+}
+.questions-container h6 {
+	font-size: 13px;
+	color: #555;
+	margin: 0;
+	padding-bottom: 5px;	
+}
+.questionbox {
+	margin: 25px 0 35px 0;
+}
+.questionbox textarea {
+	margin-bottom: 15px;
+	resize: vertical;
+	height: 130px;
+}
+.questionbox .question {
+	font-size: 13px;
+}
+.questionbox .questionanswer {
+	font-size: 13px;
+	color: #555;
+	margin-left: 15px;
+}
+.questionbox .questionanswer span {
+	color: #aaa;
+	font-weight: 200;
+	font-size: 12px;
+}
+.questionbox .editanswer {
+	margin-left: 15px;
+}
+.questionbox .cancelquestion:hover {
+	cursor:pointer;
+}
+.questionform {
+	display: none;
+	margin: 10px 10px 20px 15px;
+}
+</style>
 {% endblock %}
+
+{% block jsblock %}
+<script>
+
+$(document).ready(function() {
+	$('.editanswer').click(function() {
+		$(this).parent().children('.questionanswer').css('display','none');
+		$(this).css('display','none');
+		$(this).next().fadeIn();
+	});
+	$('.cancelquestion').click(function() {
+		$(this).parent().parent().children('.questionanswer').css('display','block');
+		$(this).parent().parent().children('.editanswer').css('display','block');
+		$(this).parent().css('display','none');
+	});
+
+
+});
+</script>
+{% endblock %}
+
+{% block maincontent %}
+
+<div class="maincontent-container covebox questions-container">
+	<h5>Unanswered Questions</h5>
+	{% if unanswered %}
+		{% for question in unanswered %}
+		<div class="questionbox">
+			<p class="question">{{question}} for <a class="itemspan" href="/item/{{question.item.id}}/details">{{question.item.name}}</a></p>
+			<button class="editanswer editquestion button-tiny button button-rounded button-highlight">Answer This Question</button>
+			<form class="questionform" action="/answerquestion/{{question.id}}" method="POST">
+				{% csrf_token %}
+				<textarea name="answer" class="form-control" id="questionanswer" placeholder="Answer your question here. Your answer will be public"></textarea>
+				<button value="submit" name="submit" class="button-tiny button button-action button-rounded">Submit Answer</button>
+				<a class="cancelquestion button-tiny button button-rounded"> Cancel </a>
+			</form>
+		</div>
+		{% endfor %}
+	{% else %}
+		<p class="nolistings"> You have no questions left to answer </p>
+	{% endif %}
+	<h5>Answered Questions</h5>
+	{% if answered %}
+		{% for question in answered reversed %}
+		<div class="questionbox">
+			<p class="question">{{question}} for <a class="itemspan" href="/item/{{question.item.id}}/details">{{question.item.name}}</a></p>
+			<p class="questionanswer">{{question.answer}} <span> answered on {{question.dateanswered}}</p>
+			<button class="editanswer editquestion button-tiny button button-rounded">Edit Answer</button>
+			<form class="questionform" action="/answerquestion/{{question.id}}" method="POST">
+				{% csrf_token %}
+				<textarea name="answer" class="form-control" id="questionanswer" placeholder="Answer your question here. Your answer will be public">{{question.answer}}</textarea>
+				<button value="submit" name="submit" class="button-tiny button button-action button-rounded">Submit Answer</button>
+				<a class="cancelquestion button-tiny button button-rounded"> Cancel </a>
+			</form>
+		</div>
+		{% endfor %}
+	{% else %}
+		<p class="nolistings"> You have not yet answered any questions</p>
+	{% endif %}	
+</div> 
+{% endblock %}
+
+	

@@ -75,7 +75,6 @@ label .floatright {
   	<div class='filterbox'>
   		<h4>Categories</h4>
   		<div class='filter-category notopborder'>
-			<h2>{{ind | title}}</h2>
 			{% for cat in categories %} 
 				{% if cat.totalunits > -1 %}
 					{% if forloop.counter < 7 %} 			
@@ -173,18 +172,12 @@ label .floatright {
   			</select>
   		</div>
   		<div id='numberofresults'>{{ resultcount }} Results</div>
-  		<p>Searching for {{ searchquery }}</p>
-  		<!-- 
-<img class='viewtypeimg' src='{{STATIC_URL}}img/listview.png'/>
-  		<p> View By Product </p>
-  		<img class='viewtypeimg' src='{{STATIC_URL}}img/gridview.png'/>
-  		<p> View By Seller </p>
- -->
+  		<p>Searching for {% if subcategoryname != 'all'%}{{ subcategoryname }}{% else %}{{ categoryname }}{% endif %}</p>
   		<div class='clear'></div>
   	</div>
   	
   	<div class='resultsbox' id='resultsbody'>
-  		{% include 'productsearchitem.html' %}
+  		{% include 'search/productsearchitem.html' %}
 		<div id="noresults" class="resultitem">
 			<p class="noluck">Sorry, we can't find anything that matches your search</p>
 			<img class="noresults" src="{{STATIC_URL}}img/saddog.jpg"/>

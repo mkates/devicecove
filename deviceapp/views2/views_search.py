@@ -25,20 +25,29 @@ import medapp.settings as settings
 def productsearch(request,industryterm,categoryterm,subcategoryterm):
 	catlist = getCategoriesAndQuantity()
 	industry = Industry.objects.get(name=industryterm)
-	category = Category.objects.get(name=categoryterm)
-	if subcategoryterm == 'all':
-		itemqs = Item.objects.filter(subcategory__in=category.subcategory_set.all()).order_by('price')
-		searchquery = "all "+category.displayname
-		subcategory = None
+	# Case 1: If you have no search criteria
+	if categoryterm == 'all' and subcategoryterm == 'all':
+		itemqs = Item.objects.filter(liststatus='active').order_by('price')
+		categoryname = categoryterm
+		subcategory = subcategoryterm
+	# Case 2: If you only have a category, ie subcategory is all
+	elif subcategoryterm == 'all':
+		category = Category.objects.get(name=categoryterm)
+		categoryname = category.displayname
+		itemqs = Item.objects.filter(subcategory__in=category.subcategory_set.all()).filter(liststatus='active').order_by('price')
+	#Case 3: If you have a subcategory and a category
 	else:
 		subcategory = SubCategory.objects.get(name=subcategoryterm)
-		searchquery = subcategory.displayname+" in "+category.displayname
+		category = Category.objects.get(name=categoryterm)
+		categoryname = category.displayname
+		subcategoryname = subcategory.displayname
 		itemqs = Item.objects.filter(subcategory=subcategory).order_by('price')
+	#Get price range, more boolean, and zipcodes
 	pricerange = getPriceRange(itemqs)
 	more = True if len(itemqs ) > 5 else False
-	zipcode = getDistances(request,itemqs[0:5])
-	dict = {'zipcode':zipcode,'resultcount':len(itemqs),'more':more,'pricerange':pricerange,'searchquery':searchquery,'items':itemqs[0:5],'categories':catlist,'categoryname':categoryterm,'subcategoryname':subcategoryterm,'subcategory':subcategory,'category':category,'ind':industry}
-	return render_to_response('search.html',dict,context_instance=RequestContext(request))
+	zipcode = getDistances(request,itemqs[0:10])
+	dict = {'zipcode':zipcode,'resultcount':len(itemqs),'more':more,'pricerange':pricerange,'items':itemqs[0:10],'categories':catlist,'categoryname':categoryname,'subcategoryname':subcategoryname,'ind':industry}
+	return render_to_response('search/search.html',dict,context_instance=RequestContext(request))
 
 def autosuggest(request):
 	results=[]
@@ -89,7 +98,7 @@ def customsearch(request):
 		distance = getDistances(request,items)
 		pricerange = getPriceRange(items)
 		more = True if len(items) > 5 else False
-		return render_to_response('search.html',{'custom':'on','zipcode':zipcode,'resultcount':len(items),'searchquery':searchword,'more':more,'pricerange':pricerange,'searchquery':searchquery,'items':items[0:5],'categories':catlist,'ind':industry,'manufacturer':manufacturers},context_instance=RequestContext(request))
+		return render_to_response('search/search.html',{'custom':'on','zipcode':zipcode,'resultcount':len(items),'searchquery':searchword,'more':more,'pricerange':pricerange,'searchquery':searchquery,'items':items[0:5],'categories':catlist,'ind':industry,'manufacturer':manufacturers},context_instance=RequestContext(request))
 	
 def searchquery(request):
 	itemdict = []
@@ -125,7 +134,7 @@ def searchquery(request):
 		more = True if len(itemspassed) > int(filters['page'])*5+5 else False
 		resultscount = len(itemspassed)
 		itemspassed = itemspassed[int(filters['page'])*5:int(filters['page'])*5+5]
-	rts = render_to_string('productsearchitem.html', {'items':itemspassed,'STATIC_URL':settings.STATIC_URL})
+	rts = render_to_string('search/productsearchitem.html', {'items':itemspassed,'STATIC_URL':settings.STATIC_URL})
 	return HttpResponse(json.dumps({'result':rts,'more':more,'resultscount':resultscount}), mimetype='application/json')
 
 

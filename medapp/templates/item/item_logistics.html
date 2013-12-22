@@ -88,6 +88,24 @@ $(document).ready(function() {
 		}
 	});
 });
+
+var submittable = false;
+var validateInputs = function validateInputs() {
+	submittable = true;
+	$("#terms").is(':checked') ? toschecked() : tosunchecked();
+	$("#inputprice").val().length > 2 ? removeError($("#inputprice")) : addError($("#inputprice"));
+	return submittable;
+};
+function tosunchecked() {
+	addError($("#terms"));
+	if (!($("#terms").parent().hasClass('header_error'))) {
+		$("#terms").parent().addClass('header_error');
+	}
+};
+function toschecked() {
+	removeError($("#terms"));
+	$("#terms").parent().removeClass('header_error')
+}
 </script>
 {% endblock %}
 {% block formcontent %}

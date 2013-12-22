@@ -33,7 +33,7 @@ class Category(models.Model):
 class SubCategory(models.Model):
 	name = models.CharField(max_length=60,unique=True)
 	displayname = models.CharField(max_length=50)
-	category = models.ForeignKey(Category)
+	category = models.ManyToManyField(Category)
 	totalunits = models.IntegerField()
 	def __unicode__(self):
 		return self.displayname
@@ -150,6 +150,7 @@ class Item(models.Model):
 	liststatus = models.CharField(max_length=30, choices=LISTSTATUS_OPTIONS)
 	listeddate = models.DateField(auto_now_add = True,blank=True)
 	savedcount = models.IntegerField()
+	liststage = models.IntegerField()
 	
 	def __unicode__(self):
 		return self.name+" from "+self.user.name
@@ -187,10 +188,10 @@ class LatLong(models.Model):
 class Question(models.Model):
 	question = models.TextField()
 	item = models.ForeignKey(Item)
-	user = models.ForeignKey(BasicUser)
-	date = models.DateField(auto_now_add = True,blank=True)
-
-class Answer(models.Model):
-	answer = models.TextField()
-	question = models.OneToOneField(Question)
-	date = models.DateField(auto_now_add = True,blank=True)
+	buyer = models.ForeignKey(BasicUser)
+	dateasked = models.DateTimeField(auto_now_add = True,blank=True)
+	answer = models.TextField(null=True,blank=True)
+	dateanswered = models.DateTimeField(blank=True,null=True)
+	
+	def __unicode__(self):
+		return self.question

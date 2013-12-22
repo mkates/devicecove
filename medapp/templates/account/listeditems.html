@@ -37,7 +37,7 @@
 .listeditem .stats {
 	margin-top: 10px;
 }
-.listeditem .stats div {
+.listeditem .stats .statbox {
 	text-align: center;
 }
 .listeditem .stats .statbox h5 {
@@ -51,6 +51,7 @@
 	font-weight: 200;
 	color: #333;
 }
+
 </style>
 {% endblock %}
 
@@ -59,42 +60,53 @@
 {% endblock %}
 
 {% block maincontent %}
-	<div class="listeditem covebox">
-		<div class="row">
-			<div class="col-md-9 col-sm-9">
-				<h3>Pulsair Veterinary Ultrasound</h3>
-				<h4>Status: <span>Active</span></h4>
-				<div class="row stats">
-					<div class="col-md-3 col-sm-3 col-xs-6 statbox">
-						<h5>0</h5>
-						<p>Unanswered Questions</p>
+	{% if items %}
+		{% for item in items %}
+			{% if item.liststage > 1 and item.liststatus != 'deleted' %}
+			<div class="listeditem covebox">
+				<div class="row">
+					<div class="col-md-9 col-sm-9">
+						<h3>{% if item.name %}{{item.name}}{% else %}New VetCove Listing{% endif %}</h3>
+						<h4>Status: <span>{{item.get_liststatus_display}}</span></h4>
+						<div class="row stats">
+							<div class="col-md-3 col-sm-3 col-xs-6 statbox">
+								<h5>0</h5>
+								<p>Unanswered Questions</p>
+							</div>
+							<div class="col-md-3 col-sm-3 col-xs-6 statbox">
+								<h5>{{ item.saveditem_set.count }}</h5>
+								<p>People Saved This Item</p>
+							</div>
+							<div class="col-md-3 col-sm-3 col-xs-6 statbox">
+								<h5>13</h5>
+								<p>Days Listed</p>
+							</div>
+							<div class="col-md-3 col-sm-3 col-xs-6 statbox">
+								<h5>24</h5>
+								<p>People Viewed This Item</p>
+							</div>
+						</div>
 					</div>
-					<div class="col-md-3 col-sm-3 col-xs-6 statbox">
-						<h5>3</h5>
-						<p>People Saved This Item</p>
+					<div class="col-md-3 col-sm-3 actions">
+						{% if item.liststatus == 'active' %}
+						<a href="/item/{{item.id}}/details" class="button button-rounded button-small">View Listing</a>
+						<a href="/list/describe/{{item.id}}" class="button button-rounded button-small">Edit Listing</a>
+						<a href="/questions" class="button button-rounded button-small">Answer Questions</a>
+						<a class="button button-rounded button-small">Mark as Sold</a>
+						{% elif item.liststatus == 'incomplete' %}
+						<a href="/list/describe/{{item.id}}" class="button button-rounded button-small button-action">Complete Listing</a>
+						<a href="/deletelisting/{{item.id}}" class="button button-rounded button-small button-caution">Delete Listing</a>
+						{% else %}
+						{% endif %}
 					</div>
-					<div class="col-md-3 col-sm-3 col-xs-6 statbox">
-						<h5>13</h5>
-						<p>Days Listed</p>
-					</div>
-					<div class="col-md-3 col-sm-3 col-xs-6 statbox">
-						<h5>24</h5>
-						<p>People Viewed This Item</p>
-					</div>
+			
 				</div>
 			</div>
-			<div class="col-md-3 col-sm-3 actions">
-				<a class="button button-rounded button-small">View Listing</a>
-				<a class="button button-rounded button-small">Edit Listing</a>
-				<a class="button button-rounded button-small">Answer Questions</a>
-				<a class="button button-rounded button-small">Mark as Sold</a>
-			</div>
-			
-		</div>
-	</div>
-	{% if not items %}
-		
+			{% endif %}
+		{% endfor %}
 	{% else %}
-		<p id="nolistings" style="display:block"> You do not have any items currently listed with MedBay</p>
+	<div class="covebox">
+		<p class="nolistings" style="display:block"> You do not have any items currently listed with MedBay</p>
+	</div>
 	{% endif %}
 {% endblock %}

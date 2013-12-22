@@ -71,7 +71,11 @@
   	{% endif %}
   	<div class="mainproduct productdetails questionbox" id="features">
   		<h2> Top Buyer Questions</h2>
-  		<a class="button button-rounded button-tiny askquestion">Ask a question</a>
+  		{% if userloggedin == item.user %}
+  			<a href="/questions" class="button button-rounded button-tiny">Answer Questions</a>
+  		{% else %}
+  			<a class="button button-rounded button-tiny askquestion">Ask a question</a>
+  		{% endif %}
   		<form id="newquestion" method="post" action="/askquestion">
   			{% csrf_token %}
   			<textarea name="question" class="form-control" placeholder="We will contact the seller when a question is asked. Please do not put any peronsably indentifiable information in the question, per our terms of service."></textarea>
@@ -83,11 +87,9 @@
   		{% if item.question_set.all %}
 			{% for question in item.question_set.all reversed %}
 				<div class="question">
-					<h5>{{question.question}} <span> asked {{question.date}}</span> {% if question.user.email == user.email %}<span class="deletequestion" data_questionid="{{question.id}}">Delete</span>{% endif %}</h5>
-					{% if question.answer_set.all %}
-						{% for answer in question.answer_set.all%}
-							<p>{{answer.answer}}</p>
-						{% endfor %}
+					<h5>{{question.question}} <span> asked {{question.dateasked}}</span> {% if question.item.user.email == user.email and not question.answer %}<span class="deletequestion" data_questionid="{{question.id}}">Delete</span>{% endif %}</h5>
+					{% if question.answer %}
+						<p class="answer">{{question.answer}}</p>
 					{% else %}
 						<p id="notyetanswered">The seller has no yet answered this question</p>
 					{%endif %}
@@ -147,10 +149,12 @@
   			<p class="noborder"><span class="condition">Pre-owned (0)</span> <span class="price">N/A</span></p>
   		</div>
  -->
+ 		{% if not preview %}
   		<div class="actionbuttons">
   			<a id="contactseller" class="button button-rounded button-primary">Schedule Visit</a>
   			<a id="buynow" class="button button-rounded button-action">Buy Now</a>
   		</div>
+  		{% endif %}
   	</div>
   	<div class="sideproduct" id="buyerprotect">
   		<img class="buyerbadge" src="{{STATIC_URL}}img/vetcoveprotected.png"/> 	
