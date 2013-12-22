@@ -8,6 +8,7 @@ from django.contrib.auth.decorators import login_required
 from django.utils.html import escape
 from django.shortcuts import render
 from django.core.exceptions import ObjectDoesNotExist
+from django.conf import settings
 import json
 import math
 import difflib
@@ -22,7 +23,7 @@ import time
 def loginview(request):
 	next = request.GET.get('next',None)
 	action = request.GET.get('action',None)
-	return render_to_response('login.html',{'next':next,'action':action},context_instance=RequestContext(request))
+	return render_to_response('account/login.html',{'next':next,'action':action},context_instance=RequestContext(request))
 
 def lgnrequest(request):
 	username = request.POST['email']
@@ -39,7 +40,7 @@ def lgnrequest(request):
 		else:
 			return HttpResponse("Your account has been disabled")
 	else:
-		return render_to_response('login.html',{'outcome':'Invalid Login'},context_instance=RequestContext(request))
+		return render_to_response('account/login.html',{'outcome':'Invalid Login'},context_instance=RequestContext(request))
 
 def signup(request):
 	if request.user.is_authenticated():
@@ -67,7 +68,7 @@ def newuserform(request):
 			nbu.save()
 			user = authenticate(username=newuser,password=password)
 			login(request,user)
-			return render_to_response('index.html',context_instance=RequestContext(request))
+			return render_to_response('general/index.html',context_instance=RequestContext(request))
 		except Exception,e:
 			return HttpResponse(e)
 	return HttpResponse("Not a POST method?")
@@ -77,7 +78,7 @@ def logout_view(request):
 	return HttpResponseRedirect('/')
 
 def forgotpassword(request):
-	return render_to_response('passwordreset.html',context_instance=RequestContext(request))
+	return render_to_response('account/passwordreset.html',context_instance=RequestContext(request))
 
 ###########################################
 #### Account Settings #####################
@@ -93,7 +94,7 @@ def updateprofsettings(request,field):
 				return HttpResponseRedirect("/profile?e=password")
 		return HttpResponseRedirect("/profile")
 	else:
-   		return render_to_response('index.html',context_instance=RequestContext(request))
+   		return render_to_response('general/index.html',context_instance=RequestContext(request))
 
 @login_required
 def saveditems(request):
@@ -105,9 +106,9 @@ def saveditems(request):
 		items = []
 		for si in saveditems:
 			items.append(si.item)
-		return render_to_response('saveditems.html',{"savedpage":True,"items":items,"saveditemcount":saveditemcount,"listeditemcount":listeditemcount},context_instance=RequestContext(request))
+		return render_to_response('account/saveditems.html',{"savedpage":True,"items":items,"saveditemcount":saveditemcount,"listeditemcount":listeditemcount},context_instance=RequestContext(request))
 	else:
-   		return render_to_response('index.html', context_instance=RequestContext(request))
+   		return render_to_response('general/index.html', context_instance=RequestContext(request))
    		
 @login_required
 def listeditems(request):
@@ -117,9 +118,9 @@ def listeditems(request):
 		listeditemcount = len(listeditems)
 		saveditemcount = bu.saveditem_set.all().count()
 		items = bu.item_set.all()
-		return render_to_response('listeditems.html',{"listpage":True,"items":items,"saveditemcount":saveditemcount,"listeditemcount":listeditemcount},context_instance=RequestContext(request))
+		return render_to_response('account/listeditems.html',{"listpage":True,"items":items,"saveditemcount":saveditemcount,"listeditemcount":listeditemcount},context_instance=RequestContext(request))
 	else:
-   		return render_to_response('index.html', context_instance=RequestContext(request))
+   		return render_to_response('general/index.html', context_instance=RequestContext(request))
  
 @login_required
 def accounthistory(request):
@@ -127,9 +128,9 @@ def accounthistory(request):
 		bu = BasicUser.objects.get(user=request.user)
 		listeditemcount = bu.item_set.all().count()
 		saveditemcount = bu.saveditem_set.all().count()
-		return render_to_response('accounthistory.html',{"saveditemcount":saveditemcount,"listeditemcount":listeditemcount},context_instance=RequestContext(request))
+		return render_to_response('account/accounthistory.html',{"saveditemcount":saveditemcount,"listeditemcount":listeditemcount},context_instance=RequestContext(request))
 	else:
-   		return render_to_response('index.html',context_instance=RequestContext(request))
+   		return render_to_response('general/index.html',context_instance=RequestContext(request))
 
 @login_required
 def usersettings(request):
@@ -137,9 +138,9 @@ def usersettings(request):
 		bu = BasicUser.objects.get(user=request.user)
 		listeditemcount = bu.item_set.all().count()
 		saveditemcount = bu.saveditem_set.all().count()
-		return render_to_response('settings.html',{"saveditemcount":saveditemcount,"listeditemcount":listeditemcount},context_instance=RequestContext(request))
+		return render_to_response('account/settings.html',{"saveditemcount":saveditemcount,"listeditemcount":listeditemcount},context_instance=RequestContext(request))
 	else:
-   		return render_to_response('index.html',context_instance=RequestContext(request))
+   		return render_to_response('general/index.html',context_instance=RequestContext(request))
 
 @login_required
 def profile(request):
@@ -155,41 +156,18 @@ def profile(request):
 					dict['error']= "Password"
 			except:
 				print 'error code wrong'
-		return render_to_response('profile.html',dict,context_instance=RequestContext(request))
+		return render_to_response('account/profile.html',dict,context_instance=RequestContext(request))
 	else:
-   		return render_to_response('index.html',context_instance=RequestContext(request))
-
+   		return render_to_response('general/index.html',context_instance=RequestContext(request))
+   		
 @login_required
-def addproduct(request):
-	return render_to_response('addproduct.html',context_instance=RequestContext(request))
-
-@login_required
-def edititem(request,itemid):
-	item = Item.objects.get(id=itemid)
-	images = item.itemimage_set.all()
-	imageids = []
-	for img in images:
-		imageids.append(img.id)
-	item.imageids = imageids
-	manufacturers = Manufacturer.objects.all()
-	for mans in manufacturers:
-		if item.manufacturer == mans:
-			mans.active = True
-	subcategories = item.subcategory.category.subcategory_set.all()
-	category = item.subcategory.category
-	categories = Category.objects.all()
-	for subcats in subcategories:
-		if item.subcategory == subcats:
-			subcats.active = True
-		subcategories = SubCategory.objects.all()
-	return render_to_response('editlisting.html',{'manufacturers':manufacturers,'category':category,'categories':categories,'subcategories':subcategories,'editing':True,'item':item},context_instance=RequestContext(request))
-
-			
-@login_required
-def productpreview(request,itemid):
-	images = TestImage.objects.all()
-	return render_to_response('addproduct2.html',{'images':images},context_instance=RequestContext(request))
-	
+def profile(request):
+	if request.user.is_authenticated():
+		bu = BasicUser.objects.get(user=request.user)
+		
+	else:
+   		return render_to_response('general/index.html',context_instance=RequestContext(request))
+   		
 #################################################
 ### Helper function to update a user's profile  #
 #################################################

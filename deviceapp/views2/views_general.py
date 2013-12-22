@@ -8,6 +8,7 @@ from django.contrib.auth.decorators import login_required
 from django.utils.html import escape
 from django.shortcuts import render
 from django.core.exceptions import ObjectDoesNotExist
+from django.conf import settings
 import json
 import math
 import difflib

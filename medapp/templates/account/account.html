@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% block headertitle %}<title>MedBay | Account</title>{% endblock%}
+
+{% block headercss %}
+<link href="{{STATIC_URL}}css/account.css" rel="stylesheet" type="text/css" />
+{% block headersubcss %}
+{% endblock %}
+{% endblock %}
+
+{% block jsblock %}
+
+{% endblock %}
+
+{% block content %}
+<div class="pagecontainer row">
+	<div class="sidecontent col-md-3 col-sm-3">
+		<ul>
+			<a href="/questions"><li class="{% block questions %}{% endblock %}"><h3>Questions <span class="label label-danger">3 Unanswered</span></h3></li></a>
+			<a href="/saveditems"><li class="first {% block saveditems %}{% endblock %}"><h3>Saved Items{% if saveditemcount %} <span class="badge">{{ saveditemcount }}</span>{% endif %}</h3></li></a>
+			<a href="/listeditems"><li class="{% block listeditems %}{% endblock %}"><h3>Active Items{% if listeditemcount %} <span class="badge">{{ listeditemcount }}</span>{% endif %}</span></h3></li></a>
+			<a href="/accounthistory"><li class="{% block accounthistory %}{% endblock %}"><h3>Account History</li></a>
+			<a href="/profile"><li class="{% block profile %}{% endblock %}"><h3>Profile</li></a>
+			<a href="/usersettings"><li class="{% block settings %}{% endblock %}"><h3>Settings</h3></li></a>
+		</ul>
+		<a href='/listintro' class="listaction button button-rounded button-primary">List Equipment</a>
+	</div>
+	<div class="maincontent col-md-9 col-sm-9">
+		<h2 class="title covebox">{% block maintitle %}{% endblock %}</h2>
+		{% block maincontent %}
+
+
+
+		{% endblock %}
+	</div>
+
+	<div class="clear"></div>
+</div>
+{% endblock %}

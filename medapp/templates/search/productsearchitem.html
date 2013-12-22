@@ -1,0 +1,107 @@
+{% load humanize %}
+<div id="resultcontainer">
+{% for item in items %}
+	<div class='resultitem'>
+		{%if savedpage %}
+		<form action='/removeitem' method='post' id="removeform">
+			{% csrf_token %}
+			<input type='hidden' name="itemid" value="{{item.id}}"/>
+			<button value="submit" class="removebutton"/>Remove</button>
+		</form>
+		{% endif %}
+		{%if listpage %}
+			<a href="/edititem/{{item.id}}" value="submit" class="removebutton editbutton"/>Edit</a>
+		{% endif %}
+		<div class='imageviewer'></div>
+		<div class='imgdiv'>	
+			<img src="{%if item.mainimage %}{{item.mainimage.photo_medium.url}}{% else %}{{STATIC_URL}}img/noimage.jpg{% endif %}" alt="{{item.name}}"/>		
+		</div>
+		<div class='pricediv'>
+			<p>${{item.price|floatformat|intcomma}}</p>
+			<a class='button button-rounded button-highlight' href="/item/{{item.id}}/details">Select</a>
+		</div>
+		<div class='textdiv'>
+			<a href="/item/{{item.id}}/details"><h2>{{ item.name }}</h2></a>
+			<h6 class="resulttag">
+				{% if item.type == 'new' %}
+				<span class="new">new</span>
+				{% endif %} 
+				{% if item.type == 'refurbished' %}
+				<span class="refurbished">refurbished</span>
+				{% endif %} 
+				{% if item.type == 'preowned' %}
+				<span class="preowned">preowned</span>
+				{% endif %} 
+				{% if item.verified %}
+				<span class="verified">verified seller</span>
+				{% endif %} 
+				{% if item.contract == 'contractincluded' %}
+				<span class="lightgreen">service contract</span>
+				{% endif %} 
+				{% if item.contract == 'contractoptional' %}
+				<span class="lightred">service contract option</span>
+				{% endif %} 
+				
+			</h6>
+			<h4><a>Location<span>{{item.user.city}}, {{item.user.state}} {% if item.distance %}( ~{{item.distance}} miles away ){% endif %}</span></a></h4>
+			<h4><a>List Date<span>{{item.listeddate}}</span></a></h4>
+			<h4><a>Manufacturer<span>{{ item.manufacturer }}</span></a></h4>
+			<div class='buttondiv'>
+				<button class='btn-custom-gray infobutton detailsbutton'>Details</button>
+				<button class='btn-custom-gray infobutton specsbutton'>Quick Facts</button>
+				<button class='btn-custom-gray infobutton conditionbutton'>Condition</button>
+			</div>
+		</div>
+		<div class='clear'></div>
+		<div class='detailsdiv hidden previewdiv'>
+			<div class='detailtext'>
+				<p>{{item.productdescription}}</p>
+			</div>
+			<div class='imagegallery'>
+				{% for image in item.itemimage_set.all %}
+					{% if forloop.counter < 6 %}
+						<div class='imagethumbnail'><img src="{{image.photo_small.url}}" data-original="{{image.photo.url}}"/></div>
+					{% endif %}
+				{% endfor %}
+				{% for image in item.productimage_set.all %}
+					{% if forloop.counter < 6 %}
+						<div class='imagethumbnail'><img src="{{image.photo_small.url}}" data-original="{{image.photo.url}}"/></div>
+					{% endif %}
+				{% endfor %}
+				
+
+			</div>
+			<div class='morediv'>
+				<a href="/item/{{item.id}}/details"> Show all product details &#8594;</a>
+				<button class='btn-custom-gray closebutton'>Close</button>
+			</div>
+		</div>
+		<div class='specsdiv hidden previewdiv'>
+			<div class="spectext">
+				<p><span>{{item.subcategory.category}}</span>Type</p>
+				<p><span>{{item.subcategory}}</span>Category</p>
+				<p><span>{{item.contract | title}}</span>Service Contract</p>
+				<p><span>{{item.year}}</span>Model Year</p>
+				<p><span>{{item.condition}}</span>Condition</p>
+				<p><span>{{item.manufacturer}}</span>Manufacturer</p>
+				<p><span>{{item.shippingincluded}}</span>Shipping Included</p>
+
+				<p><span>{{item.serialno}}</span>Serial #</p>
+			</div>
+			<div class='morediv'>
+				<a href="/item/{{item.id}}/details"> Show all product specifications &#8594;</a>
+				<button class='btn-custom-gray closebutton'>Close</button>
+			</div>
+		</div>
+		<div class='conditiondiv hidden previewdiv'>
+			<p>{{ item.conditiondescription }}</p>
+			<div class='morediv'>
+				<a href="/item/{{item.id}}/details"> View all condition details &#8594;</a>
+				<button class='btn-custom-gray closebutton'>Close</button>
+			</div>
+		</div>
+		<div class='clear'></div>
+
+	</div>
+{% endfor %}
+</div>
