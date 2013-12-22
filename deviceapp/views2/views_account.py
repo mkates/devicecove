@@ -161,10 +161,10 @@ def profile(request):
    		return render_to_response('general/index.html',context_instance=RequestContext(request))
    		
 @login_required
-def profile(request):
+def questions(request):
 	if request.user.is_authenticated():
-		bu = BasicUser.objects.get(user=request.user)
-		
+		bu = BasicUser.objects.get(user=request.user)	
+		return render_to_response('account/questions.html',dict,context_instance=RequestContext(request))
 	else:
    		return render_to_response('general/index.html',context_instance=RequestContext(request))
    		

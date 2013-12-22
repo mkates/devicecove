@@ -18,15 +18,15 @@ import time
 
 def index(request):
 	items = Item.objects.order_by('savedcount')[:9]
-	return render_to_response('index.html',{'featured':items},context_instance=RequestContext(request))
+	return render_to_response('general/index.html',{'featured':items},context_instance=RequestContext(request))
 
 def faq(request):
-	return render_to_response('faqs.html',context_instance=RequestContext(request))
+	return render_to_response('general/faqs.html',context_instance=RequestContext(request))
 
 def my_404_view(request):
 	return render_to_response('404.html',context_instance=RequestContext(request))
 	
 def buyerprotect(request):
-	return render_to_response('buyerprotect.html',context_instance=RequestContext(request))
+	return render_to_response('general/buyerprotect.html',context_instance=RequestContext(request))
 
 

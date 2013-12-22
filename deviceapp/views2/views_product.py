@@ -22,7 +22,7 @@ import time
 #Intro Page
 def listintro(request):
 	category = Category.objects.all().extra(order_by = ['displayname'])
-	return render_to_response('listintro.html',{'categories':category},context_instance=RequestContext(request))
+	return render_to_response('product/listintro.html',{'categories':category},context_instance=RequestContext(request))
 
 def getsubcategories(request):
 	category = Category.objects.get(name=request.GET['category'])
@@ -208,7 +208,7 @@ def itemdetails(request,itemid):
 		bu = BasicUser.objects.get(user=request.user)
 		if item.user == bu:
 			dict['userloggedin'] = bu
-	return render_to_response('productdetails.html',dict,context_instance=RequestContext(request))
+	return render_to_response('product/productdetails.html',dict,context_instance=RequestContext(request))
 
 def askquestion(request):
 	if request.method == "POST" and request.user.is_authenticated():
@@ -259,7 +259,7 @@ def removeitem(request):
 		si = SavedItem.objects.get(user = BasicUser.objects.get(user=request.user),item=item)
 		si.delete()
 		return HttpResponseRedirect("/saveditems")
-	return render_to_response('index.html',context_instance=RequestContext(request))
+	return render_to_response('general/index.html',context_instance=RequestContext(request))
 
 
 #### Checks if a request's user is the creator of the item

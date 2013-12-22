@@ -64,7 +64,7 @@ urlpatterns += patterns('',
     url(r'^lgnrequest','deviceapp.views2.lgnrequest'),
     url(r'^login','deviceapp.views2.loginview'),
     url(r'^signup','deviceapp.views2.signup'), 
-    url(r'^questions','deviceapp.views2.signup'),
+    url(r'^questions','deviceapp.views2.questions'),
     url(r'^accounthistory','deviceapp.views2.accounthistory'),
     url(r'^newuserform','deviceapp.views2.newuserform')
 )
