@@ -13,78 +13,252 @@
 <link href="{{STATIC_URL}}css/buttons.css" rel="stylesheet" type="text/css" />
 <link href="{{STATIC_URL}}css/base.css" rel="stylesheet" type="text/css" />
 {% block headercss %}{% endblock %}
+<style>
+.contain {
+	max-width: 1000px;
+}
+.navigation-container {
+	background: url("{{STATIC_URL}}img/fabric_plaid2.png");
+	background-size: 100px 100px;
+	background-repeat: repeat-x;
+	padding-bottom: 5px;
+}
+.navigation {
+	position:relative;
+	max-width: 1000px;
+	margin: 0 auto;
+	padding-bottom: 0px;
+	border-bottom:1px solid #f9f9f9;
+}
+.whiteborder {
+	height: 1px;
+	margin-top: 10px;
+	width: 100%;
+	background: #ddd;
+}
+.navbar {
+	margin-bottom: 0px;
+	background: none;
+	border-radius: 0px;
+	min-height: 20px;
+	border-bottom: none;
+}
+.navbar-nav > li > a {
+	padding: 0px 10px 4px 10px;
+	font-weight: 800;
+}
+.navbar-default .navbar-nav > li > a {
+	color: #555;
+}
+.subnavbar {
+	max-width: 1000px;
+	padding: 4px 0px;
+	margin: 0 auto;
+	padding-top: 35px;
+	position:relative;
+}
+#searchform {
+	position:relative;
+}
+#searchform table {
+	width: 100%;
+}
+#searchform table td {
+}
+.searchbutton {
+	width: 50px;
+}
+.navbar-brand {
+	padding: 0px;
+}
+.navtable {
+	width: 100%;
+}
+.logotd {
+	width: 150px;
+}
+.logotd a img {
+	width: 140px;
+	margin-right: 10px;
+}
+.topmenu {
+	z-index: 999;
+	right: 0;
+	position:absolute;
+}
+.topmenu ul {
+	list-style-type: none;
+	background: #fff;
+	box-shadow: 0 0 2px #ccc;
+	padding: 4px 5px;
+	margin-bottom: 0px;
+	border-bottom-left-radius: 4px;
+	border-bottom-right-radius: 4px;
+	border:1px solid #ddd;
+}
+.topmenu ul li {
+	display:inline-block;
+}
+.topmenu ul li a {
+	color: #555;
+	font-weight: 200;
+	display: block;
+	padding: 0 15px;
+	border:1px solid transparent;
+}
+.topmenu ul li a:hover {
+	color: #000;
+	background: #f4f4f4;
+	border-radius: 2px;
+	border:1px solid #ddd;
+}
+#searchinput {
+	margin-top: 5px;
+	height: 40px;
+	border-top-right-radius: 0px;
+	border-bottom-right-radius: 0px;
+}
+.searchbutton button{
+	height: 40px;
+	text-align: center;
+	padding: 0 10px;
+	margin-top: 5px;
+	margin-left: -3px;
+	border-top-left-radius: 0px;
+	border-bottom-left-radius: 0px;
+	box-shadow: none;
+}
+.browsetd {
+	width: 90px;
+}
+.searchtd {
+	padding-top: 2px;
+}
+.browsetd p {
+	padding: 0;
+	font-size: 12px;
+	font-weight: 200;
+	margin: 0;
+	line-height: 14px;
+}
+.browsetd .category {
+	font-weight: 800;
+}
+.shopbycategory {
+	border-radius: 3px;
+	float: right;
+	margin-top: 5px;
+	padding: 5px 10px;
+	border:1px solid transparent;
+}
+.shopbycategory:hover {
+	cursor:pointer;
+	border:1px solid #ddd;
+	background: #f1f1f1;
+	box-shadow: 0 0 2px #ccc;
+}
 
-
+#autosuggest {
+	background: white;
+	z-index: 9997;
+	position: absolute;
+	margin-top: -2px;
+	border:1px solid #ccc;
+	display:none;
+	width: 95%;
+	max-width: 705px;
+}
+.browse-categories {
+	width: 100%;
+	height: 200px;
+	background: white;
+	border-radius: 3px;
+	border:1px solid #ddd;
+	box-shadow: 0 0 2px #ccc;
+	position: absolute;
+	z-index: 99;
+	display: none;
+}
+#category-arrow {
+	float:right;
+	margin-top: -14px;
+	margin-right: 30px;
+}
+</style>
 </head>
 
 <body>
 {% block header %}
-<div class="navbar">
-  <div class="contain">
-  	<!--Mobile navigation buttons and logo -->
-	<div class="navbar-header">
-	  <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse2">
-		<span class="searchbutton">S</span>
-	  </button>
-	  <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-		<span class="icon-bar"></span>
-		<span class="icon-bar"></span>
-		<span class="icon-bar"></span>
-	  </button>
-	  <a class="navbar-brand" href="/" alt="medbay"><img src="{{STATIC_URL}}img/vetcove_logo.png" alt="Devicerock"/></a>
-	</div>
-	
-	<!--Menu items-->
-	<div class="navbar-collapse collapse navbar-right">
-	  <ul class="nav navbar-nav" id="menuitems">
-		{% if user.is_authenticated %}
-		<li><a href="/listintro">List</a></li>
-		<li class="dropdown">
-			<a href="#" class="dropdown-toggle" data-toggle="dropdown">{{user.username}}<b class="caret"></b></a>
-			<ul class="dropdown-menu">
-			  <li><a href="/saveditems">Saved Items</a></li>
-			  <li><a href="/listeditems">Your Listed Items</a></li>
-			  <li><a href="/accounthistory">Account History</a></li>
-			  <li><a href="/usersettings">Settings</a></li>
-			  <li><a href="/profile">Profile</a></li>
-			  <li><a href="/logout">Logout</a></li>
+<div class="navigation-container">
+	<div class="navigation">
+		<div class="topmenu">
+			<ul class="">
+			  {% if user.is_authenticated %}
+			<li><a href="/listintro">List Your Equipment</a></li>
+			<li class="dropdown">
+				<a href="#" class="dropdown-toggle" data-toggle="dropdown">{{user.username}}<b class="caret"></b></a>
+				<ul class="dropdown-menu pull-right">
+				  <li><a href="/saveditems">Saved Items</a></li>
+				  <li><a href="/listeditems">Your Listed Items</a></li>
+				  <li><a href="/accounthistory">Account History</a></li>
+				  <li><a href="/usersettings">Settings</a></li>
+				  <li><a href="/profile">Profile</a></li>
+				  <li><a href="/logout">Logout</a></li>
+				</ul>
+			</li>
+			{% else %}
+			<li><a href="/signup">Join VetCove</a></li>
+			<li><a href="/login">Login</a></li>
+			<li><a href="/faq">Help</a></li>
+			<li id="listequipment"><a href="/listintro">List Equipment</a></li>
+			{% endif %}
 			</ul>
-		</li>
-		{% else %}
-		<li><a href="/signup">Join</a></li>
-		<li><a href="/login">Login</a></li>
-		<li id="listequipment"><a href="/listintro">List Equipment</a></li>
-		{% endif %}
-	  </ul>  
-	</div>
-	
-	<div id="desktopsearchbar" class="desktopsearchbar navbar-center">
-		<form id="searchform" class="customsearchbar" action="/customsearch" method="get">
-			<input name="q" id="searchinput" autocomplete="off" class="form-control" type="text" placeholder="Search Equipment"></input>
-			<button type="submit" class="btn">Go</button>
-			<div class="clear"></div>
-			<div id="autosuggest">
-				<div class="section categoriesheader">
-					Categories
-				</div>
-				<div id="categoriessection">
-				</div>
-				<div class="section productsheader">
-					Products
-				</div>
-				<div id="productssection">
-				</div>
-
+		</div>
+		<div class="subnavbar-container">
+			<div class="row subnavbar">
+				<table class="navtable">
+					<tr>
+						<td class="logotd">
+							<a class="" href="/"><img src="{{STATIC_URL}}img/vetcove_logo.png" alt="VetCove"/></a>
+						</td>
+						<td class="searchtd">
+							<form id="searchform" class="customsearchbar" action="/customsearch" method="get">
+								<table>
+									<tr>
+									<td><input name="q" id="searchinput" autocomplete="off" class="form-control" type="text" placeholder="Search Equipment"></input></td>
+									<td class="searchbutton"><button type="submit" class="button button-rounded">Go</button></td>
+									</tr>
+								</table>
+								<div class="clear"></div>
+								<div id="autosuggest">
+									<div class="section categoriesheader">
+										Categories
+									</div>
+									<div id="categoriessection">
+									</div>
+									<div class="section productsheader">
+										Products
+									</div>
+									<div id="productssection">
+									</div>
+								</div>
+							</form>
+						</td>
+						<td class="browsetd">
+							<div class="shopbycategory">
+								<p>Browse by</p>
+								<p class="category">Category<b class="caret"></b></p>
+							</div>
+						</td>
+					</tr>
+				</table>
+			</div>	
+			<div class="browse-categories">
+				<img id="category-arrow" src='{{STATIC_URL}}img/catarrow.png'/>
 			</div>
-		</form>
+		</div>
+		<div class="whiteborder"></div>
 	</div>
-  </div>
-</div>
-
-<div class="subnavbar">
-here
-
-
 </div>
 {% endblock %}
 
@@ -128,6 +302,18 @@ here
 	  ga('send', 'pageview');
 	</script>
  -->
+ <script>
+ $(document).ready(function() {
+ 	$('.shopbycategory').click(function() {
+ 		if ($('.browse-categories').css('display') == 'none') {
+ 			$('.browse-categories').fadeIn('fast');
+ 		} else {
+ 			$('.browse-categories').fadeOut('fast');
+ 		}
+ 	});
+ 
+ });
+ </script>
     {% block jsblock %}{% endblock %}
     
 </body>

@@ -1,14 +1,13 @@
 /**********************************/
 /******* Landing Page *************/
 /**********************************/
-body {
-	background: white;
-}
 .navbar {
 	box-shadow: none;
 }
+.hero-background {
+	background-image: url("../img/fabric_plaid.png");
+}
 .herobg {
-	background: url("../img/homebg.png") no-repeat top center;
 	height: 540px;
 	width: 100%;
 	opacity: 1;
@@ -124,7 +123,6 @@ body {
 
 .featuredcontainer {
 	padding: 30px 0 60px 0;
-	background: white;
 }
 .featured {	
 	min-height: 400px;
