@@ -1,1 +1,1 @@
-web: gunicorn medapp.wsgi
+web: newrelic-admin run-program gunicorn medapp.wsgi
