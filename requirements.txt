@@ -1,5 +1,5 @@
 Django==1.6
-PIL==1.1.6
+PIL==1.1.7
 Pillow==2.2.1
 South==0.8.2
 balanced==0.11.14
