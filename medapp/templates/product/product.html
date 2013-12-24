@@ -13,43 +13,6 @@
 
 
 {% block content %}
-<div class="topbarcontainer">
-	<div class="topbar covebox">
-		<div class="topnavigation">
-			<p class="backbutton-container"><a class="backbutton" href="/productsearch/{{industry.name}}/{{item.subcategory.category.name}}/{{item.subcategory.name}}">&#8592; View all {{item.subcategory.displayname}}</a></p>
-			<p class="breadcrumbs"><a href="/">Home</a> / <a href="/productsearch/{{industry.name}}/{{item.subcategory.category.name}}/all">{{item.subcategory.category.displayname}}</a> / <a href="/productsearch/{{industry.name}}/{{item.subcategory.category.name}}/{{item.subcategory.name}}">{{item.subcategory.displayname}}</a> / {{item.name}}</p>
-			<div class="clear"></div>
-		</div>
-		<div class="otherviewers">	
-			<div class="savebutton">
-				{% if userloggedin %}
-					<a href="/list/describe/{{item.id}}" class="editaction button button-rounded button-highlight">Edit</a>
-				{% else %}
-					<img id="saveloader" src="{{STATIC_URL}}img/ajax-loader.gif"/>
-					{% if saved %}
-						<button id="save" class="button button-rounded button-royal">Saved</button>
-					{% else %}
-						<button id="save" class="button button-rounded">Save</button>
-					{% endif %}
-				{% endif %}
-			</div>
-			<p>This item was listed on <span>{{item.listeddate }}</p>
-		</div>
-		<h2>{% if item.name %}{{ item.name }}{% else %}VetCove{% endif %}</h2>
-		<h5>{{item.subcategory}}</h5>
-	</div>
-<!-- 
-	<div id="tabbar">
-		<div class="tabbar">
-			<a href="/product/{{product.id}}/details" class="detailstab {% block details %}{% endblock %}">Product Details</a>
-			<a href="/product/{{product.id}}/buyingoptions" class="detailstab {% block buyingoptions %}{% endblock %}">Buying Options (4)</a>
-			<div class="clear"></div>
-		</div>
-
-		<div class="clear"></div>
-	</div>
- -->
-</div>
 
 {% block productmain %}
 

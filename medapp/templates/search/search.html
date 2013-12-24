@@ -72,7 +72,8 @@ label .floatright {
 <div class='row searchcontainer'>
   <!--Filter Container -->
   <div class='col-xs-12 col-sm-3 filtercontainer'>
-  	<div class='filterbox'>
+  	<!-- 
+<div class='filterbox'>
   		<h4>Categories</h4>
   		<div class='filter-category notopborder'>
 			{% for cat in categories %} 
@@ -98,13 +99,15 @@ label .floatright {
 		</div>
 		{% endif %}
 	</div>
-	<div class='filterbox'>
+ -->
+	<div class='filterbox covebox'>
 		<h4>Filters</h4>
 		<div id='pricecategory' class='filter-category notopborder'>
   			<h2>Price Range</h2>
   			<div id='price-slider-container'>
-  				<p id='lowprice'>$<span>{{pricerange.0}}</span></p>
-  				<p id='highprice'>$<span>{{pricerange.1}}</span></p>
+  				{% load humanize %}
+  				<p id='lowprice'>$<span>{{pricerange.0 |floatformat|intcomma}}</span></p>
+  				<p id='highprice'>$<span>{{pricerange.1 |floatformat|intcomma}}</span></p>
   				<div class='clear'></div>
   				<div id='price-range' class='light-gradient'></div>
   			</div>
@@ -112,26 +115,25 @@ label .floatright {
   		<div class='filter-category'>
   			<h2>Condition</h2>
   			<div class='checkbox'>
-				<input class="checkboxitem" id='new' type='checkbox' name='check' value='new' checked='checked'>
-				<label for='new'>New</label>
-				<input class="checkboxitem" id='refurbished' type='checkbox' name='check' value='refurbished' checked='checked'>
-				<label for='refurbished'>Refurbished</label>
-				<input class="checkboxitem" id='preowned' type='checkbox' name='check' value='preowned' checked='checked'>
-				<label for='preowned'>Pre-Owned</label>
+				<input class="checkboxitem" data-category="conditiontype" data-value="new" id='new' type='checkbox' name='check' value='new' checked='checked'>
+				<label for='new'>New<span>0</span></label>
+				<input class="checkboxitem" data-category="conditiontype" data-value="refurbished" id='refurbished' type='checkbox' name='check' value='refurbished' checked='checked'>
+				<label for='refurbished'>Refurbished<span>0</span></label>
+				<input class="checkboxitem" data-category="conditiontype" data-value="preowned"  id='preowned' type='checkbox' name='check' value='preowned' checked='checked'>
+				<label for='preowned'>Pre-Owned<span>0</span></label>
 			</div>
   		</div>
-  		<!-- 
-<div class='filter-category'>
-  			<h2>Manufacturers</h2>
+  		<div class='filter-category'>
+  			<h2>Service Contract & Warranty</h2>
   			<div class='checkbox'>
-				{% for man in manufacturer %}
-					<input id='{{man.name}}' type='checkbox' name='check' value='check1_1' checked='checked'>
-					<label for='{{man.name}}'>{{man.name}}</label>
-				{% endfor %}
+				<input class="checkboxitem" id='warranty' data-category="contract" data-value="warranty" type='checkbox' value='new' checked='checked'>
+				<label for='warranty'>Warranty<span>0</span></label>
+				<input class="checkboxitem" id='servicecontract' data-category="contract" data-value="servicecontract" type='checkbox' value='refurbished' checked='checked'>
+				<label for='servicecontract'>Service Contract<span>0</span></label>
+				<input class="checkboxitem" id='none' data-category="contract" data-value="none" type='checkbox' value='preowned' checked='checked'>
+				<label for='none'>None<span>0</span></label>
 			</div>
   		</div>
-  		
- -->
   		<div id='milecategory' class='filter-category'>
   			<h2>Distance</h2>
   			<select class='form-control' id="distance-select">
@@ -156,12 +158,7 @@ label .floatright {
   			<img src='{{STATIC_URL}}img/ajax-loader2.gif'/>
   		</div>
   	</div>
-  	<div class='resultsbox resultsnav'>
-  		<!-- 
-<div class='' id='resultsparameter'>
-  		Searching for {{ searchquery }}
-  		</div>
- -->
+  	<div class='resultsbox resultsnav covebox'>
   		<div id='sortby'>
   			<p> Sort By: </p>
   			<select id="sortby-select" class='form-control'>
@@ -172,13 +169,30 @@ label .floatright {
   			</select>
   		</div>
   		<div id='numberofresults'>{{ resultcount }} Results</div>
-  		<p>Searching for {% if subcategoryname != 'all'%}{{ subcategoryname }}{% else %}{{ categoryname }}{% endif %}</p>
+  		{% if custom %}
+  			<p>Searching for {% if searchquery %}{{searchquery}}{% else %}all items{% endif %}</p>
+  		{% else %}
+  			<p>Searching for {% if subcategoryname != 'all'%}{{ subcategoryname }}{% else %}{{ categoryname }}{% endif %}</p>
+  		{% endif %}
   		<div class='clear'></div>
+  		{% if relatedItems %}
+  		<div id="related-results">
+  		<span>Related results: </span>
+			{% for relateditem in relatedItems %}
+				{% if relateditem.type == 'category' %}
+					<a href="/productsearch/{{ind.name}}/{{relateditem.obj.name}}/all">{{relateditem.obj.displayname}}</a>
+				{% else %}
+					<a href="/productsearch/{{ind.name}}/all/{{relateditem.obj.name}}">{{relateditem.obj.displayname}}<span> (in {{relateditem.obj.maincategory}})</a>
+				{% endif %}
+				{% if not forloop.last %},{% endif %}
+			{% endfor %}
+  		</div>
+  		{% endif %}
   	</div>
   	
   	<div class='resultsbox' id='resultsbody'>
   		{% include 'search/productsearchitem.html' %}
-		<div id="noresults" class="resultitem">
+		<div id="noresults" class="resultitem covebox">
 			<p class="noluck">Sorry, we can't find anything that matches your search</p>
 			<img class="noresults" src="{{STATIC_URL}}img/saddog.jpg"/>
 			<p>Try changing your filters, or call us with what you want and we will let you know when one becomes available!</p>
@@ -201,46 +215,58 @@ label .floatright {
 //*********************************************
 //Global variable dictionary ******************
 //*********************************************
-var variables = {'sort':'','query':'{{searchquery}}','zipcode':'{{zipcode}}','distance':-1,'page':0,'subcategory':'{{subcategoryname}}','category':'{{categoryname}}','sortby':'price','pricelow':0,'pricehigh':10000000,'new':true,'refurbished':true,'preowned':true};
+var variables = {
+	'custom':{% if custom %}true{% else %}false{% endif %},
+	'sort':'',
+	'query':'{{searchquery}}',
+	'zipcode':'{{zipcode}}',
+	'distance':-1,'page':0,
+	'subcategory':'{% if subcategory %}{{subcategory.name}}{% else %}all{% endif %}',
+	'category':'{% if category %}{{category.name}}{% else %}all{% endif %}',
+	'sortby':'price',
+	'pricelow':0,
+	'pricehigh':10000000,
+	'conditiontype':['new','refurbished','preowned'],
+	'contract':['none','servicecontract','warranty']
+};
 
 //*********************************************
 //*** Miscellaneous Page Functions ************
-//*********************************************
+//*********************************************			
 $(document).ready(function(){
-	//Show More View
-	if ($(".cat-hidden")) {
-		$(".seeall").css("display","block");
-	}
-	$(".seeall").click(function() {
-		if ($(this).text() == 'Hide More') {
-			$(".cat-hidden").css('display','none');
-			$(this).text("Show All Categories");
-		} else {
-			$(".cat-hidden").fadeIn();
-			$(this).text("Hide More");
-		}
-	});
-	//This code calls an API that updates the zip if user is not logged in
-	if (variables['zipcode'].length != 5) {
-		// $.get("http://ipinfo.io", function(response) {
-// 			variables['zipcode'] = response.postal;
-// 			$('#zipcode-input').val(response.postal);
-// 		}, "jsonp");
-	}
+	//Start with everything checked
+	$('.checkboxitem').prop('checked',true);
+	//Set sorting to price
 	$("#sortby-select").val("price");
+	//Initial distance value to -1
 	$("#distance-select").val(-1);
+	//Activate boxes
 	activateResultsBoxItems();
-	$('.checkbox').prop('checked', true);
-	$(".checkbox").change(function() {
-		var checkboxname = $(this).attr('id');
-		variables[checkboxname] = ($(this).is(":checked")) ? true: false;
-		variables['page'] = 0;
+	
+	//This function updates the variables when a checkbox is clicked
+	$(".checkboxitem").change(function() {
+		var topic = $(this).attr('data-category');
+		var checked = $(this).is(":checked") ? true: false;
+		var value = $(this).attr('data-value');
+		var val_index = variables[topic].indexOf(value)
+		if (val_index >= 0 && checked ==false) {
+			variables[topic].splice(val_index,1);
+		}
+		else if (val_index < 0 && checked ==true) {
+			variables[topic].push(value);
+		}
+		console.log(variables[topic]);
 		update();
+		
 	});
+	
+	//Update the distance parameter
 	$('#distance-select').change(function() {
 		variables['distance'] = $(this).val();	
 		update();
 	});
+	
+	//Update the zipcode parameter
 	$('#zipcode-input').blur(function() {
 		if ($(this).val().length == 5) {
 			variables['zipcode'] = $(this).val();
@@ -249,17 +275,22 @@ $(document).ready(function(){
 			$(this).val("");
 		}
 	});
+	
+	//Update the sorting parameter
 	$('#sortby-select').change(function() {
 		variables['sort'] = $(this).val();
 		variables['page'] = 0;
 		update();
 	});
+	
+	//Show more button functionality
 	$('.showmorebutton').click(function() {
 		$('.showmorebutton p').css('display','none');
 		$('.showmorebutton img').css('display','block');
 		variables['page'] = variables['page']+1;
 		update();
 	});
+	
 	//The price filter functionality when it is toggled
 	$(function() {
 		$( '#price-range' ).slider({

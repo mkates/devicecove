@@ -1,3 +1,4 @@
+{% if not preview %}
 <div id="buynowcontainer">
 	<div id="buynowbackalign">
 		<div class="buynowbox">
@@ -21,161 +22,189 @@
 		</div>
 	</div>
 </div>
-<div class="row product">
-  <div class="col-xs-12 col-sm-8 col-md-8 mainproductcontainer">
-  	{%if item.itemimage_set.all %}
-  	<div class="mainproduct imageproduct">
-  		<div class="mainproduct-header">
-  			<div id="zoomcontainer">
-				<div class='mainimage-div' id="ex1" style="background-image:url('{{item.mainimage.photo.url}}')">
-				</div>
- 				<div class="thumbnails">
-					{% for img in item.itemimage_set.all %}
-						<div class="thumbnail-container"><img src="{{img.photo_small.url}}" data-original="{{img.photo.url}}"/></div>
-					{% endfor %}
-					{% for img in item.productimage_set.all %}
-						<div class="thumbnail-container"><img src="{{img.photo_small.url}}" data-original="{{img.photo.url}}"/></div>
-					{% endfor %}
- 				</div>
-  			</div>
-  		</div>
-  	</div>
-  	{% endif %}
-  	
-  	<div class="mainproduct productdetails">
-  		<h2> Product Description</h2>
-  		{% if item.productdescription %}
-  		<p> {{item.productdescription}}</p>
-  		{% else %}
-  		<p> There currently is no description for this item</p>
-  		{% endif %}
-  	</div>
-  	{% if item.conditiondescription %}
-  	<div class="mainproduct productdetails" id="features">
-  		<h2> Product Condition</h2>
-  		<p id="productfeatures">{{item.conditiondescription}}</p>
-  	</div>
-  	{% endif %}
-  	{% if item.whatsincluded %}
-  	<div class="mainproduct productdetails" id="features">
-  		<h2>What's Included</h2>
-  		<p id="productfeatures">{{item.whatsincluded}}</p>
-  	</div>
-  	{% endif %}
-  	{% if item.contract != 'none' %}
-  	<div class="mainproduct productdetails" id="features">
-  		<h2>Warranty / Service Contract Details</h2>
-  		<p id="productfeatures">{{item.get_contract_display}}</p>
-  		<p id="productfeatures">{{item.contractdescription}}</p>
-  	</div>
-  	{% endif %}
-  	<div class="mainproduct productdetails questionbox" id="features">
-  		<h2> Top Buyer Questions</h2>
-  		{% if userloggedin == item.user %}
-  			<a href="/questions" class="button button-rounded button-tiny">Answer Questions</a>
-  		{% else %}
-  			<a class="button button-rounded button-tiny askquestion">Ask a question</a>
-  		{% endif %}
-  		<form id="newquestion" method="post" action="/askquestion">
-  			{% csrf_token %}
-  			<textarea name="question" class="form-control" placeholder="We will contact the seller when a question is asked. Please do not put any peronsably indentifiable information in the question, per our terms of service."></textarea>
-  			<input type="hidden" name="itemid" value="{{item.id}}">
-  			<input type="hidden" name="redirect" value="/item/{{item.id}}/details">
-  			<button class="button button-rounded button-tiny button-primary">Submit Question</button>
-  			<a class="button button-rounded button-tiny askquestioncancel">Cancel</a>
-  		</form>
-  		{% if item.question_set.all %}
-			{% for question in item.question_set.all reversed %}
-				<div class="question">
-					<h5>{{question.question}} <span> asked {{question.dateasked}}</span> {% if question.item.user.email == user.email and not question.answer %}<span class="deletequestion" data_questionid="{{question.id}}">Delete</span>{% endif %}</h5>
-					{% if question.answer %}
-						<p class="answer">{{question.answer}}</p>
-					{% else %}
-						<p id="notyetanswered">The seller has no yet answered this question</p>
-					{%endif %}
-				</div>
-			{% endfor %}
-		{% else %}
-			<p id="noquestions">There have been no questions answered by the seller</p>
-		{% endif %}
-  	</div>
-  	{% if not preview %}
-  	<div class="mainproduct productdetails">
-  		<h2>Customer Who Viewed This Item Also Viewed</h2>
-  		<div id="slider-code">
-			<a class="buttons prev" href="#"> &lsaquo;</a>
-			<div class="viewport">
-				<ul class="overview">
-				   {%for itm in related %}
-					<li>
-						<div class="product-box">
-							<a href="/item/{{item.id}}/details"><div class="item">
-								<div class="itemname">{{itm.name}}</div>
-								<div class="itemsoldby">{{itm.user.company}}</div>
-								<div class="itemimage">
-									<div class="verticalaligner">
-										<img src="{%if itm.mainimage %}{{itm.mainimage.photo_medium.url}}{% else %}{{STATIC_URL}}img/noimage.jpg{% endif %}" alt="{{itm.name}}"/>		
-									</div>
-								</div>
-								<div class="price">
-									<div class="pricebox">
-										<p class="price">${{item.price}}</p>
-										<p class="pricelabel">{{item.get_type_display}} &#8901; {{item.get_contract_display}}</p>
-									</div>
-								</div>
-							</div></a>
-						</div>
-					</li>
-					{% endfor %}
-				</ul>
+{% endif %}
+<div class="product-container">
+	<div class="row topbarcontainer">
+		<div class="topbar covebox">
+			{% if not preview %}
+			<div class="topnavigation">
+				<p class="backbutton-container"><a class="backbutton" href="/productsearch/{{industry.name}}/{{item.subcategory.maincategory.name}}/{{item.subcategory.name}}">&#8592; View all {{item.subcategory.displayname}}</a></p>
+				<p class="breadcrumbs"><a href="/">Home</a> / <a href="/productsearch/{{industry.name}}/{{item.subcategory.maincategory.name}}/all">{{item.subcategory.maincategory.displayname}}</a> / <a href="/productsearch/{{industry.name}}/{{item.subcategory.maincategory.name}}/{{item.subcategory.name}}">{{item.subcategory.displayname}}</a> / {{item.name}}</p>
+				<div class="clear"></div>
 			</div>
-    		<a class="buttons next" href="#">&rsaquo;</a>
+			{% endif %}
+			{% if not preview %}
+			<div class="otherviewers">	
+				<div class="savebutton">
+					{% if userloggedin %}
+						<a href="/list/describe/{{item.id}}" class="editaction button button-rounded button-highlight">Edit</a>
+					{% else %}
+						<img id="saveloader" src="{{STATIC_URL}}img/ajax-loader.gif"/>
+						{% if saved %}
+							<button id="save" class="button button-rounded button-royal">Saved</button>
+						{% else %}
+							<button id="save" class="button button-rounded">Save</button>
+						{% endif %}
+					{% endif %}
+				</div>
+				<p>This item was listed on <span>{{item.listeddate }}</p>
+			</div>
+			{% endif %}
+			<h2>{% if item.name %}{{ item.name }}{% else %}VetCove{% endif %}</h2>
+			<h5>{{item.subcategory}}</h5>
 		</div>
-  		
-  	</div>
-    {% endif %}
-  </div>
+	</div>
+	<div class="row product">
+	  <div class="col-xs-12 col-sm-8 col-md-8 mainproductcontainer">
+		{%if item.itemimage_set.all %}
+		<div class="mainproduct imageproduct">
+			<div class="mainproduct-header">
+				<div id="zoomcontainer">
+					<div class='mainimage-div' id="ex1" style="background-image:url('{{item.mainimage.photo.url}}')">
+					</div>
+					<div class="thumbnails">
+						{% for img in item.itemimage_set.all %}
+							<div class="thumbnail-container"><img src="{{img.photo_small.url}}" data-original="{{img.photo.url}}"/></div>
+						{% endfor %}
+						{% for img in item.productimage_set.all %}
+							<div class="thumbnail-container"><img src="{{img.photo_small.url}}" data-original="{{img.photo.url}}"/></div>
+						{% endfor %}
+					</div>
+				</div>
+			</div>
+		</div>
+		{% endif %}
+	
+		<div class="mainproduct productdetails">
+			<h2> Product Description</h2>
+			{% if item.productdescription %}
+			<p> {{item.productdescription}}</p>
+			{% else %}
+			<p> There currently is no description for this item</p>
+			{% endif %}
+		</div>
+		{% if item.conditiondescription %}
+		<div class="mainproduct productdetails" id="features">
+			<h2> Product Condition</h2>
+			<p id="productfeatures">{{item.conditiondescription}}</p>
+		</div>
+		{% endif %}
+		{% if item.whatsincluded %}
+		<div class="mainproduct productdetails" id="features">
+			<h2>What's Included</h2>
+			<p id="productfeatures">{{item.whatsincluded}}</p>
+		</div>
+		{% endif %}
+		{% if item.contract != 'none' %}
+		<div class="mainproduct productdetails" id="features">
+			<h2>Warranty / Service Contract Details</h2>
+			<p id="productfeatures">{{item.get_contract_display}}</p>
+			<p id="productfeatures">{{item.contractdescription}}</p>
+		</div>
+		{% endif %}
+		<div class="mainproduct productdetails questionbox" id="features">
+			<h2> Top Buyer Questions</h2>
+			{% if userloggedin == item.user %}
+				<a href="/questions" class="button button-rounded button-tiny">Answer Questions</a>
+			{% else %}
+				<a class="button button-rounded button-tiny askquestion">Ask a question</a>
+			{% endif %}
+			<form id="newquestion" method="post" action="/askquestion">
+				{% csrf_token %}
+				<textarea name="question" class="form-control" placeholder="We will contact the seller when a question is asked. Please do not put any peronsably indentifiable information in the question, per our terms of service."></textarea>
+				<input type="hidden" name="itemid" value="{{item.id}}">
+				<input type="hidden" name="redirect" value="/item/{{item.id}}/details">
+				<button class="button button-rounded button-tiny button-primary">Submit Question</button>
+				<a class="button button-rounded button-tiny askquestioncancel">Cancel</a>
+			</form>
+			{% if item.question_set.all %}
+				{% for question in item.question_set.all reversed %}
+					<div class="question">
+						<h5>{{question.question}} <span> asked {{question.dateasked}}</span> {% if question.item.user.email == user.email and not question.answer %}<span class="deletequestion" data_questionid="{{question.id}}">Delete</span>{% endif %}</h5>
+						{% if question.answer %}
+							<p class="answer">{{question.answer}}</p>
+						{% else %}
+							<p id="notyetanswered">The seller has no yet answered this question</p>
+						{%endif %}
+					</div>
+				{% endfor %}
+			{% else %}
+				<p id="noquestions">There have been no questions answered by the seller</p>
+			{% endif %}
+		</div>
+		{% if not preview %}
+		<div class="mainproduct productdetails">
+			<h2>Customer Who Viewed This Item Also Viewed</h2>
+			<div id="slider-code">
+				<a class="buttons prev" href="#"> &lsaquo;</a>
+				<div class="viewport">
+					<ul class="overview">
+					   {%for itm in related %}
+						<li>
+							<div class="product-box">
+								<a href="/item/{{item.id}}/details"><div class="item">
+									<div class="itemname">{{itm.name}}</div>
+									<div class="itemsoldby">{{itm.user.company}}</div>
+									<div class="itemimage">
+										<div class="verticalaligner">
+											<img src="{%if itm.mainimage %}{{itm.mainimage.photo_medium.url}}{% else %}{{STATIC_URL}}img/noimage.jpg{% endif %}" alt="{{itm.name}}"/>		
+										</div>
+									</div>
+									<div class="price">
+										<div class="pricebox">
+											<p class="price">${{item.price}}</p>
+											<p class="pricelabel">{{item.get_type_display}} &#8901; {{item.get_contract_display}}</p>
+										</div>
+									</div>
+								</div></a>
+							</div>
+						</li>
+						{% endfor %}
+					</ul>
+				</div>
+				<a class="buttons next" href="#">&rsaquo;</a>
+			</div>
+		
+		</div>
+		{% endif %}
+	  </div>
   
- {%load humanize %}
-  <div class="col-xs-12 col-sm-4 col-md-4 sideproductcontainer">
-  	<div class="sideproduct actionbox">
-  		<h2>Buy This Item</h2>  
-  		<h3>${{item.price|floatformat|intcomma}}</h3>
-  		<p>Service Contract will be acquired for free after the purchase is made. Not including shipping.</p>
-  		<!-- 
-<div class="retailprice">
-  			<p id="here"><span class="condition">New (1)</span> <span class="price">$27,542</span></p>
-  			<p><span class="condition">Refurbished (1)</span> <span class="price">$24,323</span></p>
-  			<p class="noborder"><span class="condition">Pre-owned (0)</span> <span class="price">N/A</span></p>
-  		</div>
- -->
- 		{% if not preview %}
-  		<div class="actionbuttons">
-  			<a id="contactseller" class="button button-rounded button-primary">Schedule Visit</a>
-  			<a id="buynow" class="button button-rounded button-action">Buy Now</a>
-  		</div>
-  		{% endif %}
-  	</div>
-  	<div class="sideproduct" id="buyerprotect">
-  		<img class="buyerbadge" src="{{STATIC_URL}}img/vetcoveprotected.png"/> 	
-  		<h3>Buy With Confidence</h3>
-  		<h4>We've got you covered</h4>
-  		<div class="clear"></div>
-  		<p>Every product on our system, regardless of warranty, comes with a 14 day product guarantee. If the product does not meet the specifications and condition described, you will receive a full refund. <a href="/buyerprotect" target="_blank">View All Details</a></p>
-  	</div>
-  	<div class="sideproduct" id="productspecs">
-  		<h2>Seller Information</h2>
-  		<p><span>Type</span>{{item.user.businesstype | title}}</p>
-  		<p><span>Location</span>{{item.user.city}}, {{item.user.state}}</p>
-  	</div>
-  	<div class="sideproduct" id="productspecs">
-  		<h2>Product Information</h2>
-		<p><span>Device Category</span>{{item.subcategory}}</p>
-		<p><span>Device Type</span>{{item.subcategory.category}}</p>
-		<p><span>Service Contract</span>{{item.get_contract_display}}</p>
-		<p><span>Model Year</span>{{item.modelyear}}</p>
-		<p><span>Condition</span>{{item.get_conditionquality_display}}</p>
-		<p><span>Manufacturer</span>{{item.manufacturer}}</p>
-  	</div>
-  </div>
+	 {%load humanize %}
+	  <div class="col-xs-12 col-sm-4 col-md-4 sideproductcontainer">
+		<div class="sideproduct actionbox">
+			<h2>Buy This Item</h2>  
+			<h3>${{item.price|floatformat|intcomma}}</h3>
+			<p>Service Contract will be acquired for free after the purchase is made. Not including shipping.</p>
+			{% if not preview %}
+			<div class="actionbuttons">
+				<a id="contactseller" class="button button-rounded button-primary">Schedule Visit</a>
+				<a id="buynow" class="button button-rounded button-action">Buy Now</a>
+			</div>
+			{% endif %}
+		</div>
+		<div class="sideproduct" id="buyerprotect">
+			<img class="buyerbadge" src="{{STATIC_URL}}img/vetcoveprotected.png"/> 	
+			<h3>Buy With Confidence</h3>
+			<h4>We've got you covered</h4>
+			<div class="clear"></div>
+			<p>Every product on our system, regardless of warranty, comes with a 14 day product guarantee. If the product does not meet the specifications and condition described, you will receive a full refund. <a href="/buyerprotect" target="_blank">View All Details</a></p>
+		</div>
+		<div class="sideproduct" id="productspecs">
+			<h2>Seller Information</h2>
+			<p><span>Type</span>{{item.user.businesstype | title}}</p>
+			<p><span>Location</span>{{item.user.city}}, {{item.user.state}}</p>
+		</div>
+		<div class="sideproduct" id="productspecs">
+			<h2>Product Information</h2>
+			<p><span>Device Category</span>{{item.subcategory}}</p>
+			<p><span>Service Contract</span>{{item.get_contract_display}}</p>
+			<p><span>Model Year</span>{{item.modelyear}}</p>
+			<p><span>Original Owner</span>{{item.originalowner|yesno:"Yes,No"}}</p>
+			<p><span>Shipping Included</span>{{item.shippingincluded|yesno:"Included,Not Included"}}</p>
+			<p><span>Condition</span>{{item.get_conditionquality_display}}</p>
+			<p><span>Manufacturer</span>{{item.manufacturer}}</p>		
+			<p><span>VetCove Verified Seller</span>{{item.user.verified|yesno:"Yes,No"}}</p>
+		</div>
+	  </div>
+	</div>
 </div>

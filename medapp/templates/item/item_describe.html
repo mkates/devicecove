@@ -7,14 +7,14 @@
 			<h5>Category</h5>
 			<select id="inputcategory" class="form-control smallinput">
 			{% for cat in categories %}
-				<option {%if cat.name == item.subcategory.category.name %}selected="selected" {% endif %} value="{{cat.name}}">{{cat.displayname}}</option>
+				<option {%if cat.name == item.subcategory.maincategory.name %}selected="selected" {% endif %} value="{{cat.name}}">{{cat.displayname}}</option>
 			{% endfor %}
 			</select>
 		</div>
 		<div class="entry">
 		<h5>Item</h5>
-			<select id="inputsubcategory" name="subcategory" class="form-control smallinput">
-			{% for subcat in item.subcategory.category.subcategory_set.all %}
+			<select id="inputsubcategory" name="subcategory" class="form-control smallinput" value=">
+			{% for subcat in item.subcategory.maincategory.subcategory_set.all %}
 				<option {%if subcat.name == item.subcategory.name %}selected {% endif %} value="{{subcat.name}}">{{subcat.displayname}}</option>
 			{% endfor %}
 			</select>
@@ -73,7 +73,9 @@
 <script src="{{STATIC_URL}}js/bootstrap-datepicker.js"></script> 
 <script>
 $(document).ready(function() {
-	$('#inputownerlength').datepicker();
+	$("#inputcategory").change(function() {
+		retrieveCategories($("#inputcategory").val());
+	});
 });
 
 var submittable = false;
@@ -87,6 +89,23 @@ var validateInputs = function validateInputs() {
 	return submittable;
 };
 
+var retrieveCategories = function(cat) {
+	if (cat != 'Null') {
+		$.ajax({
+			url: '/getsubcategories',
+			type: 'GET',
+			data: {'category':cat},
+			cache: true,
+			dataType: 'json',
+			success: function(response){	
+				$("#inputsubcategory").empty();
+				$.each(response,function(index,value) {
+					$("#inputsubcategory").append("<option value='"+index+"'>"+value+"</option>");
+				});
+			}
+		});
+	}
+}
 </script>
 {% endblock %}
 {% block customcss %}

@@ -34,6 +34,7 @@ class SubCategory(models.Model):
 	name = models.CharField(max_length=60,unique=True)
 	displayname = models.CharField(max_length=50)
 	category = models.ManyToManyField(Category)
+	maincategory = models.ForeignKey(Category,related_name='maincategory')
 	totalunits = models.IntegerField()
 	def __unicode__(self):
 		return self.displayname
@@ -104,11 +105,9 @@ class Item(models.Model):
 	
 	### Warranty + Service Contracts
 	CONTRACT_OPTIONS =  (
-		('tranferwarranty', 'Warranty'),
-		('notransferwarranty', 'No Transfer Warranty'),
-		('transferservicecontract', 'Service Contract'),
-		('notransferservicecontract', 'No Transfer Service Contract'),
-		('none', 'No Warranty/Service Contract')
+		('warranty', 'Warranty'),
+		('servicecontract', 'Service Contract'),
+		('none', 'No Warranty / Service Contract')
 	)
 	contract = models.CharField(max_length=40, choices=CONTRACT_OPTIONS)
 	contractdescription = models.TextField(blank=True)
@@ -136,7 +135,7 @@ class Item(models.Model):
 	shippingincluded = models.BooleanField(default=True)
 	offlineviewing = models.BooleanField(default=False)
 	tos = models.BooleanField(default=False)
-	price = models.FloatField(max_length=20,null=True,blank=True)
+	price = models.FloatField(max_length=20)
 	
 	#Miscellaneous 
 	LISTSTATUS_OPTIONS =  (

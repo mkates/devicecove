@@ -1,9 +1,59 @@
 {% extends 'item/item_base.html' %}
-
+{% block overlaydiv %}
+<div id="preview-overlay" class="preview-overlay">
+	<div class="preview-bg" id="preview-bg">
+		<div class="preview-padding" id="preview-padding">
+			<div class="preview-directions">
+				<h4 class="preview-title">This is a preview of what your item will look like</h4>
+				<a class="preview-return button button-rounded button-highlight button-small">Return to Listing</a>
+				<div class="clear"></div>
+			</div>
+			{% include 'product/productpage.html' %}
+			<div class="preview-directions">
+				<a class="preview-return button button-rounded button-highlight button-small">Return to Listing</a>
+				<div class="clear"></div>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}
 {% block formcontent %}
 
-<h5> Listing Preview </h5>
-{% include 'product/productpage.html' %}
+<div class="preview row">
+	<div class="preview-text col-md-8 col-sm-8 col-xs-12">
+		<h4> Description<a href="/list/describe/{{item.id}}">edit</a></h4>
+		<p><span>Category: </span>{{item.subcategory}}</p>
+		<p><span>Manufacturer: </span>{{item.manufacturer}}</p>
+		<p><span>Model Name: </span>{{item.name}}</p>
+		<p><span>Model Year: </span>{{item.modelyear}}</p>
+		<p><span>Type: </span>{{item.get_conditiontype_display}}</p>
+		<h4>Details<a href="/list/details/{{item.id}}">edit</a></h4>
+		<p><span>Quality: </span>{{item.get_conditionquality_display}}</p>
+		<p><span>Condition:</span>{{item.conditiondescription}}</p>
+		<p><span>Features: </span>{{item.productdescription}}</p>
+		<p><span>What's Incuded: </span>{{item.whatsincluded}}</p>
+		<p><span>Contract: </span>{{item.get_contract_display}}</p>
+		<p><span>Contract Description: </span>{{item.contractdescription}}</p>
+		<h4> Logistics<a href="/list/logistics/{{item.id}}">edit</a></h4>
+		<p><span>Original Owner: </span>{{item.originalowner|yesno:"Yes,No"}}</p>
+		<p><span>Shipping Included: </span>{{item.shippingincluded|yesno:"Included,Not Included"}}</p>
+		{% load humanize %}
+		<p><span>Price: </span>${{item.price|floatformat|intcomma}}</p>
+	</div>
+	<div class="preview-image col-md-4 col-sm-4 col-xs-12">
+		<h4> Photos<a href="/list/photos/{{item.id}}">edit</a></h4>
+		<div class="img-container">
+		{% if item.mainimage %}
+			<img class="preview-mainimage"src="{{item.mainimage.photo_medium.url}}" alt="{{img.item}}"/>
+		{% endif %}
+		{% for img in item.itemimage_set.all %}
+			{% if item.mainimage.id != img.id %}
+			<img class="preview-subimage" src="{{img.photo_medium.url}}" alt="{{img.item}}"/>
+			{% endif %}
+		{% endfor %}
+		</div>
+	</div>
+</div>
 
 {% endblock %}
 {% block customjs %}
@@ -14,6 +64,20 @@ $(document).ready(function() {
 		console.log($("#mainimage").css("width"));
 	});
 });
+$(document).ready(function() {
+	$('.viewpreview').click(function() {
+		$(".preview-overlay").fadeIn();
+	});
+	$('.preview-overlay').click(function(e) {
+		console.log(e.target.id);
+		if (e.target.id == 'preview-bg' || e.target.id =="preview-padding"){
+			$(".preview-overlay").fadeOut();
+		}
+	});
+	$('.preview-return').click(function() {
+		$(".preview-overlay").fadeOut();
+	});
+});
 </script>
 {% endblock %}
 {% block customcss %}
@@ -22,8 +86,14 @@ $(document).ready(function() {
 <link href="{{STATIC_URL}}css/product.css" rel="stylesheet" type="text/css" />
 <link rel="stylesheet" type="text/css" href="{{STATIC_URL}}css/jquery.fancybox.css" media="screen" />
 <style>
-.product {
+
+.product-container {
 	text-align: left;
+	margin: 0 auto;
+	max-width: 1000px;
+	background: #eee;
+	padding: 0;
+	border-radius: 5px;
 }
 .backbutton {
 	line-height: 32px;
@@ -35,6 +105,100 @@ $(document).ready(function() {
 	opacity: .4;
 	pointer-events: none;
 	cursor: default;
+}
+.listcontent h5 {
+	text-align: center;
+	font-size: 20px;
+	background: #eee;
+	margin: 30px;
+	padding: 10px;
+	border-radius: 3px;
+	text-shadow: 0 0 1px #fff;
+	border:1px solid #ccc;
+	
+}
+.preview-overlay {
+	position:absolute;
+	width: 100%;
+	z-index: 99999;
+	display: none;
+}
+.preview-bg {
+	background: url("{{STATIC_URL}}img/blacktransparency.png");
+	width: 100%;
+	padding: 60px 0;
+	text-align: center;
+}
+.preview-bg .preview-title{
+	color: #ddd;
+	font-size: 16px;
+	float: left;
+	font-weight: 200;
+}
+.preview-directions {
+	text-align: right;
+	max-width: 1000px;
+	margin: 0 auto;
+	padding-top: 10px;
+	font-weight: 200;
+}
+.preview-directions .preview-return {
+	font-size: 13px;
+}
+.preview-directions .preview-return:hover {
+	cursor:pointer;
+}
+.preview {
+	margin-left: 0px;
+	margin-right: 0px;
+}
+.preview-padding {	
+	padding: 0 20px;
+}
+.preview-text {
+	padding-left: 20px;
+}
+.preview div h4 {
+	border-bottom: 1px dotted #333;
+	padding-bottom: 4px;
+	margin: 20px 0;
+	margin-left: 15px;
+	margin-right: 20px;
+}
+.preview div h4 a {
+	float:right;
+	font-size: 13px;
+}
+.preview div h4 a:hover {
+	text-decoration: underline;
+}
+.preview-text p {
+	font-weight: 200;
+	font-size: 13px;
+}
+.preview-text p span {
+	font-weight: 800;
+	width: 115px;
+	margin-right: 20px;
+	margin-left: 15px;
+	text-align: left;
+	display: inline-block;
+}
+.preview-image .preview-mainimage {
+	border:2px solid #eee;
+	max-width: 100%;
+	max-height: 100%;
+	margin-bottom: 10px;
+}
+.preview-image .preview-subimage {
+	max-width: 130px;
+	max-height: 140px;
+	border:2px solid #eee;
+	margin-bottom: 10px;
+}
+.preview-image .img-container {
+	margin-left: 15px;
+	margin-right: 20px;
 }
 
 </style>
@@ -52,4 +216,7 @@ $(document).ready(function() {
 
 {% block hidesave %}{% endblock %}
 
-{% block continuebutton %}<a href="/savepreview/{{item.id}}" class="saveandcontinue button button-rounded button-highlight">List Your Product</a>{% endblock %}
+{% block continuebutton %}
+	<a href="/savepreview/{{item.id}}" class="saveandcontinue button button-rounded button-highlight">{% if item.liststatus != 'incomplete' %}View Your Listing{% else %}List Your Product{% endif %}</a>
+	<a class="viewpreview button button-rounded">Preview Listing</a>
+{% endblock %}

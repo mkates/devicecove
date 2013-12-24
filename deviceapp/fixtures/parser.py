@@ -86,4 +86,27 @@ def parseLatLong():
 	ins.close()
 	out.close()
 
-#parseManufacturer()
+def parseGeoIP():
+	ins = open( "GeoLiteCity.csv", "r" )
+	# out = open("latlong.json",'w').close()
+# 	out = open("latlong.json",'w')
+# 	out.write('[')
+	array = []
+	count = 1
+	for line in ins:
+		line = line.replace('"','')
+		a = line.split(",")
+		try:
+			if a[1] == 'US':
+				count += 1
+		except:
+			print 'ERROR'
+	# out.seek(-1, os.SEEK_END)
+# 	out.truncate()
+	# out.write("]")
+	print count
+	ins.close()
+	# out.close()
+	
+
+parseGeoIP()

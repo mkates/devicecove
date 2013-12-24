@@ -34,11 +34,11 @@ a:active {
 .covebox {
 	border:1px solid #ddd;
 	background: white;
-	margin: 20px;
-	padding: 20px;
 	box-shadow: 0 0px 3px #ccc;
 }
-
+.row {
+	margin: 0;
+}
 
 /**********************************/
 /******  Footer *******************/

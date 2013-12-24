@@ -2,8 +2,7 @@
 /* Layout formatting ******/
 /**************************/
 
-
-.product {
+.product-container {
 	margin: 0 auto;
 	max-width: 1000px;
 	font-family: Arial,sans-serif;
@@ -40,10 +39,12 @@
 /**************************/
 /* TopBar ******/
 /**************************/
-
+.topbarcontainer {
+	margin-left: 5px;
+	margin-right: 5px;
+}
 .topbar {
 	margin: 0 auto;
-	width: 990px;
 	padding: 20px;
 	text-align: left;
 	background: white;
@@ -158,6 +159,7 @@
 .otherviewers .savebutton {
 	display:block;
 	text-align: right;
+	margin-bottom: 5px;
 }
 #save, .editaction {
 	display:inline-block;

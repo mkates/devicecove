@@ -88,8 +88,9 @@
 	margin-top: 30px;
 	margin-left: 20px;
 }
-.contractdescription-container {
-	display: none;
+.entry h5 span {
+	font-weight: 200;
+	font-size: 12px;
 }
 </style>
 {% endblock %}
@@ -98,10 +99,7 @@
 <script>
 	$(document).ready(function() {
 		qualityNumberClick($("#quality_{{item.conditionquality}}"));
-		contractChange();
-		$('.contract').change(function() {
-			contractChange();
-		});	
+		qualityChange({{item.conditionquality}});
 	});
 	var currentvalue = 0;
 	$(".qualitybox select").css("opacity",".4");
@@ -135,6 +133,7 @@
 			if (value == 4) {margintomove = '57%'};
 			if (value == 5) {margintomove = '73.7%'};
 			if (value == 6) {margintomove = '90.3%'};
+			qualityChange(value);
 			$(".downarrow").animate({"margin-left":margintomove},400);
 			$(".qualitydescription p").fadeOut('fast',function() {
 				$(".qualitydescription p").html(qualitydict[value]);
@@ -142,33 +141,24 @@
 			});
 		}	
 	}
-	var contractChange = function contractChange(handle) {
-		contractvalue = $('input[name=contract]:checked', '#listform').val();
-		if (contractvalue != 'none') {
-				$('.contractdescription-container').fadeIn();
-			} else {
-				$('.contractdescription-container').fadeOut();
-			}
-	}
 	
 	var submittable = false;
 	var validateInputs = function validateInputs() {
 		submittable = true;
-		$("#inputwhatsincluded").val() != 'none' ? removeError($("#inputwhatsincluded")) : addError($("#inputwhatsincluded"));
-		$("#inputconditiondescription").val().length > 2 ? removeError($("#inputconditiondescription")) : addError($("#inputconditiondescription"));
-		$("#inputproductdescription").val().length > 2 ? removeError($("#inputproductdescription")) : addError($("#inputproductdescription"));
 		return submittable;
 	};
+	 var qualityChange = function qualityChange(conditionvalue) {
+		if (conditionvalue != 6) {
+			$('.conditionentry').fadeIn();
+		} else {
+			$('.conditionentry').fadeOut();
+		}
+    }
 </script>
 {% endblock %}
 {% block formcontent %}
 <div class="formcontent row">
 	<input id="conditionquality" type="hidden" name="conditionquality" value="{{item.conditionquality}}">
-	<div class="entry">
-		<h5>What's Included?</h5>
-		<p>Describe any accessories, manuals, and general items that come with this item</p>
-		<textarea id="inputwhatsincluded" name="whatsincluded" type="text" class="form-control" placeholder="Make sure you include any defects, product malfunctions, repairs, or otherwise">{{item.whatsincluded}}</textarea>
-	</div>
 	<h5 id="qualitytitle">Choose Your Item Condition</h5>
 	<div class="qualitybox">
 		<div class="selectors">
@@ -185,14 +175,12 @@
 			<p></p>
 		</div>
 	</div>
-	<div class="entry">
-		<h5>Item Condition</h5>
-		<p>Describe any defects, product malfunctions, repairs, or otherwise</p>
+	<div class="entry conditionentry">
+		<h5>Describe Item Condition <span>Describe any defects, product malfunctions, repairs, or otherwise</span></h5>
 		<textarea id="inputconditiondescription" name="conditiondescription" type="text" class="form-control" placeholder="Example: This ultrasound was used in mobile veterinary trucks. I was the s. . . ">{{item.conditiondescription}}</textarea>
 	</div>
 	<div class="entry">
-		<h5>Model Features and Specs</h5>
-		<p>Describe any accessories, manuals, and general items that come with this item</p>
+		<h5>Model Features and Specs <span>Describe any accessories, manuals, and general items that come with this item</span></h5>
 		<textarea id="inputproductdescription" name="productdescription" type="text" class="form-control" placeholder="Make sure you include any defects, product malfunctions, repairs, or otherwise">{{item.productdescription}}</textarea>
 	</div>
 	<div class="entry">
@@ -231,6 +219,10 @@
 			<p>Please describe details of the service contract / warranty</p>
 			<textarea id="inputcontractdescription" name="contractdescription" type="text" class="form-control" placeholder="Details of the service contract">{{item.contractdescription}}</textarea>
 		</div>
+	</div>
+	<div class="entry">
+		<h5>What's Included? <span>Describe any accessories, manuals, and general items that come with this item</span></h5>
+		<textarea id="inputwhatsincluded" name="whatsincluded" type="text" class="form-control" placeholder="Make sure you include any defects, product malfunctions, repairs, or otherwise">{{item.whatsincluded}}</textarea>
 	</div>
 	
 </div>

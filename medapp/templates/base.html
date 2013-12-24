@@ -5,7 +5,7 @@
 {% block headertitle %}<title></title>{% endblock%}
 <meta name="description" content="">
 <meta http-equiv="content-type" content="text/html;charset=UTF-8">
-<!-- <meta name="viewport" content="width=device-width, initial-scale=1.0"> -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
 <!--CSS-->
@@ -176,7 +176,7 @@
 	border:1px solid #ddd;
 	box-shadow: 0 0 2px #ccc;
 	position: absolute;
-	z-index: 99;
+	z-index: 299;
 	display: none;
 }
 #category-arrow {
@@ -184,10 +184,24 @@
 	margin-top: -14px;
 	margin-right: 30px;
 }
+.dropdown .navigation-options {
+	border-radius: 0px;
+	margin-top: 4px;
+	box-shadow: 0 2px 2px #ccc;
+}
+.topmenu .navigation-options li {
+	display: block;
+	text-align: left;
+}
+.topmenu .navigation-options li a {
+	padding: 4px 6px;
+	margin-right: 6px;
+}
 </style>
 </head>
 
 <body>
+{% block overlaydiv %}{% endblock %}
 {% block header %}
 <div class="navigation-container">
 	<div class="navigation">
@@ -197,7 +211,7 @@
 			<li><a href="/listintro">List Your Equipment</a></li>
 			<li class="dropdown">
 				<a href="#" class="dropdown-toggle" data-toggle="dropdown">{{user.username}}<b class="caret"></b></a>
-				<ul class="dropdown-menu pull-right">
+				<ul class="navigation-options dropdown-menu pull-right">
 				  <li><a href="/saveditems">Saved Items</a></li>
 				  <li><a href="/listeditems">Your Listed Items</a></li>
 				  <li><a href="/accounthistory">Account History</a></li>
@@ -219,7 +233,7 @@
 				<table class="navtable">
 					<tr>
 						<td class="logotd">
-							<a class="" href="/"><img src="{{STATIC_URL}}img/vetcove_logo.png" alt="VetCove"/></a>
+							<a class="" href="/"><img src="{{STATIC_URL}}img/logo_42x150.png" alt="VetCove"/></a>
 						</td>
 						<td class="searchtd">
 							<form id="searchform" class="customsearchbar" action="/customsearch" method="get">

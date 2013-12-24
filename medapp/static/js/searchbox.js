@@ -1,6 +1,5 @@
 // We must rebind all the actions when results are added to the page
 var activateResultsBoxItems = function activateResultsBoxItems() {	
-	console.log('this');
 	//When user clicks for more information
 	$('.infobutton').click(function() {
 		togglebuttons($(this));
@@ -19,41 +18,30 @@ var activateResultsBoxItems = function activateResultsBoxItems() {
 		togglebuttons($($(this).parent().parent().children('div.textdiv').children('div.buttondiv').children()[0]));
 	});
 	
-	//When a user hovers over a thumbnail
-	$('.imagethumbnail').hover(function() {
-		$(this).parent().parent().parent().children('div.imageviewer').css('display','table-cell');
-		$(this).parent().parent().parent().children('div.imageviewer').html("<div class='verticalalign'><img src='"+$(this).children('img').attr('data-original')+"'/></div>");
-		console.log($(this).children('img'));
-	}, function() {
-		$(this).parent().parent().parent().children('div.imageviewer').css('display','none');
-		
-	});
+	// //When a user hovers over a thumbnail
+// 	$('.imagethumbnail').hover(function() {
+// 		$(this).parent().parent().parent().children('div.imageviewer').css('display','table-cell');
+// 		$(this).parent().parent().parent().children('div.imageviewer').html("<div class='verticalalign'><img src='"+$(this).children('img').attr('data-original')+"'/></div>");
+// 		console.log($(this).children('img'));
+// 	}, function() {
+// 		$(this).parent().parent().parent().children('div.imageviewer').css('display','none');
+// 		
+// 	});
 	
 	
 };
 
 //Functionality for the show more buttons
 var togglebuttons = function togglebutton(handler) {
+	var box_handle = handler.parent().parent().parent().parent();
+	var thisbutton = handler;
 	var buttons = handler.parent().children();
-		if (!(handler.hasClass('activeinfo'))) {
-			for (var b=0; b < buttons.length; b++) {
-				$(buttons[b]).removeClass('activeinfo');
-				handler.addClass('activeinfo');
-			}
-			var buttons = handler.parent().parent().parent().children('div.previewdiv');
-			for (var i=0; i < buttons.length; i++) {
-				if (!($(buttons[i]).hasClass("hidden"))) {
-					$(buttons[i]).addClass("hidden");
-				}
-			};
-			if ($(handler).text() == 'Details') {
-				handler.parent().parent().parent().children('div.detailsdiv').removeClass('hidden');
-			} else if ($(handler).text() == 'Quick Facts') {
-				handler.parent().parent().parent().children('div.specsdiv').removeClass('hidden');
-			} else if ($(handler).text() == 'Condition') {
-				handler.parent().parent().parent().children('div.conditiondiv').removeClass('hidden');
-			} 
-		}
+		$(buttons).removeClass('activeinfo');
+		$(thisbutton).addClass('activeinfo');
+		$(box_handle).find('.previewdiv').removeClass("hidden")
+		$(box_handle).find('.previewdiv').addClass("hidden");
+		var toggleclass = $(thisbutton).attr('data-ref')
+		$(toggleclass).removeClass('hidden');
 }
 
 $(document).ready(function() {

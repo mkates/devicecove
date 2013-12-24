@@ -14,6 +14,7 @@ var autosuggestcall = function autosuggestcall() {
 		cache:true,
 		dataType: 'json',
 		success: function(response){
+			console.log(response.length);
 			if (response.length == 0) {
 				$("#autosuggest").css('display','none');
 			} else {
@@ -25,10 +26,8 @@ var autosuggestcall = function autosuggestcall() {
 				$(".categoriesheader").css('display','none');
 				$(".productsheader").css('display','none');
 				$.each(displayresults, function( key, value ) {
-					console.log(value['link']);
 					if (!(value['mainimage'])) {
 						value['mainimage'] = noImageURL;
-						console.log("here");
 					}
 					if (value['type'] == 'category') {
 						var so = $("<a class='searchoption' href='"+value['link']+"'><div class='textitem'><p class='displaytext'>"+value['name']+"</p></div></a>");
@@ -36,12 +35,12 @@ var autosuggestcall = function autosuggestcall() {
 						$(".categoriesheader").css('display','block');
 						resultshandle.push(so);
 					} else if (value['type'] == 'subcategory') {
-						var so = $("<a class='searchoption' href='"+value['link']+"'><div class='textitem'><p class='displaytext'>"+value['name']+"<span class='industry'> in "+value['category']+"</span></p></div></a>");
+						var so = $("<a class='searchoption' href='"+value['link']+"'><div class='textitem'><p class='displaytext'>"+value['name']+"</p></div></a>");
 						$("#categoriessection").append(so);
 						$(".categoriesheader").css('display','block');
 						resultshandle.push(so);
 					} else if (value['type'] == 'product'){
-						var so = $("<a class='searchoption' href='"+value['link']+"'><div class='productitem'><img src='"+value['mainimage']+"'/><div class='producttext'><p class='displaytext' class='productname'>"+value['name']+"</p><p class='productsubtext'>"+value['category']+"</p></div><div class='clear'></div></div></a></div>");
+						var so = $("<a class='searchoption' href='"+value['link']+"'><div class='productitem'><img src='"+value['mainimage']+"'/><div class='producttext'><p class='displaytext' class='productname'>"+value['name']+"</p><p class='productsubtext'>in "+value['category']+"</p></div><div class='clear'></div></div></a></div>");
 						$("#productssection").append(so);
 						resultshandle.push(so);
 						$(".productsheader").css('display','block');

@@ -4,61 +4,51 @@
 
 .searchcontainer {
 	max-width: 1000px;
-	background: none;
 	margin: 0 auto;
 	margin-top: 30px;
 	margin-bottom: 30px;
 	
 }
-.filtercontainer {
-	max-width: 250px;
-	float: left;
-	background: none;
-	padding: 0 3px;
-	
-}
+
 .resultscontainer {
-	background: none;
-	max-width: 810px;
-	float: left;
 	padding: 0 3px;
+}
+#resultcontainer {
+	background: none;
+}
+#resultsbody {	
+	background: none;
+}
+#noresults {
+	background: white;
 }
 .filterbox {
+	margin: 0;
+	padding: 0;
 	background: #fff;
-	border-radius: 3px;
 	background: #fafafa;
-	border:1px solid #ddd;
 	margin-bottom: 10px;
- 	/* IE10 Consumer Preview */ 
-background-image: -ms-linear-gradient(left, #FFFFFF 0%, #F2F2F2 100%);
-
-/* Mozilla Firefox */ 
-background-image: -moz-linear-gradient(left, #FFFFFF 0%, #F2F2F2 100%);
-
-/* Opera */ 
-background-image: -o-linear-gradient(left, #FFFFFF 0%, #F2F2F2 100%);
-
-/* Webkit (Safari/Chrome 10) */ 
-background-image: -webkit-gradient(linear, left top, right top, color-stop(0, #FFFFFF), color-stop(1, #F2F2F2));
-
-/* Webkit (Chrome 11+) */ 
-background-image: -webkit-linear-gradient(left, #FFFFFF 0%, #F2F2F2 100%);
-
-/* W3C Markup, IE10 Release Preview */ 
-background-image: linear-gradient(to right, #FFFFFF 0%, #F2F2F2 100%);
+	border-radius: 2px;
 }
 
 .resultsbox {
-	background: #fff;
-	border:1px solid #ddd;
 	border-radius: 3px;
 	margin-bottom: 6px;
-	box-shadow: 0 0 4px #ccc;
+	padding: 0;
 }
 
 /**********************************/
 /******Results Nav Bar ************/
 /**********************************/
+.resultsnav {
+	padding-top: 5px;
+}
+.resultsnav p {
+	display: inline-block;
+	font-weight: 200;
+	font-size: 12px;
+	padding-left: 10px;
+}
 #sortby {
 	float: right;
 }
@@ -67,12 +57,13 @@ background-image: linear-gradient(to right, #FFFFFF 0%, #F2F2F2 100%);
 	line-height: 40px;
 	font-size: 12px;
 	padding-right: 8px;
+	margin-bottom: 0px;
 	font-weight: 200;
 }
 #sortby select {
 	width: 150px;
 	height: 30px;
-	margin: 5px 5px 0 0;
+	margin: 5px 15px 0 0;
 	float: left;
 	line-height: 30px;
 	padding: 4px;
@@ -82,32 +73,29 @@ background-image: linear-gradient(to right, #FFFFFF 0%, #F2F2F2 100%);
 	line-height: 30px;
 	height: 30px;
 	margin-top: 5px;
-	padding: 0 10px;
+	padding: 0 15px;
 	font-weight: 800;
 	border-right:1px solid #efefef;
 	display: inline-block;
 }
-.viewtypeimg {
-	height: 25px;
-	border:1px solid #ddd;
-	padding: 5px;
-	margin-top: -3px;
-	margin-left: 10px;
-	border-radius: 2px;
-}
-.viewtypeimg:hover {
-	background: #ddd;
-	cursor: pointer;
-}
-.resultsnav {
-	padding-top: 10px;
-}
-.resultsnav p {
-	display: inline-block;
+#related-results {
+	margin: 5px 15px;
+	border-top:1px solid #eee;
+	padding: 5px 0;
 	font-weight: 200;
-	font-size: 12px;
-	padding-left: 10px;
+	font-size: 13px;
 }
+#related-results a {
+	padding: 0 1px;
+}
+#related-results a:hover {
+	text-decoration: underline;
+}
+#related-results a span {
+	color: #aaa;
+	font-size: 12px;
+}
+
 #resultsparameter {
 	border-bottom: 1px solid #eee;
 	padding:5px 10px;
@@ -155,11 +143,10 @@ background-image: linear-gradient(to right, #FFFFFF 0%, #F2F2F2 100%);
 
 /*******General *******/
 .filterbox{
-	padding: 0px 0px 0 0px;
 	box-shadow: 0 0 4px #ccc;
 }
 .filter-category {
-	padding: 10px 10px;
+	padding: 10px 10px 20px 10px;
 	border-bottom:1px solid #e3e3e3;
 	border-top:1px solid #fff;
 }
@@ -170,11 +157,17 @@ background-image: linear-gradient(to right, #FFFFFF 0%, #F2F2F2 100%);
 	color: #333;
 	text-shadow: 0 0 1px #fff;
 	font-weight: 800;
+	letter-spacing: .2px;
 	font-size: 14px;
-	background-image: linear-gradient(to bottom, #A7DBEB 0%, #92D6EB 50%, #49C5EB 100%);
+	background-image: -ms-linear-gradient(top, #FBFBFB 0%, #E1E1E1 100%);
+	background-image: -moz-linear-gradient(top, #FBFBFB 0%, #E1E1E1 100%);
+	background-image: -o-linear-gradient(top, #FBFBFB 0%, #E1E1E1 100%);
+	background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #FBFBFB), color-stop(1, #E1E1E1)); 
+	background-image: -webkit-linear-gradient(top, #FBFBFB 0%, #E1E1E1 100%);
+	background-image: linear-gradient(to bottom, #FBFBFB 0%, #ddd 100%);
 	border-top-right-radius: 3px;
 	border-top-left-radius: 3px;
-	opacity: 1;
+	border-bottom:1px solid #ccc;
 }
 
 .filter-category h2 {
@@ -182,8 +175,8 @@ background-image: linear-gradient(to right, #FFFFFF 0%, #F2F2F2 100%);
 	margin: 0;
 	padding-bottom: 5px;
 	font-size: 13px;
-	color: #555;
-	text-shadow: 0 0 1px #fff;
+	color: #008DB2;
+	text-shadow: 0 0 2px #fff;
 	font-weight: 800;
 }
 .catlink {
@@ -233,8 +226,8 @@ label:before {
 	position: absolute;
 	left: 0;
 	bottom: 1px;
-	background-color: #bbb;
-	box-shadow: inset 0px 2px 3px 0px rgba(0, 0, 0, .3), 0px 1px 0px 0px rgba(255, 255, 255, .8);
+	background-color: #fff;
+	box-shadow: inset 0px 2px 3px 0px rgba(0, 0, 0, .2), 0px 1px 0px 0px rgba(255, 255, 255, .3);
 }
 
 .radio label:before {
@@ -249,16 +242,20 @@ label:before {
 	display: block;
 	margin-right: 0;
 }
+.checkbox label span {
+	float:right;
+}
 .checkbox label:hover {
 	background: #f2f2f2;
 }
 .checkbox label:before {
     border-radius: 3px;
+    border:1px solid #aaa;
 }
 
 input[type=radio]:checked + label:before {
     content: "\2022";
-    color: #f3f3f3;
+    color: #555;
     font-size: 30px;
     text-align: center;
     line-height: 18px;
@@ -268,7 +265,7 @@ input[type=checkbox]:checked + label:before {
 	content: "\2713";
 	text-shadow: 1px 1px 1px rgba(0, 0, 0, .2);
 	font-size: 15px;
-	color: #f3f3f3;
+	color: #555;
 	text-align: center;
     line-height: 15px;
 }
@@ -282,8 +279,8 @@ input[type=checkbox]:checked + label:before {
 	margin-bottom: 15px;
 }
 #milecategory select {
-	margin-left: 20px;
-	width: 130px;
+	margin-left: 0px;
+	max-width: 130px;
 	height: 30px;
 	display: inline-block;
 	padding: 3px 4px;
@@ -296,7 +293,7 @@ input[type=checkbox]:checked + label:before {
 	font-size: 12px;
 }
 #milecategory input {
-	margin-left: 20px;
+	margin-left: 0px;
 	margin-top: 3px;
 	background: #fcfcfc;
 	width: 170px;
@@ -308,14 +305,16 @@ input[type=checkbox]:checked + label:before {
 /******* Price Filter *******/
 
 #price-slider-container {
-	width: 200px;
-	margin: 10px auto;
+	margin-right: 15px;
+	margin-left: 15px;
 }
 #price-slider-container #lowprice {
 	float: left;
+	margin-left: -5px;
 }
 #price-slider-container #highprice {
 	float: right;
+	margin-right -5px;
 }
 
  .ui-slider-range {
@@ -340,12 +339,12 @@ background-image: linear-gradient(to bottom, #BFBFBF 0%, #919191 100%);
 
 /******Light Gradient *************/
 #price-range {
-width:200px;
+width:100%;
 height:10px;
 background:#aaa;
 position:relative;
 margin:0;
-padding:0 10px;
+padding: 0;
 }
  
 #price-range  .ui-slider-handle {
@@ -399,54 +398,71 @@ outline:none;
 /*****Result Item *****************/
 /**********************************/
 #resultsbody {
-	background: none;
 	box-shadow: none;
 	border: none;
 }
+
 .resultitem {
-	border-bottom:1px solid #f2f2f2;
+	padding: 10px;
 	padding-bottom: 20px;
-	border-radius: 3px;
-	box-shadow: 0 0 4px #ccc;
-	margin-bottom: 10px;
-	background: white;
+	margin:5px 0 10px 0;
+}
+.resultitem .row {
+	margin-left: 0px;
+	margin-right: 0px;
 }
 .resultitem:hover {
 	box-shadow: 0 0 4px #999;
 }
-.resultitem h2:hover {
-	cursor:pointer;
-	color: #222;
-	box-shadow: 0 0 4px #ccc;
-}
-.resultsbox a:hover {
-	text-decoration: none;
-}
 .resultitem:active {
 	outline: none;
 }
+/* Main text div */
+.resultitem .textdiv {
+	padding: 0;
+	margin: 0;
+	padding: 0 10px;
+}
+.resultitem .textdiv .itemname {
+	font-size: 16px;
+	height: 18px;
+}
+.resultitem .textdiv .itemname:hover {
+	cursor:pointer;
+	color: #2A6496;
+	font-size: 16px;
+	height: 18px;
+	overflow: hidden;
+}
 
-.resultitem .imgdiv {
-	width: 160px;
-	height: 130px;
+.resultitem .textdiv h3 {
+	padding: 0;
+	margin: 3px 0 10px 0;
+	font-size: 12px;
+	font-weight: 200;
+}
+
+.resultitem .textdiv h4 {
+	font-size: 12px;
+	display: block;
+	padding: 5px 0px;
+	margin: 0;
+	line-height: 13px;
+	border-bottom: 1px dotted #bbb;
+}
+
+.resultitem .textdiv h4 a span {
+	color: #4EA3BF;
+	font-weight: 200;
 	float: right;
-	margin: 20px 20px 20px 0px;
-	text-align: center;
 }
-.resultitem .imgdiv img {
-	max-width: 160px;
-	max-height: 130px;
-	border:1px solid #ccc;
+.resultitem .textdiv h4 a {
+	display: block;
+	color: #333;
+	font-weight: 400;
 }
-.resultitem .imgdiv img:hover {
-	cursor: pointer;
-}
-.resultitem .pricediv {
-	width: 150px;
-	float: left;
-	margin-left: 0px;
-	padding-top: 35px;
-	text-align: center;
+.resulttag {
+	min-height: 20px;
 }
 .resulttag span {
 	display: inline-block;
@@ -486,69 +502,42 @@ outline:none;
 	background: #EDEFB3;
 	color: #6F8C12;
 }
+.resulttag .lightorange {
+	background: #FFE9C4;
+	color: #B3852B;
+}
+
+
+/* Price Div */
+
+.resultitem .pricediv {
+	margin-left: 0px;
+	padding-top: 0px;
+	margin-top: 35px;
+	text-align: center;
+	vertical-align: top;
+}
+
 .resultitem .pricediv p {
 	font-size: 20px;
 	font-weight: 800;
 	color: black;
 	padding-bottom:10px;
 }
-.resultitem .pricediv a {
+
+/*Image Div */
+
+.resultitem .imgdiv {
+	text-align: center;
 }
-.resultitem .textdiv {
-	float: left;
-	width: 400px;
-	overflow: hidden;
-	padding-top: 20px;
-}
-.resultitem .textdiv a {
-	color: #555;
-	font-weight: 200;
-}
-.resultitem .textdiv h2{
-	padding: 0;
-	margin: 0;
-	font-size: 16px;
-	height: 18px;
-	overflow: hidden;
-}
-.resultitem .textdiv a h2 {
-	color: #222;
-}
-.resultitem .textdiv a h2:hover {
-	color: #2A6496;
-	box-shadow: none;
-}
-.resultitem .textdiv h3{
-	padding: 0;
-	margin: 3px 0 10px 0;
-	font-size: 12px;
-	font-weight: 200;
+.resultitem .imgdiv img {
+	width:100%;
+	margin-top: 15px;
 }
 
-.resultitem .textdiv h4 {
-	font-size: 12px;
-	width: 400px;
-	display: block;
-	padding: 5px 0px;
-	color: black;
-	margin: 0;
-	line-height: 13px;
-	border-bottom: 1px dotted #bbb;
-}
-.resultitem .textdiv h4:hover {
-}
-
-.resultitem .textdiv h4 span {
-	color: #4EA3BF;
-	float: right;
-}
-.resultitem .textdiv h4 a {
-	display: block;
-}
-
+/* Button Div */
 .resultitem .buttondiv {
 	margin-top: 20px;
-	width: 400px;
 }
 .resultitem .infobutton {
 	color: #333;
@@ -568,56 +557,44 @@ outline:none;
 	border-bottom-right-radius: 0px;
 	background: white;
 	position: relative;
-	z-index: 999;
+	z-index: 199;
 }
 .activeinfo:hover {
 	background: #fff;
 }
 
+/* Preview elements */
 .previewdiv {
-	margin-left: 20px;
-	margin-right: 20px;
 	padding: 0px;
-	margin-top: -1px;
+	margin: -1px 10px 0 10px;
 	z-index: 0;
-	height: 200px;
-	border-top: 1px solid #ccc;
-	position: relative;
+	border-top: 1px solid #ddd;
 }
-.detailtext {
-	width: 500px;
-	float: left;
-	padding: 15px;
-	overflow: hidden;
-	font-size: 12px;
-	line-height: 18px;
-	color: #333;
+.specsdiv {
+	padding-top: 20px;
 }
-.spectext {
-	padding-top: 15px;
-	height: 180px;
-	overflow: hidden;
-}
-.conditiondiv p {
-	font-size:12px;
-	padding: 20px;
-}
-.spectext p {
-	width: 290px;
-	font-size: 12px;
-	margin: 0 30px;
-	height: 25px;
-	line-height: 25px;
+.specsdiv p {
+	width: 100%;
+	font-size: 13px;
+	height: 20px;
+	line-height: 20px;
 	border-bottom:1px dotted #aaa;
 	float: left;
 	color: #888;
 	font-weight: 200;
 }
-.spectext p span {
+.specsdiv p span {
 	float: right;
-	color: #000;
+	color: #333;
 	font-weight: 400;
 }
+
+
+.detailsdiv p, .conditiondiv p {
+	font-size:13px;
+	padding: 20px;
+}
+
 .imagegallery {
 	width: 200px;
 	height: 150px;
@@ -658,27 +635,26 @@ outline:none;
 }
 .morediv {
 	clear: both;
+	margin-top: 20px;
 	height: 30px;
-	position: absolute;
-	bottom: 0;
-	width: 700px;
 }
 .morediv a {
 	text-align: left;
 	display: block;
 	float: left;
 	margin-left: 15px;
+	margin-top: 5px;
 }
 .morediv a:hover {
 	text-decoration: underline;
 }
 .morediv .closebutton {
 	float: right;
+	margin-right: 10px;
 }
 .hidden {
 	display: none;
 }
-
 
 /**********************************/
 /*****Loading Overlay ************/
@@ -686,6 +662,7 @@ outline:none;
 
 #loadingoverlay {
 	position:absolute;
+	z-index: 9998;
 	display: none;
 	width: 99%;
 	margin-right: 5px;
@@ -697,6 +674,7 @@ outline:none;
 	height: 160px;
 	margin-left: 200px;
 	position: fixed;
+	position: 9999
 	margin-top: 150px;
 	background-image: url("../img/blacktransparency.png");
 	border-radius: 6px;

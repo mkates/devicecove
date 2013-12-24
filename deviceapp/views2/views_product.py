@@ -41,6 +41,7 @@ def listproduct(request,subcategory):
  						subcategory=subcategory,
  						originalowner=True,
  						contract="none",
+ 						price = 0,
  						conditiontype = "preowned",
  						conditionquality = 4,
  						shippingincluded = True,

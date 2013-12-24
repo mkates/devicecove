@@ -105,11 +105,9 @@ h5 span {
 }
 .listcontainer .topnav {
 	text-align: left;
-	margin-left: 20px;
 }
 .returntolisting {
 	float: right;
-	margin-right: 20px;
 }
 .formerror {
 	border:1px solid red;
@@ -222,7 +220,8 @@ var addError = function addError(handle) {
 		{% if preview %}
 		<div class="listnav">
 			<a href="/list/logistics/{{item.id}}" class="backbutton button button-rounded">Back to Logistics</a>
-			<a href="/savepreview/{{item.id}}" class="saveandcontinue button button-rounded button-highlight">List Your Product</a>
+			<a href="/savepreview/{{item.id}}" class="saveandcontinue button button-rounded button-highlight">{% if item.liststatus != 'incomplete' %}View Your Listing{% else %}List Your Product{% endif %}</a>
+			<a class="viewpreview button button-rounded">Preview Listing</a>
 			<div class="clear"></div>
 		</div>
 		{% endif %}
