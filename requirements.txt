@@ -1,5 +1,5 @@
 Django==1.6
-PIL==1.1.6
+PIL==1.1.7
 Pillow==2.2.1
 South==0.8.2
 balanced==0.11.14
@@ -23,6 +23,7 @@ django-redis==3.3
 django-ses==0.4.1
 django-storages==1.1.8
 django-toolbelt==0.0.1
+djrill==0.7.0
 easy-thumbnails==1.4
 gunicorn==18.0
 iso8601==0.1.4
