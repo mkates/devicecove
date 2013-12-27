@@ -1,0 +1,70 @@
+{% extends 'account/account.html' %}
+{% block headertitle %}<title>VetCove | Questions</title>{% endblock%}
+{% block headersubcss %}
+<style>
+.question-container{
+	padding: 10px 20px 40px 20px;
+	margin: 0 0 20px 0;
+}
+.questions-container h5 {
+	font-size: 16px;
+	color: #333;
+	border-bottom: 1px solid #eee;
+	padding-bottom: 20px;	
+	margin-bottom: 20px;
+}
+.questions-container h6 {
+	font-size: 13px;
+	color: #555;
+	margin: 0;
+	padding-bottom: 5px;	
+}
+.questionbox {
+}
+.questionbox button {
+	float: left;
+}
+.questionbox .deletebutton {
+	margin-left: 10px;
+}
+.questionbox textarea {
+	margin-bottom: 15px;
+	resize: vertical;
+	height: 130px;
+}
+.questionbox .question {
+	font-size: 13px;
+}
+.questionbox .questionanswer {
+	font-size: 13px;
+	color: #555;
+	margin-left: 15px;
+}
+.questionbox .questionanswer span {
+	color: #aaa;
+	font-weight: 200;
+	font-size: 12px;
+}
+.questionbox .editanswer {
+	margin-left: 15px;
+}
+.questionbox .cancelquestion {
+	margin-left: 10px;
+}
+.questionbox .cancelquestion:hover {
+	cursor:pointer;
+}
+.questionform {
+	display: none;
+	margin: 10px 10px 20px 15px;
+}
+.noanswer {
+	font-style: italic;
+	font-weight: 200;
+	font-size: 13px;
+}
+</style>
+{% endblock %}
+
+
+	

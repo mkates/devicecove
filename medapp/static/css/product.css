@@ -35,7 +35,6 @@
 	box-shadow: 0 0px 3px #ccc;
 }
 
-
 /**************************/
 /* TopBar ******/
 /**************************/
@@ -144,6 +143,8 @@
 	float: left;
 }
 .backbutton:hover {
+	cursor: pointer;
+	text-decoration: underline;
 }
 
 .otherviewers {

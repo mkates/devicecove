@@ -88,6 +88,30 @@ class BasicUser(models.Model):
 			
 	def __unicode__(self):
 		return self.user.username
+	
+	#Get number of unanswered questions
+	def unansweredQuestionCount(self):
+		questions = Question.objects.filter(seller=self)
+		count = 0
+		for question in questions:
+			if not question.answer:
+				count += 1
+		return count
+	
+	#Asked questions
+	def askedQuestionCount(self):
+		questions = Question.objects.filter(buyer=self).count()
+		return questions
+		
+	#Get number of unanswered questions
+	def savedItemCount(self):
+		savedItems = SavedItem.objects.filter(user=self).count()
+		return savedItems
+	
+	#Get number of unanswered questions
+	def listedItemCount(self):
+		items = Item.objects.filter(user=self).filter(liststatus='active').count()
+		return items
 
 #An individual item for sale associated with a product and a user
 class Item(models.Model):
@@ -188,6 +212,7 @@ class Question(models.Model):
 	question = models.TextField()
 	item = models.ForeignKey(Item)
 	buyer = models.ForeignKey(BasicUser)
+	seller = models.ForeignKey(BasicUser,related_name="seller")
 	dateasked = models.DateTimeField(auto_now_add = True,blank=True)
 	answer = models.TextField(null=True,blank=True)
 	dateanswered = models.DateTimeField(blank=True,null=True)

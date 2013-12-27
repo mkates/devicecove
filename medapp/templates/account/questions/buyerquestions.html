@@ -1,0 +1,51 @@
+{% extends 'account/questions/questions.html' %}
+{% block headertitle %}<title>VetCove | Buyer Questions</title>{% endblock%}
+{% block buyquestions %}active{% endblock %}
+
+{% block maintitle %}Buyer Questions{% endblock %}
+
+{% block jsblock %}
+<script>
+
+$(document).ready(function() {
+	$('.editanswer').click(function() {
+		$(this).parent().find('.deletebutton').css('display','none');
+		$(this).parent().find('.questionanswer').css('display','none');
+		$(this).css('display','none');
+		$(this).parent().children('.questionform').css('display','block');;
+	});
+	$('.cancelquestion').click(function() {
+		$(this).parent().parent().children('.questionanswer').css('display','block');
+		$(this).parent().parent().children('.editanswer').css('display','block');
+		$(this).parent().parent().find('.deletebutton').css('display','block');
+		$(this).parent().css('display','none');
+	});
+
+
+});
+</script>
+{% endblock %}
+
+{% block maincontent %}
+
+<div class="maincontent-container questions-container">
+	<div class="covebox question-container">
+		<h5>Questions I've Asked</h5>
+		{% if questions %}
+			{% for question in questions %}
+			<div class="questionbox">
+				<p class="question">{{question}} for <a class="itemspan" href="/item/{{question.item.id}}/details">{{question.item.name}}</a> on {{question.dateasked}}</p>
+				{% if question.answer %}
+				<p class="questionanswer">{{question.answer}} <span> answered on {{question.dateanswered}}</p>
+				{% else %}
+				<p class="noanswer">This question has not yet been answered by the seller</p>
+				{% endif %}
+			</div>
+			{% endfor %}
+		{% else %}
+			<p class="nolistings"> You have no yet asked any questions</p>
+		{% endif %}
+	</div>
+
+</div> 
+{% endblock %}

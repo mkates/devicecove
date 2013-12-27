@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% block headertitle %}<title>{{item.name}}</title>{% endblock%}
 {% block headercss %}
 <link href="{{STATIC_URL}}css/base.css" rel="stylesheet" type="text/css" />
 <link href="{{STATIC_URL}}css/productitem.css" rel="stylesheet" type="text/css" />
@@ -33,6 +34,14 @@ $(document).ready(function(){
 	$(".thumbnail-container img").click(function() {
 		$("#ex1").css("background-image",'url('+$(this).attr("data-original")+')');
 		console.log($("#mainimage").css("width"));
+	});
+	$(".backbutton").click(function() {
+		if (document.referrer.split('/').indexOf('productsearch') >= 0) {
+			history.back();
+		} else {
+			window.location = "/productsearch/veterinary/{{item.subcategory.maincategory.name}}/{{item.subcategory.name}}"
+		}
+	
 	});
 });
 $(document).ready(function() {

@@ -77,6 +77,23 @@ STATICFILES_DIRS = (
     # Don't forget to use absolute paths, not relative paths.
 )
 
+#Caching 
+os.environ['MEMCACHE_SERVERS'] = os.environ.get('MEMCACHIER_SERVERS', '').replace(',', ';')
+os.environ['MEMCACHE_USERNAME'] = os.environ.get('MEMCACHIER_USERNAME', '')
+os.environ['MEMCACHE_PASSWORD'] = os.environ.get('MEMCACHIER_PASSWORD', '')
+CACHES = {
+  'default': {
+    'BACKEND': 'django_pylibmc.memcached.PyLibMCCache',
+    'TIMEOUT': 500,
+    'BINARY': True,
+    'OPTIONS': {
+        'tcp_nodelay': True,
+        'remove_failed': 4
+    }
+  }
+}
+
+
 # List of finder classes that know how to find static files in
 # various locations.
 STATICFILES_FINDERS = (
@@ -131,10 +148,11 @@ INSTALLED_APPS = (
     'boto',
     'django_ses',
     'deviceapp',
-    'imagekit',
+    'imagekit', #For resizing images before S3 Upload
     'storages',
     'django_extensions',
-    'password_reset'
+    'password_reset',
+    'djrill' #Django-Mandrill App
 )
 CACHES = {
     'default': {
@@ -203,11 +221,9 @@ TEMPLATE_DIRS = (
 #Amazon shtuff
 AWS_ACCESS_KEY_ID = 'AKIAJOLZ5657Q7HHW2CA'
 AWS_SECRET_ACCESS_KEY = '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'
-DEFAULT_FROM_EMAIL = 'mkates@mit.edu'
-AWS_SES_REGION_NAME = 'us-east-1'
-AWS_SES_REGION_ENDPOINT = 'email.us-east-1.amazonaws.com'
-EMAIL_BACKEND = 'django_ses.SESBackend'
-AWS_SES_AUTO_THROTTLE = 0.5
+
+MANDRILL_API_KEY = "iSqtoSVWpB1aSTzA_YqaXg"
+EMAIL_BACKEND = "djrill.mail.backends.djrill.DjrillBackend"
 
 DEFAULT_FILE_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
 STATICFILES_STORAGE = 'storages.backends.s3boto.S3BotoStorage'

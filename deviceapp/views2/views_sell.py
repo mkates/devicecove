@@ -28,15 +28,17 @@ def messageseller(request):
 			status = 500 #Error sending email
 	else:
 		status = 400 #User not logged in or method is not post
-	return HttpResponse(json.dumps(status), mimetype='application/json')
+	return HttpResponse(json.dumps(status), content_type='application/json')
 
 def deletequestion(request):
 	if request.user.is_authenticated() and request.method=="POST":
 		bu = BasicUser.objects.get(user=request.user)
 		questionid = request.POST['questionid']
+		page = request.POST.get('questionspage','')
 		ques = Question.objects.get(id=questionid)
-		ques.delete()
-		status = 400
+		if ques.buyer == bu or ques.seller == bu:
+			ques.delete()
+	if not page:
+		return HttpResponse(json.dumps(500), content_type='application/json')
 	else:
-		status = 500
-	return HttpResponse(json.dumps(status), mimetype='application/json')
+		return HttpResponseRedirect("/questions")

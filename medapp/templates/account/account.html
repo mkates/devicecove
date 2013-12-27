@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% block headertitle %}<title>MedBay | Account</title>{% endblock%}
+{% block headertitle %}<title>VetCove | Account</title>{% endblock%}
 
 {% block headercss %}
 <link href="{{STATIC_URL}}css/account.css" rel="stylesheet" type="text/css" />
@@ -14,15 +14,29 @@
 {% block content %}
 <div class="pagecontainer row">
 	<div class="sidecontent col-md-3 col-sm-3">
-		<ul>
-			<a href="/questions"><li class="{% block questions %}{% endblock %}"><h3>Questions <span class="label label-danger">3 Unanswered</span></h3></li></a>
-			<a href="/saveditems"><li class="first {% block saveditems %}{% endblock %}"><h3>Saved Items{% if saveditemcount %} <span class="badge">{{ saveditemcount }}</span>{% endif %}</h3></li></a>
-			<a href="/listeditems"><li class="{% block listeditems %}{% endblock %}"><h3>Active Items{% if listeditemcount %} <span class="badge">{{ listeditemcount }}</span>{% endif %}</span></h3></li></a>
-			<a href="/accounthistory"><li class="{% block accounthistory %}{% endblock %}"><h3>Account History</li></a>
-			<a href="/profile"><li class="{% block profile %}{% endblock %}"><h3>Profile</li></a>
-			<a href="/usersettings"><li class="{% block settings %}{% endblock %}"><h3>Settings</h3></li></a>
-		</ul>
-		<a href='/listintro' class="listaction button button-rounded button-primary">List Equipment</a>
+		<div class="covebox admin-section">
+			<h4 class="sidecontent-title"> Buying Equipment</h4>
+			<ul>
+				<a href="/buyerquestions"><li class="{% block buyquestions %}{% endblock %}"><h3>Questions I've Asked{% if user.basicuser.askedQuestionCount %} <span class="badge">{{ user.basicuser.askedQuestionCount }}</span>{% endif %}</h3></li></a>
+				<a href="/saveditems"><li class="first {% block saveditems %}{% endblock %}"><h3>Saved Items{% if user.basicuser.savedItemCount %} <span class="badge">{{ user.basicuser.savedItemCount }}</span>{% endif %}</h3></li></a>
+			</ul>
+		</div>
+		<div class="covebox admin-section">
+			<h4 class="sidecontent-title"> Selling Equipment</h4>
+			<ul>
+				<a href="/sellerquestions"><li class="{% block sellquestions %}{% endblock %}"><h3>Questions To Answer {% if user.basicuser.unansweredQuestionCount %} <span class="badge red-badge">{{user.basicuser.unansweredQuestionCount}}</span>{% endif %}</h3></li></a>
+				<a href="/listeditems"><li class="{% block listeditems %}{% endblock %}"><h3>Listed Items{% if user.basicuser.listedItemCount %} <span class="badge">{{ user.basicuser.listedItemCount }}</span>{% endif %}</span></h3></li></a>
+			</ul>
+		</div>
+		<div class="covebox admin-section">
+			<h4 class="sidecontent-title"> Account</h4>
+			<ul>
+				<a href="/accounthistory"><li class="{% block accounthistory %}{% endblock %}"><h3>Account History</li></a>
+				<a href="/profile"><li class="{% block profile %}{% endblock %}"><h3>Profile</li></a>
+				<a href="/usersettings"><li class="{% block settings %}{% endblock %}"><h3>Settings</h3></li></a>
+			</ul>
+		</div>
+		<a href='/listintro' class="listaction button button-rounded">List Equipment</a>
 	</div>
 	<div class="maincontent col-md-9 col-sm-9">
 		<h2 class="title covebox">{% block maintitle %}{% endblock %}</h2>

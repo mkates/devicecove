@@ -1,5 +1,8 @@
 // We must rebind all the actions when results are added to the page
 var activateResultsBoxItems = function activateResultsBoxItems() {	
+	$('.infobutton').unbind('click');
+	$('.closebutton').unbind('click');
+	
 	//When user clicks for more information
 	$('.infobutton').click(function() {
 		togglebuttons($(this));
@@ -7,15 +10,13 @@ var activateResultsBoxItems = function activateResultsBoxItems() {
 	
 	//When user closes the more information
 	$('.closebutton').click(function() {
-		$(this).parent().parent().addClass('hidden');
-		var buttons = $(this).parent().parent().parent().children('div.textdiv').children('div.buttondiv').children();
+		var result_item = $(this).parent().parent().parent();
+		console.log(result_item);
+		$(result_item).find('.previewdiv').removeClass('visible');
+		var buttons = $(result_item).find('.buttondiv').children();
 		for (var b=0; b < buttons.length; b++) {
 				$(buttons[b]).removeClass('activeinfo');
 			}
-	});
-	//When a user clicks on an image
-	$('.imgdiv img').click(function() {
-		togglebuttons($($(this).parent().parent().children('div.textdiv').children('div.buttondiv').children()[0]));
 	});
 	
 	// //When a user hovers over a thumbnail
@@ -36,12 +37,12 @@ var togglebuttons = function togglebutton(handler) {
 	var box_handle = handler.parent().parent().parent().parent();
 	var thisbutton = handler;
 	var buttons = handler.parent().children();
-		$(buttons).removeClass('activeinfo');
-		$(thisbutton).addClass('activeinfo');
-		$(box_handle).find('.previewdiv').removeClass("hidden")
-		$(box_handle).find('.previewdiv').addClass("hidden");
-		var toggleclass = $(thisbutton).attr('data-ref')
-		$(toggleclass).removeClass('hidden');
+	$(buttons).removeClass('activeinfo');
+	$(thisbutton).addClass('activeinfo');
+	$(box_handle).find('.previewdiv').removeClass("visible")
+	var toggleclass = $(thisbutton).attr('data-ref');
+	
+	$(toggleclass).addClass('visible');
 }
 
 $(document).ready(function() {

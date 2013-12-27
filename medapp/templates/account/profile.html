@@ -1,5 +1,5 @@
 {% extends 'account/account.html' %}
-
+{% block headertitle %}<title>VetCove | Profile</title>{% endblock%}
 {% block headersubcss %}
 <style>
 .profilediv {
@@ -225,6 +225,13 @@ $(document).ready(function() {
 						</form>
 					</td>
 					<td class="edit">edit</td>
+				</tr>
+				<tr>
+					<td class="category">Login Email</td>
+					<td class="uservalue">
+						<p>{{basicuser.user.email}}</p>
+					</td>
+					<td class="uneditable"></td>
 				</tr>
 				<tr>
 					<td class="category">Password</td>

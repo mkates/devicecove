@@ -30,7 +30,7 @@ def getsubcategories(request):
 	dict = {}
 	for sub in subcategories:
 		dict[sub.name] = sub.displayname
-	return HttpResponse(json.dumps(dict), mimetype='application/json')
+	return HttpResponse(json.dumps(dict), content_type='application/json')
 
 @login_required
 def listproduct(request,subcategory):
@@ -161,7 +161,7 @@ def imageupload(request,itemid):
 			ui = ItemImage(item=item,photo=file,photo_small=file,photo_medium=file)
 			ui.save()
 			imagehandlers.append([ui.id,ui.photo_medium.url])
-		return HttpResponse(json.dumps(imagehandlers), mimetype='application/json')
+		return HttpResponse(json.dumps(imagehandlers), content_type='application/json')
 	
 #Item Logistics
 @login_required
@@ -244,7 +244,7 @@ def askquestion(request):
 		redirect = request.POST["redirect"]
 		question = request.POST['question']
 		if len(question) > 5: # Make sure it is a legitimate question
-			questionobject = Question(question=question,item=item,buyer=user,dateanswered=None,answer='')
+			questionobject = Question(question=question,item=item,buyer=user,seller=item.user,dateanswered=None,answer='')
 			questionobject.save() 
 		return HttpResponseRedirect(redirect)
 	return HttpResponseRedirect("ERROR")
@@ -259,7 +259,7 @@ def existingproductcheck(request):
 		products = Product.objects.get(name=subcategory)
 		for pnames in products:
 			product_names.append(pnames.name)
-		return HttpResponse(json.dumps({'products':product_names}), mimetype='application/json')
+		return HttpResponse(json.dumps({'products':product_names}), content_type='application/json')
 
 
 def saveitem(request):
@@ -275,15 +275,15 @@ def saveitem(request):
 				si = SavedItem.objects.get(user = BasicUser.objects.get(user=request.user),item=item)
 				si.delete()
 				item.savedcount -= 1
-		return HttpResponse(json.dumps({'status':"100"}), mimetype='application/json')
+		return HttpResponse(json.dumps({'status':"100"}), content_type='application/json')
 	else:
 		redirectURL = str('/login?next=/item/'+str(item.id)+"/details&action=save")
-		return HttpResponse(json.dumps({'status':"400",'redirect':redirectURL}), mimetype='application/json')
+		return HttpResponse(json.dumps({'status':"400",'redirect':redirectURL}), content_type='application/json')
 
 @login_required
 def removeitem(request):
 	if request.method == "POST" and request.user.is_authenticated():
-		item = Item.objects.get(id=request.POST['itemid'])
+		item = Item.objects.get(id=int(request.POST['itemid']))
 		si = SavedItem.objects.get(user = BasicUser.objects.get(user=request.user),item=item)
 		si.delete()
 		return HttpResponseRedirect("/saveditems")

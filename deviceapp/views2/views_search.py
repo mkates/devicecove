@@ -107,7 +107,7 @@ def autosuggest(request):
 				matchlist.append(p)
 		for itm in matchlist:
 			results.append({'type':'product','name':itm.name,'category':itm.subcategory.displayname,'mainimage':checkMainImage(itm),'link':"/item/"+str(itm.id)+"/details"});
-	return HttpResponse(json.dumps(results[0:15]), mimetype='application/json')
+	return HttpResponse(json.dumps(results[0:15]), content_type='application/json')
 
 def customsearch(request):
 	if request.method == "GET":
@@ -154,7 +154,7 @@ def searchquery(request):
 		resultscount = len(itemspassed)
 		itemspassed = itemspassed[int(filters['page'])*resultsPerPage:int(filters['page'])*resultsPerPage+resultsPerPage]
 	rts = render_to_string('search/productsearchitem.html', {'items':itemspassed,'STATIC_URL':settings.STATIC_URL})
-	return HttpResponse(json.dumps({'result':rts,'more':more,'resultscount':resultscount}), mimetype='application/json')
+	return HttpResponse(json.dumps({'result':rts,'more':more,'resultscount':resultscount}), content_type='application/json')
 
 def checkPrice(item,lowprice,highprice):
 	passed = True if (item.price >= lowprice and item.price <= highprice) else False

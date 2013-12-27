@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+{% block headertitle %}<title>VetCove | Categories</title>{% endblock%}
+{% block headercss %}
+
+<style>
+
+.maincontainer {
+	background: #fff;
+	border:1px solid #ddd;
+	border-radius: 3px;
+	box-shadow: 0 0 4px #ccc;
+	max-width: 1000px;
+	margin: 30px auto
+}
+.maincontainer h3 {
+	display: block;
+	border-bottom: 1px solid #eee;
+	padding-left: 20px;
+	font-weight: 200;
+	margin-bottom: 0px;
+	padding-bottom: 10px;
+}
+.category-container {
+	padding: 20px;
+}
+.category-container h5 {
+	margin:20px 0 20px 0;
+	padding-bottom: 10px;
+	border-bottom:1px solid #eee;
+}
+
+.category-container .sublink {
+	display: inline-block;
+	width: 33%;
+	color: #555;
+}
+.category-container .sublink:hover {
+	text-decoration: underline;
+}
+
+
+</style>
+{% endblock%}
+
+
+{% block content %}
+<div class="maincontainer">
+	<h3>Category Directory</h3>
+	<div class="category-container">
+		{% for cat in categories %}
+			<h5><a href="/productsearch/veterinary/{{cat.name}}/all">{{cat.displayname}}</a></h5>
+			{% for sub in cat.subcategory_set.all %}
+				<a class="sublink" href="/productsearch/veterinary/{{cat.name}}/{{sub.name}}">{{sub}}</a>
+				
+			{% endfor %}
+		{% endfor %}
+	</div>
+
+	
+	
+</div>
+
+
+{% endblock %}
+
+{% block jsblock %}
+<script>
+$(document).ready(function() {
+});
+</script>
+{% endblock %}

@@ -2,12 +2,15 @@ from django.conf.urls import *
 
 # Uncomment the next two lines to enable the admin:
 from django.contrib import admin
+from djrill import DjrillAdminSite
+admin.site = DjrillAdminSite()
 admin.autodiscover()
 
 #####################################################################
 #########  General ##################################################
 #####################################################################
 urlpatterns = patterns('',
+	url(r'^sendwelcomeemail/', 'deviceapp.views2.sendwelcomeemail'),
 	#Admin
     url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
     url(r'^admin/', include(admin.site.urls)),
@@ -20,6 +23,7 @@ urlpatterns = patterns('',
     url(r'^faq','deviceapp.views2.faq'),
     url(r'^buyerprotect','deviceapp.views2.buyerprotect'),
     url(r'^listintro','deviceapp.views2.listintro'),
+     url(r'^categories','deviceapp.views2.categories'),
     
     #User Actions
     url(r'^imageupload/(?P<itemid>\d+)','deviceapp.views2.imageupload'), 
@@ -63,7 +67,8 @@ urlpatterns += patterns('',
     url(r'^lgnrequest','deviceapp.views2.lgnrequest'),
     url(r'^login','deviceapp.views2.loginview'),
     url(r'^signup','deviceapp.views2.signup'), 
-    url(r'^questions','deviceapp.views2.questions'),
+    url(r'^buyerquestions','deviceapp.views2.buyerquestions'),
+    url(r'^sellerquestions','deviceapp.views2.sellerquestions'),
     url(r'^accounthistory','deviceapp.views2.accounthistory'),
     url(r'^newuserform','deviceapp.views2.newuserform')
 )

@@ -39,6 +39,25 @@ a:active {
 .row {
 	margin: 0;
 }
+.sidecontent-title {
+	margin: 0;
+	padding: 0;
+	padding: 3px 0 3px 10px;
+	color: #333;
+	text-shadow: 0 0 1px #fff;
+	font-weight: 800;
+	letter-spacing: .2px;
+	font-size: 14px;
+	background-image: -ms-linear-gradient(top, #FBFBFB 0%, #E1E1E1 100%);
+	background-image: -moz-linear-gradient(top, #FBFBFB 0%, #E1E1E1 100%);
+	background-image: -o-linear-gradient(top, #FBFBFB 0%, #E1E1E1 100%);
+	background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #FBFBFB), color-stop(1, #E1E1E1)); 
+	background-image: -webkit-linear-gradient(top, #FBFBFB 0%, #E1E1E1 100%);
+	background-image: linear-gradient(to bottom, #FBFBFB 0%, #ddd 100%);
+	border-top-right-radius: 3px;
+	border-top-left-radius: 3px;
+	border-bottom:1px solid #ccc;
+}
 
 /**********************************/
 /******  Footer *******************/

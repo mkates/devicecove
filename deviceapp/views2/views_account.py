@@ -46,7 +46,7 @@ def lgnrequest(request):
 def signup(request):
 	if request.user.is_authenticated():
 		return HttpResponseRedirect("/profile")
-	return render_to_response('signup.html',context_instance=RequestContext(request))
+	return render_to_response('account/signup.html',context_instance=RequestContext(request))
 	
 def newuserform(request):
 	if request.method == 'POST':
@@ -93,6 +93,8 @@ def updateprofsettings(request,field):
 			change = setUserProfileDict(field,[request.POST['password1'],request.POST['password2']],bu)
 			if change != 'Success':
 				return HttpResponseRedirect("/profile?e=password")
+		else:
+			change = setUserProfileDict(field,request.POST[field],bu)
 		return HttpResponseRedirect("/profile")
 	else:
    		return render_to_response('general/index.html',context_instance=RequestContext(request))
@@ -102,12 +104,10 @@ def saveditems(request):
 	if request.user.is_authenticated():
 		bu = BasicUser.objects.get(user=request.user)
 		saveditems = bu.saveditem_set.all()
-		saveditemcount = len(saveditems)
-		listeditemcount = bu.item_set.all().count()
 		items = []
-		for si in saveditems:
-			items.append(si.item)
-		return render_to_response('account/saveditems.html',{"savedpage":True,"items":items,"saveditemcount":saveditemcount,"listeditemcount":listeditemcount},context_instance=RequestContext(request))
+        	for si in saveditems:
+        		items.append(si.item)
+		return render_to_response('account/saveditems.html',{"savedpage":True,"items":items},context_instance=RequestContext(request))
 	else:
    		return render_to_response('general/index.html', context_instance=RequestContext(request))
    		
@@ -116,30 +116,21 @@ def listeditems(request):
 	if request.user.is_authenticated():
 		bu = BasicUser.objects.get(user=request.user)
 		listeditems = bu.item_set.all()
-		listeditemcount = len(listeditems)
-		saveditemcount = bu.saveditem_set.all().count()
-		items = bu.item_set.all()
-		return render_to_response('account/listeditems.html',{"listpage":True,"items":items,"saveditemcount":saveditemcount,"listeditemcount":listeditemcount},context_instance=RequestContext(request))
+		return render_to_response('account/listeditems.html',{"listpage":True,"items":listeditems},context_instance=RequestContext(request))
 	else:
    		return render_to_response('general/index.html', context_instance=RequestContext(request))
  
 @login_required
 def accounthistory(request):
 	if request.user.is_authenticated():
-		bu = BasicUser.objects.get(user=request.user)
-		listeditemcount = bu.item_set.all().count()
-		saveditemcount = bu.saveditem_set.all().count()
-		return render_to_response('account/accounthistory.html',{"saveditemcount":saveditemcount,"listeditemcount":listeditemcount},context_instance=RequestContext(request))
+		return render_to_response('account/accounthistory.html',{},context_instance=RequestContext(request))
 	else:
    		return render_to_response('general/index.html',context_instance=RequestContext(request))
 
 @login_required
 def usersettings(request):
 	if request.user.is_authenticated():
-		bu = BasicUser.objects.get(user=request.user)
-		listeditemcount = bu.item_set.all().count()
-		saveditemcount = bu.saveditem_set.all().count()
-		return render_to_response('account/settings.html',{"saveditemcount":saveditemcount,"listeditemcount":listeditemcount},context_instance=RequestContext(request))
+		return render_to_response('account/settings.html',{},context_instance=RequestContext(request))
 	else:
    		return render_to_response('general/index.html',context_instance=RequestContext(request))
 
@@ -147,26 +138,19 @@ def usersettings(request):
 def profile(request):
 	if request.user.is_authenticated():
 		bu = BasicUser.objects.get(user=request.user)
-		listeditemcount = bu.item_set.all().count()
-		saveditemcount = bu.saveditem_set.all().count()
-		dict = {'basicuser':bu,"saveditemcount":saveditemcount,"listeditemcount":listeditemcount}
+		dict = {'basicuser':bu}
 		if request.method == "GET":
-			try:
-				error = request.GET['e']
-				if error == 'password':
-					dict['error']= "Password"
-			except:
-				print 'error code wrong'
+			if request.GET.get('e','') == 'password':
+				dict['error']= "Password"
 		return render_to_response('account/profile.html',dict,context_instance=RequestContext(request))
 	else:
    		return render_to_response('general/index.html',context_instance=RequestContext(request))
    		
 @login_required
-def questions(request):
+def sellerquestions(request):
 	if request.user.is_authenticated():
 		bu = BasicUser.objects.get(user=request.user)	
-		items = bu.item_set.all()
-		questions = Question.objects.filter(item__in=items)
+		questions = Question.objects.filter(seller=bu)
 		answered = []
 		unanswered = []
 		for question in questions:
@@ -174,7 +158,16 @@ def questions(request):
 				answered.append(question)
 			else:
 				unanswered.append(question)
-		return render_to_response('account/questions.html',{'answered':answered,'unanswered':unanswered},context_instance=RequestContext(request))
+		return render_to_response('account/questions/sellerquestions.html',{'answered':answered,'unanswered':unanswered},context_instance=RequestContext(request))
+	else:
+   		return render_to_response('general/index.html',context_instance=RequestContext(request))
+
+@login_required
+def buyerquestions(request):
+	if request.user.is_authenticated():
+		bu = BasicUser.objects.get(user=request.user)	
+		questions = Question.objects.filter(buyer=bu)
+		return render_to_response('account/questions/buyerquestions.html',{'questions':questions},context_instance=RequestContext(request))
 	else:
    		return render_to_response('general/index.html',context_instance=RequestContext(request))
  

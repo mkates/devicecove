@@ -6,10 +6,8 @@
 	max-width: 1000px;
 	margin: 0 auto;
 	margin-top: 30px;
-	margin-bottom: 30px;
-	
+	margin-bottom: 30px;	
 }
-
 .resultscontainer {
 	padding: 0 3px;
 }
@@ -149,25 +147,6 @@
 	padding: 10px 10px 20px 10px;
 	border-bottom:1px solid #e3e3e3;
 	border-top:1px solid #fff;
-}
-.filterbox h4 {
-	margin: 0;
-	padding: 0;
-	padding: 3px 0 3px 10px;
-	color: #333;
-	text-shadow: 0 0 1px #fff;
-	font-weight: 800;
-	letter-spacing: .2px;
-	font-size: 14px;
-	background-image: -ms-linear-gradient(top, #FBFBFB 0%, #E1E1E1 100%);
-	background-image: -moz-linear-gradient(top, #FBFBFB 0%, #E1E1E1 100%);
-	background-image: -o-linear-gradient(top, #FBFBFB 0%, #E1E1E1 100%);
-	background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #FBFBFB), color-stop(1, #E1E1E1)); 
-	background-image: -webkit-linear-gradient(top, #FBFBFB 0%, #E1E1E1 100%);
-	background-image: linear-gradient(to bottom, #FBFBFB 0%, #ddd 100%);
-	border-top-right-radius: 3px;
-	border-top-left-radius: 3px;
-	border-bottom:1px solid #ccc;
 }
 
 .filter-category h2 {
@@ -517,7 +496,14 @@ outline:none;
 	text-align: center;
 	vertical-align: top;
 }
-
+.resultitem .pricediv a, .resultitem .pricediv button {
+	width: 80px;
+	padding-left: 0px;
+	padding-right: 0px;
+}
+.resultitem .pricediv button {
+	margin-top: 10px;
+}
 .resultitem .pricediv p {
 	font-size: 20px;
 	font-weight: 800;
@@ -652,8 +638,11 @@ outline:none;
 	float: right;
 	margin-right: 10px;
 }
-.hidden {
+.previewdiv {
 	display: none;
+}
+.visible {
+	display: block;
 }
 
 /**********************************/
@@ -674,8 +663,8 @@ outline:none;
 	height: 160px;
 	margin-left: 200px;
 	position: fixed;
-	position: 9999
-	margin-top: 150px;
+	z-index: 9999;
+	margin-top: 170px;
 	background-image: url("../img/blacktransparency.png");
 	border-radius: 6px;
 	text-align: center;

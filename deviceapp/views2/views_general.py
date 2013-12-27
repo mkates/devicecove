@@ -20,9 +20,15 @@ def index(request):
 	items = Item.objects.order_by('savedcount')[:9]
 	return render_to_response('general/index.html',{'featured':items},context_instance=RequestContext(request))
 
+def categories(request):
+	return render_to_response('general/categories.html',{'categories':Category.objects.all()},context_instance=RequestContext(request))
+
 def faq(request):
 	return render_to_response('general/faqs.html',context_instance=RequestContext(request))
 
+def testemail(request):
+	return render_to_response('email_templates/test_email.html',context_instance=RequestContext(request))
+	
 def my_404_view(request):
 	return render_to_response('404.html',context_instance=RequestContext(request))
 	

@@ -7,14 +7,18 @@
 			<div class='col-md-2 col-sm-2 col-xs-12 pricediv'>
 				<p>${{item.price|floatformat|intcomma}}</p>
 				<a class='button button-rounded button-highlight' href="/item/{{item.id}}/details">Select</a>
+				{% if savedpage %}
+					<form action="/removeitem" method="POST">
+						{% csrf_token %}
+						<input type="hidden" name="itemid" value="{{item.id}}">
+						<button value="submit" name="submit" class='button button-tiny button-rounded button-caution'>Remove</button>
+					</form>
+				{% endif %}
 			</div>
 			
 			<div class='textdiv col-md-6 col-sm-6 col-xs-12'>
 				<a href="/item/{{item.id}}/details"><h2 class="itemname">{{ item.name }}</h2></a>
-				<h6 class="resulttag">
-					{% if item.conditiontype == 'new' %}
-					<span class="new">new</span>
-					{% endif %} 
+				<h6 class="resulttag"> 
 					{% if item.conditiontype == 'refurbished' %}<span class="refurbished">refurbished</span>{% endif %} 
 					{% if item.conditiontype == 'preowned' %}<span class="preowned">preowned</span>{% endif %} 
 					{% if item.conditiontype == 'new' %}<span class="verified">new</span>{% endif %} 
@@ -26,9 +30,9 @@
 				<h4><a>List Date<span>{{item.listeddate}}</span></a></h4>
 				<h4><a>Manufacturer<span>{{ item.manufacturer }}</span></a></h4>
 				<div class='buttondiv'>
-					<button class='btn-custom-gray infobutton detailsbutton' data-ref="#moredetails">Details</button>
-					<button class='btn-custom-gray infobutton specsbutton' data-ref="#quickfacts">Quick Facts</button>
-					<button class='btn-custom-gray infobutton conditionbutton' data-ref="#morecondition">Condition</button>
+					<button class='btn-custom-gray infobutton detailsbutton' data-ref="#moredetails_{{item.id}}">Details</button>
+					<button class='btn-custom-gray infobutton specsbutton' data-ref="#quickfacts_{{item.id}}">Quick Facts</button>
+					<button class='btn-custom-gray infobutton conditionbutton' data-ref="#morecondition_{{item.id}}">Condition</button>
 				</div>
 			</div>
 			
@@ -36,40 +40,40 @@
 				<img src="{%if item.mainimage %}{{item.mainimage.photo_medium.url}}{% else %}{{STATIC_URL}}img/noimage.jpg{% endif %}" alt="{{item.name}}"/>		
 			</div>
  		</div>
-		<div id="quickfacts" class='specsdiv previewdiv hidden row'>
-			<div class="col-md-6 col-sm-6 col-xs-12">
-				<p>Category<span>{{item.subcategory}}</span></p>
-				<p>Contract<span>{{item.get_contract_display}}</span></p>
-				<p>Manufacturer<span>{{item.manufacturer}}</span></p>
-				<p>Model Year<span>{{item.modelyear}}</span></p>
-			</div>
-			<div class="col-md-6 col-sm-6 col-xs-12">
-				<p>Shipping Included<span>{{item.shippingincluded|yesno:"Included,Not Included"}}</span></p>
-				<p>Offline Viewing<span>{{item.offlineviewing|yesno:"Yes,No"}}</span></p>
-				<p>Original Owner<span>{{item.originalowner|yesno:"Yes,No"}}</span></p>
-				<p>Verified Seller<span>{{item.user.verified|yesno:"Yes,No"}}</span></p>
-			</div>
-			<div class="clear"></div>
-			<div class='morediv'>
-				<a href="/item/{{item.id}}/details"> Show all product specifications &#8594;</a>
-				<button class='btn-custom-gray closebutton'>Close</button>
-			</div>
+	<div id="quickfacts_{{item.id}}" class='specsdiv previewdiv row'>
+		<div class="col-md-6 col-sm-6 col-xs-12">
+			<p>Category<span>{{item.subcategory}}</span></p>
+			<p>Contract<span>{{item.get_contract_display}}</span></p>
+			<p>Manufacturer<span>{{item.manufacturer}}</span></p>
+			<p>Model Year<span>{{item.modelyear}}</span></p>
 		</div>
-		<div id="moredetails" class='detailsdiv previewdiv hidden row'>
-			<p>{{ item.productdescription }}</p>
-			<div class='morediv'>
-				<a href="/item/{{item.id}}/details"> Show all product specifications &#8594;</a>
-				<button class='btn-custom-gray closebutton'>Close</button>
-			</div>
+		<div class="col-md-6 col-sm-6 col-xs-12">
+			<p>Shipping Included<span>{{item.shippingincluded|yesno:"Included,Not Included"}}</span></p>
+			<p>Offline Viewing<span>{{item.offlineviewing|yesno:"Yes,No"}}</span></p>
+			<p>Original Owner<span>{{item.originalowner|yesno:"Yes,No"}}</span></p>
+			<p>Verified Seller<span>{{item.user.verified|yesno:"Yes,No"}}</span></p>
 		</div>
-		<div id="morecondition" class='conditiondiv previewdiv hidden row'>
-			<p>{{ item.conditiondescription }}</p>
-			<div class='morediv'>
-				<a href="/item/{{item.id}}/details"> Show all product specifications &#8594;</a>
-				<button class='btn-custom-gray closebutton'>Close</button>
-			</div>
+		<div class="clear"></div>
+		<div class='morediv'>
+			<a href="/item/{{item.id}}/details"> Show all product specifications &#8594;</a>
+			<button class='btn-custom-gray closebutton'>Close</button>
 		</div>
-			
+	</div>
+	<div id="moredetails_{{item.id}}" class='detailsdiv previewdiv row'>
+		<p>{{ item.productdescription }}</p>
+		<div class='morediv'>
+			<a href="/item/{{item.id}}/details"> Show all product specifications &#8594;</a>
+			<button class='btn-custom-gray closebutton'>Close</button>
+		</div>
+	</div>
+	<div id="morecondition_{{item.id}}" class='conditiondiv previewdiv row'>
+		<p>{{ item.conditiondescription }}</p>
+		<div class='morediv'>
+			<a href="/item/{{item.id}}/details"> Show all product specifications &#8594;</a>
+			<button class='btn-custom-gray closebutton'>Close</button>
+		</div>
+	</div>
+		
 </div>
 
 {% endfor %}

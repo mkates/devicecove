@@ -1,4 +1,6 @@
 {% extends 'base.html' %}
+{% block headertitle %}<title>VetCove | {% if custom %}{{searchquery}}{% elif subcategoryname != 'all'%}{{ subcategoryname }}{% else %}{{ categoryname }}{% endif %}</title>{% endblock%}
+{% block searchvalue %}{% if custom %}{{searchquery}}{% elif subcategoryname != 'all'%}{{ subcategoryname }}{% else %}{{ categoryname }}{% endif %}{% endblock %}
 {% block headercss %}
 <link href='{{STATIC_URL}}css/base.css' rel='stylesheet' type='text/css' />
 <link href='{{STATIC_URL}}css/productitem.css' rel='stylesheet' type='text/css' />
@@ -101,7 +103,7 @@ label .floatright {
 	</div>
  -->
 	<div class='filterbox covebox'>
-		<h4>Filters</h4>
+		<h4 class="sidecontent-title">Filters</h4>
 		<div id='pricecategory' class='filter-category notopborder'>
   			<h2>Price Range</h2>
   			<div id='price-slider-container'>
@@ -182,7 +184,7 @@ label .floatright {
 				{% if relateditem.type == 'category' %}
 					<a href="/productsearch/{{ind.name}}/{{relateditem.obj.name}}/all">{{relateditem.obj.displayname}}</a>
 				{% else %}
-					<a href="/productsearch/{{ind.name}}/all/{{relateditem.obj.name}}">{{relateditem.obj.displayname}}<span> (in {{relateditem.obj.maincategory}})</a>
+					<a href="/productsearch/{{ind.name}}/all/{{relateditem.obj.name}}">{{relateditem.obj.displayname}}<span></a>
 				{% endif %}
 				{% if not forloop.last %},{% endif %}
 			{% endfor %}
@@ -234,6 +236,11 @@ var variables = {
 //*** Miscellaneous Page Functions ************
 //*********************************************			
 $(document).ready(function(){
+	// put focus into the search bar
+	var val = $("#searchinput").val()
+	$("#searchinput").val('');
+	$("#searchinput").focus();
+	$("#searchinput").val(val);
 	//Start with everything checked
 	$('.checkboxitem').prop('checked',true);
 	//Set sorting to price
@@ -255,7 +262,6 @@ $(document).ready(function(){
 		else if (val_index < 0 && checked ==true) {
 			variables[topic].push(value);
 		}
-		console.log(variables[topic]);
 		update();
 		
 	});

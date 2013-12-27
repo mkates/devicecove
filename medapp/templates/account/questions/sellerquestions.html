@@ -1,0 +1,66 @@
+{% extends 'account/questions/questions.html' %}
+{% block headertitle %}<title>VetCove | Seller Questions</title>{% endblock%}
+{% block sellquestions %}active{% endblock %}
+
+{% block maintitle %}Seller Questions{% endblock %}
+
+{% block maincontent %}
+
+<div class="maincontent-container questions-container">
+	<div class="covebox question-container">
+		<h5>Unanswered Questions</h5>
+		{% if unanswered %}
+			{% for question in unanswered %}
+			<div class="questionbox">
+				<p class="question">{{question}} for <a class="itemspan" href="/item/{{question.item.id}}/details">{{question.item.name}}</a></p>
+				<button class="editanswer button-tiny button button-rounded button-highlight">Answer This Question</button>
+				<form action="/deletequestion" method="POST">
+					{% csrf_token %}
+					<input type="hidden" name="questionid" value="{{question.id}}">
+					<input type="hidden" name="questionspage" value="True">
+					<button value="submit" name="submit" class='deletebutton button button-tiny button-rounded'>Delete Question</button>
+				</form>
+				<div class="clear"></div>
+				<form class="questionform" action="/answerquestion/{{question.id}}" method="POST">
+					{% csrf_token %}
+					<textarea name="answer" class="form-control" id="questionanswer" placeholder="Answer your question here. Your answer will be public"></textarea>
+					<button value="submit" name="submit" class="button-tiny button button-action button-rounded">Submit Answer</button>
+					<a class="cancelquestion button-tiny button button-rounded"> Cancel </a>
+				</form>
+			</div>
+			{% endfor %}
+		{% else %}
+			<p class="nolistings"> You have no questions left to answer </p>
+		{% endif %}
+	</div>
+	
+	<div class="covebox question-container">
+		<h5>Answered Questions</h5>
+		{% if answered %}
+			{% for question in answered reversed %}
+			<div class="questionbox">
+				<p class="question">{{question}} for <a class="itemspan" href="/item/{{question.item.id}}/details">{{question.item.name}}</a></p>
+				<p class="questionanswer">{{question.answer}} <span> answered on {{question.dateanswered}}</p>
+				<button class="editanswer editquestion button-tiny button button-rounded">Edit Answer</button>
+				<form action="/deletequestion" method="POST">
+					{% csrf_token %}
+					<input type="hidden" name="questionid" value="{{question.id}}">
+					<input type="hidden" name="questionspage" value="True">
+					<button value="submit" name="submit" class='deletebutton button button-tiny button-rounded'>Delete Question</button>
+				</form>
+				<form class="questionform" action="/answerquestion/{{question.id}}" method="POST">
+					{% csrf_token %}
+					<textarea name="answer" class="form-control" id="questionanswer" placeholder="Answer your question here. Your answer will be public">{{question.answer}}</textarea>
+					<button value="submit" name="submit" class="button-tiny button button-action button-rounded">Submit Answer</button>
+					<a class="cancelquestion button-tiny button button-rounded"> Cancel </a>
+				</form>
+				<div class="clear"></div>
+			</div>
+			{% endfor %}
+		{% else %}
+			<p class="nolistings"> You have not yet answered any questions</p>
+		{% endif %}
+	</div>	
+
+</div> 
+{% endblock %}

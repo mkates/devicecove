@@ -28,7 +28,7 @@
 		<div class="topbar covebox">
 			{% if not preview %}
 			<div class="topnavigation">
-				<p class="backbutton-container"><a class="backbutton" href="/productsearch/{{industry.name}}/{{item.subcategory.maincategory.name}}/{{item.subcategory.name}}">&#8592; View all {{item.subcategory.displayname}}</a></p>
+				<p class="backbutton-container"><a class="backbutton">&#8592; View all {{item.subcategory.displayname}}</a></p>
 				<p class="breadcrumbs"><a href="/">Home</a> / <a href="/productsearch/{{industry.name}}/{{item.subcategory.maincategory.name}}/all">{{item.subcategory.maincategory.displayname}}</a> / <a href="/productsearch/{{industry.name}}/{{item.subcategory.maincategory.name}}/{{item.subcategory.name}}">{{item.subcategory.displayname}}</a> / {{item.name}}</p>
 				<div class="clear"></div>
 			</div>
@@ -120,7 +120,7 @@
 			{% if item.question_set.all %}
 				{% for question in item.question_set.all reversed %}
 					<div class="question">
-						<h5>{{question.question}} <span> asked {{question.dateasked}}</span> {% if question.item.user.email == user.email and not question.answer %}<span class="deletequestion" data_questionid="{{question.id}}">Delete</span>{% endif %}</h5>
+						<h5>{{question.question}} <span> asked {{question.dateasked}}</span> {% if question.buyer == user.basicuser and not question.answer %}<span class="deletequestion" data_questionid="{{question.id}}">Delete</span>{% endif %}</h5>
 						{% if question.answer %}
 							<p class="answer">{{question.answer}}</p>
 						{% else %}
