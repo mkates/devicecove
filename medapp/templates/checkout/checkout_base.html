@@ -1,45 +1,15 @@
 {% extends 'base.html' %}
-{% block headertitle %}<title>VetCove | List</title>{% endblock%}
+{% block headertitle %}<title>VetCove | Checkout</title>{% endblock%}
 
 {% block headercss %}
 <link href="{{STATIC_URL}}css/item/item.css" rel="stylesheet" type="text/css" />
 <style>
-h5 span {
-	color: #999;
-	font-weight: 200;
-	font-size: 13px;
-}
 .listcontainer {
 	max-width: 1000px;
-	margin: 10px auto;
-	position:relative;
+	margin: 10px auto 50px auto;
 	padding-top: 20px;
 }
-.servermessage {
-	position: fixed;
-	text-align: center;
-	z-index: 9999;
-	min-width: 200px;
-	margin-left: -100px;
-	background: #D7EFD7;
-	border:1px solid #8AD493;
-	color: #37A342;
-	top: 75px;
-	font-weight: 200; 
-	left: 50%;
-	right: 50%;
-	display: none;
-}
-.saved {
-	background: #D7EFD7;
-	border:1px solid #8AD493;
-	color: #37A342;
-}
-.errorsaving {
-	background: #EFDBD9;
-	border:1px solid #EF655B;
-	color: #EF1111;
-}
+
 .listbox {
 	padding: 0px;
 }
@@ -68,19 +38,19 @@ h5 span {
 .listbox .liststep .active {
 	opacity: 1;
 	color: white;
-	background: #008DB2;
-	background-image: linear-gradient(to bottom, #00B5E5 0%, #008DB2 100%);
-	background-image: -ms-linear-gradient(top, #00B5E5 0%, #008DB2 100%);
-	background-image: -moz-linear-gradient(top, #00B5E5 0%, #008DB2 100%);
-	background-image: -o-linear-gradient(top, #00B5E5 0%, #008DB2 100%);
-	background-image: -webkit-linear-gradient(top, #00B5E5 0%, #008DB2 100%);
-	background-image: linear-gradient(to bottom, #00B5E5 0%, #008DB2 100%);
+	background: #6B9C00;
+	background-image: -ms-linear-gradient(top, #8FC800 0%, #6B9C00 100%);
+	background-image: -moz-linear-gradient(top, #8FC800 0%, #6B9C00 100%);
+	background-image: -o-linear-gradient(top, #8FC800 0%, #6B9C00 100%);
+	background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #8FC800), color-stop(1, #6B9C00));
+	background-image: -webkit-linear-gradient(top, #8FC800 0%, #6B9C00 100%);
+	background-image: linear-gradient(to bottom, #8FC800 0%, #6B9C00 100%);
 }
 .listbox .liststep span {
 	margin-right: 5px;
 	font-size: 15px;
 	background: #eee;
-	color: #00B5E5;
+	color: #00B318;
 }
 .listbox .listnav {
 	margin: 30px 35px;
@@ -102,26 +72,59 @@ h5 span {
 	text-align: left;
 	padding: 0 20px;
 }
-.formcolumn {
-	padding: 30px 30px 20px 30px;
-}
-.formcontent .radio-inline {
-	padding-top: 5px;
-	height: 35px;
-}
+
 .listcontainer .topnav {
 	text-align: left;
 }
-.returntolisting {
+.listcontainer .topnav .continuebutton {
 	float: right;
 }
+
 .formerror {
 	border:1px solid red;
 	box-shadow: 0 0 2px red;
 }
-.header_error {
-	color: red;
+
+/* Information blocks */
+.information-block {
+	margin-bottom: 50px;
 }
+.information-block h5 {
+	font-size: 16px;
+}
+.information-block p {
+	line-height: 15px;
+	font-weight: 200;
+	font-size: 13px;
+	color: #444;
+	margin: 8px 0;
+}
+.information-select {	
+	display:block;
+	width: 182px;
+	margin-top: 15px;
+}
+.editinformation, .deleteinformation {
+	margin-top: 8px;
+	width: 85px;
+	margin-right: 8px;
+}
+.informationform button {
+	margin-top: 10px;
+}
+@media (max-width: 768px) {
+	.information-block {
+		text-align: center;
+	}
+	.information-select {
+		margin: 0 auto;
+	}
+	.logincol h4 {
+		text-align: center;
+	}
+}
+ 
+
 </style>
 {% block customcss %}{% endblock %}
 {% endblock %}
@@ -198,55 +201,40 @@ var addError = function addError(handle) {
 {% block customjs %}{% endblock %}
 {% endblock %}
 {% block content %}
-<div class="saved servermessage">&#x2713; Saved</div>
-<div class="errorsaving servermessage">&#x2717; Error Saving</div>
+
 <div class="listcontainer">
-	{% if item.liststatus != 'incomplete' %}
-	<p class="topnav">{% block topnav %}<a class="tolisteditems button button-tiny" href="/listeditems">&#8592; Return To Listed Items</a><a class="returntolisting button button-tiny" href="/item/{{item.id}}/details">View Listing</a>{% endblock %}</p>
-	{% endif %}
+	
+	<p class="topnav"><a class="returnbutton button button-tiny" href="/listeditems">&#8592; Return To Shipping</a><a class="continuebutton button button-tiny" href="/item/{{item.id}}/details">Continue to Payment &#8594;</a></p>
+
 	<div class="covebox listbox">
 		<div class="listbar">
-			<div class="col-md-2 col-sm-2 col-xs-6 liststep">
-				<a class="{% block describeactive %}{% endblock%}" href="/list/describe/{{item.id}}"><span class="badge">1</span>Describe It</a>
+			<div class="col-md-3 col-sm-3 col-xs-6 liststep">
+				<a class="{% block signinactive %}{% endblock%}"><span class="badge">{% block signin_check%}1{% endblock %}</span>Sign In</a>
 			</div>
-			<div class="col-md-2 col-sm-2 col-xs-6 liststep">
-				<a class="{% block detailactive %}{% endblock%}" {%if item.liststage > 1 %}href="/list/details/{{item.id}}"{% endif %}><span class="badge">2</span>Details</a>
+			<div class="col-md-3 col-sm-3 col-xs-6 liststep">
+				<a class="{% block shippingactive %}{% endblock%}"><span class="badge">{% block shipping_check %}2{% endblock %}</span>Shipping</a>
 			</div>
-			<div class="col-md-2 col-sm-2 col-xs-6 liststep">
-				<a class="{% block photosactive %}{% endblock%}" {%if item.liststage > 2 %}href="/list/photos/{{item.id}}"{% endif %}><span class="badge">3</span>Photos</a>
+			<div class="col-md-3 col-sm-3 col-xs-6 liststep">
+				<a class="{% block paymentactive %}{% endblock%}"><span class="badge">{% block payment_check %}3{% endblock %}</span>Payment</a>
 			</div>
-			<div class="col-md-2 col-sm-2 col-xs-6 liststep">
-				<a class="{% block logisticsactive %}{% endblock%}" {%if item.liststage > 3 %}href="/list/logistics/{{item.id}}"{% endif %}><span class="badge">4</span>Logistics</a>
-			</div>
-			<div class="col-md-2 col-sm-2 col-xs-6 liststep">
-				<a class="{% block previewactive %}{% endblock%}" {%if item.liststage > 4 %}href="/list/preview/{{item.id}}"{% endif %}><span class="badge">5</span>Preview</a>
+			<div class="col-md-3 col-sm-3 col-xs-6 liststep">
+				<a class="{% block reviewactive %}{% endblock%}"><span class="badge">{% block review_check %}4{% endblock %}</span>Review</a>
 			</div>
 			<div class="clear"></div>
 		</div>
-		{% if preview %}
-		<div class="listnav">
-			<a href="/list/logistics/{{item.id}}" class="backbutton button button-rounded">Back to Logistics</a>
-			<a href="/savepreview/{{item.id}}" class="saveandcontinue button button-rounded button-highlight">{% if item.liststatus != 'incomplete' %}View Your Listing{% else %}List Your Product{% endif %}</a>
-			<a class="viewpreview button button-rounded">Preview Listing</a>
-			<div class="clear"></div>
-		</div>
-		{% endif %}
+
 		<div class="listcontent">
-		{% block photocontent %}
-			<form id="listform" method="POST" action="{% block formaction %}{% endblock %}/{{item.id}}">
-				{% csrf_token %}
-				<input id="submitcode" name="submitcode" value="600" type="hidden"/>
-				{% block formcontent %}{% endblock %}
-				<div class="clear"></div>
-			</form>
+		{% block checkoutcontent %}
+
 		{% endblock %}
 		</div>
-		<div class="listnav">
+		<!-- 
+<div class="listnav">
 			{% block hidebackbutton %}<a href="{% block previouspage %}{% endblock %}" class="backbutton button button-rounded">Back to {% block backdescription %}previous page{% endblock%}</a>{% endblock%}
 			{% block continuebutton %}<a class="saveandcontinue button button-rounded button-action">Save and Continue</a>{% endblock %}
-			{% block hidesave %}<a class="saveandstay button button-rounded">Save</a>{% endblock %}
 			<div class="clear"></div>
 		</div>
+ -->
 		
 	</div>
 </div>

@@ -1,0 +1,92 @@
+{% extends 'checkout/checkout_base.html' %}
+
+{% block signin_check %}&#x2713;{% endblock %}
+
+{% block shippingactive %}active{% endblock %}
+
+{% block customcss %}
+<style>
+.logincol {
+	border-right:1px solid #f2f2f2;
+	min-height: 300px;
+	padding: 30px 50px 70px 50px;
+}
+.logincol h4 {
+	font-size: 20px;
+	color: #333;
+	margin-bottom: 30px;
+}
+
+
+</style>
+{% endblock %}
+
+{% block customjs %}
+<script>
+
+
+</script>
+{% endblock %}
+
+
+
+{% block checkoutcontent %}
+<div class="checkout-container">
+	<div class="row">
+		<div class="logincol col-md-6 col-sm-6 col-xs-12">
+			<h4>Saved Shipping Addresses</h4>
+			<div class="information-block">
+				<h5>Mitchell Kates</h5>
+				<p>2 Norfolk Terrace</p>
+				<p> Cambridge, MA 02215</p>
+				<p>Phone: 732-732-4516</p>
+				<a href="/signup?next={{thisurl}}" class="information-select button button-action button-rounded" value="submit">Use This Address</a>
+				<div class="clear"></div>
+				<a href="/signup?next={{thisurl}}" class="editinformation button button-rounded button-tiny" value="submit">Delete</a>
+				<a href="/signup?next={{thisurl}}" class="deleteinformation button button-rounded button-tiny" value="submit">Edit</a>	
+			</div>
+		</div>
+		<div class="logincol col-md-6 col-sm-6 col-xs-12">
+			<h4>Enter New Shipping Address</h4>
+			<form class="addressform" action="newuserform" method="post">
+				{% csrf_token %}
+				<div class="form-group">
+					<label for="companyname">Name</label>
+					<input type="text" class="form-control" id="name" name="name" placeholder="First and Last Name" />
+				</div>
+				<div class="form-group">
+					<label for="companyname">Address 1</label>
+					<input type="text" class="form-control" id="name" name="name" placeholder="Street Address, P.O. Box, Company Name, c/o" />
+				</div>
+				<div class="form-group">
+					<label for="companyname">Address 2</label>
+					<input type="text" class="form-control" id="name" name="name" placeholder="Apartment, Suite, Unit, Building, Floor, etc." />
+				</div>
+				<div class="form-group">
+					<label for="companyname">City</label>
+					<input type="text" class="form-control" id="name" name="name" placeholder="City" />
+				</div>
+				<div class="form-group">
+					<label for="companyname">State/Province/Region</label>
+					<input type="text" class="form-control" id="name" name="name" placeholder="State" />
+				</div>
+				<div class="form-group">
+					<label for="companyname">Zipcode</label>
+					<input type="text" class="form-control" id="name" name="name" placeholder="5 Digit Zipcode" />
+				</div>
+				<div class="form-group">
+					<label for="companyname">Country</label>
+					<input disabled type="text" class="form-control" id="name" name="name" value="United States" />
+				</div>
+				<div class="form-group">
+					<label for="companyname">Phone</label>
+					<input type="text" class="form-control" id="name" name="name" placeholder="Phone Number (Including Area Code)" />
+				</div>
+				<button href="/signup?next={{thisurl}}" class="button button-action button-rounded" value="submit">Ship to this Address</button>	
+
+			 </form>
+		</div>
+	</div>
+
+</div>
+{% endblock %}

@@ -1,0 +1,99 @@
+{% extends 'checkout/checkout_base.html' %}
+
+{% block signin_check %}&#x2713;{% endblock %}
+{% block shipping_check %}&#x2713;{% endblock %}
+
+{% block paymentactive %}active{% endblock %}
+
+{% block customcss %}
+<style>
+.logincol {
+	border-right:1px solid #f2f2f2;
+	min-height: 300px;
+	padding: 30px 50px 70px 50px;
+}
+.logincol h4 {
+	font-size: 20px;
+	color: #333;
+	margin-bottom: 30px;
+}
+
+.expiration select {
+	display: inline-block;
+}
+.expiration-month {
+	width: 80px;
+	margin-right: 10px;
+}
+.expiration-year {
+	width: 120px;
+}
+.newccform .reviewmessage {
+	font-weight: 200;
+	margin-top: 5px;
+}
+</style>
+{% endblock %}
+
+{% block customjs %}
+<script>
+
+
+</script>
+{% endblock %}
+
+
+
+{% block checkoutcontent %}
+<div class="checkout-container">
+	<div class="row">
+		<div class="logincol col-md-6 col-sm-6 col-xs-12">
+			<h4>Saved Payment Options</h4>
+			<div class="information-block">
+				<h5>Credit / Debit Card</h5>
+				<p><span>Name on Card: </span> Mitchell Kates</p>
+				<p><span>Company: </span> Visa</p>
+				<p><span>Card: </span> * * * * * * * * 8211</p>
+				<p><span>Expires On: </span>9/12/2015</p>
+				<a href="/signup?next={{thisurl}}" class="information-select button button-action button-rounded" value="submit">Use This Card</a>
+				<a href="/signup?next={{thisurl}}" class="editinformation button button-rounded button-tiny" value="submit">Delete</a>
+				<a href="/signup?next={{thisurl}}" class="deleteinformation button button-rounded button-tiny" value="submit">Edit</a>	
+			</div>
+		</div>
+		<div class="logincol col-md-6 col-sm-6 col-xs-12">
+			<h4>Enter New Payment Method</h4>
+			<form class="newccform" action="newuserform" method="post">
+				{% csrf_token %}
+				<div class="form-group">
+					<label for="companyname">Name</label>
+					<input type="text" class="form-control" id="name" name="name" placeholder="Name on Card" />
+				</div>
+				<div class="form-group">
+					<label for="companyname">Card Number</label>
+					<input type="text" class="form-control" id="name" name="name" placeholder="Credit Card Number" />
+				</div>
+				<div class="form-group expiration">
+					<label for="companyname">Expiration Date (Month / Year)</label>
+					<div class="clear"></div>
+					<select class="form-control expiration-month">
+						<option>1</option>
+						<option>2</option>
+						<option>3</option>
+						<option>4</option>		
+					</select>
+					<select class="form-control expiration-year">
+						<option>1</option>
+						<option>2</option>
+						<option>3</option>
+						<option>4</option>		
+					</select>
+
+				</div>
+				<p class="reviewmessage">(You can review this order before it's final)</p>
+				<button href="/signup?next={{thisurl}}" class="button button-action button-rounded" value="submit">Use This Card</button>	
+			 </form>
+		</div>
+	</div>
+
+</div>
+{% endblock %}

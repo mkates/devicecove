@@ -146,7 +146,6 @@ INSTALLED_APPS = (
     'django.contrib.admindocs',
     'django.contrib.humanize',
     'boto',
-    'django_ses',
     'deviceapp',
     'imagekit', #For resizing images before S3 Upload
     'storages',

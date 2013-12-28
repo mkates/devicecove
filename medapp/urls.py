@@ -51,6 +51,14 @@ urlpatterns = patterns('',
 	url(r'^savelogistics/(?P<itemid>\d+)','deviceapp.views2.savelogistics'),
     url(r'^savepreview/(?P<itemid>\d+)','deviceapp.views2.savepreview'),
     url(r'^deletelisting/(?P<itemid>\d+)','deviceapp.views2.deletelisting'),
+    
+    #Checkout Experience
+    url(r'^checkout/signin/(?P<itemid>\d+)','deviceapp.views2.checkoutSignin'),
+    url(r'^checkout/shipping/(?P<itemid>\d+)','deviceapp.views2.checkoutShipping'),
+    url(r'^checkout/payment/(?P<itemid>\d+)','deviceapp.views2.checkoutPayment'),
+    url(r'^checkout/review/(?P<itemid>\d+)','deviceapp.views2.checkoutReview'),
+    url(r'^checkout/confirmation/(?P<itemid>\d+)','deviceapp.views2.checkoutConfirmation'),
+   
 )
 #####################################################################
 #########  Account ###################################################
@@ -93,6 +101,5 @@ urlpatterns += patterns('',
 #####################################################################
 #########  Django SES Statistics ####################################
 #####################################################################
-#urlpatterns += (url(r'^admin/django-ses/', include('django_ses.urls')),)
 
 handler404 = 'deviceapp.views2.my_404_view'

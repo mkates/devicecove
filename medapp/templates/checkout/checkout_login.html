@@ -1,0 +1,84 @@
+{% extends 'checkout/checkout_base.html' %}
+
+{% block signinactive %}active{% endblock%}
+
+{% block topnav %}<a class="returntolisting button button-tiny" href="/item/{{item.id}}/details">Continue to Shipping</a>{% endblock %}
+
+{% block customcss %}
+<style>
+.logincol {
+	border-right:1px solid #f2f2f2;
+	min-height: 300px;
+	padding: 30px 50px 70px 50px;
+}
+.logincol h4 {
+	font-size: 20px;
+	color: #333;
+	margin-bottom: 20px;
+}
+.logincol .checkoutloginform {
+}
+.logincol form p {
+	margin-top: 15px;
+	font-weight: 200;
+}
+.logincol .forgotpassword {
+	display: block;
+	font-weight: 200;
+	font-size: 12px;
+	padding:5px 0;
+	text-align: right;
+}
+.logincol .submitbutton {
+	margin-top: 40px;
+}
+.signupcontainer {
+	margin-top: 30px;
+	text-align: center;
+}
+.signupcontainer h5 {
+	font-size: 16px;
+	font-weight: 200;
+	margin: 50px 0 20px 0;
+}
+
+</style>
+{% endblock %}
+
+{% block customjs %}
+<script>
+
+
+</script>
+{% endblock %}
+
+
+
+{% block checkoutcontent %}
+<div class="checkout-container">
+	<div class="row">
+		<div class="logincol col-md-6 col-sm-6 col-xs-12">
+			<h4>Login</h4>
+			<form class="checkoutloginform" action="checkoutlogin" method="post">
+				{% csrf_token %}
+				<p>Email</p>
+				<input name="email" class="form-control" type="email" placeholder="ex. joedoe@gmail.com">
+				<p>Password</p>
+				<input name="password" class="form-control" type="password">
+				<a class="forgotpassword" href="{% url "password_reset_recover" %}">Forgot Password?</a>
+				<button class="button button-action button-rounded" value="submit">Login</button>
+				<div class="clear"></div>
+			</form>
+		</div>
+		<div class="logincol col-md-6 col-sm-6 col-xs-12">
+			<h4>Sign Up</h4>
+			<div class='signupcontainer'>
+				<h5> Don't have an account? Sign up in less than 60 seconds</h5>
+				<a href="/signup?next={{thisurl}}" class="button button-action button-rounded" value="submit">Sign Up</a>
+
+			</div>
+		</div>
+	</div>
+
+</div>
+{% endblock %}
