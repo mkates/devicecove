@@ -145,7 +145,7 @@ def profile(request):
 		return render_to_response('account/profile.html',dict,context_instance=RequestContext(request))
 	else:
    		return render_to_response('general/index.html',context_instance=RequestContext(request))
-   		
+
 @login_required
 def sellerquestions(request):
 	if request.user.is_authenticated():
@@ -180,7 +180,7 @@ def answerquestion(request,questionid):
 			question.answer = request.POST.get('answer','')
 			question.dateanswered = datetime.now()
 			question.save()
-		return HttpResponseRedirect('/questions')
+		return HttpResponseRedirect('/sellerquestions')
 	return HttpResponseRedirect('/')
  	  		
 #################################################

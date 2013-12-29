@@ -67,4 +67,27 @@
 {% endblock %}
 
 
+{% block jsblock %}
+<script>
+
+$(document).ready(function() {
+	$('.editanswer').click(function() {
+		$(this).parent().find('.deletebutton').css('display','none');
+		$(this).parent().find('.questionanswer').css('display','none');
+		$(this).css('display','none');
+		$(this).parent().children('.questionform').css('display','block');;
+	});
+	$('.cancelquestion').click(function() {
+		$(this).parent().parent().children('.questionanswer').css('display','block');
+		$(this).parent().parent().children('.editanswer').css('display','block');
+		$(this).parent().parent().find('.deletebutton').css('display','block');
+		$(this).parent().css('display','none');
+	});
+
+
+});
+</script>
+{% endblock %}
+
+
 	

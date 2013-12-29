@@ -123,7 +123,33 @@
 		text-align: center;
 	}
 }
- 
+.contentrow {
+	padding-right: 0px;
+}
+ .summary-block {
+ 	margin-top: 30px;
+ 	border:2px solid #ddd;
+ 	border-radius: 3px;
+ 	height: 500px;
+ 	/* IE10 Consumer Preview */ 
+background-image: -ms-radial-gradient(center, circle closest-corner, #FFFFFF 0%, #F3F3F3 90%, #EEEEEE 100%);
+
+/* Mozilla Firefox */ 
+background-image: -moz-radial-gradient(center, circle closest-corner, #FFFFFF 0%, #F3F3F3 90%, #EEEEEE 100%);
+
+/* Opera */ 
+background-image: -o-radial-gradient(center, circle closest-corner, #FFFFFF 0%, #F3F3F3 90%, #EEEEEE 100%);
+
+/* Webkit (Safari/Chrome 10) */ 
+background-image: -webkit-gradient(radial, center center, 0, center center, 497, color-stop(0, #FFFFFF), color-stop(0.9, #F3F3F3), color-stop(1, #EEEEEE));
+
+/* Webkit (Chrome 11+) */ 
+background-image: -webkit-radial-gradient(center, circle closest-corner, #FFFFFF 0%, #F3F3F3 90%, #EEEEEE 100%);
+
+/* W3C Markup, IE10 Release Preview */ 
+background-image: radial-gradient(circle closest-corner at center, #FFFFFF 0%, #F3F3F3 90%, #EEEEEE 100%);
+ 	
+ }
 
 </style>
 {% block customcss %}{% endblock %}
@@ -205,7 +231,7 @@ var addError = function addError(handle) {
 <div class="listcontainer">
 	
 	<p class="topnav"><a class="returnbutton button button-tiny" href="/listeditems">&#8592; Return To Shipping</a><a class="continuebutton button button-tiny" href="/item/{{item.id}}/details">Continue to Payment &#8594;</a></p>
-
+	
 	<div class="covebox listbox">
 		<div class="listbar">
 			<div class="col-md-3 col-sm-3 col-xs-6 liststep">
@@ -224,19 +250,21 @@ var addError = function addError(handle) {
 		</div>
 
 		<div class="listcontent">
-		{% block checkoutcontent %}
+			<div class="row">
+				<div class="contentrow col-md-9 col-sm-9 col-xs-12">
+				{% block checkoutcontent %}
 
-		{% endblock %}
+				{% endblock %}
+				</div>
+				<div class="col-md-3 col-sm-2 col-xs-12 summary">
+					<div class="summary-block">
+						
+					</div>
+				</div>
+			</div>
 		</div>
-		<!-- 
-<div class="listnav">
-			{% block hidebackbutton %}<a href="{% block previouspage %}{% endblock %}" class="backbutton button button-rounded">Back to {% block backdescription %}previous page{% endblock%}</a>{% endblock%}
-			{% block continuebutton %}<a class="saveandcontinue button button-rounded button-action">Save and Continue</a>{% endblock %}
-			<div class="clear"></div>
-		</div>
- -->
-		
 	</div>
+	
 </div>
 
 {% endblock %}
