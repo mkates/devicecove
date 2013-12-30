@@ -256,6 +256,7 @@
 	background: #00A0C9;
 	text-align: center;
 	box-shadow: 0 0 2px #fff;
+	margin-right: 5px;
 }
 
 </style>
@@ -264,8 +265,6 @@
 <body>
 {% block overlaydiv %}{% endblock %}
 {% block header %}
-{{cart_items}}
-{{cart_items_count}}
 <div class="navigation-container">
 	<div class="navigation">
 		<div class="topmenu">
@@ -273,8 +272,15 @@
 			{% if user.is_authenticated %}
 			{% if user.basicuser.unansweredQuestionCount %}<li class="nav-questionstoanswer"><a href="/sellerquestions">{{user.basicuser.unansweredQuestionCount}} Question{% if user.basicuser.unansweredQuestionCount > 1%}s{% endif %}</a></li>{% endif %}
 			<li><a href="/listintro">List Your Equipment</a></li>
-			<li><a href="/cart">Cart <span class="shoppingcart-image"><img src="{{STATIC_URL}}/img/shoppingcart.png"/></span><span id="sc-count">2</span></a></li>
-
+			<li class="dropdown">
+				<a href="/cart" class="dropdown-toggle" data-toggle="dropdown">Cart <span class="shoppingcart-image"><img src="{{STATIC_URL}}/img/shoppingcart.png"/></span><span id="sc-count">{{cart_items_count}}</span><b class="caret"></b></a>
+				<ul class="navigation-options dropdown-menu pull-right">
+				  {% for cart_item in cart_items %}
+				  <li><a href="/logout">{{cart_item.item}}</a></li>
+				  {% endfor %}
+				  <li><a class="button button-primary button-rounded" href="/cart">View Cart ({{cart_items_count}})</a>
+				</ul>
+			</li>
 			<li class="dropdown">
 				<a href="#" class="dropdown-toggle" data-toggle="dropdown">Hi, {{user.basicuser.name}}<b class="caret"></b></a>
 				<ul class="navigation-options dropdown-menu pull-right">
