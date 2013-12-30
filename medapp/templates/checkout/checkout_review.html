@@ -4,17 +4,16 @@
 {% block shipping_check %}&#x2713;{% endblock %}
 {% block payment_check %}&#x2713;{% endblock %}
 
+{% block checkout_nav %}<p class="topnav"><a class="returnbutton button button-tiny" href="/checkout/payment/1">&#8592; Return To Payment</a></p>{% endblock %}
+
+
 {% block reviewactive %}active{% endblock %}
 
 {% block customcss %}
 <style>
 .logincol {
-	padding: 30px 50px 70px 50px;
+	padding: 30px 20px 30px 20px;
 }
-.purchasecol {
-	padding: 30px 50px 30px 30px;
-}
-
 .logincol h4 {
 	font-size: 20px;
 	color: #333;
@@ -27,6 +26,11 @@
 	border-bottom: 1px solid #eee;
 	padding-bottom: 10px;
 }
+.logincol {
+	min-height: 300px;
+	padding: 30px 30px 20px 20px;
+}
+	
 .review-block h4 a {
 	float: right;
 	font-size: 13px;
@@ -38,24 +42,15 @@
 	color: #428BCA;
 }
 .purchase-block {
-	border:3px solid #eee;
-	box-shadow: 0 0 1px #333;
-	border-radius: 3px;
-	text-align: center;
-	padding: 20px 10px;
+	text-align: right;
 }
-.purchase-block .price {
-	font-size: 26px;
-	color: green;
-	font-weight: bold;
-}
-.purchase-block .pricedetails {
-	font-weight: 200;
-	margin: 6px 0;
-	font-size: 13px;
-}
-.purchase-block .purchase {
-	margin-top: 20px;
+@media (max-width: 768px) {
+	.review-block h4 {
+		text-align: left;
+	}
+	.purchase-block {
+		text-align: center;
+	}
 }
 </style>
 {% endblock %}
@@ -71,45 +66,31 @@
 
 {% block checkoutcontent %}
 <div class="checkout-container">
-	<div class="row">
-		<div class="logincol col-md-8 col-sm-8 col-xs-3">
-			<div class="review-block">
-				<h4>Item Details</h4>
-				<p>Item: <span>Ultrasonic Power Ultrasound</span></p>
-				<p>Manufacturer: <span>Fuji</span></p>
-				<p>Price: <span>$24,543</span></p>
-				<p>Condition: <span>Like New</span></p>
-			</div>
-			<div class="review-block">
-				<h4>Seller Details</h4>
-				<p>Seller: <span>Joe Johnson </span></p>
-				<p>Company: <span>Ultrasound Diagnostics </span></p>
-				<p>Seller Type: <span>Refurbisher</span></p>
-				<p>Seller Location: <span>Colts Neck, NJ)</span></p>
-				
-			</div>
-			<div class="review-block">
-				<h4>Shipping Information<a href="/checkout/shipping/2" class="change">change</a></h4>
-				<p>Joe Johnson</p>
-				<p>1 Main Street</p>
-				<p>Colts Neck, NJ 05522</p>
-			</div>
-			<div class="review-block">
-				<h4>Billing Information<a href="/checkout/shipping/2" class="change">change</a></h4>
-				<p>Type: <span>Credit Card</span></p>
-				<p>Name: <span>Joey</span></p>
-				<p>Seller Type: <span>Refurbisher</span></p>
-				<p>Seller Location: <span>Colts Neck, NJ)</span></p>
-			</div>
+	<h3>Review Purchase</h3>
+	<div class="logincol">
+		<div class="review-block">
+			<h4>Item Details</h4>
+			<p>Item: <span>Ultrasonic Power Ultrasound</span></p>
+			<p>Manufacturer: <span>Fuji</span></p>
+			<p>Price: <span>$24,543</span></p>
+			<p>Condition: <span>Like New</span></p>
 		</div>
-		<div class="purchasecol col-md-4 col-sm-4 col-xs-12">
-			<div class="purchase-block">
-				<p class="price">$24,312</p>
-				<p class="pricedetails">All VetCove products include free shipping and <a href='#'>VetCove Buyer Protection</a></p>
-				<button class="purchase button button-highlight button-rounded">Complete Purchase</button>
-			</div>
+		<div class="review-block">
+			<h4>Shipping Information<a href="/checkout/shipping/2" class="change">change</a></h4>
+			<p>Joe Johnson</p>
+			<p>1 Main Street</p>
+			<p>Colts Neck, NJ 05522</p>
+		</div>
+		<div class="review-block">
+			<h4>Billing Information<a href="/checkout/shipping/2" class="change">change</a></h4>
+			<p>Type: <span>Credit Card</span></p>
+			<p>Name: <span>Joey</span></p>
+			<p>Seller Type: <span>Refurbisher</span></p>
+			<p>Seller Location: <span>Colts Neck, NJ)</span></p>
+		</div>
+		<div class="purchase-block">
+			<button class="button button-highlight button-rounded">Complete Purchase</button>
 		</div>
 	</div>
-
 </div>
 {% endblock %}

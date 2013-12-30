@@ -4,12 +4,12 @@
 
 {% block shippingactive %}active{% endblock %}
 
+{% block checkout_nav %}<p class="topnav"><a class="continuebutton button button-tiny" href="/checkout/payment/1">Continue to Payment &#8594;</a></p>{% endblock %}
+
+
 {% block customcss %}
 <style>
-.logincol {
-	min-height: 300px;
-	padding: 30px 50px 70px 50px;
-}
+
 .logincol h4 {
 	font-size: 20px;
 	color: #333;
@@ -31,6 +31,7 @@
 
 {% block checkoutcontent %}
 <div class="checkout-container">
+	<h3>Shipping</h3>
 	<div class="row">
 		<div class="logincol col-md-6 col-sm-6 col-xs-12">
 			<h4>Saved Shipping Addresses</h4>

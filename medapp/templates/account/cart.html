@@ -1,0 +1,245 @@
+{% extends 'base.html' %}
+{% block headertitle %}<title>VetCove | Cart</title>{% endblock%}
+{% block headercss %}
+
+<style>
+
+.maincontainer {
+	max-width: 1000px;
+	margin: 30px auto
+}
+.maincontainer .cart-header {
+	border-bottom: 1px solid #eee;
+	margin-bottom: 10px;
+}
+.maincontainer .cart-header span {
+	font-weight: 800;
+}
+.item-summary {
+	padding-left: 0px;
+	padding-right: 10px;
+}
+.maincontainer .cart-header .cart-actions {
+	float: right;
+	margin-top: 40px;
+	margin-right: 20px;
+}
+.maincontainer .cart-header .cart-actions a {
+	padding-left 25px;
+	font-size: 13px;
+	margin-left: 10px;
+}
+.welcome-message {
+	padding: 10px 0 10px 20px;
+	margin: 0;
+	font-weight: 400;
+}
+.maincontainer h3 {
+	display: block;
+	padding-left: 20px;
+	font-weight: 200;
+	padding-bottom: 10px;
+	margin-top: 0px;
+}
+.cart-item {
+	margin-bottom: 10px;
+	position:relative;
+	padding-bottom: 10px;
+}
+.cart-item div {
+	padding: 0;
+}
+.item-summary .item-information {
+	padding: 0;
+	position:relative;
+}
+.item-summary .item-information h6 {
+	margin-top: 20px;
+	font-size: 15px;
+}
+.item-summary .item-information p {
+	margin: 0;
+	padding-bottom: 5px;
+	font-size: 13px;
+	font-weight: 200;
+}
+.item-summary .item-information span {
+}
+.item-summary .item-information span a {
+	font-size: 13px;
+}
+.item-image {
+}
+.item-image img {
+	max-width: 100%;
+	padding: 20px;
+}
+.item-price {
+	text-align: center;
+	margin-top: 15px;
+	font-size: 17px;
+	font-weight: 800;
+}
+.item-summary .item-information .quantity {
+	padding-left: 0px;
+}
+.delete-item:hover,.move-to-saved:hover {
+	cursor:pointer;
+	text-decoration: underline;
+}
+
+.otherbuyers {
+	color: red;
+	font-weight: 200;
+}
+.cart-summary {
+	padding: 10px 10px 20px 10px;
+}
+.cart-summary h6 {
+	font-size: 15px;
+	margin-bottom: 20px;
+}
+.cart-summary p {
+	font-size: 13px;
+	margin: 3px 0;
+	
+}
+.cart-summary .total {
+	padding-top: 5px;
+	border-top:2px solid #eee;
+	font-weight: 800;
+}
+.cart-summary p span {
+	float: right;
+}
+#itemcount {
+	float: none;
+}
+.item-loader {
+	width: 100%;
+	height: 100%;
+	top: 0;
+	background: url("{{STATIC_URL}}img/whitetransparency.png");
+	position:absolute;
+	text-align: center;
+	display:none;
+}
+.item-loader img {
+	padding-top: 50px;
+}
+
+</style>
+{% endblock%}
+
+
+{% block content %}
+{% load humanize %}
+<div class="maincontainer">
+	<div class="cart-header covebox">
+		<div class="cart-actions">
+			<a class="button-small button button-rounded" href="/productsearch/veterinary/all/all">Continue Shopping</a>
+			<a class="button-small button button-rounded button-action" href="/productsearch/veterinary/all/all">Proceed To Checkout</a>
+		</div>
+		<p class="welcome-message">Hi {{user.basicuser.name}},
+		<h3>You have <span class="itemcount">{{itemcount}}</span> item{% if count != 1 %}s{% endif %} in your shopping cart</h3>
+	</div>
+	<div class="row">
+		<div class="item-summary col-md-9 col-sm-9 col-xs-12">
+			{% for cartitem in shoppingcart.cartitem_set.all %}
+			<div class="covebox cart-item" id="cart-item-{{cartitem.item.id}}">
+				<div class="row">
+					<div class="item-image col-md-3 col-sm-3 col-xs-12">
+						<img src="{%if cartitem.item.mainimage %}{{cartitem.item.mainimage.photo_medium.url}}{% else %}{{STATIC_URL}}img/noimage.jpg{% endif %}" alt="{{cartitem.item.name}}"/>		
+					</div>
+					<div class="item-information col-md-7 col-sm-7 col-xs-12">
+						<h6>{{cartitem.item}}</h6>
+						<p>Sold by: {{cartitem.item.user.company}} ({{cartitem.item.user.city}}, {{cartitem.item.user.state}} {{cartitem.item.user.zipcode}})</p>
+						<p>Quantity: <span class="quantity">
+								{% load get_range %}
+								{% if cartitem.item.quantity > 1 %}
+									<select class="item-quantity" data-itemid='{{cartitem.item.id}}' data-item-handle='#cart-item-{{cartitem.item.id}}'>
+									{% for i in cartitem.item.quantity|get_range %}
+										{% if i > 0 %}
+											<option value="{{i}}" {% if i == cartitem.quantity %}selected{% endif%}>{{i}}</option>
+										{% endif %}
+									{% endfor %}
+									</select>
+								{% else %}
+									1
+								{% endif %}
+
+						</span></p>
+						<p class="otherbuyers">2 other people have this item in their cart</p>
+						<span class="item-actions"><a data-itemid='{{cartitem.item.id}}' data-item-handle='#cart-item-{{cartitem.item.id}}' class="move-to-saved">Move to Saved Items</a> &sdot; <a class="delete-item" data-itemid='{{cartitem.item.id}}' data-item-handle='#cart-item-{{cartitem.item.id}}'>Delete Item</a></span>
+					</div>
+					<div class="item-price col-md-2 col-sm-2 col-xs-12">
+						<p>${{cartitem.item.price|floatformat|intcomma}}</p>
+					</div>
+				</div>
+				<div class="item-loader">
+					<img src="{{STATIC_URL}}img/ajax-loader.gif"/>
+				</div>
+			</div>
+			{% endfor %}
+		</div>
+		<div class="covebox cart-summary col-md-3 col-sm-3 col-xs-12">
+			<h6> Order Summary</h6>
+			<p>Items (<span id="itemcount" class="itemcount">{{itemcount}}</span>)<span id="totalprice">$46,232</span></p>
+			<p>Shipping <span>FREE</span></p>
+			<p>Tax <span>$48.30</span></p>
+			<p class="total">Total:<span>${{total|floatformat|intcomma}}</span></p>
+		</div>
+		
+	</div>
+</div>
+
+
+{% endblock %}
+
+{% block jsblock %}
+<script>
+$(document).ready(function() {
+	imageObj = new Image();
+	imageObj.src= "{{STATIC_URL}}img/whitetransparency.png"
+	 
+	$('.delete-item').click(function() {
+		updateCart($(this),'delete','');	
+	});
+	$('.move-to-saved').click(function() {
+		updateCart($(this),'watchlist','');	
+	});
+	$('.item-quantity').change(function() {
+		updateCart($(this),'quantity',$(this).val());	
+	});
+});
+
+function updateCart(handle,method,quantity) {
+	var item_handle = $(handle.attr('data-item-handle'));
+	var itemid = $(handle).attr('data-itemid');
+	data = {'method':method,'itemid':itemid,'quantity':quantity};
+	item_handle.find('.item-loader').css('display','block');
+	$.ajax({
+		type : "POST",
+		data : data,
+		url : "/updatecart",
+		success : function(data) {
+			if ( data['status'] == '400' && method == 'delete' ){
+				$(item_handle).remove();
+			} else if (data['status'] == '400' && method == 'watchlist'){
+				$(item_handle).remove();
+			} else if (data['status'] == 600) {
+				window.location.href = data['redirect']
+			}
+			item_handle.find('.item-loader').css('display','none');
+			$("#totalprice").text(data['total']);
+			$(".itemcount").text(data['count']);
+			console.log($("#itemcount"));
+		}, 
+		error : function(jqXHR, textStatus, errorThrown) {
+			alert(textStatus);
+		}
+	});
+
+}
+</script>
+{% endblock %}

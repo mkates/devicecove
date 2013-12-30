@@ -17,6 +17,8 @@ admin.site.register(ItemImage, ItemImageAdmin)
 
 
 admin.site.register(Category)
+admin.site.register(ShoppingCart)
+admin.site.register(CartItem)
 admin.site.register(SavedItem)
 admin.site.register(BasicUser)
 admin.site.register(Question)

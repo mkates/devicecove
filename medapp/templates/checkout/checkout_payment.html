@@ -5,13 +5,11 @@
 
 {% block paymentactive %}active{% endblock %}
 
+{% block checkout_nav %}<p class="topnav"><a class="returnbutton button button-tiny" href="/checkout/shipping/1">&#8592; Return To Shipping</a><a class="continuebutton button button-tiny" href="/checkout/review/1">Continue to Review &#8594;</a></p>{% endblock %}
+
 {% block customcss %}
 <style>
-.logincol {
-	border-right:1px solid #f2f2f2;
-	min-height: 300px;
-	padding: 30px 50px 70px 50px;
-}
+
 .logincol h4 {
 	font-size: 20px;
 	color: #333;
@@ -46,6 +44,7 @@
 
 {% block checkoutcontent %}
 <div class="checkout-container">
+	<h3>Payment</h3>
 	<div class="row">
 		<div class="logincol col-md-6 col-sm-6 col-xs-12">
 			<h4>Saved Payment Options</h4>

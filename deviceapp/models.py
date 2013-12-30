@@ -79,7 +79,8 @@ class BasicUser(models.Model):
 	name = models.CharField(max_length=60)
 	company = models.CharField(max_length=60)
 	email = models.CharField(max_length=60)
-	address = models.CharField(max_length=60)
+	address_one = models.CharField(max_length=60)
+	address_two = models.CharField(max_length=60,null=True,blank=True)
 	zipcode = models.IntegerField(max_length=5)
 	city = models.CharField(max_length=60)
 	state = models.CharField(max_length=60)
@@ -172,6 +173,7 @@ class Item(models.Model):
 	mainimage = models.ForeignKey(Image,null=True,blank=True)
 	liststatus = models.CharField(max_length=30, choices=LISTSTATUS_OPTIONS)
 	listeddate = models.DateField(auto_now_add = True,blank=True)
+	quantity = models.IntegerField(default=1)
 	savedcount = models.IntegerField()
 	liststage = models.IntegerField()
 	
@@ -219,3 +221,54 @@ class Question(models.Model):
 	
 	def __unicode__(self):
 		return self.question
+
+############################################
+####### Addresses Model  ###################
+############################################
+class UserAddress(models.Model):
+	user = models.ForeignKey(BasicUser)
+	name = models.CharField(max_length=50)
+	address_one = models.CharField(max_length=100)
+	address_two = models.CharField(max_length=100,null=True,blank=True)
+	city = models.CharField(max_length=100)
+	state = models.CharField(max_length=100)
+	zipcode = models.IntegerField(max_length=100)
+	phonenumber = models.CharField(max_length=100)
+	
+############################################
+####### Credit Card Model  #################
+############################################
+class CreditCard(models.Model):
+	user = models.ForeignKey(BasicUser)
+	card_token = models.CharField(max_length=100)
+	
+############################################
+####### Checkout Model  ####################
+############################################
+class Checkout(models.Model):
+	item = models.ForeignKey(Item)
+	buyer = models.ForeignKey(BasicUser)
+	purchased = models.BooleanField(default=False)
+	shipping_address = models.ForeignKey(UserAddress,null=True,blank=True)
+	start_time = models.DateTimeField(auto_now_add = True,blank=True)
+	payment = models.ForeignKey(CreditCard,null=True,blank=True)
+	STATE_OPTIONS =  (
+		(0, 'login'),
+		(1, 'shipping'),
+		(2, 'payment'),
+		(3, 'review')
+	)
+	state = models.IntegerField(max_length=1, choices=STATE_OPTIONS)
+
+############################################
+####### Shopping Cart ######################
+############################################	
+class ShoppingCart(models.Model):
+	user = models.OneToOneField(BasicUser,null=True,blank=True)
+	datecreated = models.DateTimeField(auto_now_add=True,null=True,blank=True)
+
+class CartItem(models.Model):
+	dateadded = models.DateTimeField(auto_now_add = True,blank=True)
+	item = models.ForeignKey(Item)
+	shoppingcart = models.ForeignKey(ShoppingCart)
+	quantity = models.IntegerField(default=1,max_length=3)

@@ -6,17 +6,38 @@
 <style>
 .listcontainer {
 	max-width: 1000px;
-	margin: 10px auto 50px auto;
-	padding-top: 20px;
+	margin: 0px auto 50px auto;
+	padding-top: 0px;
 }
-
+@media (max-width: 1000px) {
+	.listcontainer {
+		max-width: 1000px;
+		margin: 0px 10px 50px 10px;
+		padding-top: 0px;
+	}
+}
+.listbox h3 {
+	margin-top: 0;
+	color: #888;
+	letter-spacing: .5px;
+	font-weight: 800;
+	background: #f2f2f2;
+	border-bottom:1px solid #ddd;
+	padding: 15px 0px 15px 20px;
+	background-image: -ms-linear-gradient(top, #FFFFFF 0%, #EEEEEE 100%);
+	background-image: -moz-linear-gradient(top, #FFFFFF 0%, #EEEEEE 100%);
+	background-image: -o-linear-gradient(top, #FFFFFF 0%, #EEEEEE 100%);
+	background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #FFFFFF), color-stop(1, #EEEEEE));
+	background-image: -webkit-linear-gradient(top, #FFFFFF 0%, #EEEEEE 100%);
+	background-image: linear-gradient(to bottom, #FFFFFF 0%, #EEEEEE 100%);
+}
 .listbox {
 	padding: 0px;
 }
 .listbox .listbar {
 	border-bottom:1px solid #ddd;
 	padding: 5px 10px;
-	background-image: linear-gradient(to bottom, #FBFBFB 0%, #E1E1E1 100%);
+	margin-bottom: 5px;
 }
 .listbox .liststep {
 	text-align: center;
@@ -73,8 +94,12 @@
 	padding: 0 20px;
 }
 
-.listcontainer .topnav {
+.listcontainer .checkout_nav {
 	text-align: left;
+	height: 40px;
+}
+.listcontainer .topnav .returnbutton {
+	float: left;
 }
 .listcontainer .topnav .continuebutton {
 	float: right;
@@ -112,8 +137,31 @@
 .informationform button {
 	margin-top: 10px;
 }
-@media (max-width: 768px) {
-	.information-block {
+
+.contentrow {
+	padding-right: 10px;
+	padding-left: 0px;
+	margin-bottom: 10px;
+	
+}
+
+.summary {
+	font-size: 13px;
+	padding: 0 0 40px 0;
+}
+.summary-block {
+	padding: 0 20px;
+}
+
+.summary h5 {
+margin-top: 20px;
+}
+ .summary p {
+ 	font-size: 12px;
+ 	margin: 0;
+ }
+ @media (max-width: 768px) {
+	.information-block, .summary {
 		text-align: center;
 	}
 	.information-select {
@@ -122,34 +170,21 @@
 	.logincol h4 {
 		text-align: center;
 	}
+	.contentrow {
+		padding-right: 0px;
+	}
 }
-.contentrow {
-	padding-right: 0px;
+.logincol {
+	min-height: 300px;
+	padding: 30px 30px 20px 20px;
 }
- .summary-block {
- 	margin-top: 30px;
- 	border:2px solid #ddd;
- 	border-radius: 3px;
- 	height: 500px;
- 	/* IE10 Consumer Preview */ 
-background-image: -ms-radial-gradient(center, circle closest-corner, #FFFFFF 0%, #F3F3F3 90%, #EEEEEE 100%);
-
-/* Mozilla Firefox */ 
-background-image: -moz-radial-gradient(center, circle closest-corner, #FFFFFF 0%, #F3F3F3 90%, #EEEEEE 100%);
-
-/* Opera */ 
-background-image: -o-radial-gradient(center, circle closest-corner, #FFFFFF 0%, #F3F3F3 90%, #EEEEEE 100%);
-
-/* Webkit (Safari/Chrome 10) */ 
-background-image: -webkit-gradient(radial, center center, 0, center center, 497, color-stop(0, #FFFFFF), color-stop(0.9, #F3F3F3), color-stop(1, #EEEEEE));
-
-/* Webkit (Chrome 11+) */ 
-background-image: -webkit-radial-gradient(center, circle closest-corner, #FFFFFF 0%, #F3F3F3 90%, #EEEEEE 100%);
-
-/* W3C Markup, IE10 Release Preview */ 
-background-image: radial-gradient(circle closest-corner at center, #FFFFFF 0%, #F3F3F3 90%, #EEEEEE 100%);
+@media (max-width: 768px) {
+	.logincol {
+		padding-top: 20px;
+		padding-bottom: 20px;
+	}
+}
  	
- }
 
 </style>
 {% block customcss %}{% endblock %}
@@ -229,11 +264,11 @@ var addError = function addError(handle) {
 {% block content %}
 
 <div class="listcontainer">
-	
-	<p class="topnav"><a class="returnbutton button button-tiny" href="/listeditems">&#8592; Return To Shipping</a><a class="continuebutton button button-tiny" href="/item/{{item.id}}/details">Continue to Payment &#8594;</a></p>
-	
-	<div class="covebox listbox">
-		<div class="listbar">
+	<div class="checkout_nav">
+		{% block checkout_nav %}<p class="topnav"><a class="returnbutton button button-tiny" href="/listeditems">&#8592; Return To Shipping</a><a class="continuebutton button button-tiny" href="/item/{{item.id}}/details">Continue to Payment &#8594;</a></p>{% endblock %}
+	</div>
+	<div class="listbox">
+		<div class="listbar covebox">
 			<div class="col-md-3 col-sm-3 col-xs-6 liststep">
 				<a class="{% block signinactive %}{% endblock%}"><span class="badge">{% block signin_check%}1{% endblock %}</span>Sign In</a>
 			</div>
@@ -252,13 +287,34 @@ var addError = function addError(handle) {
 		<div class="listcontent">
 			<div class="row">
 				<div class="contentrow col-md-9 col-sm-9 col-xs-12">
-				{% block checkoutcontent %}
+					<div class="covebox">
+						{% block checkoutcontent %}
 
-				{% endblock %}
+						{% endblock %}
+					</div>
 				</div>
-				<div class="col-md-3 col-sm-2 col-xs-12 summary">
+				<div class="covebox col-md-3 col-sm-3 col-xs-12 summary">
+					<h3>Overview</h3>
 					<div class="summary-block">
-						
+						<h5>Item</h5>
+						<p>Fuji Ultrasound Plus</p>
+						<p>Brand New</p>
+						<p>Sold by: <span> Colts Neck Equine</span>
+						<p>Colts Neck, NJ 07722</span>
+					</div>
+					
+					<div class="summary-block">
+						<h5>Shipping Address</h5>
+						<p>Mitchell Kates</p>
+						<p>1 Pacer Court</span>
+						<p>Colts Neck, NJ 07722</span>
+					</div>
+					
+					<div class="summary-block">
+						<h5>Payment Information</h5>
+						<p>Fuji Ultrasound Plus</p>
+						<p>Sold by: <span> Colts Neck Equine</span>
+						<p>Colts Neck, NJ 07722</span>
 					</div>
 				</div>
 			</div>

@@ -32,6 +32,14 @@ def lgnrequest(request):
 	user = authenticate(username=username,password=password)
 	if user is not None:
 		if user.is_active:
+			if 'shoppingcart' in request.session:
+				bu = BasicUser.objects.get(user=user)
+				user_shoppingcart = ShoppingCart.objects.get(user=bu)
+				session_shoppingcart = ShoppingCart.objects.get(id=request.session['shoppingcart'])
+				for cartitems in session_shoppingcart.cartitem_set.all():
+					if not CartItem.objects.filter(item=cartitems.item,shoppingcart=user_shoppingcart).exists():			
+						ci = CartItem(item=cartitems.item,shoppingcart=user_shoppingcart,quantity=1)
+						ci.save()
 			login(request,user)
 			try:
 				request.GET['next']
@@ -64,9 +72,13 @@ def newuserform(request):
 			password = request.POST['password']
 			newuser = User.objects.create_user(email,email,password)
 			newuser.save()
+			#Create the basic user
 			nbu = BasicUser(user=newuser,name=name,businesstype=businesstype,company=company,email=email,address=address,zipcode=zipcode,city=city,
 			state=state,website=website,phonenumber=phonenumber)
 			nbu.save()
+			#Create the shopping cart
+			shoppingcart = ShoppingCart(user=nbu)
+			shoppingcart.save()
 			user = authenticate(username=newuser,password=password)
 			login(request,user)
 			return render_to_response('general/index.html',context_instance=RequestContext(request))

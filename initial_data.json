@@ -220,12 +220,19 @@
 		"name": "Brooke Johnson",
 		"company" : "Colts Neck Equine",
 		"email":"brooke@aim.com",
-		"address":"1 main street",
+		"address_one":"1 main street",
 		"zipcode": "07722" ,
 		"city":"Colts Neck",
 		"state":"NJ",
 		"website":"www.test.com",
 		"phonenumber":"732-547-4516"
+	}
+},
+{
+	"pk": 1,
+	"model": "deviceapp.shoppingcart",
+	"fields": {
+		"user":1
 	}
 },
 {
@@ -255,12 +262,19 @@
 		"name": "Mike Rogers",
 		"company" : "Colts Neck Equine",
 		"email":"mike@aim.com",
-		"address":"1 main street",
+		"address_one":"1 main street",
 		"zipcode": "02215" ,
 		"city":"Boston",
 		"state":"MA",
 		"website":"www.test.com",
 		"phonenumber":"732-547-4516"
+	}
+},
+{
+	"pk": 2,
+	"model": "deviceapp.shoppingcart",
+	"fields": {
+		"user":2
 	}
 },
 {
@@ -290,12 +304,19 @@
 		"name": "Bob Rogers",
 		"company" : "Colts Neck Equine",
 		"email":"bob@aim.com",
-		"address":"1 main street",
+		"address_one":"1 main street",
 		"zipcode": "12345" ,
 		"city":"Schenectedy",
 		"state":"NY",
 		"website":"www.test.com",
 		"phonenumber":"732-547-4516"
+	}
+},
+{
+	"pk": 3,
+	"model": "deviceapp.shoppingcart",
+	"fields": {
+		"user":3
 	}
 },
 {
@@ -318,6 +339,7 @@
         "price": 4430,
         "liststatus": "active",
         "liststage":5,
+        "quantity":1,
         "savedcount" : 2,
         "listeddate" : "2013-11-01"
     }
@@ -332,7 +354,7 @@
     	"manufacturer" : "Fuji",
     	"serialno":"542523519864",
     	"modelyear":2001,
-    	"conditiontype": "preowned", 
+    	"conditiontype": "new", 
     	"contract": "warranty",
     	"conditionquality": 2,
     	"conditiondescription":"This product was mainly used in mobile veterinary trucks and carried from farm to farm. There are a couple scratches on the machine but otherwise it is in great working order",
@@ -344,6 +366,7 @@
         "liststatus": "active",
         "liststage":5,
         "savedcount" : 2,
+        "quantity":5,
         "listeddate" : "2013-11-01"
     }
 },
@@ -357,7 +380,7 @@
     	"manufacturer" : "Fuji",
     	"serialno":"542523519864",
     	"modelyear":2001,
-    	"conditiontype": "preowned", 
+    	"conditiontype": "new", 
     	"contract": "none",
     	"conditionquality": 2,
     	"conditiondescription":"This product was mainly used in mobile veterinary trucks and carried from farm to farm. There are a couple scratches on the machine but otherwise it is in great working order",
