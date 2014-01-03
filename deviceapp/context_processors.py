@@ -2,7 +2,7 @@ from deviceapp.models import *
 
 def cart_item(request):
 	ci = None
-	ci_count = None 
+	ci_count = 0
 	if request.user.is_authenticated():
 		bu = BasicUser.objects.get(user=request.user)
 		ci = bu.shoppingcart.cartitem_set.all()
@@ -12,4 +12,4 @@ def cart_item(request):
 			ci = sc.cartitem_set.all()
 	if ci:
 		ci_count = len(ci)	
-	return {'cart_items':ci , 'cart_items_count':ci_count }
+	return {'cart_items':ci,'cart_items_count':ci_count }

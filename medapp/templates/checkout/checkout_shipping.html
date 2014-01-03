@@ -15,7 +15,9 @@
 	color: #333;
 	margin-bottom: 30px;
 }
-
+.information-block a:hover {
+	cursor: pointer;
+}
 
 </style>
 {% endblock %}
@@ -35,16 +37,19 @@
 	<div class="row">
 		<div class="logincol col-md-6 col-sm-6 col-xs-12">
 			<h4>Saved Shipping Addresses</h4>
+			{% for address in user.basicuser.useraddress_set.all %}
 			<div class="information-block">
-				<h5>Mitchell Kates</h5>
-				<p>2 Norfolk Terrace</p>
-				<p> Cambridge, MA 02215</p>
-				<p>Phone: 732-732-4516</p>
-				<a href="/signup?next={{thisurl}}" class="information-select button button-action button-rounded" value="submit">Use This Address</a>
+				<h5>{{address.name}}</h5>
+				<p>{{address.address_one}}</p>
+				{% if address.address_two %}<p>{{address.address_two}}</p>{% endif %}
+				<p>{{address.city}}, {{address.state}} {{address.zipcode }}</p>
+				<p>{{address.phonenumber}}</p>
+				<a data-address-id="{{address.id}}" class="information-select button button-action button-rounded" value="submit">Use This Address</a>
 				<div class="clear"></div>
-				<a href="/signup?next={{thisurl}}" class="editinformation button button-rounded button-tiny" value="submit">Delete</a>
-				<a href="/signup?next={{thisurl}}" class="deleteinformation button button-rounded button-tiny" value="submit">Edit</a>	
+				<a data-address-id="{{address.id}}" class="editinformation button button-rounded button-tiny" value="submit">Delete</a>
+				<a data-address-id="{{address.id}}" class="deleteinformation button button-rounded button-tiny" value="submit">Edit</a>	
 			</div>
+			{% endfor %}
 		</div>
 		<div class="logincol col-md-6 col-sm-6 col-xs-12">
 			<h4>Enter New Shipping Address</h4>

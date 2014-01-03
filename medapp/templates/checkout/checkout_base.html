@@ -184,8 +184,13 @@ margin-top: 20px;
 		padding-bottom: 20px;
 	}
 }
- 	
-
+ .item-summary {
+ 	padding: 7px 0;
+ }	
+.incomplete-data {
+	font-weight: 200;
+	color: #999;
+}
 </style>
 {% block customcss %}{% endblock %}
 {% endblock %}
@@ -286,37 +291,52 @@ var addError = function addError(handle) {
 
 		<div class="listcontent">
 			<div class="row">
-				<div class="contentrow col-md-9 col-sm-9 col-xs-12">
+				<div class="contentrow {% if not checkout_login %}col-md-9 col-sm-9 col-xs-12{% else %}col-md-12 col-sm-12 col-xs-12{% endif %}">
 					<div class="covebox">
 						{% block checkoutcontent %}
 
 						{% endblock %}
 					</div>
 				</div>
+				{% if not checkout_login %}
 				<div class="covebox col-md-3 col-sm-3 col-xs-12 summary">
 					<h3>Overview</h3>
 					<div class="summary-block">
-						<h5>Item</h5>
-						<p>Fuji Ultrasound Plus</p>
-						<p>Brand New</p>
-						<p>Sold by: <span> Colts Neck Equine</span>
-						<p>Colts Neck, NJ 07722</span>
+						<h5>Items</h5>
+						{% for checkoutcartitem in checkout.cartitem.all %}
+							<div class="item-summary">
+								<p>{{checkoutcartitem.item.name}}</p>
+								<p><span>Sold by: </span>{{checkoutcartitem.item.user.company}}</p>
+								<p><span>Quantity: </span>{{checkoutcartitem.quantity}}</p>
+							</div>
+						{% endfor %}
+				
 					</div>
 					
 					<div class="summary-block">
 						<h5>Shipping Address</h5>
+						{% if checkout.shipping_address %}
 						<p>Mitchell Kates</p>
 						<p>1 Pacer Court</span>
 						<p>Colts Neck, NJ 07722</span>
+						{% else %}
+						<p class="incomplete-data">Shipping Address has not yet been added</p>
+						{% endif %}
 					</div>
 					
 					<div class="summary-block">
 						<h5>Payment Information</h5>
+						{% if checkout.payment %}
 						<p>Fuji Ultrasound Plus</p>
 						<p>Sold by: <span> Colts Neck Equine</span>
 						<p>Colts Neck, NJ 07722</span>
+						{% else %}
+						<p class="incomplete-data">Payment Information has not yet been entered</p>
+						{% endif %}
+					</div>
 					</div>
 				</div>
+				{% endif %}
 			</div>
 		</div>
 	</div>

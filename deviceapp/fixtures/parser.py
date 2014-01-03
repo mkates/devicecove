@@ -62,7 +62,6 @@ def parseCategory():
 		out.write(json.dumps({"pk":counter,"model": "deviceapp.subcategory","fields": {"name":sub_concat,"displayname":key,"maincategory":cats[0],"category" :cats,"totalunits":0}}))
 		out.write(',\n')
 		counter += 1
-	print sorted(cat_conc_array)
 	out.seek(-1, os.SEEK_END)
 	out.truncate()
 	out.write("]")

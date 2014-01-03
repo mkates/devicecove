@@ -241,12 +241,33 @@ class UserAddress(models.Model):
 class CreditCard(models.Model):
 	user = models.ForeignKey(BasicUser)
 	card_token = models.CharField(max_length=100)
+
+############################################
+####### Shopping Cart ######################
+############################################	
+class ShoppingCart(models.Model):
+	user = models.OneToOneField(BasicUser,null=True,blank=True)
+	datecreated = models.DateTimeField(auto_now_add=True,null=True,blank=True)
+	
+	#Get list of items
+	def cart_items(self):
+		cartitems = CartItem.objects.filter(shoppingcart=self)
+		items = []
+		for cartitem in cartitems:
+			items.append(cartitem.item)
+		return items
+	
+class CartItem(models.Model):
+	dateadded = models.DateTimeField(auto_now_add = True,blank=True)
+	item = models.ForeignKey(Item)
+	shoppingcart = models.ForeignKey(ShoppingCart)
+	quantity = models.IntegerField(default=1,max_length=3)
 	
 ############################################
 ####### Checkout Model  ####################
 ############################################
 class Checkout(models.Model):
-	item = models.ForeignKey(Item)
+	cartitem = models.ManyToManyField(CartItem)
 	buyer = models.ForeignKey(BasicUser)
 	purchased = models.BooleanField(default=False)
 	shipping_address = models.ForeignKey(UserAddress,null=True,blank=True)
@@ -259,16 +280,3 @@ class Checkout(models.Model):
 		(3, 'review')
 	)
 	state = models.IntegerField(max_length=1, choices=STATE_OPTIONS)
-
-############################################
-####### Shopping Cart ######################
-############################################	
-class ShoppingCart(models.Model):
-	user = models.OneToOneField(BasicUser,null=True,blank=True)
-	datecreated = models.DateTimeField(auto_now_add=True,null=True,blank=True)
-
-class CartItem(models.Model):
-	dateadded = models.DateTimeField(auto_now_add = True,blank=True)
-	item = models.ForeignKey(Item)
-	shoppingcart = models.ForeignKey(ShoppingCart)
-	quantity = models.IntegerField(default=1,max_length=3)

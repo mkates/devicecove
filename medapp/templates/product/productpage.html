@@ -177,9 +177,17 @@
 			<p>Service Contract will be acquired for free after the purchase is made. Not including shipping.</p>
 			{% if not preview %}
 			<div class="actionbuttons">
-				<a id="contactseller" class="button button-rounded button-primary">Schedule Visit</a>
-				<a id="buynow" href="/addtocart/{{item.id}}" class="button button-rounded button-action">Add To Cart</a>
+				{% if item.offlineviewing %}
+					<a id="contactseller" class="button button-rounded button-primary">Contact Seller</a>
+				{% else %}
+					{% if isinshoppingcart %}
+						<a href="/cart" class="button button-rounded">Edit Cart (Already In Cart)</a>
+					{% else %}
+						<a id="buynow" href="/addtocart/{{item.id}}" class="button button-rounded button-action">Add To Cart</a>
+					{% endif %}
+				{% endif %}
 			{% endif %}
+			</div>
 		</div>
 		<div class="sideproduct" id="buyerprotect">
 			<img class="buyerbadge" src="{{STATIC_URL}}img/vetcoveprotected.png"/> 	

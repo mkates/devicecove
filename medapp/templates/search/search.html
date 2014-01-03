@@ -103,7 +103,7 @@ label .floatright {
 	</div>
  -->
 	<div class='filterbox covebox'>
-		<h4 class="sidecontent-title">Filters</h4>
+		<h4 class="sidecontent-title">Filters <span class="sortbyfilters"> Sort By Filters<b class="caret"></b></span></h4>
 		<div id='pricecategory' class='filter-category notopborder'>
   			<h2>Price Range</h2>
   			<div id='price-slider-container'>
@@ -327,6 +327,16 @@ $(document).ready(function(){
 			});
 			$( '#amount' ).val( '$' + $( '#slider-range' ).slider( 'values', 0 ) +
 			' - $' + $( '#slider-range' ).slider( 'values', 1 ) );
+		});
+		
+		//Mobile javascript
+		$('.sortbyfilters').click(function() {
+			if ($('.filter-category').is(":visible")) {
+				$('.sortbyfilters').html("Show Filters<b class='caret'></b>");
+			} else {
+				$('.sortbyfilters').text("Hide Filters");
+			}
+			$('.filter-category').slideToggle();
 		});
 	});
 

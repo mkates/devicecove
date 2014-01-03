@@ -15,8 +15,11 @@
 					</form>
 				{% endif %}
 			</div>
+			<div class='col-md-4 col-md-push-6 col-sm-4 col-sm-push-6 col-xs-12 imgdiv'>	
+				<img src="{%if item.mainimage %}{{item.mainimage.photo_medium.url}}{% else %}{{STATIC_URL}}img/noimage.jpg{% endif %}" alt="{{item.name}}"/>		
+			</div>
 			
-			<div class='textdiv col-md-6 col-sm-6 col-xs-12'>
+			<div class='textdiv col-md-6 col-md-pull-4 col-sm-6 col-sm-pull-4 col-xs-12'>
 				<a href="/item/{{item.id}}/details"><h2 class="itemname">{{ item.name }}</h2></a>
 				<h6 class="resulttag"> 
 					{% if item.conditiontype == 'refurbished' %}<span class="refurbished">refurbished</span>{% endif %} 
@@ -34,10 +37,6 @@
 					<button class='btn-custom-gray infobutton specsbutton' data-ref="#quickfacts_{{item.id}}">Quick Facts</button>
 					<button class='btn-custom-gray infobutton conditionbutton' data-ref="#morecondition_{{item.id}}">Condition</button>
 				</div>
-			</div>
-			
-			<div class='col-md-4 col-sm-4 col-xs-12 imgdiv'>	
-				<img src="{%if item.mainimage %}{{item.mainimage.photo_medium.url}}{% else %}{{STATIC_URL}}img/noimage.jpg{% endif %}" alt="{{item.name}}"/>		
 			</div>
  		</div>
 	<div id="quickfacts_{{item.id}}" class='specsdiv previewdiv row'>
@@ -73,7 +72,19 @@
 			<button class='btn-custom-gray closebutton'>Close</button>
 		</div>
 	</div>
-		
+	<div class="mobile-select">
+		<div class='col-md-2 col-sm-2 col-xs-12 pricediv'>
+			<p>${{item.price|floatformat|intcomma}}</p>
+			<a class='button button-rounded button-primary' href="/item/{{item.id}}/details">Select</a>
+			{% if savedpage %}
+				<form action="/removeitem" method="POST">
+					{% csrf_token %}
+					<input type="hidden" name="itemid" value="{{item.id}}">
+					<button value="submit" name="submit" class='button button-tiny button-rounded button-caution'>Remove</button>
+				</form>
+			{% endif %}
+		</div>
+	</div>
 </div>
 
 {% endfor %}

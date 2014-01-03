@@ -63,11 +63,10 @@ def productsearch(request,industryterm,categoryterm,subcategoryterm):
 	#Get price range, more boolean, and zipcodes
 	pricerange = getPriceRange(itemqs)
 	more = True if len(itemqs ) > resultsPerPage else False
-	#zipcode = getDistances(request,itemqs[0:resultsPerPage])
-	zipcode = 12345
+	zipcode = getDistances(request,itemqs[0:resultsPerPage])
 	dict = {'zipcode':zipcode,'relatedItems':relatedItems,'resultcount':len(itemqs),'more':more,'pricerange':pricerange,'items':itemqs[0:resultsPerPage],'categories':catlist,'categoryname':categoryname,'subcategoryname':subcategoryname,'ind':industry,'category':category,'subcategory':subcategory}
 	response = render_to_response('search/search.html',dict,context_instance=RequestContext(request))
-	#response.set_cookie("zipcode",callZipcodeAPI(request))
+	request.session['zipcode'] = zipcode
 	return response
 
 def autosuggest(request):
@@ -275,14 +274,15 @@ def getDistances(request,items):
 		userzipcode = "%05d" % bu.zipcode
 		if len(userzipcode) == 5:
 			zipcode = userzipcode
-	# Then check the cookies
-	elif request.COOKIES.get('zipcode',None) != None:
-		zipcode = request.COOKIES.get('zipcode',None)
+	# Then check the session variables
+	elif 'zipcode' in request.session:
+		zipcode = request.session['zipcode']
 	#Finally call the API
 	else:
 		newzipcode = callZipcodeAPI(request)
-		if len(newzipcode) == 5:
-			zipcode = userzipcode
+		if newzipcode:
+			if len(newzipcode) == 5:
+				zipcode = userzipcode
 	#If one of three gave us a zipcode, find distances
 	if zipcode != 'None' and zipcode:	
 		zips = []

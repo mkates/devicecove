@@ -79,6 +79,9 @@ def newuserform(request):
 			#Create the shopping cart
 			shoppingcart = ShoppingCart(user=nbu)
 			shoppingcart.save()
+			#Create a user address
+			address = UserAddress(user=newuser,name=name,address_one=address,city=city,state=state,zipcode=zipcode,phonenumber=phonenumber)
+			address.save()
 			user = authenticate(username=newuser,password=password)
 			login(request,user)
 			return render_to_response('general/index.html',context_instance=RequestContext(request))

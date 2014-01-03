@@ -127,6 +127,18 @@
 .item-loader img {
 	padding-top: 50px;
 }
+.noitems {
+	min-height: 200px;
+	{% if itemcount %}
+	display: none;
+	{% endif %}
+}
+.noitems p {
+	text-align: center;
+	padding-top: 90px;
+	font-weight: 200;
+	font-size: 16px;
+}
 
 </style>
 {% endblock%}
@@ -138,9 +150,9 @@
 	<div class="cart-header covebox">
 		<div class="cart-actions">
 			<a class="button-small button button-rounded" href="/productsearch/veterinary/all/all">Continue Shopping</a>
-			<a class="button-small button button-rounded button-action" href="/productsearch/veterinary/all/all">Proceed To Checkout</a>
+			<a class="button-small button button-rounded button-action" href="/checkout/signin">Proceed To Checkout</a>
 		</div>
-		<p class="welcome-message">Hi {{user.basicuser.name}},
+		<p class="welcome-message">{% if user.basicuser %}Hi {{user.basicuser.name}},{% else %}Save your cart items for later by <a href="/login">Logging In</a>{% endif %}</p>
 		<h3>You have <span class="itemcount">{{itemcount}}</span> item{% if count != 1 %}s{% endif %} in your shopping cart</h3>
 	</div>
 	<div class="row">
@@ -152,7 +164,7 @@
 						<img src="{%if cartitem.item.mainimage %}{{cartitem.item.mainimage.photo_medium.url}}{% else %}{{STATIC_URL}}img/noimage.jpg{% endif %}" alt="{{cartitem.item.name}}"/>		
 					</div>
 					<div class="item-information col-md-7 col-sm-7 col-xs-12">
-						<h6>{{cartitem.item}}</h6>
+						<h6><a href="/item/{{cartitem.item.id}}/details">{{cartitem.item.name}}</a></h6>
 						<p>Sold by: {{cartitem.item.user.company}} ({{cartitem.item.user.city}}, {{cartitem.item.user.state}} {{cartitem.item.user.zipcode}})</p>
 						<p>Quantity: <span class="quantity">
 								{% load get_range %}
@@ -181,6 +193,10 @@
 				</div>
 			</div>
 			{% endfor %}
+			<div class="covebox cart-item noitems">
+				<p>You do not currently have any items in your cart</p>
+			</div>
+			
 		</div>
 		<div class="covebox cart-summary col-md-3 col-sm-3 col-xs-12">
 			<h6> Order Summary</h6>
@@ -233,7 +249,9 @@ function updateCart(handle,method,quantity) {
 			item_handle.find('.item-loader').css('display','none');
 			$("#totalprice").text(data['total']);
 			$(".itemcount").text(data['count']);
-			console.log($("#itemcount"));
+			if (data['count'] == '0') {
+				$('.noitems').css('display','block');
+			}
 		}, 
 		error : function(jqXHR, textStatus, errorThrown) {
 			alert(textStatus);

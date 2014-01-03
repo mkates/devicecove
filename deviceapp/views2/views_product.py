@@ -226,15 +226,28 @@ def itemdetails(request,itemid):
 	item = Item.objects.get(id=int(itemid))
 	industry = Industry.objects.get(id=1)
 	saved = False
+	shoppingcart = None
 	if request.user.is_authenticated():
-		if SavedItem.objects.filter(user = BasicUser.objects.get(user=request.user),item=item).exists():
+		bu = BasicUser.objects.get(user=request.user)
+		shoppingcart = ShoppingCart.objects.get(user=bu)
+		if SavedItem.objects.filter(user=bu,item=item).exists():
 			saved = True
+	else:
+		if 'shoppingcart' in request.session:
+			shoppingcart = ShoppingCart.objects.get(id=request.session['shoppingcart'])
 	related = Item.objects.filter(subcategory = item.subcategory).order_by('savedcount')[:6]
 	dict = {'saved':saved,'item':item,'industry':industry,'related':related}
 	if request.user.is_authenticated():
 		bu = BasicUser.objects.get(user=request.user)
 		if item.user == bu:
 			dict['userloggedin'] = bu
+	#Is the item in their shopping cart?
+	isInShoppingCart = False
+	if shoppingcart:
+		for cartitem in shoppingcart.cartitem_set.all():
+			if cartitem.item == item:
+				isInShoppingCart = True
+	dict['isinshoppingcart'] = isInShoppingCart
 	return render_to_response('product/productdetails.html',dict,context_instance=RequestContext(request))
 
 def askquestion(request):

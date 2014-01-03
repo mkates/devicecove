@@ -678,3 +678,68 @@ outline:none;
 #removeform {
 	display: none;
 }
+.mobile-select {
+	display: none;
+}
+/**********************************/
+/*****Mobile Alterations **********/
+/**********************************/
+.sortbyfilters {
+	display: none;
+}
+.sortbyfilters:hover {
+	text-decoration: underline;
+	cursor: pointer;
+}
+@media(max-width: 768px) {
+	.sidecontent-title {
+		font-size: 16px;
+	}
+	.sortbyfilters {
+		display: block;
+		float: right;
+		font-size: 16px;
+		font-weight: 400;
+		margin-right: 10px;
+	}
+	.filter-category {
+		display: none;
+	}
+	.resultsbox {
+		margin-left: 10px;
+		margin-right: 10px;
+	}
+	.resultitem {
+		padding: 0;
+	}
+	.resultitem .pricediv {
+		margin-top: 0px;
+		padding: 10px 15px;
+		min-height: 50px;
+	}
+	.resultitem .pricediv p {
+		float: left;
+	}
+	.resultitem .pricediv a {
+		float: right;
+	}
+	.mobile-select {
+		margin-top: 20px;
+	}
+	.resultitem .textdiv .itemname, .resultitem .textdiv h6, .resultitem .textdiv .buttondiv {
+		text-align: center;
+	}
+	.resultitem .textdiv {
+		padding: 0 20px;
+	}
+	.mobile-select {
+		display:block;
+		border-top: 1px solid #ddd;
+	}
+	.pricediv {
+		background: #f2f2f2;
+		border-bottom:1px solid #ddd;
+	}
+	
+}
+	

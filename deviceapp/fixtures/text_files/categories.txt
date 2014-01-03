@@ -4,11 +4,7 @@ Aspirators
 4
 Autoclaves, Sterilization and Instrument Care
 5
-Biologics
-6
-Boarding and Holding
-7
-Cages
+Cages, Boarding and Holding
 9
 Casework
 10
@@ -26,15 +22,13 @@ Endoscopy
 29
 Equine specialty
 16
-Eyecare
-17
 Farrier Supplies
 18
 Fluid and Drug administration
 19
 Grooming
 20
-Lab
+Laboratory
 21
 Large Animal Specialty
 22
@@ -48,15 +42,13 @@ MRI Compatible
 26
 Narcotic Safes
 27
-Obstetrics
-28
 Patient Transport and Handling
 30
 Patient Warming
 31
-Pharmaceuticals
+Pharmaceuticals and Biologics
 32
-Pharmacy and Pharmacy management
+Pharmacy Supplies and Management
 33
 Protective wear
 34
@@ -66,7 +58,7 @@ Reproduction
 36
 Scales
 37
-Seating
+Seating and chairs
 38
 Sinks and Tubs
 39

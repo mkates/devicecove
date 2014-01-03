@@ -57,13 +57,13 @@ urlpatterns = patterns('',
     url(r'^cart','deviceapp.views2.cart'),
      url(r'^updatecart','deviceapp.views2.updatecart'),
     url(r'^addtocart/(?P<itemid>\d+)','deviceapp.views2.addToCart'),
-    url(r'^checkout/signin/(?P<itemid>\d+)','deviceapp.views2.checkoutSignin'),
-    url(r'^checkout/shipping/(?P<itemid>\d+)','deviceapp.views2.checkoutShipping'),
+    url(r'^checkout/signin','deviceapp.views2.checkoutBegin'),
+    url(r'^checkout/shipping/(?P<checkoutid>\d+)','deviceapp.views2.checkoutShipping'),
     url(r'^checkout/payment/(?P<itemid>\d+)','deviceapp.views2.checkoutPayment'),
     url(r'^checkout/review/(?P<itemid>\d+)','deviceapp.views2.checkoutReview'),
     url(r'^checkout/confirmation/(?P<itemid>\d+)','deviceapp.views2.checkoutConfirmation'),
     
-    url(r'^checkoutlogin','deviceapp.views2.checkoutlogin'),
+    url(r'^checkoutloginform','deviceapp.views2.checkoutloginform'),
    
 )
 #####################################################################

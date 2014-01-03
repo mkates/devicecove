@@ -69,6 +69,21 @@
 .companyextra {	
 	display: none;
 }
+.outcome-block {
+	text-align: center;
+	margin: 0 auto;
+}
+.checkouterror {
+	display: inline-block;
+	color: red;
+	font-size: 200;
+	padding: 5px 12px;
+	margin-top: 5px;
+	background: #FFF2F2;
+	font-weight: 200;
+	border:1px solid red;
+	border-radius: 4px;
+}
 </style>
 {% endblock %}
 
@@ -92,10 +107,28 @@ $(document).ready(function() {
 {% block checkoutcontent %}
 <div class="checkout-container">
 	<h3>Verify Account</h3>
+	    {% if outcome %}
+	    	<div class="outcome-block">
+	    		<p class="checkouterror">
+					{% if outcome == 'invalidlogin' %}
+						Login does not match the currently logged in user
+					{% elif outcome == 'wronguser' %}
+						Wrong User
+					{% elif outcome == 'timeout' %}
+						Your checkout session timed out. Please log in to continue
+					{% elif outcome == 'userdisabled' %}
+						This account has been disabled
+					{% elif outcome == 'noitems' %}
+						You do not have any items in your shopping cart
+					{% endif %}
+				</p>
+			</div>
+		{% endif %}
+		
 	<div class="row">
 		<div class="logincol col-md-6 col-sm-6 col-xs-12">
 			<h4>Login</h4>
-			<form class="checkoutloginform" action="/checkoutlogin" method="post">
+			<form class="checkoutloginform" action="/checkoutloginform" method="post">
 				{% csrf_token %}
 				<p>Email</p>
 				<input name="email" class="form-control" type="email" placeholder="ex. joedoe@gmail.com">

@@ -13,277 +13,94 @@
 <link href="{{STATIC_URL}}css/buttons.css" rel="stylesheet" type="text/css" />
 <link href="{{STATIC_URL}}css/base.css" rel="stylesheet" type="text/css" />
 {% block headercss %}{% endblock %}
+
 <style>
-.contain {
-	max-width: 1000px;
-}
-.navigation-container {
-	background: url("{{STATIC_URL}}img/fabric_plaid2.png");
-	background-size: 100px 100px;
-	background-repeat: repeat-x;
-	padding-bottom: 5px;
-}
-.navigation {
-	position:relative;
-	max-width: 1000px;
-	margin: 0 auto;
-	padding-bottom: 0px;
-	border-bottom:1px solid #f9f9f9;
-}
-.whiteborder {
-	height: 1px;
-	margin-top: 10px;
-	width: 100%;
-	background: #ddd;
-}
-.navbar {
-	margin-bottom: 0px;
-	background: none;
-	border-radius: 0px;
-	min-height: 20px;
-	border-bottom: none;
-}
-.navbar-nav > li > a {
-	padding: 0px 10px 4px 10px;
-	font-weight: 800;
-}
-.navbar-default .navbar-nav > li > a {
-	color: #555;
-}
-.subnavbar {
-	max-width: 1000px;
-	padding: 4px 0px;
-	margin: 0 auto;
-	padding-top: 35px;
-	position:relative;
-}
-#searchform {
-	position:relative;
-}
-#searchform table {
-	width: 100%;
-}
-#searchform table td {
-}
-.searchbutton {
-	width: 50px;
-}
-.navbar-brand {
-	padding: 0px;
-}
-.navtable {
-	width: 100%;
-}
-.logotd {
-	width: 150px;
-}
-.logotd a img {
-	width: 140px;
-	margin-right: 10px;
-}
-.topmenu {
-	z-index: 999;
-	right: 0;
-	position:absolute;
-}
-.topmenu ul {
-	list-style-type: none;
-	background: #fff;
-	box-shadow: 0 0 2px #ccc;
-	padding: 4px 5px;
-	margin-bottom: 0px;
-	border-bottom-left-radius: 4px;
-	border-bottom-right-radius: 4px;
-	border:1px solid #ddd;
-}
-.topmenu ul li {
-	display:inline-block;
-}
-.topmenu ul li a {
-	color: #555;
-	font-weight: 200;
-	display: block;
-	padding: 0 15px;
-	border:1px solid transparent;
-}
-.topmenu ul li a:hover {
-	color: #000;
-	background: #f4f4f4;
-	border-radius: 2px;
-	border:1px solid #ddd;
-}
-#searchinput {
-	margin-top: 5px;
-	height: 40px;
-	border-top-right-radius: 0px;
-	border-bottom-right-radius: 0px;
-}
-.searchbutton button{
-	height: 40px;
-	text-align: center;
-	padding: 0 10px;
-	margin-top: 5px;
-	margin-left: -3px;
-	border-top-left-radius: 0px;
-	border-bottom-left-radius: 0px;
-	box-shadow: none;
-}
-.browsetd {
-	width: 90px;
-}
-.searchtd {
-	padding-top: 2px;
-}
-.browsetd p {
+.cart-image-container {
 	padding: 0;
-	font-size: 12px;
-	font-weight: 200;
-	margin: 0;
-	line-height: 14px;
 }
-.browsetd .category {
-	font-weight: 800;
-}
-.shopbycategory {
-	border-radius: 3px;
-	float: right;
-	margin-top: 5px;
-	padding: 5px 10px;
-	border:1px solid transparent;
-}
-.shopbycategory:hover {
-	cursor:pointer;
-	border:1px solid #ddd;
-	background: #f1f1f1;
-	box-shadow: 0 0 2px #ccc;
-}
-
-#autosuggest {
-	background: white;
-	z-index: 9997;
-	position: absolute;
-	margin-top: -2px;
-	border:1px solid #ccc;
-	display:none;
-	width: 95%;
-	max-width: 705px;
-}
-.browse-categories {
+.cart-image {
 	width: 100%;
-	max-width: 700px;
-	right: 0;
+	padding: 0;
+}
+.cart-price {
+	color: #888;
+	font-weight: 200;
+}
+.viewcart {
+	background: #f4f4f4;
+	font-size: 13px;
+}
+.dropdown-menu > li > .viewcart:hover {
+	background: #eee;
+}
+.dropdown-menu .cart-dropdown-item {
 	padding: 10px;
-	background: white;
-	border-radius: 3px;
-	border:1px solid #ddd;
-	box-shadow: 0 0 2px #ccc;
-	position: absolute;
-	z-index: 299;
-	display: none;
-
+	width: 400px;
+	border-bottom:1px solid #ddd;
 }
-.browse-categories .grouping {
-	margin: 5px 0;
+.dropdown-menu > li > a:hover {
+	background: #fafafa;
+	color: #333;
 }
-.browse-categories h6 {
-	font-size: 14px;
-	font-weight: bold;
+.navigation-container .navbar-nav > .cart-dropdown > .dropdown-menu {
+	padding: 0;
 }
-.browse-categories a {
-	display: block;
-	font-size: 12px;
-	line-height: 24px;
-	color: #555555;
+.cart-information p {
+	margin: 0;
 }
-.browse-categories a:hover {
-	text-decoration: underline;
-	color: #428BCA;
+.dropdown-menu .cart-dropdown .row div {
+	padding: 5px;
 }
-.browse-categories .category-footer {
-	border-top:1px solid #eee;
-	margin-top: 5px;
-	padding: 5px 0 0 0;
-}
-.browse-categories .category-footer .seeall {
-	float: right;
-	margin-right:10px;
-}
-#category-arrow {
-	float:right;
-	margin-top: -24px;
-	margin-right: 30px;
-}
-.dropdown .navigation-options {
-	border-radius: 0px;
-	margin-top: 4px;
-	box-shadow: 0 2px 2px #ccc;
-}
-.topmenu .navigation-options li {
-	display: block;
-	text-align: left;
-}
-.topmenu .navigation-options li a {
-	padding: 4px 6px;
-	margin-right: 6px;
-}
-
-.topmenu .nav-questionstoanswer a {
-	color: #BF1B1B;
-	font-weight: 800;
-	background: #EFCECE;
-	border-radius: 2px;
-}
-.topmenu ul .nav-questionstoanswer a:hover {
-	background: #FFD6D6;
-	border-radius: 2px;
-	color: #BF1B1B;
-	font-weight: 800;
-}
-.shoppingcart-image img{
-	max-width: 20px;
-}
-#sc-count {
-	font-size: 10px;
-	vertical-align: top;
-	margin-left: -5px;
-	width: 16px;
-	color: white;
-	font-weight: 800;
-	height: 16px;
-	display:inline-block;
-	border-radius: 8px;
-	background: url("{{STATIC_URL}}img/blacktransparency.png");
-	background: #00A0C9;
-	text-align: center;
-	box-shadow: 0 0 2px #fff;
-	margin-right: 5px;
-}
-
 </style>
 </head>
 
 <body>
 {% block overlaydiv %}{% endblock %}
 {% block header %}
+{% load humanize %}
 <div class="navigation-container">
-	<div class="navigation">
-		<div class="topmenu">
-			<ul class="">
+	<nav class="navbar navbar-default" role="navigation">
+	  <!-- Brand and toggle get grouped for better mobile display -->
+	  <div class="navbar-header">
+		<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+		  <span class="sr-only">Toggle navigation</span>
+		  <span class="icon-bar"></span>
+		  <span class="icon-bar"></span>
+		  <span class="icon-bar"></span>
+		</button>
+		<a class="navbar-brand" href="/"><img src="{{STATIC_URL}}img/logo_42x150.png" alt="VetCove"/></a>
+	  </div>
+
+	  <!-- Collect the nav links, forms, and other content for toggling -->
+	  <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+		<ul class="nav navbar-nav navbar-right">
+			<li class="dropdown cart-dropdown">
+				<a href="/cart" {% if cart_items %}class="dropdown-toggle" data-toggle="dropdown"{% endif %}>Cart <span class="shoppingcart-image"><img src="{{STATIC_URL}}/img/shoppingcart.png"/></span>{% if cart_items %}<span id="sc-count">{{cart_items_count}}</span><b class="caret"></b>{% endif %}</a>
+				<ul class="navigation-options dropdown-menu pull-left">
+				  {% for cart_item in cart_items %}
+				  <li>
+				  	<a class="cart-dropdown-item" href="/item/{{cart_item.item.id}}/details">
+				  		<div class="row">
+				  			<div class="cart-image-container col-md-2 col-sm-2 col-xs-2">
+				  				<img class="cart-image" src="{% if cart_item.item.mainimage %}{{cart_item.item.mainimage.photo.url}}{% else %}{{STATIC_URL}}img/noimage.jpg{% endif %}" alt="No Image"/>
+				  			</div>
+				  			<div class="cart-information col-md-10 col-sm-10 col-xs-10">
+				  				<p>{{cart_item.item.name}}</p>
+				  				<p class="cart-price">${{cart_item.item.price|floatformat|intcomma}}</p>
+				  			</div>
+				  		</div>
+				  	</a>
+				  </li>
+				  {% endfor %}
+				  <li><a class="viewcart" href="/cart">View Cart ({{cart_items_count}}) &rarr;</a>
+				</ul>
+			</li>
 			{% if user.is_authenticated %}
 			{% if user.basicuser.unansweredQuestionCount %}<li class="nav-questionstoanswer"><a href="/sellerquestions">{{user.basicuser.unansweredQuestionCount}} Question{% if user.basicuser.unansweredQuestionCount > 1%}s{% endif %}</a></li>{% endif %}
 			<li><a href="/listintro">List Your Equipment</a></li>
 			<li class="dropdown">
-				<a href="/cart" class="dropdown-toggle" data-toggle="dropdown">Cart <span class="shoppingcart-image"><img src="{{STATIC_URL}}/img/shoppingcart.png"/></span><span id="sc-count">{{cart_items_count}}</span><b class="caret"></b></a>
-				<ul class="navigation-options dropdown-menu pull-right">
-				  {% for cart_item in cart_items %}
-				  <li><a href="/logout">{{cart_item.item}}</a></li>
-				  {% endfor %}
-				  <li><a class="button button-primary button-rounded" href="/cart">View Cart ({{cart_items_count}})</a>
-				</ul>
-			</li>
-			<li class="dropdown">
 				<a href="#" class="dropdown-toggle" data-toggle="dropdown">Hi, {{user.basicuser.name}}<b class="caret"></b></a>
-				<ul class="navigation-options dropdown-menu pull-right">
+				<ul class="navigation-options dropdown-menu pull-left">
 				  <li><a href="/saveditems">Saved Items</a></li>
 				  <li><a href="/listeditems">Your Listed Items</a></li>
 				  <li><a href="/accounthistory">Account History</a></li>
@@ -297,76 +114,67 @@
 			<li><a href="/login">Login</a></li>
 			<li><a href="/faq">Help</a></li>
 			<li id="listequipment"><a href="/listintro">List Equipment</a></li>
-			<li><a href="/cart">Cart <span class="shoppingcart-image"><img src="{{STATIC_URL}}/img/shoppingcart.png"/></span><span id="sc-count">2</span></a></li>
 			{% endif %}
-			</ul>
-		</div>
-		<div class="subnavbar-container">
-			<div class="row subnavbar">
-				<table class="navtable">
-					<tr>
-						<td class="logotd">
-							<a class="" href="/"><img src="{{STATIC_URL}}img/logo_42x150.png" alt="VetCove"/></a>
-						</td>
-						<td class="searchtd">
-							<form id="searchform" class="customsearchbar" action="/customsearch" method="get">
-								<table>
-									<tr>
-									<td><input name="q" id="searchinput" autocomplete="off" class="form-control" type="text" placeholder="Search Equipment" value="{% block searchvalue %}{% endblock %}"></input></td>
-									<td class="searchbutton"><button type="submit" class="button button-rounded">Go</button></td>
-									</tr>
-								</table>
-								<div class="clear"></div>
-								<div id="autosuggest">
-									<div class="section categoriesheader">
-										Categories
-									</div>
-									<div id="categoriessection">
-									</div>
-									<div class="section productsheader">
-										Products
-									</div>
-									<div id="productssection">
-									</div>
-								</div>
-							</form>
-						</td>
-						<td class="browsetd">
-							<div class="shopbycategory">
-								<p>Browse by</p>
-								<p class="category">Category<b class="caret"></b></p>
-							</div>
-						</td>
-					</tr>
-				</table>
-			</div>	
-			<div class="browse-categories">
-				<img id="category-arrow" src='{{STATIC_URL}}img/catarrow.png'/>
+		</ul>
+	  </div><!-- /.navbar-collapse -->
+	</nav>
+	<div class="searchrow-container">
+		<div class="row searchrow">
+			<div class="col-md-11 col-sm-11 col-xs-12">
+				<form id="searchform" class="searchbar" action="/customsearch" method="get">
+					<table>
+						<tr>
+						<td><input name="q" id="searchinput" autocomplete="off" class="form-control" type="text" placeholder="Search Equipment" value="{% block searchvalue %}{% endblock %}"></input></td>
+						<td class="searchbutton"><button type="submit" class="button button-rounded">Go</button></td>
+						</tr>
+					</table>
+					<div class="clear"></div>
+					<div id="autosuggest">
+						<div class="section categoriesheader">
+							Categories
+						</div>
+						<div id="categoriessection">
+						</div>
+						<div class="section productsheader">
+							Products
+						</div>
+						<div id="productssection">
+						</div>
+					</div>
+				</form>
+			</div>
+			<div class="col-md-1 col-sm-1 col-xs-12 shopbycategory-container">
+				<div class="shopbycategory">
+					<p><span class="mobile-visible"> or </span> Browse by</p>
+					<p class="category">
+						Category
+						<b class="caret"></b>
+					</p>
+				</div>
+				<div class="browse-categories">
 				<div class="row">
-					<div class="col-md-4 col-sm-4 col-xs-12 grouping">
+					<div class="col-md-4 col-sm-4 col-xs-6 grouping">
 						<h6>Large Animal</h6>
 						<a href="/productsearch/veterinary/{}/all">Equine Speciality</a>
 						<a href="/productsearch/veterinary/{}/all">Large Animal Specialty</a>
 						<a href="/productsearch/veterinary/{}/all">Farrier Supplies</a>
 						<a href="/productsearch/veterinary/{}/all">Reproduction</a>
 					</div>
-					<div class="col-md-4 col-sm-4 col-xs-12 grouping">
+					<div class="col-md-4 col-sm-4 col-xs-6 grouping">
 						<h6>Diagnostic</h6>
 						<a href="/productsearch/veterinary/{}/all">Ultrasound</a>
 						<a href="/productsearch/veterinary/{}/all">Endoscopy</a>
 						<a href="/productsearch/veterinary/{}/all">X Ray</a>
 						<a href="/productsearch/veterinary/{}/all">MRI Compatible</a>
 					</div>
-					<div class="col-md-4 col-sm-4 col-xs-12 grouping">
+					<div class="col-md-4 col-sm-4 col-xs-6 grouping">
 						<h6>Surgery</h6>
 						<a href="/productsearch/veterinary/{}/all">Electro/Cryosurgery</a>
 						<a href="/productsearch/veterinary/{}/all">Monitors</a>
 						<a href="/productsearch/veterinary/{}/all">Surgery and Surgical Instruments</a>
 						<a href="/productsearch/veterinary/{}/all">Anesthesia</a>
 					</div>
-				</div>
-				<div class="row">
-					<div class="col-md-4 col-sm-4 col-xs-12 grouping">
+					<div class="col-md-4 col-sm-4 col-xs-6 grouping">
 						<h6>Kennel and Handling</h6>
 						<a href="/productsearch/veterinary/{}/all">Boarding and Holding</a>
 						<a href="/productsearch/veterinary/{}/all">Grooming</a>
@@ -374,7 +182,7 @@
 						<a href="/productsearch/veterinary/{}/all">Cages</a>
 						<a href="/productsearch/veterinary/{}/all">Protective Wear</a>
 					</div>
-					<div class="col-md-4 col-sm-4 col-xs-12 grouping">
+					<div class="col-md-4 col-sm-4 col-xs-6 grouping">
 						<h6>Hospital Fixtures</h6>
 						<a href="/productsearch/veterinary/{}/all">Lighting</a>
 						<a href="/productsearch/veterinary/{}/all">Seating</a>
@@ -382,31 +190,29 @@
 						<a href="/productsearch/veterinary/{}/all">Casework</a>
 						<a href="/productsearch/veterinary/{}/all">Sinks and Tubs</a>
 					</div>
-					<div class="col-md-4 col-sm-4 col-xs-12 grouping">
+					<div class="col-md-4 col-sm-4 col-xs-6 grouping">
 						<h6>Pharmacy</h6>
 						<a href="/productsearch/veterinary/{}/all">Biologics</a>
 						<a href="/productsearch/veterinary/{}/all">Fluid and Drug Administration</a>
 						<a href="/productsearch/veterinary/{}/all">Narcotic Safes</a>
 						<a href="/productsearch/veterinary/{}/all">Pharmaceuticals</a>
 						<a href="/productsearch/veterinary/{}/all">Pharmacy Management</a>
-					</div>
-				</div>
-				<div class="row">
-					<div class="col-md-4 col-sm-4 col-xs-12 grouping">
+					</div>				
+					<div class="col-md-4 col-sm-4 col-xs-6 grouping">
 						<h6>Laboratory</h6>
 						<a href="/productsearch/veterinary/{}/all">Autoclaves and Sterilization</a>
 						<a href="/productsearch/veterinary/{}/all">Diagnostic</a>
 						<a href="/productsearch/veterinary/{}/all">Lab</a>
 						<a href="/productsearch/veterinary/{}/all">Eyecare</a>
 					</div>
-					<div class="col-md-4 col-sm-4 col-xs-12 grouping">
+					<div class="col-md-4 col-sm-4 col-xs-6 grouping">
 						<h6>Emergency Supplies</h6>
 						<a href="/productsearch/veterinary/{}/all">Critical Care and Recovery</a>
 						<a href="/productsearch/veterinary/{}/all">Emergency Equipment</a>
 						<a href="/productsearch/veterinary/{}/all">Aspirators</a>
 						<a href="/productsearch/veterinary/{}/all">Patient Warming</a>
 					</div>
-					<div class="col-md-4 col-sm-4 col-xs-12 grouping">
+					<div class="col-md-4 col-sm-4 col-xs-6 grouping">
 						<h6>Miscellaneous</h6>
 						<a href="/productsearch/veterinary/{}/all">Misc. Equipment and Supplies</a>
 						<a href="/productsearch/veterinary/{}/all">Dental</a>
@@ -418,9 +224,10 @@
 					<a class="seeall" href="/categories">See All Categories &#8594;</a>
 				</div>
 			</div>
+			</div>
 		</div>
-		<div class="whiteborder"></div>
 	</div>
+	<div class="whiteborder"></div>
 </div>
 {% endblock %}
 
@@ -466,22 +273,25 @@
 	  ga('send', 'pageview');
 	</script>
  -->
- <script>
+<script>
  $(document).ready(function() {
+ 	$('.shopbycategory-container').hover(function() {
+ 		$('.browse-categories').css('display','block');
+ 	}, function() {
+ 		$('.browse-categories').css('display','none');
+ 	});
  	$('.shopbycategory').click(function() {
  		if ($('.browse-categories').css('display') == 'none') {
- 			$('.browse-categories').fadeIn('fast');
+ 			$('.browse-categories').css('display','block');
  		} else {
- 			$('.browse-categories').fadeOut('fast');
+ 			$('.browse-categories').css('display','none');
  		}
- 	});
- 	$('.browse-categories').hover(function() {}, function() {
- 		$('.browse-categories').fadeOut('fast');
  	});
  
  });
  </script>
-    {% block jsblock %}{% endblock %}
+ 
+{% block jsblock %}{% endblock %}
     
 </body>
 </html>
