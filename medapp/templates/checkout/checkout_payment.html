@@ -5,7 +5,7 @@
 
 {% block paymentactive %}active{% endblock %}
 
-{% block checkout_nav %}<p class="topnav"><a class="returnbutton button button-tiny" href="/checkout/shipping/1">&#8592; Return To Shipping</a><a class="continuebutton button button-tiny" href="/checkout/review/1">Continue to Review &#8594;</a></p>{% endblock %}
+{% block checkout_nav %}<p class="topnav"><a class="returnbutton button button-tiny" href="/checkout/shipping/{{checkout.id}}">&#8592; Return To Shipping</a><a class="continuebutton button button-tiny" href="/checkout/review/{{checkout.id}}">Continue to Review &#8594;</a></p>{% endblock %}
 
 {% block customcss %}
 <style>

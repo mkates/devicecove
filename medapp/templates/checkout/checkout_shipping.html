@@ -4,7 +4,7 @@
 
 {% block shippingactive %}active{% endblock %}
 
-{% block checkout_nav %}<p class="topnav"><a class="continuebutton button button-tiny" href="/checkout/payment/1">Continue to Payment &#8594;</a></p>{% endblock %}
+{% block checkout_nav %}<p class="topnav"><a class="continuebutton button button-tiny" href="/checkout/payment/{{checkout.id}}">Continue to Payment &#8594;</a></p>{% endblock %}
 
 
 {% block customcss %}
@@ -44,16 +44,16 @@
 				{% if address.address_two %}<p>{{address.address_two}}</p>{% endif %}
 				<p>{{address.city}}, {{address.state}} {{address.zipcode }}</p>
 				<p>{{address.phonenumber}}</p>
-				<a data-address-id="{{address.id}}" class="information-select button button-action button-rounded" value="submit">Use This Address</a>
+				<a href="/useaddress/{{checkout.id}}/{{address.id}}" class="information-select button button-action button-rounded" value="submit">Ship To This Address</a>
 				<div class="clear"></div>
-				<a data-address-id="{{address.id}}" class="editinformation button button-rounded button-tiny" value="submit">Delete</a>
+				<a href="/deleteaddress/{{checkout.id}}/{{address.id}}" class="editinformation button button-rounded button-tiny" value="submit">Delete</a>
 				<a data-address-id="{{address.id}}" class="deleteinformation button button-rounded button-tiny" value="submit">Edit</a>	
 			</div>
 			{% endfor %}
 		</div>
 		<div class="logincol col-md-6 col-sm-6 col-xs-12">
 			<h4>Enter New Shipping Address</h4>
-			<form class="addressform" action="newuserform" method="post">
+			<form class="addressform" action="/newaddress/{{checkout.id}}" method="post">
 				{% csrf_token %}
 				<div class="form-group">
 					<label for="companyname">Name</label>
@@ -61,34 +61,33 @@
 				</div>
 				<div class="form-group">
 					<label for="companyname">Address 1</label>
-					<input type="text" class="form-control" id="name" name="name" placeholder="Street Address, P.O. Box, Company Name, c/o" />
+					<input type="text" class="form-control" name="address_one" placeholder="Street Address, P.O. Box, Company Name, c/o" />
 				</div>
 				<div class="form-group">
 					<label for="companyname">Address 2</label>
-					<input type="text" class="form-control" id="name" name="name" placeholder="Apartment, Suite, Unit, Building, Floor, etc." />
+					<input type="text" class="form-control" name="address_two" placeholder="Apartment, Suite, Unit, Building, Floor, etc." />
 				</div>
 				<div class="form-group">
 					<label for="companyname">City</label>
-					<input type="text" class="form-control" id="name" name="name" placeholder="City" />
+					<input type="text" class="form-control" name="city" placeholder="City" />
 				</div>
 				<div class="form-group">
 					<label for="companyname">State/Province/Region</label>
-					<input type="text" class="form-control" id="name" name="name" placeholder="State" />
+					<input type="text" class="form-control" name="state" placeholder="State" />
 				</div>
 				<div class="form-group">
 					<label for="companyname">Zipcode</label>
-					<input type="text" class="form-control" id="name" name="name" placeholder="5 Digit Zipcode" />
+					<input type="text" class="form-control" name="zipcode" placeholder="5 Digit Zipcode" />
 				</div>
 				<div class="form-group">
 					<label for="companyname">Country</label>
-					<input disabled type="text" class="form-control" id="name" name="name" value="United States" />
+					<input disabled type="text" class="form-control" name="country" value="United States" />
 				</div>
 				<div class="form-group">
 					<label for="companyname">Phone</label>
-					<input type="text" class="form-control" id="name" name="name" placeholder="Phone Number (Including Area Code)" />
+					<input type="text" class="form-control" name="phonenumber" placeholder="Phone Number (Including Area Code)" />
 				</div>
-				<button href="/signup?next={{thisurl}}" class="button button-action button-rounded" value="submit">Ship to this Address</button>	
-
+				<button name="submit" class="button button-action button-rounded" value="submit">Ship to this Address</button>	
 			 </form>
 		</div>
 	</div>

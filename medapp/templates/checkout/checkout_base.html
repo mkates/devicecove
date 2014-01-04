@@ -270,7 +270,7 @@ var addError = function addError(handle) {
 
 <div class="listcontainer">
 	<div class="checkout_nav">
-		{% block checkout_nav %}<p class="topnav"><a class="returnbutton button button-tiny" href="/listeditems">&#8592; Return To Shipping</a><a class="continuebutton button button-tiny" href="/item/{{item.id}}/details">Continue to Payment &#8594;</a></p>{% endblock %}
+		{% block checkout_nav %}{% endblock %}
 	</div>
 	<div class="listbox">
 		<div class="listbar covebox">
@@ -316,9 +316,10 @@ var addError = function addError(handle) {
 					<div class="summary-block">
 						<h5>Shipping Address</h5>
 						{% if checkout.shipping_address %}
-						<p>Mitchell Kates</p>
-						<p>1 Pacer Court</span>
-						<p>Colts Neck, NJ 07722</span>
+						<p>{{checkout.shipping_address.name}}</p>
+						<p>{{checkout.shipping_address.address_one}}</p>
+						{% if checkout.shipping_address.address_two %}<p>{{checkout.shipping_address.address_two}}</p>{% endif %}
+						<p>{{checkout.shipping_address.city}}, {{checkout.shipping_address.state}} {{checkout.shipping_address.zipcode}}</span>
 						{% else %}
 						<p class="incomplete-data">Shipping Address has not yet been added</p>
 						{% endif %}

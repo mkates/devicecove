@@ -150,7 +150,9 @@
 	<div class="cart-header covebox">
 		<div class="cart-actions">
 			<a class="button-small button button-rounded" href="/productsearch/veterinary/all/all">Continue Shopping</a>
+			{% if shoppingcart.cartitem_set.all %}
 			<a class="button-small button button-rounded button-action" href="/checkout/signin">Proceed To Checkout</a>
+			{% endif %}
 		</div>
 		<p class="welcome-message">{% if user.basicuser %}Hi {{user.basicuser.name}},{% else %}Save your cart items for later by <a href="/login">Logging In</a>{% endif %}</p>
 		<h3>You have <span class="itemcount">{{itemcount}}</span> item{% if count != 1 %}s{% endif %} in your shopping cart</h3>
@@ -200,10 +202,9 @@
 		</div>
 		<div class="covebox cart-summary col-md-3 col-sm-3 col-xs-12">
 			<h6> Order Summary</h6>
-			<p>Items (<span id="itemcount" class="itemcount">{{itemcount}}</span>)<span id="totalprice">$46,232</span></p>
+			<p>Items (<span id="itemcount" class="itemcount">{{itemcount}}</span>)<span id="totalprice">{{total}}</span></p>
 			<p>Shipping <span>FREE</span></p>
-			<p>Tax <span>$48.30</span></p>
-			<p class="total">Total:<span>${{total|floatformat|intcomma}}</span></p>
+			<p class="total">Total:<span>{{total}}</span></p>
 		</div>
 		
 	</div>

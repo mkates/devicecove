@@ -4,7 +4,7 @@
 {% block shipping_check %}&#x2713;{% endblock %}
 {% block payment_check %}&#x2713;{% endblock %}
 
-{% block checkout_nav %}<p class="topnav"><a class="returnbutton button button-tiny" href="/checkout/payment/1">&#8592; Return To Payment</a></p>{% endblock %}
+{% block checkout_nav %}<p class="topnav"><a class="returnbutton button button-tiny" href="/checkout/payment/{{checkout.id}}">&#8592; Return To Payment</a></p>{% endblock %}
 
 
 {% block reviewactive %}active{% endblock %}

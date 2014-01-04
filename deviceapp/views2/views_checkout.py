@@ -13,6 +13,11 @@ import json
 from datetime import datetime
 from django.utils.timezone import utc
 
+
+###################################
+### General Cart Functions ########
+###################################
+
 ##### The cart page #########
 def cart(request):
 	shoppingcart = getShoppingCart(request)
@@ -62,7 +67,11 @@ def updatecart(request):
 	shoppingcart_totals = getShoppingCartTotals(shoppingcart)
 	shoppingcart_totals['status']=400
 	return HttpResponse(json.dumps(shoppingcart_totals), content_type='application/json')
-		
+
+###################################
+### Confirm User In Checkout ######
+###################################
+	
 ### Landing page once they proceed to checkout ###
 def checkoutBegin(request):
 	dict = {'checkout_login':True}
@@ -71,7 +80,7 @@ def checkoutBegin(request):
 	return render_to_response('checkout/checkout_login.html',dict,context_instance=RequestContext(request))
 
 ### Login Form to start checkout process ###
-def checkoutloginform(request):
+def checkoutlogin(request):
 	if request.method == "POST":
 		username = request.POST['email']
 		password = request.POST['password']
@@ -85,7 +94,7 @@ def checkoutloginform(request):
 						checkoutid = createCheckout(bu)
 						return HttpResponseRedirect('checkout/shipping/'+str(checkoutid))
 					else:
-						return HttpResponseRedirect('checkout/signin?e=wronguser')
+						return render_to_response('checkout/checkout_login.html',{'checkout_login':True,'error':'User Name Does Not Match Currently Logged In User'},context_instance=RequestContext(request))
 				else:
 					#User is not logged in, add session items into existing cart and continue
 					session_shoppingcart = getShoppingCart(request)
@@ -99,9 +108,11 @@ def checkoutloginform(request):
 					checkoutid = createCheckout(bu)
 					return HttpResponseRedirect('checkout/shipping/'+str(checkoutid))
 			else:
-				return HttpResponseRedirect('checkout/signin?e=userdisabled')		
+				return render_to_response('checkout/checkout_login.html',{'checkout_login':True,'error':'Your Account Has Been Disabled'},context_instance=RequestContext(request))
+	
 		else:
-			return HttpResponseRedirect('checkout/signin?e=invalidlogin')
+			return render_to_response('checkout/checkout_login.html',{'checkout_login':True,'error':'Oops! Your username and password do not match'},context_instance=RequestContext(request))
+
 	return HttpResponseRedirect('checkout/signin')
 
 ### Helper method to create a checkout object for a user ###
@@ -114,35 +125,93 @@ def createCheckout(bu):
 	checkout.save()
 	return checkout.id
 
+###################################
+### Checkout Shipping #############
+###################################
+
 ### Checkout shipping page ###
 @login_required
 def checkoutShipping(request,checkoutid):
 	checkout = Checkout.objects.get(id=checkoutid)
 	checkoutValid = checkoutValidCheck(checkout,request)
-	dict = {'checkout':checkout}
-	if checkoutValid == 200:
-		return HttpResponseRedirect('/checkout/signin?e=timeout')
-	elif checkoutValid == 300:
-		return HttpResponseRedirect('/checkout/signin?e=wronguser')
-	elif checkoutValid != 500:
-		return HttpResponseRedirect('/checkout/signin')
-	return render_to_response('checkout/checkout_shipping.html',dict,context_instance=RequestContext(request))
-	
-	
-	
-def checkoutPayment(request,checkoutid):
-	if request.user.is_authenticated():
+	if checkoutValid['status'] != 500:
+		return checkoutValid['render']
+	return render_to_response('checkout/checkout_shipping.html',{'checkout':checkout},context_instance=RequestContext(request))
+
+@login_required
+def	useAddress(request,checkoutid,addressid):
+	checkout = Checkout.objects.get(id=checkoutid)
+	checkoutValid = checkoutValidCheck(checkout,request)
+	if checkoutValid['status'] != 500:
+		return checkoutValid['render']
+	checkout = Checkout.objects.get(id=checkoutid)
+	address = UserAddress.objects.get(id=addressid)
+	checkout.shipping_address = address
+	checkout.save()
+	return HttpResponseRedirect('/checkout/payment/'+str(checkoutid))
+
+@login_required
+def deleteAddress(request,checkoutid,addressid):
+	checkout = Checkout.objects.get(id=checkoutid)
+	checkoutValid = checkoutValidCheck(checkout,request)
+	if checkoutValid['status'] != 500:
+		return checkoutValid['render']
+	deleteaddress = UserAddress.objects.get(id=addressid)
+	#Reset the checkout reference to prevent delete propagation
+	if checkout.shipping_address == deleteaddress:
+		checkout.shipping_address = None
+		checkout.save()
+	deleteaddress.delete()
+	return HttpResponseRedirect('/checkout/shipping/'+str(checkoutid))
+
+@login_required
+def newAddress(request,checkoutid):
+	checkout = Checkout.objects.get(id=checkoutid)
+	checkoutValid = checkoutValidCheck(checkout,request)
+	if checkoutValid['status'] != 500:
+		return checkoutValid['render']
+	if request.method == 'POST':
+		user = BasicUser.objects.get(user=request.user)
+		name = request.POST['name']
+		address_one = request.POST['address_one']
+		address_two = request.POST.get('address_two','')
+		city = request.POST['city']
+		state = request.POST['state']
+		zipcode = request.POST['zipcode']
+		phonenumber = request.POST['phonenumber']
+		newaddress = UserAddress(user=user,name=name,address_one=address_one,address_two=address_two,city=city,state=state,zipcode=zipcode,phonenumber=phonenumber)
+		newaddress.save()
 		checkout = Checkout.objects.get(id=checkoutid)
-		bu = BasicUser.objects.get(user=request.user)
-		if checkout.user == bu:
-			return render_to_response('checkout/checkout_payment.html',{},context_instance=RequestContext(request))
-		else:
-			return HttpResponseRedirect('/')
-	return 
+		checkout.shipping_address = newaddress
+		checkout.save()
+		return HttpResponseRedirect('/checkout/payment/'+str(checkoutid))
+	return HttpResponseRedirect('/checkout/shipping/'+str(checkoutid))
+		
+###################################
+### Checkout Payment ##############
+###################################	
+def checkoutPayment(request,checkoutid):
+	checkout = Checkout.objects.get(id=checkoutid)
+	checkoutValid = checkoutValidCheck(checkout,request)
+	dict = {'checkout':checkout}
+	if checkoutValid['status'] != 500:
+		dict['error'] = checkoutValid['error']
+		dict['checkout_login'] = True
+		return render_to_response('checkout/checkout_login.html',dict,context_instance=RequestContext(request))
+	elif checkout.shipping_address == None:
+		return HttpResponseRedirect('/checkout/shipping/'+str(checkoutid))
+	return render_to_response('checkout/checkout_payment.html',dict,context_instance=RequestContext(request))
 	
+###################################
+### Checkout Review  ##############
+###################################
 def checkoutReview(request,itemid):
 	return render_to_response('checkout/checkout_review.html',{},context_instance=RequestContext(request))
 
+
+###################################
+### Checkout Confirmation##########
+###################################
 def checkoutConfirmation(request,itemid):
 	return render_to_response('checkout/checkout_confirmation.html',{},context_instance=RequestContext(request))
 
@@ -165,27 +234,33 @@ def getShoppingCart(request):
 def getShoppingCartTotals(shoppingcart):
 	count = 0
 	totalcost = 0
-	for cartitem in shoppingcart.cartitem_set.all():
-		count += cartitem.quantity
-		totalcost += cartitem.quantity * cartitem.item.price
+	if shoppingcart:
+		for cartitem in shoppingcart.cartitem_set.all():
+			count += cartitem.quantity
+			totalcost += cartitem.quantity * cartitem.item.price
 	return {'total':"$"+"{:,}".format(totalcost),'itemcount':count}
 
 #Validates a checkout request
 def checkoutValidCheck(checkout,request):
+	dict = None
 	# First check if the checkout has already been completed
 	if checkout.purchased:
-		return 100 # Item already purchased
+		dict = {'status':100,'error':'Item Already Purchased'} # Item already purchased
 	# Next check if it has been too long
 	time_now = datetime.utcnow().replace(tzinfo=utc)
 	time_elapsed = time_now - checkout.start_time
 	seconds_elapsed = time_elapsed.seconds
 	if seconds_elapsed > 900:
-		return 200 # Time Out
+		dict = {'status':200,'error':'Session Timed Out'} # Time Out
+	
 	# See if it is the right user
 	if request.user.is_authenticated():
 		bu = BasicUser.objects.get(user=request.user)
 		if checkout.buyer != bu:
-			return 300 # Incorrect user
+			dict = {'status':300,'error':'Not Logged In As The Right User'} # Incorrect user
 	else:
-		return 400 #User not logged in at all
-	return 500 #Checkout is VALID!!!
+		dict = {'status':400,'error':'You Are Not Logged In'} #User not logged in at all
+	if dict:
+		dict['checkout'] = checkout
+		return {'status':100,'render':render_to_response('checkout/checkout_login.html',dict,context_instance=RequestContext(request))}
+	return {'status':500} #Checkout is VALID!!!

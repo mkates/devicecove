@@ -6,6 +6,9 @@
 
 {% block customcss %}
 <style>
+.contentrow {
+	padding-right: 0;
+}
 .signupcol {
 	border-left:1px solid #eee;
 }
@@ -107,19 +110,11 @@ $(document).ready(function() {
 {% block checkoutcontent %}
 <div class="checkout-container">
 	<h3>Verify Account</h3>
-	    {% if outcome %}
+	    {% if error %}
 	    	<div class="outcome-block">
 	    		<p class="checkouterror">
-					{% if outcome == 'invalidlogin' %}
-						Login does not match the currently logged in user
-					{% elif outcome == 'wronguser' %}
-						Wrong User
-					{% elif outcome == 'timeout' %}
-						Your checkout session timed out. Please log in to continue
-					{% elif outcome == 'userdisabled' %}
-						This account has been disabled
-					{% elif outcome == 'noitems' %}
-						You do not have any items in your shopping cart
+					{% if error %}
+						{{error}}
 					{% endif %}
 				</p>
 			</div>
@@ -128,7 +123,7 @@ $(document).ready(function() {
 	<div class="row">
 		<div class="logincol col-md-6 col-sm-6 col-xs-12">
 			<h4>Login</h4>
-			<form class="checkoutloginform" action="/checkoutloginform" method="post">
+			<form class="checkoutloginform" action="/checkoutlogin" method="post">
 				{% csrf_token %}
 				<p>Email</p>
 				<input name="email" class="form-control" type="email" placeholder="ex. joedoe@gmail.com">
