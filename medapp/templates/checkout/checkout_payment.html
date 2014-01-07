@@ -5,26 +5,22 @@
 
 {% block paymentactive %}active{% endblock %}
 
-{% block checkout_nav %}<p class="topnav"><a class="returnbutton button button-tiny" href="/checkout/shipping/{{checkout.id}}">&#8592; Return To Shipping</a><a class="continuebutton button button-tiny" href="/checkout/review/{{checkout.id}}">Continue to Review &#8594;</a></p>{% endblock %}
+{% block checkout_nav %}<p class="topnav"><a class="returnbutton button button-tiny" href="/checkout/shipping/{{checkout.id}}">&#8592; Return To Shipping</a>{% if checkout.state > 3 %}<a class="continuebutton button button-tiny" href="/checkout/review/{{checkout.id}}">Continue to Review &#8594;</a>{% endif %}</p>{% endblock %}
 
 {% block customcss %}
 <style>
-
-.logincol h4 {
-	font-size: 20px;
-	color: #333;
-	margin-bottom: 30px;
+.checkoutcol {
+	padding-bottom: 40px;
 }
-
-.expiration select {
-	display: inline-block;
+.newpaymentcol {
+	border-left:1px solid #eee;
 }
-.expiration-month {
-	width: 80px;
-	margin-right: 10px;
+.deletepayment {
+	width: 182px;
+	margin-top: 10px;
 }
-.expiration-year {
-	width: 120px;
+.expiration-row div {
+	padding: 15px 0;
 }
 .newccform .reviewmessage {
 	font-weight: 200;
@@ -34,9 +30,117 @@
 {% endblock %}
 
 {% block customjs %}
-<script>
+<script type="text/javascript" src="{{STATIC_URL}}js/balanced.js"></script>
+<script type="text/javascript">
+$(document).ready(function () {
+    ////
+    // Initalize balanced.js
+    //
+    // server: The backend Balanced server to tokenize with
+    // revision: The specific revision of the Balanced API to tokenize with
+    ////
+    
+    // For example purposes, create a bin at http://requestb.in/
+    // Make sure it doesn't end in ?inspect and set it as responseTarget.
+    // e.g. var responseTarget = http://requestb.in/nyqkn8ny
+    var responseTarget = 'http://requestb.in/vjcukfvj';
+    var marketplaceUri = '/v1/marketplaces/TEST-MP49EIrAntwbE1iYZDuZWtjo';
+    
+    balanced.init('/v1/marketplaces/TEST-MP49EIrAntwbE1iYZDuZWtjo');
+    
+    $('#cc-submit').click(function (e) {
+        e.preventDefault();
 
+        $('#response').hide();
 
+        var payload = {
+            card_number: $('#cc-number').val(),
+            expiration_month: $('#cc-ex-month').val(),
+            expiration_year: $('#cc-ex-year').val(),
+            security_code: $('#ex-csc').val()
+        };
+        
+        // Tokenize credit card
+        balanced.card.create(payload, function (response) {
+            // Successful tokenization
+            if(response.status === 201 && response.href) {
+                // Send to your backend
+                jQuery.post(responseTarget, {
+                    uri: response.href
+                }, function(r) {
+                    // Check your backend response
+                    if (r.status === 201) {
+                        // Your successful logic here from backend
+                    } else {
+                        // Your failure logic here from backend
+                    }
+                });
+            } else {
+                // Failed to tokenize, your error logic here
+            }
+            
+            // Debuging, just displays the tokenization result in a pretty div
+            $('#response .panel-body pre').html(JSON.stringify(response, false, 4));
+            $('#response').slideDown(300);
+        });
+    });
+    
+    
+    ////
+    // Click event for tokenize bank account
+    ////
+    $('#ba-submit').click(function (e) {
+        e.preventDefault();
+
+        $('#response').hide();
+
+        var payload = {
+            name: $('#ba-name').val(),
+            account_number: $('#ba-number').val(),
+            routing_number: $('#ba-routing').val()
+        };
+
+        // Tokenize bank account
+        balanced.bankAccount.create(payload, function (response) {
+            // Successful tokenization
+            if(response.status === 201 && response.href) {
+                // Send to your backend
+                jQuery.post(responseTarget, {
+                    uri: response.href
+                }, function(r) {
+                    // Check your backend response
+                    if(r.status === 201) {
+                        // Your successful logic here from backend
+                    } else {
+                        // Your failure logic here from backend
+                    }
+                });
+            } else {
+                // Failed to tokenize, your error logic here
+            }
+            
+            // Debuging, just displays the tokenization result in a pretty div
+            $('#response .panel-body pre').html(JSON.stringify(response, false, 4));
+            $('#response').slideDown(300);
+        });
+    });
+    
+    
+    ////
+    // Simply populates credit card and bank account fields with test data
+    ////
+    $('#populate').click(function () {
+        $(this).attr("disabled", true);
+
+        $('#cc-number').val('4111111111111111');
+        $('#cc-ex-month').val('12');
+        $('#cc-ex-year').val('2020');
+        $('#ex-csc').val('123');
+        $('#ba-name').val('John Hancock');
+        $('#ba-number').val('9900000000');
+        $('#ba-routing').val('321174851');
+    });
+});
 </script>
 {% endblock %}
 
@@ -46,7 +150,7 @@
 <div class="checkout-container">
 	<h3>Payment</h3>
 	<div class="row">
-		<div class="logincol col-md-6 col-sm-6 col-xs-12">
+		<div class="checkoutcol col-md-6 col-sm-6 col-xs-12">
 			<h4>Saved Payment Options</h4>
 			<div class="information-block">
 				<h5>Credit / Debit Card</h5>
@@ -55,13 +159,38 @@
 				<p><span>Card: </span> * * * * * * * * 8211</p>
 				<p><span>Expires On: </span>9/12/2015</p>
 				<a href="/signup?next={{thisurl}}" class="information-select button button-action button-rounded" value="submit">Use This Card</a>
-				<a href="/signup?next={{thisurl}}" class="editinformation button button-rounded button-tiny" value="submit">Delete</a>
-				<a href="/signup?next={{thisurl}}" class="deleteinformation button button-rounded button-tiny" value="submit">Edit</a>	
+				<a href="/signup?next={{thisurl}}" class="deletepayment button button-rounded button-tiny" value="submit">Delete</a>	
 			</div>
 		</div>
-		<div class="logincol col-md-6 col-sm-6 col-xs-12">
+		<div class="checkoutcol newpaymentcol col-md-6 col-sm-6 col-xs-12">
 			<h4>Enter New Payment Method</h4>
-			<form class="newccform" action="newuserform" method="post">
+			<form role="form" class="form-horizontal">
+				<div class="form-group">
+					<label class="control-label">Card Number</label>
+					<div class="">
+						<input type="text" id="cc-number" class="form-control" autocomplete="off" placeholder="4111111111111111" maxlength="16" />
+					</div>
+				</div>
+				<div class="form-group row expiration-row">
+					<div class="col-md-6 col-sm-6">
+						<label class="control-label">Expiration Month</label>
+						<input type="text" id="cc-ex-month" class="form-control" autocomplete="off" placeholder="01" maxlength="2" />
+					</div>
+					<div class="col-md-6 col-sm-6">
+						<label class="control-label">Expiration Year</label>
+						<input type="text" id="cc-ex-year" class="form-control" autocomplete="off" placeholder="2013" maxlength="4" />
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">Security Code (CSC)</label>
+					<div class="">
+						<input type="text" id="ex-csc" class="form-control" autocomplete="off" placeholder="453" maxlength="4" />
+					</div>
+				</div>
+				<a id="cc-submit" class="btn btn-large btn-primary pull-right">Tokenize</a>
+			</form>
+			<!-- 
+<form class="newccform" action="newuserform" method="post">
 				{% csrf_token %}
 				<div class="form-group">
 					<label for="companyname">Name</label>
@@ -91,6 +220,8 @@
 				<p class="reviewmessage">(You can review this order before it's final)</p>
 				<button href="/signup?next={{thisurl}}" class="button button-action button-rounded" value="submit">Use This Card</button>	
 			 </form>
+ -->
+ 		
 		</div>
 	</div>
 

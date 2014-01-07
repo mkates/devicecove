@@ -4,22 +4,20 @@
 {% block headercss %}
 	<link href="{{STATIC_URL}}css/login.css" rel="stylesheet" type="text/css" />
 <style>
-.signupform .form-control{
-	width: 300px;
-}
+
 .signupform {
 	text-align: left;
-	width: 600px;
-	margin: 40px 20px;
-	float: left;
+	margin: 40px 0px;
 }
+.formrow {
+	padding: 0;
+}
+/* Signup right side information */
 .signuptextdiv {
-	float: left;
 	text-align: left;
-	width: 300px;
 	margin-top: 40px;
 	margin: 30px 0px;
-	height: 550px;
+	min-height: 550px;
 	padding-left: 20px;
 	border-left: 1px solid #eee;
 	/* IE10 Consumer Preview */ 
@@ -61,9 +59,12 @@
 	font-size: 13px;
 	font-weight: 200;
 }
-	
-.signupform .form-group input, .form-group select {
+
+.signupform .form-group table {
 	display: inline;
+}
+.signupform input, .signupform select {
+	width: 260px;
 }
 .signupform .form-group label {
 	width: 140px;
@@ -72,7 +73,9 @@
 	font-weight: 200;
 	line-height: 13px;
 	padding-bottom: 3px;
+	padding-top: 10px;
 	margin-right: 15px;
+	vertical-align: top;
 }
 .signupform .form-group img {
 	display: inline;
@@ -86,9 +89,27 @@
 .signupform button {
 	margin-left: 160px;
 }
-#passwordtext {
+#passwordtext, #formemailtext {
 	margin-top: 10px;
+	margin-left: 5px;
 	color: #D90000;
+}
+.has-error {
+	border:1px solid red;
+}
+.companyextra {	
+	display: none;
+}
+#signuperror {
+	display: inline-block;
+	color: red;
+	font-size: 200;
+	padding: 5px 12px;
+	margin-top: 20px;
+	background: #FFF2F2;
+	font-weight: 200;
+	border:1px solid red;
+	border-radius: 4px;
 }
 </style>
 {% endblock %}
@@ -96,120 +117,13 @@
 {% block jsblock %}
 <script src="{{STATIC_URL}}js/maskedinput.js" type="text/javascript" ></script>
 <script>
-var formelements = {'businesstype':false,'name':false,'company':false,'email':false,'address':false,'zipcode':false,'city':false,'state':true,'website':false,'phonenumber':false, 'password':false};
-var states = ['AK',"AL","AR","AS","AZ","CA","CO","CT","DC","DE","FL","GA","GU","HI","IA","ID","IL","IN","KS","KY","LA","MA","MD","ME","MH","MI","MN","MO","MS","MT","NC","ND","NE","NH","NJ","NM","NV","NY","OH","OK","OR","PA","PR","PW","RI","SC","SD","TN","TX","UT","VA","VI","VT","WA","WI","WV","WY"];
-
-function isEmail(email) {
-  var emailReg = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/;
-  console.log(emailReg.test(email));
-  return emailReg.test(email);
-}
-
-$(document).ready(function() {
-	$(".phonenumber").mask("(999) 999-9999");
-	$("input").blur(function() {
-		validateinput($(this));
-	});
-	$("input").keyup(function() {
-		validateinput($(this));
-	});
-	$("select").change(function() {
-		validateinput($(this));
-	});
-	for (var i=0; i < states.length; i++) {
-		$("#state").append("<option>"+states[i]+"</option>");
-	}
-	$("#submitbutton").attr("disabled","disabled");
-});
-
-
-//Updates the css taking in a dictionary
-var updateformcss = function updateformcss(handler) {
-	var value = formelements[$(handler).attr('id')];
-	var index = $(handler).attr('id');
-	if (!(value)) {
-			if (!($("#"+index).parent().hasClass("has-error"))) {
-				$("#"+index).parent().addClass("has-error");
-			}
-			$("#"+index).parent().children("img").attr("src","{{STATIC_URL}}img/xmark.png");
-
-		} else if (value=='clear') {
-			$("#"+index).parent().children("img").attr("src","");
-		} else {
-			if ($("#"+index).parent().hasClass("has-error")) {
-				$("#"+index).parent().removeClass("has-error");
-			}
-			$("#"+index).parent().children("img").attr("src","{{STATIC_URL}}img/checkmark.png");
-		}
-}
-
-//Takes in a list of inputs to verify
-var validateinput = function validateinput(handler) {
-	if ($(handler).attr('id') =='businesstype') {
-		formelements['businesstype'] = true;
-	}
-	if ($(handler).attr('id') =='name') {
-		var validated = ($("#name").val().length < 1) ? false : true;
-		formelements['name'] = validated;
-	}
-	if ($(handler).attr('id') =='company') {
-		var validated = ($("#company").val().length < 1) ? false : true;
-		formelements['company'] = validated;
-	}
-	if ($(handler).attr('id') =='email') {
-		formelements['email'] = (isEmail($("#email").val()) && $("#email").val().length >0);
-	}
-	if ($(handler).attr('id') =='address') {
-		var validated = ($("#address").val().length < 5) ? false : true;
-		formelements['address'] = validated;
-	}
-	if ($(handler).attr('id') =='city') {
-		var validated = ($("#city").val().length < 3) ? false : true;
-		formelements['city'] = validated;
-	}
-	if ($(handler).attr('id') =='state') {
-		formelements['state'] = true;
-	}
-	if ($(handler).attr('id') =='zipcode') {
-		var validated = ($("#zipcode").val().length == 5) ? true : false;
-		formelements['zipcode'] = validated;
-	}
-	if ($(handler).attr('id') =='website') {
-		formelements['website'] = true;
-	}
-	if ($(handler).attr('id') =='phonenumber') {
-		var validated = ($("#phonenumber").val().length == 14) ? true : false;
-		formelements['phonenumber'] = validated;
-	}
-	if ($(handler).attr('id') =='password') {
-		if ($("#password").val().length < 3) {
-			$("#passwordtext").html("Very Weak");
-			formelements['password'] = false;
-		} else if ($("#password").val().length < 6) {
-			$("#passwordtext").html("Weak");
-			formelements['password'] = false;
-		} else {
-			$("#passwordtext").html("");
-			formelements['password'] = true;
-		}
-	}
-	updateformcss(handler);
-	
-	var submittable = true;
-	$.each(formelements, function(index,value) {
-		if (value == false) {
-			submittable = false;
-		}
-	});
-	if (submittable == true) {
-		$("#submitbutton").removeAttr("disabled");
-	} else {
-		$("#submitbutton").attr("disabled","disabled");
-	}
-}
-
-
+var x_mark_src = "{{STATIC_URL}}img/xmark.png";
+var check_mark_src = "{{STATIC_URL}}img/checkmark.png";
+var blank_src = "{{STATIC_URL}}img/blank.png";
+var loading_src = "{{STATIC_URL}}img/ajax-loader2.gif";
 </script>
+<script src="{{STATIC_URL}}js/signup.js" type="text/javascript" ></script>
+
 {% endblock %}
 
 {% block content %}
@@ -222,88 +136,27 @@ var validateinput = function validateinput(handler) {
 			<h2>Already have an account? <a href="login"> Log In here</a></h2>
 		</div>
 		
-		<form class="signupform" action="newuserform" method="post">
-		  {% csrf_token %}
-		  <div class="form-group">
-			<label for="companyname">Business Type *</label>
-			<select style="width: 300px" class="form-control" name="businesstype" id="businesstype">
-				<option>Select primary business type. . . </option>
-				<option>Private Practice</option>
-				<option>Individual</option>
-				<option>Refurbisher</option>
-				<option>Supplier</option>
-				<option>Manufacturer</option>
-				<option>Other</option>
-			</select>
-			<img src="{{STATIC_URL}}img/blank.png"/>
-		  </div>
-		  <div class="form-group">
-			 <label for="companyname">Name *</label>
-		     <input type="text" class="form-control" id="name" name="name" placeholder="Enter Your Name" />
-			 <img src="{{STATIC_URL}}img/blank.png"/>
-		  </div>
-		  <div class="form-group">
-			<label for="street1">Company *</label>
-			<input type="text" class="form-control" id="company" name="company" placeholder="Enter Company Name" />
-			<img src="{{STATIC_URL}}img/blank.png"/>
-		  </div>
-		  <div class="form-group">
-			<label for="street2">Email *</label>
-			<input type="text" class="form-control" id="email" name="email" placeholder="Enter your email" />
-			<img src="{{STATIC_URL}}img/blank.png"/>
-		  </div>
-		  <div class="form-group">
-			<label for="city">Address *</label>
-			<input type="text" class="form-control" id="address" name="address" placeholder="Enter Company Address" />
-			<img src="{{STATIC_URL}}img/blank.png"/>
-		  </div>
-		  <div class="form-group">
-			<label for="zipcode">Zipcode *</label>
-			<input style="width: 190px" type="number" name="zipcode" class="form-control" id="zipcode" maxlength="5" placeholder="Enter Zipcode" />
-			<img src="{{STATIC_URL}}img/blank.png"/>
-		  </div>
-		   <div class="form-group">
-			<label for="state">City *</label>
-			<input style="width: 190px" type="city" name="city" class="form-control" id="city"  placeholder="Enter City" />
-			<img src="{{STATIC_URL}}img/blank.png"/>
-		  </div>
-		  <div class="form-group">
-			<label for="state">State *</label>
-			<select style="width: 100px" class="form-control" name="state" id="state" />
-			</select>
-			<img src="{{STATIC_URL}}img/blank.png"/>
-		  </div>
-		  <div class="form-group">
-			<label for="contactperson">Website URL</label>
-			<input type="text" class="form-control" name="website" id="website" placeholder="Enter Company Website URL" />
-			<img src="{{STATIC_URL}}img/blank.png"/>
-		  </div>
-		   <div class="form-group">
-			<label for="customersupportphone">Telephone *</label>
-			<input type="text" class="form-control phonenumber" name="phonenumber" maxlength="12" id="phonenumber" placeholder="Enter Phone Number" />
-			<img src="{{STATIC_URL}}img/blank.png"/>
-		  </div>
-		  <div class="form-group">
-			<label for="customersupportphone">Password *</label>
-			<input type="password" class="form-control" name="password" id="password" placeholder="Enter Your Password" />
-			<img src="{{STATIC_URL}}img/blank.png"/>
-			<p id="passwordtext"></p>
-		  </div>
-		  
-  		  <button type="submit" id="submitbutton" value="submit" class="btn btn-primary">Join VetCove</button>
-	</form>
-
-		<div class="signuptextdiv">
-			<h2> Why should you sign up?</h2>
-			<h3> <span>1</span>It's free to list!</h3>
-			<p>List all of your equipment for free. We only take a commission if you
-			successfully sell your equipment</p>
-			<h3> <span>2</span>Ask questions to sellers</h3>
-			<p> Signing up lets you save items to view later, create price alerts when a product
-			you may want changes prices, and ask questions about products you're interested in </p>
-			<h3><span>3</span>Track products</h3>
-			<p>You can save equipment you want to keep an on, and get alerted if its price changes
-			or a new piece of equipment gets listed</p>
+		<div class="row">
+			<div class="col-md-7 col-sm-8 col-xs-12 formrow">
+				{% if error %}
+				<p id="signuperror">{% if error == 'email' %}This email is already in use{% endif %}</p>
+				{% endif %}
+				{% include 'account/signup_base.html' %}
+			</div>
+			<div class="col-md-5 col-sm-4 col-xs-12">
+				<div class="signuptextdiv">
+					<h2>Why should you sign up?</h2>
+					<h3> <span>1</span>It's free to list!</h3>
+					<p>List all of your equipment for free. We only take a commission if you
+					successfully sell your equipment</p>
+					<h3> <span>2</span>Ask questions to sellers</h3>
+					<p> Signing up lets you save items to view later, create price alerts when a product
+					you may want changes prices, and ask questions about products you're interested in </p>
+					<h3><span>3</span>Track products</h3>
+					<p>You can save equipment you want to keep an on, and get alerted if its price changes
+					or a new piece of equipment gets listed</p>
+				</div>
+			</div>
 		
 		
 		</div>

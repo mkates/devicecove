@@ -1,0 +1,134 @@
+<form class="signupform" action="/newuserform" method="post">
+	  {% csrf_token %}
+	  {% if checkout_verify %}
+	  	<input type="hidden" value="true" name="checkoutsignin">
+	  {% else %}
+	  	<input type="hidden" value="false" name="checkoutsignin">
+	  {% endif %}
+	  <div class="form-group">
+		<label id="label-name">Name *</label>
+		<table>
+			<tr>
+				<td class="form-input"><input type="text" class="form-control" id="name" name="name" placeholder="Enter Your Name"></td>
+				<td class="form-img"><img src="{{STATIC_URL}}img/blank.png"/></td>
+			</tr>
+		</table>
+	  </div>
+	  <div class="form-group">
+		<label for="companyname">Business Type *</label>
+		<table>
+			<tr>
+				<td class="form-input">
+					<select class="form-control" name="businesstype" id="businesstype">
+						<option value="none">Select primary business type. . . </option>
+						<option>Private Practice</option>
+						<option>Individual</option>
+						<option>Refurbisher</option>
+						<option>Supplier</option>
+						<option>Manufacturer</option>
+						<option>Other</option>
+					</select>
+				</td>
+				<td class="form-img"><img src="{{STATIC_URL}}img/blank.png"/></td>
+			</tr>
+		</table>
+	  </div>
+	  <div class="companyextra">
+		  <div class="form-group">
+			<label for="street1">Company</label>
+			<table>
+				<tr>
+					<td class="form-input"><input type="text" class="form-control" id="company" name="company" placeholder="Enter Company Name" ></td>
+					<td class="form-img"><img src="{{STATIC_URL}}img/blank.png"/></td>
+				</tr>
+			</table>
+		  </div>
+		  <div class="form-group">
+			<label for="contactperson">Website URL</label>
+			<table>
+				<tr>
+					<td class="form-input"><input type="text" class="form-control" name="website" id="website" placeholder="Enter Company Website URL"></td>
+					<td class="form-img"><img src="{{STATIC_URL}}img/blank.png"/></td>
+				</tr>
+			</table>
+		  </div>
+	  </div>
+	  <div class="form-group">
+		<label for="street2">Email *</label>
+		<table class="short-table">
+			<tr>
+				<td class="form-input"><input type="text" class="form-control" id="email" name="email" placeholder="Enter your email" ></td>
+				<td class="form-img"><img id="emailimage" src="{{STATIC_URL}}img/blank.png"/></td>
+				<td class="form-email-text"><p id="formemailtext"></p></td>
+			</tr>
+		</table>
+	  </div>
+	  <div class="form-group">
+		<label for="customersupportphone">Password *</label>
+		<table class="short-table">
+			<tr>
+				<td class="form-input"><input type="password" class="form-control password" name="password" maxlength="12" id="password" placeholder="Enter Password"></td>
+				<td class="form-img"><img src="{{STATIC_URL}}img/blank.png"/></td>
+				<td class="form-password"> <p id="passwordtext"></p></td>
+			</tr>
+		</table>
+	  </div>
+	  <div class="form-group">
+		<label for="city">Address *</label>
+		<table>
+			<tr>
+				<td class="form-input"><input type="text" class="form-control" id="address_one" name="address_one" placeholder="Enter P.O. Box, Apartment Number" ></td>
+				<td class="form-img"><img src="{{STATIC_URL}}img/blank.png"/></td>
+			</tr>
+		</table>
+	  </div>
+	   <div class="form-group">
+		<label for="city">Address 2</label>
+		<table>
+			<tr>
+				<td class="form-input"><input type="text" class="form-control" id="address_two" name="address_two" placeholder="Enter Street" ></td>
+				<td class="form-img"><img src="{{STATIC_URL}}img/blank.png"/></td>
+			</tr>
+		</table>
+	  </div>
+	  <div class="form-group">
+		<label for="zipcode">Zipcode *</label>
+		<table class="short-table">
+			<tr>
+				<td class="form-input"><input style="width: 190px" type="number" name="zipcode" class="form-control" id="zipcode" maxlength="5" placeholder="Enter Zipcode"></td>
+				<td class="form-img"><img src="{{STATIC_URL}}img/blank.png"/></td>
+				<td class=""></td>
+			</tr>
+		</table>
+	  </div>
+	   <div class="form-group">
+		<label for="state">City *</label>
+		<table class="short-table">
+			<tr>
+				<td class="form-input"><input style="width: 190px" type="city" name="city" class="form-control" id="city"  placeholder="Enter City"></td>
+				<td class="form-img"><img src="{{STATIC_URL}}img/blank.png"/></td>
+				<td class=""></td>
+			</tr>
+		</table>
+	  </div>
+	  <div class="form-group">
+		<label for="state">State *</label>
+		<table class="short-table">
+			<tr>
+				<td class="form-input"><select class="form-control" name="state" id="state"></select></td>
+				<td class="form-img"><img src="{{STATIC_URL}}img/blank.png"/></td>
+				<td class=""></td>
+			</tr>
+		</table>
+	  </div>
+	   <div class="form-group">
+		<label for="customersupportphone">Telephone *</label>
+		<table>
+			<tr>
+				<td class="form-input"><input type="text" class="form-control phonenumber" name="phonenumber" maxlength="12" id="phonenumber" placeholder="Enter Phone Number"></td>
+				<td class="form-img"><img src="{{STATIC_URL}}img/blank.png"/></td>
+			</tr>
+		</table>
+	  </div>
+	  <button type="submit" id="submitbutton" value="submit" class="button button-rounded button-action">Join VetCove</button>
+</form>

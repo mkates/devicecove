@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+{% block headertitle %}<title>VetCove | Error</title>{% endblock%}
+{% block headercss %}
+
+<style>
+.maincontainer-padding {
+	padding: 0 20px;
+}
+.maincontainer {
+	background: #fff;
+	min-height: 200px;
+	max-width: 1000px;
+	margin: 30px auto;
+	text-align: center;
+}
+.maincontainer h4 {
+	display: block;
+	padding: 10px 30px 10px 30px;
+	font-weight: 200;
+	text-align: center;
+	font-size: 18px;
+}
+.maincontainer h5 {
+	margin-top: 30px;
+}
+.maincontainer img {
+	clear:both;
+	display: block;
+	margin: 0 auto;
+}
+.maincontainer span{
+	clear: both;
+	display: block;
+	margin: 30px 0;
+}
+.maincontainer span a {
+	padding: 0 10px;
+}
+.maincontainer span a:hover {
+	text-decoration: underline;
+}
+
+
+</style>
+{% endblock%}
+
+
+{% block content %}
+<div class="maincontainer-padding">
+	<div class="maincontainer covebox">
+		{% if errormessage %}<h5 class="error-format">{{errormessage}}</h5>{% endif %}
+		<h4>It looks like we are experiencing some technical hiccups. We have our best developers on the case</h4>
+		<img src="{{STATIC_URL}}img/dogoncomputer.jpg" alt=""/>
+		<span>
+		<a href="/productsearh/veterinary/all/all">Buy Equipment</a>&sdot;
+		<a href="/listintro">Sell Equipment</a>&sdot;
+		<a href="/faq">FAQ</a></span>
+	</div>
+</div>
+
+
+{% endblock %}
+
+{% block jsblock %}
+<script>
+</script>
+{% endblock %}

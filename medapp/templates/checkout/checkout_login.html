@@ -5,6 +5,7 @@
 {% block checkout_nav %}{% endblock %}
 
 {% block customcss %}
+<link href="{{STATIC_URL}}css/checkoutform.css" rel="stylesheet" type="text/css" />
 <style>
 .contentrow {
 	padding-right: 0;
@@ -12,30 +13,23 @@
 .signupcol {
 	border-left:1px solid #eee;
 }
-.logincol h4 {
-	font-size: 20px;
-	color: #333;
-	margin-bottom: 20px;
-}
-.logincol .checkoutloginform {
 
-}
-.logincol form p {
+.checkoutcol form p {
 	font-weight: 200;
 	margin-bottom: 0;
 	margin-top: 0px;
 }
-.logincol form input,.logincol form select {
+.checkoutloginform input {
 	margin-bottom: 10px;
 }
-.logincol .forgotpassword {
+.checkoutcol .forgotpassword {
 	display: block;
 	font-weight: 200;
 	font-size: 12px;
 	padding:5px 0;
 	text-align: right;
 }
-.logincol .submitbutton {
+.checkoutcol .submitbutton {
 	margin-top: 40px;
 }
 
@@ -53,39 +47,16 @@
 	font-size: 11px;
 	margin-bottom: 10px;
 }
-.signupform .form-group label {
-	font-weight: 200;
-	margin: 0;
-	padding: 0;
-}
-.signupform .form-group {
-	margin-bottom: 0px;
-	margin-top: 0px;
-	padding: 0;
-}
 .signupbutton:hover {
 	cursor:pointer;
-}
-#signup-submit-button {
-	margin-top: 15px;
 }
 .companyextra {	
 	display: none;
 }
-.outcome-block {
-	text-align: center;
-	margin: 0 auto;
-}
-.checkouterror {
-	display: inline-block;
-	color: red;
-	font-size: 200;
-	padding: 5px 12px;
-	margin-top: 5px;
-	background: #FFF2F2;
-	font-weight: 200;
-	border:1px solid red;
-	border-radius: 4px;
+#passwordtext, #formemailtext {
+	margin-left: 5px;
+	color: #D90000;
+	line-height: 14px;
 }
 </style>
 {% endblock %}
@@ -98,11 +69,16 @@ $(document).ready(function() {
 			$('.signupform').fadeIn();
 		});
 	});
-	$("#businesstype").change(function() {
-		$(this).val() != 'Individual' ? $(".companyextra").fadeIn() : $(".companyextra").fadeOut();
-	});
 });
 </script>
+<script src="{{STATIC_URL}}js/maskedinput.js" type="text/javascript" ></script>
+<script>
+var x_mark_src = "{{STATIC_URL}}img/xmark.png";
+var check_mark_src = "{{STATIC_URL}}img/checkmark.png";
+var blank_src = "{{STATIC_URL}}img/blank.png";
+var loading_src = "{{STATIC_URL}}img/ajax-loader2.gif";
+</script>
+<script src="{{STATIC_URL}}js/signup.js" type="text/javascript" ></script>
 {% endblock %}
 
 
@@ -112,7 +88,7 @@ $(document).ready(function() {
 	<h3>Verify Account</h3>
 	    {% if error %}
 	    	<div class="outcome-block">
-	    		<p class="checkouterror">
+	    		<p class="error-format">
 					{% if error %}
 						{{error}}
 					{% endif %}
@@ -121,7 +97,7 @@ $(document).ready(function() {
 		{% endif %}
 		
 	<div class="row">
-		<div class="logincol col-md-6 col-sm-6 col-xs-12">
+		<div class="checkoutcol col-md-6 col-sm-6 col-xs-12">
 			<h4>Login</h4>
 			<form class="checkoutloginform" action="/checkoutlogin" method="post">
 				{% csrf_token %}
@@ -134,73 +110,16 @@ $(document).ready(function() {
 				<div class="clear"></div>
 			</form>
 		</div>
-		<div class="logincol signupcol col-md-6 col-sm-6 col-xs-12">
+		<div class="checkoutcol signupcol col-md-6 col-sm-6 col-xs-12">
 			<h4>Sign Up</h4>
 			<div class='signupcontainer'>
 				<div class="signupintro">
 					<h5>You will need to have an account to checkout. Sign up in less than 60 seconds</h5>
 					<a class="button button-action button-rounded signupbutton" value="submit">Sign Up</a>
 				</div>
-				<form class="signupform" action="newuserform" method="post">
-		  		{% csrf_token %}
-		  		<p id="sellinformation">*We NEVER sell or distribute personably identifiable information</p>
-		  		<div class="form-group">
-					<label for="companyname">Business Type *</label>
-					<select class="form-control" name="businesstype" id="businesstype">
-						<option>Select primary business type. . . </option>
-						<option>Private Practice</option>
-						<option>Individual</option>
-						<option>Refurbisher</option>
-						<option>Supplier</option>
-						<option>Manufacturer</option>
-						<option>Other</option>
-					</select>
-				  </div>
-				  <div class="form-group companyextra">
-					<label for="street1">Company *</label>
-					<input type="text" class="form-control" id="company" name="company" placeholder="Enter Company Name" />
-				  </div>
-				  <div class="form-group companyextra">
-					<label for="contactperson">Company Website URL</label>
-					<input type="text" class="form-control" name="website" id="website" placeholder="Enter Company Website URL" />
-				  </div>
-				  <div class="form-group">
-					 <label for="companyname">Name *</label>
-					 <input type="text" class="form-control" id="name" name="name" placeholder="Enter Your Name" />
-				  </div>
-				  <div class="form-group">
-					<label for="street2">Email *</label>
-					<input type="text" class="form-control" id="email" name="email" placeholder="Enter your email" />
-				  </div>
-				  <div class="form-group">
-					<label for="city">Address *</label>
-					<input type="text" class="form-control" id="address" name="address" placeholder="Enter Company Address" />
-				  </div>
-				  <div class="form-group">
-					<label for="zipcode">Zipcode *</label>
-					<input style="width: 190px" type="number" name="zipcode" class="form-control" id="zipcode" maxlength="5" placeholder="Enter Zipcode" />
-				  </div>
-				   <div class="form-group">
-					<label for="state">City *</label>
-					<input style="width: 190px" type="city" name="city" class="form-control" id="city"  placeholder="Enter City" />
-				  </div>
-				  <div class="form-group">
-					<label for="state">State *</label>
-					<select style="width: 100px" class="form-control" name="state" id="state" />
-					</select>
-				  </div>
-				   <div class="form-group">
-					<label for="customersupportphone">Telephone *</label>
-					<input type="text" class="form-control phonenumber" name="phonenumber" maxlength="12" id="phonenumber" placeholder="Enter Phone Number" />
-				  </div>
-				  <div class="form-group">
-					<label for="customersupportphone">Password *</label>
-					<input type="password" class="form-control" name="password" id="password" placeholder="Enter Your Password" />
-					<p id="passwordtext"></p>
-				  </div>
-		  
-				  <button type="submit" id="signup-submit-button" value="submit" class="button button-action button-rounded">Create Account</button>
-			</form>
+				<div class="checkoutform-container">
+				{% include 'account/signup_base.html' %}
+				</div>
 			</div>
 		</div>
 	</div>

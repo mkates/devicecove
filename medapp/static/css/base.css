@@ -58,6 +58,17 @@ a:active {
 	border-top-left-radius: 3px;
 	border-bottom:1px solid #ccc;
 }
+.error-format {
+	display: inline-block;
+	color: red;
+	font-size: 200;
+	padding: 5px 12px;
+	margin-top: 5px;
+	background: #FFF2F2;
+	font-weight: 200;
+	border:1px solid red;
+	border-radius: 4px;
+}
 
 /**********************************/
 /******  Footer *******************/
@@ -71,6 +82,7 @@ footer {
 footer ul{
 	list-style-type: none;
 	text-align: center;
+	padding: 0;
 	margin: 0 auto 0px auto;
 }
 footer ul li {

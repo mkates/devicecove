@@ -151,7 +151,7 @@
 		<div class="cart-actions">
 			<a class="button-small button button-rounded" href="/productsearch/veterinary/all/all">Continue Shopping</a>
 			{% if shoppingcart.cartitem_set.all %}
-			<a class="button-small button button-rounded button-action" href="/checkout/signin">Proceed To Checkout</a>
+			<a class="button-small button button-rounded button-action proceedtocheckout" href="/checkout/verify">Proceed To Checkout</a>
 			{% endif %}
 		</div>
 		<p class="welcome-message">{% if user.basicuser %}Hi {{user.basicuser.name}},{% else %}Save your cart items for later by <a href="/login">Logging In</a>{% endif %}</p>
@@ -183,7 +183,7 @@
 								{% endif %}
 
 						</span></p>
-						<p class="otherbuyers">2 other people have this item in their cart</p>
+						<!-- <p class="otherbuyers">2 other people have this item in their cart</p> -->
 						<span class="item-actions"><a data-itemid='{{cartitem.item.id}}' data-item-handle='#cart-item-{{cartitem.item.id}}' class="move-to-saved">Move to Saved Items</a> &sdot; <a class="delete-item" data-itemid='{{cartitem.item.id}}' data-item-handle='#cart-item-{{cartitem.item.id}}'>Delete Item</a></span>
 					</div>
 					<div class="item-price col-md-2 col-sm-2 col-xs-12">
@@ -202,9 +202,9 @@
 		</div>
 		<div class="covebox cart-summary col-md-3 col-sm-3 col-xs-12">
 			<h6> Order Summary</h6>
-			<p>Items (<span id="itemcount" class="itemcount">{{itemcount}}</span>)<span id="totalprice">{{total}}</span></p>
+			<p>Items (<span id="itemcount" class="itemcount">{{itemcount}}</span>)<span class="totalprice">{{total}}</span></p>
 			<p>Shipping <span>FREE</span></p>
-			<p class="total">Total:<span>{{total}}</span></p>
+			<p class="total">Total:<span class="totalprice">{{total}}</span></p>
 		</div>
 		
 	</div>
@@ -247,11 +247,14 @@ function updateCart(handle,method,quantity) {
 			} else if (data['status'] == 600) {
 				window.location.href = data['redirect']
 			}
+			console.log(data['count']);
 			item_handle.find('.item-loader').css('display','none');
-			$("#totalprice").text(data['total']);
-			$(".itemcount").text(data['count']);
-			if (data['count'] == '0') {
+			$(".totalprice").text(data['total']);
+			$(".itemcount").text(data['itemcount']);
+			$("#sc-count").text(data['itemcount']);
+			if (data['itemcount'] == '0') {
 				$('.noitems').css('display','block');
+				$('.proceedtocheckout').css('display','none');
 			}
 		}, 
 		error : function(jqXHR, textStatus, errorThrown) {

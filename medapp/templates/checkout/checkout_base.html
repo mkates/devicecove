@@ -2,8 +2,8 @@
 {% block headertitle %}<title>VetCove | Checkout</title>{% endblock%}
 
 {% block headercss %}
-<link href="{{STATIC_URL}}css/item/item.css" rel="stylesheet" type="text/css" />
 <style>
+/*** General Checkout Formatting **/
 .listcontainer {
 	max-width: 1000px;
 	margin: 0px auto 50px auto;
@@ -124,6 +124,9 @@
 	color: #444;
 	margin: 8px 0;
 }
+.information-block a:hover {
+	cursor: pointer;
+}
 .information-select {	
 	display:block;
 	width: 182px;
@@ -142,9 +145,9 @@
 	padding-right: 10px;
 	padding-left: 0px;
 	margin-bottom: 10px;
-	
 }
 
+/* Summary block */
 .summary {
 	font-size: 13px;
 	padding: 0 0 40px 0;
@@ -156,10 +159,11 @@
 .summary h5 {
 margin-top: 20px;
 }
- .summary p {
- 	font-size: 12px;
- 	margin: 0;
- }
+.summary p {
+font-size: 12px;
+margin: 0;
+}
+/** Responsive formatting **/
  @media (max-width: 768px) {
 	.information-block, .summary {
 		text-align: center;
@@ -167,19 +171,25 @@ margin-top: 20px;
 	.information-select {
 		margin: 0 auto;
 	}
-	.logincol h4 {
+	.checkoutcol h4 {
 		text-align: center;
 	}
 	.contentrow {
 		padding-right: 0px;
 	}
 }
-.logincol {
+.checkoutcol {
 	min-height: 300px;
-	padding: 30px 30px 20px 20px;
+	padding: 0px 30px 20px 20px;
+	margin-top: 30px;
+}
+.checkoutcol h4 {
+	font-size: 20px;
+	color: #333;
+	margin-bottom: 20px;
 }
 @media (max-width: 768px) {
-	.logincol {
+	.checkoutcol {
 		padding-top: 20px;
 		padding-bottom: 20px;
 	}
@@ -267,7 +277,7 @@ var addError = function addError(handle) {
 {% block customjs %}{% endblock %}
 {% endblock %}
 {% block content %}
-
+{% load zipcodify %}
 <div class="listcontainer">
 	<div class="checkout_nav">
 		{% block checkout_nav %}{% endblock %}
@@ -291,14 +301,14 @@ var addError = function addError(handle) {
 
 		<div class="listcontent">
 			<div class="row">
-				<div class="contentrow {% if not checkout_login %}col-md-9 col-sm-9 col-xs-12{% else %}col-md-12 col-sm-12 col-xs-12{% endif %}">
+				<div class="contentrow {% if not checkout_verify %}col-md-9 col-sm-9 col-xs-12{% else %}col-md-12 col-sm-12 col-xs-12{% endif %}">
 					<div class="covebox">
 						{% block checkoutcontent %}
 
 						{% endblock %}
 					</div>
 				</div>
-				{% if not checkout_login %}
+				{% if not checkout_verify %}
 				<div class="covebox col-md-3 col-sm-3 col-xs-12 summary">
 					<h3>Overview</h3>
 					<div class="summary-block">
@@ -320,6 +330,7 @@ var addError = function addError(handle) {
 						<p>{{checkout.shipping_address.address_one}}</p>
 						{% if checkout.shipping_address.address_two %}<p>{{checkout.shipping_address.address_two}}</p>{% endif %}
 						<p>{{checkout.shipping_address.city}}, {{checkout.shipping_address.state}} {{checkout.shipping_address.zipcode}}</span>
+						<p>{{checkout.shipping_address.phonenumber}}</p>
 						{% else %}
 						<p class="incomplete-data">Shipping Address has not yet been added</p>
 						{% endif %}

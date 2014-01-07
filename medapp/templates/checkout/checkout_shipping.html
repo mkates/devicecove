@@ -4,91 +4,132 @@
 
 {% block shippingactive %}active{% endblock %}
 
-{% block checkout_nav %}<p class="topnav"><a class="continuebutton button button-tiny" href="/checkout/payment/{{checkout.id}}">Continue to Payment &#8594;</a></p>{% endblock %}
+{% block checkout_nav %}{% if checkout.state >= 2 %}<p class="topnav"><a class="continuebutton button button-tiny" href="/checkout/payment/{{checkout.id}}">Continue to Payment &#8594;</a></p>{% endif %}{% endblock %}
 
 
 {% block customcss %}
+<link href="{{STATIC_URL}}css/checkoutform.css" rel="stylesheet" type="text/css" />
 <style>
-
-.logincol h4 {
-	font-size: 20px;
-	color: #333;
-	margin-bottom: 30px;
-}
-.information-block a:hover {
-	cursor: pointer;
+.newaddresscol {
+	border-left:1px solid #eee;
 }
 
 </style>
 {% endblock %}
 
 {% block customjs %}
+<script src="{{STATIC_URL}}js/maskedinput.js" type="text/javascript" ></script>
 <script>
-
-
+var x_mark_src = "{{STATIC_URL}}img/xmark.png";
+var check_mark_src = "{{STATIC_URL}}img/checkmark.png";
+var blank_src = "{{STATIC_URL}}img/blank.png";
+var loading_src = "{{STATIC_URL}}img/ajax-loader2.gif";
 </script>
+<script src="{{STATIC_URL}}js/address.js" type="text/javascript" ></script>
 {% endblock %}
-
-
-
 {% block checkoutcontent %}
+{% load zipcodify %}
 <div class="checkout-container">
 	<h3>Shipping</h3>
 	<div class="row">
-		<div class="logincol col-md-6 col-sm-6 col-xs-12">
+		<div class="checkoutcol col-md-6 col-sm-6 col-xs-12">
 			<h4>Saved Shipping Addresses</h4>
 			{% for address in user.basicuser.useraddress_set.all %}
 			<div class="information-block">
-				<h5>{{address.name}}</h5>
-				<p>{{address.address_one}}</p>
-				{% if address.address_two %}<p>{{address.address_two}}</p>{% endif %}
-				<p>{{address.city}}, {{address.state}} {{address.zipcode }}</p>
-				<p>{{address.phonenumber}}</p>
+				<h5 class="address_name">{{address.name}}</h5>
+				<p class="address_one">{{address.address_one}}</p>
+				{% if address.address_two %}<p class="address_two">{{address.address_two}}</p>{% endif %}
+				<p><span class="address_city">{{address.city}}</span>, <span class="address_state">{{address.state}}</span> <span class="address_zipcode">{{address.zipcode|zipcodify }}</span></p>
+				<p class="address_phonenumber">{{address.phonenumber}}</p>
 				<a href="/useaddress/{{checkout.id}}/{{address.id}}" class="information-select button button-action button-rounded" value="submit">Ship To This Address</a>
 				<div class="clear"></div>
-				<a href="/deleteaddress/{{checkout.id}}/{{address.id}}" class="editinformation button button-rounded button-tiny" value="submit">Delete</a>
-				<a data-address-id="{{address.id}}" class="deleteinformation button button-rounded button-tiny" value="submit">Edit</a>	
+				<a href="/deleteaddress/{{checkout.id}}/{{address.id}}" class="deleteinformation button button-rounded button-tiny" value="submit">Delete</a>
+				<a class="editinformation button button-rounded button-tiny" value="submit">Edit</a>	
 			</div>
 			{% endfor %}
 		</div>
-		<div class="logincol col-md-6 col-sm-6 col-xs-12">
+		<div class="checkoutcol newaddresscol col-md-6 col-sm-6 col-xs-12">
 			<h4>Enter New Shipping Address</h4>
-			<form class="addressform" action="/newaddress/{{checkout.id}}" method="post">
-				{% csrf_token %}
-				<div class="form-group">
-					<label for="companyname">Name</label>
-					<input type="text" class="form-control" id="name" name="name" placeholder="First and Last Name" />
-				</div>
-				<div class="form-group">
-					<label for="companyname">Address 1</label>
-					<input type="text" class="form-control" name="address_one" placeholder="Street Address, P.O. Box, Company Name, c/o" />
-				</div>
-				<div class="form-group">
-					<label for="companyname">Address 2</label>
-					<input type="text" class="form-control" name="address_two" placeholder="Apartment, Suite, Unit, Building, Floor, etc." />
-				</div>
-				<div class="form-group">
-					<label for="companyname">City</label>
-					<input type="text" class="form-control" name="city" placeholder="City" />
-				</div>
-				<div class="form-group">
-					<label for="companyname">State/Province/Region</label>
-					<input type="text" class="form-control" name="state" placeholder="State" />
-				</div>
-				<div class="form-group">
-					<label for="companyname">Zipcode</label>
-					<input type="text" class="form-control" name="zipcode" placeholder="5 Digit Zipcode" />
-				</div>
-				<div class="form-group">
-					<label for="companyname">Country</label>
-					<input disabled type="text" class="form-control" name="country" value="United States" />
-				</div>
-				<div class="form-group">
-					<label for="companyname">Phone</label>
-					<input type="text" class="form-control" name="phonenumber" placeholder="Phone Number (Including Area Code)" />
-				</div>
+			<div class="checkoutform-container">
+				<form class="addressform" action="/newaddress/{{checkout.id}}" method="post">
+					{% csrf_token %}
+					<div class="form-group">
+						<label for="companyname">Name</label>
+						<table>
+							<tr>
+								<td class="form-input"><input type="text" class="form-control" id="address_name" name="name" placeholder="First and Last Name" /></td>
+								<td class="form-img"><img src="{{STATIC_URL}}img/blank.png"/></td>
+							</tr>
+						</table>
+					</div>
+					<div class="form-group">
+						<label for="companyname">Address 1</label>
+						<table>
+							<tr>
+								<td class="form-input"><input type="text" class="form-control" id="address_one" name="address_one" placeholder="Street Address, P.O. Box, Company Name, c/o" ></td>
+								<td class="form-img"><img src="{{STATIC_URL}}img/blank.png"/></td>
+							</tr>
+						</table>
+					</div>
+					<div class="form-group">
+						<label for="companyname">Address 2</label>
+						<table>
+							<tr>
+								<td class="form-input"><input type="text" class="form-control" id="address_two" name="address_two" placeholder="Apartment, Suite, Unit, Building, Floor, etc." /></td>
+								<td class="form-img"><img src="{{STATIC_URL}}img/blank.png"/></td>
+							</tr>
+						</table>
+					</div>
+					<div class="form-group">
+						<label for="companyname">City</label>
+						<table>
+							<tr>
+								<td class="form-input"><input type="text" class="form-control" id="address_city" name="city" placeholder="City"></td>
+								<td class="form-img"><img src="{{STATIC_URL}}img/blank.png"/></td>
+							</tr>
+						</table>
+					</div>
+					<div class="form-group">
+						<label for="companyname">State</label>
+						<table>
+							<tr>
+								<td class="form-input"><select id="address_state" name="state" class="form-control"></select></td>
+								<td class="form-img"><img src="{{STATIC_URL}}img/blank.png"/></td>
+							</tr>
+						</table>
+					</div>
+				
+					<div class="form-group">
+						<label for="companyname">Zipcode</label>
+						<table>
+							<tr>
+								<td class="form-input"><input type="text" class="form-control" id="address_zipcode" name="zipcode" placeholder="5 Digit Zipcode"></td>
+								<td class="form-img"><img src="{{STATIC_URL}}img/blank.png"/></td>
+							</tr>
+						</table>
+					</div>
+				
+					<div class="form-group">
+						<label for="companyname">Country</label>
+						<table>
+							<tr>
+								<td class="form-input"><input disabled type="text" class="form-control" name="country" value="United States"></td>
+								<td class="form-img"><img src="{{STATIC_URL}}img/blank.png"/></td>
+							</tr>
+						</table>
+					</div>
+					<div class="form-group">
+						<label for="companyname">Phone Number</label>
+						<table>
+							<tr>
+								<td class="form-input"><input type="text" class="form-control" id="address_phonenumber" name="phonenumber" placeholder="Phone Number (Including Area Code)"></td>
+								<td class="form-img"><img src="{{STATIC_URL}}img/blank.png"/></td>
+							</tr>
+						</table>
+					</div>
 				<button name="submit" class="button button-action button-rounded" value="submit">Ship to this Address</button>	
 			 </form>
+			 </div>
 		</div>
 	</div>
 
