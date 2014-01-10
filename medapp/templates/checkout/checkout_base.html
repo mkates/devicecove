@@ -114,6 +114,10 @@
 .information-block {
 	margin-bottom: 50px;
 }
+.information-block form {
+	display: inline-block;
+}
+
 .information-block h5 {
 	font-size: 16px;
 }
@@ -200,6 +204,11 @@ margin: 0;
 .incomplete-data {
 	font-weight: 200;
 	color: #999;
+}
+.none-saved {
+	color: #999;
+	font-style: italic;
+	font-weight: 200;
 }
 </style>
 {% block customcss %}{% endblock %}
@@ -339,9 +348,9 @@ var addError = function addError(handle) {
 					<div class="summary-block">
 						<h5>Payment Information</h5>
 						{% if checkout.payment %}
-						<p>Fuji Ultrasound Plus</p>
-						<p>Sold by: <span> Colts Neck Equine</span>
-						<p>Colts Neck, NJ 07722</span>
+						<p>{{checkout.payment.brand}}</p>
+						<p>********{{checkout.payment.last_four}}</p>
+						<p>Expires: {{checkout.payment.expiration_month}}/{{checkout.payment.expiration_year}}</p>
 						{% else %}
 						<p class="incomplete-data">Payment Information has not yet been entered</p>
 						{% endif %}

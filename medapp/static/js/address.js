@@ -3,7 +3,6 @@ var states = ['AK',"AL","AR","AS","AZ","CA","CO","CT","DC","DE","FL","GA","GU","
 
 //On an address edit click, pre-populate new address fields
 $('.editinformation').click(function() {
-	console.log('here');
 	var parent = $(this).parent();
 	$("#address_name").val(parent.find('.address_name').text());
 	$("#address_one").val(parent.find('.address_one').text());

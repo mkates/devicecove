@@ -68,6 +68,9 @@
 <div class="checkout-container">
 	<h3>Review Purchase</h3>
 	<div class="logincol">
+		<div class="purchase-block">
+			<button class="button button-highlight button-rounded">Complete Purchase</button>
+		</div>
 		<div class="review-block">
 			<h4>Item Details</h4>
 			<p>Item: <span>Ultrasonic Power Ultrasound</span></p>
@@ -76,13 +79,13 @@
 			<p>Condition: <span>Like New</span></p>
 		</div>
 		<div class="review-block">
-			<h4>Shipping Information<a href="/checkout/shipping/2" class="change">change</a></h4>
+			<h4>Shipping Information<a href="/checkout/shipping/{{checkout.id}}" class="change">change</a></h4>
 			<p>Joe Johnson</p>
 			<p>1 Main Street</p>
 			<p>Colts Neck, NJ 05522</p>
 		</div>
 		<div class="review-block">
-			<h4>Billing Information<a href="/checkout/shipping/2" class="change">change</a></h4>
+			<h4>Billing Information<a href="/checkout/payment/{{checkout.id}}" class="change">change</a></h4>
 			<p>Type: <span>Credit Card</span></p>
 			<p>Name: <span>Joey</span></p>
 			<p>Seller Type: <span>Refurbisher</span></p>

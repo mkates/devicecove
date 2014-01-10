@@ -86,7 +86,10 @@ class BasicUser(models.Model):
 	state = models.CharField(max_length=60)
 	website = models.CharField(max_length=60,null=True)
 	phonenumber = models.CharField(max_length=60)
-			
+	
+	#Balanced customer URI
+	balanceduri = models.CharField(max_length=255,null=True,blank=True)
+	
 	def __unicode__(self):
 		return self.user.username
 	
@@ -179,23 +182,20 @@ class Item(models.Model):
 	
 	def __unicode__(self):
 		return self.name+" from "+self.user.name
-		
-	# def save(self, *args, **kwargs):
-# 		self.subcategory.category.totalunits += 1
-# 		self.subcategory.category.save()
-# 		self.subcategory.totalunits += 1
-# 		self.subcategory.save()
-# 		super(Item, self).save(*args, **kwargs)
 
 ############################################
-####### Images #############################
+####### Saved Items ########################
 ############################################
 class SavedItem(models.Model):
 	user = models.ForeignKey(BasicUser)
 	item = models.ForeignKey(Item)
 
+############################################
+####### Images of Items ####################
+############################################
 class ItemImage(Image):
-	item = models.ForeignKey(Item,null=True)		
+	item = models.ForeignKey(Item,null=True)
+			
 ############################################
 ####### Lat Long Model #####################
 ############################################
@@ -236,13 +236,6 @@ class UserAddress(models.Model):
 	phonenumber = models.CharField(max_length=100)
 	
 ############################################
-####### Credit Card Model  #################
-############################################
-class CreditCard(models.Model):
-	user = models.ForeignKey(BasicUser)
-	card_token = models.CharField(max_length=100)
-
-############################################
 ####### Shopping Cart ######################
 ############################################	
 class ShoppingCart(models.Model):
@@ -262,21 +255,80 @@ class CartItem(models.Model):
 	item = models.ForeignKey(Item)
 	shoppingcart = models.ForeignKey(ShoppingCart)
 	quantity = models.IntegerField(default=1,max_length=3)
-	
+
+############################################
+####### Balanced Models ####################
+############################################
+
+#### Balanced Credit Card ##################
+class BalancedCard(models.Model):
+	user = models.ForeignKey(BasicUser)
+	card_uri = models.CharField(max_length=255)
+	brand = models.CharField(max_length=100)
+	cardhash = models.CharField(max_length=255)
+	expiration_month = models.IntegerField(max_length=2)
+	expiration_year = models.IntegerField(max_length=4)
+	last_four = models.IntegerField(max_length=4)
+	datecreated = models.DateTimeField(auto_now_add = True,blank=True)
+		
 ############################################
 ####### Checkout Model  ####################
 ############################################
 class Checkout(models.Model):
 	cartitem = models.ManyToManyField(CartItem)
 	buyer = models.ForeignKey(BasicUser)
-	purchased = models.BooleanField(default=False)
 	shipping_address = models.ForeignKey(UserAddress,null=True,blank=True)
 	start_time = models.DateTimeField(auto_now_add = True,blank=True)
-	payment = models.ForeignKey(CreditCard,null=True,blank=True)
+	payment = models.ForeignKey(BalancedCard,null=True,blank=True)
 	STATE_OPTIONS =  (
 		(0, 'login'),
 		(1, 'shipping'),
 		(2, 'payment'),
-		(3, 'review')
+		(3, 'review'),
+		(4, 'failed_submit'), # If item is sold/other error while submitting checkout
+		(5, 'purchased')
 	)
 	state = models.IntegerField(max_length=1, choices=STATE_OPTIONS)
+	
+	# Purchase Details, means successfully charged as well
+	purchased = models.BooleanField(default=False)
+	purchased_time = models.DateTimeField(null=True,blank=True)
+	
+############################################
+### Purchased Items ########################
+############################################
+# Update item state when creating an instance of PurchasedItem
+class PurchasedItem(models.Model):
+	seller = models.ForeignKey(BasicUser,related_name="purchaseditem_seller")
+	buyer = models.ForeignKey(BasicUser,related_name="purchaseditem_buyer")
+	item = models.ForeignKey(CartItem) # CartItem includes quantity
+	
+	# Step 2: Seller sends item
+	item_sent = models.BooleanField(default=False)
+	item_sent_details = models.TextField(blank=True)
+	
+	# Did the seller get paid yet?
+	paid_out = models.BooleanField(default=False)
+	paid_data = models.DateTimeField(auto_now_add = True,blank=True)
+
+############################################
+### Item Reviews ###########################
+############################################	
+class SellerReview(models.Model):
+	seller = models.ForeignKey(BasicUser,related_name="sellerreview_seller")
+	buyer = models.ForeignKey(BasicUser,related_name="sellerreview_buyer")
+	REVIEW_OPTIONS =  (('negative', 'Negative'),('neutral', 'Neutral'),('positive', 'Positive'))
+	review_rating = models.IntegerField(max_length = 20,choices=REVIEW_OPTIONS)
+	review = models.TextField(blank=True)
+
+class ItemReview(models.Model):
+	seller = models.ForeignKey(BasicUser,related_name="itemreview_seller")
+	buyer = models.ForeignKey(BasicUser,related_name="itemreview_buyer")
+	item = models.ForeignKey(PurchasedItem)
+	REVIEW_OPTIONS =  (('negative', 'Negative'),('neutral', 'Neutral'),('positive', 'Positive'))
+	review_rating = models.IntegerField(max_length = 20,choices=REVIEW_OPTIONS)
+	review = models.TextField(blank=True)
+	
+	
+	
+	

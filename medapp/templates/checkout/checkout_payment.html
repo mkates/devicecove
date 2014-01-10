@@ -5,7 +5,7 @@
 
 {% block paymentactive %}active{% endblock %}
 
-{% block checkout_nav %}<p class="topnav"><a class="returnbutton button button-tiny" href="/checkout/shipping/{{checkout.id}}">&#8592; Return To Shipping</a>{% if checkout.state > 3 %}<a class="continuebutton button button-tiny" href="/checkout/review/{{checkout.id}}">Continue to Review &#8594;</a>{% endif %}</p>{% endblock %}
+{% block checkout_nav %}<p class="topnav"><a class="returnbutton button button-tiny" href="/checkout/shipping/{{checkout.id}}">&#8592; Return To Shipping</a>{% if checkout.state >= 3 %}<a class="continuebutton button button-tiny" href="/checkout/review/{{checkout.id}}">Continue to Review &#8594;</a>{% endif %}</p>{% endblock %}
 
 {% block customcss %}
 <style>
@@ -20,11 +20,74 @@
 	margin-top: 10px;
 }
 .expiration-row div {
-	padding: 15px 0;
+	padding: 0 10px 15px 0px;
+}
+.expiration-row .expiration-year-container {
+	padding-right: 0;
 }
 .newccform .reviewmessage {
 	font-weight: 200;
 	margin-top: 5px;
+}
+.error-div {
+	text-align: center;
+	margin-top: 15px;
+}
+.error-format {
+	display: none;
+}
+.paymentform label{
+	font-weight: 200;
+}
+#imageoverlay {
+	position:absolute;
+	width: 400px;
+	z-index: 999;
+	right: 0;
+	bottom: 0;
+	border:1px solid #ddd;
+	margin-bottom: 75px;
+	padding: 0;
+	display: none;
+}
+.security-code-label span {
+	background: #eee;
+	color: #999;
+	margin-left: 7px;
+}
+.security-code-label span:hover {
+	background: #333;
+	color: #eee;
+}
+
+#imageoverlay img {	
+	padding: 10px;
+	background: black;
+	width: 100%;
+	width: 400px;
+}
+.processing-container {
+	width: 100%;
+	height: 100%;
+	position:absolute;
+	z-index: 9999;
+}
+
+#cc-submit:hover {
+	cursor: pointer;
+}
+#cc-submit img {
+	display: none;
+	margin-right: 10px;
+}
+.cc-accepted {
+	width: 100%;
+	margin-top: 40px;
+}
+#balanced-image {
+	float: right;
+	margin-right: 15px;
+	width: 130px;
 }
 </style>
 {% endblock %}
@@ -32,115 +95,177 @@
 {% block customjs %}
 <script type="text/javascript" src="{{STATIC_URL}}js/balanced.js"></script>
 <script type="text/javascript">
+//Hover functionality for the security code ?
 $(document).ready(function () {
-    ////
-    // Initalize balanced.js
-    //
-    // server: The backend Balanced server to tokenize with
-    // revision: The specific revision of the Balanced API to tokenize with
-    ////
-    
-    // For example purposes, create a bin at http://requestb.in/
-    // Make sure it doesn't end in ?inspect and set it as responseTarget.
-    // e.g. var responseTarget = http://requestb.in/nyqkn8ny
-    var responseTarget = 'http://requestb.in/vjcukfvj';
+	$( "#cvv-info").hover(function() {
+		$('#imageoverlay').css('display','block');
+		}, function() {
+			$('#imageoverlay').css('display','none');
+		}
+	);
+});
+
+//Balanced.JS Add Credit Card 
+var balanced_submittable = true //Toggles if form is submittable
+$(document).ready(function () {
+	//Balanced Variables
+    var checkoutid = "{{checkout.id}}"
+    var responseTarget = '/addCreditCard/'+checkoutid;
     var marketplaceUri = '/v1/marketplaces/TEST-MP49EIrAntwbE1iYZDuZWtjo';
-    
     balanced.init('/v1/marketplaces/TEST-MP49EIrAntwbE1iYZDuZWtjo');
-    
     $('#cc-submit').click(function (e) {
         e.preventDefault();
-
-        $('#response').hide();
-
-        var payload = {
-            card_number: $('#cc-number').val(),
-            expiration_month: $('#cc-ex-month').val(),
-            expiration_year: $('#cc-ex-year').val(),
-            security_code: $('#ex-csc').val()
-        };
+		if (balanced_submittable){
+			BalancedDisable();
+			//Create Payload
+        	var payload = {
+				card_number: $('#cc-number').val(),
+				expiration_month: $('#cc-ex-month').val(),
+				expiration_year: $('#cc-ex-year').val(),
+				security_code: $('#cc-csc').val(),
+				postal_code: $('#cc-zipcode').val()
+        	};
         
-        // Tokenize credit card
-        balanced.card.create(payload, function (response) {
-            // Successful tokenization
-            if(response.status === 201 && response.href) {
-                // Send to your backend
-                jQuery.post(responseTarget, {
-                    uri: response.href
-                }, function(r) {
-                    // Check your backend response
-                    if (r.status === 201) {
-                        // Your successful logic here from backend
-                    } else {
-                        // Your failure logic here from backend
-                    }
-                });
-            } else {
-                // Failed to tokenize, your error logic here
-            }
-            
-            // Debuging, just displays the tokenization result in a pretty div
-            $('#response .panel-body pre').html(JSON.stringify(response, false, 4));
-            $('#response').slideDown(300);
-        });
+        	// Tokenize credit card
+        	balanced.card.create(payload, function (response) {
+        	if (response.data.postal_code_check != "passed" || response.data.security_code_check != "passed") {
+        		response.status = 501;
+        	}
+            switch (response.status) {
+			 case 201:
+				$.post(responseTarget, {
+					brand: response.data.brand,
+					hash: response.data.hash,
+					expiration_month: response.data.expiration_month,
+					expiration_year: response.data.expiration_year,
+					last_four: response.data.last_four,
+					uri: response.data.uri
+				}, function(r) {
+					if (r['status'] == 201) {
+						//window.location.href = '/checkout/review/'+checkoutid;
+						BalancedEnable();
+					} else {
+						displayError('Error saving your Card. '+r['error']);
+						BalancedEnable();
+					}
+				});
+				break;
+			 case 400:
+				 // Missing Field, display appropriate error message
+				 error_message = "";
+				 //Comma formatting for error text
+				 comma = false;
+				 $.each(response.error, function(index,value) {;
+				 	if (comma) {
+				 		error_message =error_message+", "+value
+				 	} else {
+				 		comma = true;
+				 		error_message = error_message + value
+				 	}
+				 });
+				 displayError(error_message);
+				 BalancedEnable();
+			 case 402:
+			 	 //Failed to tokenize card
+				 displayError("Failed to authorize your credit card");
+				 BalancedEnable();
+				 break;
+			 case 404:
+				 // Your marketplace URI is incorrect
+				 displayError("We are having technical hiccups with our marketplace URI");
+				 BalancedEnable();
+				 break;
+			 case 500:
+				 // Balanced did something bad, please retry the request
+				 BalancedEnable();
+				 break;
+			  case 501:
+				 // Zipcode or CVC did not verify
+				  displayError("We failed to verify your card. Please double check your information and try again");
+				 BalancedEnable();
+				 break;
+		     }
+           
+        }); 
+    	} //End of balanced_submittable if statement
     });
     
     
-    ////
-    // Click event for tokenize bank account
-    ////
-    $('#ba-submit').click(function (e) {
-        e.preventDefault();
-
-        $('#response').hide();
-
-        var payload = {
-            name: $('#ba-name').val(),
-            account_number: $('#ba-number').val(),
-            routing_number: $('#ba-routing').val()
-        };
-
-        // Tokenize bank account
-        balanced.bankAccount.create(payload, function (response) {
-            // Successful tokenization
-            if(response.status === 201 && response.href) {
-                // Send to your backend
-                jQuery.post(responseTarget, {
-                    uri: response.href
-                }, function(r) {
-                    // Check your backend response
-                    if(r.status === 201) {
-                        // Your successful logic here from backend
-                    } else {
-                        // Your failure logic here from backend
-                    }
-                });
-            } else {
-                // Failed to tokenize, your error logic here
-            }
-            
-            // Debuging, just displays the tokenization result in a pretty div
-            $('#response .panel-body pre').html(JSON.stringify(response, false, 4));
-            $('#response').slideDown(300);
-        });
-    });
+    // ////
+//     // Click event for tokenize bank account
+//     ////
+//     $('#ba-submit').click(function (e) { 
+//         e.preventDefault();
+// 		if (!(creditProcessing)){
+// 			creditProcessing = true;
+// 			disableCreditCardSubmit();
+// 
+// 			var payload = {
+// 				name: $('#ba-name').val(),
+// 				account_number: $('#ba-number').val(),
+// 				routing_number: $('#ba-routing').val()
+// 			};
+// 
+// 			// Tokenize bank account
+// 			balanced.bankAccount.create(payload, function (response) {
+// 				// Successful tokenization
+// 				if(response.status === 201 && response.href) {
+// 					// Send to your backend
+// 					jQuery.post(responseTarget, {
+// 						uri: response.href
+// 					}, function(r) {
+// 						// Check your backend response
+// 						if(r.status === 201) {
+// 							//window.location.href = '/checkout/review/'+checkoutid;
+// 						} else {
+// 							displayError('Error saving your Card. Please try again');
+// 						}
+// 					});
+// 				} else {
+// 					// Failed to tokenize, your error logic here
+// 				}
+// 			
+// 				// Debuging, just displays the tokenization result in a pretty div
+// 				$('#response .panel-body pre').html(JSON.stringify(response, false, 4));
+// 				$('#response').slideDown(300);
+// 			});
+//         }
+//     });
     
     
     ////
     // Simply populates credit card and bank account fields with test data
     ////
     $('#populate').click(function () {
-        $(this).attr("disabled", true);
-
         $('#cc-number').val('4111111111111111');
         $('#cc-ex-month').val('12');
         $('#cc-ex-year').val('2020');
-        $('#ex-csc').val('123');
+        $('#cc-csc').val('123');
+        $('#cc-zipcode').val('00000');
         $('#ba-name').val('John Hancock');
         $('#ba-number').val('9900000000');
         $('#ba-routing').val('321174851');
     });
+
 });
+function displayError(error) {
+	$(".error-format").text(error);
+	$('.error-format').css('display','block');
+}
+function BalancedDisable() {
+	balanced_submittable = false;
+	$("#cc-submit span").text("Processing. . .");
+	$("#cc-submit img").css('display','inline-block');
+	if (!($("#cc-submit").hasClass("disabled"))) {
+		$("#cc-submit").addClass("disabled");
+	}
+}
+function BalancedEnable() {
+	balanced_submittable = true;
+	$("#cc-submit span").text("Use This Card");
+	$("#cc-submit img").css('display','none');
+	$("#cc-submit").removeClass("disabled");
+}
 </script>
 {% endblock %}
 
@@ -148,23 +273,44 @@ $(document).ready(function () {
 
 {% block checkoutcontent %}
 <div class="checkout-container">
-	<h3>Payment</h3>
+	<h3>Payment<img id="balanced-image" src="{{STATIC_URL}}img/balanced-image.png"/></h3>
+	<div class="error-div">
+		<p class="error-format"></p>
+	</div>
 	<div class="row">
 		<div class="checkoutcol col-md-6 col-sm-6 col-xs-12">
 			<h4>Saved Payment Options</h4>
-			<div class="information-block">
-				<h5>Credit / Debit Card</h5>
-				<p><span>Name on Card: </span> Mitchell Kates</p>
-				<p><span>Company: </span> Visa</p>
-				<p><span>Card: </span> * * * * * * * * 8211</p>
-				<p><span>Expires On: </span>9/12/2015</p>
-				<a href="/signup?next={{thisurl}}" class="information-select button button-action button-rounded" value="submit">Use This Card</a>
-				<a href="/signup?next={{thisurl}}" class="deletepayment button button-rounded button-tiny" value="submit">Delete</a>	
-			</div>
+			{% if user.basicuser.balancedcard_set.all %}
+				{% for payment in user.basicuser.balancedcard_set.all %}
+				<div class="information-block">
+					<h5>Credit / Debit Card</h5>
+					<p><span>Name on Card: </span> Mitchell Kates</p>
+					<p><span>Company: </span>{{payment.brand}}</p>
+					<p><span>Card: </span> * * * * * * * * {{payment.last_four}}</p>
+					<p><span>Expires On: </span>{{payment.expiration_month}}/{{payment.expiration_year}}</p>
+					<form action="/usepayment" method="POST">
+					{% csrf_token %}
+					<input type="hidden" value="{{checkout.id}}" name="checkout_id">
+					<input type="hidden" value="{{payment.id}}" name="payment_id">
+					<button class="information-select button button-action button-rounded" value="submit">Use This Card</button>
+					</form>
+					<form action="/deletepayment" method="POST">
+					{% csrf_token %}
+					<input type="hidden" value="{{checkout.id}}" name="checkout_id">
+					<input type="hidden" value="{{payment.id}}" name="payment_id">
+					<button value="submit" class="deletepayment button button-rounded button-tiny" value="submit">Delete</button>	
+					</form>
+				</div>
+				{% endfor %}
+			{% else %}
+				<p class="none-saved"> You do not currently have any saved payment methods </p>
+			{% endif %}
 		</div>
 		<div class="checkoutcol newpaymentcol col-md-6 col-sm-6 col-xs-12">
 			<h4>Enter New Payment Method</h4>
-			<form role="form" class="form-horizontal">
+			<!-- <button id="populate">populate</button> -->
+			<form role="form" class="paymentform">
+
 				<div class="form-group">
 					<label class="control-label">Card Number</label>
 					<div class="">
@@ -174,53 +320,58 @@ $(document).ready(function () {
 				<div class="form-group row expiration-row">
 					<div class="col-md-6 col-sm-6">
 						<label class="control-label">Expiration Month</label>
-						<input type="text" id="cc-ex-month" class="form-control" autocomplete="off" placeholder="01" maxlength="2" />
+						<select id="cc-ex-month" class="form-control expiration-month">
+							<option>1</option>
+							<option>2</option>
+							<option>3</option>
+							<option>4</option>
+							<option>5</option>
+							<option>6</option>
+							<option>7</option>
+							<option>8</option>
+							<option>9</option>
+							<option>10</option>
+							<option>11</option>
+							<option>12</option>
+						</select>
 					</div>
-					<div class="col-md-6 col-sm-6">
+					<div class="col-md-6 col-sm-6 expiration-year-container">
 						<label class="control-label">Expiration Year</label>
-						<input type="text" id="cc-ex-year" class="form-control" autocomplete="off" placeholder="2013" maxlength="4" />
+						<select id="cc-ex-year" class="form-control">
+							<option>2014</option>
+							<option>2015</option>
+							<option>2016</option>
+							<option>2017</option>
+							<option>2018</option>
+							<option>2019</option>
+							<option>2020</option>
+							<option>2021</option>
+							<option>2022</option>
+							<option>2023</option>
+							<option>2024</option>
+							<option>2025</option>
+							<option>2026</option>
+							<option>2027</option>
+							<option>2028</option>
+						</select>
 					</div>
 				</div>
-				<div class="form-group">
-					<label class="control-label">Security Code (CSC)</label>
-					<div class="">
-						<input type="text" id="ex-csc" class="form-control" autocomplete="off" placeholder="453" maxlength="4" />
+				<div class="form-group row expiration-row">
+					<div class="col-md-6 col-sm-6">
+						<label class="control-label security-code-label">Security Code<span id="cvv-info" class="badge">?</span></label>
+						<div id="imageoverlay">
+							<img src="{{STATIC_URL}}img/cvv.jpg"/>
+						</div>
+						<input type="text" id="cc-csc" class="form-control" autocomplete="off" placeholder="453" maxlength="4" />
+					</div>
+					<div class="col-md-6 col-sm-6 expiration-year-container">
+						<label class="control-label">Billing Zipcode</label>
+						<input type="text" id="cc-zipcode" class="form-control" autocomplete="off" placeholder="00022" maxlength="5" />
 					</div>
 				</div>
-				<a id="cc-submit" class="btn btn-large btn-primary pull-right">Tokenize</a>
+				<a id="cc-submit" class="button button-rounded button-action"><img src="{{STATIC_URL}}img/ajax-loader.gif"/><span>Use This Card</span></a>
 			</form>
-			<!-- 
-<form class="newccform" action="newuserform" method="post">
-				{% csrf_token %}
-				<div class="form-group">
-					<label for="companyname">Name</label>
-					<input type="text" class="form-control" id="name" name="name" placeholder="Name on Card" />
-				</div>
-				<div class="form-group">
-					<label for="companyname">Card Number</label>
-					<input type="text" class="form-control" id="name" name="name" placeholder="Credit Card Number" />
-				</div>
-				<div class="form-group expiration">
-					<label for="companyname">Expiration Date (Month / Year)</label>
-					<div class="clear"></div>
-					<select class="form-control expiration-month">
-						<option>1</option>
-						<option>2</option>
-						<option>3</option>
-						<option>4</option>		
-					</select>
-					<select class="form-control expiration-year">
-						<option>1</option>
-						<option>2</option>
-						<option>3</option>
-						<option>4</option>		
-					</select>
-
-				</div>
-				<p class="reviewmessage">(You can review this order before it's final)</p>
-				<button href="/signup?next={{thisurl}}" class="button button-action button-rounded" value="submit">Use This Card</button>	
-			 </form>
- -->
+			<img class="cc-accepted" src="{{STATIC_URL}}img/cc_accepted.png"/>
  		
 		</div>
 	</div>

@@ -12,6 +12,7 @@ from django.conf import settings
 import json
 from datetime import datetime
 from django.utils.timezone import utc
+import balanced
 
 
 ###################################
@@ -226,39 +227,47 @@ def checkoutShipping(request,checkoutid):
 	# Checkout Validation
 	checkout = Checkout.objects.get(id=checkoutid)
 	checkoutValid = checkoutValidCheck(checkout,request)
-	if checkoutValid['status'] != 500:
+	if checkoutValid['status'] != 201:
 		return HttpResponseRedirect('/checkout/verify/'+checkoutValid['error'])
 	return render_to_response('checkout/checkout_shipping.html',{'checkout':checkout},context_instance=RequestContext(request))
 
 @login_required
-def	useAddress(request,checkoutid,addressid):
-	# Checkout Validation
-	checkout = Checkout.objects.get(id=checkoutid)
-	checkoutValid = checkoutValidCheck(checkout,request)
-	if checkoutValid['status'] != 500:
-		return HttpResponseRedirect('/checkout/verify/'+checkoutValid['error'])
-	#Set the address of the checkout to the UserAddress
-	checkout = Checkout.objects.get(id=checkoutid)
-	address = UserAddress.objects.get(id=addressid)
-	checkout.shipping_address = address
-	checkout.state = 2
-	checkout.save()
-	return HttpResponseRedirect('/checkout/payment/'+str(checkoutid))
+def	useAddress(request):
+	if request.method == 'POST':
+		checkoutid = request.POST['checkout_id']
+		addressid = request.POST['address_id']
+		# Checkout Validation
+		checkout = Checkout.objects.get(id=checkoutid)
+		checkoutValid = checkoutValidCheck(checkout,request)
+		if checkoutValid['status'] != 201:
+			return HttpResponseRedirect('/checkout/verify/'+checkoutValid['error'])
+		#Set the address of the checkout to the UserAddress
+		checkout = Checkout.objects.get(id=checkoutid)
+		address = UserAddress.objects.get(id=addressid)
+		checkout.shipping_address = address
+		checkout.state = 2
+		checkout.save()
+		return HttpResponseRedirect('/checkout/payment/'+str(checkoutid))
+	return HttpResponseRedirect('/checkout/shipping/'+str(checkoutid))
 
 @login_required
-def deleteAddress(request,checkoutid,addressid):
-	# Checkout Validation
-	checkout = Checkout.objects.get(id=checkoutid)
-	checkoutValid = checkoutValidCheck(checkout,request)
-	if checkoutValid['status'] != 500:
-		return HttpResponseRedirect('/checkout/verify/'+checkoutValid['error'])
-	# Grab a handle for the address to delete
-	deleteaddress = UserAddress.objects.get(id=addressid)
-	#Reset the checkout references to prevent delete propagation
-	if checkout.shipping_address == deleteaddress:
-		checkout.shipping_address = None
-		checkout.save()
-	deleteaddress.delete()
+def deleteAddress(request):
+	if request.method == 'POST':
+		checkoutid = request.POST['checkout_id']
+		addressid = request.POST['address_id']
+		# Checkout Validation
+		checkout = Checkout.objects.get(id=checkoutid)
+		checkoutValid = checkoutValidCheck(checkout,request)
+		if checkoutValid['status'] != 201:
+			return HttpResponseRedirect('/checkout/verify/'+checkoutValid['error'])
+		# Grab a handle for the address to delete
+		deleteaddress = UserAddress.objects.get(id=addressid)
+		#Reset the checkout references to prevent delete propagation
+		if checkout.shipping_address == deleteaddress:
+			checkout.shipping_address = None
+			checkout.save()
+		deleteaddress.delete()
+		return HttpResponseRedirect('/checkout/shipping/'+str(checkoutid))
 	return HttpResponseRedirect('/checkout/shipping/'+str(checkoutid))
 
 @login_required
@@ -266,7 +275,7 @@ def newAddress(request,checkoutid):
 	# Checkout Validation
 	checkout = Checkout.objects.get(id=checkoutid)
 	checkoutValid = checkoutValidCheck(checkout,request)
-	if checkoutValid['status'] != 500:
+	if checkoutValid['status'] != 201:
 		return HttpResponseRedirect('/checkout/verify/'+checkoutValid['error'])
 	if request.method == 'POST':
 		#Create the UserAddress object
@@ -297,60 +306,117 @@ def checkoutPayment(request,checkoutid):
 	# Checkout Validation
 	checkout = Checkout.objects.get(id=checkoutid)
 	checkoutValid = checkoutValidCheck(checkout,request)
-	if checkoutValid['status'] != 500:
+	if checkoutValid['status'] != 201:
 		return HttpResponseRedirect('/checkout/verify/'+checkoutValid['error'])
 	elif checkout.shipping_address == None:
 		return HttpResponseRedirect('/checkout/shipping/'+str(checkoutid))
 	return render_to_response('checkout/checkout_payment.html',{'checkout':checkout},context_instance=RequestContext(request))
 
 @login_required
-def	usePayment(request,checkoutid,paymentid):
-	# Checkout Validation
-	checkout = Checkout.objects.get(id=checkoutid)
-	checkoutValid = checkoutValidCheck(checkout,request)
-	if checkoutValid['status'] != 500:
-		return HttpResponseRedirect('/checkout/verify/'+checkoutValid['error'])
-	#Set the address of the checkout to the UserAddress
-	checkout = Checkout.objects.get(id=checkoutid)
-	address = UserAddress.objects.get(id=addressid)
-	checkout.shipping_address = address
-	checkout.state = 2
-	checkout.save()
+def	usePayment(request):
+	if request.method == 'POST':
+		checkoutid = request.POST['checkout_id']
+		paymentid = request.POST['payment_id']
+		# Checkout Validation
+		checkout = Checkout.objects.get(id=checkoutid)
+		checkoutValid = checkoutValidCheck(checkout,request)
+		if checkoutValid['status'] != 201:
+			return HttpResponseRedirect('/checkout/verify/'+checkoutValid['error'])	
+		#Set the payment of the checkout to the BalancedCard
+		checkout = Checkout.objects.get(id=checkoutid)
+		payment = BalancedCard.objects.get(id=paymentid)
+		checkout.payment = payment
+		checkout.state = 3
+		checkout.save()
+		return HttpResponseRedirect('/checkout/review/'+str(checkoutid))
+	
+@login_required
+def deletePayment(request):
+	if request.method == 'POST':
+		checkoutid = request.POST['checkout_id']
+		paymentid = request.POST['payment_id']
+		# Checkout Validation
+		checkout = Checkout.objects.get(id=checkoutid)
+		checkoutValid = checkoutValidCheck(checkout,request)
+		if checkoutValid['status'] != 201:
+			return HttpResponseRedirect('/checkout/verify/'+checkoutValid['error'])	
+		# Grab a handle for the address to delete
+		deletecard = BalancedCard.objects.get(id=paymentid)
+		#Reset the checkout references to prevent delete propagation
+		if checkout.payment == deletecard:
+			checkout.payment = None
+			checkout.save()
+		deletecard.delete()
+		return HttpResponseRedirect('/checkout/payment/'+str(checkoutid))
 	return HttpResponseRedirect('/checkout/payment/'+str(checkoutid))
 
 @login_required
-def deletePayment(request,checkoutid,paymentid):
+def addCreditCard(request,checkoutid):
 	# Checkout Validation
 	checkout = Checkout.objects.get(id=checkoutid)
 	checkoutValid = checkoutValidCheck(checkout,request)
-	if checkoutValid['status'] != 500:
+	if checkoutValid['status'] != 201:
 		return HttpResponseRedirect('/checkout/verify/'+checkoutValid['error'])
-	# Grab a handle for the address to delete
-	deleteaddress = UserAddress.objects.get(id=addressid)
-	#Reset the checkout references to prevent delete propagation
-	if checkout.shipping_address == deleteaddress:
-		checkout.shipping_address = None
-		checkout.save()
-	deleteaddress.delete()
-	return HttpResponseRedirect('/checkout/shipping/'+str(checkoutid))
+	# Add credit card to a Basic User
+	uri = request.POST.get('uri','')
+	brand = request.POST.get('brand','')
+	cardhash = request.POST.get('hash','')
+	expiration_month = request.POST.get('expiration_month','')
+	expiration_year = request.POST.get('expiration_year','')
+	last_four = request.POST.get('last_four','')
+	balanced_addCard = addBalancedCard(request,uri,brand,cardhash,expiration_month,expiration_year,last_four)
+	if balanced_addCard['status'] == 201:
+		checkout.payment = balanced_addCard['card']
+		checkout.save()	
+	return HttpResponse(json.dumps({'status':balanced_addCard['status'],'error':balanced_addCard['error']}), content_type='application/json')
 
+#Adds a balanced CC and get or creates a BU's Customer URI
 @login_required
-def newPayment(request,checkoutid,paymentid):
-	# Checkout Validation
-	checkout = Checkout.objects.get(id=checkoutid)
-	checkoutValid = checkoutValidCheck(checkout,request)
-	if checkoutValid['status'] != 500:
-		return HttpResponseRedirect('/checkout/verify/'+checkoutValid['error'])
-	
-	return HttpResponseRedirect('/checkout/shipping/'+str(checkoutid))
+def addBalancedCard(request,uri,brand,cardhash,expiration_month,expiration_year,last_four):
+	try:
+		# Configure Balanced API
+		balanced.configure(settings.BALANCED_API_KEY)
+		# Either find or get the Balanced Customer
+		bu = BasicUser.objects.get(user=request.user)
+		# See if user has a balanced account
+		if bu.balanceduri:
+			customer = balanced.Customer.find(bu.balanceduri)
+		# If not, create a Balanced Customer and update BU Profile
+		else:
+			customer = balanced.Customer(name=bu.name,email=bu.email,phone=bu.phonenumber).save()
+			bu.balanceduri = customer.uri
+			bu.save()
+		# If card not already saved, add the card to the customer and add the card to the database
+		if not doesCardExist(bu,cardhash):
+			customer.add_card(uri)
+			new_card = BalancedCard(user=bu,card_uri=uri,brand=brand,cardhash=cardhash,expiration_month=expiration_month,expiration_year=expiration_year,last_four=last_four)
+			new_card.save()
+			return {'status':201,'card':new_card,'error':'None'} # Success
+		return {'status':500,'error':'Card Already Saved'} # Card Already Saved
+	except Exception,e:
+		return {'status':500,'error':e} # Failure
 
-		
+#Helper method to see if the card hash already exists
+def doesCardExist(bu,hash):
+	cards = bu.balancedcard_set.all();
+	for card in cards:
+		if card.cardhash == hash:
+			return True
+	print 'card match failed'
+	return False	
+	
 ###################################
 ### Checkout Review  ##############
 ###################################
-def checkoutReview(request,itemid):
-	return render_to_response('checkout/checkout_review.html',{},context_instance=RequestContext(request))
-
+def checkoutReview(request,checkoutid):
+	# Checkout Validation
+	checkout = Checkout.objects.get(id=checkoutid)
+	checkoutValid = checkoutValidCheck(checkout,request)
+	if checkoutValid['status'] != 201:
+		return HttpResponseRedirect('/checkout/verify/'+checkoutValid['error'])
+	elif checkout.payment == None:
+		return HttpResponseRedirect('/checkout/payment/'+str(checkoutid))
+	return render_to_response('checkout/checkout_review.html',{'checkout':checkout},context_instance=RequestContext(request))
 
 ###################################
 ### Checkout Confirmation##########
@@ -416,4 +482,4 @@ def checkoutValidCheck(checkout,request):
 	if dict:
 		dict['checkout'] = checkout
 		return dict
-	return {'status':500} #Checkout is VALID!!!
+	return {'status':201} #Checkout is VALID!!!

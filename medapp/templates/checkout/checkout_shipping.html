@@ -34,19 +34,34 @@ var loading_src = "{{STATIC_URL}}img/ajax-loader2.gif";
 	<div class="row">
 		<div class="checkoutcol col-md-6 col-sm-6 col-xs-12">
 			<h4>Saved Shipping Addresses</h4>
-			{% for address in user.basicuser.useraddress_set.all %}
-			<div class="information-block">
-				<h5 class="address_name">{{address.name}}</h5>
-				<p class="address_one">{{address.address_one}}</p>
-				{% if address.address_two %}<p class="address_two">{{address.address_two}}</p>{% endif %}
-				<p><span class="address_city">{{address.city}}</span>, <span class="address_state">{{address.state}}</span> <span class="address_zipcode">{{address.zipcode|zipcodify }}</span></p>
-				<p class="address_phonenumber">{{address.phonenumber}}</p>
-				<a href="/useaddress/{{checkout.id}}/{{address.id}}" class="information-select button button-action button-rounded" value="submit">Ship To This Address</a>
-				<div class="clear"></div>
-				<a href="/deleteaddress/{{checkout.id}}/{{address.id}}" class="deleteinformation button button-rounded button-tiny" value="submit">Delete</a>
-				<a class="editinformation button button-rounded button-tiny" value="submit">Edit</a>	
-			</div>
-			{% endfor %}
+			{% if user.basicuser.useraddress_set.all %}
+				{% for address in user.basicuser.useraddress_set.all %}
+				<div class="information-block">
+					<h5 class="address_name">{{address.name}}</h5>
+					<p class="address_one">{{address.address_one}}</p>
+					{% if address.address_two %}<p class="address_two">{{address.address_two}}</p>{% endif %}
+					<p><span class="address_city">{{address.city}}</span>, <span class="address_state">{{address.state}}</span> <span class="address_zipcode">{{address.zipcode|zipcodify }}</span></p>
+					<p class="address_phonenumber">{{address.phonenumber}}</p>
+					<form action="/useaddress" method="POST">
+					{% csrf_token %}
+					<input type="hidden" value="{{checkout.id}}" name="checkout_id">
+					<input type="hidden" value="{{address.id}}" name="address_id">
+					<button href="/useaddress/{{checkout.id}}/{{address.id}}" class="information-select button button-action button-rounded" value="submit">Ship To This Address</button>
+					</form>
+					<div class="clear"></div>
+					<form action="/deleteaddress" method="POST">
+					{% csrf_token %}
+					<input type="hidden" value="{{checkout.id}}" name="checkout_id">
+					<input type="hidden" value="{{address.id}}" name="address_id">
+					<button href="/deleteaddress" class="deleteinformation button button-rounded button-tiny" value="submit">Delete</button>
+					</form>
+					
+					<button class="editinformation button button-rounded button-tiny" value="submit">Edit</button>	
+				</div>
+				{% endfor %}
+			{% else %}
+				<p class="none-saved"> You do not currently have any saved shipping addresses</p>
+			{% endif %}
 		</div>
 		<div class="checkoutcol newaddresscol col-md-6 col-sm-6 col-xs-12">
 			<h4>Enter New Shipping Address</h4>

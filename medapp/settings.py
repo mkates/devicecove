@@ -221,16 +221,22 @@ TEMPLATE_DIRS = (
      os.path.join(BASE_DIR, 'templates'),
 )
 
-#Amazon shtuff
+#Amazon Credentials
 AWS_ACCESS_KEY_ID = 'AKIAJOLZ5657Q7HHW2CA'
 AWS_SECRET_ACCESS_KEY = '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'
 
+#Email Credentials
 MANDRILL_API_KEY = "iSqtoSVWpB1aSTzA_YqaXg"
 EMAIL_BACKEND = "djrill.mail.backends.djrill.DjrillBackend"
 
+#Balanced API
+BALANCED_API_KEY = 'ak-test-2iiPtmDbNKZNUPEVNEcoPOTO0GMBMFsm3'
+
+#Amazon File Storage
 DEFAULT_FILE_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
 STATICFILES_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
 AWS_STORAGE_BUCKET_NAME = 'devicerock'
 
+#ImageKit File Storage
 AWS_BUCKET_NAME = AWS_STORAGE_BUCKET_NAME 
 IMAGEKIT_DEFAULT_FILE_STORAGE = 'storages.backends.s3boto.S3BotoStorage'

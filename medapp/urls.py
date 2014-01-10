@@ -62,13 +62,17 @@ urlpatterns = patterns('',
     url(r'^checkout/verify','deviceapp.views_custom.checkoutVerify'),
     url(r'^checkout/shipping/(?P<checkoutid>\d+)','deviceapp.views_custom.checkoutShipping'),
     url(r'^checkout/payment/(?P<checkoutid>\d+)','deviceapp.views_custom.checkoutPayment'),
-    url(r'^checkout/review/(?P<itemid>\d+)','deviceapp.views_custom.checkoutReview'),
+    url(r'^checkout/review/(?P<checkoutid>\d+)','deviceapp.views_custom.checkoutReview'),
     url(r'^checkout/confirmation/(?P<itemid>\d+)','deviceapp.views_custom.checkoutConfirmation'),
     
     url(r'^checkoutlogin','deviceapp.views_custom.checkoutlogin'),
-    url(r'^useaddress/(?P<checkoutid>\d+)/(?P<addressid>\d+)','deviceapp.views_custom.useAddress'),
+    url(r'^useaddress','deviceapp.views_custom.useAddress'),
     url(r'^newaddress/(?P<checkoutid>\d+)','deviceapp.views_custom.newAddress'),
-    url(r'^deleteaddress/(?P<checkoutid>\d+)/(?P<addressid>\d+)','deviceapp.views_custom.deleteAddress'),
+    url(r'^deleteaddress','deviceapp.views_custom.deleteAddress'),
+    # Payment Experience
+    url(r'^addCreditCard/(?P<checkoutid>\w+)','deviceapp.views_custom.addCreditCard'),
+    url(r'^usepayment','deviceapp.views_custom.usePayment'),
+    url(r'^deletepayment','deviceapp.views_custom.deletePayment')
    
 )
 #####################################################################
