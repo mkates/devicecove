@@ -11,14 +11,6 @@
 
 {% block customcss %}
 <style>
-.logincol {
-	padding: 30px 20px 30px 20px;
-}
-.logincol h4 {
-	font-size: 20px;
-	color: #333;
-	margin-bottom: 15px;
-}
 .review-block {
 	margin: 0 0 40px 0;
 }
@@ -26,11 +18,7 @@
 	border-bottom: 1px solid #eee;
 	padding-bottom: 10px;
 }
-.logincol {
-	min-height: 300px;
-	padding: 30px 30px 20px 20px;
-}
-	
+
 .review-block h4 a {
 	float: right;
 	font-size: 13px;
@@ -38,12 +26,20 @@
 	font-weight: 200;
 	line-height: 30px;
 }
+.review-block p {
+	margin: 2px 0;
+	font-size: 13px;
+}
 .review-block h4 a:hover {
 	color: #428BCA;
 }
 .purchase-block {
 	text-align: right;
 }
+.review-block-shipping {
+	padding-left: 0px;
+}
+.
 @media (max-width: 768px) {
 	.review-block h4 {
 		text-align: left;
@@ -65,31 +61,49 @@
 
 
 {% block checkoutcontent %}
+{% load humanize %}
 <div class="checkout-container">
 	<h3>Review Purchase</h3>
-	<div class="logincol">
-		<div class="purchase-block">
-			<button class="button button-highlight button-rounded">Complete Purchase</button>
-		</div>
+	<div class="checkoutcol">
 		<div class="review-block">
 			<h4>Item Details</h4>
+			{% for checkoutcartitem in checkout.cartitem.all %}
+				<div class="item-summary">
+					<p>{{checkoutcartitem.item.name}}</p>
+					<p><span>Sold by: </span>{{checkoutcartitem.item.user.company}}</p>
+					<p><span>Quantity: </span>{{checkoutcartitem.quantity}}</p>
+					<p><span>Price: </span>${{checkoutcartitem.item.price|floatformat|intcomma}}</p>
+				</div>
+			{% endfor %}
 			<p>Item: <span>Ultrasonic Power Ultrasound</span></p>
 			<p>Manufacturer: <span>Fuji</span></p>
 			<p>Price: <span>$24,543</span></p>
 			<p>Condition: <span>Like New</span></p>
 		</div>
-		<div class="review-block">
-			<h4>Shipping Information<a href="/checkout/shipping/{{checkout.id}}" class="change">change</a></h4>
-			<p>Joe Johnson</p>
-			<p>1 Main Street</p>
-			<p>Colts Neck, NJ 05522</p>
-		</div>
-		<div class="review-block">
-			<h4>Billing Information<a href="/checkout/payment/{{checkout.id}}" class="change">change</a></h4>
-			<p>Type: <span>Credit Card</span></p>
-			<p>Name: <span>Joey</span></p>
-			<p>Seller Type: <span>Refurbisher</span></p>
-			<p>Seller Location: <span>Colts Neck, NJ)</span></p>
+		<div class="row">
+			<div class="review-block review-block-shipping col-md-6 col-sm-6 col-xs-12">
+				<h4>Shipping Information<a href="/checkout/shipping/{{checkout.id}}" class="change">change</a></h4>
+				{% if checkout.shipping_address %}
+					<p>{{checkout.shipping_address.name}}</p>
+					<p>{{checkout.shipping_address.address_one}}</p>
+					{% if checkout.shipping_address.address_two %}<p>{{checkout.shipping_address.address_two}}</p>{% endif %}
+					<p>{{checkout.shipping_address.city}}, {{checkout.shipping_address.state}} {{checkout.shipping_address.zipcode}}</span>
+					<p>{{checkout.shipping_address.phonenumber}}</p>
+				{% else %}
+					<p class="incomplete-data">Shipping Address has not yet been added</p>
+				{% endif %}
+			</div>
+			<div class="review-block review-block-billing col-md-6 col-sm-6 col-xs-12">
+				<h4>Billing Information<a href="/checkout/payment/{{checkout.id}}" class="change">change</a></h4>
+				{% if checkout.payment %}
+					<p></p>
+					<p>{{checkout.payment.brand}} Credit Card</p>
+					<p>* * * * * * * * {{checkout.payment.last_four}}</p>
+					<p>Expires: {{checkout.payment.expiration_month}}/{{checkout.payment.expiration_year}}</p>
+				{% else %}
+					<p class="incomplete-data">Payment Information has not yet been entered</p>
+				{% endif %}
+			</div>
 		</div>
 		<div class="purchase-block">
 			<button class="button button-highlight button-rounded">Complete Purchase</button>

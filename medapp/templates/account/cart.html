@@ -183,7 +183,7 @@
 								{% endif %}
 
 						</span></p>
-						<!-- <p class="otherbuyers">2 other people have this item in their cart</p> -->
+						{% if cartitem.numbercarts %}<p class="otherbuyers">{{cartitem.numbercarts}} other {%if cartitem.numbercarts == 1 %}person has{% else %}people have{% endif %} this item in their cart</p>{% endif %}
 						<span class="item-actions"><a data-itemid='{{cartitem.item.id}}' data-item-handle='#cart-item-{{cartitem.item.id}}' class="move-to-saved">Move to Saved Items</a> &sdot; <a class="delete-item" data-itemid='{{cartitem.item.id}}' data-item-handle='#cart-item-{{cartitem.item.id}}'>Delete Item</a></span>
 					</div>
 					<div class="item-price col-md-2 col-sm-2 col-xs-12">

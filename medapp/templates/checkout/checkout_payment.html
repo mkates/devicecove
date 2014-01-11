@@ -128,27 +128,29 @@ $(document).ready(function () {
         
         	// Tokenize credit card
         	balanced.card.create(payload, function (response) {
-        	if (response.data.postal_code_check != "passed" || response.data.security_code_check != "passed") {
-        		response.status = 501;
-        	}
             switch (response.status) {
 			 case 201:
-				$.post(responseTarget, {
-					brand: response.data.brand,
-					hash: response.data.hash,
-					expiration_month: response.data.expiration_month,
-					expiration_year: response.data.expiration_year,
-					last_four: response.data.last_four,
-					uri: response.data.uri
-				}, function(r) {
-					if (r['status'] == 201) {
-						//window.location.href = '/checkout/review/'+checkoutid;
-						BalancedEnable();
-					} else {
-						displayError('Error saving your Card. '+r['error']);
-						BalancedEnable();
-					}
-				});
+			 	if (response.data.postal_code_check == "passed" || response.data.security_code_check == "passed") {
+					$.post(responseTarget, {
+						brand: response.data.brand,
+						hash: response.data.hash,
+						expiration_month: response.data.expiration_month,
+						expiration_year: response.data.expiration_year,
+						last_four: response.data.last_four,
+						uri: response.data.uri
+					}, function(r) {
+						if (r['status'] == 201) {
+							window.location.href = '/checkout/review/'+checkoutid;
+							BalancedEnable();
+						} else {
+							displayError('Error saving your Card. '+r['error']);
+							BalancedEnable();
+						}
+					});
+				} else {
+					displayError("We failed to verify your card. Please double check your information and try again");
+					BalancedEnable();
+				}
 				break;
 			 case 400:
 				 // Missing Field, display appropriate error message
@@ -177,11 +179,6 @@ $(document).ready(function () {
 				 break;
 			 case 500:
 				 // Balanced did something bad, please retry the request
-				 BalancedEnable();
-				 break;
-			  case 501:
-				 // Zipcode or CVC did not verify
-				  displayError("We failed to verify your card. Please double check your information and try again");
 				 BalancedEnable();
 				 break;
 		     }
@@ -308,7 +305,7 @@ function BalancedEnable() {
 		</div>
 		<div class="checkoutcol newpaymentcol col-md-6 col-sm-6 col-xs-12">
 			<h4>Enter New Payment Method</h4>
-			<!-- <button id="populate">populate</button> -->
+			<button id="populate">populate</button>
 			<form role="form" class="paymentform">
 
 				<div class="form-group">

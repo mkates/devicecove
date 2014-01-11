@@ -255,6 +255,9 @@ class CartItem(models.Model):
 	item = models.ForeignKey(Item)
 	shoppingcart = models.ForeignKey(ShoppingCart)
 	quantity = models.IntegerField(default=1,max_length=3)
+	
+	def numbercarts(self):
+		return CartItem.objects.filter(item=self.item).count()-1
 
 ############################################
 ####### Balanced Models ####################
@@ -293,6 +296,22 @@ class Checkout(models.Model):
 	# Purchase Details, means successfully charged as well
 	purchased = models.BooleanField(default=False)
 	purchased_time = models.DateTimeField(null=True,blank=True)
+	
+	#Get total amount due for this checkout
+	def total(self):
+		total = 0
+		cartitems = self.cartitem.all()
+		for cartitem in cartitems:
+			total += cartitem.item.price*cartitem.quantity
+		return total
+	
+	#Number of items in cart
+	def numberitems(self):
+		count = 0
+		cartitems = self.cartitem.all()
+		for cartitem in cartitems:
+			count += cartitem.quantity
+		return count
 	
 ############################################
 ### Purchased Items ########################

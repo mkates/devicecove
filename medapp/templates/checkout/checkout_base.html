@@ -210,6 +210,15 @@ margin: 0;
 	font-style: italic;
 	font-weight: 200;
 }
+.summary-block .checkout-total {
+	border-top:1px solid #ccc;
+	padding: 10px 0 0 0;
+	border-radius: 3px;
+}
+.summary-block .checkout-total span {
+	float: right;
+	font-weight: 800;
+}
 </style>
 {% block customcss %}{% endblock %}
 {% endblock %}
@@ -287,6 +296,7 @@ var addError = function addError(handle) {
 {% endblock %}
 {% block content %}
 {% load zipcodify %}
+{% load humanize %}
 <div class="listcontainer">
 	<div class="checkout_nav">
 		{% block checkout_nav %}{% endblock %}
@@ -321,15 +331,16 @@ var addError = function addError(handle) {
 				<div class="covebox col-md-3 col-sm-3 col-xs-12 summary">
 					<h3>Overview</h3>
 					<div class="summary-block">
-						<h5>Items</h5>
+						<h5>Items ({{checkout.numberitems}})</h5>
 						{% for checkoutcartitem in checkout.cartitem.all %}
 							<div class="item-summary">
 								<p>{{checkoutcartitem.item.name}}</p>
 								<p><span>Sold by: </span>{{checkoutcartitem.item.user.company}}</p>
 								<p><span>Quantity: </span>{{checkoutcartitem.quantity}}</p>
+								<p><span>Price: </span>${{checkoutcartitem.item.price|floatformat|intcomma}}</p>
 							</div>
 						{% endfor %}
-				
+						<h6 class="checkout-total">Total:<span>${{checkout.total|floatformat|intcomma}}</span></h6>
 					</div>
 					
 					<div class="summary-block">
