@@ -36,7 +36,7 @@
 			{% if not preview %}
 			<div class="otherviewers">	
 				<div class="savebutton">
-					{% if userloggedin %}
+					{% if user.basicuser == item.user %}
 						<a href="/list/describe/{{item.id}}" class="editaction button button-rounded button-highlight">Edit</a>
 					{% else %}
 						<img id="saveloader" src="{{STATIC_URL}}img/ajax-loader.gif"/>
@@ -104,7 +104,7 @@
 		{% endif %}
 		<div class="mainproduct productdetails questionbox" id="features">
 			<h2> Top Buyer Questions</h2>
-			{% if userloggedin == item.user %}
+			{% if user.basicuser == item.user %}
 				<a href="/questions" class="button button-rounded button-tiny">Answer Questions</a>
 			{% else %}
 				<a class="button button-rounded button-tiny askquestion">Ask a question</a>
@@ -176,15 +176,19 @@
 			<h3>${{item.price|floatformat|intcomma}}</h3>
 			<p>Service Contract will be acquired for free after the purchase is made. Not including shipping.</p>
 			{% if not preview %}
-			<div class="actionbuttons">
-				{% if item.offlineviewing %}
-					<a id="contactseller" class="button button-rounded button-primary">Contact Seller</a>
-				{% else %}
-					{% if isinshoppingcart %}
-						<a href="/cart" class="button button-rounded">Edit Cart (Already In Cart)</a>
+				<div class="actionbuttons">
+				{% if item.liststatus != 'sold' %}
+					{% if item.offlineviewing %}
+						<a id="contactseller" class="button button-rounded button-primary">Contact Seller</a>
 					{% else %}
-						<a id="buynow" href="/addtocart/{{item.id}}" class="button button-rounded button-action">Add To Cart</a>
+						{% if isinshoppingcart %}
+							<a href="/cart" class="button button-rounded">Edit Cart (Already In Cart)</a>
+						{% else %}
+							<a id="buynow" href="/addtocart/{{item.id}}" class="button button-rounded button-action">Add To Cart</a>
+						{% endif %}
 					{% endif %}
+				{% else %}
+					<p class="item-sold error-format">Already Purchased</p>
 				{% endif %}
 			{% endif %}
 			</div>

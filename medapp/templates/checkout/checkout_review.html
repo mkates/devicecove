@@ -10,6 +10,7 @@
 {% block reviewactive %}active{% endblock %}
 
 {% block customcss %}
+<link href="{{STATIC_URL}}css/cartitem.css" rel="stylesheet" type="text/css" />
 <style>
 .review-block {
 	margin: 0 0 40px 0;
@@ -35,6 +36,7 @@
 }
 .purchase-block {
 	text-align: right;
+	margin-bottom: 10px;
 }
 .review-block-shipping {
 	padding-left: 0px;
@@ -48,12 +50,57 @@
 		text-align: center;
 	}
 }
+
+/*Update cart formatting */
+.cart-item {
+	border: none;
+	border-bottom:1px solid #eee;
+	box-shadow: none;
+}
+.last-cart-item {
+	border-bottom: none;
+}
+.item-actions {
+	display: block;
+}
+.item-actions form {
+	display: inline-block;
+}
+.item-actions form button {
+	border:none;
+	background: none;
+	font-size: 13px;
+	color: #555;
+	padding:0;
+	font-weight: 200;
+}
+.item-actions form button:hover {
+	text-decoration: underline;
+}
+.cart-item .item-quantity { 
+	display:inline-block;
+}
+.cart-item .quantity-form {
+	display:inline-block;
+	margin-left: 10px;
+}
+
 </style>
 {% endblock %}
 
 {% block customjs %}
 <script>
+$(document).ready(function() {
+	$(".item-quantity").change(function() {
+		$(this).parent().submit();	
+	});
+	$('.completepurchase'.click(function() {
+		$(".completepurchase").text("Processing. . .");
+		$(".completepurchase").attr("disabled", "disabled");
+		$(".completepurchase").addClass("disabled");
+	}
 
+});
 
 </script>
 {% endblock %}
@@ -65,20 +112,67 @@
 <div class="checkout-container">
 	<h3>Review Purchase</h3>
 	<div class="checkoutcol">
+		{% if error %}
+		<div class="error-div">
+			<p class="error-format">{{error}}</p>
+		</div>
+		{% endif %}
 		<div class="review-block">
 			<h4>Item Details</h4>
+			{% if checkout.cartitem.all %}
 			{% for checkoutcartitem in checkout.cartitem.all %}
-				<div class="item-summary">
-					<p>{{checkoutcartitem.item.name}}</p>
-					<p><span>Sold by: </span>{{checkoutcartitem.item.user.company}}</p>
-					<p><span>Quantity: </span>{{checkoutcartitem.quantity}}</p>
-					<p><span>Price: </span>${{checkoutcartitem.item.price|floatformat|intcomma}}</p>
+				<div class="covebox cart-item {% if forloop.last %}last-cart-item{% endif %}" id="cart-item-{{cartitem.item.id}}">
+					<div class="row">
+						<div class="item-image col-md-3 col-sm-3 col-xs-12">
+							<img src="{%if cartitem.item.mainimage %}{{cartitem.item.mainimage.photo_medium.url}}{% else %}{{STATIC_URL}}img/noimage.jpg{% endif %}" alt="{{cartitem.item.name}}"/>		
+						</div>
+						<div class="item-information col-md-7 col-sm-7 col-xs-12">
+							<h6><a target="_blank" href="/item/{{checkoutcartitem.item.id}}/details">{{checkoutcartitem.item.name}}</a></h6>
+							<p>Sold by: {{checkoutcartitem.item.user.company}} ({{checkoutcartitem.item.user.city}}, {{checkoutcartitem.item.user.state}} {{checkoutcartitem.item.user.zipcode}})</p>
+							<p class="item-quantity">Quantity: <span class="quantity">
+									{% load get_range %}
+									{% if checkoutcartitem.item.quantity > 1 %}
+										<form class="quantity-form" action="/checkoutchangequantity/{{checkout.id}}" method="POST">
+										{% csrf_token %}
+										<select name="item-quantity" class="item-quantity" data-checkoutitemid='{{checkoutcartitem.id}}'>
+										{% for i in checkoutcartitem.item.quantity|get_range %}
+											{% if i > 0 %}
+												<option value="{{i}}" {% if i == checkoutcartitem.quantity %}selected{% endif%}>{{i}}</option>
+											{% endif %}
+										{% endfor %}
+										</select>
+										<input type="hidden" value="{{checkoutcartitem.id}}" name="checkoutitemid">
+										</form>
+									{% else %}
+										1
+									{% endif %}
+
+							</span></p>
+							{% if checkoutcartitem.numbercarts %}<p class="otherbuyers">{{checkoutcartitem.numbercarts}} other {%if checkoutcartitem.numbercarts == 1 %}person has{% else %}people have{% endif %} this item in their cart</p>{% endif %}
+							<span class="item-actions">
+								<form action="/checkoutmovetosaved/{{checkout.id}}" method="POST">
+									{% csrf_token %}
+									<input type="hidden" value="{{checkoutcartitem.id}}" name="checkoutitemid">
+									<button value="submit" name="submit">Moved To Favorites</button> 
+								</form>
+								&sdot;
+								<form action="/checkoutdeleteitem/{{checkout.id}}" method="POST">
+									{% csrf_token %}
+									<input type="hidden" value="{{checkoutcartitem.id}}" name="checkoutitemid">
+									<button value="submit" name="submit">Delete</button> 
+								</form>
+							</span>
+						</div>
+						<div class="item-price col-md-2 col-sm-2 col-xs-12">
+							<p>${{checkoutcartitem.item.price|floatformat|intcomma}}</p>
+						</div>
+					</div>
 				</div>
 			{% endfor %}
-			<p>Item: <span>Ultrasonic Power Ultrasound</span></p>
-			<p>Manufacturer: <span>Fuji</span></p>
-			<p>Price: <span>$24,543</span></p>
-			<p>Condition: <span>Like New</span></p>
+			{% else %}
+				<p class="incomplete-data">Your cart is empty. If you had items in your cart, they may no longer be
+				active or they may have been purchased by someone else. We apologize for the inconvenience.</p>		
+			{% endif %}
 		</div>
 		<div class="row">
 			<div class="review-block review-block-shipping col-md-6 col-sm-6 col-xs-12">
@@ -97,7 +191,7 @@
 				<h4>Billing Information<a href="/checkout/payment/{{checkout.id}}" class="change">change</a></h4>
 				{% if checkout.payment %}
 					<p></p>
-					<p>{{checkout.payment.brand}} Credit Card</p>
+					<p>{{checkout.payment.brand}} Card</p>
 					<p>* * * * * * * * {{checkout.payment.last_four}}</p>
 					<p>Expires: {{checkout.payment.expiration_month}}/{{checkout.payment.expiration_year}}</p>
 				{% else %}
@@ -105,9 +199,14 @@
 				{% endif %}
 			</div>
 		</div>
+		{% if checkout.cartitem.all %}
 		<div class="purchase-block">
-			<button class="button button-highlight button-rounded">Complete Purchase</button>
+			<form action="/checkoutpurchase/{{checkout.id}}" method="POST">
+			{% csrf_token %}
+			<button value="submit" name="submit" class="completepurchase button button-highlight button-rounded">Complete Purchase</button>
+			</form>
 		</div>
+		{% endif %}
 	</div>
 </div>
 {% endblock %}

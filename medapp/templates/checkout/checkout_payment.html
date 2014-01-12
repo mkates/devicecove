@@ -141,7 +141,7 @@ $(document).ready(function () {
 					}, function(r) {
 						if (r['status'] == 201) {
 							window.location.href = '/checkout/review/'+checkoutid;
-							BalancedEnable();
+							//BalancedEnable();
 						} else {
 							displayError('Error saving your Card. '+r['error']);
 							BalancedEnable();

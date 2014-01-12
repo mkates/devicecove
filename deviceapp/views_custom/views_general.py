@@ -42,5 +42,7 @@ def error(request,errorname):
 		errormessage = 'There was an invalid POST request'
 	if errorname == 'signup':
 		errormessage = 'There was an error signing up'
+	if errorname == 'itemdoesnotexist':
+		errormessage = 'This item has been taken down or sold'
 	return render_to_response('general/error.html',{'errormessage':errormessage},context_instance=RequestContext(request))
 

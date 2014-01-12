@@ -32,12 +32,10 @@
 }
 .sidecontent ul li {
 	list-style-type: none;
-	height: 45px;
+	height: 30px;
 	padding: 0;
 	margin: 0;
-	font-size: 14px;
-	border-bottom:1px solid #ddd;
-	padding-left: 20px;
+	padding-left: 10px;
 	color: #444;
 }
 .sidecontent ul a li:hover {
@@ -52,7 +50,6 @@
 	margin-left: 3px;
 }
 
-
 .sidecontent ul a li.active {
 	background-image: -ms-linear-gradient(top, #00B5E5 0%, #008DB2 100%);
 	background-image: -moz-linear-gradient(top, #00B5E5 0%, #008DB2 100%);
@@ -65,12 +62,14 @@
 	box-shadow: 0 0 6px #ccc;
 }
 .sidecontent ul li h3 {
-	font-size: 14px;
-	display: inline-block;
-	line-height: 20px; 
+	font-size: 13px;
+	line-height: 30px; 
 	margin: 0;
 	padding: 0;
-	margin-top: 12px;
+}
+.sidecontent ul a .suboption h3{
+	padding-left: 20px;
+	font-size: 12px;
 }
 
 .maincontent .title {
@@ -99,4 +98,16 @@
 }
 .red-badge {
 	background: #DB0909;
+}
+.indented {
+	padding-left: 40px;
+}
+.badge {
+	background: #f4f4f4;
+	border:1px solid #ccc;
+	color: #000;
+	font-weight: 800;
+	border-radius: 3px;
+	float: right;
+	margin: 5px 10px;
 }

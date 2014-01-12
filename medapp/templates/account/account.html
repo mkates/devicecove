@@ -18,20 +18,28 @@
 			<h4 class="sidecontent-title"> Buying Equipment</h4>
 			<ul>
 				<a href="/buyerquestions"><li class="{% block buyquestions %}{% endblock %}"><h3>Questions I've Asked{% if user.basicuser.askedQuestionCount %} <span class="badge">{{ user.basicuser.askedQuestionCount }}</span>{% endif %}</h3></li></a>
-				<a href="/saveditems"><li class="first {% block saveditems %}{% endblock %}"><h3>Saved Items{% if user.basicuser.savedItemCount %} <span class="badge">{{ user.basicuser.savedItemCount }}</span>{% endif %}</h3></li></a>
+				<a href="/cart"><li class=""><h3>Cart{% if cart_items_count %} <span class="badge">{{cart_items_count}}</span>{% endif %}</h3></li></a>
+				<a href="/boughtitems"><li class=""><h3>Bought Items {% if user.basicuser.savedItemCount %} <span class="badge">{{ user.basicuser.savedItemCount }}</span>{% endif %}</h3></li></a>
+				<a href="/saveditems"><li class="{% block saveditems %}{% endblock %}"><h3>Saved Items{% if user.basicuser.savedItemCount %} <span class="badge">{{ user.basicuser.savedItemCount }}</span>{% endif %}</h3></li></a>
 			</ul>
 		</div>
 		<div class="covebox admin-section">
 			<h4 class="sidecontent-title"> Selling Equipment</h4>
 			<ul>
 				<a href="/sellerquestions"><li class="{% block sellquestions %}{% endblock %}"><h3>Questions To Answer {% if user.basicuser.unansweredQuestionCount %} <span class="badge red-badge">{{user.basicuser.unansweredQuestionCount}}</span>{% endif %}</h3></li></a>
-				<a href="/listeditems"><li class="{% block listeditems %}{% endblock %}"><h3>Listed Items{% if user.basicuser.listedItemCount %} <span class="badge">{{ user.basicuser.listedItemCount }}</span>{% endif %}</span></h3></li></a>
+				<a href="/listings/all"><li class="{% if listings == 'all' %}active{% endif %}"><h3>All Listings{% if user.basicuser.listedItemCount %} <span class="badge">{{ user.basicuser.listedItemCount }}</span>{% endif %}</span></h3></li></a>
+				<a href="/listings/active"><li class="suboption {% if listings == 'active' %}active{% endif %}"><h3>Active Listings{% if user.basicuser.listedItemCount %} <span class="badge">{{ user.basicuser.listedItemCount }}</span>{% endif %}</span></h3></li></a>
+				<a href="/listings/sold"><li class="suboption {% if listings == 'sold' %}active{% endif %}"><h3>Sold Items{% if user.basicuser.listedItemCount %} <span class="badge">{{ user.basicuser.listedItemCount }}</span>{% endif %}</span></h3></li></a>
+				<a href="/listings/incomplete"><li class="suboption {% if listings == 'incomplete' %}active{% endif %}"><h3>Incomplete Listings{% if user.basicuser.listedItemCount %} <span class="badge">{{ user.basicuser.listedItemCount }}</span>{% endif %}</span></h3></li></a>
+				<a href="/listings/inactive"><li class="suboption {% if listings == 'inactive' %}active{% endif %}"><h3>Inactive Items{% if user.basicuser.listedItemCount %} <span class="badge">{{ user.basicuser.listedItemCount }}</span>{% endif %}</span></h3></li></a>
+				
+				
 			</ul>
 		</div>
 		<div class="covebox admin-section">
-			<h4 class="sidecontent-title"> Account</h4>
+			<h4 class="sidecontent-title">Account</h4>
 			<ul>
-				<a href="/accounthistory"><li class="{% block accounthistory %}{% endblock %}"><h3>Account History</li></a>
+				<a href="/payment"><li class="{% block accounthistory %}{% endblock %}"><h3>Payment Information</li></a>
 				<a href="/profile"><li class="{% block profile %}{% endblock %}"><h3>Profile</li></a>
 				<a href="/usersettings"><li class="{% block settings %}{% endblock %}"><h3>Settings</h3></li></a>
 			</ul>

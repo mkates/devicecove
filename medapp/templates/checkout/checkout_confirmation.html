@@ -1,1 +1,123 @@
 {% extends 'base.html' %}
+
+{% block signin_check %}&#x2713;{% endblock %}
+{% block shipping_check %}&#x2713;{% endblock %}
+
+{% block paymentactive %}active{% endblock %}
+
+{% block checkout_nav %}<p class="topnav"><a class="returnbutton button button-tiny" href="/checkout/shipping/{{checkout.id}}">&#8592; Return To Shipping</a>{% if checkout.state >= 3 %}<a class="continuebutton button button-tiny" href="/checkout/review/{{checkout.id}}">Continue to Review &#8594;</a>{% endif %}</p>{% endblock %}
+
+{% block headercss %}
+<link href="{{STATIC_URL}}css/cartitem.css" rel="stylesheet" type="text/css" />
+<style>
+.confirmation-container {
+	padding: 20px;
+	max-width: 1000px;
+	margin: 50px auto 20px auto;
+}
+.purchaseditems-container {
+	max-width: 1000px;
+	margin: 0 auto 50px auto;
+}	
+.confirmation-container span a {
+	margin: 20px 10px 20px 0px;
+}
+.disclaimer {
+}
+.cart-item {
+	border: none;
+	margin: 0;
+}
+.cart-item .item-information .seller-header {
+	padding-bottom: 3px;
+	margin-bottom: 3px;
+	border-bottom: 1px solid #ddd;
+	font-weight: 500;
+	max-width: 150px;
+}
+.cart-item .item-information .sellerinfo {
+	padding: 0;
+}
+.cart-item .item-price {
+	margin-top: 15px;
+}
+.cart-item .item-price p {
+	text-align: right;
+	margin: 0 20px 0;
+}
+.cart-item .item-price .quantity {
+	font-size: 14px;
+	font-weight: 200;
+}
+.purchaseditems-header {
+	margin-top: 0;
+	color: #888;
+	letter-spacing: .5px;
+	font-weight: 800;
+	background: #f2f2f2;
+	border-bottom:1px solid #ddd;
+	padding: 15px 0px 15px 20px;
+	margin-bottom: 0px;
+	background-image: -ms-linear-gradient(top, #FFFFFF 0%, #EEEEEE 100%);
+	background-image: -moz-linear-gradient(top, #FFFFFF 0%, #EEEEEE 100%);
+	background-image: -o-linear-gradient(top, #FFFFFF 0%, #EEEEEE 100%);
+	background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #FFFFFF), color-stop(1, #EEEEEE));
+	background-image: -webkit-linear-gradient(top, #FFFFFF 0%, #EEEEEE 100%);
+	background-image: linear-gradient(to bottom, #FFFFFF 0%, #EEEEEE 100%);
+}
+.purchaseditems-header span {	
+	float: right;
+	margin-right: 20px;
+	
+}
+</style>
+{% endblock %}
+
+{% block jsblock %}
+
+{% endblock %}
+
+
+{% load humanize %}
+{% block content %}
+<div class="confirmation-container covebox">
+	<h3> Thank you for your order!</h3>
+	<h5> For reference, your order number is {{checkout.id}}</h5>
+	<p>We have sent an email to {{user.basicuser.email}} with a confirmation of your order! Your credit card has been charged ${{checkout.total|floatformat|intcomma}}. The seller of the items you purchased have been contacted and will be shipping your items shortly. To see the status of 
+	the items you purchase, you can visit your <a href='/purchaseditems'>purchased items </a> page. </p>
+	
+	<p class="disclaimer"> Note: If you do not hear from the seller and the item does not arrive within 2 weeks, please contact
+	us immediately. You have 48 hours from the time you receive the item to submit a complaint.</p>
+	
+	<span>
+		<a class="button button-primary button-rounded" href="/boughtitems">View Purchased Item's Status</a>
+		<a class="button button-rounded" href="/productsearch/veterinary/all/all">Continue Shopping</a>
+		<a class="button button-rounded" href="/listintro">Sell Equipment</a>
+	</span>
+</div>
+<div class="purchaseditems-container covebox">
+	<h3 class="purchaseditems-header">Purchased Items<span> Total: ${{checkout.total|floatformat|intcomma}}</span></h3>
+	{% for checkoutcartitem in checkout.cartitem.all %}
+		<div class="covebox cart-item {% if forloop.last %}last-cart-item{% endif %}" id="cart-item-{{cartitem.item.id}}">
+			<div class="row">
+				<div class="item-image col-md-3 col-sm-3 col-xs-12">
+					<img src="{%if cartitem.item.mainimage %}{{cartitem.item.mainimage.photo_medium.url}}{% else %}{{STATIC_URL}}img/noimage.jpg{% endif %}" alt="{{cartitem.item.name}}"/>		
+				</div>
+				<div class="item-information col-md-7 col-sm-7 col-xs-12">
+					<h6>{{checkoutcartitem.item.name}}</h6>
+					<p class="seller-header"> Seller </p>
+					<p class="sellerinfo">{{checkoutcartitem.item.user.name}} ({{checkoutcartitem.item.user.company}})</p>
+					<p class="sellerinfo">{{checkoutcartitem.item.user.address_one}}</p>
+					{% if checkoutcartitem.item.user.address_two %}<p>{{checkoutcartitem.item.user.address_two}}</p>{% endif %}
+					<p class="sellerinfo">{{checkoutcartitem.item.user.state}} {{checkoutcartitem.item.user.zipcode}}</p>
+					<p class="sellerinfo">Phone: {{checkoutcartitem.item.user.phonenumber}}</p>
+				</div>
+				<div class="item-price col-md-2 col-sm-2 col-xs-12">
+					<p>${{checkoutcartitem.item.price|floatformat|intcomma}}</p>
+					<p class="quantity">(Quantity: {{checkoutcartitem.item.quantity}})</p>
+				</div>
+			</div>
+		</div>
+	{% endfor %}
+</div>
+{% endblock %}

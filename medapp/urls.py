@@ -63,7 +63,7 @@ urlpatterns = patterns('',
     url(r'^checkout/shipping/(?P<checkoutid>\d+)','deviceapp.views_custom.checkoutShipping'),
     url(r'^checkout/payment/(?P<checkoutid>\d+)','deviceapp.views_custom.checkoutPayment'),
     url(r'^checkout/review/(?P<checkoutid>\d+)','deviceapp.views_custom.checkoutReview'),
-    url(r'^checkout/confirmation/(?P<itemid>\d+)','deviceapp.views_custom.checkoutConfirmation'),
+    url(r'^checkout/confirmation/(?P<checkoutid>\d+)','deviceapp.views_custom.checkoutConfirmation'),
     
     url(r'^checkoutlogin','deviceapp.views_custom.checkoutlogin'),
     url(r'^useaddress','deviceapp.views_custom.useAddress'),
@@ -72,8 +72,13 @@ urlpatterns = patterns('',
     # Payment Experience
     url(r'^addCreditCard/(?P<checkoutid>\w+)','deviceapp.views_custom.addCreditCard'),
     url(r'^usepayment','deviceapp.views_custom.usePayment'),
-    url(r'^deletepayment','deviceapp.views_custom.deletePayment')
-   
+    url(r'^deletepayment','deviceapp.views_custom.deletePayment'),
+    # Review Experience
+    url(r'^checkoutmovetosaved/(?P<checkoutid>\w+)','deviceapp.views_custom.checkoutMoveToSaved'),
+    url(r'^checkoutdeleteitem/(?P<checkoutid>\w+)','deviceapp.views_custom.checkoutDeleteItem'),
+    url(r'^checkoutchangequantity/(?P<checkoutid>\w+)','deviceapp.views_custom.checkoutChangeQuantity'),
+    #Complete Checkout  
+    url(r'^checkoutpurchase/(?P<checkoutid>\w+)','deviceapp.views_custom.checkoutPurchase') 
 )
 #####################################################################
 #########  Account ###################################################
@@ -83,7 +88,7 @@ urlpatterns += patterns('',
 	url(r'^profile','deviceapp.views_custom.profile'),
 	url(r'^profsettings/(?P<field>\w+)','deviceapp.views_custom.updateprofsettings'),
     url(r'^usersettings','deviceapp.views_custom.usersettings'),
-    url(r'^listeditems','deviceapp.views_custom.listeditems'),
+    url(r'^listings/(?P<listingtype>\w+)','deviceapp.views_custom.listings'),
     url(r'^saveditems','deviceapp.views_custom.saveditems'),
     url(r'^logout','deviceapp.views_custom.logout_view'),
     url(r'^forgotpassword','deviceapp.views_custom.forgotpassword'),

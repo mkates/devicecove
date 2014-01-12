@@ -193,11 +193,12 @@ def checkoutlogin(request):
 					session_shoppingcart = getShoppingCart(request)
 					login(request,user)
 					bu = BasicUser.objects.get(user=user)
-					for cartitem in session_shoppingcart.cartitem_set.all():
-						#Add only items not already in their cart
-						if cartitem.item not in bu.shoppingcart.cart_items():
-							cartitem.shoppingcart = bu.shoppingcart
-							cartitem.save()
+					if session_shoppingcart:
+						for cartitem in session_shoppingcart.cartitem_set.all():
+							#Add only items not already in their cart
+							if cartitem.item not in bu.shoppingcart.cart_items():
+								cartitem.shoppingcart = bu.shoppingcart
+								cartitem.save()
 					checkoutid = createCheckout(bu)
 					return HttpResponseRedirect('/checkout/shipping/'+str(checkoutid))
 			else:
@@ -301,7 +302,7 @@ def newAddress(request,checkoutid):
 ###################################
 ### Checkout Payment ##############
 ###################################	
-
+@login_required
 def checkoutPayment(request,checkoutid):
 	# Checkout Validation
 	checkout = Checkout.objects.get(id=checkoutid)
@@ -397,17 +398,18 @@ def addBalancedCard(request,uri,brand,cardhash,expiration_month,expiration_year,
 		return {'status':500,'error':e} # Failure
 
 #Helper method to see if the card hash already exists
+@login_required
 def doesCardExist(bu,hash):
 	cards = bu.balancedcard_set.all();
 	for card in cards:
 		if card.cardhash == hash:
 			return True
-	print 'card match failed'
 	return False	
 	
 ###################################
 ### Checkout Review  ##############
 ###################################
+@login_required
 def checkoutReview(request,checkoutid):
 	# Checkout Validation
 	checkout = Checkout.objects.get(id=checkoutid)
@@ -416,13 +418,110 @@ def checkoutReview(request,checkoutid):
 		return HttpResponseRedirect('/checkout/verify/'+checkoutValid['error'])
 	elif checkout.payment == None:
 		return HttpResponseRedirect('/checkout/payment/'+str(checkoutid))
-	return render_to_response('checkout/checkout_review.html',{'checkout':checkout},context_instance=RequestContext(request))
+	error = allItemsAvailable(checkout)
+	return render_to_response('checkout/checkout_review.html',{'checkout':checkout,'error':error},context_instance=RequestContext(request))
 
+@login_required
+def checkoutDeleteItem(request,checkoutid):
+	# Checkout Validation
+	checkout = Checkout.objects.get(id=checkoutid)
+	checkoutValid = checkoutValidCheck(checkout,request)
+	if checkoutValid['status'] != 201:
+		return HttpResponseRedirect('/checkout/verify/'+checkoutValid['error'])
+	cartitemid = request.POST['checkoutitemid']
+	cartitem = CartItem.objects.get(id=cartitemid)
+	cartitem.delete()
+	return HttpResponseRedirect('/checkout/review/'+str(checkoutid))
+
+@login_required
+def checkoutMoveToSaved(request,checkoutid):
+	# Checkout Validation
+	checkout = Checkout.objects.get(id=checkoutid)
+	checkoutValid = checkoutValidCheck(checkout,request)
+	if checkoutValid['status'] != 201:
+		return HttpResponseRedirect('/checkout/verify/'+checkoutValid['error'])
+	cartitemid = request.POST['checkoutitemid']
+	cartitem = CartItem.objects.get(id=cartitemid)
+	#Add to Saved Items
+	bu = BasicUser.objects.get(user=request.user)
+	si, created = SavedItem.objects.get_or_create(item=cartitem.item,user=bu)
+	si.save()
+	#Delete the CartItem
+	cartitem.delete()
+	return HttpResponseRedirect('/checkout/review/'+str(checkoutid))
+
+@login_required
+def checkoutChangeQuantity(request,checkoutid):
+	# Checkout Validation
+	checkout = Checkout.objects.get(id=checkoutid)
+	checkoutValid = checkoutValidCheck(checkout,request)
+	if checkoutValid['status'] != 201:
+		return HttpResponseRedirect('/checkout/verify/'+checkoutValid['error'])
+	cartitemid = request.POST['checkoutitemid']
+	cartitem = CartItem.objects.get(id=cartitemid)
+	#Update Quantity
+	cartitem.quantity = int(request.POST['item-quantity'])
+	cartitem.save()
+	return HttpResponseRedirect('/checkout/review/'+str(checkoutid))
+
+###################################
+### Checkout Purchase #############
+###################################
+@login_required
+def checkoutPurchase(request,checkoutid):
+	print 'started'
+	# 1. Checkout Validation
+	checkout = Checkout.objects.get(id=checkoutid)
+	checkoutValid = checkoutValidCheck(checkout,request)
+	if checkoutValid['status'] != 201:
+		return HttpResponseRedirect('/checkout/verify/'+checkoutValid['error'])
+	
+	# 2. Make sure all the items are still available
+	notavailable = allItemsAvailable(checkout)
+	if notavailable:
+		return render_to_response('checkout/checkout_review.html',{'checkout':checkout,'error':available},context_instance=RequestContext(request))
+	
+	# 3. Make purchase
+	try:
+		bu = BasicUser.objects.get(user=request.user)
+		card_uri = checkout.payment.card_uri
+		balanced.configure(settings.BALANCED_API_KEY) # Configure Balanced API
+		customer = balanced.Customer.find(bu.balanceduri)
+		amount = checkout.total()*100
+		customer.debit(appears_on_statement_as="Vet Cove",amount=amount,source_uri=card_uri)
+	except:
+		return render_to_response('checkout/checkout_review.html',{'checkout':checkout,'error':'There was an error charging your credit card'},context_instance=RequestContext(request))
+	
+	# 4. Update Items in the system, delete cart-items create Purchased Objects
+	for cartitem in checkout.cartitem.all():
+		item = cartitem.item
+		if item.quantity == cartitem.quantity:
+			item.liststatus = 'sold'
+			item.quantity = 0
+		elif item.quantity > cartitem.quantity:
+			item.quantity -= cartitem.quantity
+		item.save()
+		pi = PurchasedItem(seller=item.user,buyer=bu,item=cartitem.item,quantity=cartitem.quantity)
+		pi.save()
+		cartitem.shoppingcart = None
+		cartitem.save()
+		
+	# 5. Mark checkout object as purchased
+	checkout.purchased = True
+	checkout.save()
+		
+	return HttpResponseRedirect('/checkout/confirmation/'+str(checkout.id))
+	
 ###################################
 ### Checkout Confirmation##########
 ###################################
-def checkoutConfirmation(request,itemid):
-	return render_to_response('checkout/checkout_confirmation.html',{},context_instance=RequestContext(request))
+@login_required
+def checkoutConfirmation(request,checkoutid):
+	checkout = Checkout.objects.get(id=checkoutid)
+	if checkout.buyer == request.user.basicuser:
+		return render_to_response('checkout/checkout_confirmation.html',{'checkout':checkout},context_instance=RequestContext(request))
+	else:
+		return HttpResponseRedirect('/cart')
 
 ####################################################
 ###### Checkout Helper Methods #####################
@@ -434,11 +533,9 @@ def getShoppingCart(request):
 	if request.user.is_authenticated():
 		bu = BasicUser.objects.get(user=request.user)
 		shoppingcart = ShoppingCart.objects.get(user=bu)
-		print 'one'
 	else:
 		if 'shoppingcart' in request.session:
 			shoppingcart = ShoppingCart.objects.get(id=int(request.session['shoppingcart']))
-			print 'two'
 	return shoppingcart
 
 #Calculate the total cost and number of items in a shopping cart
@@ -451,6 +548,22 @@ def getShoppingCartTotals(shoppingcart):
 			totalcost += cartitem.quantity * cartitem.item.price
 	return {'total':"$"+"{:,}".format(totalcost),'itemcount':count}
 
+#Checks if all items are available, and updates checkout accordingly
+def allItemsAvailable(checkout):
+	changed = False
+	for cartitem in checkout.cartitem.all():
+		if cartitem.item.liststatus != "active":
+			checkout.cartitem.remove(cartitem)
+			checkout.save()
+			changed = True
+		elif cartitem.item.quantity < cartitem.item.quantity:
+			checkout.cartitem.quantity = cartitem.item.quantity
+			changed = True
+	if changed:
+		return 'Some items in your cart are no longer available. Your cart has been updated'
+	else:
+		return None
+	
 #### Validates a current checkout and request #######
 ### Checks (1) checkout completed, (2) timeout, (3) Right User, (4) Not empty shopping cart
 # Returns '500'-> success or '100'->failure

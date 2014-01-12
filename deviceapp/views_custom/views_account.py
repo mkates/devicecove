@@ -106,11 +106,14 @@ def saveditems(request):
    		return render_to_response('general/index.html', context_instance=RequestContext(request))
    		
 @login_required
-def listeditems(request):
+def listings(request,listingtype):
 	if request.user.is_authenticated():
 		bu = BasicUser.objects.get(user=request.user)
-		listeditems = bu.item_set.all()
-		return render_to_response('account/listeditems.html',{"listpage":True,"items":listeditems},context_instance=RequestContext(request))
+		if listingtype != 'all':
+			listeditems = bu.item_set.all().filter(liststatus=listingtype)
+		else:
+			listeditems = bu.item_set.all()
+		return render_to_response('account/listeditems.html',{"listpage":True,"items":listeditems, "listings":listingtype},context_instance=RequestContext(request))
 	else:
    		return render_to_response('general/index.html', context_instance=RequestContext(request))
  

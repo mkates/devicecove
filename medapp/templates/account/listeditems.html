@@ -106,7 +106,7 @@
 		{% endfor %}
 	{% else %}
 	<div class="covebox">
-		<p class="nolistings" style="display:block"> You do not have any items currently listed with MedBay</p>
+		<p class="nolistings" style="display:block"> You do not have any {% if listings != "all" %}{{listings}}{% endif %} items</p>
 	</div>
 	{% endif %}
 {% endblock %}

@@ -253,7 +253,7 @@ class ShoppingCart(models.Model):
 class CartItem(models.Model):
 	dateadded = models.DateTimeField(auto_now_add = True,blank=True)
 	item = models.ForeignKey(Item)
-	shoppingcart = models.ForeignKey(ShoppingCart)
+	shoppingcart = models.ForeignKey(ShoppingCart,null=True,blank=True)
 	quantity = models.IntegerField(default=1,max_length=3)
 	
 	def numbercarts(self):
@@ -303,7 +303,7 @@ class Checkout(models.Model):
 		cartitems = self.cartitem.all()
 		for cartitem in cartitems:
 			total += cartitem.item.price*cartitem.quantity
-		return total
+		return int(total)
 	
 	#Number of items in cart
 	def numberitems(self):
@@ -320,7 +320,8 @@ class Checkout(models.Model):
 class PurchasedItem(models.Model):
 	seller = models.ForeignKey(BasicUser,related_name="purchaseditem_seller")
 	buyer = models.ForeignKey(BasicUser,related_name="purchaseditem_buyer")
-	item = models.ForeignKey(CartItem) # CartItem includes quantity
+	item = models.ForeignKey(Item)
+	quantity = models.IntegerField(max_length=6)
 	
 	# Step 2: Seller sends item
 	item_sent = models.BooleanField(default=False)

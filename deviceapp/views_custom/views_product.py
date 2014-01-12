@@ -1,6 +1,7 @@
 from django.shortcuts import render_to_response, redirect
 from django.template.loader import render_to_string
 from deviceapp.models import *
+import views_checkout as checkoutview
 from django.template import RequestContext, Context, loader
 from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth import authenticate, login, logout
@@ -48,7 +49,6 @@ def listproduct(request,subcategory):
  						liststatus = 'incomplete',
  						liststage = 0,
  						savedcount = 0)
- 						
  		newitem.save();
 		return HttpResponseRedirect('/list/describe/'+str(newitem.id));
 	return HttpResponse(request.method);
@@ -224,23 +224,18 @@ def deletelisting(request,itemid):
 
 def itemdetails(request,itemid):
 	item = Item.objects.get(id=int(itemid))
+	#If item shouldn't be viewable
+	if item.liststatus != "active" and item.liststatus != "sold":
+		return HttpResponseRedirect("/error/itemdoesnotexist")
 	industry = Industry.objects.get(id=1)
 	saved = False
-	shoppingcart = None
+	shoppingcart = checkoutview.getShoppingCart(request)
 	if request.user.is_authenticated():
 		bu = BasicUser.objects.get(user=request.user)
-		shoppingcart = ShoppingCart.objects.get(user=bu)
 		if SavedItem.objects.filter(user=bu,item=item).exists():
 			saved = True
-	else:
-		if 'shoppingcart' in request.session:
-			shoppingcart = ShoppingCart.objects.get(id=request.session['shoppingcart'])
 	related = Item.objects.filter(subcategory = item.subcategory).order_by('savedcount')[:6]
 	dict = {'saved':saved,'item':item,'industry':industry,'related':related}
-	if request.user.is_authenticated():
-		bu = BasicUser.objects.get(user=request.user)
-		if item.user == bu:
-			dict['userloggedin'] = bu
 	#Is the item in their shopping cart?
 	isInShoppingCart = False
 	if shoppingcart:
