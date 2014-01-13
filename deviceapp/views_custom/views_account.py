@@ -9,6 +9,7 @@ from django.utils.html import escape
 from django.shortcuts import render
 from django.core.exceptions import ObjectDoesNotExist
 from django.conf import settings
+from django.utils.timezone import utc
 import json
 import math
 import difflib
@@ -55,7 +56,7 @@ def signup(request):
 	if request.method == 'GET':
 		error = request.GET.get('e','')
 	if request.user.is_authenticated():
-		return HttpResponseRedirect("/profile")
+		return HttpResponseRedirect("/account/profile")
 	return render_to_response('account/signup.html',{'error':error},context_instance=RequestContext(request))
 
 def checkemail(request):
@@ -86,22 +87,22 @@ def updateprofsettings(request,field):
 		if field == 'password':
 			change = setUserProfileDict(field,[request.POST['password1'],request.POST['password2']],bu)
 			if change != 'Success':
-				return HttpResponseRedirect("/profile?e=password")
+				return HttpResponseRedirect("/account/profile?e=password")
 		else:
 			change = setUserProfileDict(field,request.POST[field],bu)
-		return HttpResponseRedirect("/profile")
+		return HttpResponseRedirect("/account/profile")
 	else:
    		return render_to_response('general/index.html',context_instance=RequestContext(request))
 
 @login_required
-def saveditems(request):
+def wishlist(request):
 	if request.user.is_authenticated():
 		bu = BasicUser.objects.get(user=request.user)
 		saveditems = bu.saveditem_set.all()
 		items = []
         	for si in saveditems:
         		items.append(si.item)
-		return render_to_response('account/saveditems.html',{"savedpage":True,"items":items},context_instance=RequestContext(request))
+		return render_to_response('account/buying/wishlist.html',{"wishlist":True,"items":items},context_instance=RequestContext(request))
 	else:
    		return render_to_response('general/index.html', context_instance=RequestContext(request))
    		
@@ -113,14 +114,21 @@ def listings(request,listingtype):
 			listeditems = bu.item_set.all().filter(liststatus=listingtype)
 		else:
 			listeditems = bu.item_set.all()
-		return render_to_response('account/listeditems.html',{"listpage":True,"items":listeditems, "listings":listingtype},context_instance=RequestContext(request))
+		return render_to_response('account/selling/listeditems.html',{"listpage":True,"items":listeditems, "listingtype":listingtype},context_instance=RequestContext(request))
 	else:
    		return render_to_response('general/index.html', context_instance=RequestContext(request))
  
 @login_required
-def accounthistory(request):
+def buyhistory(request):
 	if request.user.is_authenticated():
-		return render_to_response('account/accounthistory.html',{},context_instance=RequestContext(request))
+		return render_to_response('account/buying/buyhistory.html',{},context_instance=RequestContext(request))
+	else:
+   		return render_to_response('general/index.html',context_instance=RequestContext(request))
+
+@login_required
+def sellhistory(request):
+	if request.user.is_authenticated():
+		return render_to_response('account/selling/sellhistory.html',{},context_instance=RequestContext(request))
 	else:
    		return render_to_response('general/index.html',context_instance=RequestContext(request))
 
@@ -143,6 +151,10 @@ def profile(request):
 	else:
    		return render_to_response('general/index.html',context_instance=RequestContext(request))
 
+@login_required
+def payment(request):
+	return render_to_response('account/payment.html',{'payment':True},context_instance=RequestContext(request))
+	
 @login_required
 def sellerquestions(request):
 	if request.user.is_authenticated():
@@ -175,9 +187,9 @@ def answerquestion(request,questionid):
 		question = Question.objects.get(id=questionid)
 		if question.item.user.id == bu.id:
 			question.answer = request.POST.get('answer','')
-			question.dateanswered = datetime.now()
+			question.dateanswered = datetime.utcnow().replace(tzinfo=utc)
 			question.save()
-		return HttpResponseRedirect('/sellerquestions')
+		return HttpResponseRedirect('/account/sellerquestions')
 	return HttpResponseRedirect('/')
  	  		
 #################################################

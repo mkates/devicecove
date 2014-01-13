@@ -97,7 +97,7 @@ def autosuggest(request):
 		
 	#Do a relative match if no results are found
 	if len(results) == 0:
-		allitems = Item.objects.all()
+		allitems = Item.objects.filter(liststatus="active")
 		itemnames = []
 		matchlist = []
 		for p in allitems:

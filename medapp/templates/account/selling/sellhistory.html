@@ -1,0 +1,24 @@
+{% extends 'account/account.html' %}
+{% block headertitle %}<title>VetCove | Selling History</title>{% endblock%}
+{% block sellhistory %}active{% endblock %}
+
+{% block jsblock %}
+<script src='{{STATIC_URL}}js/searchbox.js' type='text/javascript' ></script>
+{% endblock %}
+{% block maintitle %}Selling History{% endblock %}
+{% block headersubcss %}
+<link href="{{STATIC_URL}}css/search.css" rel="stylesheet" type="text/css" />
+<link href="{{STATIC_URL}}css/profileitem.css" rel="stylesheet" type="text/css" />
+<style>
+</style>
+{% endblock %}
+{% block maincontent %}
+	{% if items %}
+			{% include 'search/productsearchitem.html' %}
+	{% else %}
+	<div class="maincontent-container covebox">
+		<p class="nolistings" style="display:block">You have not yet sold any items</p>
+	</div>
+	{% endif %}
+  		
+{% endblock %}

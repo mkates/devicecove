@@ -7,7 +7,7 @@
 			<div class='col-md-2 col-sm-2 col-xs-12 pricediv'>
 				<p>${{item.price|floatformat|intcomma}}</p>
 				<a class='button button-rounded button-primary' href="/item/{{item.id}}/details">Select</a>
-				{% if savedpage %}
+				{% if wishlist %}
 					<form action="/removeitem" method="POST">
 						{% csrf_token %}
 						<input type="hidden" name="itemid" value="{{item.id}}">

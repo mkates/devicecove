@@ -102,20 +102,32 @@ class BasicUser(models.Model):
 				count += 1
 		return count
 	
-	#Asked questions
+	#Number of asked questions
 	def askedQuestionCount(self):
 		questions = Question.objects.filter(buyer=self).count()
 		return questions
 		
-	#Get number of unanswered questions
-	def savedItemCount(self):
+	#Number of unanswered questions
+	def wishlist(self):
 		savedItems = SavedItem.objects.filter(user=self).count()
 		return savedItems
 	
-	#Get number of unanswered questions
+	#Get counts for each type of listing
 	def listedItemCount(self):
-		items = Item.objects.filter(user=self).filter(liststatus='active').count()
-		return items
+		dict = {'all':0,'sold':0,'inactive':0,'active':0,'incomplete':0,'deleted':0}
+		for item in Item.objects.filter(user=self):
+			dict[item.liststatus] += 1
+			if item.liststatus != 'deleted':
+				dict['all'] += 1
+		return dict
+	
+	#Number of purchased items
+	def orderhistory(self):
+		return PurchasedItem.objects.filter(buyer=self).count()
+	
+	#Number of sold items
+	def sellhistory(self):
+		return PurchasedItem.objects.filter(seller=self).count()
 
 #An individual item for sale associated with a product and a user
 class Item(models.Model):

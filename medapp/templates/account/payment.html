@@ -1,0 +1,126 @@
+{% extends 'account/account.html' %}
+{% block headertitle %}<title>VetCove | Payment</title>{% endblock%}
+{% block payment %}active{% endblock %}
+
+{% block jsblock %}
+<script src="{{STATIC_URL}}js/maskedinput.js" type="text/javascript" ></script>
+<script>
+var x_mark_src = "{{STATIC_URL}}img/xmark.png";
+var check_mark_src = "{{STATIC_URL}}img/checkmark.png";
+var blank_src = "{{STATIC_URL}}img/blank.png";
+var loading_src = "{{STATIC_URL}}img/ajax-loader2.gif";
+</script>
+<script src="{{STATIC_URL}}js/address.js" type="text/javascript" ></script>
+{% endblock %}
+{% block maintitle %}Payment{% endblock %}
+{% block headersubcss %}
+<link href="{{STATIC_URL}}css/checkoutform.css" rel="stylesheet" type="text/css" />
+<style>
+.maincontent-title {
+	color: #888;
+	letter-spacing: .5px;
+	font-weight: 800;
+	background: #f2f2f2;
+	border-bottom:1px solid #ddd;
+	margin: 0;
+	padding: 15px 0px 15px 20px;
+	margin-bottom: 0px;
+	background-image: -ms-linear-gradient(top, #FFFFFF 0%, #EEEEEE 100%);
+	background-image: -moz-linear-gradient(top, #FFFFFF 0%, #EEEEEE 100%);
+	background-image: -o-linear-gradient(top, #FFFFFF 0%, #EEEEEE 100%);
+	background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #FFFFFF), color-stop(1, #EEEEEE));
+	background-image: -webkit-linear-gradient(top, #FFFFFF 0%, #EEEEEE 100%);
+	background-image: linear-gradient(to bottom, #FFFFFF 0%, #EEEEEE 100%);
+}
+.paymentbox {
+	margin-bottom: 10px;
+}
+.payout-container {
+	padding: 20px;
+}
+.payout-container button{
+	margin-right: 10px;
+}
+.payout-current {
+	border-bottom: 1px solid #ddd;
+	margin-bottom: 20px;
+	padding-bottom: 20px;
+}
+.payout-current p {
+	font-weight: 200;
+	margin: 0;
+}
+.payout-box {
+	margin-top: 20px;
+}
+.checkoutform-container table {
+	width: 100%;
+	max-width: 500px;
+}
+.mail-explain {
+	padding: 10px 0;
+}
+.payment-button-glow {
+	box-shadow: 0 0 5px green;
+}
+.bankaccount-container {
+	
+}
+</style>
+{% endblock %}
+{% block maincontent %}
+	<div class="covebox paymentbox">
+		<h4 class="maincontent-title">Paying Sellers and VetCove Seller Fees</h4>
+		here
+	</div>
+	<div class="covebox paymentbox">
+		<h4 class="maincontent-title">Payout Options</h4>
+		<div class="payout-container">
+			<div class="payout-current">
+			<h5> Current Payout Method: Bank Account</h5>
+			<p> Joe richards</p>
+			<p> Bank of America</p>
+			<p> Bank Account Ending in *1123 </p>
+			
+			</div>
+			<button class="button button-rounded button-action payment-button-glow">New Bank Account ( *recommended )</button>
+			<button class="button button-rounded ">Pay By Direct Mailing</button>
+			<div class="payout-box checkoutform-container">
+				<p class="mail-explain">By choosing to be paid out through check by mail, we will assess a $5 service and processing fee, and we will 
+				not mail a check until your payout exceeds $50. Checks are mailed the first monday of every month.</p>
+				{% include 'general/address.html' %}
+			</div>
+			<div class="payout-box checkoutform-container">
+				<div class="form-group">
+					<label for="companyname">Name</label>
+					<table>
+						<tr>
+							<td class="form-input"><input type="text" class="form-control" id="address_two" name="address_two" placeholder="Apartment, Suite, Unit, Building, Floor, etc." /></td>
+							<td class="form-img"><img src="{{STATIC_URL}}img/blank.png"/></td>
+						</tr>
+					</table>
+				</div>
+				<div class="form-group">
+					<label for="companyname">Bank Account Number</label>
+					<table>
+						<tr>
+							<td class="form-input"><input type="text" class="form-control" id="address_city" name="city" placeholder="City"></td>
+							<td class="form-img"><img src="{{STATIC_URL}}img/blank.png"/></td>
+						</tr>
+					</table>
+				</div>
+				<div class="form-group">
+					<label for="companyname">Routing Number</label>
+					<table>
+						<tr>
+							<td class="form-input"><input type="text" class="form-control" id="address_city" name="city" placeholder="City"></td>
+							<td class="form-img"><img src="{{STATIC_URL}}img/blank.png"/></td>
+						</tr>
+					</table>
+				</div>
+				<button class="button button-action button-rounded"> Add Bank Account</button>
+			</div>
+		</div>
+	</div>
+  		
+{% endblock %}

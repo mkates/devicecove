@@ -185,7 +185,7 @@ footer ul li a:hover {
 		padding: 0;
 	}
 	.navigation-container .navbar-nav > li > .dropdown-menu {
-		border-top: 1px solid #f4f4f4;
+		border-top: 1px solid #fff;
 		box-shadow: 0 2px 2px #CCCCCC;
 	}
 	.navigation-container .shoppingcart-image img {

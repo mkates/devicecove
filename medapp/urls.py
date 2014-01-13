@@ -85,21 +85,24 @@ urlpatterns = patterns('',
 #####################################################################
 
 urlpatterns += patterns('',
-	url(r'^profile','deviceapp.views_custom.profile'),
-	url(r'^profsettings/(?P<field>\w+)','deviceapp.views_custom.updateprofsettings'),
-    url(r'^usersettings','deviceapp.views_custom.usersettings'),
-    url(r'^listings/(?P<listingtype>\w+)','deviceapp.views_custom.listings'),
-    url(r'^saveditems','deviceapp.views_custom.saveditems'),
+	url(r'^account/profile','deviceapp.views_custom.profile'),
+	url(r'^account/profsettings/(?P<field>\w+)','deviceapp.views_custom.updateprofsettings'),
+    url(r'^account/usersettings','deviceapp.views_custom.usersettings'),
+    url(r'^account/listings/(?P<listingtype>\w+)','deviceapp.views_custom.listings'),
+    url(r'^account/wishlist','deviceapp.views_custom.wishlist'),
+    url(r'^account/payment','deviceapp.views_custom.payment'),
     url(r'^logout','deviceapp.views_custom.logout_view'),
     url(r'^forgotpassword','deviceapp.views_custom.forgotpassword'),
     url(r'^lgnrequest','deviceapp.views_custom.lgnrequest'),
     url(r'^login','deviceapp.views_custom.loginview'),
     url(r'^signup','deviceapp.views_custom.signup'), 
-    url(r'^buyerquestions','deviceapp.views_custom.buyerquestions'),
-    url(r'^sellerquestions','deviceapp.views_custom.sellerquestions'),
-    url(r'^accounthistory','deviceapp.views_custom.accounthistory'),
+    url(r'^account/buyerquestions','deviceapp.views_custom.buyerquestions'),
+    url(r'^account/sellerquestions','deviceapp.views_custom.sellerquestions'),
+    url(r'^account/buyhistory','deviceapp.views_custom.buyhistory'),
+    url(r'^account/sellhistory','deviceapp.views_custom.sellhistory'),
     url(r'^newuserform','deviceapp.views_custom.newuserform'),
-    url(r'^checkemail','deviceapp.views_custom.checkemail')
+    url(r'^checkemail','deviceapp.views_custom.checkemail'),
+    url(r'^account','deviceapp.views_custom.profile')
 )
 #####################################################################
 #########  Search ###################################################

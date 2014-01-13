@@ -215,7 +215,7 @@ def deletelisting(request,itemid):
 		item = Item.objects.get(id=itemid)
 		item.liststatus = 'deleted'
 		item.save()
-		return HttpResponseRedirect('/listeditems');
+		return HttpResponseRedirect('/account/listings/incomplete');
 	return HttpResponseRedirect('/listintro');
 
 ###########################################
@@ -294,7 +294,7 @@ def removeitem(request):
 		item = Item.objects.get(id=int(request.POST['itemid']))
 		si = SavedItem.objects.get(user = BasicUser.objects.get(user=request.user),item=item)
 		si.delete()
-		return HttpResponseRedirect("/saveditems")
+		return HttpResponseRedirect("/account/wishlist")
 	return render_to_response('general/index.html',context_instance=RequestContext(request))
 
 
