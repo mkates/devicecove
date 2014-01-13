@@ -110,7 +110,7 @@ $(document).ready(function() {
 					<td class="category">Business Type</td>
 					<td class="uservalue">
 						<p>{{basicuser.businesstype}}</p>
-						<form method="post" action="/profsettings/businesstype">
+						<form method="post" action="/account/profsettings/businesstype">
 							{% csrf_token %}
 							<input type="text" class="forminput form-control" name="businesstype" value="{{basicuser.businesstype}}" />
 							<button value="submit" class="button button-rounded button-primary button-tiny">Save</button><button type="button" class="button button-rounded cancel button-tiny">Cancel</button>
@@ -122,7 +122,7 @@ $(document).ready(function() {
 					<td class="category">Name</td>
 					<td class="uservalue">
 						<p>{{basicuser.name}}</p>
-						<form method="post" action="/profsettings/name">
+						<form method="post" action="/account/profsettings/name">
 							{% csrf_token %}
 							<input type="text" class="forminput form-control" name="name" value="{{basicuser.name}}" />
 							<button value="submit" class="button button-rounded button-primary button-tiny">Save</button><button type="button" class="button button-rounded cancel button-tiny">Cancel</button>
@@ -134,7 +134,7 @@ $(document).ready(function() {
 					<td class="category">Company</td>
 					<td class="uservalue">
 						<p>{{basicuser.company}}</p>
-						<form method="post" action="/profsettings/company">
+						<form method="post" action="/account/profsettings/company">
 							{% csrf_token %}
 							<input type="text" class="forminput form-control" name="company" value="{{basicuser.company}}" />
 							<button value="submit" class="button button-rounded button-primary button-tiny">Save</button><button type="button" class="button button-rounded cancel button-tiny">Cancel</button>
@@ -146,7 +146,7 @@ $(document).ready(function() {
 					<td class="category">Contact Email</td>
 					<td class="uservalue">
 						<p>{{basicuser.email}}</p>
-						<form method="post" action="/profsettings/email">
+						<form method="post" action="/account/profsettings/email">
 							{% csrf_token %}
 							<input type="email" class="forminput form-control" name="email" value="{{basicuser.email}}" />
 							<button value="submit" class="button button-rounded button-primary button-tiny">Save</button><button type="button" class="button button-rounded cancel button-tiny">Cancel</button>
@@ -158,7 +158,7 @@ $(document).ready(function() {
 					<td class="category">Address</td>
 					<td class="uservalue">
 						<p>{{basicuser.address}}</p>
-						<form method="post" action="/profsettings/address">
+						<form method="post" action="/account/profsettings/address">
 							{% csrf_token %}
 							<input type="text" class="forminput form-control" name="address" value="{{basicuser.address}}" />
 							<button value="submit" class="button button-rounded button-primary button-tiny">Save</button><button type="button" class="button button-rounded cancel button-tiny">Cancel</button>
@@ -170,7 +170,7 @@ $(document).ready(function() {
 					<td class="category">Zipcode</td>
 					<td class="uservalue">
 						<p>{{basicuser.zipcode}}</p>
-						<form method="post" action="/profsettings/zipcode">
+						<form method="post" action="/account/profsettings/zipcode">
 							{% csrf_token %}
 							<input type="text" class="forminput form-control" name="zipcode" value="{{basicuser.zipcode}}" />
 							<button value="submit" class="button button-rounded button-primary button-tiny">Save</button><button type="button" class="button button-rounded cancel button-tiny">Cancel</button>
@@ -182,7 +182,7 @@ $(document).ready(function() {
 					<td class="category">City</td>
 					<td class="uservalue">
 						<p>{{basicuser.city}}</p>
-						<form method="post" action="/profsettings/city">
+						<form method="post" action="/account/profsettings/city">
 							{% csrf_token %}
 							<input type="text" class="forminput form-control" name="city" value="{{basicuser.city}}" />
 							<button value="submit" class="button button-rounded button-primary button-tiny">Save</button><button type="button" class="button button-rounded cancel button-tiny">Cancel</button>
@@ -194,7 +194,7 @@ $(document).ready(function() {
 					<td class="category">State</td>
 					<td class="uservalue">
 						<p>{{basicuser.state}}</p>
-						<form method="post" action="/profsettings/state">
+						<form method="post" action="/account/profsettings/state">
 							{% csrf_token %}
 							<input type="text" class="form-control" name="state" value="{{basicuser.state}}" />
 							<button value="submit" class="button button-rounded button-primary button-tiny">Save</button><button type="button" class="button button-rounded cancel button-tiny">Cancel</button>
@@ -206,7 +206,7 @@ $(document).ready(function() {
 					<td class="category">Website</td>
 					<td class="uservalue">
 						<p>{{basicuser.website}}</p>
-						<form method="post" action="/profsettings/website">
+						<form method="post" action="/account/profsettings/website">
 							{% csrf_token %}
 							<input type="text" class="forminput form-control" name="website" value="{{basicuser.website}}" />
 							<button value="submit" class="button button-rounded button-primary button-tiny">Save</button><button type="button" class="button button-rounded cancel button-tiny">Cancel</button>
@@ -218,7 +218,7 @@ $(document).ready(function() {
 					<td class="category">Phone Number</td>
 					<td class="uservalue">
 						<p>{{basicuser.phonenumber}}</p>
-						<form method="post" action="/profsettings/phonenumber">
+						<form method="post" action="/account/profsettings/phonenumber">
 							{% csrf_token %}
 							<input type="text" class="forminput form-control" name="phonenumber" value="{{basicuser.phonenumber}}" />
 							<button value="submit" class="button button-rounded button-primary button-tiny">Save</button><button type="button" class="button button-rounded cancel button-tiny">Cancel</button>
@@ -237,7 +237,7 @@ $(document).ready(function() {
 					<td class="category">Password</td>
 					<td class="uservalue">
 						<p>*******</p>
-						<form id="passwordform" method="post" action="/profsettings/password">
+						<form id="passwordform" method="post" action="/account/profsettings/password">
 							{% csrf_token %}
 							<h6> Old Password</h6>
 							<input type="password" class="forminput form-control" name="password1" placeholder="NewPassword" />

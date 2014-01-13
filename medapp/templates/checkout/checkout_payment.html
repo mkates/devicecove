@@ -188,48 +188,6 @@ $(document).ready(function () {
     });
     
     
-    // ////
-//     // Click event for tokenize bank account
-//     ////
-//     $('#ba-submit').click(function (e) { 
-//         e.preventDefault();
-// 		if (!(creditProcessing)){
-// 			creditProcessing = true;
-// 			disableCreditCardSubmit();
-// 
-// 			var payload = {
-// 				name: $('#ba-name').val(),
-// 				account_number: $('#ba-number').val(),
-// 				routing_number: $('#ba-routing').val()
-// 			};
-// 
-// 			// Tokenize bank account
-// 			balanced.bankAccount.create(payload, function (response) {
-// 				// Successful tokenization
-// 				if(response.status === 201 && response.href) {
-// 					// Send to your backend
-// 					jQuery.post(responseTarget, {
-// 						uri: response.href
-// 					}, function(r) {
-// 						// Check your backend response
-// 						if(r.status === 201) {
-// 							//window.location.href = '/checkout/review/'+checkoutid;
-// 						} else {
-// 							displayError('Error saving your Card. Please try again');
-// 						}
-// 					});
-// 				} else {
-// 					// Failed to tokenize, your error logic here
-// 				}
-// 			
-// 				// Debuging, just displays the tokenization result in a pretty div
-// 				$('#response .panel-body pre').html(JSON.stringify(response, false, 4));
-// 				$('#response').slideDown(300);
-// 			});
-//         }
-//     });
-    
-    
     ////
     // Simply populates credit card and bank account fields with test data
     ////

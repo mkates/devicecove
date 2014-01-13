@@ -11,6 +11,119 @@ var blank_src = "{{STATIC_URL}}img/blank.png";
 var loading_src = "{{STATIC_URL}}img/ajax-loader2.gif";
 </script>
 <script src="{{STATIC_URL}}js/address.js" type="text/javascript" ></script>
+<script type="text/javascript" src="{{STATIC_URL}}js/balanced.js"></script>
+<script>
+//Functionality of payment method 
+$(document).ready(function() {
+	//Toggle displays of the two payout methods
+	$(".button-payment").click(function() {
+		$(".button-payment").removeClass('payment-button-glow');
+		$(".button-payment").removeClass('button-primary');
+		if (!($(this).hasClass('payment-button-glow'))) {
+			$(this).addClass('payment-button-glow');
+		};
+		if (!($(this).hasClass('button-primary'))) {
+			$(this).addClass('button-primary');
+		};
+		if ($(this).attr('id') == "newbankaccount-button") {
+			$(".payout-address").css('display','none');
+			$(".payout-bankaccount").css('display','block');
+		} else {
+			$(".payout-bankaccount").css('display','none');
+			$(".payout-address").css('display','block');
+		}
+	});
+});
+
+var balanced_submittable = true //Toggles if form is submittable
+$(document).ready(function() {	
+	var responseTarget = '/addbankaccount';
+	var marketplaceUri = '/v1/marketplaces/TEST-MP49EIrAntwbE1iYZDuZWtjo';
+    balanced.init(marketplaceUri);
+    
+	$('#ba-submit').click(function (e) { 
+		e.preventDefault();
+		if (balanced_submittable){
+			BalancedDisable();
+			var payload = {
+				name: $('#ba-name').val(),
+				account_number: $('#ba-number').val(),
+				routing_number: $('#ba-routing').val()
+			};
+
+			// Tokenize bank account
+			balanced.bankAccount.create(payload, function (response) {
+				console.log(response);
+				switch (response.status) {
+				 case 201:
+					$.post(responseTarget, {
+						name: response.data.name,
+						bank_code: response.data.bank_code,
+						account_number:response.data.account_number,
+						bank_name: response.data.bank_name,
+						fingerprint: response.data.fingerprint,
+						uri: response.data.uri
+					}, function (r) {
+						if (r['status'] == 201) {
+							window.location.href = '/checkout/payment';
+						} else {
+							displayError("We experienced a problem with our servers. We will fix the problem shortly");
+						 	BalancedEnable();
+						}
+					}).fail( function(xhr, textStatus, errorThrown) {
+						 displayError("We experienced a problem with our servers. We will fix the problem shortly");
+						 BalancedEnable();
+					});
+					break;
+				 case 400:
+					 // Missing Field, display appropriate error message
+					 displayError("Failed to authorize your bank account. Please double check your name, account and routing number");
+					 BalancedEnable();
+					 break;
+				 case 402:
+					 //Failed to tokenize card
+					 displayError("Failed to authorize your bank account. Please double check your account and routing number");
+					 BalancedEnable();
+					 break;
+				 case 404:
+					 // Your marketplace URI is incorrect
+					 displayError("We are having technical hiccups with our marketplace URI");
+					 BalancedEnable();
+					 break;
+				 case 500:
+					 // Balanced did something bad, please retry the request
+					 BalancedEnable();
+					 break;
+				 }
+			});
+		}
+	});
+	$('#populate').click(function () {
+        $('#ba-name').val('John Hancock');
+        $('#ba-routing').val('021000021');
+        $('#ba-number').val('9900000004');
+    });
+});
+
+function displayError(error) {
+	$(".error-format").text(error);
+	$('.error-format').css('display','block');
+}
+function BalancedDisable() {
+	balanced_submittable = false;
+	$("#ba-submit span").text("Processing. . .");
+	$("#ba-submit img").css('display','inline-block');
+	if (!($("#ba-submit").hasClass("disabled"))) {
+		$("#ba-submit").addClass("disabled");
+	}
+}
+function BalancedEnable() {
+	balanced_submittable = true;
+	$("#ba-submit span").text("Use This Card");
+	$("#ba-submit img").css('display','none');
+	$("#ba-submit").removeClass("disabled");
+}
+</script>
 {% endblock %}
 {% block maintitle %}Payment{% endblock %}
 {% block headersubcss %}
@@ -52,73 +165,127 @@ var loading_src = "{{STATIC_URL}}img/ajax-loader2.gif";
 }
 .payout-box {
 	margin-top: 20px;
+	display: none;
 }
 .checkoutform-container table {
 	width: 100%;
 	max-width: 500px;
 }
-.mail-explain {
+.explain {
 	padding: 10px 0;
 }
 .payment-button-glow {
-	box-shadow: 0 0 5px green;
+	box-shadow: 0 0 5px #00B5E5;
 }
 .bankaccount-container {
 	
 }
+#ba-submit img {
+	display: none;
+}
+.div-error{
+	margin-top: 30px;
+}
+.error-format {
+	display: none;
+	text-align: center;
+	margin-left: 0;
+	margin-right: 0;
+}
+.saved-cards {
+	padding: 20px;
+}
+.add-card {
+	border-top: 1px solid #ddd;
+	margin: 20px;
+	padding-top: 20px;
+}
+.saved
 </style>
 {% endblock %}
 {% block maincontent %}
 	<div class="covebox paymentbox">
 		<h4 class="maincontent-title">Paying Sellers and VetCove Seller Fees</h4>
-		here
+		<h5>Default Credit Card: Active</h5>
+		<div class="saved-cards">
+			{% for card in user.basicuser.balancedcard_set.all %}
+			
+			{% endfor %}
+			<div class="creditcard row">
+				<div class="col-md-3 col-sm-3 col-xs-12"><p>Mitchell Kates</div>
+				<div class="col-md-5 col-sm-5 col-xs-12">Visa ********0202 (Expires 9/2014)</div>
+				<div class="col-md-4 col-sm-4 col-xs-12">
+					<button class="button button-rounded button-tiny">Make Default</button>
+					<button class="button button-rounded button-tiny">Delete</button>
+				</div>
+			</div>
+		</div>
+		<div class='add-card'>
+			<button class="button button-rounded">Add a New Credit Card</button>
+		</div>
 	</div>
 	<div class="covebox paymentbox">
 		<h4 class="maincontent-title">Payout Options</h4>
 		<div class="payout-container">
 			<div class="payout-current">
-			<h5> Current Payout Method: Bank Account</h5>
-			<p> Joe richards</p>
-			<p> Bank of America</p>
-			<p> Bank Account Ending in *1123 </p>
-			
+			{% if user.basicuser.payment_method == 'directdeposit' %}
+				<h5>Default Payout Method: Bank Account Direct Deposit</h5>
+				<p>{{user.basicuser.bankaccount.name}}</p>
+				<p>{{user.basicuser.bankaccount.bank_name}}</p>
+				<p>{{user.basicuser.bankaccount.account_number}}</p>
+			{% elif user.basicuser.payment_method == 'check' %}
+				<h5> Current Payout Method: Check by Mail</h5>
+				<p>{{user.basicuser.checkaddress.name}}</p>
+				<p>{{user.basicuser.checkaddress.address_one}}</p>
+				<p>{{user.basicuser.checkaddress.address_two}}</p>
+				<p>{{user.basicuser.checkaddress.city}}, {{user.basicuser.checkaddress.state}} {{user.basicuser.checkaddress.zipcode}}</p>
+			{% else %}
+				<h5> Current Payout Method: None</h5>
+			{% endif %}
 			</div>
-			<button class="button button-rounded button-action payment-button-glow">New Bank Account ( *recommended )</button>
-			<button class="button button-rounded ">Pay By Direct Mailing</button>
-			<div class="payout-box checkoutform-container">
-				<p class="mail-explain">By choosing to be paid out through check by mail, we will assess a $5 service and processing fee, and we will 
+			<button id="newbankaccount-button" class="button button-rounded button-payment">Receive Payments By Direct Deposit ( *recommended )</button>
+			<button id="newmailingaddress-button" class="button button-rounded button-payment">Receive Payments By Check</button>
+			<div class="payout-box checkoutform-container payout-address">
+				<p class="explain">By choosing to be paid out through check by mail, we will assess a $5 service and processing fee, and we will 
 				not mail a check until your payout exceeds $50. Checks are mailed the first monday of every month.</p>
 				{% include 'general/address.html' %}
 			</div>
-			<div class="payout-box checkoutform-container">
-				<div class="form-group">
-					<label for="companyname">Name</label>
-					<table>
-						<tr>
-							<td class="form-input"><input type="text" class="form-control" id="address_two" name="address_two" placeholder="Apartment, Suite, Unit, Building, Floor, etc." /></td>
-							<td class="form-img"><img src="{{STATIC_URL}}img/blank.png"/></td>
-						</tr>
-					</table>
+			<div class="payout-box checkoutform-container payout-bankaccount">
+				<p class="explain">Sellers getting paid through direct deposit to a bank account are paid every Monday at 5pm after a minimum 14 days after the sale.</p>
+				<button id="populate">Populate</button>
+				<div class="div-error">
+					<div class="error-format"></div>
 				</div>
-				<div class="form-group">
-					<label for="companyname">Bank Account Number</label>
-					<table>
-						<tr>
-							<td class="form-input"><input type="text" class="form-control" id="address_city" name="city" placeholder="City"></td>
-							<td class="form-img"><img src="{{STATIC_URL}}img/blank.png"/></td>
-						</tr>
-					</table>
-				</div>
-				<div class="form-group">
-					<label for="companyname">Routing Number</label>
-					<table>
-						<tr>
-							<td class="form-input"><input type="text" class="form-control" id="address_city" name="city" placeholder="City"></td>
-							<td class="form-img"><img src="{{STATIC_URL}}img/blank.png"/></td>
-						</tr>
-					</table>
-				</div>
-				<button class="button button-action button-rounded"> Add Bank Account</button>
+				<form id="bankaccount">
+					<div class="form-group">
+						<label for="companyname">Account Holder's Name</label>
+						<table>
+							<tr>
+								<td class="form-input"><input type="text" class="form-control" id="ba-name" name="account_name" placeholder="John Doe"></td>
+								<td class="form-img"><img src="{{STATIC_URL}}img/blank.png"/></td>
+							</tr>
+						</table>
+					</div>
+					<div class="form-group">
+						<label for="companyname">Bank Account Number</label>
+						<table>
+							<tr>
+								<td class="form-input"><input type="text" class="form-control" id="ba-number" name="bank_account_number" placeholder="32221847314"></td>
+								<td class="form-img"><img src="{{STATIC_URL}}img/blank.png"/></td>
+							</tr>
+						</table>
+					</div>
+					<div class="form-group">
+						<label for="companyname">Routing Number</label>
+						<table>
+							<tr>
+								<td class="form-input"><input type="text" class="form-control" id="ba-routing" name="routing_number" placeholder="8887776665555"></td>
+								<td class="form-img"><img src="{{STATIC_URL}}img/blank.png"/></td>
+							</tr>
+						</table>
+					</div>
+					<button id="ba-submit" class="button button-action button-rounded"><img src="{{STATIC_URL}}img/ajax-loader.gif"/><span>Set as Bank Account</span></button>
+				</form>
 			</div>
 		</div>
 	</div>

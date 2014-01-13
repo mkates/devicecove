@@ -16,6 +16,7 @@ import difflib
 import locale
 import time
 from datetime import datetime
+import balanced
 
 
 ###########################################
@@ -191,7 +192,49 @@ def answerquestion(request,questionid):
 			question.save()
 		return HttpResponseRedirect('/account/sellerquestions')
 	return HttpResponseRedirect('/')
- 	  		
+
+#################################################
+### Updating Payment Information  ###############
+#################################################
+
+@login_required
+def addBankAccount(request):
+	if request.method == "POST":
+		bu = BasicUser.objects.get(user=request.user)
+		name = request.POST['name']
+		uri = request.POST["uri"];
+		fingerprint = request.POST["fingerprint"];
+		bank_name = request.POST["bank_name"];
+		bank_code = request.POST["bank_code"];
+		account_number = request.POST["account_number"];
+		if hasattr(bu, 'bankaccount'):
+			bu.bankaccount.delete()
+		bankaccount = BankAccount(user=bu,name=name,uri=uri,fingerprint=fingerprint,bank_name=bank_name,bank_code=bank_code,account_number=account_number)
+		bankaccount.save()
+		bu.payment_method = 'directdeposit'
+		bu.save()
+		return HttpResponse(json.dumps({'status':201,'error':None}), content_type='application/json')
+	return HttpResponseRedirect('/account/payment')
+
+@login_required
+def addCheckAddress(request):
+	if request.method == "POST":
+		bu = BasicUser.objects.get(user=request.user)
+		name = request.POST['name']
+		address_one = request.POST['address_one']
+		address_two = request.POST.get('address_two','')
+		city = request.POST['city']
+		state = request.POST['state']
+		zipcode = request.POST['zipcode']
+		if hasattr(bu, 'checkaddress'):
+			bu.checkaddress.delete()
+		checkaddress = CheckAddress(user=bu,name=name,address_one=address_one,address_two=address_two,city=city,state=state,zipcode=zipcode)
+		checkaddress.save()
+		bu.payment_method = 'check'
+		bu.save()
+		return HttpResponseRedirect('/account/payment')
+	return HttpResponseRedirect('/account/payment')
+
 #################################################
 ### Helper function to update a user's profile  #
 #################################################

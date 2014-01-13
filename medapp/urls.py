@@ -102,7 +102,11 @@ urlpatterns += patterns('',
     url(r'^account/sellhistory','deviceapp.views_custom.sellhistory'),
     url(r'^newuserform','deviceapp.views_custom.newuserform'),
     url(r'^checkemail','deviceapp.views_custom.checkemail'),
-    url(r'^account','deviceapp.views_custom.profile')
+    url(r'^account','deviceapp.views_custom.profile'),
+    
+    #Payment
+    url(r'^addbankaccount','deviceapp.views_custom.addBankAccount'),
+    url(r'^addcheckaddress','deviceapp.views_custom.addCheckAddress')
 )
 #####################################################################
 #########  Search ###################################################

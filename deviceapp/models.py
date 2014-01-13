@@ -39,16 +39,6 @@ class SubCategory(models.Model):
 	def __unicode__(self):
 		return self.displayname
 	
-# A product (i.e. Ultrasound XT500), which belongs to a device subcategory
-class Product(models.Model):
-	name = models.CharField(max_length=150)
-	manufacturer = models.ForeignKey(Manufacturer)
-	category = models.ForeignKey(SubCategory)
-	industries = models.ForeignKey(Industry)
-	description = models.TextField()
-	def __unicode__(self):
-		return self.name
-	
 ############################################
 ####### Users Database #####################
 ############################################
@@ -60,16 +50,16 @@ def get_file_path_original(instance, filename):
 def get_file_path_small(instance, filename):
 	ext = filename.split('.')[-1]
 	filenamesmall = "%s.%s" % (str(uuid.uuid4())+"_small", ext)
-	return os.path.join('userimages', filename)
+	return os.path.join('userimages', filenamesmall)
 def get_file_path_medium(instance, filename):
 	ext = filename.split('.')[-1]
-	filenamesmall = "%s.%s" % (str(uuid.uuid4())+"_medium", ext)
-	return os.path.join('userimages', filename)
+	filenamemdium = "%s.%s" % (str(uuid.uuid4())+"_medium", ext)
+	return os.path.join('userimages', filenamemedium)
 		
 class Image(models.Model):
 	photo = models.ImageField(upload_to=get_file_path_original)
 	photo_small = ProcessedImageField(upload_to=get_file_path_small, processors=[ResizeToFit(100, 100)],format='JPEG',options={'quality': 60})
-	photo_medium = ProcessedImageField(upload_to=get_file_path_original, processors=[ResizeToFit(500, 500)],format='JPEG',options={'quality': 60})
+	photo_medium = ProcessedImageField(upload_to=get_file_path_medium, processors=[ResizeToFit(500, 500)],format='JPEG',options={'quality': 60})
 	id = models.AutoField(primary_key = True)
 	
 # Generic User already includes email/password
@@ -86,9 +76,11 @@ class BasicUser(models.Model):
 	state = models.CharField(max_length=60)
 	website = models.CharField(max_length=60,null=True)
 	phonenumber = models.CharField(max_length=60)
-	
 	#Balanced customer URI
 	balanceduri = models.CharField(max_length=255,null=True,blank=True)
+	PAYMENT_OPTIONS =  (('none', 'None'),('check', 'Check'),('directdeposit', 'Direct Deposit'))
+	payment_method = models.CharField(max_length=20,choices=PAYMENT_OPTIONS,default='None')
+	defaultcard = models.ForeignKey('BalancedCard',null=True,blank=True)
 	
 	def __unicode__(self):
 		return self.user.username
@@ -285,7 +277,28 @@ class BalancedCard(models.Model):
 	expiration_year = models.IntegerField(max_length=4)
 	last_four = models.IntegerField(max_length=4)
 	datecreated = models.DateTimeField(auto_now_add = True,blank=True)
-		
+
+#### Balanced Bank Account ##################
+class BankAccount(models.Model):
+	user = models.OneToOneField(BasicUser)
+	uri = models.CharField(max_length=255)
+	fingerprint = models.CharField(max_length=255)
+	bank_name = models.CharField(max_length=255)
+	bank_code = models.CharField(max_length=100)
+	name = models.CharField(max_length=100)
+	account_number = models.CharField(max_length=255)
+	datecreated = models.DateTimeField(auto_now_add = True,blank=True)
+
+#### Mailing address for checks ###############
+class CheckAddress(models.Model):
+	user = models.OneToOneField(BasicUser)
+	name = models.CharField(max_length=50)
+	address_one = models.CharField(max_length=100)
+	address_two = models.CharField(max_length=100,null=True,blank=True)
+	city = models.CharField(max_length=100)
+	state = models.CharField(max_length=100)
+	zipcode = models.IntegerField(max_length=100)
+
 ############################################
 ####### Checkout Model  ####################
 ############################################
@@ -333,15 +346,20 @@ class PurchasedItem(models.Model):
 	seller = models.ForeignKey(BasicUser,related_name="purchaseditem_seller")
 	buyer = models.ForeignKey(BasicUser,related_name="purchaseditem_buyer")
 	item = models.ForeignKey(Item)
+	amount = models.FloatField(max_length=20)
 	quantity = models.IntegerField(max_length=6)
-	
+	purchase_data = models.DateTimeField(auto_now_add = True)
 	# Step 2: Seller sends item
 	item_sent = models.BooleanField(default=False)
 	item_sent_details = models.TextField(blank=True)
 	
 	# Did the seller get paid yet?
 	paid_out = models.BooleanField(default=False)
-	paid_data = models.DateTimeField(auto_now_add = True,blank=True)
+	paid_data = models.DateTimeField(null=True,blank=True)
+
+
+
+
 
 ############################################
 ### Item Reviews ###########################
