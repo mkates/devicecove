@@ -1,6 +1,7 @@
 from django.shortcuts import render_to_response, redirect
 from django.template.loader import render_to_string
 from deviceapp.models import *
+import views_checkout as checkout_view
 from django.template import RequestContext, Context, loader
 from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth import authenticate, login, logout
@@ -87,10 +88,12 @@ def updateprofsettings(request,field):
 		bu = BasicUser.objects.get(user=request.user)
 		if field == 'password':
 			change = setUserProfileDict(field,[request.POST['password1'],request.POST['password2']],bu)
-			if change != 'Success':
+			if change['status'] == 500:
 				return HttpResponseRedirect("/account/profile?e=password")
 		else:
 			change = setUserProfileDict(field,request.POST[field],bu)
+			if change['status'] == 500:
+				return HttpResponseRedirect("/account/profile?e="+change['error'])
 		return HttpResponseRedirect("/account/profile")
 	else:
    		return render_to_response('general/index.html',context_instance=RequestContext(request))
@@ -111,10 +114,12 @@ def wishlist(request):
 def listings(request,listingtype):
 	if request.user.is_authenticated():
 		bu = BasicUser.objects.get(user=request.user)
-		if listingtype != 'all':
-			listeditems = bu.item_set.all().filter(liststatus=listingtype)
-		else:
+		if listingtype == 'all':
 			listeditems = bu.item_set.all()
+		elif listingtype =='inactive':
+			listeditems = bu.item_set.all().filter(liststatus__in=['sold','unsold'])
+		else:
+			listeditems = bu.item_set.all().filter(liststatus=listingtype)
 		return render_to_response('account/selling/listeditems.html',{"listpage":True,"items":listeditems, "listingtype":listingtype},context_instance=RequestContext(request))
 	else:
    		return render_to_response('general/index.html', context_instance=RequestContext(request))
@@ -197,6 +202,7 @@ def answerquestion(request,questionid):
 ### Updating Payment Information  ###############
 #################################################
 
+#The bank account is created with Balanced on the client side
 @login_required
 def addBankAccount(request):
 	if request.method == "POST":
@@ -235,6 +241,41 @@ def addCheckAddress(request):
 		return HttpResponseRedirect('/account/payment')
 	return HttpResponseRedirect('/account/payment')
 
+# Calls the balanced create card, which adds the card to the user and sets default credit card
+@login_required
+def account_addcreditcard(request):
+	balanced_addCard = checkout_view.addBalancedCard(request)
+	return HttpResponse(json.dumps({'status':balanced_addCard['status'],'error':balanced_addCard['error']}), content_type='application/json')
+	
+@login_required
+def account_deletecreditcard(request,creditcardid):
+	if request.method=="POST":
+		bc = BalancedCard.objects.get(id=creditcardid)
+		bu = request.user.basicuser
+		#balanced.configure(settings.BALANCED_API_KEY)
+		#card = balanced.Card.find(bc.card_uri)
+		#card.unstore()
+		if not bu.default_cc == bc: #If its not the default CC
+			bc.delete()
+		else: #If its the default CC
+			bu.default_cc = None
+			bu.save()
+			bc.delete()
+			other_cards = bu.balancedcard_set.all()
+			if other_cards:
+				bu.default_cc = other_cards[0]
+				bu.save()
+	return HttpResponseRedirect('/account/payment')
+
+@login_required
+def account_defaultcreditcard(request,creditcardid):
+	if request.method=="POST":
+		bc = BalancedCard.objects.get(id=creditcardid)
+		bu = request.user.basicuser
+		bu.default_cc = bc;
+		bu.save() 
+	return HttpResponseRedirect('/account/payment')
+	
 #################################################
 ### Helper function to update a user's profile  #
 #################################################
@@ -245,24 +286,40 @@ def setUserProfileDict(field,value,usermodel):
 	elif field == 'company':
 		usermodel.company = value
 	elif field == 'name':
+		if len(field) < 5:
+			return {'status':500,'error':'name'}
 		usermodel.name = value
 	elif field == 'address':
+		if len(field) < 5:
+			return {'status':500,'error':'address'}
 		usermodel.address = value
 	elif field == 'email':
+		if len(field) < 5:
+			return {'status':500,'error':'email'}
 		usermodel.email = value
 	elif field == 'city':
+		if len(field) < 3:
+			return {'status':500,'error':'city'}
 		usermodel.city = value
 	elif field == 'state':
 		usermodel.state = value
 	elif field == 'zipcode':
-		usermodel.zipcode = value
+		if len(field) != 5:
+			try:
+				field = int(zipcode)
+				usermodel.zipcode = field
+			except:
+				return {'status':500,'error':'zipcode'}
+		return {'status':500,'error':'zipcode'}
 	elif field == 'phonenumber':
+		if len(field) < 10:
+			return {'status':500,'error':'phonenumber'}
 		usermodel.phonenumber = value
 	elif field == 'password':
 		if usermodel.user.check_password(value[0]):
 			usermodel.user.set_password(value[1])
 			usermodel.user.save()
 		else:
-			return "Error"
+			return {'status':500,'error':'password'}
 	usermodel.save()
-	return "Success"
+	return {'status':201}

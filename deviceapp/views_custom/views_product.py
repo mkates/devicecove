@@ -234,6 +234,9 @@ def itemdetails(request,itemid):
 		bu = BasicUser.objects.get(user=request.user)
 		if SavedItem.objects.filter(user=bu,item=item).exists():
 			saved = True
+		if item.user != bu:
+			item.views += 1
+			item.save()
 	related = Item.objects.filter(subcategory = item.subcategory).order_by('savedcount')[:6]
 	dict = {'saved':saved,'item':item,'industry':industry,'related':related}
 	#Is the item in their shopping cart?

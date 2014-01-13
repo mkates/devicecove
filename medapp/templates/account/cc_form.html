@@ -1,0 +1,63 @@
+<form role="form" class="paymentform cc_form">
+	<div class="form-group">
+		<label class="control-label">Card Number</label>
+		<div class="">
+			<input type="text" id="cc-number" class="form-control" autocomplete="off" placeholder="4111111111111111" maxlength="16" />
+		</div>
+	</div>
+	<div class="form-group row expiration-row">
+		<div class="col-md-6 col-sm-6">
+			<label class="control-label">Expiration Month</label>
+			<select id="cc-ex-month" class="form-control expiration-month">
+				<option>1</option>
+				<option>2</option>
+				<option>3</option>
+				<option>4</option>
+				<option>5</option>
+				<option>6</option>
+				<option>7</option>
+				<option>8</option>
+				<option>9</option>
+				<option>10</option>
+				<option>11</option>
+				<option>12</option>
+			</select>
+		</div>
+		<div class="col-md-6 col-sm-6 expiration-year-container">
+			<label class="control-label">Expiration Year</label>
+			<select id="cc-ex-year" class="form-control">
+				<option>2014</option>
+				<option>2015</option>
+				<option>2016</option>
+				<option>2017</option>
+				<option>2018</option>
+				<option>2019</option>
+				<option>2020</option>
+				<option>2021</option>
+				<option>2022</option>
+				<option>2023</option>
+				<option>2024</option>
+				<option>2025</option>
+				<option>2026</option>
+				<option>2027</option>
+				<option>2028</option>
+			</select>
+		</div>
+	</div>
+	<div class="form-group row expiration-row">
+		<div class="col-md-6 col-sm-6">
+			<label class="control-label security-code-label">Security Code<span id="cvv-info" class="badge">?</span></label>
+			<div id="imageoverlay">
+				<img src="{{STATIC_URL}}img/cvv.jpg"/>
+			</div>
+			<input type="text" id="cc-csc" class="form-control" autocomplete="off" placeholder="453" maxlength="4" />
+		</div>
+		<div class="col-md-6 col-sm-6 expiration-year-container">
+			<label class="control-label">Billing Zipcode</label>
+			<input type="text" id="cc-zipcode" class="form-control" autocomplete="off" placeholder="00022" maxlength="5" />
+		</div>
+	</div>
+	<a id="cc-submit" class="button button-rounded button-action"><img src="{{STATIC_URL}}img/ajax-loader.gif"/><span>Use This Card</span></a>
+	{% if payment %}<a class="button button-rounded payment-cancel">Cancel</a>{% endif %}
+</form>
+<img class="cc-accepted" src="{{STATIC_URL}}img/cc_accepted.png"/>

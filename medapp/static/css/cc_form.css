@@ -1,0 +1,62 @@
+.cc_form label{
+	font-weight: 200;
+}
+.cc_form #imageoverlay {
+	position:absolute;
+	width: 400px;
+	z-index: 999;
+	right: 0;
+	bottom: 0;
+	border:1px solid #ddd;
+	margin-bottom: 75px;
+	padding: 0;
+	display: none;
+}
+.cc_form .security-code-label span {
+	background: #eee;
+	color: #999;
+	margin: 0 0 0 7px;
+	border-radius: 6px;
+	border: none;
+}
+.cc_form .security-code-label span:hover {
+	background: #333;
+	color: #eee;
+}
+
+.cc_form .expiration-row div {
+	padding: 0 10px 15px 0px;
+}
+.cc_form .expiration-row .expiration-year-container {
+	padding-right: 0;
+}
+.cc_form #imageoverlay img {	
+	padding: 10px;
+	background: black;
+	width: 100%;
+	width: 400px;
+}
+.cc_form .processing-container {
+	width: 100%;
+	height: 100%;
+	position:absolute;
+	z-index: 9999;
+}
+
+.cc_form #cc-submit:hover {
+	cursor: pointer;
+}
+.cc_form #cc-submit img {
+	display: none;
+	margin-right: 10px;
+}
+.cc-accepted {
+	width: 100%;
+	max-width: 400px;
+	margin-top: 40px;
+}
+.balanced-image {
+	float: right;
+	margin-right: 15px;
+	width: 130px;
+}

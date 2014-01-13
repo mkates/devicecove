@@ -70,15 +70,15 @@ urlpatterns = patterns('',
     url(r'^newaddress/(?P<checkoutid>\d+)','deviceapp.views_custom.newAddress'),
     url(r'^deleteaddress','deviceapp.views_custom.deleteAddress'),
     # Payment Experience
-    url(r'^addCreditCard/(?P<checkoutid>\w+)','deviceapp.views_custom.addCreditCard'),
+    url(r'^addCreditCard/(?P<checkoutid>\d+)','deviceapp.views_custom.addCreditCard'),
     url(r'^usepayment','deviceapp.views_custom.usePayment'),
     url(r'^deletepayment','deviceapp.views_custom.deletePayment'),
     # Review Experience
-    url(r'^checkoutmovetosaved/(?P<checkoutid>\w+)','deviceapp.views_custom.checkoutMoveToSaved'),
-    url(r'^checkoutdeleteitem/(?P<checkoutid>\w+)','deviceapp.views_custom.checkoutDeleteItem'),
-    url(r'^checkoutchangequantity/(?P<checkoutid>\w+)','deviceapp.views_custom.checkoutChangeQuantity'),
+    url(r'^checkoutmovetosaved/(?P<checkoutid>\d+)','deviceapp.views_custom.checkoutMoveToSaved'),
+    url(r'^checkoutdeleteitem/(?P<checkoutid>\d+)','deviceapp.views_custom.checkoutDeleteItem'),
+    url(r'^checkoutchangequantity/(?P<checkoutid>\d+)','deviceapp.views_custom.checkoutChangeQuantity'),
     #Complete Checkout  
-    url(r'^checkoutpurchase/(?P<checkoutid>\w+)','deviceapp.views_custom.checkoutPurchase') 
+    url(r'^checkoutpurchase/(?P<checkoutid>\d+)','deviceapp.views_custom.checkoutPurchase') 
 )
 #####################################################################
 #########  Account ###################################################
@@ -102,11 +102,17 @@ urlpatterns += patterns('',
     url(r'^account/sellhistory','deviceapp.views_custom.sellhistory'),
     url(r'^newuserform','deviceapp.views_custom.newuserform'),
     url(r'^checkemail','deviceapp.views_custom.checkemail'),
-    url(r'^account','deviceapp.views_custom.profile'),
     
     #Payment
     url(r'^addbankaccount','deviceapp.views_custom.addBankAccount'),
-    url(r'^addcheckaddress','deviceapp.views_custom.addCheckAddress')
+    url(r'^addcheckaddress','deviceapp.views_custom.addCheckAddress'),
+    url(r'^account/defaultcreditcard/(?P<creditcardid>\d+)','deviceapp.views_custom.account_defaultcreditcard'),
+    url(r'^account/addcreditcard','deviceapp.views_custom.account_addcreditcard'),
+    url(r'^account/deletecreditcard/(?P<creditcardid>\d+)','deviceapp.views_custom.account_deletecreditcard'),
+    
+    
+    #url(r'^account','deviceapp.views_custom.profile')
+    
 )
 #####################################################################
 #########  Search ###################################################

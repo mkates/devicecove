@@ -359,21 +359,20 @@ def addCreditCard(request,checkoutid):
 	if checkoutValid['status'] != 201:
 		return HttpResponseRedirect('/checkout/verify/'+checkoutValid['error'])
 	# Add credit card to a Basic User
-	uri = request.POST.get('uri','')
-	brand = request.POST.get('brand','')
-	cardhash = request.POST.get('hash','')
-	expiration_month = request.POST.get('expiration_month','')
-	expiration_year = request.POST.get('expiration_year','')
-	last_four = request.POST.get('last_four','')
-	balanced_addCard = addBalancedCard(request,uri,brand,cardhash,expiration_month,expiration_year,last_four)
+	balanced_addCard = addBalancedCard(request)
 	if balanced_addCard['status'] == 201:
 		checkout.payment = balanced_addCard['card']
 		checkout.save()	
 	return HttpResponse(json.dumps({'status':balanced_addCard['status'],'error':balanced_addCard['error']}), content_type='application/json')
 
 #Adds a balanced CC and get or creates a BU's Customer URI
-@login_required
-def addBalancedCard(request,uri,brand,cardhash,expiration_month,expiration_year,last_four):
+def addBalancedCard(request):
+	uri = request.POST.get('uri','')
+	brand = request.POST.get('brand','')
+	cardhash = request.POST.get('hash','')
+	expiration_month = request.POST.get('expiration_month','')
+	expiration_year = request.POST.get('expiration_year','')
+	last_four = request.POST.get('last_four','')
 	try:
 		# Configure Balanced API
 		balanced.configure(settings.BALANCED_API_KEY)
@@ -392,6 +391,10 @@ def addBalancedCard(request,uri,brand,cardhash,expiration_month,expiration_year,
 			customer.add_card(uri)
 			new_card = BalancedCard(user=bu,card_uri=uri,brand=brand,cardhash=cardhash,expiration_month=expiration_month,expiration_year=expiration_year,last_four=last_four)
 			new_card.save()
+			#If the only credit card, set is as the default
+			if not bu.default_cc:
+				bu.default_cc = new_card
+				bu.save()
 			return {'status':201,'card':new_card,'error':'None'} # Success
 		return {'status':500,'error':'Card Already Saved'} # Card Already Saved
 	except Exception,e:

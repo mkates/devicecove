@@ -76,12 +76,14 @@ class BasicUser(models.Model):
 	state = models.CharField(max_length=60)
 	website = models.CharField(max_length=60,null=True)
 	phonenumber = models.CharField(max_length=60)
-	#Balanced customer URI
+	
+	
+	#Payment Fields
 	balanceduri = models.CharField(max_length=255,null=True,blank=True)
 	PAYMENT_OPTIONS =  (('none', 'None'),('check', 'Check'),('directdeposit', 'Direct Deposit'))
 	payment_method = models.CharField(max_length=20,choices=PAYMENT_OPTIONS,default='None')
-	defaultcard = models.ForeignKey('BalancedCard',null=True,blank=True)
-	
+	default_cc = models.ForeignKey('BalancedCard',null=True,blank=True) 
+		
 	def __unicode__(self):
 		return self.user.username
 	
@@ -105,12 +107,15 @@ class BasicUser(models.Model):
 		return savedItems
 	
 	#Get counts for each type of listing
+	# 'all' and 'inactive' are cumulative counts
 	def listedItemCount(self):
-		dict = {'all':0,'sold':0,'inactive':0,'active':0,'incomplete':0,'deleted':0}
+		dict = {'all':0,'inactive':0,'sold':0,'unsold':0,'active':0,'incomplete':0,'deleted':0,'disabled':0}
 		for item in Item.objects.filter(user=self):
 			dict[item.liststatus] += 1
-			if item.liststatus != 'deleted':
+			if item.liststatus != 'deleted' or item.liststatus != 'disabled':
 				dict['all'] += 1
+			if item.liststatus == 'sold' or item.liststatus == 'unsold':
+				dict['inactive'] += 1
 		return dict
 	
 	#Number of purchased items
@@ -172,9 +177,10 @@ class Item(models.Model):
 	#Miscellaneous 
 	LISTSTATUS_OPTIONS =  (
 		('active', 'Active'),
-		('inactive', 'Inactive'),
+		('disabled', 'Disabled'),
 		('incomplete', 'Incomplete'),
 		('sold', 'Sold'),
+		('unsold', 'Not Sold'),
 		('deleted', 'Deleted')
 	)
 	mainimage = models.ForeignKey(Image,null=True,blank=True)
@@ -183,7 +189,7 @@ class Item(models.Model):
 	quantity = models.IntegerField(default=1)
 	savedcount = models.IntegerField()
 	liststage = models.IntegerField()
-	
+	views = models.IntegerField(default=0)
 	def __unicode__(self):
 		return self.name+" from "+self.user.name
 

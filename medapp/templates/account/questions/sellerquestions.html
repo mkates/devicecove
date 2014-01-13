@@ -14,7 +14,7 @@
 			<div class="questionbox">
 				<p class="question">{{question}} for <a class="itemspan" href="/item/{{question.item.id}}/details">{{question.item.name}}</a></p>
 				<button class="editanswer button-tiny button button-rounded button-highlight">Answer This Question</button>
-				<form action="/deletequestion" method="POST">
+				<form action="/deletequestion/{{question.id}}" method="POST">
 					{% csrf_token %}
 					<input type="hidden" name="questionid" value="{{question.id}}">
 					<input type="hidden" name="questionspage" value="True">

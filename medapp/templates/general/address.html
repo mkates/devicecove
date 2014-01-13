@@ -77,4 +77,5 @@
 		</div>
 		{% endif %}
 	<button name="submit" class="button button-action button-rounded" value="submit">{% if payment %}Mail{% else %}Ship{% endif %} to this Address</button>	
+	{% if payment %}<a class="button button-rounded payment-cancel payment-cancel-a">Cancel</a>{% endif %}
  </form>

@@ -58,7 +58,8 @@
 {% block jsblock %}
 
 {% endblock %}
-
+{% load dates %}
+{% load humanize %}
 {% block maincontent %}
 	{% if items %}
 		{% for item in items %}
@@ -66,24 +67,24 @@
 			<div class="listeditem covebox">
 				<div class="row">
 					<div class="col-md-9 col-sm-9">
-						<h3>{% if item.name %}{{item.name}}{% else %}New VetCove Listing{% endif %}</h3>
+						<h3>{% if item.name %}{{item.name}} (${{item.price}}){% else %}New VetCove Listing{% endif %}</h3>
 						<h4>Status: <span>{{item.get_liststatus_display}}</span></h4>
 						<div class="row stats">
-							<div class="col-md-3 col-sm-3 col-xs-6 statbox">
-								<h5>0</h5>
-								<p>Unanswered Questions</p>
-							</div>
+							<a href="/account/sellerquestions"><div class="col-md-3 col-sm-3 col-xs-6 statbox">
+								<h5>{{item.question_set.count}}</h5>
+								<p>Buyer Questions Asked</p>
+							</div></a>
 							<div class="col-md-3 col-sm-3 col-xs-6 statbox">
 								<h5>{{ item.saveditem_set.count }}</h5>
 								<p>People Saved This Item</p>
 							</div>
 							<div class="col-md-3 col-sm-3 col-xs-6 statbox">
-								<h5>13</h5>
-								<p>Days Listed</p>
+								<h5>{{item.listeddate| days_since}}</h5>
+								<p>Days Since Listing</p>
 							</div>
 							<div class="col-md-3 col-sm-3 col-xs-6 statbox">
-								<h5>24</h5>
-								<p>People Viewed This Item</p>
+								<h5>{{item.views}}</h5>
+								<p>Page Views</p>
 							</div>
 						</div>
 					</div>
@@ -91,7 +92,6 @@
 						{% if item.liststatus == 'active' %}
 						<a href="/item/{{item.id}}/details" class="button button-rounded button-small">View Listing</a>
 						<a href="/list/describe/{{item.id}}" class="button button-rounded button-small">Edit Listing</a>
-						<a href="/account/sellerquestions" class="button button-rounded button-small">Answer Questions</a>
 						<a class="button button-rounded button-small">Mark as Sold</a>
 						{% elif item.liststatus == 'incomplete' %}
 						<a href="/list/describe/{{item.id}}" class="button button-rounded button-small button-action">Complete Listing</a>

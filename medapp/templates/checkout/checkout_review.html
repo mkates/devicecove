@@ -153,7 +153,7 @@ $(document).ready(function() {
 								<form action="/checkoutmovetosaved/{{checkout.id}}" method="POST">
 									{% csrf_token %}
 									<input type="hidden" value="{{checkoutcartitem.id}}" name="checkoutitemid">
-									<button value="submit" name="submit">Moved To Favorites</button> 
+									<button value="submit" name="submit">Moved To Wish List</button> 
 								</form>
 								&sdot;
 								<form action="/checkoutdeleteitem/{{checkout.id}}" method="POST">
