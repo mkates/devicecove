@@ -66,13 +66,13 @@
 			{% if item.liststatus != 'deleted' %}
 			<div class="listeditem covebox">
 				<div class="row">
-					<div class="col-md-9 col-sm-9">
+					<div class="col-md-8 col-sm-8">
 						<h3>{% if item.name %}{{item.name}} (${{item.price}}){% else %}New VetCove Listing{% endif %}</h3>
 						<h4>Status: <span>{{item.get_liststatus_display}}</span></h4>
 						<div class="row stats">
 							<a href="/account/sellerquestions"><div class="col-md-3 col-sm-3 col-xs-6 statbox">
 								<h5>{{item.question_set.count}}</h5>
-								<p>Buyer Questions Asked</p>
+								<p>Buyer Questions</p>
 							</div></a>
 							<div class="col-md-3 col-sm-3 col-xs-6 statbox">
 								<h5>{{ item.saveditem_set.count }}</h5>
@@ -88,10 +88,11 @@
 							</div>
 						</div>
 					</div>
-					<div class="col-md-3 col-sm-3 actions">
+					<div class="col-md-4 col-sm-4 actions">
 						{% if item.liststatus == 'active' %}
 						<a href="/item/{{item.id}}/details" class="button button-rounded button-small">View Listing</a>
 						<a href="/list/describe/{{item.id}}" class="button button-rounded button-small">Edit Listing</a>
+						{% if item.sellermessage_set.all %}<a href="/account/messages/{{item.id}}" class="button button-rounded button-small">View Buyer Messages ({{item.sellermessage_set.count}})</a>{% endif %}
 						<a class="button button-rounded button-small">Mark as Sold</a>
 						{% elif item.liststatus == 'incomplete' %}
 						<a href="/list/describe/{{item.id}}" class="button button-rounded button-small button-action">Complete Listing</a>

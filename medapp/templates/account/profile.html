@@ -104,7 +104,16 @@ $(document).ready(function() {
 <div class="maincontent-container covebox">
 	<div class="profilediv">
 		<div class="profileitem">
-			{% if error %}<p class="error">Password failed to reset. Please make sure you enter your old password correctly</p>{% endif %}
+			{{error}}
+			{% if error == "password" %}
+				<p class="error">Password failed to reset. Please make sure you enter your old password correctly</p>
+			{% elif error == "name" %}
+				<p class="error">Your name is too short. Please enter your full name</p>
+			{% elif error == "city" %}
+				<p class="error">City is invalid. City field must be at least 3 characters</p>
+			{% elif error == "zipcode" %}
+				<p class="error">Invalid zipcode. Zipcode must be an integer of length 5</p>
+			{% endif %}
 			<table>
 				<tr>
 					<td class="category">Business Type</td>
@@ -155,12 +164,24 @@ $(document).ready(function() {
 					<td class="edit">edit</td>
 				</tr>
 				<tr>
-					<td class="category">Address</td>
+					<td class="category">Address One</td>
 					<td class="uservalue">
-						<p>{{basicuser.address}}</p>
-						<form method="post" action="/account/profsettings/address">
+						<p>{{basicuser.address_one}}</p>
+						<form method="post" action="/account/profsettings/address_one">
 							{% csrf_token %}
-							<input type="text" class="forminput form-control" name="address" value="{{basicuser.address}}" />
+							<input type="text" class="forminput form-control" name="address_one" value="{{basicuser.address_one}}" />
+							<button value="submit" class="button button-rounded button-primary button-tiny">Save</button><button type="button" class="button button-rounded cancel button-tiny">Cancel</button>
+						</form>
+					</td>
+					<td class="edit">edit</td>
+				</tr>
+				<tr>
+					<td class="category">Address Two</td>
+					<td class="uservalue">
+						<p>{{basicuser.address_two}}</p>
+						<form method="post" action="/account/profsettings/address_two">
+							{% csrf_token %}
+							<input type="text" class="forminput form-control" name="address_two" value="{% if basicuser.address_two %}{{basicuser.address_two}}{% endif %}" />
 							<button value="submit" class="button button-rounded button-primary button-tiny">Save</button><button type="button" class="button button-rounded cancel button-tiny">Cancel</button>
 						</form>
 					</td>
@@ -169,7 +190,8 @@ $(document).ready(function() {
 				<tr>
 					<td class="category">Zipcode</td>
 					<td class="uservalue">
-						<p>{{basicuser.zipcode}}</p>
+						{% load zipcodify %}
+						<p>{{basicuser.zipcode|zipcodify}}</p>
 						<form method="post" action="/account/profsettings/zipcode">
 							{% csrf_token %}
 							<input type="text" class="forminput form-control" name="zipcode" value="{{basicuser.zipcode}}" />

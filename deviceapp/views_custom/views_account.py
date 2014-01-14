@@ -151,8 +151,8 @@ def profile(request):
 		bu = BasicUser.objects.get(user=request.user)
 		dict = {'basicuser':bu}
 		if request.method == "GET":
-			if request.GET.get('e','') == 'password':
-				dict['error']= "Password"
+			if request.GET.get('e',''):
+				dict['error']= request.GET.get('e','')
 		return render_to_response('account/profile.html',dict,context_instance=RequestContext(request))
 	else:
    		return render_to_response('general/index.html',context_instance=RequestContext(request))
@@ -275,7 +275,7 @@ def account_defaultcreditcard(request,creditcardid):
 		bu.default_cc = bc;
 		bu.save() 
 	return HttpResponseRedirect('/account/payment')
-	
+
 #################################################
 ### Helper function to update a user's profile  #
 #################################################
@@ -286,33 +286,35 @@ def setUserProfileDict(field,value,usermodel):
 	elif field == 'company':
 		usermodel.company = value
 	elif field == 'name':
-		if len(field) < 5:
+		if len(value) < 5:
 			return {'status':500,'error':'name'}
 		usermodel.name = value
-	elif field == 'address':
-		if len(field) < 5:
-			return {'status':500,'error':'address'}
-		usermodel.address = value
+	elif field == 'address_one':
+		if len(value) < 5:
+			return {'status':500,'error':'address_one'}
+		usermodel.address_one = value
+	elif field == 'address_two':
+		usermodel.address_two = value
 	elif field == 'email':
-		if len(field) < 5:
+		if len(value) < 5:
 			return {'status':500,'error':'email'}
 		usermodel.email = value
 	elif field == 'city':
-		if len(field) < 3:
+		if len(value) < 3:
 			return {'status':500,'error':'city'}
 		usermodel.city = value
 	elif field == 'state':
 		usermodel.state = value
 	elif field == 'zipcode':
-		if len(field) != 5:
+		if len(value) <= 5:
 			try:
-				field = int(zipcode)
-				usermodel.zipcode = field
-			except:
+				value = int(str(value).zfill(5))
+				usermodel.zipcode = value
+			except Exception,e:
+				print e
 				return {'status':500,'error':'zipcode'}
-		return {'status':500,'error':'zipcode'}
 	elif field == 'phonenumber':
-		if len(field) < 10:
+		if len(value) < 10:
 			return {'status':500,'error':'phonenumber'}
 		usermodel.phonenumber = value
 	elif field == 'password':

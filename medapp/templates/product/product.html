@@ -105,8 +105,16 @@ $(document).ready(function() {
   		$('#buynowcontainer').fadeOut();
   	});
   	$('#messageseller').ajaxForm(function(e) {
-		$("#contactbox").css('display','none');
-		$("#successbox").fadeIn();
+  		if (e == 201) {
+			$("#contactbox").css('display','none');
+			$("#successbox .contact-error").css('display','none');
+			$("#successbox").fadeIn();
+		} else {
+			$("#contactbox").css('display','none');
+			$("#successbox .contact-success").css('display','none');
+			$("#successbox").fadeIn();
+		}
+		
   	}); 
   	
   	//Ask Question

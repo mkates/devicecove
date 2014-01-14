@@ -479,7 +479,6 @@
 	position:fixed;
 	/* display: table; */
 	display: none;
-    text-align: center;
 }
 #buynowbackalign {
 	display: table-cell;
@@ -488,7 +487,8 @@
 	background: url("../img/blacktransparency.png");
 }
 .buynowbox {
-	width: 600px;
+	width: 90%;
+	max-width: 600px;
 	margin: 0 auto;
 	min-height: 350px;
 	border-radius: 6px;
@@ -501,9 +501,7 @@
 	background-image: linear-gradient(to top, #FFFFFF 0%, #EFEFEF 80%, #DDDDDD 100%);
 }
 .buynowbox textarea {
-	width: 95%;
-	margin: 0 auto;
-	min-height: 200px;
+	min-height: 100px;
 	resize: vertical;
 }
 .buynowbox button, .buynowbox a {
@@ -519,7 +517,23 @@
 	font-size: 18px;
 }
 .buynowbox p {
-	font-size: 12px;
+	font-size: 13px;
+	padding-bottom: 15px;
+	border-bottom:1px solid #ccc;
+	margin: 15px 10px 15px 10px;
+}
+#messageseller {
+	text-align: left;
+	font-weight: 400;
+}
+#messageseller .row {
+	margin-bottom: 10px;
+}
+#messageseller .radio-container label {
+	font-weight: 400;
+}
+#messageseller button {
+	margin-left: 15px;
 }
 .buyonline {
 	width: 300px;

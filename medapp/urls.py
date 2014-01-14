@@ -35,7 +35,7 @@ urlpatterns = patterns('',
     url(r'^listproduct/(?P<subcategory>\w+)','deviceapp.views_custom.listproduct'),
     url(r'getsubcategories','deviceapp.views_custom.getsubcategories'),
     url(r'^existingproductcheck','deviceapp.views_custom.existingproductcheck'),
-    url(r'^messageseller','deviceapp.views_custom.messageseller'),
+    url(r'^messageseller/(?P<itemid>\d+)','deviceapp.views_custom.messageseller'),
     url(r'^askquestion','deviceapp.views_custom.askquestion'),
     url(r'^deletequestion','deviceapp.views_custom.deletequestion'),
     url(r'^answerquestion/(?P<questionid>\d+)','deviceapp.views_custom.answerquestion'),
@@ -110,6 +110,10 @@ urlpatterns += patterns('',
     url(r'^account/addcreditcard','deviceapp.views_custom.account_addcreditcard'),
     url(r'^account/deletecreditcard/(?P<creditcardid>\d+)','deviceapp.views_custom.account_deletecreditcard'),
     
+    #Viewing people who have contacted you
+    url(r'^account/messages/(?P<itemid>\d+)','deviceapp.views_custom.buyermessages'),
+    url(r'^account/contactgate/(?P<itemid>\d+)','deviceapp.views_custom.contact_gate'),
+    url(r'^account/newcard_chargecommission/(?P<itemid>\d+)','deviceapp.views_custom.newcard_chargecommission')
     
     #url(r'^account','deviceapp.views_custom.profile')
     

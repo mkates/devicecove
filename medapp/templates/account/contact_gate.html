@@ -1,0 +1,106 @@
+{% extends 'base.html' %}
+{% block headertitle %}<title>VetCove | Interested Buyers</title>{% endblock%}
+
+{% block headercss %}
+<link href="{{STATIC_URL}}css/cc_form.css" rel="stylesheet" type="text/css" />
+<style>
+.pagecontainer {
+	max-width: 1000px;
+	margin: 40px auto;
+}
+.gateway {
+	padding: 20px;
+	border-bottom:1px solid #eee;
+}
+.gateway-header h3 {
+	text-align: center;
+	padding-bottom: 20px;
+	border-bottom:1px solid #eee;
+}
+.gateway-header h3 span {
+	font-size: 20px;
+	border-radius: 20px;
+}
+.gateway-row h5 {
+	margin-bottom: 20px;
+	font-size: 16px;
+}
+.gateway-body p {
+	font-weight: 400;
+	font-size: 14px;
+	padding: 10px 15px;
+}
+.gateway-body p span {
+	font-weight: 800;
+}
+.payment-row {
+	border-right:1px solid #ddd;
+}
+.total-row p span {
+	float: right;
+}
+.total-row h5 {
+	margin-bottom: 5px;
+}
+.total-row .subheader {
+	font-size: 12px;
+	font-weight: 200;
+	margin-bottom: 25px;
+}
+.total-row .commission-total {
+	border-top: 1px solid #ddd;
+	padding-top: 10px;
+	font-weight: 800;
+}
+</style>
+
+{% endblock %}
+
+{% block jsblock %}
+<script type="text/javascript" src="{{STATIC_URL}}js/balanced.js"></script>
+<script type="text/javascript">
+//BALANCED_CC GLOBAL VARIABLES
+var responseTarget = "/account/newcard_chargecommission/{{item.id}}";
+var success_redirect = "/account/messages/{{item.id}}";
+var balanced_cc_button_text = "Authorize Charge and View Buyers";
+</script>
+<script type="text/javascript" src="{{STATIC_URL}}js/balanced_cc.js"></script>
+{% endblock %}
+
+{% block content %}
+<div class="pagecontainer row covebox">
+	<div class="gateway">
+		<div class="gateway-header">
+			<h3>You have <span class="badge">1</span> buyer who wants to view your item offline</h3>
+		</div>
+		
+		<div class="row gateway-body">
+			<p>In order to ensure that all items listed on VetCove and sold offline receive
+			the commission fee, we charge the 9% commission fee upfront. This allows you
+			to either complete the transaction offline, or you can authorize a buyer to 
+			purchase your item directly online (there are no additional fees for buying online).
+			We <span class="bold">GUARANTEE</span> your item will be sold through the VetCove
+			system. At the end of 90 days, if your item is still not sold, we will offer a 100%
+			refund.</p>
+		</div>
+		<div class="row">
+			<div class="col-md-8 col-sm-8 col-xs-12 payment-row">
+				<div class="gateway-row">
+					<h5>Refundable Commission Payment</h5>
+					{% include 'account/cc_form.html'%}
+				</div>
+			</div>
+			<div class="col-md-4 col-sm-4 col-xs-12 total-row">
+				<div class="gateway-row">
+					<h5>Refundable Commission Fee</h5>
+					<p class="subheader">*The commission fee is 9% of the list price ($4232.11)
+					charged once and fully refundable if the item is not sold</p>
+					<p>Commission Fee ( 9% )<span>$432.11</span></p>
+					<p class="commission-total">Total:<span>$432.11</span></p>
+				</div>
+			</div>
+
+		</div>
+	</div>
+</div>
+{% endblock %}

@@ -30,7 +30,7 @@
 		{% if next %}
 		<form class="loginform" action="/lgnrequest/?next={{next}}" method="post" >
 		{%else%}
-		<form class="loginform" action="lgnrequest" method="post">
+		<form class="loginform" action="/lgnrequest" method="post">
 		{% endif %}
 			{% csrf_token %}
 			<p>Email</p>

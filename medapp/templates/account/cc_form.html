@@ -1,3 +1,6 @@
+<div class="div-error">
+	<div class="error-format cc-error"></div>
+</div>
 <form role="form" class="paymentform cc_form">
 	<div class="form-group">
 		<label class="control-label">Card Number</label>
@@ -57,7 +60,10 @@
 			<input type="text" id="cc-zipcode" class="form-control" autocomplete="off" placeholder="00022" maxlength="5" />
 		</div>
 	</div>
-	<a id="cc-submit" class="button button-rounded button-action"><img src="{{STATIC_URL}}img/ajax-loader.gif"/><span>Use This Card</span></a>
+	<a id="cc-submit" class="button button-rounded button-action">
+		<img src="{{STATIC_URL}}img/ajax-loader.gif"/>
+		<span>{% if gate %}Authorize Charge and View Buyers {% else %}Use This Card{% endif %}</span>
+	</a>
 	{% if payment %}<a class="button button-rounded payment-cancel">Cancel</a>{% endif %}
 </form>
 <img class="cc-accepted" src="{{STATIC_URL}}img/cc_accepted.png"/>

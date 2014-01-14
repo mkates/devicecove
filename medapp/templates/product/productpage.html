@@ -1,22 +1,64 @@
-{% if not preview %}
+{% if not preview and item.offlineviewing %}
 <div id="buynowcontainer">
 	<div id="buynowbackalign">
 		<div class="buynowbox">
 			<div id="contactbox">
 				<h4>Contact Seller</h4>
-				<p>Contact the seller with a personal message if you are interested in viewing this product in person.</p>
-				<form action="/messageseller" method="POST" id="messageseller">
+				<p>Contact the seller with a personal message if you are interested in viewing this product in person
+				or buying the item online. For general product questions, please use the public questions 
+				feature.</p>
+				<form action="/messageseller/{{item.id}}" method="POST" id="messageseller">
 					{% csrf_token %}
-					<textarea class="form-control"></textarea>
+					<div class="row">
+						<div class="col-md-6 col-sm-6 col-xs-12">
+							<label>Name</label>
+							<input type="text" class="form-control" name="contact-name" value="{{user.basicuser.name}}">
+						</div>
+						<div class="col-md-6 col-sm-6 col-xs-12">
+							<label>Email</label>
+							<input type="text" class="form-control" name="contact-email" value="{{user.basicuser.email}}">
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-6 col-sm-6 col-xs-12">
+							<label>Phone</label>
+							<input type="text" class="form-control" name="contact-phone" value="{{user.basicuser.phonenumber}}">
+						</div>
+						<div class="col-md-6 col-sm-6 col-xs-12">
+							<label> Reason for Contact</label>
+							<div class="radio-container">
+								<label>
+								  <input type="radio" name="contact-reason" value="view" checked> I'd like to view this item in person
+								</label>
+							  </div>
+							  <div class="radio-container">
+								<label>
+								  <input type="radio" name="contact-reason" value="buy"> I'd like to buy this item through VetCove
+								</label>
+							  </div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-12 col-sm-12 col-xs-12">
+							<label>Message For Seller</label>
+							<textarea class="form-control" name="contact-message" placeholder="I'd like to check out this item in person. When are you available to demo the product?"></textarea>
+						</div>
+					</div>
 					<input type="hidden" value="{{item.user.id}}" name="seller">
 					<button value="submit" class="button button-rounded button-primary">Contact Seller</button>
 					<a class="button button-rounded closecontactseller">Cancel</a>
 				</form>
 			</div>
 			<div id="successbox">
-				<img src="{{STATIC_URL}}img/checkmark.png"/>
-				<h5> We have notified the seller with your message and contact information. Please allow up to 48 hours
-				for the seller to contact you. If this item is no longer available, please let us know!</h5>
+				<div class="contact-success">
+					<img src="{{STATIC_URL}}img/checkmark.png"/>
+					<h5> We have notified the seller with your message and contact information. Please allow up to 48 hours
+					for the seller to contact you. If this item is no longer available, please let us know!</h5>
+				</div>
+				<div class="contact-error">
+					<img class="contact-xmark" src="{{STATIC_URL}}img/xmark.png"/>
+					<h5>Oops! We are currently experiencing some difficulties processing your message. Please log back in and try again</h5>
+				</div>
 				<button class="button button-rounded closecontactseller">Return to Product</button>
 			</div>
 		</div>

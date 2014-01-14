@@ -1,0 +1,62 @@
+{% extends 'account/account.html' %}
+{% block headertitle %}<title>VetCove | Buyer Messages</title>{% endblock%}
+{% block buyquestions %}active{% endblock %}
+
+{% block maintitle %}Buyer Messages for {{item.name}}{% endblock %}
+{% block headersubcss %}
+<style>
+.messagebox {
+	margin: 15px 0;
+	padding: 20px;
+}
+
+
+</style>
+{% endblock %}
+{% block maincontent %}
+
+{% if item.sellermessage_set.all %}
+	{% for message in item.sellermessage_set.all%}
+		<div class="covebox messagebox">
+			<div class="row">
+				<div class="col-md-8 col-sm-8 col-xs-12">
+					<div class="row">
+						<div class="col-md-6 col-sm-6 col-xs-12">
+							<h6>Name</h6>
+							<p>{{message.name}}</p>
+						</div>
+						<div class="col-md-6 col-sm-6 col-xs-12">
+							<h6>Email</h6>
+							<p>{{message.email}}</p>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-6 col-sm-6 col-xs-12">
+							<h6>Phone</h6>
+							<p>{{message.phone}}</p>
+						</div>
+						<div class="col-md-6 col-sm-6 col-xs-12">
+							<h6>Reason</h6>
+							<p>{{message.reason}}</p>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-12 col-sm-12 col-xs-12">
+							<h6>Message</h6>
+							<p>{{message.message}}</p>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-4 col-sm-4 col-xs-12">
+					<button class="button button-tiny button-rounded">Authorize to Buy Online</button>
+				</div>
+			</div>
+		</div>
+	{% endfor %}
+{% else %}
+<div class="covebox">
+	<p class="nolistings">There are currently no messages for the {{item.name}}</p>
+</div> 
+{% endif %}
+
+{% endblock %}

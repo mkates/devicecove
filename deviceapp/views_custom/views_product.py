@@ -300,7 +300,6 @@ def removeitem(request):
 		return HttpResponseRedirect("/account/wishlist")
 	return render_to_response('general/index.html',context_instance=RequestContext(request))
 
-
 #### Checks if a request's user is the creator of the item
 def itemOwner(request,itemid):
 	try:

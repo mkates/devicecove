@@ -118,7 +118,7 @@ function Balanced_CC_Disable() {
 }
 function Balanced_CC_Enable() {
 	balanced_cc_submitable = true;
-	$("#cc-submit span").text("Use This Card");
+	$("#cc-submit span").text(balanced_cc_button_text);
 	$("#cc-submit img").css('display','none');
 	$("#cc-submit").removeClass("disabled");
 }

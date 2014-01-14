@@ -173,6 +173,7 @@ class Item(models.Model):
 	offlineviewing = models.BooleanField(default=False)
 	tos = models.BooleanField(default=False)
 	price = models.FloatField(max_length=20)
+	commission_paid = models.BooleanField(default=False)
 	
 	#Miscellaneous 
 	LISTSTATUS_OPTIONS =  (
@@ -192,6 +193,18 @@ class Item(models.Model):
 	views = models.IntegerField(default=0)
 	def __unicode__(self):
 		return self.name+" from "+self.user.name
+############################################
+####### Seller Message #####################
+############################################
+class SellerMessage(models.Model):
+	buyer = models.ForeignKey(BasicUser)
+	item = models.ForeignKey(Item)
+	name = models.CharField(max_length=100)
+	email = models.CharField(max_length=100,null=True,blank=True)
+	phone = models.CharField(max_length=100,null=True,blank=True)
+	message = models.TextField(blank=True)
+	reason = models.CharField(max_length=100,null=True,blank=True)
+	date_sent = models.DateTimeField(blank=True,null=True)
 
 ############################################
 ####### Saved Items ########################

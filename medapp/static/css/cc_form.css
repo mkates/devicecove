@@ -60,3 +60,14 @@
 	margin-right: 15px;
 	width: 130px;
 }
+
+/* Error formatting */
+.div-error{
+	margin-top: 30px;
+}
+.error-format {
+	display: none;
+	text-align: center;
+	margin-left: 0;
+	margin-right: 0;
+}
