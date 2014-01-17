@@ -6,12 +6,13 @@
 {% block headersubcss %}
 
 <style>
-
-.listeditem {
-	width: 100%:
-	border:1px solid red;
-	margin: 10px 0;
+.listeditem-container {
+	width: 100%;
+	margin: 15px 0;
 	border-radius: 2px;
+	position: relative;
+}
+.listeditem {
 	padding: 20px;
 }
 .listeditem h3 {
@@ -29,7 +30,7 @@
 	font-weight: 800;
 	color: green;
 }
-.listeditem .actions a {
+.listeditem .actions a, .listeditem .actions button {
 	margin: 0 0 15px 0;
 	width: 100%;
 	font-size: 13px;
@@ -51,59 +52,208 @@
 	font-weight: 200;
 	color: #333;
 }
-
+.list-progress {
+	margin-top: 20px;
+}
+.italics {
+	font-style:italic;
+	font-weight: 200;
+}
+.confirmation-box {
+	width: 100%;
+	height: 100%;
+	background: url("{{STATIC_URL}}img/blacktransparency.png");
+	position:absolute;
+	padding: 0 20px;
+	z-index: 9999;
+	border-radius: 2px;
+	color: white;
+	text-align: center;
+	display: none;
+}
+.sold-confirmation-box {
+	padding-top: 20px;
+}
+.confirmation-box h3 {
+	font-size: 18px;
+	font-weight:800;
+}
+.confirmation-box h4 {
+	font-size: 13px;
+	font-weight: 200;
+	color: #ddd;
+	margin-bottom: 20px;
+	letter-spacing: .3px;
+}
+.confirmation-box textarea {
+	width: 90%;
+	margin: 0 auto 10px auto;
+}
+.confirmation-box form {
+	display:inline-block;
+	width: 100%;
+}
+.confirmation-box button,.confirmation-box a {
+	display:inline-block;
+	font-size: 13px;
+	margin: 0 10px;
 </style>
 {% endblock %}
 
 {% block jsblock %}
+<script>
 
+$(document).ready(function() {
+	$(".confirmation-show").click(function() {
+		var confirmation_box = $(this).attr('data-confirm-box');
+		$(confirmation_box).fadeIn('fast');
+	});
+	$(".confirmation-cancel").click(function() {
+		var confirmation_box = $(this).attr('data-confirm-box');
+		$(confirmation_box).fadeOut('fast');
+	});
+	
+});
+
+
+</script>
 {% endblock %}
 {% load dates %}
 {% load humanize %}
+{% load multiply %}
 {% block maincontent %}
+
 	{% if items %}
-		{% for item in items %}
-			{% if item.liststatus != 'deleted' %}
-			<div class="listeditem covebox">
-				<div class="row">
-					<div class="col-md-8 col-sm-8">
-						<h3>{% if item.name %}{{item.name}} (${{item.price}}){% else %}New VetCove Listing{% endif %}</h3>
-						<h4>Status: <span>{{item.get_liststatus_display}}</span></h4>
-						<div class="row stats">
-							<a href="/account/sellerquestions"><div class="col-md-3 col-sm-3 col-xs-6 statbox">
-								<h5>{{item.question_set.count}}</h5>
-								<p>Buyer Questions</p>
-							</div></a>
-							<div class="col-md-3 col-sm-3 col-xs-6 statbox">
-								<h5>{{ item.saveditem_set.count }}</h5>
-								<p>People Saved This Item</p>
-							</div>
-							<div class="col-md-3 col-sm-3 col-xs-6 statbox">
-								<h5>{{item.listeddate| days_since}}</h5>
-								<p>Days Since Listing</p>
-							</div>
-							<div class="col-md-3 col-sm-3 col-xs-6 statbox">
-								<h5>{{item.views}}</h5>
-								<p>Page Views</p>
-							</div>
+		{% for item in items reversed %}
+			<div class="listeditem-container covebox">
+				
+				{% if item.liststatus == 'active' and item.offlineviewing %}
+				<!-- confirmation box for marking as sold (only available to offline, active listings)-->
+				<div id="sold-confirmation-{{item.id}}" class="confirmation-box sold-confirmation-box">
+					<h3> Are you sure you want to mark this item as sold?</h3>
+					<h4> Your listing will now be unviewable, and you will need to contact us if you want to reactivate your listing</h4>
+					<form action="/list/markassold/{{item.id}}" method="POST">
+						{% csrf_token %}
+						<input type="hidden" name="page" value="/account/listings/{{listingtype}}">
+						<button name="submit" value="submit" class="button button-rounded button-small button-action">Mark as Sold</a></button>
+						<a data-confirm-box="#sold-confirmation-{{item.id}}" class="confirmation-cancel button button-rounded button-small">Cancel</a>
+
+					</form>
+				</div>
+				{% endif %}
+				
+				{% if item.liststatus == 'active' %}
+				<!-- confirmation box for making inactive (only available to online+offline active listings)-->
+				<div id="makeinactive-confirmation-{{item.id}}" class="confirmation-box">
+					<h3>Please explain why you are marking this item as inactive</h3>
+					<h4>If you sold the item offline, please mark the item as sold instead. Let us know why you
+					have decided to inactivate your listing.</h4>
+					<form action="/account/editlisting/inactive/{{item.id}}" method="POST">
+						{% csrf_token %}
+						<input type="hidden" name="page" value="/account/listings/{{listingtype}}">
+						<textarea required name="inactive-reason" class="form-control"></textarea>
+						<div class="clear"></div>
+						<button name="submit" value="submit" class="button button-rounded button-small button-caution">Make Inactive</a></button>
+						<a data-confirm-box="#makeinactive-confirmation-{{item.id}}" class="confirmation-cancel button button-rounded button-small">Cancel</a>
+					</form>
+				</div>
+				{% endif %}
+				
+				{% if item.liststatus == 'sold' and not item.offlineviewing %}
+				<!-- confirmation box for relisting (only available to online, sold listings)-->
+				<div id="relist-confirmation-{{item.id}}" class="confirmation-box">
+					<h3>Please enter your new item quantity</h3>
+					<form action="/account/editlisting/relist/{{item.id}}" method="POST">
+						{% csrf_token %}
+						<input type="hidden" name="page" value="/account/listings/{{listingtype}}">
+						<label>Quantity</label>
+						<input required name="quantity" type="number" class="form-control"></input>
+						<div class="clear"></div>
+						<button name="submit" value="submit" class="button button-rounded button-small button-action">Relist and Activate Listing</a></button>
+						<a data-confirm-box="#sold-confirmation-{{item.id}}" class="confirmation-cancel button button-rounded button-small">Cancel</a>
+					</form>
+				</div>
+				{% endif %}
+				
+				<div class="listeditem">
+					<div class="row">
+						<div class="col-md-8 col-sm-8">
+							<h3>{% if item.name %}{{item.name}} (${{item.price|floatformat:"2"}}){% else %}New VetCove Listing{% endif %}</h3>
+							<h4>Status: <span>{{item.get_liststatus_display}}</span></h4>
+							{% if item.liststatus == 'active' %}
+								<div class="row stats">
+									<a href="/account/sellerquestions"><div class="col-md-3 col-sm-3 col-xs-6 statbox">
+										<h5>{{item.question_set.count}}</h5>
+										<p>Buyer Questions</p>
+									</div></a>
+									<div class="col-md-3 col-sm-3 col-xs-6 statbox">
+										<h5>{{ item.saveditem_set.count }}</h5>
+										<p>People Saved This Item</p>
+									</div>
+									<div class="col-md-3 col-sm-3 col-xs-6 statbox">
+										<h5>{{item.listeddate| days_since}}</h5>
+										<p>Days Since Listing</p>
+									</div>
+									<div class="col-md-3 col-sm-3 col-xs-6 statbox">
+										<h5>{{item.views}}</h5>
+										<p>Page Views</p>
+									</div>
+								</div>
+							{% elif item.liststatus == 'incomplete' %}
+								<div class="progress list-progress">
+								  <div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="{{item.liststage|multiply:"20"}}" aria-valuemin="0" aria-valuemax="100" style="width:{{item.liststage|multiply:"20"}}%">
+									<span class="sr-only">20% Complete</span>
+									{{item.liststage|multiply:"20"}}% Complete
+								  </div>
+								</div>
+							{% elif item.liststatus == 'sold' %}
+								<p>If the item was sold online, make sure to send the buyer the relevant
+								shipping information, which can be found in the <a href="/account/sellhistory"> sell history</a>.
+								Your buyers will really appreciate it!</p>
+							{% endif %}
+						</div>
+						<div class="col-md-4 col-sm-4 actions">
+							{% if item.liststatus == 'active' %}
+								<a href="/item/{{item.id}}/details" class="button button-rounded button-small">View Listing</a>
+								<a href="/list/describe/{{item.id}}" class="button button-rounded button-small">Edit Listing</a>
+								{% if item.offlineviewing %}
+									<button data-confirm-box="#sold-confirmation-{{item.id}}" class="confirmation-show button button-rounded button-small">Mark as Sold</a></button>
+									{% if item.sellermessage_set.all %}
+										<a href="/account/messages/{{item.id}}" class="button button-rounded button-small">View Buyer Messages ({{item.sellermessage_set.count}})</a>
+									{% endif %}
+								{% endif %}
+								<button data-confirm-box="#makeinactive-confirmation-{{item.id}}" class="confirmation-show button button-rounded button-small">Make Inactive</button>
+							{% elif item.liststatus == 'incomplete' %}
+								<a href="/list/describe/{{item.id}}" class="button button-rounded button-small">Complete Listing</a>
+								<form action="/deletelisting/{{item.id}}" method="POST">
+									{% csrf_token %}
+									<button href="/deletelisting/{{item.id}}" class="button button-rounded button-small">Delete Listing</button>
+								</form>
+							{% elif item.liststatus == 'unsold' %}
+								<a href="/item/{{item.id}}/details" class="button button-rounded button-small">View Listing</a>
+								<a href="/list/describe/{{item.id}}" class="button button-rounded button-small">Edit Listing</a>
+								<form action="/account/editlisting/active/{{item.id}}" method="POST">
+									{% csrf_token %}
+									<input type="hidden" name="page" value="/account/listings/{{listingtype}}">
+									<button class="button button-rounded button-small">Reactivate Listing</button>
+								</form>
+							{% elif item.liststatus == 'sold' %}
+								<a href="/item/{{item.id}}/details" class="button button-rounded button-small">View Listing</a>
+								{% if item.offlineviewing %}
+									{% if item.sold_online %}
+										<a href="/account/sellhistory" class="button button-rounded button-small">View Selling Details</a>
+									{% else %}
+										<p class="italics">This item was sold offline. If you marked this item as sold in error, please contact us so we can reactivate your listing.</p>
+									{% endif %}
+								{% else %}
+									<button data-confirm-box="#relist-confirmation-{{item.id}}" class="confirmation-show button button-rounded">Increase Quantity + Relist</button>
+								{% endif %}
+						
+							{% endif %}
 						</div>
 					</div>
-					<div class="col-md-4 col-sm-4 actions">
-						{% if item.liststatus == 'active' %}
-						<a href="/item/{{item.id}}/details" class="button button-rounded button-small">View Listing</a>
-						<a href="/list/describe/{{item.id}}" class="button button-rounded button-small">Edit Listing</a>
-						{% if item.sellermessage_set.all %}<a href="/account/messages/{{item.id}}" class="button button-rounded button-small">View Buyer Messages ({{item.sellermessage_set.count}})</a>{% endif %}
-						<a class="button button-rounded button-small">Mark as Sold</a>
-						{% elif item.liststatus == 'incomplete' %}
-						<a href="/list/describe/{{item.id}}" class="button button-rounded button-small button-action">Complete Listing</a>
-						<a href="/deletelisting/{{item.id}}" class="button button-rounded button-small button-caution">Delete Listing</a>
-						{% else %}
-						{% endif %}
-					</div>
-			
 				</div>
 			</div>
-			{% endif %}
 		{% endfor %}
 	{% else %}
 	<div class="covebox">

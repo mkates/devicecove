@@ -7,7 +7,7 @@
 <meta http-equiv="content-type" content="text/html;charset=UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-
+<link rel="icon" type="image/png" href="{{STATIC_URL}}img/favicon32.png">
 <!--CSS-->
 <link href="{{STATIC_URL}}css/bootstrap.min.css" rel="stylesheet" type="text/css" />
 <link href="{{STATIC_URL}}css/buttons.css" rel="stylesheet" type="text/css" />
@@ -25,6 +25,10 @@
 .cart-price {
 	color: #888;
 	font-weight: 200;
+}
+.cart-price span {
+	font-weight: 400;
+	color: red;
 }
 .viewcart {
 	background: #f4f4f4;
@@ -51,6 +55,7 @@
 .dropdown-menu .cart-dropdown .row div {
 	padding: 5px;
 }
+
 </style>
 </head>
 
@@ -75,7 +80,7 @@
 	  <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 		<ul class="nav navbar-nav navbar-right">
 			<li class="dropdown cart-dropdown">
-				<a href="/cart" {% if cart_items %}class="dropdown-toggle" data-toggle="dropdown"{% endif %}>Cart <span class="shoppingcart-image"><img src="{{STATIC_URL}}/img/shoppingcart.png"/></span>{% if cart_items %}<span id="sc-count">{{cart_items_count}}</span><b class="caret"></b>{% endif %}</a>
+				<a href="/cart" {% if cart_items %}class="dropdown-toggle" data-toggle="dropdown"{% endif %}>Cart <span class="shoppingcart-image"><img src="{{STATIC_URL}}/img/shoppingcart.png"/></span>{% if cart_items %}<span class="sc-count">{{cart_items_count}}</span><b class="caret"></b>{% endif %}</a>
 				<ul class="navigation-options dropdown-menu pull-left">
 				  {% for cart_item in cart_items %}
 				  <li>
@@ -86,7 +91,13 @@
 				  			</div>
 				  			<div class="cart-information col-md-10 col-sm-10 col-xs-10">
 				  				<p>{{cart_item.item.name}}</p>
-				  				<p class="cart-price">${{cart_item.item.price|floatformat|intcomma}}</p>
+				  				<p class="cart-price">
+				  					{% if cart_item.item.liststatus != 'active' %}
+				  						<span>Item no longer available</span>
+				  					{% else %}
+				  						${{cart_item.item.price|floatformat:"2"|intcomma}}
+				  					{% endif %}
+				  				</p>
 				  			</div>
 				  		</div>
 				  	</a>
@@ -96,7 +107,7 @@
 				</ul>
 			</li>
 			{% if user.is_authenticated %}
-			{% if user.basicuser.unansweredQuestionCount %}<li class="nav-questionstoanswer"><a href="/sellerquestions">{{user.basicuser.unansweredQuestionCount}} Question{% if user.basicuser.unansweredQuestionCount > 1%}s{% endif %}</a></li>{% endif %}
+			{% if user.basicuser.unansweredQuestionCount %}<li class="nav-questionstoanswer"><a href="/account/sellerquestions">Questions<span class="sc-count question-count">{{user.basicuser.unansweredQuestionCount}}</span></a></li>{% endif %}
 			<li><a href="/listintro">List Your Equipment</a></li>
 			<li class="dropdown">
 				<a href="#" class="dropdown-toggle" data-toggle="dropdown">Hi, {{user.basicuser.name}}<b class="caret"></b></a>
@@ -105,7 +116,6 @@
 				  <li><a href="/account/buyerquestions">Your Questions</a></li>
 				  <li><a href="/account/buyhistory">Order History</a></li>
 				  <li><a href="/account/listings/all">Seller Portal</a></li>
-				  <li><a href="/account">Account</a></li>
 				  <li><a href="/logout">Logout</a></li>
 				</ul>
 			</li>

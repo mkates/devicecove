@@ -94,12 +94,11 @@ $(document).ready(function() {
 	$(".item-quantity").change(function() {
 		$(this).parent().submit();	
 	});
-	$('.completepurchase'.click(function() {
+	$('.completepurchase').click(function() {
 		$(".completepurchase").text("Processing. . .");
 		$(".completepurchase").attr("disabled", "disabled");
 		$(".completepurchase").addClass("disabled");
-	}
-
+	});
 });
 
 </script>
@@ -119,8 +118,8 @@ $(document).ready(function() {
 		{% endif %}
 		<div class="review-block">
 			<h4>Item Details</h4>
-			{% if checkout.cartitem.all %}
-			{% for checkoutcartitem in checkout.cartitem.all %}
+			{% if checkout.cartitem_set.all %}
+			{% for checkoutcartitem in checkout.cartitem_set.all %}
 				<div class="covebox cart-item {% if forloop.last %}last-cart-item{% endif %}" id="cart-item-{{cartitem.item.id}}">
 					<div class="row">
 						<div class="item-image col-md-3 col-sm-3 col-xs-12">
@@ -189,17 +188,22 @@ $(document).ready(function() {
 			</div>
 			<div class="review-block review-block-billing col-md-6 col-sm-6 col-xs-12">
 				<h4>Billing Information<a href="/checkout/payment/{{checkout.id}}" class="change">change</a></h4>
-				{% if checkout.payment %}
-					<p></p>
-					<p>{{checkout.payment.brand}} Card</p>
-					<p>* * * * * * * * {{checkout.payment.last_four}}</p>
-					<p>Expires: {{checkout.payment.expiration_month}}/{{checkout.payment.expiration_year}}</p>
+				{% if checkout.payment_method == 'card' %}
+					<p>Debit / Credit Card</p>
+					<p>{{checkout.cc_payment.brand}} Card</p>
+					<p>* * * * * * * * {{checkout.cc_payment.last_four}}</p>
+					<p>Expires: {{checkout.cc_payment.expiration_month}}/{{checkout.cc_payment.expiration_year}}</p>
+				{% elif checkout.payment_method == 'bank' %}
+					<p>Bank Account</p>
+					<p>{{checkout.ba_payment.name}}</p>
+					<p>{{checkout.ba_payment.bank_name}}</p>
+					<p>{{checkout.ba_payment.account_number}}</p>
 				{% else %}
 					<p class="incomplete-data">Payment Information has not yet been entered</p>
 				{% endif %}
 			</div>
 		</div>
-		{% if checkout.cartitem.all %}
+		{% if checkout.cartitem_set.all %}
 		<div class="purchase-block">
 			<form action="/checkoutpurchase/{{checkout.id}}" method="POST">
 			{% csrf_token %}

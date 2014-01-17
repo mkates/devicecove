@@ -11,7 +11,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from haversine import *
 from django.conf import settings
 import json
-import math
+import math as math
 import difflib
 import locale
 import time
@@ -197,7 +197,7 @@ def getPriceRange(items):
 		for itm in items:
 			pricelow = min(pricelow,itm.price)	
 			pricehigh = max(pricehigh,itm.price)
-	return [int(pricelow),int(pricehigh)]
+	return [math.floor(pricelow),math.ceil(pricehigh)]
 
 #Uses difflib to determine if an item matches a search query
 #NEEDS TO BE REVISED FOR SCALABILITY

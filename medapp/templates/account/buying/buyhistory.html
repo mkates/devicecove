@@ -1,24 +1,39 @@
 {% extends 'account/account.html' %}
-{% block headertitle %}<title>VetCove | Purchase History</title>{% endblock%}
+{% block headertitle %}<title>VetCove | Buying History</title>{% endblock%}
 {% block buyhistory %}active{% endblock %}
 
 {% block jsblock %}
-<script src='{{STATIC_URL}}js/searchbox.js' type='text/javascript' ></script>
+<script>
+$(document).ready(function() {
+	$(".seller-message-button").click(function() {
+		var form_handle = $(this).attr('data-form');
+		console.log(form_handle);
+		var message_current = $(this).attr('data-message-current');
+		$(message_current).css('display','none');
+		$(form_handle).css('display','block');
+	});
+	$(".seller-message-cancel").click(function() {
+		var form_handle = $(this).attr('data-form');
+		var message_current = $(this).attr('data-message-current');
+		$(message_current).css('display','block');
+		$(form_handle).css('display','none');
+	});
+});
+</script>
 {% endblock %}
-{% block maintitle %}Purchase History{% endblock %}
+{% block maintitle %}Buying History{% endblock %}
 {% block headersubcss %}
-<link href="{{STATIC_URL}}css/search.css" rel="stylesheet" type="text/css" />
-<link href="{{STATIC_URL}}css/profileitem.css" rel="stylesheet" type="text/css" />
-<style>
-</style>
+<link href="{{STATIC_URL}}css/history-item.css" rel="stylesheet" type="text/css" />
 {% endblock %}
 {% block maincontent %}
-	{% if items %}
-			{% include 'search/productsearchitem.html' %}
-	{% else %}
-	<div class="maincontent-container covebox">
-		<p class="nolistings" style="display:block">You have not yet purchased any items</p>
-	</div>
-	{% endif %}
+{% if user.basicuser.purchaseditembuyer.all %}
+	{% for pitem in user.basicuser.purchaseditembuyer.all reversed %}
+		{% include 'account/buying/history_base.html' %}
+	{% endfor %}
+{% else %}
+<div class="maincontent-container covebox">
+	<p class="nolistings" style="display:block">You have not yet sold any items</p>
+</div>
+{% endif %}
   		
 {% endblock %}

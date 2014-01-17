@@ -143,7 +143,7 @@ $(document).ready(function() {
 	$('.saveandstay').click(function() {
 		$("#submitcode").val(700);
 		{% if logistics %}
-		$("#inputpriceval").val(parseInt($("#inputprice").asNumber()));
+		$("#inputpriceval").val(parseFloat($("#inputprice").asNumber()));
 		{% endif %}
 		$("#listform").submit();
 	});
@@ -202,7 +202,7 @@ var addError = function addError(handle) {
 <div class="errorsaving servermessage">&#x2717; Error Saving</div>
 <div class="listcontainer">
 	{% if item.liststatus != 'incomplete' %}
-	<p class="topnav">{% block topnav %}<a class="tolisteditems button button-tiny" href="/listeditems">&#8592; Return To Listed Items</a><a class="returntolisting button button-tiny" href="/item/{{item.id}}/details">View Listing</a>{% endblock %}</p>
+	<p class="topnav">{% block topnav %}<a class="tolisteditems button button-tiny" href="/account/listings/all">&#8592; Return To Listed Items</a><a class="returntolisting button button-tiny" href="/item/{{item.id}}/details">View Listing</a>{% endblock %}</p>
 	{% endif %}
 	<div class="covebox listbox">
 		<div class="listbar">
@@ -224,12 +224,33 @@ var addError = function addError(handle) {
 			<div class="clear"></div>
 		</div>
 		{% if preview %}
-		<div class="listnav">
+			{% if item.liststatus != 'sold' and item.liststatus != 'disabled' and item.liststatus != 'deleted' %}
+			<div class="listnav">
+				<a href="/list/logistics/{{item.id}}" class="backbutton button button-rounded">Back to Logistics</a>
+				<form action="/list/activate/{{item.id}}" method="POST">
+					<button class="saveandcontinue button button-rounded button-highlight">
+						{% csrf_token%}
+						{% if item.liststatus == 'active' %}
+							View Your Listing
+						{% elif item.liststatus == "incomplete" %}
+							List Your Item
+						{% elif item.liststatus == "unsold" %}
+							Reactivate Listing
+						{% endif %}
+					</button>
+				</form>
+				<a class="viewpreview button button-rounded">Preview Listing</a>
+				<div class="clear"></div>
+			</div>
+			{% endif %}
+		<!-- 
+<div class="listnav">
 			<a href="/list/logistics/{{item.id}}" class="backbutton button button-rounded">Back to Logistics</a>
 			<a href="/savepreview/{{item.id}}" class="saveandcontinue button button-rounded button-highlight">{% if item.liststatus != 'incomplete' %}View Your Listing{% else %}List Your Product{% endif %}</a>
 			<a class="viewpreview button button-rounded">Preview Listing</a>
 			<div class="clear"></div>
 		</div>
+ -->
 		{% endif %}
 		<div class="listcontent">
 		{% block photocontent %}

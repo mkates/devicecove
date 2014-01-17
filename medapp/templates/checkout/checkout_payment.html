@@ -32,6 +32,19 @@
 .error-format {
 	display: none;
 }
+.payment-button {
+	font-size: 13px;
+}
+#bankaccount table {
+	max-width: 600px;
+	width: 100%;
+}
+#bankaccount label {
+	font-weight: 200;
+}
+.ba-container {
+	display: none;
+}
 
 </style>
 {% endblock %}
@@ -39,38 +52,71 @@
 {% block customjs %}
 <script type="text/javascript" src="{{STATIC_URL}}js/balanced.js"></script>
 <script type="text/javascript">
-//BALANCED_CC GLOBAL VARIABLES
-var responseTarget = "/addCreditCard/{{checkout.id}}";
-var success_redirect = "/checkout/review/{{checkout.id}}";
-var balanced_cc_button_text = "Use This Card";
+	var marketplaceUri = '/v1/marketplaces/TEST-MP49EIrAntwbE1iYZDuZWtjo';
+	//BALANCED_CC GLOBAL VARIABLES
+	var responseTarget_cc = "/checkout/addcard/{{checkout.id}}";
+	var success_redirect_cc = "/checkout/review/{{checkout.id}}";
+	var balanced_cc_button_text = "Use This Card";
+	//BALANCED_BA GLOBAL VARIABLES
+	var responseTarget_ba = '/checkout/addbankaccount/{{checkout.id}}';
+	var success_redirect_ba = "/checkout/review/{{checkout.id}}";
+	var balanced_ba_button_text = "Use This Bank Account";
+	
+	$(document).ready(function() {
+		$('.show-cc').click(function() {
+			$(".payment-button").removeClass('button-primary');
+			$(this).addClass('button-primary');
+			$('.ba-container').css('display','none');
+			$('.cc-container').css('display','block');
+		});
+		$('.show-ba').click(function() {
+			$(".payment-button").removeClass('button-primary');
+			$(this).addClass('button-primary');
+			$('.cc-container').css('display','none');
+			$('.ba-container').css('display','block');
+		});
+	});
 </script>
 <script type="text/javascript" src="{{STATIC_URL}}js/balanced_cc.js"></script>
+<script type="text/javascript" src="{{STATIC_URL}}js/balanced_ba.js"></script>
 {% endblock %}
 
 {% block checkoutcontent %}
 <div class="checkout-container">
 	<h3>Payment<img class="balanced-image" src="{{STATIC_URL}}img/balanced-image.png"/></h3>
-	<div class="error-div">
-		<p class="error-format cc-error"></p>
-	</div>
 	<div class="row">
 		<div class="checkoutcol col-md-6 col-sm-6 col-xs-12">
 			<h4>Saved Payment Options</h4>
-			{% if user.basicuser.balancedcard_set.all %}
+			{% if user.basicuser.balancedcard_set.all or user.basicuser.balancedbankaccount_set.all %}
 				{% for payment in user.basicuser.balancedcard_set.all %}
 				<div class="information-block">
 					<h5>Credit / Debit Card</h5>
-					<p><span>Name on Card: </span> Mitchell Kates</p>
 					<p><span>Company: </span>{{payment.brand}}</p>
 					<p><span>Card: </span> * * * * * * * * {{payment.last_four}}</p>
 					<p><span>Expires On: </span>{{payment.expiration_month}}/{{payment.expiration_year}}</p>
-					<form action="/usepayment" method="POST">
+					<form action="/checkout/usepayment/card/{{checkout.id}}/{{payment.id}}" method="POST">
+					{% csrf_token %}
+					<button class="information-select button button-action button-rounded" value="submit">Use This Card</button>
+					</form>
+					<form action="/checkout/deletepayment/card/{{checkout.id}}/{{payment.id}}" method="POST">
 					{% csrf_token %}
 					<input type="hidden" value="{{checkout.id}}" name="checkout_id">
 					<input type="hidden" value="{{payment.id}}" name="payment_id">
+					<button value="submit" class="deletepayment button button-rounded button-tiny" value="submit">Delete</button>	
+					</form>
+				</div>
+				{% endfor %}
+				{% for ba in user.basicuser.balancedbankaccount_set.all %}
+				<div class="information-block">
+					<h5>Bank Account</h5>
+					<p><span>Name: </span>{{ba.name}}</p>
+					<p><span>Bank: </span>{{ba.bank_name}}</p>
+					<p><span>Account: </span>{{ba.account_number}}</p>
+					<form action="/checkout/usepayment/bank/{{checkout.id}}/{{ba.id}}" method="POST">
+					{% csrf_token %}
 					<button class="information-select button button-action button-rounded" value="submit">Use This Card</button>
 					</form>
-					<form action="/deletepayment" method="POST">
+					<form action="/checkout/deletepayment/bank/{{checkout.id}}/{{ba.id}}" method="POST">
 					{% csrf_token %}
 					<input type="hidden" value="{{checkout.id}}" name="checkout_id">
 					<input type="hidden" value="{{payment.id}}" name="payment_id">
@@ -84,8 +130,15 @@ var balanced_cc_button_text = "Use This Card";
 		</div>
 		<div class="checkoutcol newpaymentcol col-md-6 col-sm-6 col-xs-12">
 			<h4>Enter New Payment Method</h4>
-			<button id="populate">populate</button>
-			{% include 'account/cc_form.html' %}
+			<button class="populate">populate</button>
+			<button class="payment-button show-cc button button-rounded button-tiny button-primary">Pay by Credit Card</button>
+			<button class="payment-button show-ba button button-rounded button-tiny">Pay by Bank Account</button>
+			<div class="cc-container">
+				{% include 'account/cc_form.html' %}
+			</div>
+			<div class="ba-container">
+				{% include 'account/ba_form.html' %}
+			</div>
  		
 		</div>
 	</div>

@@ -49,12 +49,14 @@ var loading_src = "{{STATIC_URL}}img/ajax-loader2.gif";
 					<button href="/useaddress/{{checkout.id}}/{{address.id}}" class="information-select button button-action button-rounded" value="submit">Ship To This Address</button>
 					</form>
 					<div class="clear"></div>
+					{% if not user.basicuser.check_address == address and user.basicuser.payout_method == 'check' %}
 					<form action="/deleteaddress" method="POST">
 					{% csrf_token %}
 					<input type="hidden" value="{{checkout.id}}" name="checkout_id">
 					<input type="hidden" value="{{address.id}}" name="address_id">
 					<button href="/deleteaddress" class="deleteinformation button button-rounded button-tiny" value="submit">Delete</button>
 					</form>
+					{% endif %}
 					
 					<button class="editinformation button button-rounded button-tiny" value="submit">Edit</button>	
 				</div>

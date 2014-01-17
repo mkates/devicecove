@@ -13,15 +13,22 @@ var loading_src = "{{STATIC_URL}}img/ajax-loader2.gif";
 <script type="text/javascript" src="{{STATIC_URL}}js/address.js"></script>
 <script type="text/javascript" src="{{STATIC_URL}}js/balanced.js"></script>
 <script type="text/javascript">
+var marketplaceUri = '/v1/marketplaces/TEST-MP49EIrAntwbE1iYZDuZWtjo';
 //BALANCED_CC GLOBAL VARIABLES
-var responseTarget = "/account/addcreditcard";
-var success_redirect = "/account/payment";
+var responseTarget_cc = "/account/addcreditcard";
+var success_redirect_cc = "/account/payment";
 var balanced_cc_button_text = "Add This Card";
+//BALANCED_BA GLOBAL VARIABLES
+var responseTarget_ba = '/account/addbankaccount';
+var success_redirect_ba = "/account/payment";
+var balanced_ba_button_text = "Add Bank Account";
 </script>
 <script type="text/javascript" src="{{STATIC_URL}}js/balanced_cc.js"></script>
+<script type="text/javascript" src="{{STATIC_URL}}js/balanced_ba.js"></script>
 <script>
 //Functionality of payment method 
 $(document).ready(function() {
+	
 	//Toggle displays of the two payout methods, credit card
 	$(".button-payment").click(function() {
 		$(".button-payment").removeClass('button-payment-glow');
@@ -37,111 +44,42 @@ $(document).ready(function() {
 			$(".payment-ba").css('display','block');
 		} else if ($(this).attr('id') == "newcreditcard-button") {
 			$(".payment-cc").css('display','block');
-		} else if ($(this).attr('id') == "newmailingaddress-button") {
-			$(".payment-address").css('display','block');
-		}
+		} 
 	});
 	$(".payment-cancel").click(function() {
 		$(".button-payment").removeClass('button-payment-glow');
 		$(".button-payment").removeClass('button-primary');
 		$(".payment-add").css('display','none');
 	});
-});
-
-var balanced_submittable = true //Toggles if form is submittable
-$(document).ready(function() {	
-	var responseTarget = '/addbankaccount';
-	var marketplaceUri = '/v1/marketplaces/TEST-MP49EIrAntwbE1iYZDuZWtjo';
-    balanced.init(marketplaceUri);
-    
-	$('#ba-submit').click(function (e) { 
-		e.preventDefault();
-		if (balanced_submittable){
-			Balanced_BA_Disable();
-			var payload = {
-				name: $('#ba-name').val(),
-				account_number: $('#ba-number').val(),
-				routing_number: $('#ba-routing').val()
-			};
-
-			// Tokenize bank account
-			balanced.bankAccount.create(payload, function (response) {
-				console.log(response);
-				switch (response.status) {
-				 case 201:
-					$.post(responseTarget, {
-						name: response.data.name,
-						bank_code: response.data.bank_code,
-						account_number:response.data.account_number,
-						bank_name: response.data.bank_name,
-						fingerprint: response.data.fingerprint,
-						uri: response.data.uri
-					}, function (r) {
-						if (r['status'] == 201) {
-							window.location.href = '/account/payment';
-						} else {
-							displayError("We experienced a problem with our servers. We will fix the problem shortly");
-						 	Balanced_BA_Enable();
-						}
-					}).fail( function(xhr, textStatus, errorThrown) {
-						 displayError("We experienced a problem with our servers. We will fix the problem shortly");
-						 Balanced_BA_Enable();
-					});
-					break;
-				 case 400:
-					 // Missing Field, display appropriate error message
-					 displayError("Failed to authorize your bank account. Please double check your name, account and routing number");
-					 Balanced_BA_Enable();
-					 break;
-				 case 402:
-					 //Failed to tokenize card
-					 displayError("Failed to authorize your bank account. Please double check your account and routing number");
-					 Balanced_BA_Enable();
-					 break;
-				 case 404:
-					 // Your marketplace URI is incorrect
-					 displayError("We are having technical hiccups with our marketplace URI");
-					 Balanced_BA_Enable();
-					 break;
-				 case 500:
-					 // Balanced did something bad, please retry the request
-					 Balanced_BA_Enable();
-					 break;
-				 }
-			});
+	$(".address-cancel").click(function() {
+		$(".payment-address-new-form").css('display','none');
+		$(".payment-address-div").css('display','block');
+		$(".payment-address-new-button").css('display','block');
+	});
+	$(".payment-address-new-button button").click(function() {
+		$(".payment-address-new-button").css('display','none');
+		$(".payment-address-div").css('display','none');
+		$(".payment-address-new-form").css('display','block');
+	});
+	
+	$('.mailchecks').prop('checked',{% if user.basicuser.payout_method == 'check' %}true{%else%}false{% endif %});
+	$('.mailchecks').click(function() {
+		if ($(this).is(':checked')) {
+			$('#payment-address-container').css('display','block');
+			console.log('asol');
+		} else {
+			$('#payment-address-container').css('display','none');
 		}
 	});
-	$('#populate').click(function () {
-        $('#ba-name').val('John Hancock');
-        $('#ba-routing').val('021000021');
-        $('#ba-number').val('9900000004');
-    });
 });
-
-function displayError(error) {
-	$(".error-format").text(error);
-	$('.error-format').css('display','block');
-}
-function Balanced_BA_Disable() {
-	balanced_submittable = false;
-	$("#ba-submit span").text("Processing. . .");
-	$("#ba-submit img").css('display','inline-block');
-	if (!($("#ba-submit").hasClass("disabled"))) {
-		$("#ba-submit").addClass("disabled");
-	}
-}
-function Balanced_BA_Enable() {
-	balanced_submittable = true;
-	$("#ba-submit span").text("Use This Card");
-	$("#ba-submit img").css('display','none');
-	$("#ba-submit").removeClass("disabled");
-}
 </script>
 {% endblock %}
 {% block maintitle %}Payment{% endblock %}
 {% block headersubcss %}
 <link href="{{STATIC_URL}}css/checkoutform.css" rel="stylesheet" type="text/css" />
 <link href="{{STATIC_URL}}css/cc_form.css" rel="stylesheet" type="text/css" />
+<link href="{{STATIC_URL}}css/payment_methods.css" rel="stylesheet" type="text/css" />
+
 <style>
 .maincontent-title {
 	color: #888;
@@ -151,7 +89,7 @@ function Balanced_BA_Enable() {
 	border-bottom:1px solid #ddd;
 	margin: 0;
 	line-height: 32px;
-	padding: 10px 0px 10px 20px;
+	padding: 10px 0px 0px 20px;
 	margin-bottom: 0px;
 	background-image: -ms-linear-gradient(top, #FFFFFF 0%, #EEEEEE 100%);
 	background-image: -moz-linear-gradient(top, #FFFFFF 0%, #EEEEEE 100%);
@@ -165,27 +103,40 @@ function Balanced_BA_Enable() {
 	margin-bottom: 15px;
 }
 .paymentbox {
-	padding: 20px 20px 0 20px;
+	padding: 0px 30px 0 30px;
+}
+.paymentbox div {
+	padding-left: 0;
+	padding-right: 0;
+}
+
+/* Current payment formatting */
+.paymentbox .payment-current {
+	padding: 10px 0px 10px 0px;
 }
 .paymentbox .payment-current h5 {
-	padding: 0px 20px 0 20px;
+	margin-top: 20px;
 }
 .paymentbox .payment-current p {
 	font-weight: 200;
-	padding: 0 20px;
+	padding-bottom: 0;
 	margin: 0;
+	font-size: 13px;
 }
+
+/* New payment buttons */
 .paymentbox .payment-new {
 	border-top: 1px solid #ddd;
-	margin: 20px;
+	margin-bottom: 20px;
 	padding: 20px 0 0 0;
 }
 .paymentbox .payment-new .button-payment-glow {
 	box-shadow: 0 0 5px #00B5E5;
 }
 
+/* Credit card and bank account add */
 .paymentbox .payment-add {
-	margin: 10px 20px 20px 20px;
+	margin: 10px 0px 20px 0px;
 	display: none;
 }
 .paymentbox .payment-add table {
@@ -201,30 +152,9 @@ function Balanced_BA_Enable() {
 .paymentbox .payment-add .payment-cancel:hover {
 	cursor: pointer;
 }
-/*Credit card formatting */
-.paymentbox .payment-cards{
-	margin: 20px;
-}
-.creditcard {
-	border:1px solid #ccc;
-	background: #f6f6f6;
-	padding: 10px 3px;
-	border-radius: 3px;
-	margin-bottom: 10px;
-}
-.creditcard span {
-	font-size: 12px;
-	font-weight: 200;
-}
-.creditcard p {
-	margin: 0;
-}
-.creditcard .creditcard-action {
-	text-align: right;
-}
-.creditcard .creditcard-action form {
-	display: inline-block;
-}
+
+
+/* Supplementary cc form formatting */
 .cc_form .form-group {	
 	margin-bottom: 15px;
 }
@@ -248,121 +178,167 @@ function Balanced_BA_Enable() {
 	margin-right: 0;
 }
 
+.payment-actions {
+	margin-left: 15px;
+	text-align: right;
+}
+.payment-actions form {
+	display: inline-block;
+}
+
+/*Payment Address formatting*/
+
+.paymentbox .payment-address {
+}
+.paymentbox .payment-address .address-toggle {
+	margin: 10px 0;
+	margin-left: 20px;
+}
+.paymentbox .payment-address .checkbox label {
+	font-weight: 200;
+	font-size: 13px;
+}
+.paymentbox .payment-address-div div {
+	padding: 15px 3px;
+}
+.paymentbox .address-box {
+	padding: 10px 0 20px 0;
+	border:1px solid #ddd;
+	border-radius: 3px;
+	background: #f6f6f6;
+	text-align: center;	
+}
+.paymentbox .address-box form {
+	display: inline-block;
+}
+
+.paymentbox .address-box button {
+	margin-top: 15px;
+}
+.paymentbox .address-box p {
+	margin: 0;
+	font-size: 13px;
+	text-align: center;
+	font-weight: 500;
+	padding: 0;
+}
+.payment-address-new-button {
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+.payment-address-new-button div {
+	padding: 0;
+	padding-left: 3px;
+}
+.payment-address-new-form {
+	border:1px solid #ddd;
+	border-radius: 4px;
+	padding: 20px;
+	background: #f6f6f6;
+	display: none;
+}
+.paymentbox .payment-address-new-form .address-description {
+	padding: 0 20px;
+	margin-bottom: 20px;
+}
+.payment-address-new-form .addressform {
+	padding: 0 20px;
+}
+.payment-address-new-form .addressform table{
+	width: 100%;
+	max-width: 400px;
+}
+.payment-address-new-form .addressform .form-img {
+	width: 50px;
+}
+.payment-address-new-form .addressform .form-img img{
+	max-width: 20px;
+	margin-left: 10px;
+}
+.hide-div {
+	display: none;
+}
 </style>
 {% endblock %}
 {% block maincontent %}
 	<div class="covebox paymentbox-container">
-		<h4 class="maincontent-title">Paying Sellers and VetCove Seller Fees<img class="balanced-image" src="{{STATIC_URL}}img/balanced-image.png"/></h4>
+		<h4 class="maincontent-title">Paying Out and Receiving Payments<img class="balanced-image" src="{{STATIC_URL}}img/balanced-image.png"/></h4>
 		<div class="paymentbox">
 			<div class="payment-current">
-				<h5>Default Credit Card: {% if user.basicuser.default_cc %}Active{% else %}None{% endif %}</h5>
-				<p>You will still have the option which payment method to use when you check out. The default
-				credit card is used exclusively when a seller is charged commission for items that are sold
-				offline</p>		
-			</div>
-			<div class="payment-cards">
-				{% for card in user.basicuser.balancedcard_set.all %}
-					<div class="creditcard row">
-					<div class="col-md-3 col-sm-3 col-xs-12"><p>{{card.brand}}</div>
-					<div class="col-md-4 col-sm-5 col-xs-12">********{{card.last_four}} <span>(Expires {{card.expiration_month}}/{{card.expiration_year}})</span></div>
-					<div class="col-md-5 col-sm-4 col-xs-12 creditcard-action">
-						{% if user.basicuser.default_cc == card %}
-							<button value="submit" name="submit" class="button button-rounded button-action button-tiny">Default Credit Card</button>
-						{% else %}
-						<form action="/account/defaultcreditcard/{{card.id}}" method="POST">
-							{% csrf_token %}
-							<button value="submit" name="submit" class="button button-rounded button-tiny">Make Default</button>
-						</form>
-						{% endif %}
-						</form>
-						<form action="/account/deletecreditcard/{{card.id}}" method="POST">
-							{% csrf_token %}
-							<button value="submit" name="submit" class="button button-rounded button-tiny">Delete</button>
-						</form>
+				<h5>Paying for Items and Paying Seller Commission</h5>
+				<p>For sellers, the commission payment account is used to assess commission on items that
+				are sold offline (For online sales, the commission is deducted from the credit). When purchasing
+				items, you will always have the choice which payment method to use.</p>	
+				<h5>Receiving Payment</h5>
+				<p>When you sell an item, you can either have your bank account credited, or we can mail you a
+				check monthly. </p>
+				<div class="payment-address">	
+					<form class="address-toggle">
+						<div class="checkbox">
+							<label>
+								<input class="mailchecks" type="checkbox" {% if user.basicuser.payout_method == 'check' %}checked{% endif %}> I'd rather receive payments from sales via check by mail
+							</label>
+						</div>
+					</form>	
+					<div id="payment-address-container" class="{% if user.basicuser.payout_method != 'check' %}hide-div{% endif %}">
+						<div class="payment-address-div row">
+							{% for address in user.basicuser.useraddress_set.all %}
+							<div class="col-md-6 col-sm-6 col-xs-12">
+								<div class="address-box">
+									<p>{{address.name}}</p>
+									<p>{{address.address_one}}</p>
+									<p>{{address.address_two}}</p>
+									<p>{{address.city}}, {{address.state}} {{address.zipcode}}</p>
+									<p>{{address.phonenumber}}</p>
+									{% if user.basicuser.check_address == address and user.basicuser.payout_method == 'check'%}
+									<button class="button button-tiny button-rounded button-highlight">Current Mailing Address</button>
+									{% else %}
+									<form action="/account/setmailingaddress/{{address.id}}" method="POST">
+										{% csrf_token %}
+										<button class="button button-tiny button-rounded">Set as Mailing Address</button>
+									</form>
+									{% endif %}
+									<form action="/account/deletemailingaddress/{{address.id}}" method="POST">
+										{% csrf_token %}
+										<button class="button button-tiny button-rounded">Delete Address</button>
+									</form>
+								</div>
+							</div>
+							{% endfor %}
+						</div>
+						<div class="row payment-address-new-button">
+							<div class="col-md-12 col-sm-12 col-xs-12">
+								<button class="button button-tiny button-rounded">{% if user.basicuser.useraddress_set.all %}or {% endif %}Enter a New Mailing Address</button>
+							</div>
+						</div>
+						<div class="row payment-address-new-form">
+							<p class="address-description">Enter a new mailing address to receive checks from sales on VetCove</p>
+							{% include 'general/address.html' %}
+						</div>
 					</div>
 				</div>
-				{% endfor %}
+			</div>
+			<div class="payment-cards">
+				<h5>Current Cards and Bank Accounts</h5>
+				{% include 'account/payment_methods.html' %}
 			</div>
 			<div class='payment-new'>
 				<button id="newcreditcard-button" class="button button-rounded button-payment button-cc-payment">Add a New Credit Card</button> 
+				<button id="newbankaccount-button" class="button button-rounded button-payment button-ba-payment">Add a New Bank Account</button> 
 			</div>
 			<div class="payment-add checkoutform-container payment-cc">
 				<p class="explain">Sellers getting paid through direct deposit to a bank account are paid every Monday at 5pm after a minimum 14 days after the sale.</p>
-				<button id="populate">Populate</button>
-				<div class="div-error">
-					<div class="error-format"></div>
-				</div>
+				<button class="populate">Populate</button>
 				{% include 'account/cc_form.html' %}
 			</div>
-		</div> <!-- end paymentbox -->
-	</div>
-	<div class="covebox paymentbox-container">
-		<h4 class="maincontent-title">Receiving Payments<img class="balanced-image" src="{{STATIC_URL}}img/balanced-image.png"/></h4>
-		<div class="paymentbox">
-			<div class="payment-current">
-			{% if user.basicuser.payment_method == 'directdeposit' %}
-				<h5>Default Payout Method: Bank Account Direct Deposit</h5>
-				<p>{{user.basicuser.bankaccount.name}}</p>
-				<p>{{user.basicuser.bankaccount.bank_name}}</p>
-				<p>{{user.basicuser.bankaccount.account_number}}</p>
-			{% elif user.basicuser.payment_method == 'check' %}
-				<h5> Current Payout Method: Check by Mail</h5>
-				<p>{{user.basicuser.checkaddress.name}}</p>
-				<p>{{user.basicuser.checkaddress.address_one}}</p>
-				<p>{{user.basicuser.checkaddress.address_two}}</p>
-				<p>{{user.basicuser.checkaddress.city}}, {{user.basicuser.checkaddress.state}} {{user.basicuser.checkaddress.zipcode}}</p>
-			{% else %}
-				<h5> Current Payout Method: None</h5>
-			{% endif %}
-			</div>
-			<div class="payment-new">
-				<button id="newbankaccount-button" class="button button-rounded button-payment">Receive Payments By Direct Deposit ( *recommended )</button>
-				<button id="newmailingaddress-button" class="button button-rounded button-payment">Receive Payments By Check</button>
-			</div>
-			<div class="payment-add checkoutform-container payment-address">
-				<p class="explain">By choosing to be paid out through check by mail, we will assess a $5 service and processing fee, and we will 
-				not mail a check until your payout exceeds $50. Checks are mailed the first monday of every month.</p>
-				{% include 'general/address.html' %}
-			</div>
 			<div class="payment-add checkoutform-container payment-ba">
-				<p class="explain">Sellers getting paid through direct deposit to a bank account are paid every Monday at 5pm after a minimum 14 days after the sale.</p>
-				<button id="populate">Populate</button>
-				<div class="div-error">
-					<div class="error-format"></div>
-				</div>
-				<form id="bankaccount">
-					<div class="form-group">
-						<label for="companyname">Account Holder's Name</label>
-						<table>
-							<tr>
-								<td class="form-input"><input type="text" class="form-control" id="ba-name" name="account_name" placeholder="John Doe"></td>
-								<td class="form-img"><img src="{{STATIC_URL}}img/blank.png"/></td>
-							</tr>
-						</table>
-					</div>
-					<div class="form-group">
-						<label for="companyname">Bank Account Number</label>
-						<table>
-							<tr>
-								<td class="form-input"><input type="text" class="form-control" id="ba-number" name="bank_account_number" placeholder="32221847314"></td>
-								<td class="form-img"><img src="{{STATIC_URL}}img/blank.png"/></td>
-							</tr>
-						</table>
-					</div>
-					<div class="form-group">
-						<label for="companyname">Routing Number</label>
-						<table>
-							<tr>
-								<td class="form-input"><input type="text" class="form-control" id="ba-routing" name="routing_number" placeholder="8887776665555"></td>
-								<td class="form-img"><img src="{{STATIC_URL}}img/blank.png"/></td>
-							</tr>
-						</table>
-					</div>
-					<button id="ba-submit" class="button button-action button-rounded"><img src="{{STATIC_URL}}img/ajax-loader.gif"/><span>Set as Bank Account</span></button>
-					<button class="button button-rounded payment-cancel">Cancel</button>
-				</form>
+				<p class="explain">Please check your bank websites for the routing number used specifically for ACH or electronic deposits. Some large banks, particularly Bank Of America, may have different routing numbers for checks and direct deposits.
+				Note that wire transfer numbers are NOT the same as the routing number, and they are NOT the same as the bank account number.
+				Payments might be delayed by up to (3) three to (5) five business days if incorrect information is provided</p>
+				{% include 'account/ba_form.html' %}
+				
 			</div>
-		</div>
+		</div> <!-- end paymentbox -->
 	</div>
   		
 {% endblock %}

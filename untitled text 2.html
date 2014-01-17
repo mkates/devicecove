@@ -1,0 +1,38 @@
+{% if not preview %}
+	<div class="otherviewers">	
+		<p>This item was listed on <span>{{item.listeddate }}</span></p>
+		{% if item.liststatus == 'active' %}
+		<div class="savebutton">
+			{% if user.basicuser == item.user %}
+				<a href="/list/describe/{{item.id}}" class="editaction button button-rounded button-highlight">Edit</a>
+			{% else %}
+				<img id="saveloader" src="{{STATIC_URL}}img/ajax-loader.gif"/>
+				{% if saved %}
+					<button id="save" class="button button-rounded button-royal">Saved</button>
+				{% else %}
+					<button id="save" class="button button-rounded">Save</button>
+				{% endif %}
+			{% endif %}
+		</div>
+		{% endif %}
+	</div>
+ {% endif %}
+ 
+ 
+ <!-- 
+<a href="/item/{{item.id}}/details"><div class="item">
+									<div class="itemname">{{itm.name}}</div>
+									<div class="itemsoldby">{{itm.user.company}}</div>
+									<div class="itemimage">
+										<div class="verticalaligner">
+											<img src="{%if itm.mainimage %}{{itm.mainimage.photo_medium.url}}{% else %}{{STATIC_URL}}img/noimage.jpg{% endif %}" alt="{{itm.name}}"/>		
+										</div>
+									</div>
+									<div class="price">
+										<div class="pricebox">
+											<p class="price">${{item.price}}</p>
+											<p class="pricelabel">{{item.get_type_display}} &#8901; {{item.get_contract_display}}</p>
+										</div>
+									</div>
+								</div></a>
+ -->

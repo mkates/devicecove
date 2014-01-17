@@ -1,0 +1,103 @@
+<div class="maincontent-container covebox history-item">
+	<div class="order-overview row">
+		<div class="col-md-4 col-sm-4 col-xs-12 order-details-container">
+			<h4 class="order-details">Order Placed</h4>
+			<p class="order-date">{{pitem.purchase_date|date:"F jS, Y"}}</p>
+			<p class="order-number">Order #: <span>00000{{pitem.cartitem.id}}</span></p>
+			<div class="order-info">
+				<p class="order-info-header">Shipping Address</p>
+				<p>{{pitem.cartitem.checkout.shipping_address.name}}</p>
+				<p>{{pitem.cartitem.checkout.shipping_address.address_one}}</p>
+				{% if pitem.cartitem.checkout.shipping_address.address_two %}<p>{{pitem.cartitem.checkout.shipping_address.address_two}}</p>{% endif %}
+				<p>{{pitem.cartitem.checkout.shipping_address.city}}, {{pitem.cartitem.checkout.shipping_address.state}} {{pitem.cartitem.checkout.shipping_address.zipcode}}</p>
+				<p>{{pitem.cartitem.checkout.shipping_address.phonenumber}}</p>
+			</div>
+			{% if buyhistory %}
+			<div class="order-info">
+				<p class="order-info-header">Payment</p>
+				{% if pitem.cartitem.checkout.payment_method == 'card' %}
+				<p>{{pitem.cartitem.checkout.cc_payment.brand}}</p>
+				<p>* * * * * * * * {{pitem.cartitem.checkout.cc_payment.last_four}}</p>
+				<p>Expires: {{pitem.cartitem.checkout.cc_payment.expiration_month}}/{{pitem.cartitem.checkout.cc_payment.expiration_year}}</p>
+				{% elif pitem.cartitem.checkout.payment_method == 'bank' %}
+				<p>{{pitem.cartitem.checkout.ba_payment.name}}</p>
+				<p>{{pitem.cartitem.checkout.ba_payment.bank_name}}</p>
+				<p>{{pitem.cartitem.checkout.ba_payment.account_number}}</p>
+				{% endif %}
+			
+			</div>
+			{% endif %}
+			<p class="order-price">Total Price: <span>${{pitem.cartitem.amount|floatformat:"2"}}</span>
+			<p class="order-quantity">Quantity: <span>{{pitem.cartitem.quantity}} (at ${{pitem.cartitem.item.price|floatformat:"2"}} each)</span>
+		</div>
+		<div class="col-md-8 col-sm-8 col-xs-12">
+			<p class="order-status">Status: <span>{% if pitem.item_sent %}Shipped {% else %}Waiting to be Shipped{% endif %}</span></p>
+			<p class="order-next"><span>Waiting for seller to provide shipping information</span></p>
+			<div class="order-item row">
+				<div class="col-md-4 col-sm-4 col-xs-12 order-image">
+					<img src="{{STATIC_URL}}img/blueshield.png"/>
+				</div>
+				<div class="col-md-8 col-sm-8 col-xs-12 order-description">
+					<p class="order-name"><a href='/item/{{pitem.cartitem.item.id}}/details'>{{pitem.cartitem.item.name}} (Condition: {{pitem.cartitem.item.get_conditionquality_display}})</a></p>
+					<p class="order-seller">Seller Information</p>
+					<p class="order-seller-info">{{pitem.seller.name}}</p>
+					<p class="order-seller-info">{{pitem.seller.email}}</p>
+					<p class="order-seller-info">{{pitem.seller.company}}</p>
+					<p class="order-seller-info">{{pitem.seller.city}}, {{pitem.seller.state}}</p>
+					<p class="order-seller-info">{{pitem.seller.phonenumber}}</p>
+				</div>
+			</div>
+			<div class="row">
+				<p class="order-seller-message">Shipping Information: <span>{% if pitem.seller_message %}{{pitem.seller_message}}{% else %} The seller has not provided any shipping details{% endif %}</span></p>
+				{% if buyhistory %}
+				<p id="seller-message-current-{{pitem.id}}" class="seller-message-current order-seller-message">
+					Your Message for Seller: 
+					<span>
+						{% if pitem.buyer_message %}
+							{{pitem.buyer_message}} <span data-message-current="#seller-message-current-{{pitem.id}}" data-form="#seller-message-form-{{pitem.id}}" class="edit-message seller-message-button">edit</span>
+						{% else %} 
+							You have not yet provided any additional information<span data-message-current="#seller-message-current-{{pitem.id}}" data-form="#seller-message-form-{{pitem.id}}" class="edit-message seller-message-button">add message</span>
+						{% endif %}
+					</span>
+				</p>
+				{% else %}
+				<p class="order-seller-message">Buyer Message: <span>{% if pitem.buyer_message %}{{pitem.buyer_message}}{% else %}The buyer has not provided any additional shipping details{% endif %}</span></p>
+				{% endif %}
+				
+				{% if buyhistory %}
+				<form method="POST" action="/purchasesellermessage/{{pitem.id}}" id="seller-message-form-{{pitem.id}}" class="seller-message-form">
+					{% csrf_token %}
+					<p> Additional Information for Seller <span>(i.e. special delivery instructions, any shipping delays)</span></p>
+					<textarea name="buyer-message" class="buymessage form-control">{{pitem.buyer_message}}</textarea> 
+					<button class="button button-tiny button-primary button-rounded" name="submit" value="submit">Send Message</button>
+					<a data-message-current="#seller-message-current-{{pitem.id}}" data-form="#seller-message-form-{{pitem.id}}" class="seller-message-cancel button button-rounded button-tiny">Cancel</a>
+				</form>
+				{% endif %}
+
+			</div>
+		</div>
+	</div>
+	{% if buyhistory %}
+	<div class="row order-actions">
+		<a href="/account/reportproblem/{{pitem.id}}" class="button button-rounded button-tiny">Report A Problem</button>
+		<a data-message-current="#seller-message-current-{{pitem.id}}" data-form="#seller-message-form-{{pitem.id}}" class="seller-message-button button button-rounded button-tiny">Send Seller Shipping Instructions</a>
+	</div>
+	{% endif %}
+	{% if sellhistory %}
+	<div class="row shippingrow">
+		
+		<form method="POST" action="/account/purchaseshippinginfo/{{pitem.id}}" id="shipping-form-{{pitem.id}}" class="shipping-form">
+			{% csrf_token %}
+			<p> Please describe shipping details, including shipping company and tracking number</p>
+			<textarea name="shipping-details" class="buymessage form-control" placeholder="Shipping details i.e. shipping company and tracking number">{{pitem.seller_message}}r</textarea> 
+			<div class="checkbox">
+				<label>
+					<input type="checkbox" name="shipped" checked> Has this item been shipped
+				</label>
+			</div>
+			<button class="button button-tiny button-primary button-rounded" name="submit" value="submit">Submit Shipping Information</button>
+		</form>
+	</div>
+	{% endif %}
+
+</div>

@@ -23,12 +23,14 @@
 	float: right;
 	margin-top: 40px;
 	margin-right: 20px;
-}
-.maincontainer .cart-header .cart-actions a {
 	padding-left 25px;
 	font-size: 13px;
 	margin-left: 10px;
 }
+.maincontainer .cart-header .cart-actions a{
+	font-size: 13px;
+}
+
 .welcome-message {
 	padding: 10px 0 10px 20px;
 	margin: 0;
@@ -75,6 +77,10 @@
 	display: none;
 	{% endif %}
 }
+.cart-item .item-information .not-available {
+	font-weight: 800;
+	color: red;
+}
 
 </style>
 {% endblock%}
@@ -86,12 +92,12 @@
 	<div class="cart-header covebox">
 		<div class="cart-actions">
 			<a class="button-small button button-rounded" href="/productsearch/veterinary/all/all">Continue Shopping</a>
-			{% if shoppingcart.cartitem_set.all %}
+			{% if cart_items_count %}
 			<a class="button-small button button-rounded button-action proceedtocheckout" href="/checkout/verify">Proceed To Checkout</a>
 			{% endif %}
 		</div>
 		<p class="welcome-message">{% if user.basicuser %}Hi {{user.basicuser.name}},{% else %}Save your cart items for later by <a href="/login">Logging In</a>{% endif %}</p>
-		<h3>You have <span class="itemcount">{{itemcount}}</span> item{% if count != 1 %}s{% endif %} in your shopping cart</h3>
+		<h3>You have <span class="itemcount">{{cart_items_count}}</span> item{% if cart_items_count != 1 %}s{% endif %} in your shopping cart</h3>
 	</div>
 	<div class="row">
 		<div class="item-summary col-md-9 col-sm-9 col-xs-12">
@@ -104,30 +110,46 @@
 					<div class="item-information col-md-7 col-sm-7 col-xs-12">
 						<h6><a href="/item/{{cartitem.item.id}}/details">{{cartitem.item.name}}</a></h6>
 						<p>Sold by: {{cartitem.item.user.company}} ({{cartitem.item.user.city}}, {{cartitem.item.user.state}} {{cartitem.item.user.zipcode}})</p>
+						{% if cartitem.item.liststatus == "active" %}
 						<p class="item-quantity">Quantity: <span class="quantity">
 								{% load get_range %}
 								{% if cartitem.item.quantity > 1 %}
-									<select class="item-quantity" data-itemid='{{cartitem.item.id}}' data-item-handle='#cart-item-{{cartitem.item.id}}'>
+								<form class="quantity-form" action="/updatecart/quantity/{{cartitem.id}}" method="POST">
+									{% csrf_token %}
+									<select name="quantity" class="item-quantity" data-itemid='{{cartitem.item.id}}' data-item-handle='#cart-item-{{cartitem.item.id}}'>
 									{% for i in cartitem.item.quantity|get_range %}
 										{% if i > 0 %}
 											<option value="{{i}}" {% if i == cartitem.quantity %}selected{% endif%}>{{i}}</option>
 										{% endif %}
 									{% endfor %}
 									</select>
+								</form>
 								{% else %}
 									1
 								{% endif %}
-
 						</span></p>
-						{% if cartitem.numbercarts %}<p class="otherbuyers">{{cartitem.numbercarts}} other {%if cartitem.numbercarts == 1 %}person has{% else %}people have{% endif %} this item in their cart</p>{% endif %}
-						<span class="item-actions"><a data-itemid='{{cartitem.item.id}}' data-item-handle='#cart-item-{{cartitem.item.id}}' class="move-to-saved">Move to Wish List</a> &sdot; <a class="delete-item" data-itemid='{{cartitem.item.id}}' data-item-handle='#cart-item-{{cartitem.item.id}}'>Delete Item</a></span>
+						{% if cartitem.numbercarts %}<p class="otherbuyers">{{cartitem.numbercarts}} other {%if cartitem.numbercarts == 1 %}person has{% else %}people have{% endif %} this item in their cart</p>{% endif %}					
+						{% endif %}
+						{% if cartitem.item.liststatus != "active" %}
+						<p class="not-available"> This item is no longer available. This item has been taken down or been purchased.</p>
+						{% endif %}
+						<span class="item-actions">
+							{% if cartitem.item.liststatus == "active" %}
+							<form action="/updatecart/wishlist/{{cartitem.id}}" method="POST">
+								{% csrf_token %}
+								<button name="submit" value="submit" class="move-to-saved">Move to Wish List</button> 
+							</form>
+							&sdot; 
+							{% endif %}
+							<form action="/updatecart/delete/{{cartitem.id}}" method="POST">
+								{% csrf_token %}
+								<button class="delete-item" >Delete Item</button>
+							</form>
+						</span>
 					</div>
 					<div class="item-price col-md-2 col-sm-2 col-xs-12">
-						<p>${{cartitem.item.price|floatformat|intcomma}}</p>
+						<p>${{cartitem.item.price|floatformat:"2"|intcomma}}</p>
 					</div>
-				</div>
-				<div class="item-loader">
-					<img src="{{STATIC_URL}}img/ajax-loader.gif"/>
 				</div>
 			</div>
 			{% endfor %}
@@ -138,9 +160,9 @@
 		</div>
 		<div class="covebox cart-summary col-md-3 col-sm-3 col-xs-12">
 			<h6> Order Summary</h6>
-			<p>Items (<span id="itemcount" class="itemcount">{{itemcount}}</span>)<span class="totalprice">{{total}}</span></p>
+			<p>Items (<span id="itemcount" class="itemcount">{{cart_items_count}}</span>)<span class="totalprice">${{cart_total|floatformat:"2"|intcomma}}</span></p>
 			<p>Shipping <span>FREE</span></p>
-			<p class="total">Total:<span class="totalprice">{{total}}</span></p>
+			<p class="total">Total:<span class="totalprice">{{cart_total|floatformat:"2"}}</span></p>
 		</div>
 		
 	</div>
@@ -152,52 +174,11 @@
 {% block jsblock %}
 <script>
 $(document).ready(function() {
-	imageObj = new Image();
-	imageObj.src= "{{STATIC_URL}}img/whitetransparency.png"
-	 
-	$('.delete-item').click(function() {
-		updateCart($(this),'delete','');	
-	});
-	$('.move-to-saved').click(function() {
-		updateCart($(this),'watchlist','');	
-	});
-	$('.item-quantity').change(function() {
-		updateCart($(this),'quantity',$(this).val());	
+
+	$('.quantity-form select').change(function() {
+		console.log('hre');
+		$(this).parent().submit();
 	});
 });
-
-function updateCart(handle,method,quantity) {
-	var item_handle = $(handle.attr('data-item-handle'));
-	var itemid = $(handle).attr('data-itemid');
-	data = {'method':method,'itemid':itemid,'quantity':quantity};
-	item_handle.find('.item-loader').css('display','block');
-	$.ajax({
-		type : "POST",
-		data : data,
-		url : "/updatecart",
-		success : function(data) {
-			if ( data['status'] == '400' && method == 'delete' ){
-				$(item_handle).remove();
-			} else if (data['status'] == '400' && method == 'watchlist'){
-				$(item_handle).remove();
-			} else if (data['status'] == 600) {
-				window.location.href = data['redirect']
-			}
-			console.log(data['count']);
-			item_handle.find('.item-loader').css('display','none');
-			$(".totalprice").text(data['total']);
-			$(".itemcount").text(data['itemcount']);
-			$("#sc-count").text(data['itemcount']);
-			if (data['itemcount'] == '0') {
-				$('.noitems').css('display','block');
-				$('.proceedtocheckout').css('display','none');
-			}
-		}, 
-		error : function(jqXHR, textStatus, errorThrown) {
-			alert(textStatus);
-		}
-	});
-
-}
 </script>
 {% endblock %}

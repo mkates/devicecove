@@ -103,7 +103,7 @@ var validateinput = function validateinput(handler,submiting) {
 	}
 	if ($(handler).attr('id') =='password' || submiting) {
 		if ($("#password").val().length < 6) {
-			$("#passwordtext").html("Password must be at least 6 characters");
+			$("#passwordtext").html("Too Short");
 			formelements['password'] = false;
 		}  else {
 			$("#passwordtext").html("");

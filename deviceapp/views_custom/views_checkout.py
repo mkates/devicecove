@@ -9,6 +9,7 @@ from django.utils.html import escape
 from django.shortcuts import render
 from django.core.exceptions import ObjectDoesNotExist
 from django.conf import settings
+import views_payment as payment_view
 import json
 from datetime import datetime
 from django.utils.timezone import utc
@@ -111,35 +112,32 @@ def addToCart(request,itemid):
 	newCartItem.save()
 	return HttpResponseRedirect('/cart')
 	
-##### Update the Cart #########
-def updatecart(request):
-	item = Item.objects.get(id=request.POST.get('itemid',''))
-	method = request.POST.get('method','')
-	quantity = request.POST.get('quantity','')
+##### Update the Cart Wishlist #########
+def updateCartWishlist(request,cartitemid):
+	cartitem = CartItem.objects.get(id=cartitemid)
 	shoppingcart = getShoppingCart(request)
-	# If deleting an item from the cart
-	if method == 'delete':
-		ci = CartItem.objects.get(item=item,shoppingcart=shoppingcart)
-		ci.delete()
-	# If moving the item to the watchlist
-	if method == 'watchlist':
-		if request.user.is_authenticated():
-			bu = BasicUser.objects.get(user=request.user)
-			ci = CartItem.objects.get(item=item,shoppingcart=shoppingcart)
-			ci.delete()
-			si, created = SavedItem.objects.get_or_create(item=item,user=bu)
-			si.save()
-		else:
-			dict = {'status':600,'redirect':'/login?next=/cart'}
-			return HttpResponse(json.dumps(dict), content_type='application/json')
-	# If changing the quantity of an item
-	if method == 'quantity':
-		ci = CartItem.objects.get(item=item,shoppingcart=shoppingcart)
-		ci.quantity = int(quantity)
-		ci.save()	
-	shoppingcart_totals = getShoppingCartTotals(shoppingcart)
-	shoppingcart_totals['status']=400 #400 is a success for the method
-	return HttpResponse(json.dumps(shoppingcart_totals), content_type='application/json')
+	if request.user.is_authenticated():
+		bu = BasicUser.objects.get(user=request.user)
+		cartitem.shoppingcart = None
+		cartitem.delete()
+		si, created = SavedItem.objects.get_or_create(item=cartitem.item,user=bu)
+		si.save()
+		return HttpResponseRedirect('/cart')
+	else:
+		return HttpResponseRedirect('/login?next=/cart')
+##### Update the Cart Wishlist #########
+def updateCartDelete(request,cartitemid):
+	cartitem = CartItem.objects.get(id=cartitemid)
+	shoppingcart = getShoppingCart(request)
+	cartitem.shoppingcart = None
+	cartitem.delete()
+	return HttpResponseRedirect('/cart')
+
+def updateCartQuantity(request,cartitemid):
+	cartitem = CartItem.objects.get(id=cartitemid)
+	cartitem.quantity = request.POST['quantity']
+	cartitem.save()
+	return HttpResponseRedirect('/cart')
 
 ###################################
 ### Confirm User In Checkout ######
@@ -211,11 +209,12 @@ def checkoutlogin(request):
 ### Adds each item from the BU into the checkout cart
 def createCheckout(bu):	
 	cartitems = bu.shoppingcart.cartitem_set.all()
-	checkout = Checkout(buyer=bu,shipping_address=None,payment=None,state=1)
+	checkout = Checkout(buyer=bu,shipping_address=None,payment_method='none',state=1)
 	checkout.save()
 	for cartitem in cartitems:
-		checkout.cartitem.add(cartitem)
-	checkout.save()
+		if cartitem.item.liststatus == 'active':
+			cartitem.checkout = checkout
+			cartitem.save()
 	return checkout.id
 
 ###################################
@@ -267,7 +266,8 @@ def deleteAddress(request):
 		if checkout.shipping_address == deleteaddress:
 			checkout.shipping_address = None
 			checkout.save()
-		deleteaddress.delete()
+		deleteaddress.user = None
+		deleteaddress.save()			
 		return HttpResponseRedirect('/checkout/shipping/'+str(checkoutid))
 	return HttpResponseRedirect('/checkout/shipping/'+str(checkoutid))
 
@@ -314,100 +314,81 @@ def checkoutPayment(request,checkoutid):
 	return render_to_response('checkout/checkout_payment.html',{'checkout':checkout},context_instance=RequestContext(request))
 
 @login_required
-def	usePayment(request):
+def checkoutUsePayment(request,paymenttype,checkoutid,paymentid):
 	if request.method == 'POST':
-		checkoutid = request.POST['checkout_id']
-		paymentid = request.POST['payment_id']
 		# Checkout Validation
 		checkout = Checkout.objects.get(id=checkoutid)
 		checkoutValid = checkoutValidCheck(checkout,request)
 		if checkoutValid['status'] != 201:
 			return HttpResponseRedirect('/checkout/verify/'+checkoutValid['error'])	
-		#Set the payment of the checkout to the BalancedCard
-		checkout = Checkout.objects.get(id=checkoutid)
-		payment = BalancedCard.objects.get(id=paymentid)
-		checkout.payment = payment
-		checkout.state = 3
-		checkout.save()
+		if paymenttype == 'card':
+			card = BalancedCard.objects.get(id=paymentid)
+			checkout.cc_payment = card
+			checkout.payment_method = 'card'
+			checkout.save()
+		elif paymenttype == 'bank':	
+			ba = BalancedBankAccount.objects.get(id=paymentid)
+			checkout.ba_payment = ba
+			checkout.payment_method = 'bank'
+			checkout.save()
 		return HttpResponseRedirect('/checkout/review/'+str(checkoutid))
+	return HttpResponseRedirect('/checkout/review/'+str(checkoutid))
 	
 @login_required
-def deletePayment(request):
+def checkoutDeletePayment(request,paymenttype,checkoutid,paymentid):
 	if request.method == 'POST':
-		checkoutid = request.POST['checkout_id']
-		paymentid = request.POST['payment_id']
 		# Checkout Validation
 		checkout = Checkout.objects.get(id=checkoutid)
 		checkoutValid = checkoutValidCheck(checkout,request)
 		if checkoutValid['status'] != 201:
 			return HttpResponseRedirect('/checkout/verify/'+checkoutValid['error'])	
-		# Grab a handle for the address to delete
-		deletecard = BalancedCard.objects.get(id=paymentid)
-		#Reset the checkout references to prevent delete propagation
-		if checkout.payment == deletecard:
-			checkout.payment = None
-			checkout.save()
-		deletecard.delete()
+		# Grab a handle for the card to delete
+		if paymenttype == 'card':
+			card = BalancedCard.objects.get(id=paymentid)
+			#Reset the checkout references to prevent delete propagation
+			if checkout.payment_method == 'card' and checkout.cc_payment==card:
+				checkout.payment_method = 'none'
+				checkout.save()
+		elif paymenttype == 'bank':	
+			ba = BalancedBankAccount.objects.get(id=paymentid)
+			#Reset the checkout references to prevent delete propagation
+			if checkout.payment_method == 'bank' and checkout.ba_payment==ba:
+				checkout.payment_method = 'none'
+				checkout.save()
+		#Safely de-references the card
+		dp = payment_view.deletePayment(request,paymenttype,paymentid)
 		return HttpResponseRedirect('/checkout/payment/'+str(checkoutid))
 	return HttpResponseRedirect('/checkout/payment/'+str(checkoutid))
-
+	
 @login_required
-def addCreditCard(request,checkoutid):
+def checkoutAddCard(request,checkoutid):
 	# Checkout Validation
 	checkout = Checkout.objects.get(id=checkoutid)
 	checkoutValid = checkoutValidCheck(checkout,request)
 	if checkoutValid['status'] != 201:
 		return HttpResponseRedirect('/checkout/verify/'+checkoutValid['error'])
 	# Add credit card to a Basic User
-	balanced_addCard = addBalancedCard(request)
-	if balanced_addCard['status'] == 201:
-		checkout.payment = balanced_addCard['card']
+	balancedCard = payment_view.addBalancedCard(request)
+	if balancedCard['status'] == 201:
+		checkout.payment_method = 'card'
+		checkout.cc_payment = balancedCard['card']
 		checkout.save()	
-	return HttpResponse(json.dumps({'status':balanced_addCard['status'],'error':balanced_addCard['error']}), content_type='application/json')
+	return HttpResponse(json.dumps({'status':balancedCard['status'],'error':balancedCard['error']}), content_type='application/json')
 
-#Adds a balanced CC and get or creates a BU's Customer URI
-def addBalancedCard(request):
-	uri = request.POST.get('uri','')
-	brand = request.POST.get('brand','')
-	cardhash = request.POST.get('hash','')
-	expiration_month = request.POST.get('expiration_month','')
-	expiration_year = request.POST.get('expiration_year','')
-	last_four = request.POST.get('last_four','')
-	try:
-		# Configure Balanced API
-		balanced.configure(settings.BALANCED_API_KEY)
-		# Either find or get the Balanced Customer
-		bu = BasicUser.objects.get(user=request.user)
-		# See if user has a balanced account
-		if bu.balanceduri:
-			customer = balanced.Customer.find(bu.balanceduri)
-		# If not, create a Balanced Customer and update BU Profile
-		else:
-			customer = balanced.Customer(name=bu.name,email=bu.email,phone=bu.phonenumber).save()
-			bu.balanceduri = customer.uri
-			bu.save()
-		# If card not already saved, add the card to the customer and add the card to the database
-		if not doesCardExist(bu,cardhash):
-			customer.add_card(uri)
-			new_card = BalancedCard(user=bu,card_uri=uri,brand=brand,cardhash=cardhash,expiration_month=expiration_month,expiration_year=expiration_year,last_four=last_four)
-			new_card.save()
-			#If the only credit card, set is as the default
-			if not bu.default_cc:
-				bu.default_cc = new_card
-				bu.save()
-			return {'status':201,'card':new_card,'error':'None'} # Success
-		return {'status':500,'error':'Card Already Saved'} # Card Already Saved
-	except Exception,e:
-		return {'status':500,'error':e} # Failure
-
-#Helper method to see if the card hash already exists
 @login_required
-def doesCardExist(bu,hash):
-	cards = bu.balancedcard_set.all();
-	for card in cards:
-		if card.cardhash == hash:
-			return True
-	return False	
+def checkoutAddBankAccount(request,checkoutid):
+	# Checkout Validation
+	checkout = Checkout.objects.get(id=checkoutid)
+	checkoutValid = checkoutValidCheck(checkout,request)
+	if checkoutValid['status'] != 201:
+		return HttpResponseRedirect('/checkout/verify/'+checkoutValid['error'])
+	# Add bank account to checkout
+	balancedCard = payment_view.addBalancedBankAccount(request)
+	if balancedCard['status'] == 201:
+		checkout.payment_method = 'bank'
+		checkout.ba_payment = balancedCard['bank']
+		checkout.save()	
+	return HttpResponse(json.dumps({'status':balancedCard['status'],'error':balancedCard['error']}), content_type='application/json')
 	
 ###################################
 ### Checkout Review  ##############
@@ -419,7 +400,7 @@ def checkoutReview(request,checkoutid):
 	checkoutValid = checkoutValidCheck(checkout,request)
 	if checkoutValid['status'] != 201:
 		return HttpResponseRedirect('/checkout/verify/'+checkoutValid['error'])
-	elif checkout.payment == None:
+	elif checkout.payment_method == None:
 		return HttpResponseRedirect('/checkout/payment/'+str(checkoutid))
 	error = allItemsAvailable(checkout)
 	return render_to_response('checkout/checkout_review.html',{'checkout':checkout,'error':error},context_instance=RequestContext(request))
@@ -482,21 +463,24 @@ def checkoutPurchase(request,checkoutid):
 	# 2. Make sure all the items are still available
 	notavailable = allItemsAvailable(checkout)
 	if notavailable:
-		return render_to_response('checkout/checkout_review.html',{'checkout':checkout,'error':available},context_instance=RequestContext(request))
+		return render_to_response('checkout/checkout_review.html',{'checkout':checkout,'error':notavailable},context_instance=RequestContext(request))
 	
 	# 3. Make purchase
 	try:
 		bu = BasicUser.objects.get(user=request.user)
-		card_uri = checkout.payment.card_uri
+		if checkout.payment_method == 'card':
+			uri = checkout.cc_payment.uri
+		else:
+			uri = checkout.ba_payment.uri
 		balanced.configure(settings.BALANCED_API_KEY) # Configure Balanced API
 		customer = balanced.Customer.find(bu.balanceduri)
 		amount = checkout.total()*100
-		customer.debit(appears_on_statement_as="Vet Cove",amount=amount,source_uri=card_uri)
-	except:
-		return render_to_response('checkout/checkout_review.html',{'checkout':checkout,'error':'There was an error charging your credit card'},context_instance=RequestContext(request))
+		customer.debit(appears_on_statement_as="Vet Cove",amount=amount,source_uri=uri)
+	except Exception,e:
+		return render_to_response('checkout/checkout_review.html',{'checkout':checkout,'error':e},context_instance=RequestContext(request))
 	
 	# 4. Update Items in the system, delete cart-items create Purchased Objects
-	for cartitem in checkout.cartitem.all():
+	for cartitem in checkout.cartitem_set.all():
 		item = cartitem.item
 		if item.quantity == cartitem.quantity:
 			item.liststatus = 'sold'
@@ -504,11 +488,12 @@ def checkoutPurchase(request,checkoutid):
 		elif item.quantity > cartitem.quantity:
 			item.quantity -= cartitem.quantity
 		item.save()
-		pi = PurchasedItem(seller=item.user,buyer=bu,item=cartitem.item,quantity=cartitem.quantity)
+		amount = cartitem.item.price * cartitem.quantity
+		pi = PurchasedItem(seller=item.user,buyer=bu,cartitem=cartitem)
 		pi.save()
 		cartitem.shoppingcart = None
 		cartitem.save()
-		
+
 	# 5. Mark checkout object as purchased
 	checkout.purchased = True
 	checkout.save()
@@ -554,10 +539,10 @@ def getShoppingCartTotals(shoppingcart):
 #Checks if all items are available, and updates checkout accordingly
 def allItemsAvailable(checkout):
 	changed = False
-	for cartitem in checkout.cartitem.all():
+	for cartitem in checkout.cartitem_set.all():
 		if cartitem.item.liststatus != "active":
-			checkout.cartitem.remove(cartitem)
-			checkout.save()
+			cartitem.checkout = None
+			cartitem.save()
 			changed = True
 		elif cartitem.item.quantity < cartitem.item.quantity:
 			checkout.cartitem.quantity = cartitem.item.quantity
@@ -593,7 +578,7 @@ def checkoutValidCheck(checkout,request):
 		dict = {'status':100,'error':'notloggedin'} #User not logged in at all
 	
 	#If the user's shoppingcart is empty
-	if not checkout.cartitem.all():
+	if not checkout.cartitem_set.all():
 		dict = {'status':100,'error':'emptycart'} # Incorrect user
 	if dict:
 		dict['checkout'] = checkout

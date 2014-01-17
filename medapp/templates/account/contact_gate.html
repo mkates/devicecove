@@ -3,6 +3,7 @@
 
 {% block headercss %}
 <link href="{{STATIC_URL}}css/cc_form.css" rel="stylesheet" type="text/css" />
+<link href="{{STATIC_URL}}css/payment_methods.css" rel="stylesheet" type="text/css" />
 <style>
 .pagecontainer {
 	max-width: 1000px;
@@ -52,6 +53,31 @@
 	padding-top: 10px;
 	font-weight: 800;
 }
+#bankaccount table {
+	max-width: 600px;
+	width: 100%;
+}
+#bankaccount label {
+	font-weight: 200;
+}
+.ba-container {
+	display: none;
+}
+.gateform {
+	text-align: right;
+}
+.add-payment-container {
+	display: none;
+	margin-top: 20px;
+	background: #f6f6f6;
+	padding: 20px;
+	border:1px solid #ddd;
+	border-radius: 4px;
+	
+}
+.error-block {
+	display: block;
+}
 </style>
 
 {% endblock %}
@@ -59,17 +85,50 @@
 {% block jsblock %}
 <script type="text/javascript" src="{{STATIC_URL}}js/balanced.js"></script>
 <script type="text/javascript">
+var marketplaceUri = '/v1/marketplaces/TEST-MP49EIrAntwbE1iYZDuZWtjo';
 //BALANCED_CC GLOBAL VARIABLES
-var responseTarget = "/account/newcard_chargecommission/{{item.id}}";
-var success_redirect = "/account/messages/{{item.id}}";
-var balanced_cc_button_text = "Authorize Charge and View Buyers";
+var responseTarget_cc = "/account/newcard_chargecommission/{{item.id}}";
+var success_redirect_cc = "/account/messages/{{item.id}}";
+var balanced_cc_button_text = "Authorize Charge and View Buyer Contact Information";
+//BALANCED_BA GLOBAL VARIABLES
+var responseTarget_ba = "/account/newbank_chargecommission/{{item.id}}";
+var success_redirect_ba = "/account/messages/{{item.id}}";
+var balanced_ba_button_text = "Authorize Charge and View Buyer Contact Information";
+
+$(document).ready(function() {
+	$('.show-cc').click(function() {
+		$(".payment-button").removeClass('button-primary');
+		$(this).addClass('button-primary');
+		$('.ba-container').css('display','none');
+		$('.cc-container').css('display','block');
+	});
+	$('.show-ba').click(function() {
+		$(".payment-button").removeClass('button-primary');
+		$(this).addClass('button-primary');
+		$('.cc-container').css('display','none');
+		$('.ba-container').css('display','block');
+	});
+	$('.add-payment').click(function() {
+		$('.add-payment-container').fadeIn();
+	});
+	$('.use-payment-button').click(function() {
+		$(this).text("Processing. . . ");
+		$(this).prop('disabled',true);
+	});
+});
 </script>
 <script type="text/javascript" src="{{STATIC_URL}}js/balanced_cc.js"></script>
+<script type="text/javascript" src="{{STATIC_URL}}js/balanced_ba.js"></script>
 {% endblock %}
 
 {% block content %}
 <div class="pagecontainer row covebox">
 	<div class="gateway">
+		{% if error %}
+		<div class="error-format error-block">
+			There was an error attempting to charge your card. Please try again or use a different payment method
+		</div>
+		{% endif %}
 		<div class="gateway-header">
 			<h3>You have <span class="badge">1</span> buyer who wants to view your item offline</h3>
 		</div>
@@ -87,16 +146,29 @@ var balanced_cc_button_text = "Authorize Charge and View Buyers";
 			<div class="col-md-8 col-sm-8 col-xs-12 payment-row">
 				<div class="gateway-row">
 					<h5>Refundable Commission Payment</h5>
-					{% include 'account/cc_form.html'%}
+					<div class="paymentbox">
+						{% include 'account/payment_methods.html'%}
+					</div>
+					<button class="add-payment button button-rounded">Add A Payment</button>
+					<div class="add-payment-container">
+						<button class="payment-button show-cc button button-rounded button-tiny button-primary">Pay by Credit Card</button>
+						<button class="payment-button show-ba button button-rounded button-tiny">Pay by Bank Account</button>
+						<div class="cc-container">
+							{% include 'account/cc_form.html'%}
+						</div>
+						<div class="ba-container">
+							{% include 'account/ba_form.html'%}
+						</div>
+					</div>
 				</div>
 			</div>
 			<div class="col-md-4 col-sm-4 col-xs-12 total-row">
 				<div class="gateway-row">
 					<h5>Refundable Commission Fee</h5>
-					<p class="subheader">*The commission fee is 9% of the list price ($4232.11)
+					<p class="subheader">*The commission fee is 9% of the list price (${{item.price|floatformat:"2"}})
 					charged once and fully refundable if the item is not sold</p>
-					<p>Commission Fee ( 9% )<span>$432.11</span></p>
-					<p class="commission-total">Total:<span>$432.11</span></p>
+					<p>Commission Fee ( 9% )<span>${{commission|floatformat:"2"}}</span></p>
+					<p class="commission-total">Total:<span>${{commission|floatformat:"2"}}</span></p>
 				</div>
 			</div>
 

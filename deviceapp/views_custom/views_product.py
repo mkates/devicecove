@@ -76,6 +76,10 @@ def savedescribe(request,itemid):
 		item.serialno = request.POST.get('serialnumber','None')
 		item.modelyear = request.POST.get('modelyear',2014)
 		item.conditiontype = request.POST.get('conditiontype','preowned')
+		# New items can't be viewed offline
+		if item.conditiontype == 'new':
+			item.offlineviewing = False
+		item.quantity = request.POST.get('quantity',1)
 		item.originalowner = True if request.POST.get('originalowner','True')=='True' else False
 		item.save()
 		return HttpResponse(submitcode)
@@ -201,8 +205,8 @@ def listitempreview(request,itemid):
 	return HttpResponseRedirect('/listintro');
 
 @login_required
-def savepreview(request,itemid):
-	if request.method == "GET" and itemOwner(request,itemid):
+def activateListing(request,itemid):
+	if request.method == "POST" and itemOwner(request,itemid):
 		item = Item.objects.get(id=itemid)
 		item.liststatus = 'active'
 		item.save()
@@ -210,11 +214,10 @@ def savepreview(request,itemid):
 	return HttpResponseRedirect('/listintro');
 
 @login_required
-def deletelisting(request,itemid):
-	if request.method == "GET" and itemOwner(request,itemid):
+def deleteListing(request,itemid):
+	if request.method == "POST" and itemOwner(request,itemid):
 		item = Item.objects.get(id=itemid)
-		item.liststatus = 'deleted'
-		item.save()
+		item.delete()
 		return HttpResponseRedirect('/account/listings/incomplete');
 	return HttpResponseRedirect('/listintro');
 
@@ -224,11 +227,17 @@ def deletelisting(request,itemid):
 
 def itemdetails(request,itemid):
 	item = Item.objects.get(id=int(itemid))
-	#If item shouldn't be viewable
-	if item.liststatus != "active" and item.liststatus != "sold":
-		return HttpResponseRedirect("/error/itemdoesnotexist")
+	#If item shouldn't be viewable, different if its the lister looking
+	if request.user.is_authenticated():
+		if request.user.basicuser == item.user:
+			if item.liststatus not in ['active','unsold','sold']:
+				return HttpResponseRedirect("/error/itemdoesnotexist")
+	else:
+		if item.liststatus != "active" and item.liststatus != "sold":
+			return HttpResponseRedirect("/error/itemdoesnotexist")
 	industry = Industry.objects.get(id=1)
 	saved = False
+	authorized = False
 	shoppingcart = checkoutview.getShoppingCart(request)
 	if request.user.is_authenticated():
 		bu = BasicUser.objects.get(user=request.user)
@@ -237,8 +246,10 @@ def itemdetails(request,itemid):
 		if item.user != bu:
 			item.views += 1
 			item.save()
+		if BuyAuthorization.objects.filter(seller=item.user,item=item,buyer=bu).exists():
+			authorized = True
 	related = Item.objects.filter(subcategory = item.subcategory).order_by('savedcount')[:6]
-	dict = {'saved':saved,'item':item,'industry':industry,'related':related}
+	dict = {'saved':saved,'item':item,'industry':industry,'related':related,'authorized':authorized}
 	#Is the item in their shopping cart?
 	isInShoppingCart = False
 	if shoppingcart:
@@ -305,6 +316,9 @@ def itemOwner(request,itemid):
 	try:
 		bu = BasicUser.objects.get(user=request.user)
 		item = Item.objects.get(id=itemid)
+		# Only certain items can be edited
+		if item.liststatus in ['disabled','sold','deleted']:
+			return False
 		if item.user == bu:
 			return True
 		else:

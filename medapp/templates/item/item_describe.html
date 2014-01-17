@@ -55,6 +55,10 @@
 			</label>
 		</div>
 		<div class="entry">
+			<h5>Quantity <span>(must be 1 for any used items)</span></h5>
+			<input id="inputquantity" style="width:60px" type="number" name="quantity" class="form-control" value="{{item.quantity}}" {% if item.conditiontype != 'new' %}disabled{% endif %}>
+		</div>
+		<div class="entry">
 			<h5>Are You the Original Owner?</h5>
 			<label class="radio-inline">
 			  <input type="radio" name="originalowner" id="producttype_preowned" value="True" {%if item.originalowner %}checked{% endif %}> Yes
@@ -63,7 +67,6 @@
 			  <input type="radio" name="originalowner" id="producttype_refurbished" value="False" {%if not item.originalowner %}checked{% endif %}> No
 			</label>
 		</div>
-
 	</div>
 </div>
 
@@ -75,6 +78,20 @@
 $(document).ready(function() {
 	$("#inputcategory").change(function() {
 		retrieveCategories($("#inputcategory").val());
+	});
+	$("input[name=conditiontype]:radio").change(function() {
+		if ($(this).attr('value') != 'new') {
+			$("#inputquantity").val(1);
+			$("#inputquantity").prop('disabled',true);
+		} else {
+			$("#inputquantity").prop('disabled',false);
+		}
+	});
+	//Insures quantity of at least 1
+	$("#inputquantity").blur(function() {
+		if (!(parseInt($("#inputquantity").val()) > 0)) {
+			$("#inputquantity").val(1);
+		}
 	});
 });
 

@@ -2,9 +2,9 @@
 {% block headertitle %}<title>{{item.name}}</title>{% endblock%}
 {% block headercss %}
 <link href="{{STATIC_URL}}css/base.css" rel="stylesheet" type="text/css" />
+<link rel="stylesheet" type="text/css" href="{{STATIC_URL}}css/elastislide.css" />
 <link href="{{STATIC_URL}}css/productitem.css" rel="stylesheet" type="text/css" />
 <link href="{{STATIC_URL}}css/product.css" rel="stylesheet" type="text/css" />
-<link rel="stylesheet" type="text/css" href="{{STATIC_URL}}css/jquery.fancybox.css" media="screen" />
 <style>
 #saveloader {
 	display: none;
@@ -26,17 +26,18 @@
 {% endblock %}
 {%endblock %}
 {% block jsblock %}
-<script src="{{STATIC_URL}}js/jquery.zoom.js" type="text/javascript" ></script>
-<script src="{{STATIC_URL}}js/jquery.tinycarousel.js" type="text/javascript" ></script>
 <script src="http://malsup.github.com/jquery.form.js"></script> 
+<script src="{{STATIC_URL}}js/elastislide/modernizr.custom.17475.js"></script> 
+<script src="{{STATIC_URL}}js/elastislide/jquery.elastislide.js"></script> 
+<script src="{{STATIC_URL}}js/elastislide/jquerypp.custom.js"></script> 
 <script>
-
+$(document).ready(function() {	
+	$( '#carouselrelated' ).elastislide( {
+		minItems : 3
+	});
+});
 var loggedIn = {% if user.is_authenticated %}true{% else %}false{% endif %};
 $(document).ready(function(){
-	 $('#slider-code').tinycarousel({ 
-	 	display: 2,
-	 	duration: 500
-	 });
 	$(".thumbnail-container img").click(function() {
 		$("#ex1").css("background-image",'url('+$(this).attr("data-original")+')');
 		console.log($("#mainimage").css("width"));
@@ -53,7 +54,7 @@ $(document).ready(function(){
 $(document).ready(function() {
 	//Save Button Functionality
 	$('#save').click(function() {
-		if ($(this).text() == 'Save') {
+		if ($(this).text() == 'Add to Wishlist') {
 			var data = {'action':'save','id':{{item.id}}};
 			var action = 'save';
 		} else {
@@ -71,10 +72,10 @@ $(document).ready(function() {
             	if (data['status'] != '400'){
 					savebutton.css('display','inline-block');
 					if (action == "save") {
-						savebutton.html("Saved");
+						savebutton.html("Added to Wishlist");
 						savebutton.addClass("button-royal");
 					} else {
-						savebutton.html("Save");
+						savebutton.html("Add to Wishlist");
 						savebutton.removeClass("button-royal");
 					}
 					savebutton.prop("disabled",false);

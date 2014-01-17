@@ -102,6 +102,10 @@ $(document).ready(function() {
 .listbox .listnav {
 	margin: 30px 35px;
 }
+.listbox .listnav form {
+	display:inline-block;
+	float: right;
+}
 .actionbuttons a, .askquestion {
 	opacity: .4;
 	pointer-events: none;
@@ -218,6 +222,21 @@ $(document).ready(function() {
 {% block hidesave %}{% endblock %}
 
 {% block continuebutton %}
-	<a href="/savepreview/{{item.id}}" class="saveandcontinue button button-rounded button-highlight">{% if item.liststatus != 'incomplete' %}View Your Listing{% else %}List Your Product{% endif %}</a>
+{% if item.liststatus != 'sold' and item.liststatus != 'disabled' and item.liststatus != 'deleted' %}
+	<a href="/savepreview/{{item.id}}" class="saveandcontinue button button-rounded button-highlight">
+		{% if item.liststatus == 'active' %}
+			View Your Listing
+		{% elif item.liststatus == "incomplete" %}
+			List Your Item
+		{% elif item.liststatus == "unsold" %}
+			Reactivate Listing
+		{% endif %}
+	</a>
 	<a class="viewpreview button button-rounded">Preview Listing</a>
+{% endif %}
 {% endblock %}
+
+
+
+
+

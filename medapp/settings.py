@@ -28,8 +28,6 @@ from django.conf import global_settings
 TEMPLATE_CONTEXT_PROCESSORS = global_settings.TEMPLATE_CONTEXT_PROCESSORS + (
     "deviceapp.context_processors.cart_item",
 )
-
-
 # Hosts/domain names that are valid for this site; required if DEBUG is False
 # See https://docs.djangoproject.com/en/1.5/ref/settings/#allowed-hosts
 ALLOWED_HOSTS = []
@@ -228,6 +226,7 @@ AWS_SECRET_ACCESS_KEY = 'PyXJd3qGHrTuDXWRHLjvA88YfBR7ebPScKeB6ps1'
 
 #Email Credentials
 MANDRILL_API_KEY = "iSqtoSVWpB1aSTzA_YqaXg"
+#DEFAULT_FROM_EMAIL = 'mhkates@gmail.com'
 EMAIL_BACKEND = "djrill.mail.backends.djrill.DjrillBackend"
 
 #Balanced API

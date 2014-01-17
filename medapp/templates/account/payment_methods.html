@@ -1,0 +1,77 @@
+{% for card in user.basicuser.balancedcard_set.all %}
+<div class="payment-method">
+	<div class="row payment-description">
+		<div class="payment-type col-md-7 col-sm-7 col-xs-12">
+			<p><span>{{card.brand}} Card</span><p>
+		</div>
+		<div class="payment-info col-md-5 col-sm-5 col-xs-12">
+			<p>********{{card.last_four}} <span>(Expires {{card.expiration_month}}/{{card.expiration_year}})</span></p>
+		</div>
+	</div>
+	{% if not gate %}
+	<div class="row payment-actions">	
+		{% if user.basicuser.default_payment_cc == card and user.basicuser.payment_method == 'card' %}
+			<button value="submit" name="submit" class="button button-rounded button-action button-tiny">Default For Paying Commission Fees</button>
+		{% else %}
+		<form action="/account/makedefaultpayment/card/{{card.id}}" method="POST">
+			{% csrf_token %}
+			<button value="submit" name="submit" class="button button-rounded button-tiny">Make Default For Paying Commission Fees</button>
+		</form>
+		{% endif %}
+		</form>
+		<form action="/account/deletepayment/card/{{card.id}}" method="POST">
+			{% csrf_token %}
+			<button value="submit" name="submit" class="button button-rounded button-tiny">Delete</button>
+		</form>
+	</div>
+	{% else %}
+		<form class="gateform" action="/gatepayment/card/{{card.id}}/{{item.id}}" method="POST">
+			{% csrf_token %}
+			<button value="submit" name="submit" class="use-payment-button button button-rounded button-action">Pay With This Card</button>
+		</form>
+	{% endif %}
+</div>
+{% endfor %}
+{% for bank in user.basicuser.balancedbankaccount_set.all %}
+<div class="payment-method">
+	<div class="row payment-description">
+		<div class="payment-type col-md-7 col-sm-7 col-xs-12">
+			<p><span>{{bank.bank_name | title}} Account</span><p>
+		</div>
+		<div class="payment-info col-md-5 col-sm-5 col-xs-12">
+			<p>{{bank.name}} &sdot; <span>{{bank.account_number}}</span></p>
+		</div>
+	</div>
+	{% if not gate %}
+	<div class="row payment-actions">
+		{% if user.basicuser.default_payout_ba == bank and user.basicuser.payout_method == 'bank' %}	
+			<button class="button button-rounded button-tiny button-primary">Default for Receiving Payments</button>
+		{% else %}
+			<form action="/account/makedefaultpayout/bank/{{bank.id}}" method="POST">
+				{% csrf_token %}
+				<button value="submit" name="submit" class="button button-rounded button-tiny">Make Default for Receiving Payments</button>
+			</form>
+		{% endif %}
+		
+		{% if user.basicuser.default_payment_ba == bank and user.basicuser.payment_method == 'bank' %}
+			<button value="submit" name="submit" class="button button-rounded button-action button-tiny">Default For Paying Commission Fees</button>
+		{% else %}
+		<form action="/account/makedefaultpayment/bank/{{bank.id}}" method="POST">
+			{% csrf_token %}
+			<button value="submit" name="submit" class="button button-rounded button-tiny">Make Default For Paying Commission Fees</button>
+		</form>
+		{% endif %}
+		</form>
+		<form action="/account/deletepayment/bank/{{bank.id}}" method="POST">
+			{% csrf_token %}
+			<button value="submit" name="submit" class="button button-rounded button-tiny">Delete</button>
+		</form>
+	</div>
+	{% else %}
+		<form class="gateform" action="/gatepayment/bank/{{bank.id}}/{{item.id}}" method="POST">
+			{% csrf_token %}
+			<button value="submit" name="submit" class="use-payment-button button button-rounded button-action button-tiny">Pay With This Bank Account</button>
+		</form>
+	{% endif %}
+</div>
+{% endfor %}

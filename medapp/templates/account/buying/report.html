@@ -1,0 +1,142 @@
+{% extends 'account/account.html' %}
+{% block headertitle %}<title>VetCove | File Report</title>{% endblock%}
+{% block buyhistory %}active{% endblock %}
+{% block jsblock %}
+<script>
+</script>
+{% endblock %}
+{% block maintitle %}File a Report for {{pitem.cartitem.item.name}}{% endblock %}
+{% block headersubcss %}
+<style>
+.report-container {
+	padding: 0 20px;
+}
+.report-step {
+	margin-top: 25px;
+	margin-bottom: 45px;
+}
+.report-step h3 {
+	font-size: 18px;
+	font-weight: 400;
+	border-bottom:1px solid #eee;
+	padding-bottom: 10px;
+}
+h3 span {
+	font-weight: 800;
+}
+
+.seller-contact {
+	background: #f2f2f2;
+	border-radius: 4px;
+	border:1px solid #ddd;
+	padding: 10px 40px;
+	display:inline-block;
+}
+.seller-contact .report-seller {
+	font-weight: 800;
+}
+.seller-contact .report-seller-info {
+	font-weight: 200;
+	margin: 3px 0;
+}
+.report-form textarea{
+	resize:vertical;
+	min-height: 100px;
+}
+.report-form .input-short {
+	max-width: 300px;
+}
+.report-form .input-element {
+	margin-bottom: 15px;
+}
+/*If report submitted */
+.report-submitted {
+	padding: 20px;
+}
+</style>
+{% endblock %}
+
+{% block maincontent %}
+{% if not pitem.report %}
+<div class="covebox report-container">
+	<div class="report-step">
+		<h3><span>Action 1:</span> Resolve directly with the seller</h3>
+		<p>We encourage you to reach out directly to the seller for issues such as
+		package did not arrive, etc. before filing a report. Many times, it is often
+		miscommunicaton . . . </p>
+		
+		<div class="seller-contact">
+			<p class="report-seller">Seller Information</p>
+			<p class="report-seller-info">{{pitem.seller.name}}</p>
+			<p class="report-seller-info">{{pitem.seller.email}}</p>
+			<p class="report-seller-info">{{pitem.seller.company}}</p>
+			<p class="report-seller-info">{{pitem.seller.city}}, {{pitem.seller.state}}</p>
+			<p class="report-seller-info">{{pitem.seller.phonenumber}}</p>
+		</div>
+	</div>
+	<div class="report-step">
+		<h3><span>Action 2:</span> Filing a Report</h3>
+		<p>If you cannot come to an agreement with the seller, you can file a report
+		that lets VetCove make a ruling on the decision. Please note, VetCove Buyer
+		Protection only applies to items purchased online. You are responsible for
+		the quality.</p>
+		<form action="/account/reportproblemform/{{pitem.id}}" class="report-form" method="POST">
+			{% csrf_token %}
+			<div class="input-element">
+				<label>Reason for Report</label>
+				<div class="radio">
+				  <label>
+					<input type="radio" name="reason" value="not_received" checked> 
+					I did not receive my order items
+				  </label>
+				</div>
+				<div class="radio">
+				  <label>
+					<input type="radio" name="reason" value="received_late"> 
+					I received the items late
+				  </label>
+				</div>
+				<div class="radio">
+				  <label>
+					<input type="radio" name="reason" value="different"> 
+					The items were different from described
+				  </label>
+				</div>
+				<div class="radio">
+				  <label>
+					<input type="radio" name="reason" value="wrong"> 
+					I received the wrong item
+				  </label>
+				</div>
+			</div>
+			<div class="input-element">
+				<label>Additional Details</label>
+				<textarea required class="form-control" name="details"></textarea>
+			</div>
+			<button class="button button-action button-rounded" name="submit" value="submit">Submit Dispute Form</button>
+		</form>
+	</div>
+</div>
+{% else %}
+<div class="covebox report-submitted">
+	<p> We have received your report and we will be in contact with you shortly. Please
+	allow up to 48 hours from the time the report is submitted until you hear back from us.</p>
+	
+	<p>Reason: 
+		<span>
+		{% if pitem.report.reason == 'not_received' %}
+			I did not receive my order items
+		{% elif pitem.report.reason == 'received_late' %}
+			I received the items late
+		{% elif pitem.report.reason == 'different' %}
+			The items were different from described
+		{% elif pitem.report.reason == 'wrong' %}
+			I received the wrong item
+		{% endif %}
+		</span>
+	</p>
+	<p>Details: <span>{{pitem.report.details}}</span></p>
+	<a href="/account/buyhistory">&larr; Return to Purchase History</a>
+</div>
+{% endif %}
+{% endblock %}

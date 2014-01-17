@@ -113,6 +113,8 @@ $(document).ready(function() {
 				<p class="error">City is invalid. City field must be at least 3 characters</p>
 			{% elif error == "zipcode" %}
 				<p class="error">Invalid zipcode. Zipcode must be an integer of length 5</p>
+			{% elif error == "address" %}
+				<p class="error">Your address is too short. Please try again.</p>
 			{% endif %}
 			<table>
 				<tr>

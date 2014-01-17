@@ -60,6 +60,11 @@
 	margin-right: 15px;
 	width: 130px;
 }
+.balanced_check_image {
+	margin-top: 30px;
+	margin-bottom: 30px;
+	max-width: 100%;
+}
 
 /* Error formatting */
 .div-error{

@@ -90,14 +90,14 @@
 	us immediately. You have 48 hours from the time you receive the item to submit a complaint.</p>
 	
 	<span>
-		<a class="button button-primary button-rounded" href="/boughtitems">View Purchased Item's Status</a>
+		<a class="button button-primary button-rounded" href="/account/buyhistory">View Purchased Item's Status</a>
 		<a class="button button-rounded" href="/productsearch/veterinary/all/all">Continue Shopping</a>
 		<a class="button button-rounded" href="/listintro">Sell Equipment</a>
 	</span>
 </div>
 <div class="purchaseditems-container covebox">
 	<h3 class="purchaseditems-header">Purchased Items<span> Total: ${{checkout.total|floatformat|intcomma}}</span></h3>
-	{% for checkoutcartitem in checkout.cartitem.all %}
+	{% for checkoutcartitem in checkout.cartitem_set.all %}
 		<div class="covebox cart-item {% if forloop.last %}last-cart-item{% endif %}" id="cart-item-{{cartitem.item.id}}">
 			<div class="row">
 				<div class="item-image col-md-3 col-sm-3 col-xs-12">
@@ -114,7 +114,7 @@
 				</div>
 				<div class="item-price col-md-2 col-sm-2 col-xs-12">
 					<p>${{checkoutcartitem.item.price|floatformat|intcomma}}</p>
-					<p class="quantity">(Quantity: {{checkoutcartitem.item.quantity}})</p>
+					<p class="quantity">(Quantity: {{checkoutcartitem.quantity}})</p>
 				</div>
 			</div>
 		</div>

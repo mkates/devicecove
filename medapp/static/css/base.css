@@ -26,9 +26,17 @@ a {
 }
 a:hover, a:focus {
 	text-decoration: none;
-}
-a:active {
 	outline: none;
+}
+a:active{
+	outline: none;
+}
+button:hover, a:hover {
+	cursor: pointer;
+}
+/** Removes image outline **/
+input::-moz-focus-inner { 
+  border: 0; 
 }
 
 .covebox {
@@ -307,7 +315,7 @@ footer ul li a:hover {
 	/***********************************/
 	/* Miscellaneous *******************/
 	/***********************************/
-	.navigation-container #sc-count {
+	.navigation-container .sc-count {
 		background: none repeat scroll 0 0 #00A0C9;
 		border-radius: 8px;
 		box-shadow: 0 0 2px #FFFFFF;
@@ -322,6 +330,10 @@ footer ul li a:hover {
 		text-align: center;
 		vertical-align: top;
 		width: 16px;
+	}
+	.navigation-container .question-count {
+		background: #D60000;
+		margin-left: 2px;
 	}
 	.navigation-container .whiteborder {
 		border-top: 1px solid #ddd;

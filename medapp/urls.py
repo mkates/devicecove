@@ -50,13 +50,24 @@ urlpatterns = patterns('',
     url(r'^savedescribe/(?P<itemid>\d+)','deviceapp.views_custom.savedescribe'),
     url(r'^savedetails/(?P<itemid>\d+)','deviceapp.views_custom.savedetails'),
 	url(r'^savelogistics/(?P<itemid>\d+)','deviceapp.views_custom.savelogistics'),
-    url(r'^savepreview/(?P<itemid>\d+)','deviceapp.views_custom.savepreview'),
-    url(r'^deletelisting/(?P<itemid>\d+)','deviceapp.views_custom.deletelisting'),
+    url(r'^list/activate/(?P<itemid>\d+)','deviceapp.views_custom.activateListing'),
+    url(r'^list/markassold/(?P<itemid>\d+)','deviceapp.views_custom.markAsSold'),
+    url(r'^deletelisting/(?P<itemid>\d+)','deviceapp.views_custom.deleteListing'),
+    
+    #Listing in the account
+    url(r'^account/editlisting/inactive/(?P<itemid>\d+)','deviceapp.views_custom.editListingInactive'),
+    url(r'^account/editlisting/active/(?P<itemid>\d+)','deviceapp.views_custom.editListingActive'),
+    url(r'^account/editlisting/relist/(?P<itemid>\d+)','deviceapp.views_custom.editListingRelist'),
+    
+    
+    
     
     #Checkout Experience
     
     url(r'^cart','deviceapp.views_custom.cart'),
-    url(r'^updatecart','deviceapp.views_custom.updatecart'),
+    url(r'^updatecart/wishlist/(?P<cartitemid>\d+)','deviceapp.views_custom.updateCartWishlist'),
+    url(r'^updatecart/delete/(?P<cartitemid>\d+)','deviceapp.views_custom.updateCartDelete'),
+    url(r'^updatecart/quantity/(?P<cartitemid>\d+)','deviceapp.views_custom.updateCartQuantity'),
     url(r'^addtocart/(?P<itemid>\d+)','deviceapp.views_custom.addToCart'),
     url(r'^checkout/verify/(?P<error>\w+)','deviceapp.views_custom.checkoutVerifyError'),
     url(r'^checkout/verify','deviceapp.views_custom.checkoutVerify'),
@@ -70,9 +81,11 @@ urlpatterns = patterns('',
     url(r'^newaddress/(?P<checkoutid>\d+)','deviceapp.views_custom.newAddress'),
     url(r'^deleteaddress','deviceapp.views_custom.deleteAddress'),
     # Payment Experience
-    url(r'^addCreditCard/(?P<checkoutid>\d+)','deviceapp.views_custom.addCreditCard'),
-    url(r'^usepayment','deviceapp.views_custom.usePayment'),
-    url(r'^deletepayment','deviceapp.views_custom.deletePayment'),
+    url(r'^checkout/addcard/(?P<checkoutid>\d+)','deviceapp.views_custom.checkoutAddCard'),
+    url(r'^checkout/addbankaccount/(?P<checkoutid>\d+)','deviceapp.views_custom.checkoutAddBankAccount'),
+    url(r'^checkout/deletepayment/(?P<paymenttype>\w+)/(?P<checkoutid>\d+)/(?P<paymentid>\d+)','deviceapp.views_custom.checkoutDeletePayment'),
+    url(r'^checkout/usepayment/(?P<paymenttype>\w+)/(?P<checkoutid>\d+)/(?P<paymentid>\d+)','deviceapp.views_custom.checkoutUsePayment'),
+    
     # Review Experience
     url(r'^checkoutmovetosaved/(?P<checkoutid>\d+)','deviceapp.views_custom.checkoutMoveToSaved'),
     url(r'^checkoutdeleteitem/(?P<checkoutid>\d+)','deviceapp.views_custom.checkoutDeleteItem'),
@@ -104,18 +117,28 @@ urlpatterns += patterns('',
     url(r'^checkemail','deviceapp.views_custom.checkemail'),
     
     #Payment
-    url(r'^addbankaccount','deviceapp.views_custom.addBankAccount'),
-    url(r'^addcheckaddress','deviceapp.views_custom.addCheckAddress'),
-    url(r'^account/defaultcreditcard/(?P<creditcardid>\d+)','deviceapp.views_custom.account_defaultcreditcard'),
-    url(r'^account/addcreditcard','deviceapp.views_custom.account_addcreditcard'),
-    url(r'^account/deletecreditcard/(?P<creditcardid>\d+)','deviceapp.views_custom.account_deletecreditcard'),
+    url(r'^account/addcreditcard','deviceapp.views_custom.addCreditCard'),
+    url(r'^account/addbankaccount','deviceapp.views_custom.addBankAccount'),
+    url(r'^account/makedefaultpayment/(?P<type>\w+)/(?P<id>\d+)','deviceapp.views_custom.makeDefaultPayment'),
+    url(r'^account/makedefaultpayout/(?P<type>\w+)/(?P<id>\d+)','deviceapp.views_custom.makeDefaultPayout'),
+    url(r'^account/deletepayment/(?P<type>\w+)/(?P<id>\d+)','deviceapp.views_custom.accountDeletePayment'),
+    url(r'^account/setmailingaddress/(?P<addressid>\d+)','deviceapp.views_custom.setMailingAddress'),
+    url(r'^account/addmailingaddress','deviceapp.views_custom.addMailingAddress'),
+    url(r'^account/deletemailingaddress/(?P<addressid>\d+)','deviceapp.views_custom.deleteMailingAddress'),
     
+    #Post Payment Experience
+    url(r'^purchasesellermessage/(?P<purchaseditemid>\d+)','deviceapp.views_custom.purchasesellermessage'),
+    url(r'^account/purchaseshippinginfo/(?P<purchaseditemid>\d+)','deviceapp.views_custom.purchaseshippinginfo'),
+    url(r'^account/reportproblem/(?P<purchaseditemid>\d+)','deviceapp.views_custom.reportproblem'),
+    url(r'^account/reportproblemform/(?P<purchaseditemid>\d+)','deviceapp.views_custom.reportproblemform'),
+     
     #Viewing people who have contacted you
     url(r'^account/messages/(?P<itemid>\d+)','deviceapp.views_custom.buyermessages'),
-    url(r'^account/contactgate/(?P<itemid>\d+)','deviceapp.views_custom.contact_gate'),
-    url(r'^account/newcard_chargecommission/(?P<itemid>\d+)','deviceapp.views_custom.newcard_chargecommission')
-    
-    #url(r'^account','deviceapp.views_custom.profile')
+    url(r'^account/newcard_chargecommission/(?P<itemid>\d+)','deviceapp.views_custom.newcard_chargecommission'),
+    url(r'^account/newbank_chargecommission/(?P<itemid>\d+)','deviceapp.views_custom.newbank_chargecommission'),
+    url(r'^gatepayment/(?P<paymenttype>\w+)/(?P<paymentid>\d+)/(?P<itemid>\d+)','deviceapp.views_custom.gatePayment'),
+    url(r'^authorizebuyer/(?P<buyerid>\d+)/(?P<itemid>\d+)','deviceapp.views_custom.authorizeBuyer'),
+    url(r'^deauthorizebuyer/(?P<buyerid>\d+)/(?P<itemid>\d+)','deviceapp.views_custom.deauthorizeBuyer')
     
 )
 #####################################################################

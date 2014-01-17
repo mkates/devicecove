@@ -28,12 +28,11 @@
                 <p>{% blocktrans %}Hi, <strong>{{ username }}</strong>. Please choose your new password.{% endblocktrans %}</p>
                 <form class="loginform" method="post" action="{% url "password_reset_reset" token %}">
                         {% csrf_token %}
-                        {% url "password_reset_reset" token %}
                         <p>New Password</p>
                         <input class="form-control" id="id_password1" type="password" name="password1">
                         <p>New Password (Confirm)</p>
                         <input class="form-control" id="id_password2" type="password" name="password2">
-                        <button class="btn" type="submit" value="{% trans "Set new password" %}">Set New Password</button>
+                        <button class="button button-rounded button-primary" type="submit" value="{% trans "Set new password" %}">Set New Password</button>
 						<div class="clear"></div>
                 </form>
         {% endif %}

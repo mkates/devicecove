@@ -14,12 +14,10 @@ $(document).ready(function () {
 
 
 //Submitting a Credit Card
-//Needs the global variables responsetarget and success_redirect to work
+//Needs the global variables responsetarget,success_redirect,marketplaceuri, and balanced_cc_button_text
 var balanced_cc_submitable = true //Toggles if form is submittable
 $(document).ready(function () {
-	//Balanced Variables
-    var marketplaceUri = '/v1/marketplaces/TEST-MP49EIrAntwbE1iYZDuZWtjo';
-    balanced.init('/v1/marketplaces/TEST-MP49EIrAntwbE1iYZDuZWtjo');
+    balanced.init(marketplaceUri);
     $('#cc-submit').click(function (e) {
         e.preventDefault();
 		if (balanced_cc_submitable){
@@ -38,7 +36,7 @@ $(document).ready(function () {
             switch (response.status) {
 			 case 201:
 			 	if (response.data.postal_code_check == "passed" || response.data.security_code_check == "passed") {
-					$.post(responseTarget, {
+					$.post(responseTarget_cc, {
 						brand: response.data.brand,
 						hash: response.data.hash,
 						expiration_month: response.data.expiration_month,
@@ -47,14 +45,14 @@ $(document).ready(function () {
 						uri: response.data.uri
 					}, function(r) {
 						if (r['status'] == 201) {
-							window.location.href = success_redirect;
+							window.location.href = success_redirect_cc;
 						} else {
-							displayError('Error saving your Card. '+r['error']);
+							display_CC_Error('Error saving your Card. '+r['error']);
 							Balanced_CC_Enable();
 						}
 					});
 				} else {
-					displayError("We failed to verify your card. Please double check your information and try again");
+					display_CC_Error("We failed to verify your card. Please double check your information and try again");
 					Balanced_CC_Enable();
 				}
 				break;
@@ -71,16 +69,16 @@ $(document).ready(function () {
 				 		error_message = error_message + value
 				 	}
 				 });
-				 displayError(error_message);
+				 display_CC_Error(error_message);
 				 Balanced_CC_Enable();
 			 case 402:
 			 	 //Failed to tokenize card
-				 displayError("Failed to authorize your credit card");
+				 display_CC_Error("Failed to authorize your credit card");
 				 Balanced_CC_Enable();
 				 break;
 			 case 404:
 				 // Your marketplace URI is incorrect
-				 displayError("We are having technical hiccups with our marketplace URI");
+				 display_CC_Error("We are having technical hiccups with our marketplace URI");
 				 Balanced_CC_Enable();
 				 break;
 			 case 500:
@@ -97,7 +95,7 @@ $(document).ready(function () {
     ////
     // Simply populates credit card and bank account fields with test data
     ////
-    $('#populate').click(function () {
+    $('.populate').click(function () {
         $('#cc-number').val('4111111111111111');
         $('#cc-ex-month').val('12');
         $('#cc-ex-year').val('2020');
@@ -122,7 +120,7 @@ function Balanced_CC_Enable() {
 	$("#cc-submit img").css('display','none');
 	$("#cc-submit").removeClass("disabled");
 }
-function displayError(error) {
+function display_CC_Error(error) {
 	$(".cc-error").text(error);
 	$('.cc-error').css('display','block');
 }

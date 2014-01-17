@@ -1,0 +1,44 @@
+
+<div class="div-error">
+	<div class="error-format ba-error"></div>
+</div>
+<form id="bankaccount">
+	<div class="form-group">
+		<label for="companyname">Account Holder's Name</label>
+		<table>
+			<tr>
+				<td class="form-input"><input type="text" class="form-control" id="ba-name" name="account_name" placeholder="John Doe"></td>
+				<td class="form-img"><img src="{{STATIC_URL}}img/blank.png"/></td>
+			</tr>
+		</table>
+	</div>
+	<div class="form-group">
+		<label for="companyname">Bank Account Number</label>
+		<table>
+			<tr>
+				<td class="form-input"><input type="text" class="form-control" id="ba-number" name="bank_account_number" placeholder="32221847314"></td>
+				<td class="form-img"><img src="{{STATIC_URL}}img/blank.png"/></td>
+			</tr>
+		</table>
+	</div>
+	<div class="form-group">
+		<label for="companyname">Routing Number</label>
+		<table>
+			<tr>
+				<td class="form-input"><input type="text" class="form-control" id="ba-routing" name="routing_number" placeholder="8887776665555"></td>
+				<td class="form-img"><img src="{{STATIC_URL}}img/blank.png"/></td>
+			</tr>
+		</table>
+	</div>
+	<button id="ba-submit" class="button button-action button-rounded"><img src="{{STATIC_URL}}img/ajax-loader.gif"/>
+		<span>
+			{% if gate %}
+			Authorize Charge and View Buyer Contact Information
+			{% else %}
+			Add Bank Account
+			{% endif %}
+		</span>
+	</button>
+	{% if payment %}<button class="button button-rounded payment-cancel">Cancel</button>{% endif %}
+</form>
+<img class="balanced_check_image" src="{{STATIC_URL}}img/balanced_check_image.png"/>

@@ -226,6 +226,9 @@ margin: 0;
 .error-div {
 	text-align: center;
 }
+.strong {
+	font-weight: 800;
+}
 </style>
 {% block customcss %}{% endblock %}
 {% endblock %}
@@ -339,7 +342,7 @@ var addError = function addError(handle) {
 					<h3>Overview</h3>
 					<div class="summary-block">
 						<h5>Items ({{checkout.numberitems}})</h5>
-						{% for checkoutcartitem in checkout.cartitem.all %}
+						{% for checkoutcartitem in checkout.cartitem_set.all %}
 							<div class="item-summary">
 								<p>{{checkoutcartitem.item.name}}</p>
 								<p><span>Sold by: </span>{{checkoutcartitem.item.user.company}}</p>
@@ -365,10 +368,16 @@ var addError = function addError(handle) {
 					
 					<div class="summary-block">
 						<h5>Payment Information</h5>
-						{% if checkout.payment %}
-						<p>{{checkout.payment.brand}}</p>
-						<p>********{{checkout.payment.last_four}}</p>
-						<p>Expires: {{checkout.payment.expiration_month}}/{{checkout.payment.expiration_year}}</p>
+						{% if checkout.payment_method == 'card' %}
+						<p class="strong">Debit / Credit Card</p>
+						<p>{{checkout.cc_payment.brand}}</p>
+						<p>********{{checkout.cc_payment.last_four}}</p>
+						<p>Expires: {{checkout.cc_payment.expiration_month}}/{{checkout.cc_payment.expiration_year}}</p>
+						{% elif checkout.payment_method == 'bank' %}
+						<p class="strong">Bank Account</p>
+						<p>{{checkout.ba_payment.name}}</p>
+						<p>{{checkout.ba_payment.bank_name}}</p>
+						<p>{{checkout.ba_payment.account_number}}</p>
 						{% else %}
 						<p class="incomplete-data">Payment Information has not yet been entered</p>
 						{% endif %}

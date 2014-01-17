@@ -9,7 +9,6 @@ from imagekit.models import ProcessedImageField
 ####### Product Database Models ############
 ############################################
 
-# Industry
 class Industry(models.Model):
 	name = models.CharField(max_length=40)
 	displayname = models.CharField(max_length=50)
@@ -26,7 +25,7 @@ class Category(models.Model):
 	name = models.CharField(max_length=60)
 	displayname = models.CharField(max_length=50)
 	industry = models.ForeignKey(Industry)
-	totalunits = models.IntegerField()
+	totalunits = models.IntegerField() # Regular script to update this
 	def __unicode__(self):
 		return self.displayname
 
@@ -35,7 +34,7 @@ class SubCategory(models.Model):
 	displayname = models.CharField(max_length=50)
 	category = models.ManyToManyField(Category)
 	maincategory = models.ForeignKey(Category,related_name='maincategory')
-	totalunits = models.IntegerField()
+	totalunits = models.IntegerField() # Regular script to update this
 	def __unicode__(self):
 		return self.displayname
 	
@@ -53,7 +52,7 @@ def get_file_path_small(instance, filename):
 	return os.path.join('userimages', filenamesmall)
 def get_file_path_medium(instance, filename):
 	ext = filename.split('.')[-1]
-	filenamemdium = "%s.%s" % (str(uuid.uuid4())+"_medium", ext)
+	filenamemedium = "%s.%s" % (str(uuid.uuid4())+"_medium", ext)
 	return os.path.join('userimages', filenamemedium)
 		
 class Image(models.Model):
@@ -75,17 +74,21 @@ class BasicUser(models.Model):
 	city = models.CharField(max_length=60)
 	state = models.CharField(max_length=60)
 	website = models.CharField(max_length=60,null=True)
-	phonenumber = models.CharField(max_length=60)
-	
+	phonenumber = models.CharField(max_length=60)	
 	
 	#Payment Fields
 	balanceduri = models.CharField(max_length=255,null=True,blank=True)
-	PAYMENT_OPTIONS =  (('none', 'None'),('check', 'Check'),('directdeposit', 'Direct Deposit'))
-	payment_method = models.CharField(max_length=20,choices=PAYMENT_OPTIONS,default='None')
-	default_cc = models.ForeignKey('BalancedCard',null=True,blank=True) 
-		
+	PAYOUT_OPTIONS =  (('none', 'None'),('check', 'Check'),('bank', 'Direct Deposit'))
+	payout_method = models.CharField(max_length=20,choices=PAYOUT_OPTIONS,default='none')
+	PAYMENT_OPTIONS =  (('none','None'),('card', 'Credit Card'),('bank', 'Bank Account'))
+	payment_method = models.CharField(max_length=20,choices=PAYMENT_OPTIONS,default='none')
+	default_payment_cc = models.ForeignKey('BalancedCard',null=True,blank=True) 
+	default_payment_ba = models.ForeignKey('BalancedBankAccount',null=True,blank=True,related_name="default_payment_ba") 
+	default_payout_ba = models.ForeignKey('BalancedBankAccount',null=True,blank=True,related_name="default_payout_ba") 
+	check_address = models.ForeignKey('UserAddress',null=True,blank=True)
+	
 	def __unicode__(self):
-		return self.user.username
+		return self.name + " at " + self.user.email
 	
 	#Get number of unanswered questions
 	def unansweredQuestionCount(self):
@@ -101,7 +104,7 @@ class BasicUser(models.Model):
 		questions = Question.objects.filter(buyer=self).count()
 		return questions
 		
-	#Number of unanswered questions
+	#Number of items in wishlist
 	def wishlist(self):
 		savedItems = SavedItem.objects.filter(user=self).count()
 		return savedItems
@@ -109,23 +112,23 @@ class BasicUser(models.Model):
 	#Get counts for each type of listing
 	# 'all' and 'inactive' are cumulative counts
 	def listedItemCount(self):
-		dict = {'all':0,'inactive':0,'sold':0,'unsold':0,'active':0,'incomplete':0,'deleted':0,'disabled':0}
+		dict = {'all':0,'inactive':0,'sold':0,'unsold':0,'active':0,'incomplete':0,'disabled':0}
 		for item in Item.objects.filter(user=self):
 			dict[item.liststatus] += 1
-			if item.liststatus != 'deleted' or item.liststatus != 'disabled':
+			if item.liststatus != 'disabled':
 				dict['all'] += 1
 			if item.liststatus == 'sold' or item.liststatus == 'unsold':
 				dict['inactive'] += 1
 		return dict
 	
 	#Number of purchased items
-	def orderhistory(self):
+	def buyhistory(self):
 		return PurchasedItem.objects.filter(buyer=self).count()
 	
 	#Number of sold items
 	def sellhistory(self):
 		return PurchasedItem.objects.filter(seller=self).count()
-
+		
 #An individual item for sale associated with a product and a user
 class Item(models.Model):
 	user = models.ForeignKey(BasicUser)
@@ -139,6 +142,7 @@ class Item(models.Model):
 	serialno = models.CharField(max_length=30,null=True,blank=True)
 	modelyear = models.IntegerField(max_length=4,null=True,blank=True)
 	originalowner = models.BooleanField()
+	mainimage = models.ForeignKey(Image,null=True,blank=True)
 	
 	### Warranty + Service Contracts
 	CONTRACT_OPTIONS =  (
@@ -174,27 +178,26 @@ class Item(models.Model):
 	tos = models.BooleanField(default=False)
 	price = models.FloatField(max_length=20)
 	commission_paid = models.BooleanField(default=False)
-	
+	sold_online = models.BooleanField(default=False) # An offline viewable item was bought online
 	#Miscellaneous 
 	LISTSTATUS_OPTIONS =  (
 		('active', 'Active'),
 		('disabled', 'Disabled'),
 		('incomplete', 'Incomplete'),
 		('sold', 'Sold'),
-		('unsold', 'Not Sold'),
-		('deleted', 'Deleted')
+		('unsold', 'Not Sold')
 	)
-	mainimage = models.ForeignKey(Image,null=True,blank=True)
 	liststatus = models.CharField(max_length=30, choices=LISTSTATUS_OPTIONS)
-	listeddate = models.DateField(auto_now_add = True,blank=True)
+	listeddate = models.DateField(auto_now_add =True,blank=True)
 	quantity = models.IntegerField(default=1)
 	savedcount = models.IntegerField()
 	liststage = models.IntegerField()
-	views = models.IntegerField(default=0)
+	views = models.IntegerField(default=0) # Counts number of page requests
 	def __unicode__(self):
 		return self.name+" from "+self.user.name
+		
 ############################################
-####### Seller Message #####################
+####### Seller Contact Message #############
 ############################################
 class SellerMessage(models.Model):
 	buyer = models.ForeignKey(BasicUser)
@@ -204,8 +207,10 @@ class SellerMessage(models.Model):
 	phone = models.CharField(max_length=100,null=True,blank=True)
 	message = models.TextField(blank=True)
 	reason = models.CharField(max_length=100,null=True,blank=True)
-	date_sent = models.DateTimeField(blank=True,null=True)
-
+	date_sent = models.DateTimeField(auto_now_add=True,blank=True,null=True)
+	
+	def authorizedBuyer(self):
+		return True if BuyAuthorization.objects.filter(buyer=self.buyer,seller=self.item.user,item=self.item).exists() else False
 ############################################
 ####### Saved Items ########################
 ############################################
@@ -249,7 +254,7 @@ class Question(models.Model):
 ####### Addresses Model  ###################
 ############################################
 class UserAddress(models.Model):
-	user = models.ForeignKey(BasicUser)
+	user = models.ForeignKey(BasicUser,null=True,blank=True)
 	name = models.CharField(max_length=50)
 	address_one = models.CharField(max_length=100)
 	address_two = models.CharField(max_length=100,null=True,blank=True)
@@ -257,30 +262,6 @@ class UserAddress(models.Model):
 	state = models.CharField(max_length=100)
 	zipcode = models.IntegerField(max_length=100)
 	phonenumber = models.CharField(max_length=100)
-	
-############################################
-####### Shopping Cart ######################
-############################################	
-class ShoppingCart(models.Model):
-	user = models.OneToOneField(BasicUser,null=True,blank=True)
-	datecreated = models.DateTimeField(auto_now_add=True,null=True,blank=True)
-	
-	#Get list of items
-	def cart_items(self):
-		cartitems = CartItem.objects.filter(shoppingcart=self)
-		items = []
-		for cartitem in cartitems:
-			items.append(cartitem.item)
-		return items
-	
-class CartItem(models.Model):
-	dateadded = models.DateTimeField(auto_now_add = True,blank=True)
-	item = models.ForeignKey(Item)
-	shoppingcart = models.ForeignKey(ShoppingCart,null=True,blank=True)
-	quantity = models.IntegerField(default=1,max_length=3)
-	
-	def numbercarts(self):
-		return CartItem.objects.filter(item=self.item).count()-1
 
 ############################################
 ####### Balanced Models ####################
@@ -288,8 +269,8 @@ class CartItem(models.Model):
 
 #### Balanced Credit Card ##################
 class BalancedCard(models.Model):
-	user = models.ForeignKey(BasicUser)
-	card_uri = models.CharField(max_length=255)
+	user = models.ForeignKey(BasicUser,null=True,blank=True)
+	uri = models.CharField(max_length=255)
 	brand = models.CharField(max_length=100)
 	cardhash = models.CharField(max_length=255)
 	expiration_month = models.IntegerField(max_length=2)
@@ -298,8 +279,8 @@ class BalancedCard(models.Model):
 	datecreated = models.DateTimeField(auto_now_add = True,blank=True)
 
 #### Balanced Bank Account ##################
-class BankAccount(models.Model):
-	user = models.OneToOneField(BasicUser)
+class BalancedBankAccount(models.Model):
+	user = models.ForeignKey(BasicUser,null=True,blank=True)
 	uri = models.CharField(max_length=255)
 	fingerprint = models.CharField(max_length=255)
 	bank_name = models.CharField(max_length=255)
@@ -307,26 +288,27 @@ class BankAccount(models.Model):
 	name = models.CharField(max_length=100)
 	account_number = models.CharField(max_length=255)
 	datecreated = models.DateTimeField(auto_now_add = True,blank=True)
-
-#### Mailing address for checks ###############
-class CheckAddress(models.Model):
-	user = models.OneToOneField(BasicUser)
-	name = models.CharField(max_length=50)
-	address_one = models.CharField(max_length=100)
-	address_two = models.CharField(max_length=100,null=True,blank=True)
-	city = models.CharField(max_length=100)
-	state = models.CharField(max_length=100)
-	zipcode = models.IntegerField(max_length=100)
-
+	#Verification Purposes
+	verified = models.BooleanField(default=False)
+	verified_date = models.DateTimeField(null=True,blank=True)
+	verification_uri = models.CharField(max_length=255)
+	
 ############################################
 ####### Checkout Model  ####################
 ############################################
+# Made up of cart items ####################
 class Checkout(models.Model):
-	cartitem = models.ManyToManyField(CartItem)
+	
 	buyer = models.ForeignKey(BasicUser)
 	shipping_address = models.ForeignKey(UserAddress,null=True,blank=True)
 	start_time = models.DateTimeField(auto_now_add = True,blank=True)
-	payment = models.ForeignKey(BalancedCard,null=True,blank=True)
+	
+	# User can pay via bank account OR credit card
+	PAYMENT_OPTIONS = (('none','none'),('bank','bank'),('card','card'))
+	payment_method = models.CharField(default='none',max_length=20, choices=PAYMENT_OPTIONS)
+	cc_payment = models.ForeignKey(BalancedCard,null=True,blank=True)
+	ba_payment = models.ForeignKey(BalancedBankAccount,null=True,blank=True)
+	
 	STATE_OPTIONS =  (
 		(0, 'login'),
 		(1, 'shipping'),
@@ -344,7 +326,7 @@ class Checkout(models.Model):
 	#Get total amount due for this checkout
 	def total(self):
 		total = 0
-		cartitems = self.cartitem.all()
+		cartitems = self.cartitem_set.all()
 		for cartitem in cartitems:
 			total += cartitem.item.price*cartitem.quantity
 		return int(total)
@@ -352,40 +334,68 @@ class Checkout(models.Model):
 	#Number of items in cart
 	def numberitems(self):
 		count = 0
-		cartitems = self.cartitem.all()
+		cartitems = self.cartitem_set.all()
 		for cartitem in cartitems:
 			count += cartitem.quantity
 		return count
+
+############################################
+####### Shopping Cart and Cart Items########
+############################################	
+class ShoppingCart(models.Model):
+	user = models.OneToOneField(BasicUser,null=True,blank=True)
+	datecreated = models.DateTimeField(auto_now_add=True,null=True,blank=True)
 	
+	#Get list of items
+	def cart_items(self):
+		cartitems = CartItem.objects.filter(shoppingcart=self)
+		items = []
+		for cartitem in cartitems:
+			items.append(cartitem.item)
+		return items
+
+class CartItem(models.Model):
+	checkout = models.ForeignKey(Checkout,null=True,blank=True)
+	dateadded = models.DateTimeField(auto_now_add = True,blank=True)
+	item = models.ForeignKey(Item)
+	shoppingcart = models.ForeignKey(ShoppingCart,null=True,blank=True)
+	quantity = models.IntegerField(default=1,max_length=3)
+	
+	#Finds the number of other shopping carts have this item
+	def numbercarts(self):
+		return CartItem.objects.filter(item=self.item).count()-1
+	
+	def amount(self):
+		return self.item.price*self.quantity
+		
 ############################################
 ### Purchased Items ########################
 ############################################
-# Update item state when creating an instance of PurchasedItem
+# Auxiliary method to record post purchase action
 class PurchasedItem(models.Model):
-	seller = models.ForeignKey(BasicUser,related_name="purchaseditem_seller")
-	buyer = models.ForeignKey(BasicUser,related_name="purchaseditem_buyer")
-	item = models.ForeignKey(Item)
-	amount = models.FloatField(max_length=20)
-	quantity = models.IntegerField(max_length=6)
-	purchase_data = models.DateTimeField(auto_now_add = True)
-	# Step 2: Seller sends item
-	item_sent = models.BooleanField(default=False)
-	item_sent_details = models.TextField(blank=True)
+	#Seller and Buyer
+	seller = models.ForeignKey(BasicUser,related_name="purchaseditemseller")
+	buyer = models.ForeignKey(BasicUser,related_name="purchaseditembuyer")
 	
-	# Did the seller get paid yet?
+	# Reference to cart item of the purchase 
+	cartitem = models.OneToOneField(CartItem)
+	
+	purchase_date = models.DateTimeField(auto_now_add = True)
+	
+	# Post Purchase
+	item_sent = models.BooleanField(default=False)
+	seller_message = models.TextField(blank=True)
+	buyer_message = models.TextField(blank=True)
+	# Seller Payment
 	paid_out = models.BooleanField(default=False)
 	paid_data = models.DateTimeField(null=True,blank=True)
-
-
-
-
 
 ############################################
 ### Item Reviews ###########################
 ############################################	
 class SellerReview(models.Model):
-	seller = models.ForeignKey(BasicUser,related_name="sellerreview_seller")
-	buyer = models.ForeignKey(BasicUser,related_name="sellerreview_buyer")
+	seller = models.ForeignKey(BasicUser,related_name="sellerreviewseller")
+	buyer = models.ForeignKey(BasicUser,related_name="sellerreviewbuyer")
 	REVIEW_OPTIONS =  (('negative', 'Negative'),('neutral', 'Neutral'),('positive', 'Positive'))
 	review_rating = models.IntegerField(max_length = 20,choices=REVIEW_OPTIONS)
 	review = models.TextField(blank=True)
@@ -397,7 +407,29 @@ class ItemReview(models.Model):
 	REVIEW_OPTIONS =  (('negative', 'Negative'),('neutral', 'Neutral'),('positive', 'Positive'))
 	review_rating = models.IntegerField(max_length = 20,choices=REVIEW_OPTIONS)
 	review = models.TextField(blank=True)
+
+############################################
+### Report #################################
+############################################	
+class Report(models.Model):
+	purchased_item = models.OneToOneField(PurchasedItem)
+	reason = models.CharField(max_length=100)
+	details = models.TextField()
 	
+############################################
+### Inactive Request #######################
+############################################
+class InactiveRequest(models.Model):
+	item = models.ForeignKey(Item)
+	reason = models.TextField()
+	date_submitted = models.DateTimeField(auto_now_add = True)
 	
-	
+############################################
+### Offline Authorizations #################
+############################################
+class BuyAuthorization(models.Model):
+	seller = models.ForeignKey(BasicUser,related_name="authorizedseller")
+	buyer = models.ForeignKey(BasicUser,related_name="authorizedbuyer")
+	item = models.ForeignKey(Item)
+	date = models.DateTimeField(auto_now_add = True)
 	
