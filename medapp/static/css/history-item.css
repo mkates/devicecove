@@ -1,7 +1,9 @@
 /****************************************************/
 /** Formatting for Account -> Buy and Sell History **/
 /****************************************************/
-
+.history-item {
+	position:relative;
+}
 .history-item .order-overview {
 	padding:20px;
 }
@@ -51,6 +53,10 @@
 	line-height: 18px;
 	margin-bottom: 2px;
 }
+.history-item .shipping-button {
+	margin: 15px 0;
+}
+
 .history-item .order-status span {
 	font-weight: 800;
 	color: #E47911;
@@ -97,15 +103,23 @@
 	font-weight: 800;
 	margin-top: 15px;
 }
+.history-item .order-seller-message a {
+	font-size: 12px;
+	font-weight: 200;
+	margin-left: 8px;
+}
+.history-item .order-seller-message a:hover {
+	text-decoration: underline;
+}
 .history-item .order-seller-message span{
 	font-weight: 200;
 }
-.history-item .seller-message-form, .history-item .shipping-form {
+.history-item .seller-message-form {
 	display: none;
 	padding: 10px;
-	border-radius: 3px;
-	background: #f2f2f2;
 	border:1px solid #ddd;
+	background: #f6f6f6;
+	border-radius: 3px;
 }
 .history-item .shipping-form {
 	display: block;
@@ -148,11 +162,15 @@
 	cursor:pointer;
 }
 .history-item .shippingrow {
-	padding-top: 30px;
-	border:1px solid #ddd;
+	padding: 20px;
+	margin-top: 30px;
 }
-.history-item .shipping-form {
-	margin: 0px 30px 30px 30px;
+.history-item .shipping-form p {
+	color: white;
+}
+.history-item .shipping-form button, .history-item .shipping-form a {
+	margin-top: 15px;
+	margin-right: 5px;
 }
 .history-item .shipping-form textarea {
 	min-height: 100px;
@@ -161,3 +179,14 @@
 .button-rounded:hover {
 	cursor: pointer;
 }
+.shipping-overlay {
+	position:absolute;
+	display: none;
+	width: 100%;
+	border-radius: 2px;
+	height: 100%;
+	background: #333;
+	z-index: 9999;
+	background: url("../img/blacktransparency.png");
+}
+

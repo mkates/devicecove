@@ -38,7 +38,7 @@
 			<select id="inputyear" name="modelyear" class="form-control smallinput">
 				<option value="0">Select Model Year. . .</option>
 					{% for i in range %}
-					<option {%if item.year == i %}selected {% endif %} value='{{i}}'>{{i}}</option>
+					<option {%if item.modelyear == i %}selected {% endif %} value='{{i}}'>{{i}}</option>
 				{% endfor %}
 			</select>
 		</div>

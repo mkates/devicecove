@@ -74,11 +74,11 @@ class BasicUser(models.Model):
 	city = models.CharField(max_length=60)
 	state = models.CharField(max_length=60)
 	website = models.CharField(max_length=60,null=True)
-	phonenumber = models.CharField(max_length=60)	
+	phonenumber = models.IntegerField(max_length=14)	
 	
 	#Payment Fields
 	balanceduri = models.CharField(max_length=255,null=True,blank=True)
-	PAYOUT_OPTIONS =  (('none', 'None'),('check', 'Check'),('bank', 'Direct Deposit'))
+	PAYOUT_OPTIONS =  (('none', 'None'),('check', 'Check'),('bank', 'Bank'))
 	payout_method = models.CharField(max_length=20,choices=PAYOUT_OPTIONS,default='none')
 	PAYMENT_OPTIONS =  (('none','None'),('card', 'Credit Card'),('bank', 'Bank Account'))
 	payment_method = models.CharField(max_length=20,choices=PAYMENT_OPTIONS,default='none')
@@ -377,8 +377,11 @@ class PurchasedItem(models.Model):
 	seller = models.ForeignKey(BasicUser,related_name="purchaseditemseller")
 	buyer = models.ForeignKey(BasicUser,related_name="purchaseditembuyer")
 	
+	total = models.FloatField(max_length=20)
 	# Reference to cart item of the purchase 
 	cartitem = models.OneToOneField(CartItem)
+	quantity = models.IntegerField(max_length = 5)
+	item_name = models.CharField(max_length=300)
 	
 	purchase_date = models.DateTimeField(auto_now_add = True)
 	
@@ -389,7 +392,16 @@ class PurchasedItem(models.Model):
 	# Seller Payment
 	paid_out = models.BooleanField(default=False)
 	paid_data = models.DateTimeField(null=True,blank=True)
-
+	PAYOUT_OPTIONS =  (('none', 'None'),('check', 'Check'),('bank', 'Bank'))
+	payout_method = models.CharField(max_length=20,choices=PAYOUT_OPTIONS,default='none')
+	
+#### Balanced Bank Account ##################
+class Check(models.Model):
+	user = models.ForeignKey(BasicUser)
+	amount = models.FloatField(max_length=20)
+	sent = models.BooleanField()
+	date = models.DateTimeField(auto_now_add = True)
+	
 ############################################
 ### Item Reviews ###########################
 ############################################	

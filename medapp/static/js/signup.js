@@ -18,6 +18,9 @@ $(document).ready(function() {
 	$("select").change(function() {
 		validateinput($(this),false);
 	});
+	$("#zipcode").keyup(function() {
+		$(this).val($(this).val().replace(/\D/g,''));
+	});
 	//Populate the state field
 	for (var i=0; i < states.length; i++) {
 		$("#state").append("<option>"+states[i]+"</option>");
@@ -97,7 +100,9 @@ var validateinput = function validateinput(handler,submiting) {
 		formelements['website'] = true;
 	}
 	if ($(handler).attr('id') =='phonenumber' || submiting) {
-		var validated = ($("#phonenumber").val().length == 14) ? true : false;
+		var pn = $("#phonenumber").val();
+		pn_stripped = pn.replace(/\D/g,'');
+		var validated = (pn_stripped.length == 10) ? true : false;
 		formelements['phonenumber'] = validated;
 		updateformcss($("#phonenumber"));
 	}

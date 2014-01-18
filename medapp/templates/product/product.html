@@ -139,12 +139,12 @@ $(document).ready(function() {
             data : {'questionid':$(this).attr("data_questionid")},
             url : "/deletequestion",
             success : function(data) {
-            	if (data == 400) {
+            	if (data == 201) {
             		$(handle.parent().parent()).remove();
             	}
             }, 
             error : function(jqXHR, textStatus, errorThrown) {
-                alert("Error saving product");
+                alert("Error Deleting Question");
             }
         });
 	});

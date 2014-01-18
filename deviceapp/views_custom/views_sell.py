@@ -52,20 +52,6 @@ def buyermessages(request,itemid):
 				dict['error'] = request.GET.get('e')
 			return render_to_response('account/contact_gate.html',dict,context_instance=RequestContext(request))
 
-
-def deletequestion(request):
-	if request.user.is_authenticated() and request.method=="POST":
-		bu = request.user.basicuser
-		questionid = request.POST['questionid']
-		page = request.POST.get('questionspage','')
-		ques = Question.objects.get(id=questionid)
-		if ques.buyer == bu or ques.seller == bu:
-			ques.delete()
-	if not page:
-		return HttpResponse(json.dumps(500), content_type='application/json')
-	else:
-		return HttpResponseRedirect("/account/sellerquestions")
-		
 #################################################
 ### Gateway for viewing buyer interest  #########
 #################################################
@@ -164,7 +150,10 @@ def purchaseshippinginfo(request,purchaseditemid):
 	pi = PurchasedItem.objects.get(id=purchaseditemid)
 	shipping_details = request.POST['shipping-details']
 	shipped = request.POST.get('shipped','')
-	pi.item_sent = shipped
+	if request.POST['submit'] == 'shipped':
+		pi.item_sent = True
+	else:
+		pi.item_sent = False
 	pi.seller_message = shipping_details
 	pi.save()
 	######################################

@@ -11,6 +11,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.conf import settings
 import views_payment as payment_view
 import json
+import re
 from datetime import datetime
 from django.utils.timezone import utc
 import balanced
@@ -25,6 +26,7 @@ import balanced
 # Then, transfer all the items from the session shopping cart to their account
 # Finally, create a Checkout if the user is checking out
 def newuserform(request):
+	print request
 	if request.method == 'POST':
 		try:
 			# Extract all sign up data
@@ -42,6 +44,7 @@ def newuserform(request):
 			state = request.POST['state']
 			website = request.POST.get('website','')
 			phonenumber = request.POST['phonenumber']
+			phonenumber = int(re.sub("[^0-9]", "", phonenumber))
 			password = request.POST['password']
 			newuser = User.objects.create_user(email,email,password)
 			newuser.save()
@@ -61,19 +64,22 @@ def newuserform(request):
 			
 			# Add all session cart items into their account's shopping cart
 			session_shoppingcart = getShoppingCart(request)
-			for cartitem in session_shoppingcart.cartitem_set.all():
-				cartitem.shoppingcart = nbu.shoppingcart
-				cartitem.save()
-				
+			if session_shoppingcart:
+				for cartitem in session_shoppingcart.cartitem_set.all():
+					cartitem.shoppingcart = nbu.shoppingcart
+					cartitem.save()	
 			# Add all the items from the BU shopping cart into Checkout object
 			# All items should reamin in the BU shopping as well!
-			if request.POST['checkoutsignin']:
+			if request.POST.get('checkoutsignin',''):
 				checkoutid = createCheckout(nbu)
 				login(request,user)
 				return HttpResponseRedirect('/checkout/shipping/'+str(checkoutid))
 			
-			#If user is not checking out, send them back to the homepage
+			
+			#If user is not checking out, send them to the original source
 			login(request,user)
+			if request.GET.get('next',''):
+				return HttpResponseRedirect(request.GET.get('next','/'))
 			return HttpResponseRedirect('/')
 			
 		except Exception,e:
@@ -100,17 +106,18 @@ def cart(request):
 
 ##### Add an item to the cart ######
 def addToCart(request,itemid):
-	# Get or create a shopping cart
-	shoppingcart = getShoppingCart(request)
-	if not shoppingcart:
-		shoppingcart = ShoppingCart()
-		shoppingcart.save()
-		request.session['shoppingcart'] = shoppingcart.id
-	item = Item.objects.get(id=itemid)
-	# Only creates the cart object if it doesn't exist
-	newCartItem, created = CartItem.objects.get_or_create(shoppingcart=shoppingcart,item=item,quantity=1)
-	newCartItem.save()
-	return HttpResponseRedirect('/cart')
+	if request.method == "POST":
+		# Get or create a shopping cart
+		shoppingcart = getShoppingCart(request)
+		if not shoppingcart:
+			shoppingcart = ShoppingCart()
+			shoppingcart.save()
+			request.session['shoppingcart'] = shoppingcart.id
+		item = Item.objects.get(id=itemid)
+		# Only creates the cart object if it doesn't exist
+		newCartItem, created = CartItem.objects.get_or_create(shoppingcart=shoppingcart,item=item,quantity=1)
+		newCartItem.save()
+		return HttpResponseRedirect('/cart')
 	
 ##### Update the Cart Wishlist #########
 def updateCartWishlist(request,cartitemid):
@@ -453,7 +460,6 @@ def checkoutChangeQuantity(request,checkoutid):
 ###################################
 @login_required
 def checkoutPurchase(request,checkoutid):
-	print 'started'
 	# 1. Checkout Validation
 	checkout = Checkout.objects.get(id=checkoutid)
 	checkoutValid = checkoutValidCheck(checkout,request)
@@ -489,7 +495,7 @@ def checkoutPurchase(request,checkoutid):
 			item.quantity -= cartitem.quantity
 		item.save()
 		amount = cartitem.item.price * cartitem.quantity
-		pi = PurchasedItem(seller=item.user,buyer=bu,cartitem=cartitem)
+		pi = PurchasedItem(seller=item.user,buyer=bu,cartitem=cartitem,total=amount,item_name=cartitem.item.name,quantity=cartitem.quantity)
 		pi.save()
 		cartitem.shoppingcart = None
 		cartitem.save()

@@ -79,6 +79,7 @@
 
 
 {% load humanize %}
+{% load phonenumber %}
 {% block content %}
 <div class="confirmation-container covebox">
 	<h3> Thank you for your order!</h3>
@@ -110,7 +111,7 @@
 					<p class="sellerinfo">{{checkoutcartitem.item.user.address_one}}</p>
 					{% if checkoutcartitem.item.user.address_two %}<p>{{checkoutcartitem.item.user.address_two}}</p>{% endif %}
 					<p class="sellerinfo">{{checkoutcartitem.item.user.state}} {{checkoutcartitem.item.user.zipcode}}</p>
-					<p class="sellerinfo">Phone: {{checkoutcartitem.item.user.phonenumber}}</p>
+					<p class="sellerinfo">Phone: {{checkoutcartitem.item.user.phonenumber|phonenumber}}</p>
 				</div>
 				<div class="item-price col-md-2 col-sm-2 col-xs-12">
 					<p>${{checkoutcartitem.item.price|floatformat|intcomma}}</p>

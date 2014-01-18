@@ -93,10 +93,19 @@
 	display:inline-block;
 	width: 100%;
 }
-.confirmation-box button,.confirmation-box a {
+.confirmation-box button, .confirmation-box a {
 	display:inline-block;
 	font-size: 13px;
 	margin: 0 10px;
+}
+.quantity-confirmation-box form .form-group label{
+	display:inline-block;
+}
+.quantity-confirmation-box input {
+	width: 60px;
+	display:inline-block;
+	margin-left: 10px;
+}
 </style>
 {% endblock %}
 
@@ -161,13 +170,15 @@ $(document).ready(function() {
 				
 				{% if item.liststatus == 'sold' and not item.offlineviewing %}
 				<!-- confirmation box for relisting (only available to online, sold listings)-->
-				<div id="relist-confirmation-{{item.id}}" class="confirmation-box">
+				<div id="relist-confirmation-{{item.id}}" class="confirmation-box quantity-confirmation-box">
 					<h3>Please enter your new item quantity</h3>
-					<form action="/account/editlisting/relist/{{item.id}}" method="POST">
+					<form action="/account/editlisting/relist/{{item.id}}" method="POST" class="form-horizontal">
 						{% csrf_token %}
 						<input type="hidden" name="page" value="/account/listings/{{listingtype}}">
-						<label>Quantity</label>
-						<input required name="quantity" type="number" class="form-control"></input>
+						<div class="form-group">
+							<label>New Quantity:</label>
+							<input placeholder="1" required name="quantity" type="number" class="form-control newquantity"></input>
+						</div>
 						<div class="clear"></div>
 						<button name="submit" value="submit" class="button button-rounded button-small button-action">Relist and Activate Listing</a></button>
 						<a data-confirm-box="#sold-confirmation-{{item.id}}" class="confirmation-cancel button button-rounded button-small">Cancel</a>

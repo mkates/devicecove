@@ -84,7 +84,9 @@
 	display:inline-block;
 	margin-left: 10px;
 }
-
+.disabled {
+	opacity: .4;
+}
 </style>
 {% endblock %}
 
@@ -94,10 +96,19 @@ $(document).ready(function() {
 	$(".item-quantity").change(function() {
 		$(this).parent().submit();	
 	});
-	$('.completepurchase').click(function() {
+
+	$('.completepurchase').click(function() 
 		$(".completepurchase").text("Processing. . .");
-		$(".completepurchase").attr("disabled", "disabled");
 		$(".completepurchase").addClass("disabled");
+	});
+	var enabled = true;
+	$('#completepurchase').submit(function() {
+		if (enabled) {
+			enabled = false;
+			return true;
+		} else {
+			return false;
+		}
 	});
 });
 
@@ -108,6 +119,7 @@ $(document).ready(function() {
 
 {% block checkoutcontent %}
 {% load humanize %}
+{% load phonenumber %}
 <div class="checkout-container">
 	<h3>Review Purchase</h3>
 	<div class="checkoutcol">
@@ -181,7 +193,7 @@ $(document).ready(function() {
 					<p>{{checkout.shipping_address.address_one}}</p>
 					{% if checkout.shipping_address.address_two %}<p>{{checkout.shipping_address.address_two}}</p>{% endif %}
 					<p>{{checkout.shipping_address.city}}, {{checkout.shipping_address.state}} {{checkout.shipping_address.zipcode}}</span>
-					<p>{{checkout.shipping_address.phonenumber}}</p>
+					<p>{{checkout.shipping_address.phonenumber|phonenumber}}</p>
 				{% else %}
 					<p class="incomplete-data">Shipping Address has not yet been added</p>
 				{% endif %}
@@ -205,7 +217,7 @@ $(document).ready(function() {
 		</div>
 		{% if checkout.cartitem_set.all %}
 		<div class="purchase-block">
-			<form action="/checkoutpurchase/{{checkout.id}}" method="POST">
+			<form id="checkoutpurchase" action="/checkoutpurchase/{{checkout.id}}" method="POST">
 			{% csrf_token %}
 			<button value="submit" name="submit" class="completepurchase button button-highlight button-rounded">Complete Purchase</button>
 			</form>

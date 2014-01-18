@@ -1,9 +1,7 @@
-<form class="signupform" action="/newuserform" method="post">
+<form class="signupform" action="/newuserform{% if next %}?next={{next}}{% endif %}" method="post">
 	  {% csrf_token %}
 	  {% if checkout_verify %}
 	  	<input type="hidden" value="true" name="checkoutsignin">
-	  {% else %}
-	  	<input type="hidden" value="false" name="checkoutsignin">
 	  {% endif %}
 	  <div class="form-group">
 		<label id="label-name">Name *</label>
@@ -95,7 +93,7 @@
 		<label for="zipcode">Zipcode *</label>
 		<table class="short-table">
 			<tr>
-				<td class="form-input"><input style="width: 190px" type="number" name="zipcode" class="form-control" id="zipcode" maxlength="5" placeholder="Enter Zipcode"></td>
+				<td class="form-input"><input style="width: 190px" name="zipcode" class="form-control" id="zipcode" maxlength="5" placeholder="Enter Zipcode"></td>
 				<td class="form-img"><img src="{{STATIC_URL}}img/blank.png"/></td>
 				<td class=""></td>
 			</tr>
@@ -125,7 +123,7 @@
 		<label for="customersupportphone">Telephone *</label>
 		<table>
 			<tr>
-				<td class="form-input"><input type="text" class="form-control phonenumber" name="phonenumber" maxlength="12" id="phonenumber" placeholder="Enter Phone Number"></td>
+				<td class="form-input"><input type="text" class="form-control phonenumber" name="phonenumber" maxlength="14" id="phonenumber" placeholder="Enter Phone Number"></td>
 				<td class="form-img"><img src="{{STATIC_URL}}img/blank.png"/></td>
 			</tr>
 		</table>

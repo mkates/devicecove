@@ -5,13 +5,13 @@
 {% block jsblock %}
 <script>
 $(document).ready(function() {
-	$(".shipping-button").click(function() {
+	$(".shipping-show").click(function() {
 		var form_handle = $(this).attr('data-shipping');
-		$(form_handle).css('display','block');
+		$(form_handle).fadeIn();
 	});
 	$(".shipping-cancel").click(function() {
 		var form_handle = $(this).attr('data-shipping');
-		$(form_handle).css('display','none');
+		$(form_handle).fadeOut();
 	});
 });
 </script>

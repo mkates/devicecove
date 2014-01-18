@@ -53,7 +53,7 @@ urlpatterns = patterns('',
     url(r'^list/activate/(?P<itemid>\d+)','deviceapp.views_custom.activateListing'),
     url(r'^list/markassold/(?P<itemid>\d+)','deviceapp.views_custom.markAsSold'),
     url(r'^deletelisting/(?P<itemid>\d+)','deviceapp.views_custom.deleteListing'),
-    
+    url(r'^list/tos/(?P<itemid>\d+)','deviceapp.views_custom.tosListing'),
     #Listing in the account
     url(r'^account/editlisting/inactive/(?P<itemid>\d+)','deviceapp.views_custom.editListingInactive'),
     url(r'^account/editlisting/active/(?P<itemid>\d+)','deviceapp.views_custom.editListingActive'),

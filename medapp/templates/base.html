@@ -55,7 +55,6 @@
 .dropdown-menu .cart-dropdown .row div {
 	padding: 5px;
 }
-
 </style>
 </head>
 
@@ -108,6 +107,9 @@
 			</li>
 			{% if user.is_authenticated %}
 			{% if user.basicuser.unansweredQuestionCount %}<li class="nav-questionstoanswer"><a href="/account/sellerquestions">Questions<span class="sc-count question-count">{{user.basicuser.unansweredQuestionCount}}</span></a></li>{% endif %}
+			{% if items_to_be_shipped %}<li class="nav-questionstoanswer"><a href="/account/sellhistory">Sold Items<span class="sc-count solditem-count">{{items_to_be_shipped}}</span></a></li>{% endif %}
+			
+			
 			<li><a href="/listintro">List Your Equipment</a></li>
 			<li class="dropdown">
 				<a href="#" class="dropdown-toggle" data-toggle="dropdown">Hi, {{user.basicuser.name}}<b class="caret"></b></a>
@@ -165,69 +167,69 @@
 				<div class="row">
 					<div class="col-md-4 col-sm-4 col-xs-6 grouping">
 						<h6>Large Animal</h6>
-						<a href="/productsearch/veterinary/{}/all">Equine Speciality</a>
-						<a href="/productsearch/veterinary/{}/all">Large Animal Specialty</a>
-						<a href="/productsearch/veterinary/{}/all">Farrier Supplies</a>
-						<a href="/productsearch/veterinary/{}/all">Reproduction</a>
+						<a href="/productsearch/veterinary/equinespecialty/all">Equine Specialty</a>
+						<a href="/productsearch/veterinary/largeanimalspecialty/all">Large Animal Specialty</a>
+						<a href="/productsearch/veterinary/farriersupplies/all">Farrier Supplies</a>
+						<a href="/productsearch/veterinary/reproduction/all">Reproduction</a>
 					</div>
 					<div class="col-md-4 col-sm-4 col-xs-6 grouping">
 						<h6>Diagnostic</h6>
-						<a href="/productsearch/veterinary/{}/all">Ultrasound</a>
-						<a href="/productsearch/veterinary/{}/all">Endoscopy</a>
-						<a href="/productsearch/veterinary/{}/all">X Ray</a>
-						<a href="/productsearch/veterinary/{}/all">MRI Compatible</a>
+						<a href="/productsearch/veterinary/ultrasounde/all">Ultrasound</a>
+						<a href="/productsearch/veterinary/endoscopy/all">Endoscopy</a>
+						<a href="/productsearch/veterinary/xray/all">X Ray</a>
+						<a href="/productsearch/veterinary/mricompatible/all">MRI Compatible</a>
 					</div>
 					<div class="col-md-4 col-sm-4 col-xs-6 grouping">
 						<h6>Surgery</h6>
-						<a href="/productsearch/veterinary/{}/all">Electro/Cryosurgery</a>
-						<a href="/productsearch/veterinary/{}/all">Monitors</a>
-						<a href="/productsearch/veterinary/{}/all">Surgery and Surgical Instruments</a>
-						<a href="/productsearch/veterinary/{}/all">Anesthesia</a>
+						<a href="/productsearch/veterinary/electrocryosurgery/all">Electro/Cryosurgery</a>
+						<a href="/productsearch/veterinary/monitors/all">Monitors</a>
+						<a href="/productsearch/veterinary/surgeryandsurgicalinstruments/all">Surgery and Surgical Instruments</a>
+						<a href="/productsearch/veterinary/anesthesia/all">Anesthesia</a>
 					</div>
 					<div class="col-md-4 col-sm-4 col-xs-6 grouping">
 						<h6>Kennel and Handling</h6>
-						<a href="/productsearch/veterinary/{}/all">Boarding and Holding</a>
-						<a href="/productsearch/veterinary/{}/all">Grooming</a>
-						<a href="/productsearch/veterinary/{}/all">Patient Transport and Handling</a>
-						<a href="/productsearch/veterinary/{}/all">Cages</a>
-						<a href="/productsearch/veterinary/{}/all">Protective Wear</a>
+						<a href="/productsearch/veterinary/boardingandholding/all">Boarding and Holding</a>
+						<a href="/productsearch/veterinary/grooming/all">Grooming</a>
+						<a href="/productsearch/veterinary/patienttransportandhandling/all">Patient Transport and Handling</a>
+						<a href="/productsearch/veterinary/cages/all">Cages</a>
+						<a href="/productsearch/veterinary/protectivewear/all">Protective Wear</a>
 					</div>
 					<div class="col-md-4 col-sm-4 col-xs-6 grouping">
 						<h6>Hospital Fixtures</h6>
-						<a href="/productsearch/veterinary/{}/all">Lighting</a>
-						<a href="/productsearch/veterinary/{}/all">Seating</a>
-						<a href="/productsearch/veterinary/{}/all">Tables</a>
-						<a href="/productsearch/veterinary/{}/all">Casework</a>
-						<a href="/productsearch/veterinary/{}/all">Sinks and Tubs</a>
+						<a href="/productsearch/veterinary/lighting/all">Lighting</a>
+						<a href="/productsearch/veterinary/seating/all">Seating</a>
+						<a href="/productsearch/veterinary/tables/all">Tables</a>
+						<a href="/productsearch/veterinary/casework/all">Casework</a>
+						<a href="/productsearch/veterinary/sinksandtubs/all">Sinks and Tubs</a>
 					</div>
 					<div class="col-md-4 col-sm-4 col-xs-6 grouping">
 						<h6>Pharmacy</h6>
-						<a href="/productsearch/veterinary/{}/all">Biologics</a>
-						<a href="/productsearch/veterinary/{}/all">Fluid and Drug Administration</a>
-						<a href="/productsearch/veterinary/{}/all">Narcotic Safes</a>
-						<a href="/productsearch/veterinary/{}/all">Pharmaceuticals</a>
-						<a href="/productsearch/veterinary/{}/all">Pharmacy Management</a>
+						<a href="/productsearch/veterinary/biologics/all">Biologics</a>
+						<a href="/productsearch/veterinary/fluidanddrugadministration/all">Fluid and Drug Administration</a>
+						<a href="/productsearch/veterinary/narcoticsafes/all">Narcotic Safes</a>
+						<a href="/productsearch/veterinary/pharmaceuticals/all">Pharmaceuticals</a>
+						<a href="/productsearch/veterinary/pharmacymanagement/all">Pharmacy Management</a>
 					</div>				
 					<div class="col-md-4 col-sm-4 col-xs-6 grouping">
 						<h6>Laboratory</h6>
-						<a href="/productsearch/veterinary/{}/all">Autoclaves and Sterilization</a>
-						<a href="/productsearch/veterinary/{}/all">Diagnostic</a>
-						<a href="/productsearch/veterinary/{}/all">Lab</a>
-						<a href="/productsearch/veterinary/{}/all">Eyecare</a>
+						<a href="/productsearch/veterinary/autoclavesandsterilization/all">Autoclaves and Sterilization</a>
+						<a href="/productsearch/veterinary/diagnostic/all">Diagnostic</a>
+						<a href="/productsearch/veterinary/lab/all">Lab</a>
+						<a href="/productsearch/veterinary/eyecare/all">Eyecare</a>
 					</div>
 					<div class="col-md-4 col-sm-4 col-xs-6 grouping">
 						<h6>Emergency Supplies</h6>
-						<a href="/productsearch/veterinary/{}/all">Critical Care and Recovery</a>
-						<a href="/productsearch/veterinary/{}/all">Emergency Equipment</a>
-						<a href="/productsearch/veterinary/{}/all">Aspirators</a>
-						<a href="/productsearch/veterinary/{}/all">Patient Warming</a>
+						<a href="/productsearch/veterinary/criticalcareandrecovery/all">Critical Care and Recovery</a>
+						<a href="/productsearch/veterinary/emergencyequipment/all">Emergency Equipment</a>
+						<a href="/productsearch/veterinary/asiprators/all">Aspirators</a>
+						<a href="/productsearch/veterinary/patientwarming/all">Patient Warming</a>
 					</div>
 					<div class="col-md-4 col-sm-4 col-xs-6 grouping">
 						<h6>Miscellaneous</h6>
-						<a href="/productsearch/veterinary/{}/all">Misc. Equipment and Supplies</a>
-						<a href="/productsearch/veterinary/{}/all">Dental</a>
-						<a href="/productsearch/veterinary/{}/all">Regenerative Medicine</a>
-						<a href="/productsearch/veterinary/{}/all">Therapy and Rehab</a>
+						<a href="/productsearch/veterinary/miscequipmentandsupplies/all">Misc. Equipment and Supplies</a>
+						<a href="/productsearch/veterinary/dental/all">Dental</a>
+						<a href="/productsearch/veterinary/regnerativemedicine/all">Regenerative Medicine</a>
+						<a href="/productsearch/veterinary/therapyandrehab/all">Therapy and Rehab</a>
 					</div>
 				</div>
 				<div class="row category-footer">

@@ -186,7 +186,6 @@ def savelogistics(request,itemid):
 		item = Item.objects.get(id=itemid)
 		item.shippingincluded = True if request.POST.get('shippingincluded','True') == 'True' else False
 		item.offlineviewing = True if request.POST.get('offlineviewing','True') == 'True' else False
-		item.tos = True if request.POST.get('tos','off') == 'on' else False
 		item.price = request.POST.get('inputpriceval',0)
 		item.save()
 		return HttpResponse(submitcode)
@@ -208,6 +207,8 @@ def listitempreview(request,itemid):
 def activateListing(request,itemid):
 	if request.method == "POST" and itemOwner(request,itemid):
 		item = Item.objects.get(id=itemid)
+		if not item.tos:
+			return render_to_response('item/item_tos.html',{'item':item},context_instance=RequestContext(request))
 		item.liststatus = 'active'
 		item.save()
 		return HttpResponseRedirect('/item/'+itemid+'/details');
@@ -221,6 +222,19 @@ def deleteListing(request,itemid):
 		return HttpResponseRedirect('/account/listings/incomplete');
 	return HttpResponseRedirect('/listintro');
 
+@login_required
+def tosListing(request,itemid):
+	item = Item.objects.get(id=itemid);
+	if request.method == "POST" and itemOwner(request,itemid):
+		if request.POST.get('tos',''):
+			item.liststatus = 'active'
+			item.tos = True
+			item.save()
+			return HttpResponseRedirect('/item/'+itemid+'/details');
+	return HttpResponseRedirect('/listintro');
+
+			
+			
 ###########################################
 #### Product Pages ########################
 ###########################################
@@ -259,18 +273,32 @@ def itemdetails(request,itemid):
 	dict['isinshoppingcart'] = isInShoppingCart
 	return render_to_response('product/productdetails.html',dict,context_instance=RequestContext(request))
 
+@login_required
 def askquestion(request):
 	if request.method == "POST" and request.user.is_authenticated():
 		item = Item.objects.get(id=request.POST["itemid"])
 		user = BasicUser.objects.get(user=request.user)
 		redirect = request.POST["redirect"]
 		question = request.POST['question']
-		if len(question) > 5: # Make sure it is a legitimate question
+		if len(question) > 3: # Make sure it is a legitimate question
 			questionobject = Question(question=question,item=item,buyer=user,seller=item.user,dateanswered=None,answer='')
 			questionobject.save() 
 		return HttpResponseRedirect(redirect)
-	return HttpResponseRedirect("ERROR")
+	return HttpResponseRedirect("/login?next="+redirect)
 
+def deletequestion(request):
+	if request.user.is_authenticated() and request.method=="POST":
+		bu = request.user.basicuser
+		questionid = request.POST['questionid']
+		page = request.POST.get('questionspage','')
+		ques = Question.objects.get(id=questionid)
+		if ques.buyer == bu or ques.seller == bu:
+			ques.delete()
+	if not page:
+		return HttpResponse(json.dumps(201), content_type='application/json')
+	else:
+		return HttpResponseRedirect("/account/sellerquestions")
+		
 ###########################################
 #### User Function Pages ##################
 ###########################################

@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+{% block headertitle %}<title>VetCove | TOS</title>{% endblock%}
+{% block content %}
+<div class="covebox tos-container">
+	<div class="tos-box">
+	<h5>Terms of Listing</h5>
+	<div class="tos">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborumLorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborumLorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum</div>
+	<form id="tos-form" action="/list/tos/{{item.id}}" method="POST">
+		{% csrf_token %}
+		<div class="checkbox">
+			<label>
+				<input id="terms" type="checkbox" name="tos">I agree to the the terms of service for selling on VetCove
+			</label>
+		</div>
+		<button class="button button-action button-rounded">Activate Listing</button>
+	</form>
+</div>
+</div>
+
+{% endblock %}
+
+{% block jsblock %}
+<script src="{{STATIC_URL}}js/bootstrap-datepicker.js"></script> 
+<script>
+$(document).ready(function() {
+	$('#tos-form').submit(function() {
+		if ($('#terms').prop('checked') == false) {
+			return false;
+		} else {
+			return true;
+		}
+	});
+});
+
+</script>
+{% endblock %}
+{% block headercss %}
+<style>
+.tos-container {
+	max-width: 1000px;
+	margin: 40px auto;
+	padding-bottom: 40px;
+}
+.tos-container h5 {
+	font-size: 18px;
+	margin: 0;
+	padding: 10px 30px;
+	border-bottom:1px solid #ddd;
+	background: #e1e1e1;
+	background-image: linear-gradient(to bottom, #FBFBFB 0%, #E1E1E1 100%);
+	background-image: -ms-linear-gradient(top, #FBFBFB 0%, #E1E1E1 100%);
+	background-image: -moz-linear-gradient(top, #FBFBFB 0%, #E1E1E1 100%);
+	background-image: -o-linear-gradient(top, #FBFBFB 0%, #E1E1E1 100%);
+	background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #FBFBFB), color-stop(1, #E1E1E1));
+	background-image: -webkit-linear-gradient(top, #FBFBFB 0%, #E1E1E1 100%);
+	background-image: linear-gradient(to bottom, #FBFBFB 0%, #E1E1E1 100%);
+}
+.tos {
+	margin: 30px;
+	height: 180px;
+	border:1px solid #ddd;
+	box-shadow: 0 0 2px #aaa;
+	overflow: scroll;
+	padding: 20px;
+	font-size: 13px;
+	margin-bottom: 10px;
+}
+.tos-container form {
+	margin-left: 30px;
+	margin-top: 20px;
+}
+
+</style>
+{% endblock %}

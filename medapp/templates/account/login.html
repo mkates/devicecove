@@ -16,31 +16,48 @@
 <div class="clear"></div>
 
 <div class="logincontainer">
-	<div class="login">
-		<div class="loginheader">
-			<h1>Log In</h1>
-			<h2>Don't have an account? <a href="signup"> Signup here</a></h2>
+	<div class="login row">
+		<div class="col-md-6 col-sm-6 col-xs-12">
+			<div class="loginheader">
+				<h1>Log In</h1>
+				<h2>Welcome back to VetCove. Log in below:</h2>
+			</div>
+			{% if action %}<p class="errormessage">
+				{% if action == 'question' %}You must be logged in to ask a question {% endif %}
+				{% if action == 'save' %}You must be logged in to save an item {% endif %}
+				{% if action == 'contactseller' %}You must be logged in to contact the seller{% endif %}
+			</p>{% endif %}
+			{% if outcome %}<p class="errormessage">{{ outcome }}</p>{% endif %}
+			{% if next %}
+			<form class="loginform" action="/lgnrequest/?next={{next}}" method="post" >
+			{%else%}
+			<form class="loginform" action="/lgnrequest" method="post">
+			{% endif %}
+				{% csrf_token %}
+				<p>Email</p>
+				<input name="email" class="form-control" type="email" placeholder="ex. joedoe@gmail.com">
+				<p>Password</p>
+				<input name="password" class="form-control" type="password">
+				<a class="forgotpassword" href="{% url "password_reset_recover" %}">Forgot Password?</a>
+				<button class="button button-primary button-rounded" value="submit">Login</button>
+				<div class="clear"></div>
+			</form>
 		</div>
-		{% if action %}<p class="errormessage">
-			{% if action == 'question' %}You must be logged in to ask a question {% endif %}
-			{% if action == 'save' %}You must be logged in to save an item {% endif %}
-			{% if action == 'contactseller' %}You must be logged in to contact the seller{% endif %}
-		</p>{% endif %}
-		<p>{{ outcome }}</p>
-		{% if next %}
-		<form class="loginform" action="/lgnrequest/?next={{next}}" method="post" >
-		{%else%}
-		<form class="loginform" action="/lgnrequest" method="post">
-		{% endif %}
-			{% csrf_token %}
-			<p>Email</p>
-			<input name="email" class="form-control" type="email" placeholder="ex. joedoe@gmail.com">
-			<p>Password</p>
-			<input name="password" class="form-control" type="password">
-			<a class="forgotpassword" href="{% url "password_reset_recover" %}">Forgot Password?</a>
-			<button class="button button-primary button-rounded" value="submit">Login</button>
-			<div class="clear"></div>
-		</form>
+		<div class="col-md-6 col-sm-6 col-xs-12">
+			<div class="loginheader">
+				<h1>Sign up</h1>
+				<h2>Don't have an account? Create one in seconds</h2>
+			</div>
+			<p class="signup-message"> Create an account and enjoy all the benefits of being a part
+			of the VetCove family</p>
+			{% if next %}
+			<a href="/signup?next={{next}}" class="signupbutton button button-rounded button-primary" >Sign up</a>
+			{%else%}
+			<a href="/signup" class="signupbutton button button-rounded button-primary">Sign up</a>
+			{% endif %}
+			
+			
+		</div>		
 	</div>
 </div>
 {% endblock %}

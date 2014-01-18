@@ -50,6 +50,9 @@ $(document).ready(function () {
 							display_CC_Error('Error saving your Card. '+r['error']);
 							Balanced_CC_Enable();
 						}
+					}).fail( function(xhr, textStatus, errorThrown) {
+						 display_CC_Error("We experienced a problem with our servers. We are working on fixing the problem");
+						 Balanced_CC_Enable();
 					});
 				} else {
 					display_CC_Error("We failed to verify your card. Please double check your information and try again");

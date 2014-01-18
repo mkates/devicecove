@@ -1,6 +1,8 @@
 from deviceapp.models import *
 
-def cart_item(request):
+def basics(request):
+	
+	#################Cart Calculations ##################
 	ci = None
 	ci_count = 0
 	try: # If accessing as admin there is no BU, so error is thrown
@@ -18,7 +20,16 @@ def cart_item(request):
 		for itm in ci:
 			if itm.item.liststatus == 'active':
 				total += itm.item.price *itm.quantity
-		return {'cart_items':ci,'cart_items_count':ci_count,'cart_total':total }
+				
+	################# Shipping Notifications ######################
+		itemsToBeShipped = 0
+		if request.user.is_authenticated():
+			bu = BasicUser.objects.get(user=request.user)
+			pis = PurchasedItem.objects.filter(seller=bu)
+			for pi in pis:
+				if pi.item_sent == False:
+					itemsToBeShipped += 1
+		return {'cart_items':ci,'cart_items_count':ci_count,'cart_total':total,'items_to_be_shipped':itemsToBeShipped }
 	except:
 		return {}
 
@@ -28,3 +39,6 @@ def activeItemCount(queryset):
 		if ci.item.liststatus == 'active':
 			count += 1
 	return count
+
+			
+			

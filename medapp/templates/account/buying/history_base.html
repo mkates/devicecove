@@ -1,4 +1,23 @@
+{% load phonenumber %}
+
 <div class="maincontent-container covebox history-item">
+	{% if sellhistory %}
+		<div class="shipping-overlay" id="shipping-overlay-{{pitem.id}}">
+			<div class="row shippingrow">
+		
+				<form method="POST" action="/account/purchaseshippinginfo/{{pitem.id}}" id="shipping-form-{{pitem.id}}" class="shipping-form">
+					{% csrf_token %}
+					<p> Please describe shipping details, including shipping company and tracking number. If there was a problem,
+					please inform your seller and mark as not yet shipped</p>
+					<textarea name="shipping-details" class="buymessage form-control" placeholder="Shipping details i.e. shipping company and tracking number">{{pitem.seller_message}}</textarea> 
+					<button value="shipped" name="submit" class="button button-tiny button-action button-rounded" name="submit" value="submit">Submit and Mark Item as Shipped</button>
+					<button value="not_shipped" name="submit" class="button button-tiny button-caution button-rounded" name="submit" value="submit">Submit and Mark Item as Not Yet Shipped</button>
+					<a data-shipping="#shipping-overlay-{{pitem.id}}" class="shipping-cancel button button-tiny button-rounded" name="submit" value="submit">Cancel</a>
+				</form>
+			</div>
+		</div>
+	{% endif %}
+
 	<div class="order-overview row">
 		<div class="col-md-4 col-sm-4 col-xs-12 order-details-container">
 			<h4 class="order-details">Order Placed</h4>
@@ -10,7 +29,7 @@
 				<p>{{pitem.cartitem.checkout.shipping_address.address_one}}</p>
 				{% if pitem.cartitem.checkout.shipping_address.address_two %}<p>{{pitem.cartitem.checkout.shipping_address.address_two}}</p>{% endif %}
 				<p>{{pitem.cartitem.checkout.shipping_address.city}}, {{pitem.cartitem.checkout.shipping_address.state}} {{pitem.cartitem.checkout.shipping_address.zipcode}}</p>
-				<p>{{pitem.cartitem.checkout.shipping_address.phonenumber}}</p>
+				<p>{{pitem.cartitem.checkout.shipping_address.phonenumber|phonenumber}}</p>
 			</div>
 			{% if buyhistory %}
 			<div class="order-info">
@@ -29,10 +48,25 @@
 			{% endif %}
 			<p class="order-price">Total Price: <span>${{pitem.cartitem.amount|floatformat:"2"}}</span>
 			<p class="order-quantity">Quantity: <span>{{pitem.cartitem.quantity}} (at ${{pitem.cartitem.item.price|floatformat:"2"}} each)</span>
+			<p class="order-number">Payout Status: 
+				<span>
+					{% if pitem.paid_out and pitem.payout_method == 'bank'%}
+						Paid - Bank Account Credited
+					{% elif pitem.paid_out and item.payout_method == 'check' %}
+						Paid - Check Mailed
+					{% else %}
+						Payout Pending
+					{% endif %}
+				</span>
+			</p>
 		</div>
 		<div class="col-md-8 col-sm-8 col-xs-12">
 			<p class="order-status">Status: <span>{% if pitem.item_sent %}Shipped {% else %}Waiting to be Shipped{% endif %}</span></p>
+			{% if buyhistory %}
 			<p class="order-next"><span>Waiting for seller to provide shipping information</span></p>
+			{% else %}
+			<a class="shipping-button shipping-show button button-tiny button-action button-rounded " data-shipping="#shipping-overlay-{{pitem.id}}">Edit Shipping Status</a>
+			{% endif %}
 			<div class="order-item row">
 				<div class="col-md-4 col-sm-4 col-xs-12 order-image">
 					<img src="{{STATIC_URL}}img/blueshield.png"/>
@@ -44,11 +78,11 @@
 					<p class="order-seller-info">{{pitem.seller.email}}</p>
 					<p class="order-seller-info">{{pitem.seller.company}}</p>
 					<p class="order-seller-info">{{pitem.seller.city}}, {{pitem.seller.state}}</p>
-					<p class="order-seller-info">{{pitem.seller.phonenumber}}</p>
+					<p class="order-seller-info">{{pitem.seller.phonenumber|phonenumber}}</p>
 				</div>
 			</div>
 			<div class="row">
-				<p class="order-seller-message">Shipping Information: <span>{% if pitem.seller_message %}{{pitem.seller_message}}{% else %} The seller has not provided any shipping details{% endif %}</span></p>
+				<p class="order-seller-message">Shipping Information: <span>{% if pitem.seller_message %}{{pitem.seller_message}}{% else %} The seller has not provided any shipping details{% endif %}</span><a class="shipping-show" data-shipping="#shipping-overlay-{{pitem.id}}">edit shipping</a></p>
 				{% if buyhistory %}
 				<p id="seller-message-current-{{pitem.id}}" class="seller-message-current order-seller-message">
 					Your Message for Seller: 
@@ -81,22 +115,6 @@
 	<div class="row order-actions">
 		<a href="/account/reportproblem/{{pitem.id}}" class="button button-rounded button-tiny">Report A Problem</button>
 		<a data-message-current="#seller-message-current-{{pitem.id}}" data-form="#seller-message-form-{{pitem.id}}" class="seller-message-button button button-rounded button-tiny">Send Seller Shipping Instructions</a>
-	</div>
-	{% endif %}
-	{% if sellhistory %}
-	<div class="row shippingrow">
-		
-		<form method="POST" action="/account/purchaseshippinginfo/{{pitem.id}}" id="shipping-form-{{pitem.id}}" class="shipping-form">
-			{% csrf_token %}
-			<p> Please describe shipping details, including shipping company and tracking number</p>
-			<textarea name="shipping-details" class="buymessage form-control" placeholder="Shipping details i.e. shipping company and tracking number">{{pitem.seller_message}}r</textarea> 
-			<div class="checkbox">
-				<label>
-					<input type="checkbox" name="shipped" checked> Has this item been shipped
-				</label>
-			</div>
-			<button class="button button-tiny button-primary button-rounded" name="submit" value="submit">Submit Shipping Information</button>
-		</form>
 	</div>
 	{% endif %}
 

@@ -21,18 +21,26 @@
 .login h2 {
 	font-weight: 200;
 	font-size: 13px;
-	line-height: 13px;
+	line-height: 16px;
+	padding-bottom: 10px;
 	margin: 0;
-	height: 30px;
 	padding-top: 10px;
 }
-
+.login .signup-message {
+	font-size: 15px;
+	font-weight: 200;
+	letter-spacing: .3px;
+	padding: 20px 40px;
+	margin-top: 20px;
+	line-height: 22px;
+	color: #333;
+}
 .login p {
 	color: #aaa;
 
 }
 .loginheader {
-	width: 400px;
+	max-width: 400px;
 	margin: 0 auto;
 	border-bottom: 1px solid #ccc;
 }
@@ -61,12 +69,15 @@
 }
 .login .errormessage {
 	color: red;
-	font-size: 200;
+	font-weight: 500;
 	padding: 5px 12px;
 	margin-top: 15px;
 	background: #FFF2F2;
 	display:inline-block;
-	font-weight: 200;
 	border-radius: 4px;
+	border:1px solid red;
 	
+}
+.signupbutton {
+	margin-bottom: 40px;
 }

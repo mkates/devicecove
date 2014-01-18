@@ -29,6 +29,7 @@ var loading_src = "{{STATIC_URL}}img/ajax-loader2.gif";
 {% endblock %}
 {% block checkoutcontent %}
 {% load zipcodify %}
+{% load phonenumber %}
 <div class="checkout-container">
 	<h3>Shipping</h3>
 	<div class="row">
@@ -41,12 +42,12 @@ var loading_src = "{{STATIC_URL}}img/ajax-loader2.gif";
 					<p class="address_one">{{address.address_one}}</p>
 					{% if address.address_two %}<p class="address_two">{{address.address_two}}</p>{% endif %}
 					<p><span class="address_city">{{address.city}}</span>, <span class="address_state">{{address.state}}</span> <span class="address_zipcode">{{address.zipcode|zipcodify }}</span></p>
-					<p class="address_phonenumber">{{address.phonenumber}}</p>
+					<p class="address_phonenumber">{{address.phonenumber|phonenumber}}</p>
 					<form action="/useaddress" method="POST">
 					{% csrf_token %}
 					<input type="hidden" value="{{checkout.id}}" name="checkout_id">
 					<input type="hidden" value="{{address.id}}" name="address_id">
-					<button href="/useaddress/{{checkout.id}}/{{address.id}}" class="information-select button button-action button-rounded" value="submit">Ship To This Address</button>
+					<button href="/useaddress/{{checkout.id}}/{{address.id}}" class="information-select button button-action button-rounded" value="submit">Ship to this Address</button>
 					</form>
 					<div class="clear"></div>
 					{% if not user.basicuser.check_address == address and user.basicuser.payout_method == 'check' %}

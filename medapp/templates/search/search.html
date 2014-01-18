@@ -182,9 +182,9 @@ label .floatright {
   		<span>Related results: </span>
 			{% for relateditem in relatedItems %}
 				{% if relateditem.type == 'category' %}
-					<a href="/productsearch/{{ind.name}}/{{relateditem.obj.name}}/all">{{relateditem.obj.displayname}}</a>
+					<a href="/productsearch/{{ind.name}}/{{relateditem.obj.name}}/all">{{relateditem.obj.displayname}} ({{relateditem.obj.totalunits}})</a>
 				{% else %}
-					<a href="/productsearch/{{ind.name}}/all/{{relateditem.obj.name}}">{{relateditem.obj.displayname}}<span></a>
+					<a href="/productsearch/{{ind.name}}/all/{{relateditem.obj.name}}">{{relateditem.obj.displayname}} ({{relateditem.obj.totalunits}})</a>
 				{% endif %}
 				{% if not forloop.last %},{% endif %}
 			{% endfor %}

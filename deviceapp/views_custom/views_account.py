@@ -57,9 +57,10 @@ def lgnrequest(request):
 def signup(request):
 	if request.method == 'GET':
 		error = request.GET.get('e','')
+		next = request.GET.get('next','')
 	if request.user.is_authenticated():
 		return HttpResponseRedirect("/account/profile")
-	return render_to_response('account/signup.html',{'error':error},context_instance=RequestContext(request))
+	return render_to_response('account/signup.html',{'error':error,'next':next},context_instance=RequestContext(request))
 
 def checkemail(request):
 	if request.method == "GET":
@@ -206,7 +207,7 @@ def answerquestion(request,questionid):
 @login_required
 def addBankAccount(request):
 	if request.method == "POST":
-		addBA = payment_view.addBalancedBankAccount(request,False)
+		addBA = payment_view.addBalancedBankAccount(request)
 		return HttpResponse(json.dumps({'status':addBA['status'],'error':addBA['error']}), content_type='application/json')
 	return HttpResponse(json.dumps({'status':500,'error': 'Not a POST method'}), content_type='application/json')
 

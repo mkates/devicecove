@@ -102,7 +102,10 @@
 						{% if isinshoppingcart %}
 							<a href="/cart" class="button button-rounded">Edit Cart (Already In Cart)</a>
 						{% else %}
-							<a id="buynow" href="/addtocart/{{item.id}}" class="button button-rounded button-action">Add To Cart</a>
+							<form action="/addtocart/{{item.id}}" method="POST">
+								{% csrf_token %}
+								<button name="submit" value="submit" id="buynow" class="button button-rounded button-action">Add To Cart</button>
+							</form>
 						{% endif %}
 					{% endif %}
 				{% elif item.liststatus == 'sold' %}
@@ -204,7 +207,7 @@
 			<h2> Top Buyer Questions</h2>
 			{% if item.liststatus == "active" %}
 				{% if user.basicuser == item.user %}
-					<a href="/questions" class="button button-rounded button-tiny">Answer Questions</a>
+					<a href="/account/sellerquestions" class="button button-rounded button-tiny">Answer Questions</a>
 				{% else %}
 					<a class="button button-rounded button-tiny askquestion">Ask a question</a>
 				{% endif %}
