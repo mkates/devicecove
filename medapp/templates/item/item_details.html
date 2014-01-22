@@ -8,7 +8,6 @@
 	margin-top: 15px;
 }
 .qualitybox .qualitydescription {
-	height: 70px;
 	background: #f4f4f4;
 	border:2px solid #ddd;
 	border-radius: 6px;
@@ -41,18 +40,26 @@
 	margin-top: 10px;
 	padding: 0 5px;
 	text-transform: uppercase;
+	text-align: center;
 }
 
+.qualitybox .selectors div {
+	text-align: center;
+	display:inline-block;
+	width: 19%;
+	line-height: 20px;
+}
 @media (max-width: 768px) {
 	.qualitybox .selectors .qualitynumber {
 		margin-bottom: 5px;
 	}
 }
 .qualitybox .selectors .qualitynumber p {
-	height: 26px;
-	display: block;
 	border-radius: 4px;
-	line-height: 26px;
+	height: 40px;
+	text-shadow: 0 0 1px #777;
+	line-height: 20px;
+	overflow: hidden;
 	text-align: center;
 	margin: 0 0%;
 	color: white;
@@ -103,11 +110,11 @@
 	});
 	var currentvalue = 0;
 	$(".qualitybox select").css("opacity",".4");
-	var q1 = "<span>Parts Only</span><p>This equipment has missing parts or serious defects. This item can be used to replace missing parts on other machines. </p>";
-	var q2 = "<span>Fairly Used</span><p>This item has normal wear and tear</p>";
-	var q3 = "<span>Gently Used</span><p>This item has small signs of use, but it is fully functional</p>";
-	var q4 = "<span>Refurbished</span><p>This item has been restored to manufacturer standards</p>";
-	var q5 = "<span>New</span><p>This item has not been used</p>";
+	var q1 = "<span>Parts Only / Not Working</span><p>Items that are not functional as-is, and require manufacturer or third-party refurbishment before they can be used by another practitioner.  These items can be intended as fix-up items by the buyer, or may be used for parts toward other items of the same model.  Please describe the debilitating defect(s) in as much detail as possible for prospective buyers.</p>";
+	var q2 = "<span>Functional with Defects</span><p> A used item that has seen heavy use (for its age), or comes with moderate cosmetic or performance-related damage.  The item should be functional and fully able to perform its intended purpose, but may suffer from some (inaccuracy, software lag, decreased readability), or decrease in performance ( decrease in performance due to normal wear and tear).  The item must still be usable to other practitioners as is without the need for immediate repair or refurbishing.  Please describe all defects in detail. </p>";
+	var q3 = "<span>Used Fully Functional</span><p>A used item that has seen very light use. It should be fully functional and free of any defects whatsoever, and should show little-to-no cosmetic signs of wear and tear.  The item may be missing original packaging or accessories, but should function exactly the same as a brand new item.  Most Very Good items that see regular use are less than one year old.  About 20% of all used items fall into the Very Good category.</p>";
+	var q4 = "<span>Used Like New</span><p>A new, unused item with absolutely no signs of wear. The item may have the manufacturer's seal broken, or the packaging may show slight signs of wear, but the item itself should have never been used except in some cases for light testing (or demonstration)  purposes.  The item may be a factory second or a new, unused item with missing accessories or packaging. See the seller's listing for full details and description of any imperfections.</p>";
+	var q5 = "<span>Brand New</span><p>A brand-new, unused, unopened, undamaged item in its original manufacturer's packaging.  Packaging should be the same as it would be received directly from the manufacturer or supplier, and sealed by the original manufacturer without any signs of tampering.  If you are not the original manufacturer or a certified supplier, please be sure to describe your acquisition of the item.</p>";
 	$(".qualitydescription p").html(q4);
 	var qualitydict = {"1":q1,"2":q2,"3":q3,"4":q4,"5":q5};
 	
@@ -127,12 +134,11 @@
 			element.css("opacity","1");
 			//Move the arrow
 			var margintomove = "";
-			if (value == 1) {margintomove = '7%'};
-			if (value == 2) {margintomove = '23.7%'};
-			if (value == 3) {margintomove = '40.3%'};
-			if (value == 4) {margintomove = '57%'};
-			if (value == 5) {margintomove = '73.7%'};
-			if (value == 6) {margintomove = '90.3%'};
+			if (value == 1) {margintomove = '10%'};
+			if (value == 2) {margintomove = '29%'};
+			if (value == 3) {margintomove = '48%'};
+			if (value == 4) {margintomove = '68%'};
+			if (value == 5) {margintomove = '87%'};
 			qualityChange(value);
 			$(".downarrow").animate({"margin-left":margintomove},400);
 			$(".qualitydescription p").fadeOut('fast',function() {
@@ -162,12 +168,11 @@
 	<h5 id="qualitytitle">Choose Your Item Condition</h5>
 	<div class="qualitybox">
 		<div class="selectors">
-			<div id="quality_1" class="qualitynumber quality1 col-md-2 col-sm-2"><p>Parts Only</p></div>
-			<div id="quality_2" class="qualitynumber quality2 col-md-2 col-sm-2"><p>Acceptable</p></div>
-			<div id="quality_3" class="qualitynumber quality3 col-md-2 col-sm-2"><p>Good</p></div>
-			<div id="quality_4" class="qualitynumber quality4 col-md-2 col-sm-2"><p>Very Good</p></div>
-			<div id="quality_5" class="qualitynumber quality5 col-md-2 col-sm-2"><p>Like New</p></div>
-			<div id="quality_6" class="qualitynumber quality6 col-md-2 col-sm-2"><p>Brand New</p></div>
+			<div id="quality_1" class="qualitynumber quality1"><p>Parts Only / Not Working</p></div>
+			<div id="quality_2" class="qualitynumber quality2"><p>Functional with Defects</p></div>
+			<div id="quality_3" class="qualitynumber quality3"><p>Used Fully Functional</p></div>
+			<div id="quality_4" class="qualitynumber quality4"><p>Used Like New</p></div>
+			<div id="quality_5" class="qualitynumber quality5"><p>Brand New</p></div>
 		</div>
 		<div class='clear'></div>
 		<div class="downarrow"></div>
@@ -180,7 +185,7 @@
 		<textarea id="inputconditiondescription" name="conditiondescription" type="text" class="form-control" placeholder="Example: This ultrasound was used in mobile veterinary trucks. I was the s. . . ">{{item.conditiondescription}}</textarea>
 	</div>
 	<div class="entry">
-		<h5>Model Features and Specs <span>Describe any accessories, manuals, and general items that come with this item</span></h5>
+		<h5>Model Features and Specifications <span>Please describe the item/model you’re selling.  Feel free to copy and paste information provided by the manufacturer</span></h5>
 		<textarea id="inputproductdescription" name="productdescription" type="text" class="form-control" placeholder="Make sure you include any defects, product malfunctions, repairs, or otherwise">{{item.productdescription}}</textarea>
 	</div>
 	<div class="entry">
@@ -193,20 +198,8 @@
 		</div>
 		<div class="radio">
 		  <label>
-			<input type="radio" name="contract" class="contract" value="notransferwarranty" {% if item.contract == 'notransferwarranty' %}checked{% endif %}>
-			This item includes a non-transferrable warranty
-		  </label>
-		</div>
-		<div class="radio">
-		  <label>
 			<input type="radio" name="contract" class="contract" value="transferservicecontract" {% if item.contract == 'transferservicecontract' %}checked{% endif %}>
 			This item includes a transferrable service contract
-		  </label>
-		</div>
-		<div class="radio">
-		  <label>
-			<input type="radio" name="contract" class="contract" value="notransferservicecontract" {% if item.contract == 'notransferservicecontract' %}checked{% endif %}>
-			This item includes a non-transferrable service contract
 		  </label>
 		</div>
 		<div class="radio">
@@ -216,13 +209,13 @@
 		  </label>
 		</div>
 		<div class="contractdescription-container">
-			<p>Please describe details of the service contract / warranty</p>
-			<textarea id="inputcontractdescription" name="contractdescription" type="text" class="form-control" placeholder="Details of the service contract">{{item.contractdescription}}</textarea>
+			<p>Please describe, in detail, the service contract or warranty -- Be sure to include terms, end dates, requirements for transfer, and/or any costs that a buyer may incur</p>
+			<textarea id="inputcontractdescription" name="contractdescription" type="text" class="form-control" placeholder="Please describe, in detail, the service contract or warranty -- Be sure to include terms, end dates, requirements for transfer, and/or any costs that a buyer may incur">{{item.contractdescription}}</textarea>
 		</div>
 	</div>
 	<div class="entry">
-		<h5>What's Included? <span>Describe any accessories, manuals, and general items that come with this item</span></h5>
-		<textarea id="inputwhatsincluded" name="whatsincluded" type="text" class="form-control" placeholder="Make sure you include any defects, product malfunctions, repairs, or otherwise">{{item.whatsincluded}}</textarea>
+		<h5>What's Included? <span>Please describe what items are included in your sale, such as accessories, spare parts, manuals/documentation, packaging, etc.</span></h5>
+		<textarea id="inputwhatsincluded" name="whatsincluded" type="text" class="form-control" placeholder="Please describe what items are included in your sale, such as accessories, spare parts, manuals/documentation, packaging, etc.">{{item.whatsincluded}}</textarea>
 	</div>
 	
 </div>

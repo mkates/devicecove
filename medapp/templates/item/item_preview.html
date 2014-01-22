@@ -20,27 +20,140 @@
 
 {% endblock %}
 {% block formcontent %}
-
+{% load humanize %}
 <div class="preview row">
 	<div class="preview-text col-md-8 col-sm-8 col-xs-12">
 		<h4> Description<a href="/list/describe/{{item.id}}">edit</a></h4>
-		<p><span>Category: </span>{{item.subcategory}}</p>
-		<p><span>Manufacturer: </span>{{item.manufacturer}}</p>
-		<p><span>Model Name: </span>{{item.name}}</p>
-		<p><span>Model Year: </span>{{item.modelyear}}</p>
-		<p><span>Type: </span>{{item.get_conditiontype_display}}</p>
+		<div class="row">
+			<div class="col-md-3 col-sm-3 col-xs-12 info_header">
+				<p>Category</p>
+			</div>
+			<div class="col-md-9 col-sm-9 col-xs-12">
+				<p>{{item.subcategory}}</p>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-3 col-sm-3 col-xs-12 info_header">
+				<p>Manufacturer</p>
+			</div>
+			<div class="col-md-9 col-sm-9 col-xs-12">
+				<p>{{item.manufacturer}}</p>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-3 col-sm-3 col-xs-12 info_header">
+				<p>Model Name</p>
+			</div>
+			<div class="col-md-9 col-sm-9 col-xs-12">
+				<p>{{item.name}}</p>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-3 col-sm-3 col-xs-12 info_header">
+				<p>Model Year</p>
+			</div>
+			<div class="col-md-9 col-sm-9 col-xs-12">
+				<p>{{item.modelyear}}</p>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-3 col-sm-3 col-xs-12 info_header">
+				<p>Quantity</p>
+			</div>
+			<div class="col-md-9 col-sm-9 col-xs-12">
+				<p>{{item.quantity}}</p>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-3 col-sm-3 col-xs-12 info_header">
+				<p>Type</p>
+			</div>
+			<div class="col-md-9 col-sm-9 col-xs-12">
+				<p>{{item.get_conditiontype_display}}</p>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-3 col-sm-3 col-xs-12 info_header">
+				<p>Features</p>
+			</div>
+			<div class="col-md-9 col-sm-9 col-xs-12">
+				<p>{{item.productdescription}}</p>
+			</div>
+		</div>
 		<h4>Details<a href="/list/details/{{item.id}}">edit</a></h4>
-		<p><span>Quality: </span>{{item.get_conditionquality_display}}</p>
-		<p><span>Condition:</span>{{item.conditiondescription}}</p>
-		<p><span>Features: </span>{{item.productdescription}}</p>
-		<p><span>What's Incuded: </span>{{item.whatsincluded}}</p>
-		<p><span>Contract: </span>{{item.get_contract_display}}</p>
-		<p><span>Contract Description: </span>{{item.contractdescription}}</p>
+		<div class="row">
+			<div class="col-md-3 col-sm-3 col-xs-12 info_header">
+				<p>Quality</p>
+			</div>
+			<div class="col-md-9 col-sm-9 col-xs-12">
+				<p>{{item.get_conditionquality_display}}</p>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-3 col-sm-3 col-xs-12 info_header">
+				<p>Condition</p>
+			</div>
+			<div class="col-md-9 col-sm-9 col-xs-12">
+				<p>{{item.conditiondescription}}</p>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-3 col-sm-3 col-xs-12 info_header">
+				<p>Features</p>
+			</div>
+			<div class="col-md-9 col-sm-9 col-xs-12">
+				<p>{{item.productdescription}}</p>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-3 col-sm-3 col-xs-12 info_header">
+				<p>What's Included</p>
+			</div>
+			<div class="col-md-9 col-sm-9 col-xs-12">
+				<p>{{item.whatsincluded}}</p>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-3 col-sm-3 col-xs-12 info_header">
+				<p>Contract</p>
+			</div>
+			<div class="col-md-9 col-sm-9 col-xs-12">
+				<p>{{item.get_contract_display}}</p>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-3 col-sm-3 col-xs-12 info_header">
+				<p>Contract Description</p>
+			</div>
+			<div class="col-md-9 col-sm-9 col-xs-12">
+				<p>{{item.contractdescription}}</p>
+			</div>
+		</div>
 		<h4> Logistics<a href="/list/logistics/{{item.id}}">edit</a></h4>
-		<p><span>Original Owner: </span>{{item.originalowner|yesno:"Yes,No"}}</p>
-		<p><span>Shipping Included: </span>{{item.shippingincluded|yesno:"Included,Not Included"}}</p>
-		{% load humanize %}
-		<p><span>Price: </span>${{item.price|floatformat|intcomma}}</p>
+		<div class="row">
+			<div class="col-md-3 col-sm-3 col-xs-12 info_header">
+				<p>Offline Viewing</p>
+			</div>
+			<div class="col-md-9 col-sm-9 col-xs-12">
+				<p>{{item.offlineviewing}}</p>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-3 col-sm-3 col-xs-12 info_header">
+				<p>MSRP Price</p>
+			</div>
+			<div class="col-md-9 col-sm-9 col-xs-12">
+				<p>${{item.msrp_price|floatformat:"2"|intcomma}}</p>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-3 col-sm-3 col-xs-12 info_header">
+				<p>List Price</p>
+			</div>
+			<div class="col-md-9 col-sm-9 col-xs-12">
+				<p>${{item.price|floatformat:"2"|intcomma}}</p>
+			</div>
+		</div>
 	</div>
 	<div class="preview-image col-md-4 col-sm-4 col-xs-12">
 		<h4> Photos<a href="/list/photos/{{item.id}}">edit</a></h4>
@@ -206,7 +319,12 @@ $(document).ready(function() {
 	margin-left: 15px;
 	margin-right: 20px;
 }
-
+.preview-text .info_header p {
+	font-weight: 400;
+}
+.listbox .listnav .no-margin {
+	margin: 0;
+}
 </style>
 {% endblock %}
 
@@ -224,16 +342,22 @@ $(document).ready(function() {
 
 {% block continuebutton %}
 {% if item.liststatus != 'sold' and item.liststatus != 'disabled' and item.liststatus != 'deleted' %}
-	<a href="/savepreview/{{item.id}}" class="saveandcontinue button button-rounded button-highlight">
-		{% if item.liststatus == 'active' %}
-			View Your Listing
-		{% elif item.liststatus == "incomplete" %}
-			List Your Item
-		{% elif item.liststatus == "unsold" %}
-			Reactivate Listing
-		{% endif %}
-	</a>
+<div class="listnav no-margin">
+	<form action="/list/activate/{{item.id}}" method="POST">
+		<button class="saveandcontinue button button-rounded button-highlight">
+			{% csrf_token%}
+			{% if item.liststatus == 'active' %}
+				View Your Listing
+			{% elif item.liststatus == "incomplete" %}
+				List Your Item
+			{% elif item.liststatus == "unsold" %}
+				Reactivate Listing
+			{% endif %}
+		</button>
+	</form>
 	<a class="viewpreview button button-rounded">Preview Listing</a>
+	<div class="clear"></div>
+</div>
 {% endif %}
 {% endblock %}
 

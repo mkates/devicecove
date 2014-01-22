@@ -1,0 +1,100 @@
+{% extends 'base.html' %}
+{% block headertitle %}<title>VetCove | About</title>{% endblock%}
+{% block headercss %}
+
+<style>
+.maincontainer-container {
+	max-width: 1060px;
+	margin: 0 auto;
+}
+.maincontainer {
+	background: #fff;
+	border:1px solid #ddd;
+	border-radius: 3px;
+	box-shadow: 0 0 4px #ccc;
+	margin: 30px;
+}
+.maincontainer .company-intro {
+	background: url("{{STATIC_URL}}img/companypic.png") no-repeat;
+	background-size: 100%;
+	max-height: 632px;
+	max-width: 1000px;
+	padding: 580px 30px 30px 30px;
+	vertical-align: bottom;
+	text-align: center;
+	position: relative;
+	border-bottom:1px solid #ddd;
+}
+.maincontainer .company-intro h1 {
+	text-shadow: 0 0 2px #fff;
+	font-weight: 200;
+	font-size: 50px;
+	position:absolute;
+	padding: 30px;
+	bottom: 0;
+	vertical-align:baseline;
+	line-height: 65px;
+}
+.maincontainer h3 {
+	font-weight: 800;
+	margin-bottom: 20px;
+}
+.maincontainer p {
+	font-weight: 200;
+	letter-spacing: .3px;
+	line-height: 25px;
+	font-size: 15px;
+}
+.maincontainer .company-info {
+	padding: 70px 50px;
+}
+.maincontainer .company-image img {
+	width: 100%;
+	border-top:1px solid #ddd;
+	border-bottom:1px solid #ddd;
+}
+</style>
+{% endblock%}
+
+
+{% block content %}
+<div class="maincontainer-container">
+	<div class="maincontainer">
+		<div class="company-intro">
+			<h1>We are empowering every veterinarian to find the best equipment, keeping their animals
+			healthy and happy</h1>
+		</div>
+		<div class="company-info">
+			<h3>About VetCove</h3>
+			<p>Vetcove is helping veterinarians all over the country buy and sell pre-owned medical devices in the safest and most secure possible way.  Our members can reach a community of trusted registered veterinary practices and their verified industry partners to make worry-free transactions.  You’ll find all types of veterinary equipment, from large instruments, to small devices, to accessories of all kinds.  Transactions can be completed swiftly and securely through our service over the web, or they can take place in person after a buyer has come to view and test a seller’s device.  It’s the most hassle-free way for veterinarians to buy and sell pre-owned medical(veterinary) devices, equipment and instruments</p>
+		</div>
+		<div class="company-image">
+			<img src="{{STATIC_URL}}img/medical-equipment.jpg"/>
+		</div>
+		<div class="company-info">
+			<h3>VetCove Mission</h3>
+			<p>When upgrades take place, fully functional instruments are often traded in, put into permanent storage, or discarded.  These are instruments that can be used by price-conscious veterinarians in high-need markets across the country.  Furthermore, veterinary suppliers often have refurbished, traded in or lightly-used inventory that does not easily find its way into the hands of veterinarians who need them.
+			We’re here to ensure that veterinarians across the United States have access to cost-effective and high-quality devices and instruments for their practices and hospitals.  More instruments in the hands of more veterinarians means more animal lives can be improved every day.  We’re proud to be helping our fellow veterinarians do their jobs better.
+				If you have devices that cannot be sold, or that would like to donate to someone in need, we will facilitate the placement of your device to a charity or organization in need at our expense. </p>
+		</div>
+		<div class="company-image">
+			<img src="{{STATIC_URL}}img/horses-in-the-snow.jpg"/>
+		</div>
+		<div class="company-info">
+			<h3>The Story behind the Service</h3>
+			<p>In early 2013, Dr. Eric Kates, DVM wanted to upgrade his x-ray machine to a digital radiograph system in order to provide the highest quality imaging for his clients.  In doing so, he had no use for his 5-year-old x-ray machine, which was in perfect working condition and still had considerable value. In speaking with suppliers for new equipment, many offered to take the old machine off his hands for free or for a small trade-in fee, but nowhere could he get a fair market value for his machine, and nowhere could he be ensured it would make it into the hands of a practicing veterinarian rather than being placed in storage.  He explored trying to sell the machine online, but nowhere on the web could he find a trustworthy services that reached the veterinary community.  VetCove was born to create an easy-to-use web service for certified veterinarians and their trusted partners to buy and sell equipment.
+			Often veterinarians replace an expensive piece of equipment such as a digital ultrasound and keep the old one as a backup or “just in case”.  It is relegated to the back storage room, never to be used again and year after year loses value.  It stays there until the practice owner finds it or it becomes an antique with relatively little value. This is the valuable things that Vetcove is all about.
+			</p>
+		</div>
+	</div>
+</div>
+
+
+{% endblock %}
+
+{% block jsblock %}
+<script>
+$(document).ready(function() {
+});
+</script>
+{% endblock %}

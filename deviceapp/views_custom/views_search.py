@@ -145,7 +145,9 @@ def searchquery(request):
 		for item in items:
 			if checkPrice(item,int(filters['pricelow']),int(filters['pricehigh'])):
 				if checkType(item,filters['conditiontype']) and checkWarranty(item,filters['contract']):
+					print item
 					if withinDistance(item,filters['zipcode'],filters['distance'],""):
+						print item
 						itemspassed.append(item)
 		zipcode = getNewDistances(filters['zipcode'],itemspassed)
 		itemspassed = sortItems(itemspassed,filters['sort'])
@@ -314,7 +316,7 @@ def withinDistance(item,zipcode,distance,latlongs):
 		else:
 			return False
 	
-#get the user's zipcode if they are not logged in or have it saved as a cookie
+#Get the user's zipcode if they are not logged in or have it saved as a cookie
 def callZipcodeAPI(request):
 	try:
 	  remote_addr = request.META['REMOTE_ADDR']

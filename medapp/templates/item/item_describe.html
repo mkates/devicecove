@@ -13,7 +13,8 @@
 		</div>
 		<div class="entry">
 		<h5>Item</h5>
-			<select id="inputsubcategory" name="subcategory" class="form-control smallinput" value=">
+			<select id="inputsubcategory" name="subcategory" class="form-control smallinput">
+			<option value="0">Select an Item. . . </option>
 			{% for subcat in item.subcategory.maincategory.subcategory_set.all %}
 				<option {%if subcat.name == item.subcategory.name %}selected {% endif %} value="{{subcat.name}}">{{subcat.displayname}}</option>
 			{% endfor %}
@@ -30,13 +31,13 @@
 	</div>
 	<div class="formcolumn col-md-6 col-sm-6">
 		<div class="entry">
-			<h5>Serial Number <span>( * hidden to sellers )</span></h5>
+			<h5>Serial Number <span>( * hidden to sellers, optional )</span></h5>
 			<input id="inputserialnumber" name="serialnumber" type="text" class="form-control " value="{% if item.serialno != None %}{{item.serialno}}{% endif %}" placeholder="eg. 1298493292"/>
 		</div>
 		<div class="entry">
-			<h5>Model Year</h5>
+			<h5>Model Year <span>( * optional )</span></h5>
 			<select id="inputyear" name="modelyear" class="form-control smallinput">
-				<option value="0">Select Model Year. . .</option>
+				<option value="0" class="pre-text">Select Model Year. . .</option>
 					{% for i in range %}
 					<option {%if item.modelyear == i %}selected {% endif %} value='{{i}}'>{{i}}</option>
 				{% endfor %}
@@ -98,8 +99,7 @@ $(document).ready(function() {
 var submittable = false;
 var validateInputs = function validateInputs() {
 	submittable = true;
- 	$("#inputsubcategory").val() != 'none' ? removeError($("#inputsubcategory")) : addError($("#inputsubcategory"));
-	$("#inputyear").val() != 0 ? removeError($("#inputyear")) : addError($("#inputyear"));
+ 	$("#inputsubcategory").val() != 0 ? removeError($("#inputsubcategory")) : addError($("#inputsubcategory"));
 	$("#inputmanufacturer").val().length > 2 ? removeError($("#inputmanufacturer")) : addError($("#inputmanufacturer"));
 	$("#inputname").val().length > 2 ? removeError($("#inputname")) : addError($("#inputname"));
 	$("#inputserialnumber").val().length > 2 ? removeError($("#inputserialnumber")) : addError($("#inputserialnumber"));
@@ -116,6 +116,7 @@ var retrieveCategories = function(cat) {
 			dataType: 'json',
 			success: function(response){	
 				$("#inputsubcategory").empty();
+				$("#inputsubcategory").append("<option value='0'>Choose an item . . .</option>");
 				$.each(response,function(index,value) {
 					$("#inputsubcategory").append("<option value='"+index+"'>"+value+"</option>");
 				});

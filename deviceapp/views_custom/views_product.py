@@ -42,6 +42,7 @@ def listproduct(request,subcategory):
  						subcategory=subcategory,
  						originalowner=True,
  						contract="none",
+ 						msrp_price = 0,
  						price = 0,
  						conditiontype = "preowned",
  						conditionquality = 4,
@@ -67,23 +68,29 @@ def listitemdescribe(request,itemid):
 
 @login_required
 def savedescribe(request,itemid):
-	if request.method == "POST" and itemOwner(request,itemid):
-		submitcode = 600 if int(request.POST['submitcode']) == 600 else 700
-		item = Item.objects.get(id=itemid)
-		subcategory = SubCategory.objects.get(name=request.POST.get('subcategory','none'))
-		item.manufacturer = request.POST.get('manufacturer','')
-		item.name = request.POST.get('name','')
-		item.serialno = request.POST.get('serialnumber','None')
-		item.modelyear = request.POST.get('modelyear',2014)
-		item.conditiontype = request.POST.get('conditiontype','preowned')
-		# New items can't be viewed offline
-		if item.conditiontype == 'new':
-			item.offlineviewing = False
-		item.quantity = request.POST.get('quantity',1)
-		item.originalowner = True if request.POST.get('originalowner','True')=='True' else False
-		item.save()
-		return HttpResponse(submitcode)
-	return HttpResponse(500)
+	try:
+		if request.method == "POST" and itemOwner(request,itemid):
+			submitcode = 600 if int(request.POST['submitcode']) == 600 else 700
+			item = Item.objects.get(id=itemid)
+			subcategory = request.POST.get('subcategory','0')
+			if subcategory != '0':
+				item.subcategory = SubCategory.objects.get(name=request.POST.get('subcategory',''))
+			item.manufacturer = request.POST.get('manufacturer','')
+			item.name = request.POST.get('name','')
+			item.serialno = request.POST.get('serialnumber','None')
+			item.modelyear = request.POST.get('modelyear',2014)
+			item.conditiontype = request.POST.get('conditiontype','preowned')
+			# New items can't be viewed offline
+			if item.conditiontype == 'new':
+				item.offlineviewing = False
+			item.quantity = request.POST.get('quantity',1)
+			item.originalowner = True if request.POST.get('originalowner','True')=='True' else False
+			item.save()
+			return HttpResponse(submitcode)
+		return HttpResponse(500)
+	except Exception, e:
+		print e
+		return HttpResponse(500)
 
 #Item Details
 @login_required
@@ -100,18 +107,21 @@ def listitemdetails(request,itemid):
 
 @login_required
 def savedetails(request,itemid):
-	if request.method == "POST" and itemOwner(request,itemid):
-		submitcode = 600 if int(request.POST['submitcode']) == 600 else 700
-		item = Item.objects.get(id=itemid)
-		item.whatsincluded = request.POST.get('whatsincluded','')
-		item.conditionquality = request.POST.get('conditionquality',4)
-		item.conditiondescription = request.POST.get('conditiondescription','')
-		item.productdescription = request.POST.get('productdescription','')
-		item.contract = request.POST.get('contract','')
-		item.contractdescription = request.POST.get('contractdescription','')
-		item.save()
-		return HttpResponse(submitcode)
-	return HttpResponse(500)
+	try:
+		if request.method == "POST" and itemOwner(request,itemid):
+			submitcode = 600 if int(request.POST['submitcode']) == 600 else 700
+			item = Item.objects.get(id=itemid)
+			item.whatsincluded = request.POST.get('whatsincluded','')
+			item.conditionquality = request.POST.get('conditionquality',4)
+			item.conditiondescription = request.POST.get('conditiondescription','')
+			item.productdescription = request.POST.get('productdescription','')
+			item.contract = request.POST.get('contract','')
+			item.contractdescription = request.POST.get('contractdescription','')
+			item.save()
+			return HttpResponse(submitcode)
+		return HttpResponse(500)
+	except:
+		return HttpResponse(500)
 	
 #Item Photos
 @login_required
@@ -158,14 +168,24 @@ def setmainimage(request):
 # Save an uploaded image and send back the image icon for display
 @login_required
 def imageupload(request,itemid):
-	if itemOwner(request,itemid):
-		item = Item.objects.get(id=itemid)
-		imagehandlers = []
-		for file in request.FILES.getlist('files'):
-			ui = ItemImage(item=item,photo=file,photo_small=file,photo_medium=file)
-			ui.save()
-			imagehandlers.append([ui.id,ui.photo_medium.url])
-		return HttpResponse(json.dumps(imagehandlers), content_type='application/json')
+	try:
+		if itemOwner(request,itemid):
+			item = Item.objects.get(id=itemid)
+			imagehandlers = []
+			for file in request.FILES.getlist('files'):
+				extension = file.name.split('.')[1]
+				if not (extension == 'png' or extension == 'jpg'):
+					return HttpResponse(json.dumps('filetype'), content_type='application/json')
+				if file.size > 1048576:
+					return HttpResponse(json.dumps('filesize'), content_type='application/json')
+				if item.itemimage_set.count() > 7:
+					return HttpResponse(json.dumps('filecount'), content_type='application/json')
+				ui = ItemImage(item=item,photo=file,photo_small=file,photo_medium=file)
+				ui.save()
+				imagehandlers.append([ui.id,ui.photo_medium.url])
+			return HttpResponse(json.dumps(imagehandlers), content_type='application/json')
+	except:
+		return HttpResponse(json.dumps('error'), content_type='application/json')
 	
 #Item Logistics
 @login_required
@@ -181,16 +201,22 @@ def listitemlogistics(request,itemid):
 
 @login_required
 def savelogistics(request,itemid):
-	if request.method == "POST" and itemOwner(request,itemid):
-		submitcode = 600 if int(request.POST['submitcode']) == 600 else 700
-		item = Item.objects.get(id=itemid)
-		item.shippingincluded = True if request.POST.get('shippingincluded','True') == 'True' else False
-		item.offlineviewing = True if request.POST.get('offlineviewing','True') == 'True' else False
-		item.price = request.POST.get('inputpriceval',0)
-		item.save()
-		return HttpResponse(submitcode)
-	return HttpResponse(500)
-	
+	try:
+		if request.method == "POST" and itemOwner(request,itemid):
+			submitcode = 600 if int(request.POST['submitcode']) == 600 else 700
+			item = Item.objects.get(id=itemid)
+			item.shippingincluded = True if request.POST.get('shippingincluded','True') == 'True' else False
+			item.offlineviewing = True if request.POST.get('offlineviewing','True') == 'True' else False
+			price = request.POST.get('inputlistprice','0')
+			item.price = float(price.replace(",","").replace("$",""))
+			msrp_price = request.POST.get('inputmsrpprice','0')
+			item.msrp_price = float(msrp_price.replace(",","").replace("$",""))
+			item.save()
+			return HttpResponse(submitcode)
+		return HttpResponse(500)
+	except:
+		return HttpResponse(500)
+		
 #Item Preview
 @login_required
 def listitempreview(request,itemid):

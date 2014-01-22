@@ -73,7 +73,7 @@ Endoscopy accessories
 Endoscopy light sources
 29
 Equine Cryosurgery
-14,16
+14, 16
 Equine Dental supplies
 12
 Equine Digital X-Ray Systems
@@ -83,8 +83,6 @@ Equine x-ray aids
 Exam Tables
 10,42
 Eye Wash Stations
-39
-Eyewash stations
 39
 Farrier tools
 18
@@ -105,7 +103,7 @@ Gas Supply
 Gram Scales
 37
 Handling Gloves
-30
+30,34
 Head Lamps
 13
 Hot Water Bath for samples
@@ -194,6 +192,8 @@ Other lab equipment
 21
 Other monitors
 25
+Other protective wear and apparel
+34
 Other regenerative medicine supplies
 16,35
 Other therapy and rehabilitation equimpment
@@ -271,7 +271,7 @@ Stretchers and Gurneys
 Surgery Tables
 42
 Surgical Lights
-16,40
+23,40
 Surgical Packs
 22,40
 Syringe Pumps
@@ -325,4 +325,4 @@ X-Ray casettes
 X-Ray illuminators and Lighting
 46
 X-Ray Protective wear and apparel
-46
+34,46

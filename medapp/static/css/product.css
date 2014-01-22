@@ -148,7 +148,7 @@
 	margin: 0;
 }
 .actionbox h3 {
-	margin: 20px 0 15px 0;
+	margin: 20px 0 5px 0;
 	font-size: 35px;
 	color: green;
 	font-weight: 800;
@@ -173,6 +173,11 @@
 }
 .actionbox .wishlist-div {
 	margin-top: 15px;
+}
+.actionbox .original-price {
+	margin: 0px;
+	font-size: 15px;
+	text-decoration: line-through;
 }
 
 /***************************/
@@ -216,6 +221,7 @@
 }
 .thumbnail-container {
 	display: inline-block;
+	margin: 10px;
 }
 .thumbnail-container img {
 	max-height: 80px;
@@ -358,25 +364,34 @@
 	border-radius: 3px;
 }
 .elastislide-list li a:hover .related-container {
+	box-shadow: 0 0 2px #aaa;
 	background: #eee;
 }
 .elastislide-list li a h3 {
 	font-weight: 500;
+	height: 30px;
+	line-height: 15px;
+	vertical-align: middle;
 	padding: 0 5px;
 	color: #555;
 	font-size: 12px;
-	width: 100%;
 	overflow: hidden;
+	white-space: normal;
 	background: #ddd;
 	margin-top: 0;
-	margin-bottom: 15px;
-	line-height: 30px;
+	margin-bottom: 10px;
 	border-bottom:1px solid #bbb;
 }
 .elastislide-list li a p {
-	font-weight: 200;
+	font-weight: 800;
 	margin-top: 10px;
-	color: #777;
+	color: green;
+}
+.elastislide-list li a p span {
+	color: #aaa;
+	text-decoration: line-through;
+	font-size: 12px;
+	font-weight: 200;
 }
 .elastislide-list li a img {
 	max-width: 170px;
@@ -446,6 +461,7 @@
 	border-bottom:1px solid #ccc;
 	margin: 15px 10px 15px 10px;
 }
+
 #messageseller {
 	text-align: left;
 	font-weight: 400;

@@ -129,6 +129,13 @@ h5 span {
 .header_error {
 	color: red;
 }
+.entry h5 {
+	margin-bottom: 3px;
+	margin-top: 15px;
+}
+.pre-text {
+	color: #888;
+}
 </style>
 {% block customcss %}{% endblock %}
 {% endblock %}
@@ -142,16 +149,10 @@ var complete = false;
 $(document).ready(function() {
 	$('.saveandcontinue').click(function() {
 		$("#submitcode").val(600);
-		{% if logistics %}
-		$("#inputpriceval").val(parseInt($("#inputprice").asNumber()));
-		{% endif %}
 		$("#listform").submit();
 	});
 	$('.saveandstay').click(function() {
 		$("#submitcode").val(700);
-		{% if logistics %}
-		$("#inputpriceval").val(parseFloat($("#inputprice").asNumber()));
-		{% endif %}
 		$("#listform").submit();
 	});
 	$('#listform').ajaxForm(function(e) {
@@ -167,9 +168,14 @@ $(document).ready(function() {
 			if (validateInputs()) {
 				window.location.href = nextstep;
 			} else {
-				$("#errorbar").css('display','block');
+				$(".errorsaving").text("Incomplete Fields");
+				$(".errorsaving").fadeIn('fast');
+				setTimeout(function() {
+					  $(".errorsaving").fadeOut('slow');
+				}, 2000);
 			}	
 		} else {
+			$(".errorsaving").text("&#x2717; Error Saving");
 			$(".errorsaving").fadeIn('fast');
 			setTimeout(function() {
 				  $(".errorsaving").fadeOut('slow');
@@ -250,14 +256,6 @@ var addError = function addError(handle) {
 				<div class="clear"></div>
 			</div>
 			{% endif %}
-		<!-- 
-<div class="listnav">
-			<a href="/list/logistics/{{item.id}}" class="backbutton button button-rounded">Back to Logistics</a>
-			<a href="/savepreview/{{item.id}}" class="saveandcontinue button button-rounded button-highlight">{% if item.liststatus != 'incomplete' %}View Your Listing{% else %}List Your Product{% endif %}</a>
-			<a class="viewpreview button button-rounded">Preview Listing</a>
-			<div class="clear"></div>
-		</div>
- -->
 		{% endif %}
 		<div class="listcontent">
 		{% block photocontent %}

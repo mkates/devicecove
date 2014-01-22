@@ -8,7 +8,6 @@
 	background-image: url("../img/fabric_plaid.png");
 }
 .herobg {
-	height: 540px;
 	width: 100%;
 	opacity: 1;
 	overflow: auto;
@@ -137,4 +136,7 @@
 	text-shadow: 0 0 1px #ddd;
 	opacity: .4;
 	text-align: left;
+}
+.pricelabel {
+	text-decoration:line-through;
 }

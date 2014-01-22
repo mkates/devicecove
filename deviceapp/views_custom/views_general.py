@@ -26,6 +26,9 @@ def categories(request):
 def faq(request):
 	return render_to_response('general/faqs.html',context_instance=RequestContext(request))
 
+def about(request):
+	return render_to_response('general/about.html',context_instance=RequestContext(request))
+
 def testemail(request):
 	return render_to_response('email_templates/test_email.html',context_instance=RequestContext(request))
 	

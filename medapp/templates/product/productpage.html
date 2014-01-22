@@ -91,6 +91,7 @@
 		<div class="sideproduct actionbox">
 			<h2>Buy This Item</h2>  
 			<h3>${{item.price|floatformat:"2"|intcomma}}</h3>
+			<p class="original-price">${{item.msrp_price|floatformat:"2"|intcomma}}</p>
 			<h4> Quantity Available: {{item.quantity}}</h4>
 			<p>All items on VetCove include free shipping</p>
 			{% if not preview %}
@@ -245,7 +246,7 @@
 						<div class="related-container">
 							<h3>{{itm.name}}</h3>
 							<img src="{%if itm.mainimage %}{{itm.mainimage.photo_medium.url}}{% else %}{{STATIC_URL}}img/noimage.jpg{% endif %}" alt="{{item.name}}"/>
-							<p>${{itm.price|floatformat:"2"}}</p>
+							<p>${{itm.price|floatformat:"2"|intcomma}} <span>(${{itm.msrp_price|floatformat:"2"|intcomma}})</span></p>
 						</div>
 					</a>
 				</li>

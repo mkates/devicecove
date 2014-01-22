@@ -10,7 +10,7 @@ admin.autodiscover()
 #########  General ##################################################
 #####################################################################
 urlpatterns = patterns('',
-	url(r'^sendwelcomeemail/', 'deviceapp.views_custom.sendwelcomeemail'),
+	url(r'^testmail/', 'deviceapp.views_custom.testmail'),
 	#Admin
     url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
     url(r'^admin/', include(admin.site.urls)),
@@ -22,6 +22,7 @@ urlpatterns = patterns('',
     url(r'^$','deviceapp.views_custom.index'),
     url(r'^error/(?P<errorname>\w+)','deviceapp.views_custom.error'),
     url(r'^faq','deviceapp.views_custom.faq'),
+     url(r'^about','deviceapp.views_custom.about'),
     url(r'^buyerprotect','deviceapp.views_custom.buyerprotect'),
     url(r'^listintro','deviceapp.views_custom.listintro'),
     url(r'^categories','deviceapp.views_custom.categories'),

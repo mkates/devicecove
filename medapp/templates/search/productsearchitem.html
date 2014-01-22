@@ -6,6 +6,7 @@
 	<div class="row">
 			<div class='col-md-2 col-sm-2 col-xs-12 pricediv'>
 				<p>${{item.price|floatformat:"2"|intcomma}}</p>
+				<p class="msrp_price">${{item.msrp_price|floatformat:"2"|intcomma}}</p>
 				<a class='button button-rounded button-primary' href="/item/{{item.id}}/details">Select</a>
 				{% if wishlist %}
 					<form action="/removeitem" method="POST">

@@ -9,8 +9,8 @@ from django.utils.timezone import utc
 ##### Credits all the Seller's Bank Accounts ############
 #########################################################
 
-# Need to group payouts into one payment 
 
+### TODO: Take out commission (tricky if someone switches from used -> new)
 WAITING_DAYS = 0
 
 class Command(BaseCommand):

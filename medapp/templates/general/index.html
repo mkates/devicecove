@@ -120,6 +120,51 @@
 	color: #777;
 	text-decoration: underline;
 }
+.new_intro {
+	margin-top: 40px;
+	border-radius: 2px;
+	background: url("{{STATIC_URL}}img/dog_walk.png");
+	background-size:cover;
+	font-weight: 200;
+}
+.new_intro_pic {
+	border:1px solid white;
+	padding-bottom: 30px;
+}
+.new_intro h1 {
+	color: white;
+	font-weight: 200;
+	font-size: 36px;
+	padding-left: 20px;
+	margin-top: 30px;
+	text-shadow: 0 0 2px #000;
+}
+.new_intro_explain {
+	background:  url("{{STATIC_URL}}img/blacktransparency_2.png");
+	color: white;
+	text-align: center;
+	border:1px solid white;
+	padding-bottom: 20px;
+}
+.new_intro_explain:hover {
+	background:  url("{{STATIC_URL}}img/blacktransparency.png");
+}
+.new_intro_explain h2 {
+	font-weight: 200;
+	text-shadow: 0 0 2px #000;
+	letter-spacing: .5px;
+	padding: 20px 20px 10px 20px;
+	margin: 0;
+	font-size: 20px;
+}
+.new_intro_explain p {
+	font-weight: 800;
+	letter-spacing: .5px;
+}
+.bg-row {
+	height: 10px;
+	background-image: url("{{STATIC_URL}}img/fabric_plaid.png");
+}
 </style>
 {% endblock%}
 
@@ -128,7 +173,41 @@
 <div class="hero-background">
 	<div class="herobg">
 		<div class="intro-container">
-			<div class="intro">
+			<div class="new_intro">
+				<div class="row new_intro_pic">
+					<div class="col-md-7 col-sm-7 col-xs-12">
+						<h1>You put the smile on each animal's face.</h1>
+						<h1>We power the equipment marketplace to help you
+						get there. </h1>
+					</div>
+				</div>
+				<div class="bg-row">
+				</div>
+				<!-- 
+<div class="row">
+					<div class="col-md-12 col-sm-12 col-xs-12 new_intro_explain">
+						<h2>VetCove is the most trusted online equipment 
+						marketplace for veterinarians. By veterinarians.</h2>
+						
+					</div>
+				</div>
+ -->
+				<div class="row">
+					<a href='#'><div class="col-md-6 col-sm-6 col-xs-12 new_intro_explain">
+						<h2> Buy Equipment</h2>
+						<p> The largest selection of new and preowned</p>
+						<img src="{{STATIC_URL}}img/arrow_circle.png"/>
+					</div></a>
+					<a href='#'><div class="col-md-6 col-sm-6 col-xs-12 new_intro_explain">
+						<h2>Sell Equipment</h2> 
+						<p>Free listings that reach thousands of veterinarians</p> 
+						<img src="{{STATIC_URL}}img/arrow_circle.png"/>
+					</div></a>
+				</div>
+				
+			</div>
+			<!-- 
+<div class="intro">
 				<h1>The veterinarian's equipment marketplace</h1>
 				<h3>Buy and sell pre-owned devices and instruments. One vet to another.</h3>
 				<a class="buybutton button button-rounded button-highlight">Buy Equipment</a>
@@ -153,18 +232,19 @@
 			<div class="introimagecontainer">
 				<img src="{{STATIC_URL}}img/homeimg.png"/>
 			</div>
+			 -->
 		</div>
 	</div>
 </div>
-
+{% load humanize %}
 <div class="featuredcontainer">
 	<div class="row featured">
 	  <!-- <h2> Featured Equipment</h2> -->
 	  	{%for item in featured %}
 	    <div class="col-sm-6 col-md-4 product-box">
 			<a href="/item/{{item.id}}/details"><div class="item">
-				<div class="itemname">{{item.name}}</div>
-				<div class="itemsoldby">{{item.user.company}}</div>
+				<div class="itemname">{{item.name}}{{item.name}}</div>
+				<div class="itemsoldby">{{item.get_conditionquality_display}}</div>
 				<div class="itemimage">
 					<div class="verticalaligner">
 						<img src="{%if item.mainimage %}{{item.mainimage.photo_medium.url}}{% else %}{{STATIC_URL}}img/noimage.jpg{% endif %}" alt="{{item.name}}"/>		
@@ -172,8 +252,8 @@
 				</div>
 				<div class="price">
 					<div class="pricebox">
-						<p class="price">${{item.price}}</p>
-						<p class="pricelabel">{{item.get_type_display}} &#8901; {{item.get_contract_display}}</p>
+						<p class="price">${{item.price|floatformat:"2"|intcomma}}</p>
+						<p class="pricelabel">${{item.msrp_price|floatformat:"2"|intcomma}}</p>
 					</div>
 				</div>
 			</div></a>

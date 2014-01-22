@@ -28,6 +28,9 @@ class Category(models.Model):
 	totalunits = models.IntegerField() # Regular script to update this
 	def __unicode__(self):
 		return self.displayname
+	
+	def orderedSubcategories(self):
+		return self.subcategory_set.all().order_by('name')
 
 class SubCategory(models.Model):
 	name = models.CharField(max_length=60,unique=True)
@@ -74,7 +77,11 @@ class BasicUser(models.Model):
 	city = models.CharField(max_length=60)
 	state = models.CharField(max_length=60)
 	website = models.CharField(max_length=60,null=True)
-	phonenumber = models.IntegerField(max_length=14)	
+	phonenumber = models.IntegerField(max_length=14)
+	
+	#Used for increased payout times and listing fees	
+	USER_RANK =  (('newb', 'Newb'),('moderate', 'Moderate'),('expert', 'Expert'))
+	user_rank = models.CharField(max_length=20,choices=USER_RANK,default='newb')
 	
 	#Payment Fields
 	balanceduri = models.CharField(max_length=255,null=True,blank=True)
@@ -176,6 +183,7 @@ class Item(models.Model):
 	shippingincluded = models.BooleanField(default=True)
 	offlineviewing = models.BooleanField(default=False)
 	tos = models.BooleanField(default=False)
+	msrp_price = models.FloatField(max_length=20)
 	price = models.FloatField(max_length=20)
 	commission_paid = models.BooleanField(default=False)
 	sold_online = models.BooleanField(default=False) # An offline viewable item was bought online

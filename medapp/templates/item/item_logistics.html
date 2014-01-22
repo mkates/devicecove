@@ -19,6 +19,7 @@
 	padding: 15px;
 	width: 500px;
 	border:1px solid #ddd;
+	margin-bottom: 10px;
 	
 }
 .listprice span {
@@ -47,15 +48,19 @@
 	padding-top: 3px;
 	padding-left: 0px;
 }
-
+.offline-viewing span {
+	color: #777;
+	display:block;
+	padding-bottom: 10px;
+}
 </style>
 {% endblock %}
 {% block customjs %}
 <script src="{{STATIC_URL}}js/jquery.formatCurrency-1.4.0.min.js"></script> 
 <script>
 $(document).ready(function() {
-	$('#inputprice').blur(function() {
-		$('#inputprice').html(null);
+	$('.inputprice').blur(function() {
+		$('.inputprice').html(null);
 		$(this).formatCurrency({ colorize: true, negativeFormat: '-%s%n', roundToDecimalPlace: 2 });
 	})
 	.keyup(function(e) {
@@ -85,11 +90,15 @@ $(document).ready(function() {
 var submittable = false;
 var validateInputs = function validateInputs() {
 	submittable = true;
-	console.log($("#inputprice").val());
-    if ($("#inputprice").val().length > 2 && parseInt($("#inputprice").asNumber()) > 0.5) {
-    	removeError($("#inputprice"));
+    if ($("#inputlistprice").val().length > 2 && parseInt($("#inputlistprice").asNumber()) > 0.5) {
+    	removeError($("#inputlistprice"));
     } else {
-    	addError($("#inputprice"));
+    	addError($("#inputlistprice"));
+    }
+    if ($("#inputmsrpprice").val().length > 2 && parseInt($("#inputmsrpprice").asNumber()) > 0.5) {
+    	removeError($("#inputmsrpprice"));
+    } else {
+    	addError($("#inputmsrpprice"));
     }
     return submittable;
 };
@@ -103,45 +112,51 @@ var validateInputs = function validateInputs() {
 		<div class="radio">
 		  <label>
 			<input type="radio" name="shippingincluded" class="shippingncluded" value="True" {% if item.shippingincluded %}checked{% endif %}>
-			I will be responsible for paying shipping of the item to anywhere in the United States <span>( * recommended )</span>
+			I will arrange and pay for shipping to anywhere in the continental United Sates <span>( * recommended )</span>
 		  </label>
 		</div>
 		<div class="radio">
 		  <label>
 			<input type="radio" name="shippingincluded" class="shippingincluded" value="False" {% if not item.shippingincluded %}checked{% endif %}>
-			The item must be picked up, or the buyer is responsible for organizing shipping of the item
+			The item must be picked up and/or the buyer is responsible for arranging shipping
 		  </label>
 		</div>
 	</div>
-	<div class="entry">
-		<h5>Offline Viewing</h5>
+	<div class="entry offline-viewing">
+		<h5>Sale Type: Offline or Online</h5>
 		<div class="radio">
 		  {% if item.conditiontype == 'new' %}
 		  	<p>Sorry, offline viewing is only available for used and refurbished items</p>
 		  {% else %}
 		  <label>
-			<input type="radio" name="offlineviewing" name="offlineviewing" class="offlineviewing" value="True" {% if item.offlineviewing %}checked{% endif %}>
-			Buyers can contact me to view and/or purchase this item in person <span>( * recommended for items $500 or more )</span>
+			<input type="radio" name="offlineviewing" name="offlineviewing" class="offlineviewing" value="False" {% if item.offlineviewing %}checked{% endif %}>
+			Online: Item can only be purchased online directly through Vetcove <span>*Recommended for items $499 or less.  Buyers can “buy now” instantly through the VetCove website.  Buyers cannot view your contact information and are not permitted to contact you directly or view the item in person.</span>
 		  </label>
 		</div>
 		<div class="radio">
 		  <label>
-			<input type="radio" name="offlineviewing" name="offlineviewing" class="offlineviewing" value="False" {% if not item.offlineviewing %}checked{% endif %}>
-			Buyers can only buy this item online <span>( * recommended for items $499 or less )</span>
+			<input type="radio" name="offlineviewing" name="offlineviewing" class="offlineviewing" value="True" {% if not item.offlineviewing %}checked{% endif %}>
+			Offline: Buyers can contact me to view and/or purchase the item in person<span>*Recommended for items $500 or more.  Buyers can contact you directly to arrange for viewing and/or purchase.  Sales can be made online through VetCove or outside of VetCove.  Instant “buy now” through VetCove website is not available when choosing this option.</span>
 		  </label>
 		</div>
 		{% endif %}
 	</div>
 	
-	
+	{%load humanize %}
 	<div class="entry">
 		<h5>Price</h5>
 		<div class="pricecontainer">
 			<div class="listprice">
-			{%load humanize %}
-				<input id="inputprice" name="inputprice" step="1" class="form-control" placeholder="Ex: 20000" value="${{item.price|floatformat:"2"|intcomma}}" />
-				<input id="inputpriceval" type="hidden" name="inputpriceval" />
-				<p>We suggest you price your product competitively with other products in the system. This price will include tax and any shipping costs if you are responsible for shipping. </p>
+				<h6>New Price / MSRP Price</h6>
+				<input id="inputmsrpprice" name="inputmsrpprice" step="1" class="form-control inputprice" placeholder="Ex: $24,200.50" value="${{item.msrp_price|floatformat:"2"|intcomma}}" />
+				<p>This is the price of the item purchased new. Even new items can be below the MSRP. After all, people want to see what a great deal they are getting.</p>
+			</div>
+		</div>
+		<div class="pricecontainer">
+			<div class="listprice">
+				<h6>Your Listing Price</h6>
+				<input id="inputlistprice" name="inputlistprice" step="1" class="form-control inputprice" placeholder="Ex: $8,320.25" value="${{item.price|floatformat:"2"|intcomma}}" />
+				<p>We suggest you price your item competitively with other items in our system.  The price you choose should be inclusive of shipping costs (if you indicated you will be shipping), and any taxes as required by law (if applicable)</p>
 			</div>
 		</div>
 	</div>

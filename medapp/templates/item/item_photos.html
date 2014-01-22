@@ -191,16 +191,16 @@
 			<h5>Upload Images</h5>
 		<div class="row tips">
 			<div class="col-md-4 col-sm-4">
-				<h4>Tip 1: Good Lighting</h4>
-				<p>Put your item in well light area, and make fsa  d safd sa fdsa f saf dsa f safd sa df saf ds f</p>
+				<h4>Tip 1: Quality Images</h4>
+				<p>Good images will help your product sell.  Be sure to take large, high-resolution photos using good lighting in PNG or JPEG format.</p>
 			</div>
 			<div class="col-md-4 col-sm-4">
-				<h4>Tip 2: At Least 3 Images</h4>
-				<p>Put your item in well light area, and make fsa  d safd sa fdsa f saf dsa f safd sa df saf ds f</p>
+				<h4>Tip 2: Multiple Shots</h4>
+				<p>Be sure to take photos of your item from multiple angles.  It is a good idea to include photos of any accessories or items included in your sale as well.</p>
 			</div>
 			<div class="col-md-4 col-sm-4">
 				<h4>Tip 3: Close Ups</h4>
-				<p>Put your item in well light area, and make fsa  d safd sa fdsa f saf dsa f safd sa df saf ds f</p>
+				<p> If your listing describes any defects or aesthetic blemishes, please include close-up images so that buyers feel confident in their purchase.</p>
 			</div>
 		</div>
 	
@@ -209,7 +209,7 @@
 			<span>Select pictures to upload...</span>
 			<form id="fileform" method="post" action="/imageupload/{{item.id}}">
 				{% csrf_token %}
-				<input id="fileupload" type="file" name="files" multiple>
+				<input id="fileupload" type="file" name="files" multiple accept="image/*">
 			</form>
 		</span>
 		<div id="imageloadercontainer">
@@ -225,7 +225,7 @@
 					<div class='imagepreviewcontainer' data-imageid='{{p.id}}'>{% if item.mainimage.id == p.id %}<h6 class="main">Main Photo</h6>{% else %}<h6>Make Main Photo</h6>{% endif %}<div class='imagepreviewborder'><img class='imagepreview' src='{{p.photo.url}}'/></div><p class='delete'>Delete Photo</p></div>
 				{% endfor %}
 			{% else %}
-				<p id="noimages">Upload multiple photos to help buyers see what your product looks like</p>					
+				<p id="noimages">Upload multiple photos at once choosing 'Select pictures to upload. . .' and selecting multiple photos at once. We only accept PNG and JPEG images smaller than 2MB </p>					
 			{% endif %}
 		</div>
 	</div>
@@ -283,7 +283,7 @@ function setMainImage(imageid) {
 			mainpicid = imageid;
 		}, 
 		error : function(jqXHR, textStatus, errorThrown) {
-			$("#error").css("display","block");
+			$(".error").css("display","block");
 		}
 	});	
 };
@@ -296,25 +296,40 @@ $(document).ready(function() {
 		$("#imageloadercontainer .progress-bar").animate({"width":"80%"},1000);
 	});
 	$('#fileform').ajaxForm(function(e) { 
-		 $.each(e,function(index,value) {
-		 	$("#imageloadercontainer .progress-bar").animate({"width":"100%"},400,function() {
-		 		$("#imageloadercontainer .progress").css("visibility","hidden");
-		 		$("#imageloadercontainer .progress-bar").animate({"width":"0%"},1);
-		 	});
-			$("#noimages").css('display','none');
-			if (numberpics > 0) {
-				var main = '<h6>Make Main Photo</h6>';
-			}
-			else {
-				var main= "<h6 class='main'>Main Photo</h6>";
-				setMainImage(e[index][0]);
-			}
-			numberpics += 1;
-			$("#imagepreview").append("<div data-imageid='"+e[index][0]+"' class='imagepreviewcontainer'>"+main+"<div class='imagepreviewborder'><img class='imagepreview' src='"+e[index][1]+"'/></div><p class='delete'>Delete Photo</p></div>");
-		 });
-		 $(".imagepreviewcontainer .delete").unbind('click');
-		 $(".imagepreviewcontainer h6").unbind('click');
-		 pictureBinds();
+		$("#imageloadercontainer .progress-bar").animate({"width":"100%"},400,function() {
+			$("#imageloadercontainer .progress").css("visibility","hidden");
+			$("#imageloadercontainer .progress-bar").animate({"width":"0%"},1);
+		});
+		 if (e=='error') {
+		 	$(".error").text("Error saving your image");
+		 	$(".error").css("display","block");
+		 } else if (e=="filetype") {
+		 	$(".error").text("We only accept JPEG or PNG pictures");
+		 	$(".error").css("display","block");
+		 } else if (e=="filesize") {
+		 	$(".error").text("Images can only be a maximum of 2MB");
+		 	$(".error").css("display","block");
+		 } else if (e=="filecount") {
+		 	$(".error").text("You can only have a maximum of 8 images");
+		 	$(".error").css("display","block");
+		 } else {
+		 	$(".error").css("display","none");
+			 $.each(e,function(index,value) {
+				$("#noimages").css('display','none');
+				if (numberpics > 0) {
+					var main = '<h6>Make Main Photo</h6>';
+				}
+				else {
+					var main= "<h6 class='main'>Main Photo</h6>";
+					setMainImage(e[index][0]);
+				}
+				numberpics += 1;
+				$("#imagepreview").append("<div data-imageid='"+e[index][0]+"' class='imagepreviewcontainer'>"+main+"<div class='imagepreviewborder'><img class='imagepreview' src='"+e[index][1]+"'/></div><p class='delete'>Delete Photo</p></div>");
+			 });
+			 $(".imagepreviewcontainer .delete").unbind('click');
+			 $(".imagepreviewcontainer h6").unbind('click');
+			 pictureBinds();
+		}
 	});
 });
 

@@ -1,4 +1,4 @@
-from django.shortcuts import render_to_response, redirect
+from django.shortcuts import render_to_response, redirect, render
 from django.template.loader import render_to_string
 from deviceapp.models import *
 from django.template import RequestContext, Context, loader
@@ -16,13 +16,27 @@ from django.template.loader import render_to_string
 
 
 def sendwelcomeemail(request):
-	template_data = {'Name': "Joe", 'Email': "mhkates@gmail.com"}
-
+	template_data = {'email_pagetitle':'VetCove',
+			'email_teaser':'Welcome to VetCove. The worlds largest online equipment marketplace',
+			'email_header':'Welcome to VetCove!'}
+	subject = "Welcome to VetCove!"
 	plaintext_context = Context(autoescape=False)  # HTML escaping not appropriate in plaintext
-	subject = "Welcome to VetCove"
 	text_body = render_to_string("email_templates/test_plain.txt", template_data, plaintext_context)
 	html_body = render_to_string("email_templates/test_email.html", template_data)
 	msg = EmailMultiAlternatives(subject=subject, from_email="mhkates@gmail.com",to=["mkates@mit.edu"], body=text_body)
 	msg.attach_alternative(html_body, "text/html")
 	msg.send()
 	return
+
+def testmail(request):
+	template_data = {'email_pagetitle':'VetCove',
+			'email_teaser':'Welcome to VetCove. The worlds largest online equipment marketplace',
+			'email_header':'Welcome to VetCove!'}
+	subject = "Welcome to VetCove!"
+	plaintext_context = Context(autoescape=False)  # HTML escaping not appropriate in plaintext
+	text_body = render_to_string("email_templates/test_plain.txt", template_data, plaintext_context)
+	html_body = render_to_string("email_templates/test_email.html", template_data)
+	msg = EmailMultiAlternatives(subject=subject, from_email="mhkates@gmail.com",to=["mkates@mit.edu"], body=text_body)
+	msg.attach_alternative(html_body, "text/html")
+	msg.send()
+	return HttpResponse("sent")

@@ -20,7 +20,7 @@
 	width: 300px;
 	background: white;
 	border:1px solid #ddd;
-	border-radius: 4px;
+	border-radius: 2px;
 	box-shadow: 0 0 2px #ccc;
 	transition: box-shadow .2s;
 	margin: 10px auto;
@@ -60,12 +60,7 @@
 	color: #555;
 	font-weight: 200;
 }
-.product-box .pricebox .goodprice {
-	color: #64B56A;
-}
-.product-box .pricebox .badprice {
-	color: #d16666;
-}
+
 .product-box .itemimage {
 	height: 250px;
 	overflow: hidden;

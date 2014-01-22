@@ -56,8 +56,15 @@
 	margin-top: 15px;
 	font-size: 17px;
 	font-weight: 800;
+	margin-bottom: 0px;
 }
-
+.cart-item .item-price .msrp_price {
+	text-decoration:line-through;
+	color: #aaa;
+	font-size: 13px;
+	font-weight: 200;
+	margin: 0;
+}
 .cart-item .delete-item:hover,.move-to-saved:hover {
 	cursor:pointer;
 	text-decoration: underline;

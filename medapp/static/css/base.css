@@ -191,6 +191,7 @@ footer ul li a:hover {
 	}
 	.navigation-container .navbar-brand {
 		padding: 0;
+		width: 180px;
 	}
 	.navigation-container .navbar-nav > li > .dropdown-menu {
 		border-top: 1px solid #fff;
@@ -201,8 +202,9 @@ footer ul li a:hover {
 	}
 	/* Move the image inline with the searchbar*/
 	.navigation-container .navbar-brand img {
-		margin-top: 25px;
-		margin-bottom: -40px;
+		margin-top: 15px;
+		width: 180px;
+		margin-bottom: -50px;
 	}
 	/***********************************/
 	/* Search and browse row formatting*/
@@ -214,9 +216,12 @@ footer ul li a:hover {
 		margin: 0 auto;
 		margin-top: 3px;
 		position: relative;
+		padding-left: 200px;
+	}
+	.navigation-container .searchbar-row {
+		padding: 0;
 	}
 	.navigation-container #searchform {
-		margin-left: 150px;
 	}
 	.navigation-container #searchform table {
 		width: 100%;
@@ -247,8 +252,9 @@ footer ul li a:hover {
 	.navigation-container .shopbycategory {
 		border: 1px solid rgba(0, 0, 0, 0);
 		border-radius: 3px;
-		padding: 5px;
-		line-height: 13px;
+		padding: 4px;
+		line-height: 12px;
+		display:inline-block;
 	}
 	.navigation-container .shopbycategory p {
 		font-size: 12px;
@@ -274,7 +280,7 @@ footer ul li a:hover {
 	}
 	.navigation-container .browse-categories {
 		max-width: 700px;
-		right: 0;
+		left: 0;
 		margin-top: -1px;
 		width: 100%;
 		padding: 10px;
@@ -343,7 +349,7 @@ footer ul li a:hover {
 		border-top: 1px solid #ddd;
 		border-bottom:1px solid #fcfcfc;
 		height: 1px;
-		margin: 13px auto 0 auto;
+		margin: 2px auto 0 auto;
 		width: 100%;
 		max-width: 1000px;
 	}
