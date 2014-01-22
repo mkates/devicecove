@@ -77,7 +77,7 @@ class BasicUser(models.Model):
 	city = models.CharField(max_length=60)
 	state = models.CharField(max_length=60)
 	website = models.CharField(max_length=60,null=True)
-	phonenumber = models.IntegerField(max_length=14)
+	phonenumber = models.BigIntegerField(max_length=14)
 	
 	#Used for increased payout times and listing fees	
 	USER_RANK =  (('newb', 'Newb'),('moderate', 'Moderate'),('expert', 'Expert'))
