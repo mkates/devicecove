@@ -185,6 +185,7 @@
 .top-product {
 	text-align: center;
 	padding: none;
+	position:relative;
 	margin-bottom: 10px;
 	box-shadow: 0 0 2px #aaa;
 	border:1px solid white;
@@ -207,7 +208,34 @@
 	position: relative;
 	z-index: 1
 }
-	
+.top-product-overlay {
+	position:absolute;
+	color: white;
+	width: 100%;
+	height: 100%;
+	text-align: center;
+	background:  url("{{STATIC_URL}}img/blacktransparency.png");
+	z-index: 99;
+	display:none;
+}
+.top-product-overlay h5 {
+	display: block;
+	padding-top: 40px;
+}
+.top-product-overlay img {
+	width: 40px;
+	height: 40px;
+	margin: 15px auto 0 auto;
+}	
+.view-all-categories {
+	text-align: right;
+	display: block;
+	color: #444;
+	font-weight: 800;
+}
+.view-all-categories:hover {
+	text-decoration: underline;
+}
 </style>
 {% endblock%}
 
@@ -220,8 +248,8 @@
 				<div class="row new_intro_pic">
 					<div class="col-md-7 col-sm-7 col-xs-12">
 						<h1>You strive to keep each animal happy and healthy</h1>
-						<h1>We power the marketplace to help you find the 
-						right equipment</h1>
+						<h1>We power the equipment marketplace to help you 
+						do it</h1>
 					</div>
 				</div>
 				<div class="bg-row">
@@ -273,90 +301,129 @@
 
 <div class="top-products">
 	<div class="row">
-		<div class="col-md-3 col-sm-3 col-xs-12 product-left">
-			<div class="top-product">
+		<div class="col-md-3 col-sm-3 col-xs-6 product-left">
+			<a href="/productsearch/veterinary/anesthesia/all"><div class="top-product">
 				<div class="top-product-overlay">
-				
+				 	<h5>View all Anesethesia</h5>
+				 	<img src="{{STATIC_URL}}img/arrow_circle_filled.png"/>
 				</div>
 				<h3>Anesthesia</h3>
-				<img src="{{STATIC_URL}}img/homepage/ultrasound.jpg"/>
-			</div>
+				<img src="{{STATIC_URL}}img/homepage/anesthesia.jpg"/>
+			</div></a>
 		</div>
-		<div class="col-md-3 col-sm-3 col-xs-12 product-middle">
-			<div class="top-product">
+		<div class="col-md-3 col-sm-3 col-xs-6 product-middle">
+			<a href="/productsearch/veterinary/diagnostic/all"><div class="top-product">
+				<div class="top-product-overlay">
+				 	<h5>View all Diagnostic</h5>
+				 	<img src="{{STATIC_URL}}img/arrow_circle_filled.png"/>
+				</div>
 				<h3>Diagnostic</h3>
-				<img src="{{STATIC_URL}}img/homepage/ultrasound.jpg"/>
-			</div>
+				<img src="{{STATIC_URL}}img/homepage/diagnostic.jpg"/>
+			</div></a>
 		</div>
-		<div class="col-md-3 col-sm-3 col-xs-12 product-middle">
-			<div class="top-product">
+		<div class="col-md-3 col-sm-3 col-xs-6 product-middle">
+			<a href="/productsearch/veterinary/monitors/all"><div class="top-product">
+				<div class="top-product-overlay">
+				 	<h5>View all Monitors</h5>
+				 	<img src="{{STATIC_URL}}img/arrow_circle_filled.png"/>
+				</div>
 				<h3>Monitors</h3>
 				<img src="{{STATIC_URL}}img/homepage/monitor.jpg"/>
-			</div>
+			</div></a>
 		</div>
-		<div class="col-md-3 col-sm-3 col-xs-12 product-right">
-			<div class="top-product">
+		<div class="col-md-3 col-sm-3 col-xs-6 product-right">
+			<a href="/productsearch/veterinary/xray/all"><div class="top-product">
+				<div class="top-product-overlay">
+				 	<h5>View all X-Ray</h5>
+				 	<img src="{{STATIC_URL}}img/arrow_circle_filled.png"/>
+				</div>
 				<h3>X-Ray</h3>
 				<img src="{{STATIC_URL}}img/homepage/xray.jpg"/>
-			</div>
+			</div></a>
 		</div>
-		<div class="col-md-3 col-sm-3 col-xs-12 product-left">
-			<div class="top-product">
+		<div class="col-md-3 col-sm-3 col-xs-6 product-left">
+			<a href="/productsearch/veterinary/ultrasound/all"><div class="top-product">
 				<div class="top-product-overlay">
-				
+				 	<h5>View all Ultrasound</h5>
+				 	<img src="{{STATIC_URL}}img/arrow_circle_filled.png"/>
 				</div>
 				<h3>Ultrasound</h3>
 				<img src="{{STATIC_URL}}img/homepage/ultrasound.jpg"/>
-			</div>
+			</div></a>
 		</div>
-		<div class="col-md-3 col-sm-3 col-xs-12 product-middle">
-			<div class="top-product">
+		<div class="col-md-3 col-sm-3 col-xs-6 product-middle">
+			<a href="/productsearch/veterinary/endoscopy/all"><div class="top-product">
+				<div class="top-product-overlay">
+				 	<h5>View all Endoscopy</h5>
+				 	<img src="{{STATIC_URL}}img/arrow_circle_filled.png"/>
+				</div>
 				<h3>Endoscopy</h3>
-				<img src="{{STATIC_URL}}img/homepage/ultrasound.jpg"/>
-			</div>
+				<img src="{{STATIC_URL}}img/homepage/endoscopy.jpg"/>
+			</div></a>
 		</div>
-		<div class="col-md-3 col-sm-3 col-xs-12 product-middle">
-			<div class="top-product">
+		<div class="col-md-3 col-sm-3 col-xs-6 product-middle">
+			<a href="/productsearch/veterinary/casework/all"><div class="top-product">
+				<div class="top-product-overlay">
+				 	<h5>View all Casework</h5>
+				 	<img src="{{STATIC_URL}}img/arrow_circle_filled.png"/>
+				</div>
 				<h3>Casework</h3>
 				<img src="{{STATIC_URL}}img/homepage/casework.jpg"/>
-			</div>
+			</div></a>
 		</div>
-		<div class="col-md-3 col-sm-3 col-xs-12 product-right">
-			<div class="top-product">
+		<div class="col-md-3 col-sm-3 col-xs-6 product-right">
+			<a href="/productsearch/veterinary/anesthesia/all"><div class="top-product">
 				<h3>Surgical Instruments</h3>
-				<img src="{{STATIC_URL}}img/homepage/ultrasound.jpg"/>
-			</div>
+				<img src="{{STATIC_URL}}img/homepage/surgery.jpg"/>
+			</div></a>
 		</div>
-		<div class="col-md-3 col-sm-3 col-xs-12 product-middle">
-			<div class="top-product">
+		<div class="col-md-3 col-sm-3 col-xs-6 product-left">
+			<a href="/productsearch/veterinary/laboratory/all"><div class="top-product">
+				<div class="top-product-overlay">
+				 	<h5>View all Surgical Instruments</h5>
+				 	<img src="{{STATIC_URL}}img/arrow_circle_filled.png"/>
+				</div>
 				<h3>Laboratory</h3>
-				<img src="{{STATIC_URL}}img/homepage/ultrasound.jpg"/>
-			</div>
+				<img src="{{STATIC_URL}}img/homepage/laboratory.jpg"/>
+			</div></a>
 		</div>
-		<div class="col-md-3 col-sm-3 col-xs-12 product-middle">
-			<div class="top-product">
-				<h3>Casework</h3>
-				<img src="{{STATIC_URL}}img/homepage/ultrasound.jpg"/>
-			</div>
+		<div class="col-md-3 col-sm-3 col-xs-6 product-middle">
+			<a href="/productsearch/veterinary/lighting/all"><div class="top-product">
+				<div class="top-product-overlay">
+				 	<h5>View all Lighting</h5>
+				 	<img src="{{STATIC_URL}}img/arrow_circle_filled.png"/>
+				</div>
+				<h3>Lighting</h3>
+				<img src="{{STATIC_URL}}img/homepage/lighting.jpg"/>
+			</div></a>
 		</div>
-		<div class="col-md-3 col-sm-3 col-xs-12 product-right">
-			<div class="top-product">
-				<h3>Surgical Instruments</h3>
-				<img src="{{STATIC_URL}}img/homepage/ultrasound.jpg"/>
-			</div>
+		<div class="col-md-3 col-sm-3 col-xs-6 product-middle">
+			<a href="/productsearch/veterinary/dental/all"><div class="top-product">
+				<div class="top-product-overlay">
+				 	<h5>View all Dental</h5>
+				 	<img src="{{STATIC_URL}}img/arrow_circle_filled.png"/>
+				</div>
+				<h3>Dental</h3>
+				<img src="{{STATIC_URL}}img/homepage/dental.jpg"/>
+			</div></a>
 		</div>
-		<div class="col-md-3 col-sm-3 col-xs-12 product-right">
-			<div class="top-product">
-				<h3>Surgical Instruments</h3>
-				<img src="{{STATIC_URL}}img/homepage/ultrasound.jpg"/>
-			</div>
+		<div class="col-md-3 col-sm-3 col-xs-6 product-right">
+			<a href="/productsearch/veterinary/all/pharmaceuticals"><div class="top-product">
+				<div class="top-product-overlay">
+				 	<h5>View all Pharmaceuticals</h5>
+				 	<img src="{{STATIC_URL}}img/arrow_circle_filled.png"/>
+				</div>
+				<h3>Pharmaceuticals</h3>
+				<img src="{{STATIC_URL}}img/homepage/pharmacy.jpg"/>
+			</div></a>
 		</div>
 	</div>
+	<a href="/categories" class="view-all-categories"> View All Categories &rarr;</a>
 </div>
 {% load humanize %}
 <div class="featuredcontainer">
 	<div class="row featured">
-	  <!-- <h2> Featured Equipment</h2> -->
+	  <h2> Featured Equipment For Sale</h2>
 	  	{%for item in featured %}
 	    <div class="col-sm-6 col-md-4 product-box">
 			<a href="/item/{{item.id}}/details"><div class="item">
@@ -375,6 +442,7 @@
 				</div>
 			</div></a>
 	  	</div>
+	  	
 	  	{% endfor %}
 
 	</div>
@@ -397,9 +465,19 @@ $(document).ready(function() {
 		}
 		$(".categories").fadeIn();
 	});
+	$(".new_intro_explain").hover(function() {
+		$($(this).children('img')).attr('src',"{{STATIC_URL}}img/arrow_circle_filled.png");
+	},function() {
+		$($(this).children('img')).attr('src',"{{STATIC_URL}}img/arrow_circle.png");
+	});
 	$("#closecategories").click(function() {
 		$(".buybutton").removeClass("bbactive");
 		$(".categories").css("display","none");
+	});
+	$(".top-products div div").hover(function() {
+		$(this).children('.top-product-overlay').fadeIn();
+	},function() {
+		$(this).children('.top-product-overlay').css('display','none');
 	});
 
 });

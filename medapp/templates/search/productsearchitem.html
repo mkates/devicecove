@@ -23,12 +23,14 @@
 			<div class='textdiv col-md-6 col-md-pull-4 col-sm-6 col-sm-pull-4 col-xs-12'>
 				<a href="/item/{{item.id}}/details"><h2 class="itemname">{{ item.name }}</h2></a>
 				<h6 class="resulttag"> 
+					{% if item.user.verified %}<span class="verified">verified seller</span>{% endif %} 
+					{% if item.offlineviewing %}<span class="lightorange">view in person</span>{% endif %} 
 					{% if item.conditiontype == 'refurbished' %}<span class="refurbished">refurbished</span>{% endif %} 
 					{% if item.conditiontype == 'preowned' %}<span class="preowned">preowned</span>{% endif %} 
 					{% if item.conditiontype == 'new' %}<span class="verified">new</span>{% endif %} 
 					{% if item.contract == 'warranty' %}<span class="lightgreen">warranty</span>{% endif %}
 					{% if item.contract == 'servicecontract' %}<span class="lightred">service contract</span>{% endif %} 
-					{% if item.offlineviewing %}<span class="lightorange">view in person</span>{% endif %} 
+		
 				</h6>
 				<h4><a>Location<span>{{item.user.city}}, {{item.user.state}}{% if item.distance or item.distance == 0%}{% if item.distance != -1 %} ( ~{{item.distance |intcomma}} miles away ){% endif %}{% endif %}</span></a></h4>
 				<h4><a>List Date<span>{{item.listeddate}}</span></a></h4>

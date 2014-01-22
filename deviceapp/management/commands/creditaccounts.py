@@ -10,7 +10,6 @@ from django.utils.timezone import utc
 #########################################################
 
 
-### TODO: Take out commission (tricky if someone switches from used -> new)
 WAITING_DAYS = 0
 
 class Command(BaseCommand):
@@ -23,10 +22,13 @@ class Command(BaseCommand):
  		#Get all the eligible purchased items
  		for basicuser in bu_set:
  			payout_total = 0
+ 			commission_total = 0
  			eligiblePurchasedItems = [] #Items for payout
 			for p_item in basicuser.purchaseditemseller.all():
 				if purchasedItemEligibleForPayout(p_item):
-					payout_total += p_item.total 
+					if not p_item.commission_paid: 
+						commission_total += p_item.total*.09 # Remove 9% for commission fee
+					payout_total += p_item.total*.97 # Remove 3% for credit card fees
 					eligiblePurchasedItems.append(p_item)
 		
 			# Continue only if items available for payout
@@ -50,7 +52,7 @@ class Command(BaseCommand):
 						try:
 							balanced.configure(settings.BALANCED_API_KEY) # Configure Balanced API
 							customer = balanced.Customer.find(basicuser.balanceduri)
-							amount = payout_total*100
+							amount = int((payout_total-commission_total)*100)
 							source_uri = basicuser.default_payout_ba.uri
 							customer.credit(appears_on_statement_as="Vet Cove",description="Seller Credit",amount=amount,source_uri=source_uri)
 							for bpi in eligiblePurchasedItems:
@@ -59,9 +61,10 @@ class Command(BaseCommand):
 								bpi.save()
 							vetcove_payout_total += amount/100
 							vetcove_payout_count += 1
+							emailUserPaymentSuccess(basicuser,eligiblePurchasedItems)
 						except Exception,e:
 							write(self,e)
-							emailUserPaymentMethodFailed(basicuser)
+							emailUserPaymentFailed(basicuser)
 					else:
 						emailUserNoPayoutMethod(basicuser)
 		write(self,"Payouts Complete")
@@ -94,41 +97,11 @@ def emailUserNoPayoutMethod(basicuser):
 def emailUserPaymentMethodFailed(basicuser):
 	write(self,'Payment Method Failed')
  	return	
- 	
- 	
- 	
- 	
- 		# Check payment statuses
-#  		for p_item in items:
-#  			payment_method = p_item.cartitem.item.user.payment_method
-#  			if payment_method == 'none':
-#  				##############################
-#  				#### Email them about missing payment method
-#  				##############################
-#  				i = 1
-#  			elif payment_method == 'check':
-#  				##############################
-#  				#### Compile a list for Jamie
-#  				##############################
-#  				
-#  			write(self,payment_method)	
-# 				#bank_account = balanced.BankAccount.find(p_item.seller.bankaccount.uri)
-# 				#credit = bank_account.credit(amount=int(p_item.amount*100),appears_on_statement_as="VetCove")
-# 				i = 1
-# 		
-# 		# Step 2. Check all the previous payouts from the last payouts
-# 		# Status can be pending, paid (credits) or succeeded(debits), or failed
-# 			#self.stdout.write(str(credit))
-# 		# Step 2. 
-# 
-# #  bas = BankAccount.objects.all()
-# #         balanced.configure(settings.BALANCED_API_KEY)
-# #         for ba in bas:
-# # 			bank_account = balanced.BankAccount.find(ba.uri)
-# # 			credit = bank_account.credit(amount=1000)
-# # 			self.stdout.write(str(credit))
-# 
-
+ 
+ ######## Payment Succeeded ##########################	
+def emailUserPaymentSuccess(basicuser,eligiblePurchasedItems):
+	write(self,'Payment Method Success')
+ 	return		
 
 			
 def write(self,string):

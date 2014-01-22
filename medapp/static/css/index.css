@@ -121,20 +121,22 @@
 /**********************************/
 
 .featuredcontainer {
-	padding: 30px 0 60px 0;
+	padding: 10px 0 60px 0;
+	background:  url("../img/blacktransparency_2.png");
+	margin: 0 auto;
+	border-radius: 2px;
 }
 .featured {	
 	min-height: 400px;
 	text-align: left;
-	max-width: 1000px;
+	max-width: 1030px;
 	margin: 0 auto;
-	margin-top: 30px;
+	margin-top: 20px;
 }
 .featured h2 {
 	margin-left: 20px;
-	color: #bbb;
+	color: #ddd;
 	text-shadow: 0 0 1px #ddd;
-	opacity: .4;
 	text-align: left;
 }
 .pricelabel {

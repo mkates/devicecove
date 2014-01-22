@@ -148,13 +148,12 @@
 		<div class="sideproduct" id="productspecs">
 			<h2>Product Information</h2>
 			<p><span>Device Category</span>{{item.subcategory}}</p>
-			<p><span>Service Contract</span>{{item.get_contract_display}}</p>
-			<p><span>Model Year</span>{{item.modelyear}}</p>
+			<p><span>Manufacturer</span>{{item.manufacturer}}</p>	
 			<p><span>Original Owner</span>{{item.originalowner|yesno:"Yes,No"}}</p>
+			<p><span>Service Contract</span>{{item.get_contract_display}}</p>
+			{% if item.modelyear %}<p><span>Model Year</span>{{item.modelyear}}</p>{% endif %}
 			<p><span>Shipping Included</span>{{item.shippingincluded|yesno:"Included,Not Included"}}</p>
-			<p><span>Condition</span>{{item.get_conditionquality_display}}</p>
-			<p><span>Manufacturer</span>{{item.manufacturer}}</p>		
-			<p><span>VetCove Verified Seller</span>{{item.user.verified|yesno:"Yes,No"}}</p>
+			<p><span>Condition</span>{{item.get_conditionquality_display}}</p>	
 		</div>
 	  </div>
 	<div class="col-xs-12 col-sm-8 col-md-8 col-md-pull-4 col-sm-pull-4 mainproductcontainer">

@@ -485,6 +485,10 @@ outline:none;
 	background: #FFE9C4;
 	color: #B3852B;
 }
+.resulttag .verified {
+	background: #E6F5F3;
+	color: #00A3EF;
+}
 
 
 /* Price Div */

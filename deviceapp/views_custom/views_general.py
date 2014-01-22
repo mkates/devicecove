@@ -26,6 +26,9 @@ def categories(request):
 def faq(request):
 	return render_to_response('general/faqs.html',context_instance=RequestContext(request))
 
+def pvp(request):
+	return render_to_response('general/pvp.html',context_instance=RequestContext(request))
+
 def about(request):
 	return render_to_response('general/about.html',context_instance=RequestContext(request))
 
