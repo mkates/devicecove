@@ -247,11 +247,11 @@
 		"company" : "Colts Neck Equine",
 		"email":"brooke@aim.com",
 		"address_one":"1 main street",
-		"zipcode": 07722,
+		"zipcode": "07722",
 		"city":"Colts Neck",
 		"state":"NJ",
 		"website":"www.test.com",
-		"phonenumber":7325474516,
+		"phonenumber":"7325474516"
 	}
 },
 {
@@ -270,8 +270,8 @@
 		"address_one":"1 Paper Court",
 		"city":"Menlo Park",
 		"state":"NJ",
-		"zipcode": 01232,
-		"phonenumber":7313223343
+		"zipcode":"01232",
+		"phonenumber":"7313223343"
 		
 	}
 },		
@@ -303,11 +303,11 @@
 		"company" : "Colts Neck Equine",
 		"email":"mike@aim.com",
 		"address_one":"1 main street",
-		"zipcode": 02215,
+		"zipcode": "02215",
 		"city":"Boston",
 		"state":"MA",
 		"website":"www.test.com",
-		"phonenumber":7325474516
+		"phonenumber":"7325474516"
 	}
 },
 {
@@ -345,11 +345,11 @@
 		"company" : "Colts Neck Equine",
 		"email":"bob@aim.com",
 		"address_one":"1 main street",
-		"zipcode": 12345,
+		"zipcode": "12345",
 		"city":"Schenectedy",
 		"state":"NY",
 		"website":"www.test.com",
-		"phonenumber":7325474516
+		"phonenumber":"7325474516"
 	}
 },
 {
