@@ -1,0 +1,901 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <title>{{email_title}}</title>
+        <style type="text/css">
+			/* /\/\/\/\/\/\/\/\/ CLIENT-SPECIFIC STYLES /\/\/\/\/\/\/\/\/ */
+			#outlook a{padding:0;} /* Force Outlook to provide a "view in browser" message */
+			.ReadMsgBody{width:100%;} .ExternalClass{width:100%;} /* Force Hotmail to display emails at full width */
+			.ExternalClass, .ExternalClass p, .ExternalClass span, .ExternalClass font, .ExternalClass td, .ExternalClass div {line-height: 100%;} /* Force Hotmail to display normal line spacing */
+			body, table, td, p, a, li, blockquote{-webkit-text-size-adjust:100%; -ms-text-size-adjust:100%;} /* Prevent WebKit and Windows mobile changing default text sizes */
+			table, td{mso-table-lspace:0pt; mso-table-rspace:0pt;} /* Remove spacing between tables in Outlook 2007 and up */
+			img{-ms-interpolation-mode:bicubic;} /* Allow smoother rendering of resized image in Internet Explorer */
+
+			/* /\/\/\/\/\/\/\/\/ RESET STYLES /\/\/\/\/\/\/\/\/ */
+			body{margin:0; padding:0;}
+			img{border:0; height:auto; line-height:100%; outline:none; text-decoration:none;}
+			table{border-collapse:collapse !important;}
+			body, #bodyTable, #bodyCell{height:100% !important; margin:0; padding:0; width:100% !important;}
+
+			/* /\/\/\/\/\/\/\/\/ TEMPLATE STYLES /\/\/\/\/\/\/\/\/ */
+
+			/* ========== Page Styles ========== */
+
+			#bodyCell{padding:20px;}
+			#templateContainer{width:600px;}
+
+			/**
+			* @tab Page
+			* @section background style
+			* @tip Set the background color and top border for your email. You may want to choose colors that match your company's branding.
+			* @theme page
+			*/
+			body, #bodyTable{
+				/*@editable*/ background-color:#DEE0E2;
+			}
+
+			/**
+			* @tab Page
+			* @section background style
+			* @tip Set the background color and top border for your email. You may want to choose colors that match your company's branding.
+			* @theme page
+			*/
+			#bodyCell{
+				/*@editable*/ border-top:4px solid #BBBBBB;
+			}
+
+			/**
+			* @tab Page
+			* @section email border
+			* @tip Set the border for your email.
+			*/
+			#templateContainer{
+				/*@editable*/ border:1px solid #BBBBBB;
+			}
+
+			/**
+			* @tab Page
+			* @section heading 1
+			* @tip Set the styling for all first-level headings in your emails. These should be the largest of your headings.
+			* @style heading 1
+			*/
+			p {
+				font-size: 14px;
+				line-height: 140%;
+			}
+			h1{
+				/*@editable*/ color:#202020 !important;
+				display:block;
+				/*@editable*/ font-family:Helvetica;
+				/*@editable*/ font-size:26px;
+				/*@editable*/ font-style:normal;
+				/*@editable*/ font-weight:bold;
+				/*@editable*/ line-height:100%;
+				/*@editable*/ letter-spacing:normal;
+				margin-top:0;
+				margin-right:0;
+				margin-bottom:10px;
+				margin-left:0;
+				/*@editable*/ text-align:left;
+			}
+
+			/**
+			* @tab Page
+			* @section heading 2
+			* @tip Set the styling for all second-level headings in your emails.
+			* @style heading 2
+			*/
+			h2{
+				/*@editable*/ color:#404040 !important;
+				display:block;
+				/*@editable*/ font-family:Helvetica;
+				/*@editable*/ font-size:20px;
+				/*@editable*/ font-style:normal;
+				/*@editable*/ font-weight:bold;
+				/*@editable*/ line-height:100%;
+				/*@editable*/ letter-spacing:normal;
+				margin-top:0;
+				margin-right:0;
+				margin-bottom:10px;
+				margin-left:0;
+				/*@editable*/ text-align:left;
+			}
+
+			/**
+			* @tab Page
+			* @section heading 3
+			* @tip Set the styling for all third-level headings in your emails.
+			* @style heading 3
+			*/
+			h3{
+				/*@editable*/ color:#606060 !important;
+				display:block;
+				/*@editable*/ font-family:Helvetica;
+				/*@editable*/ font-size:16px;
+				/*@editable*/ font-style:italic;
+				/*@editable*/ font-weight:normal;
+				/*@editable*/ line-height:100%;
+				/*@editable*/ letter-spacing:normal;
+				margin-top:0;
+				margin-right:0;
+				margin-bottom:10px;
+				margin-left:0;
+				/*@editable*/ text-align:left;
+			}
+
+			/**
+			* @tab Page
+			* @section heading 4
+			* @tip Set the styling for all fourth-level headings in your emails. These should be the smallest of your headings.
+			* @style heading 4
+			*/
+			h4{
+				/*@editable*/ color:#444 !important;
+				display:block;
+				/*@editable*/ font-family:Helvetica;
+				/*@editable*/ font-size:14px;
+				/*@editable*/ font-weight:800;
+				/*@editable*/ line-height:100%;
+				/*@editable*/ letter-spacing:normal;
+				margin-top:0;
+				margin-right:0;
+				margin-bottom:10px;
+				margin-left:0;
+				/*@editable*/ text-align:left;
+			}
+
+			/* ========== Header Styles ========== */
+
+			/**
+			* @tab Header
+			* @section preheader style
+			* @tip Set the background color and bottom border for your email's preheader area.
+			* @theme header
+			*/
+			#templatePreheader{
+				/*@editable*/ background-color:#F4F4F4;
+				/*@editable*/ border-bottom:1px solid #CCCCCC;
+			}
+
+			/**
+			* @tab Header
+			* @section preheader text
+			* @tip Set the styling for your email's preheader text. Choose a size and color that is easy to read.
+			*/
+			.preheaderContent{
+				/*@editable*/ color:#808080;
+				/*@editable*/ font-family:Helvetica;
+				/*@editable*/ font-size:10px;
+				/*@editable*/ line-height:125%;
+				/*@editable*/ text-align:left;
+			}
+
+			/**
+			* @tab Header
+			* @section preheader link
+			* @tip Set the styling for your email's preheader links. Choose a color that helps them stand out from your text.
+			*/
+			.preheaderContent a:link, .preheaderContent a:visited, /* Yahoo! Mail Override */ .preheaderContent a .yshortcuts /* Yahoo! Mail Override */{
+				/*@editable*/ color:#606060;
+				/*@editable*/ font-weight:normal;
+				/*@editable*/ text-decoration:underline;
+			}
+
+			/**
+			* @tab Header
+			* @section header style
+			* @tip Set the background color and borders for your email's header area.
+			* @theme header
+			*/
+			#templateHeader{
+				/*@editable*/ background-color:#F4F4F4;
+				/*@editable*/ border-top:1px solid #FFFFFF;
+			}
+
+			/**
+			* @tab Header
+			* @section header text
+			* @tip Set the styling for your email's header text. Choose a size and color that is easy to read.
+			*/
+			.headerContent{
+				/*@editable*/ color:#505050;
+				/*@editable*/ font-family:Helvetica;
+				/*@editable*/ font-size:20px;
+				/*@editable*/ font-weight:bold;
+				/*@editable*/ line-height:100%;
+				/*@editable*/ padding-top:0;
+				/*@editable*/ padding-right:0;
+				/*@editable*/ padding-bottom:0;
+				/*@editable*/ padding-left:0;
+				/*@editable*/ text-align:left;
+				/*@editable*/ vertical-align:middle;
+			}
+
+			/**
+			* @tab Header
+			* @section header link
+			* @tip Set the styling for your email's header links. Choose a color that helps them stand out from your text.
+			*/
+			.headerContent a:link, .headerContent a:visited, /* Yahoo! Mail Override */ .headerContent a .yshortcuts /* Yahoo! Mail Override */{
+				/*@editable*/ color:#EB4102;
+				/*@editable*/ font-weight:normal;
+				/*@editable*/ text-decoration:underline;
+			}
+
+			#headerImage{
+				height:auto;
+				max-width:600px;
+			}
+
+			/* ========== Body Styles ========== */
+
+			/**
+			* @tab Body
+			* @section body style
+			* @tip Set the background color and borders for your email's body area.
+			*/
+			#templateBody{
+				/*@editable*/ background-color:#F4F4F4;
+				/*@editable*/ border-bottom:1px solid #CCCCCC;
+			}
+
+			/**
+			* @tab Body
+			* @section body text
+			* @tip Set the styling for your email's main content text. Choose a size and color that is easy to read.
+			* @theme main
+			*/
+			.bodyContent{
+				/*@editable*/ color:#505050;
+				/*@editable*/ font-family:Helvetica;
+				/*@editable*/ font-size:16px;
+				/*@editable*/ line-height:150%;
+				padding-top:5px;
+				padding-right:20px;
+				padding-bottom:20px;
+				padding-left:20px;
+				/*@editable*/ text-align:left;
+			}
+
+			/**
+			* @tab Body
+			* @section body link
+			* @tip Set the styling for your email's main content links. Choose a color that helps them stand out from your text.
+			*/
+			.bodyContent a:link, .bodyContent a:visited, /* Yahoo! Mail Override */ .bodyContent a .yshortcuts /* Yahoo! Mail Override */{
+				/*@editable*/ color:#167BAD;
+				/*@editable*/ font-weight:normal;
+				/*@editable*/ text-decoration:underline;
+			}
+
+			.bodyContent img{
+				display:inline;
+				height:auto;
+				max-width:560px;
+			}
+
+			/* ========== Column Styles ========== */
+
+			.templateColumnContainer{width:260px;}
+			.product_templateColumnContainerLeft {max-width: 100px;}
+			.product_templateColumnContainerMiddle {max-width: 280px;}
+			.product_templateColumnContainerRight {max-width: 100px;}
+
+			/**
+			* @tab Columns
+			* @section column style
+			* @tip Set the background color and borders for your email's column area.
+			*/
+			#templateColumns{
+				/*@editable*/ background-color:#F4F4F4;
+				/*@editable*/ border-top:1px solid #FFFFFF;
+				/*@editable*/ border-bottom:1px solid #CCCCCC;
+			}
+			#productColumns {
+				/*@editable*/ background-color:#F4F4F4;
+				/*@editable*/ border-top:1px solid #FFFFFF;
+				/*@editable*/ border-bottom:1px solid #DDDDDD;
+			}
+			/**
+			* @tab Columns
+			* @section left column text
+			* @tip Set the styling for your email's left column content text. Choose a size and color that is easy to read.
+			*/
+			.leftColumnContent{
+				/*@editable*/ color:#505050;
+				/*@editable*/ font-family:Helvetica;
+				/*@editable*/ font-size:14px;
+				/*@editable*/ line-height:150%;
+				padding-top:0;
+				padding-right:20px;
+				padding-bottom:20px;
+				padding-left:20px;
+				/*@editable*/ text-align:left;
+			}
+
+			/**
+			* @tab Columns
+			* @section left column link
+			* @tip Set the styling for your email's left column content links. Choose a color that helps them stand out from your text.
+			*/
+			.leftColumnContent a:link, .leftColumnContent a:visited, /* Yahoo! Mail Override */ .leftColumnContent a .yshortcuts /* Yahoo! Mail Override */{
+				/*@editable*/ color:#EB4102;
+				/*@editable*/ font-weight:normal;
+				/*@editable*/ text-decoration:underline;
+			}
+
+			/**
+			* @tab Columns
+			* @section right column text
+			* @tip Set the styling for your email's right column content text. Choose a size and color that is easy to read.
+			*/
+			.middleColumnContent{
+				/*@editable*/ color:#505050;
+				/*@editable*/ font-family:Helvetica;
+				/*@editable*/ font-size:13px;
+				/*@editable*/ line-height:150%;
+				padding-top:0;
+				padding-right:20px;
+				padding-bottom:20px;
+				padding-left:20px;
+				/*@editable*/ text-align:left;
+			}
+			.middleColumnContent p {
+				margin: 0;
+			}
+			.rightColumnContent{
+				/*@editable*/ color:#505050;
+				/*@editable*/ font-family:Helvetica;
+				/*@editable*/ line-height:150%;
+				padding-top:0;
+				padding-right:20px;
+				padding-bottom:20px;
+				padding-left:20px;
+				/*@editable*/ text-align:right;
+			}
+			.rightColumnContent h4 {
+				text-align: right;
+			}
+
+			/**
+			* @tab Columns
+			* @section right column link
+			* @tip Set the styling for your email's right column content links. Choose a color that helps them stand out from your text.
+			*/
+			.rightColumnContent a:link, .rightColumnContent a:visited, /* Yahoo! Mail Override */ .rightColumnContent a .yshortcuts /* Yahoo! Mail Override */{
+				/*@editable*/ color:#EB4102;
+				/*@editable*/ font-weight:normal;
+				/*@editable*/ text-decoration:underline;
+			}
+
+			.leftColumnContent img, .rightColumnContent img{
+				display:inline;
+				height:auto;
+				max-width:260px;
+			}
+			#productColumns .leftColumnContent img {
+				max-width: 120px;
+			}
+			.columnImage{
+				border:1px solid #ddd;
+			}
+			
+			/* ========== Total Column ========== */
+			#totalColumn {
+				/*@editable*/ background-color:#F4F4F4;
+				/*@editable*/ border-top:1px solid #FFFFFF;
+				/*@editable*/ border-bottom:1px solid #CCCCCC;
+			}
+			.totalColumnContent {
+				padding-bottom: 0px;
+			}
+			.totalColumnContent h4 {
+				text-align: right;
+				font-weight: 200;
+				margin-bottom: 5px;
+				padding-bottom: 0;
+			}
+			.totalColumnContent h4 .price {
+				font-weight: 200;
+				width: 110px;
+				display:inline-block;
+			}
+			.totalColumnContent .totalColumnContent_total {
+				margin-top: 10px;
+				font-weight: 800;
+			}
+			.totalColumnContent .totalColumnContent_total .price {
+				font-weight: 800;
+			}
+			.feedbackColumnContent p {
+				/*@editable*/ font-size:13px;
+				/*@editable*/ line-height:150%;
+				/*@editable*/ font-family:Helvetica;
+				margin: 0;
+				padding: 0;
+				color: #666;
+			}
+			
+			#order_summary h2 {
+				margin-bottom: 30px;
+			}
+			/* ========== Footer Styles ========== */
+
+			/**
+			* @tab Footer
+			* @section footer style
+			* @tip Set the background color and borders for your email's footer area.
+			* @theme footer
+			*/
+			#templateFooter{
+				/*@editable*/ background-color:#F4F4F4;
+				/*@editable*/ border-top:1px solid #FFFFFF;
+			}
+
+			/**
+			* @tab Footer
+			* @section footer text
+			* @tip Set the styling for your email's footer text. Choose a size and color that is easy to read.
+			* @theme footer
+			*/
+			.footerContent{
+				/*@editable*/ color:#808080;
+				/*@editable*/ font-family:Helvetica;
+				/*@editable*/ font-size:10px;
+				/*@editable*/ line-height:150%;
+				padding-top:20px;
+				padding-right:20px;
+				padding-bottom:20px;
+				padding-left:20px;
+				/*@editable*/ text-align:left;
+			}
+
+			/**
+			* @tab Footer
+			* @section footer link
+			* @tip Set the styling for your email's footer links. Choose a color that helps them stand out from your text.
+			*/
+			.footerContent a:link, .footerContent a:visited, /* Yahoo! Mail Override */ .footerContent a .yshortcuts, .footerContent a span /* Yahoo! Mail Override */{
+				/*@editable*/ color:#606060;
+				/*@editable*/ font-weight:normal;
+				/*@editable*/ text-decoration:underline;
+			}
+
+			/* /\/\/\/\/\/\/\/\/ MOBILE STYLES /\/\/\/\/\/\/\/\/ */
+
+            @media only screen and (max-width: 480px){
+				/* /\/\/\/\/\/\/ CLIENT-SPECIFIC MOBILE STYLES /\/\/\/\/\/\/ */
+				body, table, td, p, a, li, blockquote{-webkit-text-size-adjust:none !important;} /* Prevent Webkit platforms from changing default text sizes */
+                body{width:100% !important; min-width:100% !important;} /* Prevent iOS Mail from adding padding to the body */
+
+				/* /\/\/\/\/\/\/ MOBILE RESET STYLES /\/\/\/\/\/\/ */
+				#bodyCell{padding:10px !important;}
+
+				/* /\/\/\/\/\/\/ MOBILE TEMPLATE STYLES /\/\/\/\/\/\/ */
+
+				/* ======== Page Styles ======== */
+
+				/**
+				* @tab Mobile Styles
+				* @section template width
+				* @tip Make the template fluid for portrait or landscape view adaptability. If a fluid layout doesn't work for you, set the width to 300px instead.
+				*/
+				#templateContainer{
+					max-width:600px !important;
+					/*@editable*/ width:100% !important;
+				}
+				p {
+					font-size: 15px;
+				}
+				/**
+				* @tab Mobile Styles
+				* @section heading 1
+				* @tip Make the first-level headings larger in size for better readability on small screens.
+				*/
+				h1{
+					/*@editable*/ font-size:24px !important;
+					/*@editable*/ line-height:100% !important;
+				}
+
+				/**
+				* @tab Mobile Styles
+				* @section heading 2
+				* @tip Make the second-level headings larger in size for better readability on small screens.
+				*/
+				h2{
+					/*@editable*/ font-size:20px !important;
+					/*@editable*/ line-height:100% !important;
+				}
+
+				/**
+				* @tab Mobile Styles
+				* @section heading 3
+				* @tip Make the third-level headings larger in size for better readability on small screens.
+				*/
+				h3{
+					/*@editable*/ font-size:18px !important;
+					/*@editable*/ line-height:100% !important;
+				}
+
+				/**
+				* @tab Mobile Styles
+				* @section heading 4
+				* @tip Make the fourth-level headings larger in size for better readability on small screens.
+				*/
+				h4{
+					/*@editable*/ font-size:16px !important;
+					/*@editable*/ line-height:110% !important;
+				}
+
+				/* ======== Header Styles ======== */
+
+				#templatePreheader{display:none !important;} /* Hide the template preheader to save space */
+
+				/**
+				* @tab Mobile Styles
+				* @section header image
+				* @tip Make the main header image fluid for portrait or landscape view adaptability, and set the image's original width as the max-width. If a fluid setting doesn't work, set the image width to half its original size instead.
+				*/
+				#headerImage{
+					height:auto !important;
+					/*@editable*/ max-width:600px !important;
+					/*@editable*/ width:100% !important;
+				}
+
+				/**
+				* @tab Mobile Styles
+				* @section header text
+				* @tip Make the header content text larger in size for better readability on small screens. We recommend a font size of at least 16px.
+				*/
+				.headerContent{
+					/*@editable*/ font-size:20px !important;
+					/*@editable*/ line-height:125% !important;
+				}
+
+				/* ======== Body Styles ======== */
+
+				/**
+				* @tab Mobile Styles
+				* @section body text
+				* @tip Make the body content text larger in size for better readability on small screens. We recommend a font size of at least 16px.
+				*/
+				.bodyContent{
+					/*@editable*/ font-size:18px !important;
+					/*@editable*/ line-height:125% !important;
+				}
+
+				/* ======== Column Styles ======== */
+
+				/* 
+				.templateColumnContainer{display:block !important; width:100% !important;}
+				.productContainer{display:block !important; max-width:100%; width:100% !important;padding-top: 0px;}
+				*/
+				.product_templateColumnContainerLeft{display:none}
+				/*
+				* @tab Mobile Styles
+				* @section column image
+				* @tip Make the column image fluid for portrait or landscape view adaptability, and set the image's original width as the max-width. If a fluid setting doesn't work, set the image width to half its original size instead.
+				*/
+				.columnImage{
+					height:auto !important;
+					/*@editable*/ max-width:480px !important;
+					/*@editable*/ width:100% !important;
+				}
+
+				/**
+				* @tab Mobile Styles
+				* @section left column text
+				* @tip Make the left column content text larger in size for better readability on small screens. We recommend a font size of at least 16px.
+				*/
+				.leftColumnContent{
+					/*@editable*/ font-size:16px !important;
+					/*@editable*/ line-height:125% !important;
+					padding-right: 0px;
+				}
+				/**
+				* @tab Mobile Styles
+				* @section right column text
+				* @tip Make the right column content text larger in size for better readability on small screens. We recommend a font size of at least 16px.
+				*/
+				.rightColumnContent{
+					/*@editable*/ font-size:16px !important;
+					/*@editable*/ line-height:125% !important;
+					padding-right: 20px;
+				}
+				.feedbackColumnContent p {
+					/*@editable*/ font-size:15px;
+				}
+				.totalColumnContent h4 {
+					font-size: 13px;
+				}
+				.hide-mobile {	
+					display: none;
+				}
+				/* ======== Footer Styles ======== */
+
+				/**
+				* @tab Mobile Styles
+				* @section footer text
+				* @tip Make the body content text larger in size for better readability on small screens.
+				*/
+				.footerContent{
+					/*@editable*/ font-size:13px !important;
+					/*@editable*/ line-height:130% !important;
+				}
+			}
+		</style>
+    </head>
+    <body leftmargin="0" marginwidth="0" topmargin="0" marginheight="0" offset="0">
+    	{% load phonenumber %}
+    	<center>
+        	<table align="center" border="0" cellpadding="0" cellspacing="0" height="100%" width="100%" id="bodyTable">
+            	<tr>
+                	<td align="center" valign="top" id="bodyCell">
+                    	<!-- BEGIN TEMPLATE // -->
+                    	<table border="0" cellpadding="0" cellspacing="0" id="templateContainer">
+                        	<tr>
+                            	<td align="center" valign="top">
+                                	<!-- BEGIN PREHEADER // -->
+                                    <table border="0" cellpadding="0" cellspacing="0" width="100%" id="templatePreheader">
+                                        <tr>
+                                            <td valign="top" class="preheaderContent" style="padding-top:10px; padding-right:20px; padding-bottom:10px; padding-left:20px;" mc:edit="preheader_content00">
+                                                {{email_teaser}}
+                                            </td>
+                                           <!-- 
+ 											<td valign="top" width="180" class="preheaderContent" style="padding-top:10px; padding-right:20px; padding-bottom:10px; padding-left:0;" mc:edit="preheader_content01">
+                                                Email not displaying correctly?<br /><a href="*|ARCHIVE|*" target="_blank">View it in your browser</a>.
+                                            </td>
+											 -->
+                                        </tr>
+                                    </table>
+                                    <!-- // END PREHEADER -->
+                                </td>
+                            </tr>
+                        	<tr>
+                            	<td align="center" valign="top">
+                                	<!-- BEGIN HEADER // -->
+                                    <table border="0" cellpadding="0" cellspacing="0" width="100%" id="templateHeader">
+                                        <tr>
+                                            <td valign="top" class="headerContent">
+                                            	<img src="{{STATIC_URL}}img/vetcove_bg.png" style="max-width:600px;" id="headerImage" mc:label="header_image" mc:edit="header_image" mc:allowdesigner mc:allowtext />
+                                            </td>
+                                        </tr>
+                                    </table>
+                                    <!-- // END HEADER -->
+                                </td>
+                            </tr>
+                            
+                            <tr>
+                            	<td align="center" valign="top">
+                                	<!-- BEGIN BODY // -->
+                                    <table border="0" cellpadding="0" cellspacing="0" width="100%" id="templateBody">
+                                        <tr>
+                                            <td valign="top" class="bodyContent" mc:edit="body_content">
+                            				{% if welcome %}
+                                                <p>Dear {{email_name}},</p>
+                                                <p>Welcome to VetCove, the safest and easiest way to buy and sell veterinary equipment!  You're joining  the web's most trusted community of veterinarians and their industry partners.  We're here to ensure that veterinarians across the country have access to affordable and high quality devices and instruments for their practices and hospitals. </p>
+												<p>Please note that even though you've registered, you will now be vetted through our <a href='http://www.vetcove.com/pvp'>VetCove Partner Verification Program (PVP)</a> to ensure the identity of your business for the safety of the VetCove community.  We go to great lengths to ensure that every buyer and seller on VetCove is a certified veterinarian, veterinary practice, or trusted veterinary partner.  You may be receiving a call or e-mail from us in the next two business days to confirm your registration information.  In the meantime, you will be able to immediately partake in the VetCove community by purchasing items and/or listing items for sale.  Below are quick links for you to get started:</p>
+                                            	<p><span>
+                                            		<a href="http://www.vetcove.com/buy">Browse items to buy</a>&sdot;
+													<a href="http://www.vetcove.com/listintro">List an item for sale</a>&sdot;
+													<a href="http://www.vetcove.com/faq">Frequently Asked Questions</a>
+												</span></p>
+                                            	<p>If you have any questions at all not included in our FAQ, please don't hesitate to contact us using our website form or by replying to this e-mail. We look forward to your participation as an active member of the VetCove community!</p>
+												<p>Warmest regards,</p>
+												<p>Alex, CEO VetCove</p>
+                          					{% endif %}
+                          	
+                          					{% if verified %}
+                                                <p>Dear {{email_name}},</p>
+                                                <p>Thank you again for registering for VetCove. We are pleased to inform you that our team has investigated your business, and that you have been accepted as a part of the VetCove Partner Verification Program (PVP)!</p>
+												<p>You now have full and unrestricted access to the website to buy and sell equipment.  Below are some quick links to get you started:</p>
+                                            	<p><span>
+                                            		<a href="http://www.vetcove.com/buy">Browse items to buy</a>&sdot;
+													<a href="http://www.vetcove.com/listintro">List an item for sale</a>&sdot;
+													<a href="http://www.vetcove.com/faq">Frequently Asked Questions</a>
+												</span></p>
+                                            	<p>If you have any questions at all not included in our FAQ, please don't hesitate to contact us using our website form or by replying to this e-mail. We look forward to your participation as an active member of the VetCove community!</p>
+												<p>Warmest regards,</p>
+												<p>Alex, CEO VetCove</p>
+                          					{% endif %}
+ 
+                          					{% if listing %}
+                                                <p>Dear {{email_name}},</p>
+                                                <p>Thank you for listing on VetCove!  Your listing for <a href="http://www.vetcove.com/item/{{listing.id}}/details">{{listing.name}}</a> in confirmed, and it has been added to VetCove in the {{listing.subcategory}} of our site.  It will be fully discoverable to VetCove buyers when browsing or searching the site.</p>
+                                            	<p><span>
+                                            		<a href="http://www.vetcove.com/account/listings/all">Edit Your Listing</a>
+												</span></p>
+                                            	{% if not listing.offlineviewing %}
+                                            		<p>When your item sells through VetCove, we will notify you immediately by e-mail and provide further instructions for shipping and receiving payment from the buyer.  Your item will also immediately be marked as sold on the website after payment is received from the buyer.  If you have any questions about selling in the meantime, please visit our <a href="http://www.vetcove.com/faq">Selling FAQ</a>.</p>
+                                            	{% else %}
+                                            		<p>As soon as you reach an agreement with a buyer to sell your item and payment has been arranged, it is your responsibility to remove the listing within one business day from the VetCove site, in accordance with our Seller Contract. Mark the item as sold using the link below:</p>
+                                            		<p><span>
+														<a href="http://www.vetcove.com/account/listings/all">Remove Item After Sale</a>
+													</span></p>
+                                            	{% endif %}
+                                            	<p>Thank you again for listing with VetCove!</p>
+												<p>Warmest regards,</p>
+												<p>Alex, CEO VetCove</p>
+                          					{% endif %}
+                       	
+                          	
+                          					{% if question %}        
+                                                <p>Dear {{email_name}},</p>
+                                                <p>We have some good news for you! A prospective buyer interested in your item has asked you a question about your item you have for sale: {{question.item.name}}.  The buyer asked:</p>
+                                            	<h4>{{question.question}}</h4>
+                                            	<p>Answering the question promptly may help your item sell over a similar item. To respond to the question right now, as well as any other questions awaiting your answers on other items, please click the link below:</p>
+                                            	<p><span>
+                                            		<a href="http://www.vetcove.com/account/sellerquestions">Respond to Buyer's Question</a>
+												</span></p>
+                                            	<p>Best of luck selling your item. Thank you again for choosing VetCove!</p>
+												<p>Warmest regards,</p>
+												<p>Alex, CEO VetCove</p>
+                          					{% endif %}
+        	
+                          					{% if scheduling %}
+                                                <p>Dear {{email_name}},</p>
+                                                <p>We have some good news for you! A prospective buyer located in {{scheduling.buyer.state}} is interested in viewing the item you have listed for sale, and has requested to make direct contact with you.  The item is: {{scheduling.item.name}}.</p>
+                                            	<p>If you're interested in viewing this buyer's message and obtaining his or her contact information to schedule a viewing and complete the sale, use the link below to log into your VetCove account:</p>
+                                            	<p><span>
+                                            		<a href="http://www.vetcove.com/account/messages/{{scheduling.item.id}}">View Buyer's Message and Schedule Viewing</a>
+												</span></p>
+                                            	<p>Please note that in order to correspond directly with prospective buyers and complete transactions outside of the VetCove website, we require all sellers to provide payment information in the form of a credit card or bank account.  You will only be charged commission if your item sells.</p>
+												<p>Responding quickly could help you close the sale.  Don't let this buyer get away! Best of luck selling your item.  Thank you again for choosing VetCove!</p>
+												<p>Warmest regards,</p>
+												<p>Alex, CEO VetCove</p>
+                          					{% endif %}
+
+                          					{% if selling_reminder %}
+                          						<p>Dear {{email_name}},</p>
+                                                <p>Two weeks ago, we sent you a buyer's contact information that was interested in purchasing your item: {{selling_reminder.item.name}}.  That buyer's name and business information is below:</p>
+                                                <h4>Buyer Address</h4>
+                                                <p>{{selling_reminder.buyer.name}}</p>
+                                                <p>Contact Date: {{selling_reminder.date_sent}}</p>
+                                                {% if selling_reminder.buyer.email %}<p>Email: {{selling_reminder.email}}</p>{% endif %}
+                                                {% if selling_reminder.buyer.phone %}<p>Phone: {{selling_reminder.buyer.phone|phonenumber}}</p>{% endif %}
+                                                <p>{{selling_reminder.message}}</p>
+                                            	<p>How did it go?  Were you able to sell the item to this buyer?</p>
+                                            	<p><span>
+                                            		<a href="http://www.vetcove.com/account/listings/all"">I sold the item to this buyer</a>
+                                            		<a href="http://www.vetcove.com/account/listings/all">I sold the item to a different buyer</a>
+                                            		<a href="http://www.vetcove.com/account/listings/all">I did not yet sell this item</a>
+												</span></p>
+                                            	<p>If your item sold, please remove it from the VetCove website using one one of the appropriate links above.  It is your responsibility to remove all sold items within two business days in accordance with the terms of the VetCove Seller Contract. </p>
+												<p>Thank you again for choosing VetCove!</p>
+												<p>Warmest regards,</p>
+												<p>Alex, CEO VetCove</p>
+                          	
+                          	
+                          					{% endif %}
+                          	
+                          	          		</td>
+                                        </tr>
+                                    </table>
+                                    <!-- // END BODY -->
+                                </td>
+                            </tr>
+                          	<tr>
+                            	<td align="center" valign="top" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;mso-table-lspace: 0pt;mso-table-rspace: 0pt;">
+                                	<!-- BEGIN COLUMNS // -->
+                                    <table border="0" cellpadding="0" cellspacing="0" width="100%" id="order_summary" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;mso-table-lspace: 0pt;mso-table-rspace: 0pt;background-color: #F4F4F4;border-top: 1px solid #FFFFFF;border-bottom: 1px solid #CCCCCC;border-collapse: collapse;">
+                                    	<tr mc:repeatable>
+                                        	<td align="center" valign="top" class="" style="padding-top: 10px;-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;mso-table-lspace: 0pt;mso-table-rspace: 0pt;">
+                                            	<table border="0" cellpadding="20" cellspacing="0" width="100%" class="" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;mso-table-lspace: 0pt;mso-table-rspace: 0pt;border-collapse: collapse;">
+                                                    <tr>
+                                                    	<td class="feedbackColumnContent" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;mso-table-lspace: 0pt;mso-table-rspace: 0pt;">
+                                                    		<p style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 13px;line-height: 150%;font-family: Helvetica;margin: 0;padding: 0;color: #666;">
+                                                    			<h2> Order Number: #001</h2>
+                                                    			<h4> Shipping Address</h4>
+                                                    			<p>Mitchell Kates</p>
+                                                    			<p>10 Pacer Court</p>
+                                                    			<p>Colts Neck, NJ 07722</p>
+                                                    		</p>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                    <!-- // END COLUMNS -->
+                                </td>
+                            </tr>
+                            
+                            <tr>
+                            	<td align="center" valign="top">
+                                	<!-- BEGIN COLUMNS // -->
+                                    <table border="0" cellpadding="0" cellspacing="0" width="100%" id="productColumns">
+                                    	<tr mc:repeatable>
+                                        	<td align="center" valign="top" class="productContainer product_templateColumnContainerLeft" style="padding-top:20px;">
+                                            	<table border="0" cellpadding="20" cellspacing="0" width="100%" class="product_templateColumnContainerLeft_table">
+                                                	<tr>
+                                                    	<td class="leftColumnContent">
+                                                        	<img src="http://media.onsugar.com/files/ons1/332/3322364/25_2009/ef/ivy9.jpg" style="max-width:100px;" class="columnImage" mc:label="left_column_image" mc:edit="left_column_image" />
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </td>
+                                        	<td align="center" valign="top" class="productContainer product_templateColumnContainerMiddle" style="padding-top:20px;">
+                                            	<table border="0" cellpadding="20" cellspacing="0" width="100%">
+                                                    <tr>
+                                                    	<td valign="top" class="middleColumnContent" mc:edit="right_column_content">
+                                                            <h4>XT UltraSound 3 with Super Powered Guns</h4>
+                                                            <p>Sold by Colts Neck Equine</p>
+                                                            <p>Quantity: 1</p>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </td>
+                                            <td align="center" valign="top" class="productContainer product_templateColumnContainerRight" style="padding-top:20px;">
+                                            	<table border="0" cellpadding="20" cellspacing="0" width="100%">
+                                                    <tr>
+                                                    	<td valign="top" class="rightColumnContent" mc:edit="right_column_content">
+                                                            <h4>$8354.32</h4>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                    <!-- // END COLUMNS -->
+                                </td>
+                            </tr>
+                            
+                            
+                            <tr>
+                            	<td align="center" valign="top">
+                                	<!-- BEGIN COLUMNS // -->
+                                    <table border="0" cellpadding="0" cellspacing="0" width="100%" id="totalColumn">
+                                    	<tr mc:repeatable>
+                                        	<td align="center" valign="top" class="totalColumnTD" style="padding-top:10px;">
+                                            	<table border="0" cellpadding="20" cellspacing="0" width="100%" class="totalColumnTable">
+                                                	<tr>
+                                                    	<td class="totalColumnContent">
+                                                    		<h4>Sales Total: <span class="price">$27,123.21.00</span></h4>
+                                                    		<h4>9% <span class="hide-mobile">VetCove</span> Commission: <span class="price">-$2,123.21.00</span></h4>
+                                                    		<h4>Credit Card <span class="hide-mobile">Processing</span> Fee: <span class="price">-$512.00</span></h4>
+                                                    		<h4 class="totalColumnContent_total">Total Credits: <span class="price">$24,212.21</span></h4>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                    	<td class="feedbackColumnContent">
+                                                    		<p>Thank for you shopping through VetCove. We hope you enjoyed the experience. If you have
+                                                    		any comments or ideas for ways we can improve our service, we would love to hear about them!
+                                                    		Drop us an email at ideas@vetcove.com</p>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                    <!-- // END COLUMNS -->
+                                </td>
+                            </tr>
+                         
+                            
+                        	<tr>
+                            	<td align="center" valign="top">
+                                	<!-- BEGIN FOOTER // -->
+                                    <table border="0" cellpadding="0" cellspacing="0" width="100%" id="templateFooter">
+                                        <tr>
+                                            <td valign="top" class="footerContent" style="padding-top: 10px;padding-bottom: 0px;-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;mso-table-lspace: 0pt;mso-table-rspace: 0pt;color: #808080;font-family: Helvetica;font-size: 10px;line-height: 150%;padding-right: 20px;padding-left: 20px;text-align: left;" mc:edit="footer_content02">
+                                        		We hope you enjoyed receiving this message. If you would like to change your email preferences, you can update your <a href="http://www.vetcove.com/account/usersettings" target="_blank" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;color: #2176D9;font-weight: normal;text-decoration: underline;"> profile settings</a>
+                                            </td>
+                                        </tr>
+                                         <tr>
+                                            <td valign="top" class="footerContent" style="padding-top: 10px;-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;mso-table-lspace: 0pt;mso-table-rspace: 0pt;color: #808080;font-family: Helvetica;font-size: 10px;line-height: 150%;padding-right: 20px;padding-bottom: 20px;padding-left: 20px;text-align: left;" mc:edit="footer_content01">
+                                                <em>Copyright &copy; 2014 VetCove, All rights reserved.</em>                       
+                                            </td>
+                                        </tr>
+                                    </table>
+                                    <!-- // END FOOTER -->
+                                </td>
+                            </tr>
+                        </table>
+                        <!-- // END TEMPLATE -->
+                    </td>
+                </tr>
+            </table>
+        </center>
+    </body>
+</html>

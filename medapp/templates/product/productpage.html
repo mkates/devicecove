@@ -1,4 +1,5 @@
 {%load humanize %}
+{%load phonenumber %}
 {% if not preview and item.offlineviewing %}
 <div id="buynowcontainer">
 	<div id="buynowbackalign">
@@ -23,7 +24,7 @@
 					<div class="row">
 						<div class="col-md-6 col-sm-6 col-xs-12">
 							<label>Phone</label>
-							<input type="text" class="form-control" name="contact-phone" value="{{user.basicuser.phonenumber}}">
+							<input type="text" class="form-control" name="contact-phone" value="{{user.basicuser.phonenumber|phonenumber}}">
 						</div>
 						<div class="col-md-6 col-sm-6 col-xs-12">
 							<label> Reason for Contact</label>
