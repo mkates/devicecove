@@ -2,6 +2,7 @@ from django.shortcuts import render_to_response, redirect
 from django.template.loader import render_to_string
 from deviceapp.models import *
 import views_checkout as checkoutview
+import views_email as email_view
 from django.template import RequestContext, Context, loader
 from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth import authenticate, login, logout
@@ -256,6 +257,7 @@ def tosListing(request,itemid):
 			item.liststatus = 'active'
 			item.tos = True
 			item.save()
+			email_view.composeEmailListingConfirmation(request,request.user.basicuser,item)
 			return HttpResponseRedirect('/item/'+itemid+'/details');
 	return HttpResponseRedirect('/listintro');
 
@@ -309,6 +311,7 @@ def askquestion(request):
 		if len(question) > 3: # Make sure it is a legitimate question
 			questionobject = Question(question=question,item=item,buyer=user,seller=item.user,dateanswered=None,answer='')
 			questionobject.save() 
+			email_view.composeEmailNewQuestion(request,user,questionobject)
 		return HttpResponseRedirect(redirect)
 	return HttpResponseRedirect("/login?next="+redirect)
 

@@ -10,6 +10,7 @@ from django.shortcuts import render
 from django.core.exceptions import ObjectDoesNotExist
 from django.conf import settings
 import views_payment as payment_view
+import views_email	as email_view
 import json
 import re
 from datetime import datetime
@@ -70,12 +71,14 @@ def newuserform(request):
 					cartitem.save()	
 			# Add all the items from the BU shopping cart into Checkout object
 			# All items should reamin in the BU shopping as well!
+			
+			email_view.composeEmailWelcome(request,nbu)
+			
 			if request.POST.get('checkoutsignin',''):
 				checkoutid = createCheckout(nbu)
 				login(request,user)
 				return HttpResponseRedirect('/checkout/shipping/'+str(checkoutid))
-			
-			
+
 			#If user is not checking out, send them to the original source
 			login(request,user)
 			if request.GET.get('next',''):
@@ -495,7 +498,7 @@ def checkoutPurchase(request,checkoutid):
 			item.quantity -= cartitem.quantity
 		item.save()
 		amount = cartitem.item.price * cartitem.quantity
-		pi = PurchasedItem(seller=item.user,buyer=bu,cartitem=cartitem,total=amount,item_name=cartitem.item.name,quantity=cartitem.quantity)
+		pi = PurchasedItem(seller=item.user,buyer=bu,cartitem=cartitem,checkout=cartitem.checkout,total=amount,item_name=cartitem.item.name,quantity=cartitem.quantity)
 		pi.save()
 		cartitem.shoppingcart = None
 		cartitem.save()

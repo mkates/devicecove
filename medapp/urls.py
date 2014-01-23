@@ -10,7 +10,7 @@ admin.autodiscover()
 #########  General ##################################################
 #####################################################################
 urlpatterns = patterns('',
-	url(r'^testmail/', 'deviceapp.views_custom.testmail'),
+
 	#Admin
     url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
     url(r'^admin/', include(admin.site.urls)),

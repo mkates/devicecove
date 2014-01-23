@@ -2,6 +2,7 @@ from django.shortcuts import render_to_response, redirect
 from django.template.loader import render_to_string
 from deviceapp.models import *
 import views_payment as payment_view
+import views_email as email_view
 from django.template import RequestContext, Context, loader
 from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth import authenticate, login, logout
@@ -29,9 +30,7 @@ def messageseller(request,itemid):
 		seller = item.user
 		sm = SellerMessage(buyer=bu,name=name,item=item,email=email,phone=phone,reason=reason,message=message) 
 		sm.save()
-		############################
-		#### Send Email Here As Well
-		############################
+		email_view.composeEmailContactMessage_Seller(request,bu,sm)
 		status = 201
 	else:
 		status = 500
@@ -51,7 +50,7 @@ def buyermessages(request,itemid):
 			if request.GET.get('e',''):
 				dict['error'] = request.GET.get('e')
 			return render_to_response('account/contact_gate.html',dict,context_instance=RequestContext(request))
-
+	return HttpResponseRedirect('/')
 #################################################
 ### Gateway for viewing buyer interest  #########
 #################################################
@@ -76,6 +75,10 @@ def newcard_chargecommission(request,itemid):
 			customer.debit(appears_on_statement_as="Vet Cove Fee",amount=amount,source_uri=card_uri)
 			item.commission_paid = True
 			item.save()
+			comm_amount = amount / 100
+			commission_obj = Commission(item=item,amount=comm_amount,payment_method='card',cc_payment=card)
+			commission_obj.save()
+			email_view.composeEmailCommissionCharged(request,basicuser,commission_obj)
 			return HttpResponse(json.dumps({'status':201}), content_type='application/json')
 		except:
 			return HttpResponse(json.dumps({'status':501,'error':'Failed to charge your card.'}), content_type='application/json')
@@ -101,6 +104,10 @@ def newbank_chargecommission(request,itemid):
 			customer.debit(appears_on_statement_as="Vet Cove Fee",amount=amount,source_uri=bank_uri)
 			item.commission_paid = True
 			item.save()
+			comm_amount = amount / 100
+			commission_obj = Commission(item=item,amount=comm_amount,payment_method='bank',ba_payment=bank)
+			commission_obj.save()
+			email_view.composeEmailCommissionCharged(request,basicuser,commission_obj)
 			return HttpResponse(json.dumps({'status':201}), content_type='application/json')
 		except Exception,e:
 			return HttpResponse(json.dumps({'status':501,'error':'Failed to charge your bank account.'}), content_type='application/json')
@@ -125,6 +132,13 @@ def gatePayment(request,paymenttype,paymentid,itemid):
 				customer.debit(appears_on_statement_as="Vet Cove Fee",amount=amount,source_uri=payment.uri)
 				item.commission_paid = True
 				item.save()
+				comm_amount = amount / 100
+				if paymenttype == 'bank':
+					commission_obj = Commission(item=item,amount=comm_amount,payment_method=paymenttype,ba_payment=payment)
+				elif paymenttype == 'card':
+					commission_obj = Commission(item=item,amount=comm_amount,payment_method=paymenttype,cc_payment=payment)
+				commission_obj.save()
+				email_view.composeEmailCommissionCharged(request,basicuser,commission_obj)
 				return HttpResponseRedirect('/account/messages/'+str(item.id))
 		except Exception,e:
 			return HttpResponseRedirect('/account/messages/'+str(item.id)+"?e=fail")
@@ -183,6 +197,7 @@ def deauthorizeBuyer(request,buyerid,itemid):
 		except Exception,e:
 			print e
 			return HttpResponseRedirect('/account/messages/'+str(item.id))
+			
 #################################################
 ### Sale Problems  ##############################
 #################################################

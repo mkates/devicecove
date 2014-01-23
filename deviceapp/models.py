@@ -331,6 +331,15 @@ class Checkout(models.Model):
 	purchased = models.BooleanField(default=False)
 	purchased_time = models.DateTimeField(null=True,blank=True)
 	
+	#Retrieves the payment object
+	def getpayment(self):
+		if self.payment_method == 'bank':
+			return self.ba_payment
+		elif self.payment_method == 'card':
+			return self.cc_payment
+		else:
+			return None
+				
 	#Get total amount due for this checkout
 	def total(self):
 		total = 0
@@ -377,17 +386,49 @@ class CartItem(models.Model):
 		return self.item.price*self.quantity
 		
 ############################################
-### Purchased Items ########################
+### Payout Record Keeping ##################
 ############################################
-# Auxiliary method to record post purchase action
+
+#### Record of the payment ##################
+class BankPayout(models.Model):
+	user = models.ForeignKey(BasicUser)
+	amount = models.FloatField(max_length=20)
+	bank_account = models.ForeignKey(BalancedBankAccount)
+	date = models.DateTimeField(auto_now_add = True)
+
+#### Record of all checks ##################
+class CheckPayout(models.Model):
+	user = models.ForeignKey(BasicUser)
+	amount = models.FloatField(max_length=20)
+	sent = models.BooleanField(default=False)
+	date = models.DateTimeField(auto_now_add = True)
+	address = models.ForeignKey(UserAddress)
+	
+#### Commission ############################
+class Commission(models.Model):
+	item = models.OneToOneField(Item)
+	amount = models.FloatField(max_length=20)
+	PAYMENT_OPTIONS = (('bank','bank'),('card','card'))
+	payment_method = models.CharField(default='none',max_length=20, choices=PAYMENT_OPTIONS)
+	cc_payment = models.ForeignKey(BalancedCard,null=True,blank=True)
+	ba_payment = models.ForeignKey(BalancedBankAccount,null=True,blank=True)
+	date = models.DateTimeField(auto_now_add = True)
+
+############################################
+### Purchased Items  #######################
+############################################	
+	
 class PurchasedItem(models.Model):
 	#Seller and Buyer
 	seller = models.ForeignKey(BasicUser,related_name="purchaseditemseller")
 	buyer = models.ForeignKey(BasicUser,related_name="purchaseditembuyer")
 	
 	total = models.FloatField(max_length=20)
-	# Reference to cart item of the purchase 
+	
+	# Reference to cart item of the purchase and the checkout
 	cartitem = models.OneToOneField(CartItem)
+	checkout = models.ForeignKey(Checkout)
+	
 	quantity = models.IntegerField(max_length = 5)
 	item_name = models.CharField(max_length=300)
 	
@@ -399,16 +440,15 @@ class PurchasedItem(models.Model):
 	buyer_message = models.TextField(blank=True)
 	# Seller Payment
 	paid_out = models.BooleanField(default=False)
-	paid_data = models.DateTimeField(null=True,blank=True)
+	paid_date = models.DateTimeField(null=True,blank=True)
+	
+	#should replicate payout in the checkout
 	PAYOUT_OPTIONS =  (('none', 'None'),('check', 'Check'),('bank', 'Bank'))
 	payout_method = models.CharField(max_length=20,choices=PAYOUT_OPTIONS,default='none')
 	
-#### Balanced Bank Account ##################
-class Check(models.Model):
-	user = models.ForeignKey(BasicUser)
-	amount = models.FloatField(max_length=20)
-	sent = models.BooleanField()
-	date = models.DateTimeField(auto_now_add = True)
+	#References to the actual payout objects
+	online_payment = models.ForeignKey(BankPayout,null=True,blank=True)
+	check = models.ForeignKey(CheckPayout,null=True,blank=True)
 	
 ############################################
 ### Item Reviews ###########################

@@ -16,9 +16,11 @@ class Command(BaseCommand):
     help = 'Credits all the sellers bank accounts'
 
     def handle(self, *args, **options):
-		vetcove_payout_total = 0
+		vetcove_check_count = 0
+		vetcove_checkpayout_total = 0
 		vetcove_payout_count = 0
- 		bu_set = BasicUser.objects.all() # Iterate over every user in the system
+		vetcove_payout_total = 0
+		bu_set = BasicUser.objects.all() # Iterate over every user in the system
  		#Get all the eligible purchased items
  		for basicuser in bu_set:
  			payout_total = 0
@@ -26,9 +28,9 @@ class Command(BaseCommand):
  			eligiblePurchasedItems = [] #Items for payout
 			for p_item in basicuser.purchaseditemseller.all():
 				if purchasedItemEligibleForPayout(p_item):
-					if not p_item.commission_paid: 
+					if not p_item.cartitem.item.commission_paid: 
 						commission_total += p_item.total*.09 # Remove 9% for commission fee
-					payout_total += p_item.total*.97 # Remove 3% for credit card fees
+					payout_total += p_item.total*.97-commission_total # Remove 3% for credit card fees
 					eligiblePurchasedItems.append(p_item)
 		
 			# Continue only if items available for payout
@@ -39,39 +41,45 @@ class Command(BaseCommand):
 					emailUserNoPayoutMethod(basicuser)
 				elif basicuser.payout_method == 'check':
 					if basicuser.check_address:	
-						check_obj = Check(user=basicuser,amount=payout_total)
+						check_obj = CheckPayout(user=basicuser,amount=payout_total,address=basicuser.check_address)
 						check_obj.save()
 						for pi in eligiblePurchasedItems:
 							pi.paid_out = True
 							pi.payout_method = 'check'
+							pi.check = check_obj
 							pi.save()
+						vetcove_check_count += 1
+						vetcove_checkpayout_total += payout_total
 					else:
-						emailUserNoPayoutMethod(basicuser)
+						emailUserNoPayoutMethod(self,basicuser)
 				elif basicuser.payout_method == 'bank':
 					if basicuser.default_payout_ba:
 						try:
 							balanced.configure(settings.BALANCED_API_KEY) # Configure Balanced API
 							customer = balanced.Customer.find(basicuser.balanceduri)
-							amount = int((payout_total-commission_total)*100)
+							amount = int((payout_total)*100)
 							source_uri = basicuser.default_payout_ba.uri
 							customer.credit(appears_on_statement_as="Vet Cove",description="Seller Credit",amount=amount,source_uri=source_uri)
+							bank_payout_obj = BankPayout(user=basicuser,amount = payout_total,bank_account=basicuser.default_payout_ba)
+							bank_payout_obj.save()
 							for bpi in eligiblePurchasedItems:
 								bpi.paid_out = True
 								bpi.payout_method = 'bank'
+								bpi.online_payment = bank_payout_obj
 								bpi.save()
-							vetcove_payout_total += amount/100
+							vetcove_payout_total += amount/float(100)
 							vetcove_payout_count += 1
-							emailUserPaymentSuccess(basicuser,eligiblePurchasedItems)
+							emailUserPayoutSuccess(self,basicuser,eligiblePurchasedItems)
 						except Exception,e:
 							write(self,e)
-							emailUserPaymentFailed(basicuser)
+							emailUserPayoutMethodFailed(self,basicuser)
 					else:
-						emailUserNoPayoutMethod(basicuser)
+						emailUserNoPayoutMethod(self,basicuser)
 		write(self,"Payouts Complete")
 		write(self,"Payout Total: "+str(vetcove_payout_total))
-		write(self,"Number of Purchases: "+str(vetcove_payout_count))
-			
-			
+		write(self,"Number of Online Purchases: "+str(vetcove_payout_count))
+		write(self,"Check Total: "+str(vetcove_checkpayout_total))
+		write(self,"Number of Checks: "+str(vetcove_check_count))		
 				
 ########See if a purchased item is eligible for payout ############
 def purchasedItemEligibleForPayout(pitem):
@@ -89,17 +97,17 @@ def purchasedItemEligibleForPayout(pitem):
  	return True		
  
 ######## No Payment Method Email ##########################	
-def emailUserNoPayoutMethod(basicuser):
+def emailUserNoPayoutMethod(self,basicuser):
 	write(self,'No Payout Method')
  	return
 
 ######## No Payment Method Email ##########################	
-def emailUserPaymentMethodFailed(basicuser):
+def emailUserPayoutMethodFailed(self,basicuser):
 	write(self,'Payment Method Failed')
  	return	
  
  ######## Payment Succeeded ##########################	
-def emailUserPaymentSuccess(basicuser,eligiblePurchasedItems):
+def emailUserPayoutSuccess(self,basicuser,eligiblePurchasedItems):
 	write(self,'Payment Method Success')
  	return		
 
