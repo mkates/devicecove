@@ -307,7 +307,7 @@ var addError = function addError(handle) {
 {% block content %}
 {% load zipcodify %}
 {% load phonenumber %}
-{% load humanize %}
+{% load dollars %}
 <div class="listcontainer">
 	<div class="checkout_nav">
 		{% block checkout_nav %}{% endblock %}
@@ -348,10 +348,10 @@ var addError = function addError(handle) {
 								<p>{{checkoutcartitem.item.name}}</p>
 								<p><span>Sold by: </span>{{checkoutcartitem.item.user.company}}</p>
 								<p><span>Quantity: </span>{{checkoutcartitem.quantity}}</p>
-								<p><span>Price: </span>${{checkoutcartitem.item.price|floatformat|intcomma}}</p>
+								<p><span>Price: </span>{{checkoutcartitem.item.price|dollars}}</p>
 							</div>
 						{% endfor %}
-						<h6 class="checkout-total">Total:<span>${{checkout.total|floatformat|intcomma}}</span></h6>
+						<h6 class="checkout-total">Total:<span>{{checkout.total|dollars}}</span></h6>
 					</div>
 					
 					<div class="summary-block">

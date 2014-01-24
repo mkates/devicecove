@@ -1,0 +1,350 @@
+{% load phonenumber %}
+{% load dollars %}
+    	
+=================
+VetCove
+=================
+
+Dear {{email_name}}, {% if welcome %}
+
+Welcome to VetCove, the safest and easiest way to buy and sell veterinary equipment!  You're joining  the web's most trusted community of veterinarians and their industry partners.  We're here to ensure that veterinarians across the country have access to affordable and high quality devices and instruments for their practices and hospitals. 
+
+Please note that even though you've registered, you will now be vetted through our VetCove Partner Verification Program (PVP) to ensure the identity of your business for the safety of the VetCove community.  We go to great lengths to ensure that every buyer and seller on VetCove is a certified veterinarian, veterinary practice, or trusted veterinary partner.  You may be receiving a call or e-mail from us in the next two business days to confirm your registration information.  In the meantime, you will be able to immediately partake in the VetCove community by purchasing items and/or listing items for sale.  Below are quick links for you to get started:
+
+Partner Verification Program
+http://www.vetcove.com/pvp
+
+Browse items to buy:
+http://www.vetcove.com/buy
+
+List an item for sale
+http://www.vetcove.com/listintro
+
+Frequently Asked Questions
+http://www.vetcove.com/faq
+
+If you have any questions at all not included in our FAQ, please don't hesitate to contact us using our website form or by replying to this e-mail. We look forward to your participation as an active member of the VetCove community!
+
+Warmest regards,
+Alex and The VetCove Team
+{% endif %} {% if pvp %}
+Thank you again for registering for VetCove. We are pleased to inform you that our team has investigated your business, and that you have been accepted as a part of the VetCove Partner Verification Program (PVP)!
+
+You now have full and unrestricted access to the website to buy and sell equipment.  Below are some quick links to get you started:
+
+Browse items to buy:
+http://www.vetcove.com/buy
+
+List an item for sale
+http://www.vetcove.com/listintro
+
+Frequently Asked Questions
+http://www.vetcove.com/faq
+
+If you have any questions at all not included in our FAQ, please don't hesitate to contact us using our website form or by replying to this e-mail. We look forward to your participation as an active member of the VetCove community!
+
+Warmest regards,
+Alex and The VetCove Team
+{% endif %} {% if listing_confirmation %}
+Thank you for listing on VetCove!  Your listing for http://www.vetcove.com/item/{{item.id}}/details{{item.name}} in confirmed, and it has been added to VetCove in the {{item.subcategory}} of our site.  It will be fully discoverable to VetCove buyers when browsing or searching the site.
+
+Edit Your Listing:
+http://www.vetcove.com/account/listings/all
+
+{% if not item.offlineviewing %}
+When your item sells through VetCove, we will notify you immediately by e-mail and provide further instructions for shipping and receiving payment from the buyer.  Your item will also immediately be marked as sold on the website after payment is received from the buyer.  If you have any questions about selling in the meantime, please visit our Selling FAQ at http://www.vetcove.com/faq
+{% else %}
+As soon as you reach an agreement with a buyer to sell your item and payment has been arranged, it is your responsibility to remove the listing within one business day from the VetCove site, in accordance with our Seller Contract. Mark the item as sold using the link below:
+
+Remove Item After Sale
+http://www.vetcove.com/account/listings/all
+{% endif %}
+Thank you again for listing with VetCove!
+
+Warmest regards,
+Alex and The VetCove Team
+{% endif %} {% if new_question %}        
+We have some good news for you! A prospective buyer interested in your item has asked you a question about your item you have for sale: {{question.item.name}}.  The buyer asked:
+
+{{question.question}}
+
+Answering the question promptly may help your item sell over a similar item. To respond to the question right now, as well as any other questions awaiting your answers on other items, please click the link below:
+
+Respond to Buyer's Question
+http://www.vetcove.com/account/sellerquestions
+
+Best of luck selling your item. Thank you again for choosing VetCove!
+
+Warmest regards,
+Alex and The VetCove Team
+{% endif %} {% if contactmessage_seller %}
+We have some good news for you! A prospective buyer located in {{contact_message.buyer.state}} is interested in viewing the item you have listed for sale, and has requested to make direct contact with you.  The item is: {{contact_message.item.name}}.
+
+If you're interested in viewing this buyer's message and obtaining his or her contact information to schedule a viewing and complete the sale, use the link below to log into your VetCove account:
+
+View Buyer's Message and Schedule Viewing
+http://www.vetcove.com/account/messages/{{contact_message.item.id}}
+
+Please note that in order to correspond directly with prospective buyers and complete transactions outside of the VetCove website, we require all sellers to provide payment information in the form of a credit card or bank account.  You will only be charged commission if your item sells.
+
+Responding quickly could help you close the sale. Best of luck selling your item.  Thank you again for choosing VetCove!
+
+Warmest regards,
+Alex and The VetCove Team
+{% endif %}
+{% if commission_charged %}
+Thank you for selling on VetCove!  We’re so pleased that there are buyers interested in viewing {{commission_obj.item.name}}.  Per the terms of our selling contract, your chosen payment method on file has been charged the VetCove selling fees associated with this transaction.
+
+Product Information
+Item Number: {{commission_obj.item.id}}
+Listing Price: {{commission_obj.item.price|dollars}}
+Selling Fees: 9% Commission
+Transaction ID: #0000{{commission_obj.id}}
+Amount Charged: {{commission_obj.amount|dollars}}
+
+Payment Method
+
+{% if commission_obj.payment_method == 'bank' %}
+Bank Account
+{{commission_obj.ba_payment.name}}
+{{commission_obj.ba_payment.bank_name}}
+{{commission_obj.ba_payment.account_number}}
+{% elif payment_method == 'card' %}
+Credit / Debit Card
+{{commission_obj.cc_payment.brand}}
+********{{commission_obj.cc_payment.last_four}}
+Expires: {{commission_obj.cc_payment.expiration_month}}/{{commission_obj.cc_payment.expiration_year}}	
+{% endif %}
+
+Update Payment and Payout Preferences
+http://www.vetcove.com/account/payment
+
+Best of luck selling your item!  If you are able to collect cash or check payment directly from a buyer, no further action is required on your part, and no further fees will be assessed.  You will be able to instantly receive direct contacts from prospective buyers for this item going forward without restriction.
+
+If you are unable to sell your item after a period of 90 days, VetCove will refund you 100% of all selling fees charged today, less any nomial credit card or bank transfer fees we incur to complete the transaction.  If you have any questions at all, please don’t hesitate to get in contact with us.
+
+Warmest regards,
+Alex and The VetCove Team
+{% endif %} {% if selling_reminder %}
+Two weeks ago, we sent you a buyer's contact information that was interested in purchasing your item: {{selling_reminder.item.name}}.  That buyer's name and business information is below:
+
+Buyer Address
+{{selling_reminder.buyer.name}}
+Contact Date: {{selling_reminder.date_sent}}
+{% if selling_reminder.buyer.email %}Email: {{selling_reminder.email}}{% endif %}
+{% if selling_reminder.buyer.phone %}Phone: {{selling_reminder.buyer.phone|phonenumber}}{% endif %}
+{{selling_reminder.message}}
+How did it go?  Were you able to sell the item to this buyer?
+
+I sold the item to this buyer
+http://www.vetcove.com/account/listings/all
+
+I sold the item to a different buyer
+http://www.vetcove.com/account/listings/all
+
+I did not yet sell this item
+http://www.vetcove.com/account/listings/all
+
+If your item sold, please remove it from the VetCove website using one one of the appropriate links above.  It is your responsibility to remove all sold items within two business days in accordance with the terms of the VetCove Seller Contract. 
+
+Thank you again for choosing VetCove!
+
+Warmest regards,
+Alex and The VetCove Team
+{% endif %} {% if item_sold_seller %}
+Congratulations! A VetCove member has purchased {%if purchased_item.quantity > 1 %}{{purchased_item.quantity}}{% endif %} of your item, {{item.name}} and payment has been confirmed.  You may now prepare to ship the item in accordance with the terms of your listing.  The contact information and shipping address of the buyer is below:
+
+Shipping Address
+{{purchased_item.cartitem.checkout.shipping_address.name}}
+{{purchased_item.cartitem.checkout.shipping_address.address_one}}
+{% if purchased_item.cartitem.checkout.shipping_address.address_two %}{{purchased_item.cartitem.checkout.shipping_address.address_two}}{% endif %}
+{{purchased_item.cartitem.checkout.shipping_address.city}}, {{purchased_item.cartitem.checkout.shipping_address.state}} {{purchased_item.cartitem.checkout.shipping_address.zipcode}}
+{{purchased_item.cartitem.checkout.shipping_address.phonenumber|phonenumber}}
+
+Buyer's Contact Information
+{{purchased_item.buyer.name}}
+{{purchased_item.buyer.email}}
+{{purchased_item.buyer.phonenumber|phonenumber}}
+
+Once you have shipped the item, please click the link below to notify the buyer that the item has been shipped.  You will be able to upload tracking information to help the buyer track the shipment.  Feel free to correspond directly with the buyer by e-mail if you wish.
+
+Enter Shipping Information
+http://www.vetcove.com/account/sellhistory
+
+Thank you again for choosing VetCove!
+
+Warmest regards,
+Alex and The VetCove Team
+{% endif %} {% if item_shipped_buyer %}
+Congratulations!  The seller for your item, {{item.name}} has just indicated that the package has been shipped to you.  Shipment details, including tracking information if available, can be found below.
+
+{{purchased_item.seller_message}}
+
+If you have any questions about the purchase now or after your receive your item, please correspond with the seller directly using the below contact information.  
+
+Seller Contact Information
+{{item.user.name}}
+{{item.user.email}}
+{{item.user.phonenumber|phonenumber}}
+
+And remember, your purchase is fully backed by VetCove’s buyer protection guarantee.  If there is a problem with your order once you receive it, we ask that you please contact the seller first to find a solution.  If the problem still persists, please don’t hesitate to contact us, and we will assist you in finding a resolution in accordance our buyer protection policy to ensure you’re taken care of.
+
+Thank you again for choosing VetCove!
+
+Warmest regards,
+Alex and The VetCove Team
+{% endif %} {% if item_shipped_seller %}
+Your item, {{item.name}}, has been marked as shipped, and the buyer has been notified via e-mail of the below information:
+
+{{purchased_item.seller_message}}
+
+If you have additional information you’d like to send to the buyer, please feel free to contact them directly.  Thank you again for choosing VetCove!
+
+Warmest regards,
+Alex and The VetCove Team
+{% endif %}
+{% if purchase_confirmation %}
+Thank you for your purchase on VetCove!  The seller will be in touch with you regarding any additional details, including shipment and tracking information (if applicable).  Information about your purchase is below, and further details can be found in your transaction history
+
+VetCove Transaction History
+http://www.vetcove.com/account/buyhistory
+
+Order Number: #001
+{% endif %} {% if no_payment %}
+Thank you for selling on VetCove!  We hope you’re enjoying your experience with our service.
+
+We’re pleased to inform you that that your item has been paid for by the buyer, and payment is ready for you.  However, our records show that you do not have a payment method set up to receive payment.  To choose a preferred method of payment, please go to your VetCove account by clicking the below link.
+
+Account and Payment Preferences
+http://www.vetcove.com/account/payment
+
+VetCove cannot pay you for any sold items until a payout method is selected. You can either be paid through a direct deposit into a bank account, or we can mail a check to you. We attached the items you have sold below that have not currently been paid out.
+
+If you are having trouble entering a payout method, don't hesitate to get in contact with us.
+
+Warmest regards,
+Alex and The VetCove Team
+{% endif %} {% if payout_updated %}
+Your payout preferences on file for receiving payments have been updated in our system. No further action is required.
+
+Current Payout Method: {% if payout_method == 'check' %}Check By Mail{% else %}Bank Account Direct Deposit{% endif %}
+
+Currently, we have the following set as your default payout option:
+
+{% if payout_method == 'bank' %}
+Bank Account
+{{payout.name}}
+{{payout.bank_name}}
+{{payout.account_number}}
+{% else %}
+Check Mailing Address
+{{payout.name}}
+{{payout.address_one}}
+{% if payout.address_two %}{{payout.address_two}}{% endif %}
+{{payout.city}}, {{payout.state}} {{payout.zipcode}}
+{{payout.phonenumber|phonenumber}}
+{% endif %}
+
+If you would like to review the changes or make further modifications, feel free to use the link below. If you believe this update was the result of unauthorized access to your account, please contact us immediately.
+
+Update Payment and Payout Preferences
+http://www.vetcove.com/account/payment
+
+Thank you again for choosing VetCove!
+
+Warmest regards,
+Alex and The VetCove Team
+{% endif %} {% if payout_check_sent %}
+Thank you for selling on VetCove!  We hope you’re enjoying your experience with our service.
+
+We’re pleased to inform you that the check from your recent transaction(s) is in the mail and on its way to you.  The details are attached below.
+Check Mailing Address
+{{check_obj.address.name}}
+{{check_obj.address_one}}
+{% if check_obj.address.address_two %}{{check_obj.address.address_two}}{% endif %}
+{{check_obj.address.city}}, {{check_obj.address.state}} {{check_obj.address.zipcode}}
+{{check_obj.address.phonenumber|phonenumber}}
+
+Warmest regards,
+Alex and The VetCove Team
+{% endif %} {% if payout_bank_sent %}
+Thank you for selling on VetCove!  We hope you’re enjoying your experience with our service.
+
+We’re pleased to inform you that that your item has been paid for by the buyer, and instant payment is on its way to you in the form of a bank transfer. Please allow up to three business days for the money to appear in your account. Details of the transaction are below:
+
+Bank Account Information
+{{bank_obj.name}}
+{{bank_obj.bank_name}}
+{{bank_obj.account_number}}
+
+Warmest regards,
+Alex and The VetCove Team
+{% endif %} {% if payout_failed %}
+We were unable to credit your bank account for the sold items below. Please check your bank account below and double check that all your information is correct. You can update your payout information by following the link below 
+
+Update Payment and Payout Preferences
+http://www.vetcove.com/account/payment
+
+Bank Account Information
+{{bank_obj.name}}
+{{bank_obj.bank_name}}
+{{bank_obj.account_number}}
+
+If you are sure the information is correct and it is indeed a valid bank account,
+you should get in contact with us immediately so we can resolve the issue.
+
+Warmest regards,
+Alex and The VetCove Team
+{% endif %} {% if purchase_confirmation %}
+
+Shipping Address
+{{shipping_address.name}}
+{{shipping_address.address_one}}
+{% if shipping_address.address_two %}{{shipping_address.address_two}}{% endif %}
+{{shipping_address.city}}, {{shipping_address.state}} {{shipping_address.zipcode}}
+{{shipping_address.phonenumber|phonenumber}}
+
+Payment Method
+{% if checkout.payment_method == 'bank' %}
+Bank Account
+{{payment.name}}
+{{payment.bank_name}}
+{{payment.account_number}}
+{% elif checkout.payment_method == 'card' %}
+Credit / Debit Card
+{{payment.brand}}
+********{{payment.last_four}}
+Expires: {{payment.expiration_month}}/{{payment.expiration_year}}	
+{% endif %}
+{% endif %}
+
+{% for pi in purchased_items %}
+*****{{pi.cartitem.item.name}}******
+
+View Item on VetCove:
+http://www.vetcove.com/item/{{pi.cartitem.item.id}}/details{{pi.cartitem.item.name}}
+
+Sold by {{pi.cartitem.item.user.company}} ({{pi.cartitem.item.user.email}})
+Quantity: {{pi.cartitem.quantity}} {% if pi.cartitem.quantity > 1 %}(at {{pi.cartitem.item.price|dollars}} each){% endif %}
+Total Price: {{pi.total|dollars}}
+{% endfor %}
+{% if totals %}
+{% if purchase_confirmation %}
+Total Amount: {{checkout.total|dollars}}
+{% elif pay_total %}
+Sales Total: {{pay_subtotal|dollars}}
+VetCove Commission: {{commission|dollars}}
+3% Credit Card Processing Fee: {{cc_fee|dollars}}
+Total Payment: {{pay_total|dollars}}
+{% endif %}
+
+Thank for you using VetCove. We hope you enjoyed the experience. If you have
+any comments or ideas for ways we can improve our service, we would love to hear about them!
+Drop us an email at ideas@vetcove.com
+{% endif %}
+
+===============
+
+We hope you enjoyed receiving this message. If you would like to change your email preferences, you can update your preferences at http://www.vetcove.com/account/usersettings
+
+Copyright 2014 VetCove, All rights reserved.

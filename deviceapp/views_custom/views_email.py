@@ -13,16 +13,19 @@ from django.conf import settings
 from django.core.mail import EmailMultiAlternatives
 from django.template import Context
 from django.template.loader import render_to_string
+import random
+import string
 
 #### Renders and Sends the Email ##########
 def render_and_send_email(template_data,subject,receiver):
 	try:
 		plaintext_context = Context(autoescape=False) # HTML escaping not appropriate in plaintext
-		text_body = render_to_string("email_templates/test_plain.txt", template_data, plaintext_context)
+		text_body = render_to_string("email_templates/email_template.txt", template_data, plaintext_context)
 		html_body = render_to_string("email_templates/email_template.html", template_data)
 		msg = EmailMultiAlternatives(subject=subject, from_email="mhkates@gmail.com",to=[receiver], body=text_body)
 		msg.attach_alternative(html_body, "text/html")
 		msg.send()
+		print msg
 		return 201
 	except Exception,e:
 		print e
@@ -37,7 +40,7 @@ def composeEmailWelcome(request,basicuser):
 		'email_name':basicuser.name
 	}
 	subject = "Welcome to VetCove!"
-	email = render_and_send_email(template_data,subject,'mkates@mit.edu')
+	email = render_and_send_email(template_data,subject,basicuser.email)
 	return email
 	
 #### Partner Verification Program Confirmation #####
@@ -46,10 +49,10 @@ def composeEmailPVP(request,basicuser):
 		'pvp':True,
 		'email_title':"PVP",
 		'email_teaser':'NEEDS TO BE FINISHED',
-		'email_name':'Alex Kates'
+		'email_name':basicuser.name
 	}
 	subject = "You're VetCove Verified!"
-	email = render_and_send_email(template_data,subject,'mkates@mit.edu')
+	email = render_and_send_email(template_data,subject,basicuser.email)
 	return email
 	
 #### Confirm Listing Was Posted ######
@@ -62,7 +65,7 @@ def composeEmailListingConfirmation(request,basicuser,item):
 		'email_name':basicuser.name
 	}
 	subject = "Your VetCove listing is now live for "+item.name
-	email = render_and_send_email(template_data,subject,'mkates@mit.edu')
+	email = render_and_send_email(template_data,subject,basicuser.email)
 	return email	
 
 #### A seller has asked you a new question ######
@@ -72,10 +75,10 @@ def composeEmailNewQuestion(request,basicuser,question):
 		'question':question,
 		'email_title':"New Question",
 		'email_teaser':'NEEDS TO BE FINISHED',
-		'email_name':'Alex Kates'
+		'email_name':basicuser.name
 	}
 	subject = "New Question from a buyer on your item: "+question.item.name
-	email = render_and_send_email(template_data,subject,'mkates@mit.edu')
+	email = render_and_send_email(template_data,subject,basicuser.email)
 	return email	
 
 #### When someone fills out the contact message ######
@@ -85,38 +88,48 @@ def composeEmailContactMessage_Seller(request,basicuser,contact_message):
 		'contact_message':contact_message,
 		'email_title':"New Contact Request",
 		'email_teaser':'NEEDS TO BE FINISHED',
-		'email_name':'Alex Kates'
+		'email_name':basicuser.name
 	}
 	subject = "A Vetcove buyer wants to schedule a viewing of your "+contact_message.item.name
-	email = render_and_send_email(template_data,subject,'mkates@mit.edu')
+	email = render_and_send_email(template_data,subject,basicuser.email)
 	return email	
 
-
 #### Post contact message, follow up for Seller ######
-def composeEmailContactMessageFollowUp_Seller(request,basicuser):
-	return
+def composeEmailContactMessageFollowUp_Seller(contact_message,token):
+	template_data = {
+		'selling_reminder':True,
+		'temp_base':"http://127.0.0.1:5000",
+		'contact_message':contact_message,
+		'token': token,
+		'email_title':"Contact Message Follow Up",
+		'email_teaser':'NEEDS TO BE FINISHED',
+		'email_name':contact_message.item.user.name
+	}
+	subject = "How did it go? Were you able to sell: "+contact_message.item.name
+	email = render_and_send_email(template_data,subject,contact_message.item.user.email)
+	return email
+		
 #### Post contact message, follow up for Seller ######
 def composeEmailContactMessageFollowUp_Buyer(request,basicuser):
 	return
 	
 #### Receipt for commission charged on an item ######
-def composeEmailCommissionCharged(request,basicuser):
+def composeEmailCommissionCharged(request,basicuser,commission_obj):
 	commission_obj = Commission.objects.get(id=1)
 	template_data = {
 		'commission_charged':True,
 		'commission_obj':commission_obj,
 		'email_title':"Commission Payment Confirmation",
 		'email_teaser':'NEEDS TO BE FINISHED',
-		'email_name':'Alex Kates'
+		'email_name':basicuser.name
 	}
 	subject = "Your receipt from VetCove"
-	email = render_and_send_email(template_data,subject,'mkates@mit.edu')
+	email = render_and_send_email(template_data,subject,basicuser.email)
 	return email	
 
 	
 #### Confirmation Item Sold to Seller ######
-def composeEmailItemSold_Seller(request,basicuser):
-	purchased_item = PurchasedItem.objects.get(id=1)
+def composeEmailItemSold_Seller(request,basicuser,purchased_item):
 	item =  purchased_item.cartitem.item
 	template_data = {
 		'item_sold_seller':True,
@@ -124,17 +137,16 @@ def composeEmailItemSold_Seller(request,basicuser):
 		'item':item,
 		'email_title':"Commission Payment Confirmation",
 		'email_teaser':'NEEDS TO BE FINISHED',
-		'email_name':'Alex Kates'
+		'email_name':basicuser.name
 	}
 	subject = "Your VetCove item sold! "+purchased_item.cartitem.item.name
-	email = render_and_send_email(template_data,subject,'mkates@mit.edu')
+	email = render_and_send_email(template_data,subject,basicuser.email)
 	return email	
 
 
 ##### Confirmation Item Purchased to Buyer ######
-def composeEmailItemPurchased_Buyer(request,basicuser):
+def composeEmailItemPurchased_Buyer(request,basicuser,checkout):
 	bu = request.user.basicuser
-	checkout = Checkout.objects.get(id=1)
 	purchased_items = checkout.purchaseditem_set.all()
 	shipping_address = checkout.shipping_address
 	template_data = {
@@ -146,15 +158,14 @@ def composeEmailItemPurchased_Buyer(request,basicuser):
 		'payment':checkout.getpayment,
 		'email_title':"Commission Payment Confirmation",
 		'email_teaser':'NEEDS TO BE FINISHED',
-		'email_name':'Alex Kates'
+		'email_name':basicuser.name
 	}
 	subject = "Purchase Receipt from VetCove"
-	email = render_and_send_email(template_data,subject,'mkates@mit.edu')
+	email = render_and_send_email(template_data,subject,'johnsonb@mit.edu')
 	return email	
 
 #### Item has shipped - to Buyer ######
-def composeEmailItemShipped_Buyer(request,basicuser):
-	purchased_item = PurchasedItem.objects.get(id=1)
+def composeEmailItemShipped_Buyer(request,basicuser,purchased_item):
 	item =  purchased_item.cartitem.item
 	template_data = {
 		'item_shipped_buyer':True,
@@ -162,16 +173,15 @@ def composeEmailItemShipped_Buyer(request,basicuser):
 		'item':item,
 		'email_title':"Item Shipped",
 		'email_teaser':'NEEDS TO BE FINISHED',
-		'email_name':'Alex Kates'
+		'email_name':basicuser.name
 	}
 	subject = "Your VetCove purchase has shipped: "+item.name
-	email = render_and_send_email(template_data,subject,'mkates@mit.edu')
+	email = render_and_send_email(template_data,subject,basicuser.email)
 	return email	
 
 
 #### Confirmation Item Shipped to Seller ######
-def composeEmailItemShipped_Seller(request,basicuser):
-	purchased_item = PurchasedItem.objects.get(id=1)
+def composeEmailItemShipped_Seller(request,basicuser,purchased_item):
 	item =  purchased_item.cartitem.item
 	template_data = {
 		'item_shipped_seller':True,
@@ -179,15 +189,14 @@ def composeEmailItemShipped_Seller(request,basicuser):
 		'item':item,
 		'email_title':"Item Shipped",
 		'email_teaser':'NEEDS TO BE FINISHED',
-		'email_name':'Alex Kates'
+		'email_name':basicuser.name
 	}
 	subject = "Your VetCove shipping information for "+item.name+" has been upated"
-	email = render_and_send_email(template_data,subject,'mkates@mit.edu')
+	email = render_and_send_email(template_data,subject,basicuser.email)
 	return email	
 
 #### Confirmation check has been mailed ######
-def composeEmailPayoutCheckSent(request,basicuser):
-	check_obj = CheckPayout.objects.get(id=1)
+def composeEmailPayoutCheckSent(basicuser,check_obj):
 	purchased_items = check_obj.purchaseditem_set.all()
 	payout_subtotal = 0
 	for ui in purchased_items:
@@ -206,15 +215,14 @@ def composeEmailPayoutCheckSent(request,basicuser):
 		'commission':commission,
 		'email_title':"Check Payment Sent",
 		'email_teaser':'NEEDS TO BE FINISHED',
-		'email_name':'Alex Kates'
+		'email_name':basicuser.name
 	}
 	subject = "Payment from VetCove is on its way to you"
-	email = render_and_send_email(template_data,subject,'mkates@mit.edu')
+	email = render_and_send_email(template_data,subject,basicuser.email)
 	return email	
 
 #### Confirmation check has been mailed ######
-def composeEmailPayoutBankSent(request,basicuser):
-	bank_obj = BankPayout.objects.get(id=1)
+def composeEmailPayoutBankSent(basicuser,bank_obj):
 	purchased_items = bank_obj.purchaseditem_set.all()
 	payout_subtotal = 0
 	for ui in purchased_items:
@@ -223,25 +231,25 @@ def composeEmailPayoutBankSent(request,basicuser):
 	cc_fee = int(.03*payout_subtotal*100)/float(100)
 	payout_total = payout_subtotal-commission-cc_fee
 	template_data = {
-		'payout_check_sent':True,
+		'payout_bank_sent':True,
 		'purchased_items': purchased_items,
-		'check_obj':check_obj,
+		'bank_obj':bank_obj,
 		'totals':True,
 		'cc_fee':cc_fee,
 		'pay_subtotal':payout_subtotal,
 		'pay_total':payout_total,
 		'commission':commission,
-		'email_title':"Check Payment Sent",
+		'email_title':"Bank Account Payout Sent",
 		'email_teaser':'NEEDS TO BE FINISHED',
-		'email_name':'Alex Kates'
+		'email_name':basicuser.name
 	}
 	subject = "Payment from VetCove is on its way to you"
-	email = render_and_send_email(template_data,subject,'mkates@mit.edu')
+	email = render_and_send_email(template_data,subject,basicuser.email)
 	return email	
 
 #### Alert the seller they have no payment method set ######
-def composeEmailNoPayment(request,basicuser):
-	bu = request.user.basicuser
+def composeEmailNoPayment(basicuser):
+	bu = basicuser
 	unpaid_items = bu.purchaseditemseller.filter(paid_out=False)
 	payout_subtotal = 0
 	for ui in unpaid_items:
@@ -262,27 +270,56 @@ def composeEmailNoPayment(request,basicuser):
 		'email_name':bu.email
 	}
 	subject = "Attention required on VetCove to receive payment"
-	email = render_and_send_email(template_data,subject,'mkates@mit.edu')
+	email = render_and_send_email(template_data,subject,basicuser.email)
 	return email	
 
+def composeEmailPayoutFailed(basicuser,bank_obj):
+	purchased_items = bank_obj.purchaseditem_set.all()
+	payout_subtotal = 0
+	for ui in purchased_items:
+		payout_subtotal += ui.total
+	commission = int(.09*payout_subtotal*100)/float(100)
+	cc_fee = int(.03*payout_subtotal*100)/float(100)
+	payout_total = payout_subtotal-commission-cc_fee
+	template_data = {
+		'payout_failed':True,
+		'purchased_items': purchased_items,
+		'bank_obj':bank_obj,
+		'totals':True,
+		'cc_fee':cc_fee,
+		'pay_subtotal':payout_subtotal,
+		'pay_total':payout_total,
+		'commission':commission,
+		'email_title':"Bank Account Payout Failed",
+		'email_teaser':'NEEDS TO BE FINISHED',
+		'email_name':basicuser.name
+	}
+	subject = "Attention required on VetCove to receive payment"
+	email = render_and_send_email(template_data,subject,basicuser.email)
+	return email	
 
 #### User updated their payment information ######
-def composeEmailPayoutUpdated(request,basicuser):
-	bu = request.user.basicuser
+def composeEmailPayoutUpdated(basicuser):
+	bu = basicuser
 	if bu.payout_method == 'check':
 		payout = bu.check_address
 	elif bu.payout_method == 'bank':
 		payout = bu.default_payout_ba
 	else:
-		return composeEmailNoPayment(request,basicuser)
+		return composeEmailNoPayment(basicuser)
 	template_data = {
 		'payout_updated':True,
 		'payout_method':bu.payout_method,
 		'payout':payout,
 		'email_title':"Updated Payout Method",
 		'email_teaser':'NEEDS TO BE FINISHED',
-		'email_name':'Alex Kates'
+		'email_name':basicuser.name
 	}
 	subject = "Confirmation of payment preferences update"
-	email = render_and_send_email(template_data,subject,'mkates@mit.edu')
+	email = render_and_send_email(template_data,subject,basicuser.email)
 	return email	
+
+
+
+
+

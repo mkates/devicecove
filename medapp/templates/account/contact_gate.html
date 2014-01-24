@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 {% block headertitle %}<title>VetCove | Interested Buyers</title>{% endblock%}
-
+{% load dollars %}
 {% block headercss %}
 <link href="{{STATIC_URL}}css/cc_form.css" rel="stylesheet" type="text/css" />
 <link href="{{STATIC_URL}}css/payment_methods.css" rel="stylesheet" type="text/css" />
@@ -165,10 +165,10 @@ $(document).ready(function() {
 			<div class="col-md-4 col-sm-4 col-xs-12 total-row">
 				<div class="gateway-row">
 					<h5>Refundable Commission Fee</h5>
-					<p class="subheader">*The commission fee is 9% of the list price (${{item.price|floatformat:"2"}})
+					<p class="subheader">*The commission fee is 9% of the list price ({{item.price|dollars}})
 					charged once and fully refundable if the item is not sold</p>
-					<p>Commission Fee ( 9% )<span>${{commission|floatformat:"2"}}</span></p>
-					<p class="commission-total">Total:<span>${{commission|floatformat:"2"}}</span></p>
+					<p>Commission Fee ( 9% )<span>{{commission|dollars}}</span></p>
+					<p class="commission-total">Total:<span>{{commission|dollars}}</span></p>
 				</div>
 			</div>
 

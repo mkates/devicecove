@@ -4,7 +4,7 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>{{email_title}}</title>
         <style type="text/css">
-			/* /\/\/\/\/\/\/\/\/ CLIENT-SPECIFIC STYLES /\/\/\/\/\/\/\/\/ */
+			/* ///////// CLIENT-SPECIFIC STYLES ///////// */
 			#outlook a{padding:0;} /* Force Outlook to provide a "view in browser" message */
 			.ReadMsgBody{width:100%;} .ExternalClass{width:100%;} /* Force Hotmail to display emails at full width */
 			.ExternalClass, .ExternalClass p, .ExternalClass span, .ExternalClass font, .ExternalClass td, .ExternalClass div {line-height: 100%;} /* Force Hotmail to display normal line spacing */
@@ -12,13 +12,13 @@
 			table, td{mso-table-lspace:0pt; mso-table-rspace:0pt;} /* Remove spacing between tables in Outlook 2007 and up */
 			img{-ms-interpolation-mode:bicubic;} /* Allow smoother rendering of resized image in Internet Explorer */
 
-			/* /\/\/\/\/\/\/\/\/ RESET STYLES /\/\/\/\/\/\/\/\/ */
+			/* ///////// RESET STYLES ///////// */
 			body{margin:0; padding:0;}
 			img{border:0; height:auto; line-height:100%; outline:none; text-decoration:none;}
 			table{border-collapse:collapse !important;}
 			body, #bodyTable, #bodyCell{height:100% !important; margin:0; padding:0; width:100% !important;}
 
-			/* /\/\/\/\/\/\/\/\/ TEMPLATE STYLES /\/\/\/\/\/\/\/\/ */
+			/* ///////// TEMPLATE STYLES ///////// */
 
 			/* ========== Page Styles ========== */
 
@@ -469,17 +469,17 @@
 				/*@editable*/ text-decoration:underline;
 			}
 
-			/* /\/\/\/\/\/\/\/\/ MOBILE STYLES /\/\/\/\/\/\/\/\/ */
+			/* ///////// MOBILE STYLES ///////// */
 
             @media only screen and (max-width: 480px){
-				/* /\/\/\/\/\/\/ CLIENT-SPECIFIC MOBILE STYLES /\/\/\/\/\/\/ */
+				/* /////// CLIENT-SPECIFIC MOBILE STYLES /////// */
 				body, table, td, p, a, li, blockquote{-webkit-text-size-adjust:none !important;} /* Prevent Webkit platforms from changing default text sizes */
                 body{width:100% !important; min-width:100% !important;} /* Prevent iOS Mail from adding padding to the body */
 
-				/* /\/\/\/\/\/\/ MOBILE RESET STYLES /\/\/\/\/\/\/ */
+				/* /////// MOBILE RESET STYLES /////// */
 				#bodyCell{padding:10px !important;}
 
-				/* /\/\/\/\/\/\/ MOBILE TEMPLATE STYLES /\/\/\/\/\/\/ */
+				/* /////// MOBILE TEMPLATE STYLES /////// */
 
 				/* ======== Page Styles ======== */
 
@@ -636,7 +636,7 @@
     </head>
     <body leftmargin="0" marginwidth="0" topmargin="0" marginheight="0" offset="0" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;margin: 0;padding: 0;background-color: #DEE0E2;height: 100%;width: 100%;">
     	{% load phonenumber %}
-    	{% load humanize %}
+    	{% load dollars %}
     	<center>
         	<table align="center" border="0" cellpadding="0" cellspacing="0" height="100%" width="100%" id="bodyTable" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;mso-table-lspace: 0pt;mso-table-rspace: 0pt;margin: 0;padding: 0;background-color: #DEE0E2;border-collapse: collapse;height: 100%;width: 100%;">
             	<tr>
@@ -692,7 +692,7 @@
 												</span></p>
                                             	<p style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 140%;">If you have any questions at all not included in our FAQ, please don't hesitate to contact us using our website form or by replying to this e-mail. We look forward to your participation as an active member of the VetCove community!</p>
 												<p style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 140%;">Warmest regards,</p>
-												<p style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 140%;">Alex, CEO VetCove</p>
+												<p style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 140%;">Alex and The VetCove Team</p>
                           					{% endif %}
                           	
                           					{% if pvp %}
@@ -706,7 +706,7 @@
 												</span></p>
                                             	<p style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 140%;">If you have any questions at all not included in our FAQ, please don't hesitate to contact us using our website form or by replying to this e-mail. We look forward to your participation as an active member of the VetCove community!</p>
 												<p style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 140%;">Warmest regards,</p>
-												<p style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 140%;">Alex, CEO VetCove</p>
+												<p style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 140%;">Alex and The VetCove Team</p>
                           					{% endif %}
  
                           					{% if listing_confirmation %}
@@ -725,7 +725,7 @@
                                             	{% endif %}
                                             	<p style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 140%;">Thank you again for listing with VetCove!</p>
 												<p style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 140%;">Warmest regards,</p>
-												<p style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 140%;">Alex, CEO VetCove</p>
+												<p style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 140%;">Alex and The VetCove Team</p>
                           					{% endif %}
                        	
                           	
@@ -739,7 +739,7 @@
 												</span></p>
                                             	<p style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 140%;">Best of luck selling your item. Thank you again for choosing VetCove!</p>
 												<p style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 140%;">Warmest regards,</p>
-												<p style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 140%;">Alex, CEO VetCove</p>
+												<p style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 140%;">Alex and The VetCove Team</p>
                           					{% endif %}
         	
                           					{% if contactmessage_seller %}
@@ -752,7 +752,7 @@
                                             	<p style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 140%;">Please note that in order to correspond directly with prospective buyers and complete transactions outside of the VetCove website, we require all sellers to provide payment information in the form of a credit card or bank account.  You will only be charged commission if your item sells.</p>
 												<p style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 140%;">Responding quickly could help you close the sale. Best of luck selling your item.  Thank you again for choosing VetCove!</p>
 												<p style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 140%;">Warmest regards,</p>
-												<p style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 140%;">Alex, CEO VetCove</p>
+												<p style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 140%;">Alex and The VetCove Team</p>
                           					{% endif %}
 
 											{% if commission_charged %}
@@ -760,10 +760,10 @@
                                                 <p style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 140%;">Thank you for selling on VetCove!  We’re so pleased that there are buyers interested in viewing {{commission_obj.item.name}}.  Per the terms of our selling contract, your chosen payment method on file has been charged the VetCove selling fees associated with this transaction.</p>
                                                 <h4 style="display: block;font-family: Helvetica;font-size: 14px;font-weight: 800;line-height: 100%;letter-spacing: normal;margin-top: 0;margin-right: 0;margin-bottom: 10px;margin-left: 0;text-align: left;color: #444;">Product Information</h4>
                                                 <p class="thin" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 130%;margin: 0;padding: 0;">Item Number: {{commission_obj.item.id}}</p>
-                                                <p class="thin" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 130%;margin: 0;padding: 0;">Listing Price: ${{commission_obj.item.price|floatformat:"2"|intcomma}}</p>
+                                                <p class="thin" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 130%;margin: 0;padding: 0;">Listing Price: {{commission_obj.item.price|dollars}}</p>
                                                 <p class="thin" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 130%;margin: 0;padding: 0;">Selling Fees: 9% Commission</p>
                                                 <p class="thin" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 130%;margin: 0;padding: 0;">Transaction ID: #0000{{commission_obj.id}}</p>
-                                                <p class="thin" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 130%;margin: 0;padding: 0;">Amount Charged: ${{commission_obj.amount|floatformat:"2"|intcomma}}</p>
+                                                <p class="thin" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 130%;margin: 0;padding: 0;">Amount Charged: {{commission_obj.amount|dollars}}</p>
                                                 <br>
                                                 <h4 style="display: block;font-family: Helvetica;font-size: 14px;font-weight: 800;line-height: 100%;letter-spacing: normal;margin-top: 0;margin-right: 0;margin-bottom: 10px;margin-left: 0;text-align: left;color: #444;">Payment Method</h4>
                                                 	{% if commission_obj.payment_method == 'bank' %}
@@ -783,33 +783,36 @@
 												<p style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 140%;">Best of luck selling your item!  If you are able to collect cash or check payment directly from a buyer, no further action is required on your part, and no further fees will be assessed.  You will be able to instantly receive direct contacts from prospective buyers for this item going forward without restriction.</p>
                                             	<p style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 140%;">If you are unable to sell your item after a period of 90 days, VetCove will refund you 100% of all selling fees charged today, less any nomial credit card or bank transfer fees we incur to complete the transaction.  If you have any questions at all, please don’t hesitate to get in contact with us.</p>
 												<p style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 140%;">Warmest regards,</p>
-												<p style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 140%;">Alex, CEO VetCove</p>
+												<p style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 140%;">Alex and The VetCove Team</p>
                           					{% endif %}
 
                           					{% if selling_reminder %}
                           						<p style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 140%;">Dear {{email_name}},</p>
-                                                <p style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 140%;">Two weeks ago, we sent you a buyer's contact information that was interested in purchasing your item: {{selling_reminder.item.name}}.  That buyer's name and business information is below:</p>
+                                                <p style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 140%;">Two weeks ago, we sent you a buyer's contact information that was interested in purchasing your item: {{item.name}}.  That buyer's name and business information is below:</p>
                                                 <h4 style="display: block;font-family: Helvetica;font-size: 14px;font-weight: 800;line-height: 100%;letter-spacing: normal;margin-top: 0;margin-right: 0;margin-bottom: 10px;margin-left: 0;text-align: left;color: #444;">Buyer Address</h4>
-                                                <p style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 140%;">{{selling_reminder.buyer.name}}</p>
-                                                <p style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 140%;">Contact Date: {{selling_reminder.date_sent}}</p>
-                                                {% if selling_reminder.buyer.email %}<p style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 140%;">Email: {{selling_reminder.email}}</p>{% endif %}
-                                                {% if selling_reminder.buyer.phone %}<p style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 140%;">Phone: {{selling_reminder.buyer.phone|phonenumber}}</p>{% endif %}
-                                                <p style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 140%;">{{selling_reminder.message}}</p>
+                                                <p style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 140%;">{{contact_message.buyer.name}}</p>
+                                                <p style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 140%;">Contact Date: {{contact_message.date_sent}}</p>
+                                                {% if contact_message.buyer.email %}<p style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 140%;">Email: {{contact_message.email}}</p>{% endif %}
+                                                {% if contact_message.buyer.phone %}<p style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 140%;">Phone: {{contact_message.phone|phonenumber}}</p>{% endif %}
+                                                <p style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 140%;">{{contact_message.message}}</p>
                                             	<p style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 140%;">How did it go?  Were you able to sell the item to this buyer?</p>
-                                            	<p style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 140%;"><span>
-                                            		<a href="http://www.vetcove.com/account/listings/all" " style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;color: #167BAD;font-weight: normal;text-decoration: underline;">I sold the item to this buyer</a>
-                                            		<a href="http://www.vetcove.com/account/listings/all" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;color: #167BAD;font-weight: normal;text-decoration: underline;">I sold the item to a different buyer</a>
-                                            		<a href="http://www.vetcove.com/account/listings/all" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;color: #167BAD;font-weight: normal;text-decoration: underline;">I did not yet sell this item</a>
-												</span></p>
+                                            	<br>
+                                            	<a href="{{temp_base}}/account/updatelisting/sold/{{token}}" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;color: #167BAD;font-weight: normal;text-decoration: underline;">I sold the item to this buyer</a>
+                                            	<br>
+                                            	<a href="{{temp_base}}/account/updatelisting/differentsold/{{token}}" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;color: #167BAD;font-weight: normal;text-decoration: underline;">I sold the item to a different VetCove buyer</a>
+                                            	<br>
+                                            	<a href="{{temp_base}}/account/updatelisting/notsold/{{token}}" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;color: #167BAD;font-weight: normal;text-decoration: underline;">I sold the item outside VetCove</a>
+												<br>
                                             	<p style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 140%;">If your item sold, please remove it from the VetCove website using one one of the appropriate links above.  It is your responsibility to remove all sold items within two business days in accordance with the terms of the VetCove Seller Contract. </p>
+												<p style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 140%;">Please do not share this email with others as they will be able to mark your items as sold and the listing will no longer be visible to potential buyers.</p>
 												<p style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 140%;">Thank you again for choosing VetCove!</p>
 												<p style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 140%;">Warmest regards,</p>
-												<p style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 140%;">Alex, CEO VetCove</p>
+												<p style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 140%;">Alex and The VetCove Team</p>
                           					{% endif %}
 
                           					{% if item_sold_seller %}
                           						<p style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 140%;">Dear {{email_name}},</p>
-                                                <p style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 140%;">Congratulations!  Your item, {{item.name}}, has been sold to a buyer on VetCove, and payment has been confirmed.  You may now prepare to ship the item in accordance with the terms of your listing.  The contact information and shipping address of the buyer is below:</p>
+                                                <p style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 140%;">Congratulations! A VetCove member has purchased {%if purchased_item.quantity > 1 %}{{purchased_item.quantity}}{% endif %} of your item, {{item.name}} and payment has been confirmed.  You may now prepare to ship the item in accordance with the terms of your listing.  The contact information and shipping address of the buyer is below:</p>
                                                 <h4 style="display: block;font-family: Helvetica;font-size: 14px;font-weight: 800;line-height: 100%;letter-spacing: normal;margin-top: 0;margin-right: 0;margin-bottom: 10px;margin-left: 0;text-align: left;color: #444;">Shipping Address</h4>
                                                 <p class="thin" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 130%;margin: 0;padding: 0;">{{purchased_item.cartitem.checkout.shipping_address.name}}</p>
                                                 <p class="thin" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 130%;margin: 0;padding: 0;">{{purchased_item.cartitem.checkout.shipping_address.address_one}}</p>
@@ -828,7 +831,7 @@
 												</span></p>
 												<p style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 140%;">Thank you again for choosing VetCove!</p>
 												<p style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 140%;">Warmest regards,</p>
-												<p style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 140%;">Alex, CEO VetCove</p>
+												<p style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 140%;">Alex and The VetCove Team</p>
                           					{% endif %}
                           					
                           	
@@ -845,16 +848,16 @@
                                             	<p style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 140%;">And remember, your purchase is fully backed by VetCove’s <a href="http://www.vetcove.com/buyerprotect" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;color: #167BAD;font-weight: normal;text-decoration: underline;">buyer protection guarantee</a>.  If there is a problem with your order once you receive it, we ask that you please contact the seller first to find a solution.  If the problem still persists, please don’t hesitate to contact us, and we will assist you in finding a resolution in accordance our buyer protection policy to ensure you’re taken care of.</p>
                                             	<p style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 140%;">Thank you again for choosing VetCove!</p>
 												<p style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 140%;">Warmest regards,</p>
-												<p style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 140%;">Alex, CEO VetCove</p>
+												<p style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 140%;">Alex and The VetCove Team</p>
                           					{% endif %}
                           					
                           					{% if item_shipped_seller %}
                           						<p style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 140%;">Dear {{email_name}},</p>
-                                                <p style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 140%;">Your item, {{item.name}} has been marked as shipped, and the buyer has been notified via e-mail of the below information:</p>
+                                                <p style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 140%;">Your item, {{item.name}}, has been marked as shipped, and the buyer has been notified via e-mail of the below information:</p>
                                                 <h4 style="display: block;font-family: Helvetica;font-size: 14px;font-weight: 800;line-height: 100%;letter-spacing: normal;margin-top: 0;margin-right: 0;margin-bottom: 10px;margin-left: 0;text-align: left;color: #444;">{{purchased_item.seller_message}}</h4>
                                                 <p style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 140%;">If you have additional information you’d like to send to the buyer, please feel free to contact them directly.  Thank you again for choosing VetCove!</p>
 												<p style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 140%;">Warmest regards,</p>
-												<p style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 140%;">Alex, CEO VetCove</p>
+												<p style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 140%;">Alex and The VetCove Team</p>
                           					{% endif %}
                           					
                           					{% if purchase_confirmation %}
@@ -875,7 +878,7 @@
                           						the items you have sold below that have not currently been paid out.</p>
                                                 <p style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 140%;">If you are having trouble entering a payout method, don't hesitate to get in contact with us.</p>
                           						<p style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 140%;">Warmest regards,</p>
-												<p style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 140%;">Alex, CEO VetCove</p>
+												<p style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 140%;">Alex and The VetCove Team</p>
                           					{% endif %}
                           					
                           					{% if payout_updated %}
@@ -904,7 +907,7 @@
 												</span></p>
                                             	<p style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 140%;">Thank you again for choosing VetCove!</p>
 												<p style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 140%;">Warmest regards,</p>
-												<p style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 140%;">Alex, CEO VetCove</p>
+												<p style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 140%;">Alex and The VetCove Team</p>
                           					{% endif %}
                           					
                           					{% if payout_check_sent %}
@@ -918,7 +921,35 @@
 												<p class="thin" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 130%;margin: 0;padding: 0;">{{check_obj.address.city}}, {{check_obj.address.state}} {{check_obj.address.zipcode}}</p>
 												<p class="thin" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 130%;margin: 0;padding: 0;">{{check_obj.address.phonenumber|phonenumber}}</p>
 												<p style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 140%;">Warmest regards,</p>
-												<p style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 140%;">Alex, CEO VetCove</p>
+												<p style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 140%;">Alex and The VetCove Team</p>
+											{% endif %}
+											
+											{% if payout_bank_sent %}
+                          						<p style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 140%;">Dear {{email_name}},</p>
+												<p style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 140%;">Thank you for selling on VetCove!  We hope you’re enjoying your experience with our service.</p>
+												<p style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 140%;">We’re pleased to inform you that that your item has been paid for by the buyer, and instant payment is on its way to you in the form of a bank transfer. Please allow up to three business days for the money to appear in your account. Details of the transaction are below:</p>
+												<h5 class="thin" style="line-height: 130%;margin: 0;padding: 0;">Bank Account Information</h5>
+												<p class="thin" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 130%;margin: 0;padding: 0;">{{bank_obj.name}}</p>
+												<p class="thin" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 130%;margin: 0;padding: 0;">{{bank_obj.bank_name}}</p>
+												<p class="thin" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 130%;margin: 0;padding: 0;">{{bank_obj.account_number}}</p>
+												<p style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 140%;">Warmest regards,</p>
+												<p style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 140%;">Alex and The VetCove Team</p>
+											{% endif %}
+											
+											{% if payout_failed %}
+												<p style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 140%;">Dear {{email_name}},</p>
+												<p style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 140%;">We were unable to credit your bank account for the sold items below. Please check your bank account below and double check that all your information is correct. You can update your payout information by following the link below</p> 
+												<p style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 140%;"><span>
+                                            		<a href="http://www.vetcove.com/account/payment" " style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;color: #167BAD;font-weight: normal;text-decoration: underline;">Update Payment and Payout Preferences</a>
+												</span></p>	
+												<h5 class="thin" style="line-height: 130%;margin: 0;padding: 0;">Bank Account Information</h5>
+												<p class="thin" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 130%;margin: 0;padding: 0;">{{bank_obj.name}}</p>
+												<p class="thin" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 130%;margin: 0;padding: 0;">{{bank_obj.bank_name}}</p>
+												<p class="thin" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 130%;margin: 0;padding: 0;">{{bank_obj.account_number}}</p>
+												<p style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 140%;">If you are sure the information is correct and it is indeed a valid bank account,
+												you should get in contact with us immediately so we can resolve the issue.</p>
+												<p style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 140%;">Warmest regards,</p>
+												<p style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 140%;">Alex and The VetCove Team</p>
 											{% endif %}
                           	          		</td>
                                         </tr>
@@ -1001,7 +1032,7 @@
                                                     	<td valign="top" class="middleColumnContent" mc:edit="right_column_content" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;mso-table-lspace: 0pt;mso-table-rspace: 0pt;color: #505050;font-family: Helvetica;font-size: 13px;line-height: 150%;padding-top: 0;padding-right: 20px;padding-bottom: 20px;padding-left: 20px;text-align: left;">
                                                             <h4 style="display: block;font-family: Helvetica;font-size: 14px;font-weight: 800;line-height: 100%;letter-spacing: normal;margin-top: 0;margin-right: 0;margin-bottom: 10px;margin-left: 0;text-align: left;color: #444;"><a href="http://www.vetcove.com/item/{{pi.cartitem.item.id}}/details" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;color: #167BAD;">{{pi.cartitem.item.name}}</a></h4>
                                                             <p style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 140%;margin: 0;">Sold by {{pi.cartitem.item.user.company}} ({{pi.cartitem.item.user.email}})</p>
-                                                            <p style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 140%;margin: 0;">Quantity: {{pi.cartitem.quantity}} {% if pi.cartitem.quantity > 1 %}(at ${{pi.cartitem.item.price|floatformat:"2"|intcomma}} each){% endif %}</p>
+                                                            <p style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 140%;margin: 0;">Quantity: {{pi.cartitem.quantity}} {% if pi.cartitem.quantity > 1 %}(at {{pi.cartitem.item.price|dollars}} each){% endif %}</p>
                                                         </td>
                                                     </tr>
                                                 </table>
@@ -1010,7 +1041,7 @@
                                             	<table border="0" cellpadding="20" cellspacing="0" width="100%" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;mso-table-lspace: 0pt;mso-table-rspace: 0pt;border-collapse: collapse;">
                                                     <tr>
                                                     	<td valign="top" class="rightColumnContent" mc:edit="right_column_content" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;mso-table-lspace: 0pt;mso-table-rspace: 0pt;color: #505050;font-family: Helvetica;line-height: 150%;padding-top: 0;padding-right: 20px;padding-bottom: 20px;padding-left: 20px;text-align: right;">
-                                                            <h4 style="display: block;font-family: Helvetica;font-size: 14px;font-weight: 800;line-height: 100%;letter-spacing: normal;margin-top: 0;margin-right: 0;margin-bottom: 10px;margin-left: 0;text-align: right;color: #444;">${{pi.total|floatformat:"2"|intcomma}}</h4>
+                                                            <h4 style="display: block;font-family: Helvetica;font-size: 14px;font-weight: 800;line-height: 100%;letter-spacing: normal;margin-top: 0;margin-right: 0;margin-bottom: 10px;margin-left: 0;text-align: right;color: #444;">{{pi.total|dollars}}</h4>
                                                         </td>
                                                     </tr>
                                                 </table>
@@ -1034,12 +1065,12 @@
                                                 	<tr>
                                                     	<td class="totalColumnContent" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;mso-table-lspace: 0pt;mso-table-rspace: 0pt;padding-bottom: 0px;">
                                                     		{% if purchase_confirmation %}
-                                                    			<h4 class="totalColumnContent_total" style="display: block;font-family: Helvetica;font-size: 14px;font-weight: 800;line-height: 100%;letter-spacing: normal;margin-top: 10px;margin-right: 0;margin-bottom: 5px;margin-left: 0;text-align: right;padding-bottom: 0;color: #444;">Total Amount: <span class="price" style="font-weight: 800;width: 110px;display: inline-block;">${{checkout.total|floatformat:"2"|intcomma}}</span></h4>
+                                                    			<h4 class="totalColumnContent_total" style="display: block;font-family: Helvetica;font-size: 14px;font-weight: 800;line-height: 100%;letter-spacing: normal;margin-top: 10px;margin-right: 0;margin-bottom: 5px;margin-left: 0;text-align: right;padding-bottom: 0;color: #444;">Total Amount: <span class="price" style="font-weight: 800;width: 110px;display: inline-block;">{{checkout.total|dollars}}</span></h4>
                                                     		{% elif pay_total %}
-                                                    			<h4 style="display: block;font-family: Helvetica;font-size: 14px;font-weight: 200;line-height: 100%;letter-spacing: normal;margin-top: 0;margin-right: 0;margin-bottom: 5px;margin-left: 0;text-align: right;padding-bottom: 0;color: #444;">Sales Total: <span class="price" style="font-weight: 200;width: 110px;display: inline-block;">${{pay_subtotal|floatformat:"2"|intcomma}}</span></h4>
-                                                    			<h4 style="display: block;font-family: Helvetica;font-size: 14px;font-weight: 200;line-height: 100%;letter-spacing: normal;margin-top: 0;margin-right: 0;margin-bottom: 5px;margin-left: 0;text-align: right;padding-bottom: 0;color: #444;">9% <span class="hide-mobile">VetCove</span> Commission: <span class="price" style="font-weight: 200;width: 110px;display: inline-block;">-${{commission|floatformat:"2"|intcomma}}</span></h4>
-                                                    			<h4 style="display: block;font-family: Helvetica;font-size: 14px;font-weight: 200;line-height: 100%;letter-spacing: normal;margin-top: 0;margin-right: 0;margin-bottom: 5px;margin-left: 0;text-align: right;padding-bottom: 0;color: #444;">3% Credit Card <span class="hide-mobile">Processing</span> Fee: <span class="price" style="font-weight: 200;width: 110px;display: inline-block;">-${{cc_fee|floatformat:"2"|intcomma}}</span></h4>
-                                                    			<h4 class="totalColumnContent_total" style="display: block;font-family: Helvetica;font-size: 14px;font-weight: 800;line-height: 100%;letter-spacing: normal;margin-top: 10px;margin-right: 0;margin-bottom: 5px;margin-left: 0;text-align: right;padding-bottom: 0;color: #444;">Total Credits: <span class="price" style="font-weight: 800;width: 110px;display: inline-block;">${{pay_total|floatformat:"2"|intcomma}}</span></h4>
+                                                    			<h4 style="display: block;font-family: Helvetica;font-size: 14px;font-weight: 200;line-height: 100%;letter-spacing: normal;margin-top: 0;margin-right: 0;margin-bottom: 5px;margin-left: 0;text-align: right;padding-bottom: 0;color: #444;">Sales Total: <span class="price" style="font-weight: 200;width: 110px;display: inline-block;">{{pay_subtotal|dollars}}</span></h4>
+                                                    			<h4 style="display: block;font-family: Helvetica;font-size: 14px;font-weight: 200;line-height: 100%;letter-spacing: normal;margin-top: 0;margin-right: 0;margin-bottom: 5px;margin-left: 0;text-align: right;padding-bottom: 0;color: #444;">9% <span class="hide-mobile">VetCove</span> Commission: <span class="price" style="font-weight: 200;width: 110px;display: inline-block;">-{{commission|dollars}}</span></h4>
+                                                    			<h4 style="display: block;font-family: Helvetica;font-size: 14px;font-weight: 200;line-height: 100%;letter-spacing: normal;margin-top: 0;margin-right: 0;margin-bottom: 5px;margin-left: 0;text-align: right;padding-bottom: 0;color: #444;">3% Credit Card <span class="hide-mobile">Processing</span> Fee: <span class="price" style="font-weight: 200;width: 110px;display: inline-block;">-{{cc_fee|dollars}}</span></h4>
+                                                    			<h4 class="totalColumnContent_total" style="display: block;font-family: Helvetica;font-size: 14px;font-weight: 800;line-height: 100%;letter-spacing: normal;margin-top: 10px;margin-right: 0;margin-bottom: 5px;margin-left: 0;text-align: right;padding-bottom: 0;color: #444;">Total Credits: <span class="price" style="font-weight: 800;width: 110px;display: inline-block;">{{pay_total|dollars}}</span></h4>
                                                     		{% endif %}
                                                         </td>
                                                     </tr>

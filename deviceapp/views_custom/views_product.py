@@ -3,6 +3,7 @@ from django.template.loader import render_to_string
 from deviceapp.models import *
 import views_checkout as checkoutview
 import views_email as email_view
+import views_general as general_view
 from django.template import RequestContext, Context, loader
 from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth import authenticate, login, logout
@@ -51,21 +52,21 @@ def listproduct(request,subcategory):
  						liststatus = 'incomplete',
  						liststage = 0,
  						savedcount = 0)
- 		newitem.save();
-		return HttpResponseRedirect('/list/describe/'+str(newitem.id));
-	return HttpResponse(request.method);
+ 		newitem.save()
+		return HttpResponseRedirect('/list/describe/'+str(newitem.id))
+	return HttpResponse(request.method)
 
 #Item Description
 @login_required
 def listitemdescribe(request,itemid):
 	if itemOwner(request,itemid):
-		item = Item.objects.get(id=itemid);
+		item = Item.objects.get(id=itemid)
 		item.liststage = max(1,item.liststage)
 		item.save()
-		dict = {'item':item,'categories':Category.objects.all(),'manufacturers':Manufacturer.objects.all(),'range':reversed(range(1980,2015))};
-		categories = Category.objects.all();
+		dict = {'item':item,'categories':Category.objects.all(),'manufacturers':Manufacturer.objects.all(),'range':reversed(range(1980,2015))}
+		categories = Category.objects.all()
 		return render_to_response('item/item_describe.html',dict,context_instance=RequestContext(request))
-	return HttpResponseRedirect('/listintro');
+	return HttpResponseRedirect('/listintro')
 
 @login_required
 def savedescribe(request,itemid):
@@ -97,13 +98,13 @@ def savedescribe(request,itemid):
 @login_required
 def listitemdetails(request,itemid):
 	if itemOwner(request,itemid):
-		item = Item.objects.get(id=itemid);
+		item = Item.objects.get(id=itemid)
 		item.liststage = max(2,item.liststage)
 		item.save()
-		dict = {'item':item};
-		categories = Category.objects.all();
+		dict = {'item':item}
+		categories = Category.objects.all()
 		return render_to_response('item/item_details.html',dict,context_instance=RequestContext(request))
-	return HttpResponseRedirect('/listintro');
+	return HttpResponseRedirect('/listintro')
 
 
 @login_required
@@ -128,22 +129,22 @@ def savedetails(request,itemid):
 @login_required
 def listitemphotos(request,itemid):
 	if itemOwner(request,itemid):
-		item = Item.objects.get(id=itemid);
+		item = Item.objects.get(id=itemid)
 		item.liststage = max(3,item.liststage)
 		item.save()
-		dict = {'item':item};
-		categories = Category.objects.all();
+		dict = {'item':item}
+		categories = Category.objects.all()
 		return render_to_response('item/item_photos.html',dict,context_instance=RequestContext(request))
-	return HttpResponseRedirect('/listintro');
+	return HttpResponseRedirect('/listintro')
 	
 #Delete an image by dereferencing it from an item
 #The image still remains in the databse
 @login_required
 def deleteimage(request):
 	if request.method == "POST":
-		imageid = request.POST['imageid'];
-		itemimg = ItemImage.objects.get(id=imageid);
-		bu = BasicUser.objects.get(user = request.user);
+		imageid = request.POST['imageid']
+		itemimg = ItemImage.objects.get(id=imageid)
+		bu = BasicUser.objects.get(user = request.user)
 		if itemimg.item.user == bu:
 			if itemimg.item.mainimage.id == itemimg.id:
 				itemimg.item.mainimage = None
@@ -157,9 +158,9 @@ def deleteimage(request):
 @login_required
 def setmainimage(request):
 	if request.method == "POST":
-		imageid = request.POST['mainimageid'];
-		img = ItemImage.objects.get(id=imageid);
-		bu = BasicUser.objects.get(user = request.user);
+		imageid = request.POST['mainimageid']
+		img = ItemImage.objects.get(id=imageid)
+		bu = BasicUser.objects.get(user = request.user)
 		if img.item.user == bu:
 			img.item.mainimage = img
 			img.item.save()
@@ -192,13 +193,13 @@ def imageupload(request,itemid):
 @login_required
 def listitemlogistics(request,itemid):
 	if itemOwner(request,itemid):
-		item = Item.objects.get(id=itemid);
+		item = Item.objects.get(id=itemid)
 		item.liststage = max(4,item.liststage)
 		item.save()
-		dict = {'item':item,'logistics':True};
-		categories = Category.objects.all();
+		dict = {'item':item,'logistics':True,'promo_message':general_view.promoCodeText(item.promo_code)}
+		categories = Category.objects.all()
 		return render_to_response('item/item_logistics.html',dict,context_instance=RequestContext(request))
-	return HttpResponseRedirect('/listintro');
+	return HttpResponseRedirect('/listintro')
 
 @login_required
 def savelogistics(request,itemid):
@@ -209,26 +210,27 @@ def savelogistics(request,itemid):
 			item.shippingincluded = True if request.POST.get('shippingincluded','True') == 'True' else False
 			item.offlineviewing = True if request.POST.get('offlineviewing','True') == 'True' else False
 			price = request.POST.get('inputlistprice','0')
-			item.price = float(price.replace(",","").replace("$",""))
+			item.price = int(round(float(price.replace(",","").replace("$","0")),2)*100)
 			msrp_price = request.POST.get('inputmsrpprice','0')
-			item.msrp_price = float(msrp_price.replace(",","").replace("$",""))
+			item.msrp_price = int(round(float(msrp_price.replace(",","").replace("$","0")),2)*100)
 			item.save()
 			return HttpResponse(submitcode)
 		return HttpResponse(500)
-	except:
+	except Exception,e:
+		print e
 		return HttpResponse(500)
 		
 #Item Preview
 @login_required
 def listitempreview(request,itemid):
 	if itemOwner(request,itemid):
-		item = Item.objects.get(id=itemid);
+		item = Item.objects.get(id=itemid)
 		item.liststage = max(5,item.liststage)
 		item.save()
-		dict = {'item':item,'preview':True};
-		categories = Category.objects.all();
+		dict = {'item':item,'preview':True}
+		categories = Category.objects.all()
 		return render_to_response('item/item_preview.html',dict,context_instance=RequestContext(request))
-	return HttpResponseRedirect('/listintro');
+	return HttpResponseRedirect('/listintro')
 
 @login_required
 def activateListing(request,itemid):
@@ -238,30 +240,28 @@ def activateListing(request,itemid):
 			return render_to_response('item/item_tos.html',{'item':item},context_instance=RequestContext(request))
 		item.liststatus = 'active'
 		item.save()
-		return HttpResponseRedirect('/item/'+itemid+'/details');
-	return HttpResponseRedirect('/listintro');
+		return HttpResponseRedirect('/item/'+itemid+'/details')
+	return HttpResponseRedirect('/listintro')
 
 @login_required
 def deleteListing(request,itemid):
 	if request.method == "POST" and itemOwner(request,itemid):
 		item = Item.objects.get(id=itemid)
 		item.delete()
-		return HttpResponseRedirect('/account/listings/incomplete');
-	return HttpResponseRedirect('/listintro');
+		return HttpResponseRedirect('/account/listings/incomplete')
+	return HttpResponseRedirect('/listintro')
 
 @login_required
 def tosListing(request,itemid):
-	item = Item.objects.get(id=itemid);
+	item = Item.objects.get(id=itemid)
 	if request.method == "POST" and itemOwner(request,itemid):
 		if request.POST.get('tos',''):
 			item.liststatus = 'active'
 			item.tos = True
 			item.save()
 			email_view.composeEmailListingConfirmation(request,request.user.basicuser,item)
-			return HttpResponseRedirect('/item/'+itemid+'/details');
-	return HttpResponseRedirect('/listintro');
-
-			
+			return HttpResponseRedirect('/item/'+itemid+'/details')
+	return HttpResponseRedirect('/listintro')
 			
 ###########################################
 #### Product Pages ########################

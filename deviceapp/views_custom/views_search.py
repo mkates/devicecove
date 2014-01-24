@@ -145,9 +145,7 @@ def searchquery(request):
 		for item in items:
 			if checkPrice(item,int(filters['pricelow']),int(filters['pricehigh'])):
 				if checkType(item,filters['conditiontype']) and checkWarranty(item,filters['contract']):
-					print item
 					if withinDistance(item,filters['zipcode'],filters['distance'],""):
-						print item
 						itemspassed.append(item)
 		zipcode = getNewDistances(filters['zipcode'],itemspassed)
 		itemspassed = sortItems(itemspassed,filters['sort'])
@@ -199,7 +197,7 @@ def getPriceRange(items):
 		for itm in items:
 			pricelow = min(pricelow,itm.price)	
 			pricehigh = max(pricehigh,itm.price)
-	return [math.floor(pricelow),math.ceil(pricehigh)]
+	return [int(math.floor(pricelow)),int(math.ceil(pricehigh))]
 
 #Uses difflib to determine if an item matches a search query
 #NEEDS TO BE REVISED FOR SCALABILITY
@@ -319,6 +317,7 @@ def withinDistance(item,zipcode,distance,latlongs):
 #Get the user's zipcode if they are not logged in or have it saved as a cookie
 def callZipcodeAPI(request):
 	try:
+	  return None #Disable calling the Zipcode
 	  remote_addr = request.META['REMOTE_ADDR']
 	  url = "http://www.iptolatlng.com?ip="+remote_addr+"&type=json"
 	  result = urllib2.urlopen(url)

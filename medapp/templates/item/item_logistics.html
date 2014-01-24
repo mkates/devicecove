@@ -53,6 +53,36 @@
 	display:block;
 	padding-bottom: 10px;
 }
+.promo-entry p {
+	font-size: 12px;
+	color: #777;
+}
+.promo-entry h6 {
+	font-size: 13px;
+} 
+.promo-entry img {
+	display: none;
+	margin-left: 5px;
+}
+.promo-entry input {
+	display: inline-block;
+}
+.promo-entry .current-code {
+	font-weight: 400;
+	font-size: 12px;
+	color: #777;
+}
+.promo-entry .current-code span{
+	font-weight: 800;
+	color: green;
+}
+.promo-entry .current-code .promo_message {
+	color: #777;
+	font-weight: 400;
+}
+#promocode {
+	max-width: 200px;
+}
 </style>
 {% endblock %}
 {% block customjs %}
@@ -85,6 +115,25 @@ $(document).ready(function() {
 			}
 		}
 	});
+	$('#promo-check').click(function() {
+		$(".promo-entry img").css('display','inline-block');
+		$.post( "/promocode/{{item.id}}",{
+			promocode:$("#promocode").val()
+		}, function(e) {
+			$(".promo-entry img").css('display','none');
+			if (e['status'] == 201) {
+				$("#code-explain").text(e['message']);
+				$("#current-code").text($("#promocode").val());
+				$(".promo_message").text("("+e['message']+")")
+				$("#code-explain").css('color','green');
+			} else {
+				$("#code-explain").text(e['message']);
+				$("#code-explain").css('color','red');
+			}
+		}).fail(function() {
+		alert( "error" );
+		});
+	})
 });
 
 var submittable = false;
@@ -142,23 +191,32 @@ var validateInputs = function validateInputs() {
 		{% endif %}
 	</div>
 	
-	{%load humanize %}
+	{%load dollars %}
 	<div class="entry">
 		<h5>Price</h5>
 		<div class="pricecontainer">
 			<div class="listprice">
 				<h6>New Price / MSRP Price</h6>
-				<input id="inputmsrpprice" name="inputmsrpprice" step="1" class="form-control inputprice" placeholder="Ex: $24,200.50" value="${{item.msrp_price|floatformat:"2"|intcomma}}" />
+				<input id="inputmsrpprice" name="inputmsrpprice" step="1" class="form-control inputprice" placeholder="Ex: $24,200.50" value="{{item.msrp_price|dollars}}" />
 				<p>This is the price of the item purchased new. Even new items can be below the MSRP. After all, people want to see what a great deal they are getting.</p>
 			</div>
 		</div>
 		<div class="pricecontainer">
 			<div class="listprice">
 				<h6>Your Listing Price</h6>
-				<input id="inputlistprice" name="inputlistprice" step="1" class="form-control inputprice" placeholder="Ex: $8,320.25" value="${{item.price|floatformat:"2"|intcomma}}" />
+				<input id="inputlistprice" name="inputlistprice" step="1" class="form-control inputprice" placeholder="Ex: $8,320.25" value="{{item.price|dollars}}" />
 				<p>We suggest you price your item competitively with other items in our system.  The price you choose should be inclusive of shipping costs (if you indicated you will be shipping), and any taxes as required by law (if applicable)</p>
 			</div>
 		</div>
+	</div>
+	<div class="entry promo-entry">
+		<h5>Promotional Code</h5>
+		<p>If you have a promotional code, please enter it below. Only one promotional code can be used.</p>
+		<h6 class="current-code">Current Promotion Code: <span id="current-code"> {{item.promo_code}}</span> <span class="promo_message">{% if item.promo_code %}({{promo_message}}){% endif %}</span></h6>
+		<input id="promocode" name="promocode" class="form-control" value="{% if item.promo_code %}{{item.promo_code}}{% endif %}" />
+		<a id="promo-check" class="button button-rounded button-primary">Enter Promotional Code</a>
+		<img src="{{STATIC_URL}}img/ajax-loader.gif"/>
+		<h6 id="code-explain"></h6>
 	</div>
 </div>
 

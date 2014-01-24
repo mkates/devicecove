@@ -1,6 +1,8 @@
 from django.core.management.base import BaseCommand, CommandError
 from deviceapp.models import *
 import balanced
+from deviceapp.views_custom import views_email as email_view
+from deviceapp.views_general import views_general as email_general
 from django.conf import settings
 import datetime as datetime
 from django.utils.timezone import utc
@@ -29,16 +31,14 @@ class Command(BaseCommand):
 			for p_item in basicuser.purchaseditemseller.all():
 				if purchasedItemEligibleForPayout(p_item):
 					if not p_item.cartitem.item.commission_paid: 
-						commission_total += p_item.total*.09 # Remove 9% for commission fee
-					payout_total += p_item.total*.97-commission_total # Remove 3% for credit card fees
+						commission = general_view.calculateCommission(p_item.cartitem.item)
+						commission_total += commission
+					payout_total += p_item.total-commission
 					eligiblePurchasedItems.append(p_item)
-		
 			# Continue only if items available for payout
 			if eligiblePurchasedItems:
-				write(self,vetcove_payout_total)
-				write(self,vetcove_payout_count)
 				if basicuser.payout_method == 'none':
-					emailUserNoPayoutMethod(basicuser)
+					email_view.composeEmailNoPayment(basicuser)
 				elif basicuser.payout_method == 'check':
 					if basicuser.check_address:	
 						check_obj = CheckPayout(user=basicuser,amount=payout_total,address=basicuser.check_address)
@@ -50,14 +50,15 @@ class Command(BaseCommand):
 							pi.save()
 						vetcove_check_count += 1
 						vetcove_checkpayout_total += payout_total
+						email_view.composeEmailPayoutCheckSent(basicuser,check_obj)
 					else:
-						emailUserNoPayoutMethod(self,basicuser)
+						email_view.composeEmailNoPayment(basicuser)
 				elif basicuser.payout_method == 'bank':
 					if basicuser.default_payout_ba:
 						try:
 							balanced.configure(settings.BALANCED_API_KEY) # Configure Balanced API
 							customer = balanced.Customer.find(basicuser.balanceduri)
-							amount = int((payout_total)*100)
+							amount = payout_total
 							source_uri = basicuser.default_payout_ba.uri
 							customer.credit(appears_on_statement_as="Vet Cove",description="Seller Credit",amount=amount,source_uri=source_uri)
 							bank_payout_obj = BankPayout(user=basicuser,amount = payout_total,bank_account=basicuser.default_payout_ba)
@@ -69,17 +70,18 @@ class Command(BaseCommand):
 								bpi.save()
 							vetcove_payout_total += amount/float(100)
 							vetcove_payout_count += 1
-							emailUserPayoutSuccess(self,basicuser,eligiblePurchasedItems)
+							email_view.composeEmailPayoutBankSent(basicuser,bank_payout_obj)
 						except Exception,e:
 							write(self,e)
-							emailUserPayoutMethodFailed(self,basicuser)
+							email_view.composeEmailPayoutFailed(basicuser,bank_payout_obj)
 					else:
-						emailUserNoPayoutMethod(self,basicuser)
+						email_view.composeEmailNoPayment(basicuser)
 		write(self,"Payouts Complete")
 		write(self,"Payout Total: "+str(vetcove_payout_total))
 		write(self,"Number of Online Purchases: "+str(vetcove_payout_count))
 		write(self,"Check Total: "+str(vetcove_checkpayout_total))
 		write(self,"Number of Checks: "+str(vetcove_check_count))		
+
 				
 ########See if a purchased item is eligible for payout ############
 def purchasedItemEligibleForPayout(pitem):
@@ -95,21 +97,7 @@ def purchasedItemEligibleForPayout(pitem):
 	if pitem.purchase_date > wait_date:
 		return False					
  	return True		
- 
-######## No Payment Method Email ##########################	
-def emailUserNoPayoutMethod(self,basicuser):
-	write(self,'No Payout Method')
- 	return
-
-######## No Payment Method Email ##########################	
-def emailUserPayoutMethodFailed(self,basicuser):
-	write(self,'Payment Method Failed')
- 	return	
- 
- ######## Payment Succeeded ##########################	
-def emailUserPayoutSuccess(self,basicuser,eligiblePurchasedItems):
-	write(self,'Payment Method Success')
- 	return		
+	
 
 			
 def write(self,string):

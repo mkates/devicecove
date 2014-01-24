@@ -5,6 +5,7 @@ from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.conf import settings
+import views_email as email_view
 from deviceapp.models import *
 import json
 import datetime
@@ -114,6 +115,7 @@ def addBalancedBankAccount(request):
 			bu.payment_method = 'bank'
 		if bu.payout_method == 'none':
 			bu.payout_method = 'bank'
+			email_view.composeEmailPayoutUpdated(bu)
 		bu.save()
 		# See if user has a balanced account
 		balanced.configure(settings.BALANCED_API_KEY)
@@ -188,6 +190,7 @@ def makeDefaultPayout(request,type,id):
 			bu.payout_method = 'bank';
 			bu.default_payout_ba = bank
 			bu.save() 
+			email_view.composeEmailPayoutUpdated(bu)
 	return HttpResponseRedirect('/account/payment')
 
 

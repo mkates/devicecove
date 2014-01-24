@@ -128,7 +128,7 @@ $(document).ready(function() {
 </script>
 {% endblock %}
 {% load dates %}
-{% load humanize %}
+{% load dollars %}
 {% load multiply %}
 {% block maincontent %}
 
@@ -189,7 +189,7 @@ $(document).ready(function() {
 				<div class="listeditem">
 					<div class="row">
 						<div class="col-md-8 col-sm-8">
-							<h3>{% if item.name %}{{item.name}} (${{item.price|floatformat:"2"}}){% else %}New VetCove Listing{% endif %}</h3>
+							<h3>{% if item.name %}{{item.name}} ({{item.price|dollars}}){% else %}New VetCove Listing{% endif %}</h3>
 							<h4>Status: <span>{{item.get_liststatus_display}}</span></h4>
 							{% if item.liststatus == 'active' %}
 								<div class="row stats">

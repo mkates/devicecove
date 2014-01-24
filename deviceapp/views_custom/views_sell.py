@@ -78,7 +78,7 @@ def newcard_chargecommission(request,itemid):
 			comm_amount = amount / 100
 			commission_obj = Commission(item=item,amount=comm_amount,payment_method='card',cc_payment=card)
 			commission_obj.save()
-			email_view.composeEmailCommissionCharged(request,basicuser,commission_obj)
+			email_view.composeEmailCommissionCharged(request,bu,commission_obj)
 			return HttpResponse(json.dumps({'status':201}), content_type='application/json')
 		except:
 			return HttpResponse(json.dumps({'status':501,'error':'Failed to charge your card.'}), content_type='application/json')
@@ -107,7 +107,7 @@ def newbank_chargecommission(request,itemid):
 			comm_amount = amount / 100
 			commission_obj = Commission(item=item,amount=comm_amount,payment_method='bank',ba_payment=bank)
 			commission_obj.save()
-			email_view.composeEmailCommissionCharged(request,basicuser,commission_obj)
+			email_view.composeEmailCommissionCharged(request,bu,commission_obj)
 			return HttpResponse(json.dumps({'status':201}), content_type='application/json')
 		except Exception,e:
 			return HttpResponse(json.dumps({'status':501,'error':'Failed to charge your bank account.'}), content_type='application/json')
@@ -138,7 +138,7 @@ def gatePayment(request,paymenttype,paymentid,itemid):
 				elif paymenttype == 'card':
 					commission_obj = Commission(item=item,amount=comm_amount,payment_method=paymenttype,cc_payment=payment)
 				commission_obj.save()
-				email_view.composeEmailCommissionCharged(request,basicuser,commission_obj)
+				email_view.composeEmailCommissionCharged(request,bu,commission_obj)
 				return HttpResponseRedirect('/account/messages/'+str(item.id))
 		except Exception,e:
 			return HttpResponseRedirect('/account/messages/'+str(item.id)+"?e=fail")
@@ -164,15 +164,14 @@ def purchaseshippinginfo(request,purchaseditemid):
 	pi = PurchasedItem.objects.get(id=purchaseditemid)
 	shipping_details = request.POST['shipping-details']
 	shipped = request.POST.get('shipped','')
+	pi.seller_message = shipping_details
 	if request.POST['submit'] == 'shipped':
 		pi.item_sent = True
+		email_view.composeEmailItemShipped_Buyer(request,request.user.basicuser,pi)
+		email_view.composeEmailItemShipped_Seller(request,request.user.basicuser,pi)
 	else:
 		pi.item_sent = False
-	pi.seller_message = shipping_details
 	pi.save()
-	######################################
-	#### Send Email To Buyer Here as Well
-	#####################################
 	return HttpResponseRedirect('/account/sellhistory')
 	
 @login_required

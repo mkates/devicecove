@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% block headertitle %}<title>VetCove | {% if custom %}{{searchquery}}{% elif subcategoryname != 'all'%}{{ subcategoryname }}{% else %}{{ categoryname }}{% endif %}</title>{% endblock%}
+{% block headertitle %}<title>VetCove | {% if custom %}{% if searchquery %}{{searchquery}}{% else %}Search{% endif %}{% elif subcategoryname != 'all'%}{{ subcategoryname }}{% else %}{{ categoryname }}{% endif %}</title>{% endblock%}
 {% block searchvalue %}{% if custom %}{{searchquery}}{% elif subcategoryname != 'all'%}{{ subcategoryname }}{% else %}{{ categoryname }}{% endif %}{% endblock %}
 {% block headercss %}
 <link href='{{STATIC_URL}}css/base.css' rel='stylesheet' type='text/css' />
@@ -70,7 +70,7 @@ label .floatright {
 {% endblock%}
 
 {% block content %}
-{% load humanize %}
+{% load dollars %}
 <div class='row searchcontainer'>
   <!--Filter Container -->
   <div class='col-xs-12 col-sm-3 filtercontainer'>
@@ -108,8 +108,8 @@ label .floatright {
   			<h2>Price Range</h2>
   			<div id='price-slider-container'>
   				{% load humanize %}
-  				<p id='lowprice'>$<span>{{pricerange.0 |floatformat|intcomma}}</span></p>
-  				<p id='highprice'>$<span>{{pricerange.1 |floatformat|intcomma}}</span></p>
+  				<p id='lowprice'><span>{{pricerange.0 | dollars}}</span></p>
+  				<p id='highprice'><span>{{pricerange.1 | dollars}}</span></p>
   				<div class='clear'></div>
   				<div id='price-range' class='light-gradient'></div>
   			</div>
@@ -299,24 +299,25 @@ $(document).ready(function(){
 	
 	//The price filter functionality when it is toggled
 	$(function() {
+		console.log("{{pricerange.0}}");
 		$( '#price-range' ).slider({
 			range: true,
-			min: {{pricerange.0}},
-			max: {{pricerange.1}},
+			min: parseInt({{pricerange.0}}),
+			max: parseInt({{pricerange.1}}),
 			step: 100,
-			values: [{{pricerange.0}},{{pricerange.1}}],
+			values: [parseInt({{pricerange.0}}),parseInt({{pricerange.1}})],
 			slide: function( event, ui ) {
 				$( '#amount' ).val( '$' + ui.values[ 0 ] + ' - $' + ui.values[ 1 ] );
-				var newhighvalue = ui.values[1].toString();
-				var newlowvalue = ui.values[0].toString();
-				if (newlowvalue.length > 3 ) {
-					var newlowvalue = newlowvalue.splice( newlowvalue.length-3, 0, ',' );
+				var newhighvalue = (ui.values[1]/100).toFixed(2).toString();
+				var newlowvalue = (ui.values[0]/100).toFixed(2).toString();
+				if (newlowvalue.length > 6 ) {
+					var newlowvalue = newlowvalue.splice( newlowvalue.length-6, 0, ',' );
 				} 
-				if (newhighvalue.length > 3) {
-					var newhighvalue = newhighvalue.splice( newhighvalue.length-3, 0, ',' );
+				if (newhighvalue.length > 6) {
+					var newhighvalue = newhighvalue.splice( newhighvalue.length-6, 0, ',' );
 				}
-				$('#lowprice span').html(newlowvalue);
-				$('#highprice span').html(newhighvalue);
+				$('#lowprice span').html("$"+newlowvalue);
+				$('#highprice span').html("$"+newhighvalue);
 			},
 			stop: function(event,ui ) {
 				variables['pricelow'] = ui.values[ 0 ];

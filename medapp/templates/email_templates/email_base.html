@@ -636,7 +636,7 @@
     </head>
     <body leftmargin="0" marginwidth="0" topmargin="0" marginheight="0" offset="0">
     	{% load phonenumber %}
-    	{% load humanize %}
+    	{% load dollars %}
     	<center>
         	<table align="center" border="0" cellpadding="0" cellspacing="0" height="100%" width="100%" id="bodyTable">
             	<tr>
@@ -692,7 +692,7 @@
 												</span></p>
                                             	<p>If you have any questions at all not included in our FAQ, please don't hesitate to contact us using our website form or by replying to this e-mail. We look forward to your participation as an active member of the VetCove community!</p>
 												<p>Warmest regards,</p>
-												<p>Alex, CEO VetCove</p>
+												<p>Alex and The VetCove Team</p>
                           					{% endif %}
                           	
                           					{% if pvp %}
@@ -706,7 +706,7 @@
 												</span></p>
                                             	<p>If you have any questions at all not included in our FAQ, please don't hesitate to contact us using our website form or by replying to this e-mail. We look forward to your participation as an active member of the VetCove community!</p>
 												<p>Warmest regards,</p>
-												<p>Alex, CEO VetCove</p>
+												<p>Alex and The VetCove Team</p>
                           					{% endif %}
  
                           					{% if listing_confirmation %}
@@ -725,7 +725,7 @@
                                             	{% endif %}
                                             	<p>Thank you again for listing with VetCove!</p>
 												<p>Warmest regards,</p>
-												<p>Alex, CEO VetCove</p>
+												<p>Alex and The VetCove Team</p>
                           					{% endif %}
                        	
                           	
@@ -739,7 +739,7 @@
 												</span></p>
                                             	<p>Best of luck selling your item. Thank you again for choosing VetCove!</p>
 												<p>Warmest regards,</p>
-												<p>Alex, CEO VetCove</p>
+												<p>Alex and The VetCove Team</p>
                           					{% endif %}
         	
                           					{% if contactmessage_seller %}
@@ -752,7 +752,7 @@
                                             	<p>Please note that in order to correspond directly with prospective buyers and complete transactions outside of the VetCove website, we require all sellers to provide payment information in the form of a credit card or bank account.  You will only be charged commission if your item sells.</p>
 												<p>Responding quickly could help you close the sale. Best of luck selling your item.  Thank you again for choosing VetCove!</p>
 												<p>Warmest regards,</p>
-												<p>Alex, CEO VetCove</p>
+												<p>Alex and The VetCove Team</p>
                           					{% endif %}
 
 											{% if commission_charged %}
@@ -760,10 +760,10 @@
                                                 <p>Thank you for selling on VetCove!  We’re so pleased that there are buyers interested in viewing {{commission_obj.item.name}}.  Per the terms of our selling contract, your chosen payment method on file has been charged the VetCove selling fees associated with this transaction.</p>
                                                 <h4>Product Information</h4>
                                                 <p class="thin">Item Number: {{commission_obj.item.id}}</p>
-                                                <p class="thin">Listing Price: ${{commission_obj.item.price|floatformat:"2"|intcomma}}</p>
+                                                <p class="thin">Listing Price: {{commission_obj.item.price|dollars}}</p>
                                                 <p class="thin">Selling Fees: 9% Commission</p>
                                                 <p class="thin">Transaction ID: #0000{{commission_obj.id}}</p>
-                                                <p class="thin">Amount Charged: ${{commission_obj.amount|floatformat:"2"|intcomma}}</p>
+                                                <p class="thin">Amount Charged: {{commission_obj.amount|dollars}}</p>
                                                 <br>
                                                 <h4>Payment Method</h4>
                                                 	{% if commission_obj.payment_method == 'bank' %}
@@ -783,33 +783,35 @@
 												<p>Best of luck selling your item!  If you are able to collect cash or check payment directly from a buyer, no further action is required on your part, and no further fees will be assessed.  You will be able to instantly receive direct contacts from prospective buyers for this item going forward without restriction.</p>
                                             	<p>If you are unable to sell your item after a period of 90 days, VetCove will refund you 100% of all selling fees charged today, less any nomial credit card or bank transfer fees we incur to complete the transaction.  If you have any questions at all, please don’t hesitate to get in contact with us.</p>
 												<p>Warmest regards,</p>
-												<p>Alex, CEO VetCove</p>
+												<p>Alex and The VetCove Team</p>
                           					{% endif %}
 
                           					{% if selling_reminder %}
                           						<p>Dear {{email_name}},</p>
-                                                <p>Two weeks ago, we sent you a buyer's contact information that was interested in purchasing your item: {{selling_reminder.item.name}}.  That buyer's name and business information is below:</p>
-                                                <h4>Buyer Address</h4>
-                                                <p>{{selling_reminder.buyer.name}}</p>
-                                                <p>Contact Date: {{selling_reminder.date_sent}}</p>
-                                                {% if selling_reminder.buyer.email %}<p>Email: {{selling_reminder.email}}</p>{% endif %}
-                                                {% if selling_reminder.buyer.phone %}<p>Phone: {{selling_reminder.buyer.phone|phonenumber}}</p>{% endif %}
-                                                <p>{{selling_reminder.message}}</p>
+                                                <p>Two weeks ago, we sent you a buyer's contact information that was interested in purchasing your item: {{item.name}}.  That buyer's name and business information is below:</p>
+                                                <h4>Buyer Message</h4>
+                                                <p class="thin">{{contact_message.buyer.name}}</p>
+                                                <p class="thin">Contact Date: {{contact_message.date_sent}}</p>
+                                                {% if contact_message.buyer.email %}<p class="thin">Email: {{contact_message.email}}</p>{% endif %}
+                                                {% if contact_message.buyer.phone %}<p class="thin">Phone: {{contact_message.phone|phonenumber}}</p>{% endif %}
+                                                <p class="thin">Message: {{contact_message.message}}</p>
                                             	<p>How did it go?  Were you able to sell the item to this buyer?</p>
-                                            	<p><span>
-                                            		<a href="http://www.vetcove.com/account/listings/all"">I sold the item to this buyer</a>
-                                            		<a href="http://www.vetcove.com/account/listings/all">I sold the item to a different buyer</a>
-                                            		<a href="http://www.vetcove.com/account/listings/all">I did not yet sell this item</a>
-												</span></p>
+                                            	<a href="{{temp_base}}/account/updatelisting/sold/{{token}}">I sold the item to this buyer</a>
+                                            	<br>
+                                            	<a href="{{temp_base}}/account/updatelisting/differentsold/{{token}}">I sold the item to a different VetCove buyer</a>
+                                            	<br>
+                                            	<a href="{{temp_base}}/account/updatelisting/notsold/{{token}}">I sold the item outside VetCove</a>
+												<br>
                                             	<p>If your item sold, please remove it from the VetCove website using one one of the appropriate links above.  It is your responsibility to remove all sold items within two business days in accordance with the terms of the VetCove Seller Contract. </p>
+												<p>Please do not share this email with others as they will be able to mark your items as sold and the listing will no longer be visible to potential buyers.</p>
 												<p>Thank you again for choosing VetCove!</p>
 												<p>Warmest regards,</p>
-												<p>Alex, CEO VetCove</p>
+												<p>Alex and The VetCove Team</p>
                           					{% endif %}
 
                           					{% if item_sold_seller %}
                           						<p>Dear {{email_name}},</p>
-                                                <p>Congratulations!  Your item, {{item.name}}, has been sold to a buyer on VetCove, and payment has been confirmed.  You may now prepare to ship the item in accordance with the terms of your listing.  The contact information and shipping address of the buyer is below:</p>
+                                                <p>Congratulations! A VetCove member has purchased {%if purchased_item.quantity > 1 %}{{purchased_item.quantity}}{% endif %} of your item, {{item.name}} and payment has been confirmed.  You may now prepare to ship the item in accordance with the terms of your listing.  The contact information and shipping address of the buyer is below:</p>
                                                 <h4>Shipping Address</h4>
                                                 <p class="thin">{{purchased_item.cartitem.checkout.shipping_address.name}}</p>
                                                 <p class="thin">{{purchased_item.cartitem.checkout.shipping_address.address_one}}</p>
@@ -828,7 +830,7 @@
 												</span></p>
 												<p>Thank you again for choosing VetCove!</p>
 												<p>Warmest regards,</p>
-												<p>Alex, CEO VetCove</p>
+												<p>Alex and The VetCove Team</p>
                           					{% endif %}
                           					
                           	
@@ -845,16 +847,16 @@
                                             	<p>And remember, your purchase is fully backed by VetCove’s <a href="http://www.vetcove.com/buyerprotect">buyer protection guarantee</a>.  If there is a problem with your order once you receive it, we ask that you please contact the seller first to find a solution.  If the problem still persists, please don’t hesitate to contact us, and we will assist you in finding a resolution in accordance our buyer protection policy to ensure you’re taken care of.</p>
                                             	<p>Thank you again for choosing VetCove!</p>
 												<p>Warmest regards,</p>
-												<p>Alex, CEO VetCove</p>
+												<p>Alex and The VetCove Team</p>
                           					{% endif %}
                           					
                           					{% if item_shipped_seller %}
                           						<p>Dear {{email_name}},</p>
-                                                <p>Your item, {{item.name}} has been marked as shipped, and the buyer has been notified via e-mail of the below information:</p>
+                                                <p>Your item, {{item.name}}, has been marked as shipped, and the buyer has been notified via e-mail of the below information:</p>
                                                 <h4>{{purchased_item.seller_message}}</h4>
                                                 <p>If you have additional information you’d like to send to the buyer, please feel free to contact them directly.  Thank you again for choosing VetCove!</p>
 												<p>Warmest regards,</p>
-												<p>Alex, CEO VetCove</p>
+												<p>Alex and The VetCove Team</p>
                           					{% endif %}
                           					
                           					{% if purchase_confirmation %}
@@ -875,7 +877,7 @@
                           						the items you have sold below that have not currently been paid out.</p>
                                                 <p>If you are having trouble entering a payout method, don't hesitate to get in contact with us.</p>
                           						<p>Warmest regards,</p>
-												<p>Alex, CEO VetCove</p>
+												<p>Alex and The VetCove Team</p>
                           					{% endif %}
                           					
                           					{% if payout_updated %}
@@ -904,7 +906,7 @@
 												</span></p>
                                             	<p>Thank you again for choosing VetCove!</p>
 												<p>Warmest regards,</p>
-												<p>Alex, CEO VetCove</p>
+												<p>Alex and The VetCove Team</p>
                           					{% endif %}
                           					
                           					{% if payout_check_sent %}
@@ -918,7 +920,35 @@
 												<p class="thin">{{check_obj.address.city}}, {{check_obj.address.state}} {{check_obj.address.zipcode}}</p>
 												<p class="thin">{{check_obj.address.phonenumber|phonenumber}}</p>
 												<p>Warmest regards,</p>
-												<p>Alex, CEO VetCove</p>
+												<p>Alex and The VetCove Team</p>
+											{% endif %}
+											
+											{% if payout_bank_sent %}
+                          						<p>Dear {{email_name}},</p>
+												<p>Thank you for selling on VetCove!  We hope you’re enjoying your experience with our service.</p>
+												<p>We’re pleased to inform you that that your item has been paid for by the buyer, and instant payment is on its way to you in the form of a bank transfer. Please allow up to three business days for the money to appear in your account. Details of the transaction are below:</p>
+												<h5 class="thin">Bank Account Information</h5>
+												<p class="thin">{{bank_obj.name}}</p>
+												<p class="thin">{{bank_obj.bank_name}}</p>
+												<p class="thin">{{bank_obj.account_number}}</p>
+												<p>Warmest regards,</p>
+												<p>Alex and The VetCove Team</p>
+											{% endif %}
+											
+											{% if payout_failed %}
+												<p>Dear {{email_name}},</p>
+												<p>We were unable to credit your bank account for the sold items below. Please check your bank account below and double check that all your information is correct. You can update your payout information by following the link below</p> 
+												<p><span>
+                                            		<a href="http://www.vetcove.com/account/payment"">Update Payment and Payout Preferences</a>
+												</span></p>	
+												<h5 class="thin">Bank Account Information</h5>
+												<p class="thin">{{bank_obj.name}}</p>
+												<p class="thin">{{bank_obj.bank_name}}</p>
+												<p class="thin">{{bank_obj.account_number}}</p>
+												<p>If you are sure the information is correct and it is indeed a valid bank account,
+												you should get in contact with us immediately so we can resolve the issue.</p>
+												<p>Warmest regards,</p>
+												<p>Alex and The VetCove Team</p>
 											{% endif %}
                           	          		</td>
                                         </tr>
@@ -1001,7 +1031,7 @@
                                                     	<td valign="top" class="middleColumnContent" mc:edit="right_column_content">
                                                             <h4><a href="http://www.vetcove.com/item/{{pi.cartitem.item.id}}/details">{{pi.cartitem.item.name}}</a></h4>
                                                             <p>Sold by {{pi.cartitem.item.user.company}} ({{pi.cartitem.item.user.email}})</p>
-                                                            <p>Quantity: {{pi.cartitem.quantity}} {% if pi.cartitem.quantity > 1 %}(at ${{pi.cartitem.item.price|floatformat:"2"|intcomma}} each){% endif %}</p>
+                                                            <p>Quantity: {{pi.cartitem.quantity}} {% if pi.cartitem.quantity > 1 %}(at {{pi.cartitem.item.price|dollars}} each){% endif %}</p>
                                                         </td>
                                                     </tr>
                                                 </table>
@@ -1010,7 +1040,7 @@
                                             	<table border="0" cellpadding="20" cellspacing="0" width="100%">
                                                     <tr>
                                                     	<td valign="top" class="rightColumnContent" mc:edit="right_column_content">
-                                                            <h4>${{pi.total|floatformat:"2"|intcomma}}</h4>
+                                                            <h4>{{pi.total|dollars}}</h4>
                                                         </td>
                                                     </tr>
                                                 </table>
@@ -1034,12 +1064,12 @@
                                                 	<tr>
                                                     	<td class="totalColumnContent">
                                                     		{% if purchase_confirmation %}
-                                                    			<h4 class="totalColumnContent_total">Total Amount: <span class="price">${{checkout.total|floatformat:"2"|intcomma}}</span></h4>
+                                                    			<h4 class="totalColumnContent_total">Total Amount: <span class="price">{{checkout.total|dollars}}</span></h4>
                                                     		{% elif pay_total %}
-                                                    			<h4>Sales Total: <span class="price">${{pay_subtotal|floatformat:"2"|intcomma}}</span></h4>
-                                                    			<h4>9% <span class="hide-mobile">VetCove</span> Commission: <span class="price">-${{commission|floatformat:"2"|intcomma}}</span></h4>
-                                                    			<h4>3% Credit Card <span class="hide-mobile">Processing</span> Fee: <span class="price">-${{cc_fee|floatformat:"2"|intcomma}}</span></h4>
-                                                    			<h4 class="totalColumnContent_total">Total Credits: <span class="price">${{pay_total|floatformat:"2"|intcomma}}</span></h4>
+                                                    			<h4>Sales Total: <span class="price">{{pay_subtotal|dollars}}</span></h4>
+                                                    			<h4>9% <span class="hide-mobile">VetCove</span> Commission: <span class="price">-{{commission|dollars}}</span></h4>
+                                                    			<h4>3% Credit Card <span class="hide-mobile">Processing</span> Fee: <span class="price">-{{cc_fee|dollars}}</span></h4>
+                                                    			<h4 class="totalColumnContent_total">Total Credits: <span class="price">{{pay_total|dollars}}</span></h4>
                                                     		{% endif %}
                                                         </td>
                                                     </tr>

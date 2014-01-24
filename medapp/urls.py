@@ -55,12 +55,17 @@ urlpatterns = patterns('',
     url(r'^list/activate/(?P<itemid>\d+)','deviceapp.views_custom.activateListing'),
     url(r'^list/markassold/(?P<itemid>\d+)','deviceapp.views_custom.markAsSold'),
     url(r'^deletelisting/(?P<itemid>\d+)','deviceapp.views_custom.deleteListing'),
+    url(r'^promocode/(?P<itemid>\d+)','deviceapp.views_custom.addPromoCode'),
     url(r'^list/tos/(?P<itemid>\d+)','deviceapp.views_custom.tosListing'),
     #Listing in the account
     url(r'^account/editlisting/inactive/(?P<itemid>\d+)','deviceapp.views_custom.editListingInactive'),
     url(r'^account/editlisting/active/(?P<itemid>\d+)','deviceapp.views_custom.editListingActive'),
     url(r'^account/editlisting/relist/(?P<itemid>\d+)','deviceapp.views_custom.editListingRelist'),
     
+    #Email Reminder Token Link
+    url(r'^account/updatelisting/sold/(?P<token>\w+)','deviceapp.views_custom.updateListingState'),
+	
+    /account/updatelisting/sold/
     
     
     

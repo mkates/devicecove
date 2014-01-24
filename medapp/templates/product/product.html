@@ -39,7 +39,14 @@ $(document).ready(function() {
 var loggedIn = {% if user.is_authenticated %}true{% else %}false{% endif %};
 $(document).ready(function(){
 	$(".thumbnail-container img").click(function() {
-		$("#ex1").css("background-image",'url('+$(this).attr("data-original")+')');
+		$("#ex1").css("background-image",'url({{STATIC_URL}}img/ajax-loader.gif)');
+		$("#ex1").css("background-size","auto");
+		var img_path = $(this).attr("data-original")
+		$('<img src="'+ img_path +'">').load(function() {
+		  $("#ex1").css("background-size","contain");
+		  $("#ex1").css("background-image",'url('+img_path+')');
+		})
+		//$("#ex1").css("background-image",'url('+$(this).attr("data-original")+')');
 		console.log($("#mainimage").css("width"));
 	});
 	$(".backbutton").click(function() {

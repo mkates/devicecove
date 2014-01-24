@@ -60,6 +60,9 @@
 	float: left;
 	margin-bottom: 40px;
 }
+.loginform .forgotpassword {
+	display:inline-block;
+}
 .forgotpassword {
 	float: right;
 	display: block;

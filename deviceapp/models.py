@@ -183,8 +183,9 @@ class Item(models.Model):
 	shippingincluded = models.BooleanField(default=True)
 	offlineviewing = models.BooleanField(default=False)
 	tos = models.BooleanField(default=False)
-	msrp_price = models.FloatField(max_length=20)
-	price = models.FloatField(max_length=20)
+	msrp_price = models.BigIntegerField(max_length=20)
+	price = models.BigIntegerField(max_length=20)
+	promo_code = models.CharField(max_length=10,blank=True,null=True)
 	commission_paid = models.BooleanField(default=False)
 	sold_online = models.BooleanField(default=False) # An offline viewable item was bought online
 	#Miscellaneous 
@@ -392,14 +393,14 @@ class CartItem(models.Model):
 #### Record of the payment ##################
 class BankPayout(models.Model):
 	user = models.ForeignKey(BasicUser)
-	amount = models.FloatField(max_length=20)
+	amount = models.BigIntegerField(max_length=20)
 	bank_account = models.ForeignKey(BalancedBankAccount)
 	date = models.DateTimeField(auto_now_add = True)
 
 #### Record of all checks ##################
 class CheckPayout(models.Model):
 	user = models.ForeignKey(BasicUser)
-	amount = models.FloatField(max_length=20)
+	amount = models.BigIntegerField(max_length=20)
 	sent = models.BooleanField(default=False)
 	date = models.DateTimeField(auto_now_add = True)
 	address = models.ForeignKey(UserAddress)
@@ -407,7 +408,7 @@ class CheckPayout(models.Model):
 #### Commission ############################
 class Commission(models.Model):
 	item = models.OneToOneField(Item)
-	amount = models.FloatField(max_length=20)
+	amount = models.BigIntegerField(max_length=20)
 	PAYMENT_OPTIONS = (('bank','bank'),('card','card'))
 	payment_method = models.CharField(default='none',max_length=20, choices=PAYMENT_OPTIONS)
 	cc_payment = models.ForeignKey(BalancedCard,null=True,blank=True)
@@ -423,8 +424,8 @@ class PurchasedItem(models.Model):
 	seller = models.ForeignKey(BasicUser,related_name="purchaseditemseller")
 	buyer = models.ForeignKey(BasicUser,related_name="purchaseditembuyer")
 	
-	total = models.FloatField(max_length=20)
-	
+	total = models.BigIntegerField(max_length=20)
+	unit_price = models.BigIntegerField(max_length=20)
 	# Reference to cart item of the purchase and the checkout
 	cartitem = models.OneToOneField(CartItem)
 	checkout = models.ForeignKey(Checkout)
@@ -492,4 +493,13 @@ class BuyAuthorization(models.Model):
 	buyer = models.ForeignKey(BasicUser,related_name="authorizedbuyer")
 	item = models.ForeignKey(Item)
 	date = models.DateTimeField(auto_now_add = True)
+
+############################################
+### Reminder Email Responses ###############
+############################################
+class ReminderToken(models.Model):
+	contact_message = models.ForeignKey(SellerMessage)
+	ACTION_OPTIONS =  (('none', 'None'),('sold', 'Sold'),('not_sold', 'Not Sold'),('different_sold','Different Buyer'))
+	action = models.CharField(max_length = 50,choices=ACTION_OPTIONS,default="none")
+	token = models.CharField(max_length = 20)
 	

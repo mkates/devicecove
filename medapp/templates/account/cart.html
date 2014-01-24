@@ -87,7 +87,7 @@
 
 
 {% block content %}
-{% load humanize %}
+{% load dollars %}
 <div class="maincontainer">
 	<div class="cart-header covebox">
 		<div class="cart-actions">
@@ -148,8 +148,8 @@
 						</span>
 					</div>
 					<div class="item-price col-md-2 col-sm-2 col-xs-12">
-						<p>${{cartitem.item.price|floatformat:"2"|intcomma}}</p>
-						<p class="msrp_price">${{cartitem.item.msrp_price|floatformat:"2"|intcomma}}</p>
+						<p>{{cartitem.item.price|dollars}}</p>
+						<p class="msrp_price">{{cartitem.item.msrp_price|dollars}}</p>
 					</div>
 				</div>
 			</div>
@@ -161,9 +161,9 @@
 		</div>
 		<div class="covebox cart-summary col-md-3 col-sm-3 col-xs-12">
 			<h6> Order Summary</h6>
-			<p>Items (<span id="itemcount" class="itemcount">{{cart_items_count}}</span>)<span class="totalprice">${{cart_total|floatformat:"2"|intcomma}}</span></p>
+			<p>Items (<span id="itemcount" class="itemcount">{{cart_items_count}}</span>)<span class="totalprice">{{cart_total|dollars}}</span></p>
 			<p>Shipping <span>FREE</span></p>
-			<p class="total">Total:<span class="totalprice">{{cart_total|floatformat:"2"}}</span></p>
+			<p class="total">Total:<span class="totalprice">{{cart_total|dollars}}</span></p>
 		</div>
 		
 	</div>

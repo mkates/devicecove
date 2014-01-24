@@ -118,7 +118,7 @@ $(document).ready(function() {
 
 
 {% block checkoutcontent %}
-{% load humanize %}
+{% load dollars %}
 {% load phonenumber %}
 <div class="checkout-container">
 	<h3>Review Purchase</h3>
@@ -175,7 +175,7 @@ $(document).ready(function() {
 							</span>
 						</div>
 						<div class="item-price col-md-2 col-sm-2 col-xs-12">
-							<p>${{checkoutcartitem.item.price|floatformat|intcomma}}</p>
+							<p>{{checkoutcartitem.item.price|dollars}}</p>
 						</div>
 					</div>
 				</div>

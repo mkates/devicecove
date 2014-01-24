@@ -177,6 +177,8 @@ def checkoutVerifyError(request,error):
 		errormessage = 'You have no items in your shopping cart'
 	if error == 'notloggedin':
 		errormessage = 'You are not currently logged in'
+	if error == 'toolarge':
+		errormessage = 'The items in your cart cannot exceed $15,000'
 	dict['error'] = errormessage
 	return render_to_response('checkout/checkout_login.html',dict,context_instance=RequestContext(request))
 
@@ -483,7 +485,7 @@ def checkoutPurchase(request,checkoutid):
 			uri = checkout.ba_payment.uri
 		balanced.configure(settings.BALANCED_API_KEY) # Configure Balanced API
 		customer = balanced.Customer.find(bu.balanceduri)
-		amount = checkout.total()*100
+		amount = checkout.total()
 		customer.debit(appears_on_statement_as="Vet Cove",amount=amount,source_uri=uri)
 	except Exception,e:
 		return render_to_response('checkout/checkout_review.html',{'checkout':checkout,'error':e},context_instance=RequestContext(request))
@@ -502,11 +504,16 @@ def checkoutPurchase(request,checkoutid):
 		pi.save()
 		cartitem.shoppingcart = None
 		cartitem.save()
+		#Email the seller of the item
+		email_view.composeEmailItemSold_Seller(request,bu,pi)
 
 	# 5. Mark checkout object as purchased
 	checkout.purchased = True
 	checkout.save()
-		
+	
+	#6. Email confirmation
+	email_view.composeEmailItemPurchased_Buyer(request,bu,checkout)
+	
 	return HttpResponseRedirect('/checkout/confirmation/'+str(checkout.id))
 	
 ###################################
@@ -592,4 +599,12 @@ def checkoutValidCheck(checkout,request):
 	if dict:
 		dict['checkout'] = checkout
 		return dict
-	return {'status':201} #Checkout is VALID!!!
+	
+	#If the cart is under $15,000
+	if int(checkout.total()) > 14999:
+		dict = {'status':100,'error':'toolarge'} # Too expensive
+	
+	if not dict:	
+		dict = {'status':201} #Checkout is VALID!!!
+	
+	return dict

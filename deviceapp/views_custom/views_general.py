@@ -17,7 +17,7 @@ import time
 
 
 def index(request):
-	items = Item.objects.order_by('savedcount')[:9]
+	items = Item.objects.filter(liststatus='active').order_by('savedcount')[:9]
 	return render_to_response('general/index.html',{'featured':items},context_instance=RequestContext(request))
 
 def categories(request):
@@ -52,3 +52,65 @@ def error(request,errorname):
 		errormessage = 'This item has been taken down or sold'
 	return render_to_response('general/error.html',{'errormessage':errormessage},context_instance=RequestContext(request))
 
+
+#################################################
+### Promotional Codes Functionality  ############
+#################################################
+
+PROMO_CODES = {'beta14':True,'dmg1':False,'vegeta':True}
+
+@login_required
+def addPromoCode(request,itemid):
+	dict = {}
+	item = Item.objects.get(id=itemid)
+	if request.method == "POST" and item.user == request.user.basicuser: 
+		promocode = request.POST.get('promocode','')
+		promocode = promocode.lower()
+		if promocode.lower() in PROMO_CODES.keys():
+			if PROMO_CODES[promocode]:
+				item.promo_code = promocode
+				item.save()
+				dict = {'status':201,'message':promoCodeText(item.promo_code)}
+			else:
+				dict = {'status':400,'message':"You're too late! This code has expired! Sorry"}
+		else:
+			dict = {'status':500,'message':'This code does not exist'}
+	else:
+		dict = {'status':500,'message':'Not the owner of the item'}
+	return HttpResponse(json.dumps(dict), content_type='application/json')
+	
+def promoCodeText(promocode):
+	if promocode == 'beta14':
+		return 'Sweet! You will receive 50% off VetCove commission'
+	if promocode == 'vegeta':
+		return 'Superb! No commission fees for you!'
+	return ''
+	
+def calculateCommission(item):
+	commission_rate = .09 #If no promo codes
+	total_price = item.price
+	if item.promo_code == 'beta14':
+		commission_rate = .045
+	if item.promo_code == 'vegeta':
+		commission_rate = 0
+	return int(total_price*comission_rate)
+
+### Takes an integer and converts into dollar format #####
+def convertIntPriceToDollars(int_price):
+	int_price = str(int_price)
+	dollars = list(int_price[0:-2])
+	for i in range(len(int_price)-5,0,-3):
+		dollars.insert(i,',')
+	dollars = "".join(dollars)
+	return "$"+dollars+'.'+int_price[-2:]
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	

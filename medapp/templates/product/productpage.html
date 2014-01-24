@@ -1,4 +1,4 @@
-{%load humanize %}
+{%load dollars %}
 {%load phonenumber %}
 {% if not preview and item.offlineviewing %}
 <div id="buynowcontainer">
@@ -91,8 +91,8 @@
 	<div class="col-xs-12 col-sm-4 col-md-4 col-md-push-8 col-sm-push-8 sideproductcontainer">
 		<div class="sideproduct actionbox">
 			<h2>Buy This Item</h2>  
-			<h3>${{item.price|floatformat:"2"|intcomma}}</h3>
-			<p class="original-price">${{item.msrp_price|floatformat:"2"|intcomma}}</p>
+			<h3>{{item.price|dollars}}</h3>
+			<p class="original-price">{{item.msrp_price|dollars}}</p>
 			<h4> Quantity Available: {{item.quantity}}</h4>
 			<p>All items on VetCove include free shipping</p>
 			{% if not preview %}
@@ -228,7 +228,7 @@
 						{% if question.answer %}
 							<p class="answer">{{question.answer}}</p>
 						{% else %}
-							<p id="notyetanswered">The seller has no yet answered this question</p>
+							<p id="notyetanswered">The seller has not yet answered this question</p>
 						{%endif %}
 					</div>
 				{% endfor %}
@@ -246,7 +246,7 @@
 						<div class="related-container">
 							<h3>{{itm.name}}</h3>
 							<img src="{%if itm.mainimage %}{{itm.mainimage.photo_medium.url}}{% else %}{{STATIC_URL}}img/noimage.jpg{% endif %}" alt="{{item.name}}"/>
-							<p>${{itm.price|floatformat:"2"|intcomma}} <span>(${{itm.msrp_price|floatformat:"2"|intcomma}})</span></p>
+							<p>{{itm.price|dollars}} <span>({{itm.msrp_price|dollars}})</span></p>
 						</div>
 					</a>
 				</li>
