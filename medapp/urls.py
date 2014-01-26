@@ -63,7 +63,7 @@ urlpatterns = patterns('',
     url(r'^account/editlisting/relist/(?P<itemid>\d+)','deviceapp.views_custom.editListingRelist'),
     
     #Email Reminder Token Link
-    url(r'^account/updatelisting/sold/(?P<token>\w+)','deviceapp.views_custom.updateListingState'),
+    #url(r'^account/updatelisting/sold/(?P<token>\w+)','deviceapp.views_custom.updateListingState'),
 	
     #/account/updatelisting/sold/
     
