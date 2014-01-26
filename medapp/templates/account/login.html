@@ -39,6 +39,11 @@
 				<p>Password</p>
 				<input name="password" class="form-control" type="password">
 				<a class="forgotpassword" href="{% url "password_reset_recover" %}">Forgot Password?</a>
+				<div class="checkbox rememberme">
+					<label>
+						<input type="checkbox" name="rememberme"> Remember me
+					</label>
+				</div>
 				<button class="button button-primary button-rounded" value="submit">Login</button>
 				<div class="clear"></div>
 			</form>

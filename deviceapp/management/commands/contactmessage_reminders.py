@@ -26,10 +26,9 @@ class Command(BaseCommand):
 				if messageShouldSend(message):
 					token = generateToken()
 					rt = ReminderToken(contact_message=message,token=token)
-					write(self,rt)
 					rt.save()
 					email_view.composeEmailContactMessageFollowUp_Seller(message,token)
-					write(self,'Email Sent')
+					write(self,'Email Sent for '+str(message.item.name))
 			
 def write(self,string):
 	self.stdout.write(str(string))

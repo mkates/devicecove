@@ -132,10 +132,10 @@
 		<h4> Logistics<a href="/list/logistics/{{item.id}}">edit</a></h4>
 		<div class="row">
 			<div class="col-md-3 col-sm-3 col-xs-12 info_header">
-				<p>Offline Viewing</p>
+				<p>Viewing</p>
 			</div>
 			<div class="col-md-9 col-sm-9 col-xs-12">
-				<p>{{item.offlineviewing}}</p>
+				<p>{% if item.offlineviewing %}Offline Allowed{% else %}Online Only{% endif %}</p>
 			</div>
 		</div>
 		<div class="row">
@@ -154,6 +154,16 @@
 				<p>{{item.price|dollars}}</p>
 			</div>
 		</div>
+		{% if item.promo_code %}
+		<div class="row">
+			<div class="col-md-3 col-sm-3 col-xs-12 info_header">
+				<p>Promotional Code</p>
+			</div>
+			<div class="col-md-9 col-sm-9 col-xs-12">
+				<p>{{item.promo_code.code}} ({{item.promo_code.details}})</p>
+			</div>
+		</div>
+		{% endif %}
 	</div>
 	<div class="preview-image col-md-4 col-sm-4 col-xs-12">
 		<h4> Photos<a href="/list/photos/{{item.id}}">edit</a></h4>

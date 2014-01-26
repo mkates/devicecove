@@ -176,6 +176,7 @@ def imageupload(request,itemid):
 			imagehandlers = []
 			for file in request.FILES.getlist('files'):
 				extension = file.name.split('.')[1]
+				extension = extension.lower()
 				if not (extension == 'png' or extension == 'jpg'):
 					return HttpResponse(json.dumps('filetype'), content_type='application/json')
 				if file.size > 1048576:
@@ -196,7 +197,7 @@ def listitemlogistics(request,itemid):
 		item = Item.objects.get(id=itemid)
 		item.liststage = max(4,item.liststage)
 		item.save()
-		dict = {'item':item,'logistics':True,'promo_message':general_view.promoCodeText(item.promo_code)}
+		dict = {'item':item,'logistics':True}
 		categories = Category.objects.all()
 		return render_to_response('item/item_logistics.html',dict,context_instance=RequestContext(request))
 	return HttpResponseRedirect('/listintro')

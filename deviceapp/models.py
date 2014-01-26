@@ -185,7 +185,7 @@ class Item(models.Model):
 	tos = models.BooleanField(default=False)
 	msrp_price = models.BigIntegerField(max_length=20)
 	price = models.BigIntegerField(max_length=20)
-	promo_code = models.CharField(max_length=10,blank=True,null=True)
+	promo_code = models.ForeignKey('PromoCode',blank=True,null=True)
 	commission_paid = models.BooleanField(default=False)
 	sold_online = models.BooleanField(default=False) # An offline viewable item was bought online
 	#Miscellaneous 
@@ -501,5 +501,18 @@ class ReminderToken(models.Model):
 	contact_message = models.ForeignKey(SellerMessage)
 	ACTION_OPTIONS =  (('none', 'None'),('sold', 'Sold'),('not_sold', 'Not Sold'),('different_sold','Different Buyer'))
 	action = models.CharField(max_length = 50,choices=ACTION_OPTIONS,default="none")
-	token = models.CharField(max_length = 20)
-	
+	token = models.CharField(max_length = 20,unique=True)
+
+############################################
+### Promotional Code #######################
+############################################
+class PromoCode(models.Model):
+	code = models.CharField(max_length=100,unique=True)
+	promo_text = models.CharField(max_length=255) # Fun description
+	active = models.BooleanField()
+	details = models.CharField(max_length=100) # Short description
+	PROMO_TYPE =  (('factor', 'Factor'),('discount', 'Discount'))
+	promo_type = models.CharField(max_length = 50,choices=PROMO_TYPE)
+	factor = models.IntegerField(max_length=100,null=True,blank=True) # % off commission / 100
+	discount = models.IntegerField(max_length = 10,null=True,blank=True) # straight discount
+

@@ -25,7 +25,6 @@ def render_and_send_email(template_data,subject,receiver):
 		msg = EmailMultiAlternatives(subject=subject, from_email="mhkates@gmail.com",to=[receiver], body=text_body)
 		msg.attach_alternative(html_body, "text/html")
 		msg.send()
-		print msg
 		return 201
 	except Exception,e:
 		print e
@@ -34,6 +33,7 @@ def render_and_send_email(template_data,subject,receiver):
 #### Welcome Email ######
 def composeEmailWelcome(request,basicuser):
 	template_data = {
+		'STATIC_URL':settings.STATIC_URL,
 		'welcome':True,
 		'email_title':'Welcome',
 		'email_teaser':'NEEDS TO BE FINISHED',
@@ -46,6 +46,7 @@ def composeEmailWelcome(request,basicuser):
 #### Partner Verification Program Confirmation #####
 def composeEmailPVP(request,basicuser):
 	template_data = {
+		'STATIC_URL':settings.STATIC_URL,
 		'pvp':True,
 		'email_title':"PVP",
 		'email_teaser':'NEEDS TO BE FINISHED',
@@ -58,6 +59,7 @@ def composeEmailPVP(request,basicuser):
 #### Confirm Listing Was Posted ######
 def composeEmailListingConfirmation(request,basicuser,item):
 	template_data = {
+		'STATIC_URL':settings.STATIC_URL,
 		'listing_confirmation':True,
 		'item':item,
 		'email_title':"Listing Confirmation",
@@ -71,6 +73,7 @@ def composeEmailListingConfirmation(request,basicuser,item):
 #### A seller has asked you a new question ######
 def composeEmailNewQuestion(request,basicuser,question):
 	template_data = {
+		'STATIC_URL':settings.STATIC_URL,
 		'new_question':True,
 		'question':question,
 		'email_title':"New Question",
@@ -82,21 +85,23 @@ def composeEmailNewQuestion(request,basicuser,question):
 	return email	
 
 #### When someone fills out the contact message ######
-def composeEmailContactMessage_Seller(request,basicuser,contact_message):
+def composeEmailContactMessage_Seller(request,seller,contact_message):
 	template_data = {
+		'STATIC_URL':settings.STATIC_URL,
 		'contactmessage_seller':True,
 		'contact_message':contact_message,
 		'email_title':"New Contact Request",
 		'email_teaser':'NEEDS TO BE FINISHED',
-		'email_name':basicuser.name
+		'email_name':seller.name
 	}
 	subject = "A Vetcove buyer wants to schedule a viewing of your "+contact_message.item.name
-	email = render_and_send_email(template_data,subject,basicuser.email)
+	email = render_and_send_email(template_data,subject,seller.email)
 	return email	
 
 #### Post contact message, follow up for Seller ######
 def composeEmailContactMessageFollowUp_Seller(contact_message,token):
 	template_data = {
+		'STATIC_URL':settings.STATIC_URL,
 		'selling_reminder':True,
 		'temp_base':"http://127.0.0.1:5000",
 		'contact_message':contact_message,
@@ -115,8 +120,8 @@ def composeEmailContactMessageFollowUp_Buyer(request,basicuser):
 	
 #### Receipt for commission charged on an item ######
 def composeEmailCommissionCharged(request,basicuser,commission_obj):
-	commission_obj = Commission.objects.get(id=1)
 	template_data = {
+		'STATIC_URL':settings.STATIC_URL,
 		'commission_charged':True,
 		'commission_obj':commission_obj,
 		'email_title':"Commission Payment Confirmation",
@@ -132,6 +137,7 @@ def composeEmailCommissionCharged(request,basicuser,commission_obj):
 def composeEmailItemSold_Seller(request,basicuser,purchased_item):
 	item =  purchased_item.cartitem.item
 	template_data = {
+		'STATIC_URL':settings.STATIC_URL,
 		'item_sold_seller':True,
 		'purchased_item':purchased_item,
 		'item':item,
@@ -150,6 +156,7 @@ def composeEmailItemPurchased_Buyer(request,basicuser,checkout):
 	purchased_items = checkout.purchaseditem_set.all()
 	shipping_address = checkout.shipping_address
 	template_data = {
+		'STATIC_URL':settings.STATIC_URL,
 		'purchase_confirmation':True,
 		'purchased_items':purchased_items,
 		'checkout':checkout,
@@ -168,6 +175,7 @@ def composeEmailItemPurchased_Buyer(request,basicuser,checkout):
 def composeEmailItemShipped_Buyer(request,basicuser,purchased_item):
 	item =  purchased_item.cartitem.item
 	template_data = {
+		'STATIC_URL':settings.STATIC_URL,
 		'item_shipped_buyer':True,
 		'purchased_item':purchased_item,
 		'item':item,
@@ -184,6 +192,7 @@ def composeEmailItemShipped_Buyer(request,basicuser,purchased_item):
 def composeEmailItemShipped_Seller(request,basicuser,purchased_item):
 	item =  purchased_item.cartitem.item
 	template_data = {
+		'STATIC_URL':settings.STATIC_URL,
 		'item_shipped_seller':True,
 		'purchased_item':purchased_item,
 		'item':item,
@@ -205,6 +214,7 @@ def composeEmailPayoutCheckSent(basicuser,check_obj):
 	cc_fee = int(.03*payout_subtotal*100)/float(100)
 	payout_total = payout_subtotal-commission-cc_fee
 	template_data = {
+		'STATIC_URL':settings.STATIC_URL,
 		'payout_check_sent':True,
 		'purchased_items': purchased_items,
 		'check_obj':check_obj,
@@ -231,6 +241,7 @@ def composeEmailPayoutBankSent(basicuser,bank_obj):
 	cc_fee = int(.03*payout_subtotal*100)/float(100)
 	payout_total = payout_subtotal-commission-cc_fee
 	template_data = {
+		'STATIC_URL':settings.STATIC_URL,
 		'payout_bank_sent':True,
 		'purchased_items': purchased_items,
 		'bank_obj':bank_obj,
@@ -258,6 +269,7 @@ def composeEmailNoPayment(basicuser):
 	cc_fee = int(.03*payout_subtotal*100)/float(100)
 	payout_total = payout_subtotal-commission-cc_fee
 	template_data = {
+		'STATIC_URL':settings.STATIC_URL,
 		'no_payment':True,
 		'totals':True,
 		'cc_fee':cc_fee,
@@ -282,6 +294,7 @@ def composeEmailPayoutFailed(basicuser,bank_obj):
 	cc_fee = int(.03*payout_subtotal*100)/float(100)
 	payout_total = payout_subtotal-commission-cc_fee
 	template_data = {
+		'STATIC_URL':settings.STATIC_URL,
 		'payout_failed':True,
 		'purchased_items': purchased_items,
 		'bank_obj':bank_obj,
@@ -308,6 +321,7 @@ def composeEmailPayoutUpdated(basicuser):
 	else:
 		return composeEmailNoPayment(basicuser)
 	template_data = {
+		'STATIC_URL':settings.STATIC_URL,
 		'payout_updated':True,
 		'payout_method':bu.payout_method,
 		'payout':payout,

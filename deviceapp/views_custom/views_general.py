@@ -37,6 +37,9 @@ def testemail(request):
 	
 def my_404_view(request):
 	return render_to_response('404.html',context_instance=RequestContext(request))
+
+def my_500_view(request):
+	return render_to_response('500.html',context_instance=RequestContext(request))
 	
 def buyerprotect(request):
 	return render_to_response('general/buyerprotect.html',context_instance=RequestContext(request))
@@ -57,8 +60,6 @@ def error(request,errorname):
 ### Promotional Codes Functionality  ############
 #################################################
 
-PROMO_CODES = {'beta14':True,'dmg1':False,'vegeta':True}
-
 @login_required
 def addPromoCode(request,itemid):
 	dict = {}
@@ -66,34 +67,52 @@ def addPromoCode(request,itemid):
 	if request.method == "POST" and item.user == request.user.basicuser: 
 		promocode = request.POST.get('promocode','')
 		promocode = promocode.lower()
-		if promocode.lower() in PROMO_CODES.keys():
-			if PROMO_CODES[promocode]:
-				item.promo_code = promocode
+		try:
+			pc = PromoCode.objects.get(code=promocode.lower())
+			if pc.active:
+				item.promo_code = pc
 				item.save()
-				dict = {'status':201,'message':promoCodeText(item.promo_code)}
+				dict = {'status':201,'message':pc.promo_text}
 			else:
 				dict = {'status':400,'message':"You're too late! This code has expired! Sorry"}
-		else:
+		except:
 			dict = {'status':500,'message':'This code does not exist'}
 	else:
 		dict = {'status':500,'message':'Not the owner of the item'}
 	return HttpResponse(json.dumps(dict), content_type='application/json')
-	
-def promoCodeText(promocode):
-	if promocode == 'beta14':
-		return 'Sweet! You will receive 50% off VetCove commission'
-	if promocode == 'vegeta':
-		return 'Superb! No commission fees for you!'
-	return ''
-	
-def calculateCommission(item):
-	commission_rate = .09 #If no promo codes
-	total_price = item.price
-	if item.promo_code == 'beta14':
-		commission_rate = .045
-	if item.promo_code == 'vegeta':
-		commission_rate = 0
-	return int(total_price*comission_rate)
+
+# Calculate commission amount:
+# Commission Structure
+# Under $20 15%
+# $20-$50   14%
+# $50-$200  13%
+# $200-$500 12%
+# $500-2000 10%
+# $2000+     9%
+def commissionPercentage(total_price):
+	if total_price < 2000:
+		commission = .15
+	elif total_price < 5000:
+		commission = .14
+	elif total_price < 20000:
+		commission = .13
+	elif total_price < 50000:
+		commission = .12
+	elif total_price < 200000:
+		commission = .10
+	else:
+		commission = .09
+	return commission
+
+def commission(item):
+	if not item.promo_code:
+		return 0
+	elif item.promo_code.promo_type == 'factor':
+		return (item.price*commissionPercentage(item.price)*((item.promo_code.factor)/float(100)))
+	elif item.promo_code.promo_type == 'discount':
+		return max(0,item.price*commissionPercentage(item.price)-item.promo_code.discount)
+	return 0
+
 
 ### Takes an integer and converts into dollar format #####
 def convertIntPriceToDollars(int_price):

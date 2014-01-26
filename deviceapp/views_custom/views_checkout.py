@@ -187,6 +187,7 @@ def checkoutlogin(request):
 	if request.method == "POST":
 		username = request.POST['email']
 		password = request.POST['password']
+		rememberme = request.POST.get('rememberme','')
 		user = authenticate(username=username,password=password)
 		if user is not None:
 			if user.is_active:
@@ -202,6 +203,10 @@ def checkoutlogin(request):
 					#User is not logged in, add session items into existing cart and continue
 					session_shoppingcart = getShoppingCart(request)
 					login(request,user)
+					if rememberme:
+						request.session.set_expiry(500000)
+					else:
+						request.session.set_expiry(0)
 					bu = BasicUser.objects.get(user=user)
 					if session_shoppingcart:
 						for cartitem in session_shoppingcart.cartitem_set.all():

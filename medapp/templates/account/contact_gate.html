@@ -162,13 +162,17 @@ $(document).ready(function() {
 					</div>
 				</div>
 			</div>
+			{% load multiply %}
 			<div class="col-md-4 col-sm-4 col-xs-12 total-row">
 				<div class="gateway-row">
 					<h5>Refundable Commission Fee</h5>
-					<p class="subheader">*The commission fee is 9% of the list price ({{item.price|dollars}})
+					<p class="subheader">*The commission fee is {{commission_percent|multiply:100}}% of the list price ({{item.price|dollars}})
 					charged once and fully refundable if the item is not sold</p>
-					<p>Commission Fee ( 9% )<span>{{commission|dollars}}</span></p>
-					<p class="commission-total">Total:<span>{{commission|dollars}}</span></p>
+					<p>Commission Fee ({{commission_percent|multiply:100}}%)<span>{{standard_commission|dollars}}</span></p>
+					{% if item.promo_code %}
+					<p>Promo Code ({{item.promo_code.details}})<span>-{{discount|dollars}}</span></p>
+					{% endif %}
+					<p class="commission-total">Total:<span>{{net_commission|dollars}}</span></p>
 				</div>
 			</div>
 

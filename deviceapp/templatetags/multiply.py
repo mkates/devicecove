@@ -4,4 +4,4 @@ register = Library()
 
 @register.filter
 def multiply( value , arg ):
-  return int(value)*int(arg)
+  return int(float(value)*float(arg))

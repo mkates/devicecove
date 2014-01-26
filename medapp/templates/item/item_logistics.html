@@ -75,6 +75,7 @@
 .promo-entry .current-code span{
 	font-weight: 800;
 	color: green;
+	display:inline-block;
 }
 .promo-entry .current-code .promo_message {
 	color: #777;
@@ -212,9 +213,9 @@ var validateInputs = function validateInputs() {
 	<div class="entry promo-entry">
 		<h5>Promotional Code</h5>
 		<p>If you have a promotional code, please enter it below. Only one promotional code can be used.</p>
-		<h6 class="current-code">Current Promotion Code: <span id="current-code"> {{item.promo_code}}</span> <span class="promo_message">{% if item.promo_code %}({{promo_message}}){% endif %}</span></h6>
-		<input id="promocode" name="promocode" class="form-control" value="{% if item.promo_code %}{{item.promo_code}}{% endif %}" />
-		<a id="promo-check" class="button button-rounded button-primary">Enter Promotional Code</a>
+		<h6 class="current-code">Current Promotion Code: <span id="current-code"> {{item.promo_code.code}}</span> <span class="promo_message">{% if item.promo_code %}({{item.promo_code.promo_text}}){% endif %}</span></h6>
+		<input id="promocode" name="promocode" class="form-control" value="{% if item.promo_code %}{{item.promo_code.code}}{% endif %}" />
+		<a id="promo-check" class="button button-rounded button-primary">Use This Promo Code</a>
 		<img src="{{STATIC_URL}}img/ajax-loader.gif"/>
 		<h6 id="code-explain"></h6>
 	</div>

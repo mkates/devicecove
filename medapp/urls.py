@@ -63,10 +63,7 @@ urlpatterns = patterns('',
     url(r'^account/editlisting/relist/(?P<itemid>\d+)','deviceapp.views_custom.editListingRelist'),
     
     #Email Reminder Token Link
-    #url(r'^account/updatelisting/sold/(?P<token>\w+)','deviceapp.views_custom.updateListingState'),
-	
-    #/account/updatelisting/sold/
-    
+    url(r'^account/updatelisting/(?P<action>\w+)/(?P<token>\w+)','deviceapp.views_custom.updateListingState'),
     
     
     #Checkout Experience
@@ -171,3 +168,4 @@ urlpatterns += patterns('',
 #####################################################################
 
 handler404 = 'deviceapp.views_custom.my_404_view'
+handler500 = 'deviceapp.views_custom.my_500_view'

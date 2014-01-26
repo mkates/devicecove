@@ -437,5 +437,29 @@
         "savedcount" : 2,
         "listeddate" : "2013-11-01"
     }
+},
+{
+	"pk": 1, 
+    "model": "deviceapp.promocode", 
+    "fields": {
+    	"code": "beta14",
+    	"promo_text": "Sweet! You are saving 50% on your commission", 
+    	"details": "50% off", 
+		"active": true,
+		"promo_type":"factor",
+		"factor":50
+    }
+},
+{
+	"pk": 2, 
+    "model": "deviceapp.promocode", 
+    "fields": {
+    	"code": "vegeta",
+    	"promo_text": "$5 off commission on this item", 
+    	"details": "$5 off", 
+		"active": true,
+		"promo_type":"discount",
+		"discount":500
+    }
 }
 ]

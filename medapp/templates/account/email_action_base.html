@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+{% block headertitle %}<title>VetCove | Update Listing</title>{% endblock%}
+
+{% block headercss %}
+<style>
+.pagecontainer {
+	margin: 30px auto;
+	max-width: 1000px;
+	text-align: center;
+	padding-top: 25px;
+	padding-bottom: 5px;
+}
+.pagecontainer h3 {
+	padding: 0 10px;
+}
+.pagecontainer h4 {
+	margin: 25px 0;
+	font-weight: 200;
+	padding: 0 10px;
+}
+.pagecontainer h4 span {
+	font-weight: 800;
+}
+.pagecontainer .error-message {
+	color: red;
+}
+.pagecontainer p {
+	font-size: 12px;
+	color: #aaa;
+}
+.pagecontainer .action-panel {
+	margin: 20px 0;
+}
+</style>
+{% endblock %}
+
+{% block jsblock %}
+
+{% endblock %}
+
+{% block content %}
+<div class="pagecontainer row covebox">
+	{% if status == 500 %}
+		<h3 class="error-message">
+			{% if error == 'not_active' %}
+				The listing for {{item.name}} is no longer active
+			{% elif error == 'does_not_exist' %}
+				This item does not exist. You can update your listings
+				through the <a href="/account/listings/all">seller portal</a>
+			{% endif %}	
+		
+		</h3>
+	{% endif %}
+	{% if status == 201 %}
+		<h3>
+			{% if message == 'not_sold' %}
+				Thanks for updating us! Your listing will remain active.
+			{% else %}	
+				Your item has been marked as sold!
+			{% endif %}	
+		</h3>
+		<h4>{{item.name}} Status: <span>{{item.liststatus|title}}</span></h4>
+	{% endif %}
+	<div class="action-panel">
+		<a href="/account/listings/all" class="button button-rounded button-primary">Update Your Listing</a>
+		<a href="/item/{{item.id}}/details" class="button button-rounded">View Listing</a>
+	</div>
+	<p>We hope you are enjoying the VetCove selling experience. If you think there are ways we can improve the selling experience,
+	please don't hesitate to contact us.</p>
+</div>
+{% endblock %}

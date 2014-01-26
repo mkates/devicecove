@@ -236,7 +236,7 @@ AWS_SECRET_ACCESS_KEY = 'PyXJd3qGHrTuDXWRHLjvA88YfBR7ebPScKeB6ps1'
 
 #Email Credentials
 MANDRILL_API_KEY = "iSqtoSVWpB1aSTzA_YqaXg"
-DEFAULT_FROM_EMAIL = 'mhkates@gmail.com'
+DEFAULT_FROM_EMAIL = 'info@vetcove.com'
 EMAIL_BACKEND = "djrill.mail.backends.djrill.DjrillBackend"
 
 #Balanced API

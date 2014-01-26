@@ -31,7 +31,7 @@ class Command(BaseCommand):
 			for p_item in basicuser.purchaseditemseller.all():
 				if purchasedItemEligibleForPayout(p_item):
 					if not p_item.cartitem.item.commission_paid: 
-						commission = general_view.calculateCommission(p_item.cartitem.item)
+						commission = general_view.commission(p_item.cartitem.item)
 						commission_total += commission
 					payout_total += p_item.total-commission
 					eligiblePurchasedItems.append(p_item)

@@ -22,16 +22,14 @@
 .checkoutloginform input {
 	margin-bottom: 10px;
 }
-.checkoutcol .forgotpassword-div {
-	display:block;
-	text-align: right;
-	margin-bottom: -20px;
-}
+
 .checkoutcol .forgotpassword {
 	display: inline-block;
 	font-weight: 200;
 	font-size: 12px;
+	margin-top: 5px;
 	padding:5px 0;
+	float: right;
 }
 .checkoutcol .submitbutton {
 	margin-top: 40px;
@@ -61,6 +59,9 @@
 	margin-left: 5px;
 	color: #D90000;
 	line-height: 14px;
+}
+.rememberme {
+	display:inline-block;
 }
 </style>
 {% endblock %}
@@ -109,9 +110,18 @@ var loading_src = "{{STATIC_URL}}img/ajax-loader2.gif";
 				<input name="email" class="form-control" type="email" placeholder="ex. joedoe@gmail.com">
 				<p>Password</p>
 				<input name="password" class="form-control" type="password">
-				<div class="forgotpassword-div">
+				<span>
+					{% if not user.basicuser %}
+					<div class="checkbox rememberme">
+						<label>
+							<input type="checkbox" name="rememberme"> Remember me
+						</label>
+					</div>
+					{% endif %}
 					<a class="forgotpassword" href="{% url "password_reset_recover" %}">Forgot Password?</a>
-				</div>
+
+				</span>
+				<div class="clear"></div>
 				<button class="button button-action button-rounded" value="submit">Login</button>
 				<div class="clear"></div>
 			</form>

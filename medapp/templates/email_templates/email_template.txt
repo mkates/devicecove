@@ -151,7 +151,32 @@ Thank you again for choosing VetCove!
 
 Warmest regards,
 Alex and The VetCove Team
-{% endif %} {% if item_sold_seller %}
+{% endif %}{% if selling_reminder %}
+Two weeks ago, we sent you a buyer's contact information that was interested in purchasing your item: {{item.name}}.  That buyer's name and business information is below:
+Buyer Message
+{{contact_message.buyer.name}}
+Contact Date: {{contact_message.date_sent}}
+{% if contact_message.buyer.email %}Email: {{contact_message.email}}{% endif %}
+{% if contact_message.buyer.phone %}Phone: {{contact_message.phone|phonenumber}}{% endif %}
+Message: {{contact_message.message}}
+How did it go?  Were you able to sell the item to this buyer?
+I sold the item to this buyer
+http://www.vetcove.com/account/updatelisting/sold/{{token}}
+
+I sold the item to a different VetCove buyer
+http://www.vetcove.com//account/updatelisting/differentsold/{{token}}
+
+I sold the item outside VetCove
+{{temp_base}}/account/updatelisting/notsold/{{token}}
+
+If your item sold, please remove it from the VetCove website using one one of the appropriate links above.  It is your responsibility to remove all sold items within two business days in accordance with the terms of the VetCove Seller Contract. 
+Please do not share this email with others as they will be able to mark your items as sold and the listing will no longer be visible to potential buyers.
+
+Thank you again for choosing VetCove!
+
+Warmest regards,
+Alex and The VetCove Team
+{% endif %}{% if item_sold_seller %}
 Congratulations! A VetCove member has purchased {%if purchased_item.quantity > 1 %}{{purchased_item.quantity}}{% endif %} of your item, {{item.name}} and payment has been confirmed.  You may now prepare to ship the item in accordance with the terms of your listing.  The contact information and shipping address of the buyer is below:
 
 Shipping Address

@@ -32,6 +32,7 @@ def loginview(request):
 def lgnrequest(request):
 	username = request.POST['email']
 	password = request.POST['password']
+	rememberme = request.POST.get('rememberme','')
 	user = authenticate(username=username,password=password)
 	if user is not None:
 		if user.is_active:
@@ -44,6 +45,10 @@ def lgnrequest(request):
 						ci = CartItem(item=cartitems.item,shoppingcart=user_shoppingcart,quantity=1)
 						ci.save()
 			login(request,user)
+			if rememberme:
+				request.session.set_expiry(500000)
+			else:
+				request.session.set_expiry(0)
 			try:
 				request.GET['next']
 				return HttpResponseRedirect(request.GET['next'])
