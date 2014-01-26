@@ -65,7 +65,7 @@ urlpatterns = patterns('',
     #Email Reminder Token Link
     url(r'^account/updatelisting/sold/(?P<token>\w+)','deviceapp.views_custom.updateListingState'),
 	
-    /account/updatelisting/sold/
+    #/account/updatelisting/sold/
     
     
     
