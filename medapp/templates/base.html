@@ -33,6 +33,9 @@
 		  <span class="icon-bar"></span>
 		  <span class="icon-bar"></span>
 		</button>
+		<button id="search_icon" class="navbar-toggle">
+			<img src="{{STATIC_URL}}img/search_icon.png"/>
+		</button>
 		<a class="navbar-brand" href="/"><img src="{{STATIC_URL}}img/logo_new.png" alt="VetCove"/></a>
 	  </div>
 
@@ -92,7 +95,7 @@
 		</ul>
 	  </div><!-- /.navbar-collapse -->
 	</nav>
-	<div class="searchrow-container">
+	<div class="searchrow-container hide-search">
 		<div class="row searchrow">
 			<div class="col-md-12 col-sm-12 col-xs-12 searchbar-row">
 				<form id="searchform" class="searchbar" action="/customsearch" method="get">
@@ -266,7 +269,14 @@
  		$('.browse-categories').css('display','none');
  		$('.shopbycategory-button').removeClass("shopbycategory-button-active");
  	});
- 
+ 	$("#search_icon").click(function() {
+ 		console.log("here");
+ 		if ($(".searchrow-container").is(":visible")) {
+ 			$(".searchrow-container").addClass("hide-search");
+ 		} else {
+ 			$(".searchrow-container").removeClass("hide-search");
+ 		};
+ 	});
  });
  </script>
  

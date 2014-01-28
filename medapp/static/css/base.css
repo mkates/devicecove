@@ -419,19 +419,25 @@ footer ul li a:hover {
 			padding: 0 10px;
 		}
 		.navigation-container .searchbar-row {
-			padding: 0 10px;
+			padding: 0 5px;
 			margin-bottom: 10px;
 		}
 	}
 	@media (max-width: 768px) {	
+		.hide-search {
+			display: none;
+		}
 		.navigation-container .navbar {
 			padding: 5px 0px;
 		}
 		.navigation-container .searchrow {
 			padding-left: 0;
 		}
+		.navigation-container .navbar-toggle {
+			margin-right: 5px;
+		}
 		.navigation-container .navbar-brand {
-			margin-left: 15px;
+			margin-left: 5px;
 			margin-top: 5px;
 		}
 		.navigation-container .navbar-default ul {
@@ -440,11 +446,19 @@ footer ul li a:hover {
 		.navigation-container .navbar-default .navbar-nav > li > a {
 			padding-top: 6px;
 			padding-bottom: 6px;
+			font-weight: 500;
 		}
 		.navigation-container .navbar-nav > li > .dropdown-menu {
 			box-shadow: none;
 			width: 100%;
 			max-width: 100%;
+		}
+		.navbar-default .navbar-toggle {
+			height: 40px;
+			padding: 0 10px;
+		}
+		.navbar-default .navbar-toggle:focus, .navbar-default .navbar-toggle:hover {
+			background: #fff;
 		}
 		.navigation-container .dropdown-menu .cart-dropdown-item {
 			width: 100%;
@@ -452,7 +466,7 @@ footer ul li a:hover {
 		.navigation-container .navbar-brand img {
 			margin-top: 0px;
 			margin-bottom: 0px;
-			width: 100px;
+			width: 120px;
 		}
 		.navigation-container #searchform {
 			margin-left: 0px
