@@ -66,6 +66,7 @@ class Migration(SchemaMigration):
         db.create_table(u'deviceapp_basicuser', (
             (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
             ('user', self.gf('django.db.models.fields.related.OneToOneField')(to=orm['auth.User'], unique=True)),
+            ('date_created_two', self.gf('django.db.models.fields.DateTimeField')(auto_now_add=True, blank=True)),
             ('businesstype', self.gf('django.db.models.fields.CharField')(max_length=60)),
             ('name', self.gf('django.db.models.fields.CharField')(max_length=60)),
             ('company', self.gf('django.db.models.fields.CharField')(max_length=60)),
@@ -557,6 +558,7 @@ class Migration(SchemaMigration):
             'check_address': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['deviceapp.UserAddress']", 'null': 'True', 'blank': 'True'}),
             'city': ('django.db.models.fields.CharField', [], {'max_length': '60'}),
             'company': ('django.db.models.fields.CharField', [], {'max_length': '60'}),
+            'date_created_two': ('django.db.models.fields.DateTimeField', [], {'auto_now_add': 'True', 'blank': 'True'}),
             'default_payment_ba': ('django.db.models.fields.related.ForeignKey', [], {'blank': 'True', 'related_name': "'default_payment_ba'", 'null': 'True', 'to': u"orm['deviceapp.BalancedBankAccount']"}),
             'default_payment_cc': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['deviceapp.BalancedCard']", 'null': 'True', 'blank': 'True'}),
             'default_payout_ba': ('django.db.models.fields.related.ForeignKey', [], {'blank': 'True', 'related_name': "'default_payout_ba'", 'null': 'True', 'to': u"orm['deviceapp.BalancedBankAccount']"}),
