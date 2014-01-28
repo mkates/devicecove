@@ -444,8 +444,8 @@ footer ul li a:hover {
 			border-radius: 0px;
 		}
 		.navigation-container .navbar-default .navbar-nav > li > a {
-			padding-top: 6px;
-			padding-bottom: 6px;
+			padding-top: 10px;
+			padding-bottom: 10px;
 			font-weight: 500;
 		}
 		.navigation-container .navbar-nav > li > .dropdown-menu {

@@ -42,7 +42,7 @@
 	  <!-- Collect the nav links, forms, and other content for toggling -->
 	  <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 		<ul class="nav navbar-nav navbar-right">
-			<li><a class="visible-xs" href="/listintro">Browse by Category</a></li>
+			<li><a class="visible-xs" href="/categories">Browse by Category</a></li>
 			<li class="dropdown cart-dropdown">
 				<a href="/cart" {% if cart_items %}class="dropdown-toggle" data-toggle="dropdown"{% endif %}>Cart <span class="shoppingcart-image"><img src="{{STATIC_URL}}img/shoppingcart.png"/></span>{% if cart_items %}<span class="sc-count">{{cart_items_count}}</span><b class="caret"></b>{% endif %}</a>
 				<ul class="navigation-options dropdown-menu pull-left">
@@ -270,7 +270,7 @@
  		$('.shopbycategory-button').removeClass("shopbycategory-button-active");
  	});
  	$("#search_icon").click(function() {
- 		console.log("here");
+ 		console.log(($(".searchrow-container").is(":visible"));
  		if ($(".searchrow-container").is(":visible")) {
  			$(".searchrow-container").addClass("hide-search");
  		} else {
