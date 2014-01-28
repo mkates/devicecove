@@ -36,7 +36,7 @@ def newuserform(request):
 			name = request.POST['name']
 			email = request.POST['email']
 			#If user email is already in user, go to signup + email error
-			if User.objects.filter(username=email).count():
+			if User.objects.filter(username=email).exists():
 				return HttpResponseRedirect("/signup?e=email")
 			address_one = request.POST['address_one']
 			address_two = request.POST.get('address_two','')
@@ -83,7 +83,7 @@ def newuserform(request):
 			login(request,user)
 			if request.GET.get('next',''):
 				return HttpResponseRedirect(request.GET.get('next','/'))
-			return HttpResponseRedirect('/')
+			return HttpResponseRedirect('/account/profile')
 			
 		except Exception,e:
 			# Any sign up errors go the error page
@@ -505,7 +505,7 @@ def checkoutPurchase(request,checkoutid):
 			item.quantity -= cartitem.quantity
 		item.save()
 		amount = cartitem.item.price * cartitem.quantity
-		pi = PurchasedItem(seller=item.user,buyer=bu,cartitem=cartitem,checkout=cartitem.checkout,total=amount,item_name=cartitem.item.name,quantity=cartitem.quantity)
+		pi = PurchasedItem(seller=item.user,buyer=bu,cartitem=cartitem,unit_price=item.price,checkout=cartitem.checkout,total=amount,item_name=cartitem.item.name,quantity=cartitem.quantity)
 		pi.save()
 		cartitem.shoppingcart = None
 		cartitem.save()
@@ -535,6 +535,14 @@ def checkoutConfirmation(request,checkoutid):
 ####################################################
 ###### Checkout Helper Methods #####################
 ####################################################
+
+#Assign a balanced URI if one does not exist
+def addBalancedUser(request):
+	bu = request.user.basicuser
+	
+
+
+
 
 #Get the shopping cart from the user, the session, or return none
 def getShoppingCart(request):
@@ -575,6 +583,7 @@ def allItemsAvailable(checkout):
 	
 #### Validates a current checkout and request #######
 ### Checks (1) checkout completed, (2) timeout, (3) Right User, (4) Not empty shopping cart
+### (5) Under Balanced Charge Limit
 # Returns '500'-> success or '100'->failure
 def checkoutValidCheck(checkout,request):
 	dict = None
@@ -606,7 +615,7 @@ def checkoutValidCheck(checkout,request):
 		return dict
 	
 	#If the cart is under $15,000
-	if int(checkout.total()) > 14999:
+	if int(checkout.total()) > 1499999:
 		dict = {'status':100,'error':'toolarge'} # Too expensive
 	
 	if not dict:	

@@ -1,5 +1,5 @@
 .logincontainer {
-	padding: 10px;
+	padding: 10px 0;
 	max-width: 1000px;
 	margin: 0 auto;
 	text-align: center;
@@ -10,7 +10,7 @@
 	border-radius: 3px;
 	border:1px solid #eee;
 	box-shadow: 0 0 4px #ccc;
-	margin: 40px 10px;
+	margin: 40px 0px;
 }
 .login h1 {
 	font-weight: 200;

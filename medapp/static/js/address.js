@@ -24,6 +24,9 @@ $(document).ready(function() {
 	$("select").change(function() {
 		validateinput($(this),false);
 	});
+	$("#address_zipcode").keyup(function() {
+		$(this).val($(this).val().replace(/\D/g,''));
+	});
 	//Populate the state field
 	for (var i=0; i < states.length; i++) {
 		$("#address_state").append("<option>"+states[i]+"</option>");
@@ -88,7 +91,9 @@ var validateinput = function validateinput(handler,submiting) {
 		updateformcss($("#address_zipcode"));
 	}
 	if ($(handler).attr('id') =='address_phonenumber' || submiting) {
-		var validated = ($("#address_phonenumber").val().length == 14) ? true : false;
+		var pn = $("#address_phonenumber").val();
+		pn_stripped = pn.replace(/\D/g,'');
+		var validated = (pn_stripped.length == 10) ? true : false;
 		formelements['address_phonenumber'] = validated;
 		updateformcss($("#address_phonenumber"));
 	}

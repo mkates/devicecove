@@ -45,8 +45,8 @@ def buyermessages(request,itemid):
 	messages = item.sellermessage_set.all()
 	if request.user.basicuser == item.user:
 		if item.commission_paid or net_commission == 0:
-			item.commission_paid = True
-			item.save()
+			#item.commission_paid = True
+			#item.save()
 			return render_to_response('account/selling/messages.html',{'item':item},context_instance=RequestContext(request))
 		else:
 			dict = {'gate':True,'item':item,'standard_commission':standard_commission,'net_commission':net_commission,'discount':discount,'commission_percent':general_view.commissionPercentage(item.price)}
@@ -75,12 +75,11 @@ def newcard_chargecommission(request,itemid):
 			card_uri = card.uri
 			balanced.configure(settings.BALANCED_API_KEY) # Configure Balanced API
 			customer = balanced.Customer.find(bu.balanceduri)
-			amount = int(item.price * COMMISSION_PERCENTAGE)*100
+			amount = general_view.commission(item)
 			customer.debit(appears_on_statement_as="Vet Cove Fee",amount=amount,source_uri=card_uri)
 			item.commission_paid = True
 			item.save()
-			comm_amount = amount / 100
-			commission_obj = Commission(item=item,amount=comm_amount,payment_method='card',cc_payment=card)
+			commission_obj = Commission(item=item,amount=amount,payment_method='card',cc_payment=card)
 			commission_obj.save()
 			email_view.composeEmailCommissionCharged(request,bu,commission_obj)
 			return HttpResponse(json.dumps({'status':201}), content_type='application/json')
@@ -131,11 +130,10 @@ def gatePayment(request,paymenttype,paymentid,itemid):
 				bu = request.user.basicuser
 				balanced.configure(settings.BALANCED_API_KEY) # Configure Balanced API
 				customer = balanced.Customer.find(bu.balanceduri)
-				amount = int(item.price * COMMISSION_PERCENTAGE)*100
+				amount = general_view.commission(item)
 				customer.debit(appears_on_statement_as="Vet Cove Fee",amount=amount,source_uri=payment.uri)
 				item.commission_paid = True
 				item.save()
-				comm_amount = amount / 100
 				if paymenttype == 'bank':
 					commission_obj = Commission(item=item,amount=comm_amount,payment_method=paymenttype,ba_payment=payment)
 				elif paymenttype == 'card':
@@ -144,6 +142,7 @@ def gatePayment(request,paymenttype,paymentid,itemid):
 				email_view.composeEmailCommissionCharged(request,bu,commission_obj)
 				return HttpResponseRedirect('/account/messages/'+str(item.id))
 		except Exception,e:
+			print e
 			return HttpResponseRedirect('/account/messages/'+str(item.id)+"?e=fail")
 	return HttpResponseRedirect('/account/messages/'+str(item.id)+"?e=fail")
 

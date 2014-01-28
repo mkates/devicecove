@@ -258,11 +258,22 @@ $(document).ready(function() {
 .hide-div {
 	display: none;
 }
+.alert-nopayment {
+	margin: 20px 20px 0 20px;
+}
 </style>
 {% endblock %}
 {% block maincontent %}
 	<div class="covebox paymentbox-container">
 		<h4 class="maincontent-title">Paying Out and Receiving Payments<img class="balanced-image" src="{{STATIC_URL}}img/balanced-image.png"/></h4>
+		{% if user.basicuser.payout_method == 'none' %}
+		<div class="alert alert-danger alert-nopayment">
+			<strong>No Payment Method Set</strong>
+			<p>In order to receive payments from items you sell on VetCove, you must set a payout method. You can either
+			enter a bank account and receive a direct deposit, or enter a mailing address and receive a check by mail</p>
+		</div>
+		{% endif %}
+		
 		<div class="paymentbox">
 			<div class="payment-current">
 				<h5>Paying for Items and Paying Seller Commission</h5>

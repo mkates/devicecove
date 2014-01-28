@@ -25,7 +25,7 @@
 			<input id="inputmanufacturer" name="manufacturer" type="text" class="form-control" placeholder="eg. Siemens" value="{{item.manufacturer}}"/>
 		</div>
 		<div class="entry">
-			<h5>Model Name</h5>
+			<h5>Model Name <span>(Listing Title)</h5>
 			<input id="inputname" type="text" name="name" class="form-control " value="{{item.name}}" placeholder="eg. Siemens-Acuson P300 Veterinary Ultrasound"/>
 		</div>
 	</div>
@@ -45,6 +45,18 @@
 		</div>
 		<div class="entry">
 			<h5>New, reburbished, or preowned</h5>
+			{% if item.liststatus != 'incomplete' %}
+				{% if item.conditiontype == 'new' %}
+					<p class="helper-text">This item was listed as <strong>new</strong>. To sell pre-owned items, you can create a new listing</p>
+				{% else %}
+					<label class="radio-inline">
+					  <input type="radio" name="conditiontype" id="producttype_preowned" value="preowned" {% if item.conditiontype == 'preowned' %}checked{% endif %}> Pre-Owned
+					</label>
+					<label class="radio-inline">
+					  <input type="radio" name="conditiontype" id="producttype_refurbished" value="refurbished" {% if item.conditiontype == 'refurbished' %}checked{% endif %}> Refurbished
+					</label>
+				{% endif %}
+			{% else %}
 			<label class="radio-inline">
 			  <input type="radio" name="conditiontype" id="producttype_new" value="new" {% if item.conditiontype == 'new' %}checked{% endif %}> New
 			</label>
@@ -54,6 +66,7 @@
 			<label class="radio-inline">
 			  <input type="radio" name="conditiontype" id="producttype_refurbished" value="refurbished" {% if item.conditiontype == 'refurbished' %}checked{% endif %}> Refurbished
 			</label>
+			{% endif %}
 		</div>
 		<div class="entry">
 			<h5>Quantity <span>(must be 1 for any used items)</span></h5>

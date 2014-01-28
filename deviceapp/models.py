@@ -67,6 +67,7 @@ class Image(models.Model):
 # Generic User already includes email/password
 class BasicUser(models.Model):
 	user = models.OneToOneField(User)
+	date_created_two = models.DateTimeField(auto_now_add= True)
 	businesstype = models.CharField(max_length=60)
 	name = models.CharField(max_length=60)
 	company = models.CharField(max_length=60)
@@ -220,6 +221,7 @@ class SellerMessage(models.Model):
 	
 	def authorizedBuyer(self):
 		return True if BuyAuthorization.objects.filter(buyer=self.buyer,seller=self.item.user,item=self.item).exists() else False
+		
 ############################################
 ####### Saved Items ########################
 ############################################
@@ -504,7 +506,7 @@ class ReminderToken(models.Model):
 	token = models.CharField(max_length = 20,unique=True)
 
 ############################################
-### Promotional Code #######################
+### Promotional Codes ######################
 ############################################
 class PromoCode(models.Model):
 	code = models.CharField(max_length=100,unique=True)

@@ -15,46 +15,7 @@
 {% block headercss %}{% endblock %}
 
 <style>
-.cart-image-container {
-	padding: 0;
-}
-.cart-image {
-	width: 100%;
-	padding: 0;
-}
-.cart-price {
-	color: #888;
-	font-weight: 200;
-}
-.cart-price span {
-	font-weight: 400;
-	color: red;
-}
-.viewcart {
-	background: #f4f4f4;
-	font-size: 13px;
-}
-.dropdown-menu > li > .viewcart:hover {
-	background: #eee;
-}
-.dropdown-menu .cart-dropdown-item {
-	padding: 10px;
-	width: 400px;
-	border-bottom:1px solid #ddd;
-}
-.dropdown-menu > li > a:hover {
-	background: #fafafa;
-	color: #333;
-}
-.navigation-container .navbar-nav > .cart-dropdown > .dropdown-menu {
-	padding: 0;
-}
-.cart-information p {
-	margin: 0;
-}
-.dropdown-menu .cart-dropdown .row div {
-	padding: 5px;
-}
+
 </style>
 </head>
 
@@ -78,6 +39,7 @@
 	  <!-- Collect the nav links, forms, and other content for toggling -->
 	  <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 		<ul class="nav navbar-nav navbar-right">
+			<li><a class="visible-xs" href="/listintro">Browse by Category</a></li>
 			<li class="dropdown cart-dropdown">
 				<a href="/cart" {% if cart_items %}class="dropdown-toggle" data-toggle="dropdown"{% endif %}>Cart <span class="shoppingcart-image"><img src="{{STATIC_URL}}img/shoppingcart.png"/></span>{% if cart_items %}<span class="sc-count">{{cart_items_count}}</span><b class="caret"></b>{% endif %}</a>
 				<ul class="navigation-options dropdown-menu pull-left">
@@ -157,7 +119,7 @@
 			</div>
 			<div class="shopbycategory-container">
 				<div class="shopbycategory">
-					<p>or Browse by Category <b class="caret"></b></p>
+					<p class="shopbycategory-button">or Browse by Category <b class="caret"></b></p>
 				<!-- 	<p class="popular-searches">Popular Searches</p> -->
 				</div>
 				<div class="browse-categories">
@@ -284,12 +246,25 @@
  -->
 <script>
  $(document).ready(function() {
- 	$('.shopbycategory').click(function() {
- 		$('.browse-categories').css('display','block');
+ 	$('.shopbycategory-button').click(function() {
+ 		if ($('.browse-categories').is(":visible")) {
+ 			$(this).removeClass("shopbycategory-button-active");
+ 			$('.browse-categories').css('display','none');
+ 		} else {
+ 			$(this).addClass("shopbycategory-button-active");
+ 			$('.browse-categories').css('display','block');
+ 		}
+ 	});
+ 	$('.shopbycategory-button').hover(function() {
+ 	},function() {
+ 		if (!($('.browse-categories').is(":visible"))) {
+ 			$(this).removeClass("shopbycategory-button-active");
+ 		}
  	});
  	$('.browse-categories').hover(function() {
  	},function() {
  		$('.browse-categories').css('display','none');
+ 		$('.shopbycategory-button').removeClass("shopbycategory-button-active");
  	});
  
  });

@@ -158,12 +158,13 @@ INSTALLED_APPS = (
     # Uncomment the next line to enable admin documentation:
     'django.contrib.admindocs',
     'django.contrib.humanize',
-    'boto',
-    'deviceapp',
+    'boto', #For S3 File Storage
+    'deviceapp', # Our sole app
+    'south', #DB Migrations
     'imagekit', #For resizing images before S3 Upload
-    'storages',
+    'storages', #For file storage, works with S3
     'django_extensions',
-    'password_reset',
+    'password_reset', # Password reset app
     'djrill' #Django-Mandrill App
 )
 CACHES = {

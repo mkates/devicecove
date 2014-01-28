@@ -78,6 +78,8 @@
 </style>
 {% endblock %}
 {% block jsblock %}
+<script src="{{STATIC_URL}}js/maskedinput.js" type="text/javascript" ></script>
+
 <script>
 
 $(document).ready(function() {
@@ -92,7 +94,8 @@ $(document).ready(function() {
 		$(this).parent().prev().css("display","inline-block");
 		return false;
 	});
-
+	$("#phonenumber").mask("(999) 999-9999");
+	
 });
 </script>
 {% endblock %}
@@ -241,10 +244,11 @@ $(document).ready(function() {
 				<tr>
 					<td class="category">Phone Number</td>
 					<td class="uservalue">
-						<p>{{basicuser.phonenumber}}</p>
+						{% load phonenumber %}
+						<p>{{basicuser.phonenumber|phonenumber}}</p>
 						<form method="post" action="/account/profsettings/phonenumber">
 							{% csrf_token %}
-							<input type="text" class="forminput form-control" name="phonenumber" value="{{basicuser.phonenumber}}" />
+							<input type="text" class="forminput form-control" id="phonenumber" name="phonenumber" value="{{basicuser.phonenumber|phonenumber}}" />
 							<button value="submit" class="button button-rounded button-primary button-tiny">Save</button><button type="button" class="button button-rounded cancel button-tiny">Cancel</button>
 						</form>
 					</td>
@@ -264,9 +268,9 @@ $(document).ready(function() {
 						<form id="passwordform" method="post" action="/account/profsettings/password">
 							{% csrf_token %}
 							<h6> Old Password</h6>
-							<input type="password" class="forminput form-control" name="password1" placeholder="NewPassword" />
+							<input type="password" class="forminput form-control" name="password1" placeholder="" />
 							<h6> New Password</h6>
-							<input type="password" class="forminput form-control" name="password2" placeholder="NewPassword" />
+							<input type="password" class="forminput form-control" name="password2" placeholder="" />
 							<button value="submit" class="button button-rounded button-primary button-tiny">Save</button><button type="button" class="button button-rounded cancel button-tiny">Cancel</button>
 						</form>
 					</td>

@@ -16,6 +16,8 @@ import math
 import difflib
 import locale
 import time
+import re
+import string
 from datetime import datetime
 import balanced
 
@@ -286,6 +288,8 @@ def setUserProfileDict(field,value,usermodel):
 		usermodel.businesstype = value
 	elif field == 'company':
 		usermodel.company = value
+	elif field == 'website':
+		usermodel.website = value
 	elif field == 'name':
 		if len(value) < 5:
 			return {'status':500,'error':'name'}
@@ -315,9 +319,10 @@ def setUserProfileDict(field,value,usermodel):
 				print e
 				return {'status':500,'error':'zipcode'}
 	elif field == 'phonenumber':
-		if len(value) < 10:
+		phonenumber = int(re.sub("[^0-9]", "", value))
+		if len(str(phonenumber)) != 10:
 			return {'status':500,'error':'phonenumber'}
-		usermodel.phonenumber = value
+		usermodel.phonenumber = phonenumber
 	elif field == 'password':
 		if usermodel.user.check_password(value[0]):
 			usermodel.user.set_password(value[1])

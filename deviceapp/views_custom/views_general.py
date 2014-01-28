@@ -106,13 +106,12 @@ def commissionPercentage(total_price):
 
 def commission(item):
 	if not item.promo_code:
-		return 0
+		return int(item.price*commissionPercentage(item.price))
 	elif item.promo_code.promo_type == 'factor':
-		return (item.price*commissionPercentage(item.price)*((item.promo_code.factor)/float(100)))
+		return int((item.price*commissionPercentage(item.price)*((item.promo_code.factor)/float(100))))
 	elif item.promo_code.promo_type == 'discount':
-		return max(0,item.price*commissionPercentage(item.price)-item.promo_code.discount)
-	return 0
-
+		return int(max(0,item.price*commissionPercentage(item.price)-item.promo_code.discount))
+	return int(item.price*commissionPercentage(item.price))
 
 ### Takes an integer and converts into dollar format #####
 def convertIntPriceToDollars(int_price):

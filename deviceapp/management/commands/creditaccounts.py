@@ -13,6 +13,7 @@ from django.utils.timezone import utc
 
 
 WAITING_DAYS = 0
+CC_PROCESSING_FEE = 0.03
 
 class Command(BaseCommand):
     help = 'Credits all the sellers bank accounts'
@@ -58,7 +59,7 @@ class Command(BaseCommand):
 						try:
 							balanced.configure(settings.BALANCED_API_KEY) # Configure Balanced API
 							customer = balanced.Customer.find(basicuser.balanceduri)
-							amount = payout_total
+							amount = payout_total-int(payout_total*CC_PROCESSING_FEE)
 							source_uri = basicuser.default_payout_ba.uri
 							customer.credit(appears_on_statement_as="Vet Cove",description="Seller Credit",amount=amount,source_uri=source_uri)
 							bank_payout_obj = BankPayout(user=basicuser,amount = payout_total,bank_account=basicuser.default_payout_ba)

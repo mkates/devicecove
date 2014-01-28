@@ -3,7 +3,6 @@ var states = ['AK',"AL","AR","AS","AZ","CA","CO","CT","DC","DE","FL","GA","GU","
 
 function isEmail(email) {
   var emailReg = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/;
-  console.log(emailReg.test(email));
   return emailReg.test(email);
 }
 
