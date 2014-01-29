@@ -74,7 +74,7 @@ def newcard_chargecommission(request,itemid):
 			bu = request.user.basicuser
 			card_uri = card.uri
 			balanced.configure(settings.BALANCED_API_KEY) # Configure Balanced API
-			customer = balanced.Customer.find(bu.balanceduri)
+			customer = balanced.Customer.find(balanced_addCard['balanceduri'])
 			amount = general_view.commission(item)
 			customer.debit(appears_on_statement_as="Vet Cove Fee",amount=amount,source_uri=card_uri)
 			item.commission_paid = True
@@ -83,7 +83,8 @@ def newcard_chargecommission(request,itemid):
 			commission_obj.save()
 			email_view.composeEmailCommissionCharged(request,bu,commission_obj)
 			return HttpResponse(json.dumps({'status':201}), content_type='application/json')
-		except:
+		except Exception,e:
+			print e
 			return HttpResponse(json.dumps({'status':501,'error':'Failed to charge your card.'}), content_type='application/json')
 	return HttpResponse(json.dumps({'status':501,'error':'Error passing security credentials'}), content_type='application/json')
 
@@ -102,7 +103,7 @@ def newbank_chargecommission(request,itemid):
 			bu = request.user.basicuser
 			bank_uri = bank.uri
 			balanced.configure(settings.BALANCED_API_KEY) # Configure Balanced API
-			customer = balanced.Customer.find(bu.balanceduri)
+			customer = balanced.Customer.find(balanced_addBankAccount['balanceduri'])
 			amount = general_view.commission(item)
 			customer.debit(appears_on_statement_as="Vet Cove Fee",amount=amount,source_uri=bank_uri)
 			item.commission_paid = True
@@ -111,7 +112,8 @@ def newbank_chargecommission(request,itemid):
 			commission_obj.save()
 			email_view.composeEmailCommissionCharged(request,bu,commission_obj)
 			return HttpResponse(json.dumps({'status':201}), content_type='application/json')
-		except Exception,e:
+		except Exception,e:	
+			print e
 			return HttpResponse(json.dumps({'status':501,'error':'Failed to charge your bank account.'}), content_type='application/json')
 	return HttpResponse(json.dumps({'status':501,'error':'Error passing security credentials'}), content_type='application/json')
 
@@ -184,6 +186,7 @@ def authorizeBuyer(request,buyerid,itemid):
 		au = BuyAuthorization(seller=request.user.basicuser,buyer=buyer,item=item)
 		obj, created = BuyAuthorization.objects.get_or_create(seller=request.user.basicuser,buyer=buyer,item=item)
 		obj.save()
+		email_view.composeEmailAuthorizedBuyer(item,buyer)
 	return HttpResponseRedirect('/account/messages/'+str(item.id))
 
 @login_required

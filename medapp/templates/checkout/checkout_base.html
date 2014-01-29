@@ -348,7 +348,7 @@ var addError = function addError(handle) {
 								<p>{{checkoutcartitem.item.name}}</p>
 								<p><span>Sold by: </span>{{checkoutcartitem.item.user.company}}</p>
 								<p><span>Quantity: </span>{{checkoutcartitem.quantity}}</p>
-								<p><span>Price: </span>{{checkoutcartitem.item.price|dollars}}</p>
+								<p><span>Price: </span>{{checkoutcartitem.price|dollars}}</p>
 							</div>
 						{% endfor %}
 						<h6 class="checkout-total">Total:<span>{{checkout.total|dollars}}</span></h6>

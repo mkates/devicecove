@@ -461,5 +461,15 @@
 		"promo_type":"discount",
 		"discount":500
     }
+},
+{
+	"pk": 1, 
+    "model": "deviceapp.sellermessage", 
+    "fields": {
+    	"buyer": 1,
+    	"item": 2, 
+    	"name": "Jack Smirnoff"
+    }
 }
+
 ]

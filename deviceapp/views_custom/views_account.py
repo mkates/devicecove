@@ -44,7 +44,7 @@ def lgnrequest(request):
 				session_shoppingcart = ShoppingCart.objects.get(id=request.session['shoppingcart'])
 				for cartitems in session_shoppingcart.cartitem_set.all():
 					if not CartItem.objects.filter(item=cartitems.item,shoppingcart=user_shoppingcart).exists():			
-						ci = CartItem(item=cartitems.item,shoppingcart=user_shoppingcart,quantity=1)
+						ci = CartItem(item=cartitems.item,price=cartitems.item.price,shoppingcart=user_shoppingcart,quantity=1)
 						ci.save()
 			login(request,user)
 			if rememberme:
@@ -319,6 +319,8 @@ def setUserProfileDict(field,value,usermodel):
 				print e
 				return {'status':500,'error':'zipcode'}
 	elif field == 'phonenumber':
+		if not value:
+			return {'status':500,'error':'phonenumber'}
 		phonenumber = int(re.sub("[^0-9]", "", value))
 		if len(str(phonenumber)) != 10:
 			return {'status':500,'error':'phonenumber'}

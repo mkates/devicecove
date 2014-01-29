@@ -46,8 +46,8 @@
 			
 			</div>
 			{% endif %}
-			<p class="order-price">Total Price: <span>{{pitem.cartitem.amount|dollars}}</span>
-			<p class="order-quantity">Quantity: <span>{{pitem.cartitem.quantity}} (at {{pitem.cartitem.item.price|dollars}} each)</span>
+			<p class="order-price">Total Price: <span>{{pitem.cartitem.price|dollars}}</span>
+			<p class="order-quantity">Quantity: <span>{{pitem.cartitem.quantity}} (at {{pitem.cartitem.price|dollars}} each)</span>
 			<p class="order-number">Payout Status: 
 				<span>
 					{% if pitem.paid_out and pitem.payout_method == 'bank'%}

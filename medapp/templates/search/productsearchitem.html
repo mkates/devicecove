@@ -26,6 +26,7 @@
 				<h6 class="resulttag"> 
 					{% if item.user.verified %}<span class="verified">verified seller</span>{% endif %} 
 					{% if item.offlineviewing %}<span class="lightorange">view in person</span>{% endif %} 
+					{% if not item.offlineviewing %}<span class="buyonline">buy online</span>{% endif %} 
 					{% if item.conditiontype == 'refurbished' %}<span class="refurbished">refurbished</span>{% endif %} 
 					{% if item.conditiontype == 'preowned' %}<span class="preowned">preowned</span>{% endif %} 
 					{% if item.conditiontype == 'new' %}<span class="verified">new</span>{% endif %} 

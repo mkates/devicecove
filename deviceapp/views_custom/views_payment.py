@@ -40,6 +40,7 @@ def addBalancedCard(request):
 			customer = balanced.Customer(name=bu.name,email=bu.email,phone=bu.phonenumber).save()
 			bu.balanceduri = customer.uri
 			bu.save()
+		print customer
 		# If card not already saved, add the card to the customer and add the card to the database
 		if not doesCardExist(bu,cardhash):
 			customer.add_card(uri)
@@ -52,9 +53,10 @@ def addBalancedCard(request):
 				if bu.payment_method == 'none':
 					bu.payment_method = 'card'
 				bu.save()
-			return {'status':201,'card':new_card,'error':'None'} # Success
+			return {'status':201,'card':new_card,'error':'None','balanceduri':bu.balanceduri} # Success
 		return {'status':500,'error':'Card Already Saved'} # Card Already Saved
 	except Exception,e:
+		print e
 		return {'status':500,'error':e} # Failure
 
 #Helper method to see if the card hash already exists
@@ -126,7 +128,7 @@ def addBalancedBankAccount(request):
 			customer = balanced.Customer(name=bu.name,email=bu.email,phone=bu.phonenumber).save()
 			bu.balanceduri = customer.uri
 			bu.save()
-		#Add bank account to the customer
+		# Add bank account to the customer
 		try:
 			customer.add_bank_account(bankaccount.uri)
 			bank_account = balanced.BankAccount.find(bankaccount.uri)
@@ -134,10 +136,9 @@ def addBalancedBankAccount(request):
 			verification = bank_account.verify()
 			if verification.confirm(1, 1).state != 'verified':
 				return {'status':500,'bank':bankaccount,'error':'Unable to verify the bank account'}
-			return {'status':201,'bank':bankaccount,'error':'None'}
+			return {'status':201,'bank':bankaccount,'error':'None','balanceduri':bu.balanceduri}
 		except Exception,e:
 			return {'status':500,'bank':bankaccount,'error':e}
-		return {'status':201,'bank':bankaccount,'error':'None'}
 	return {'status':500,'error':'Bank Account Already Exists'}
 
 #Helper method to see if the card hash already exists
@@ -213,7 +214,7 @@ def deletePayment(request,type,id):
 				cards = request.user.basicuser.balancedcard_set.exclude(id=card.id)
 				if cards:
 					bu.default_payment_cc = cards[0]
-				else: #No other cards, must check default payment maybe reset it
+				else: #No other cards, must check default payment, maybe reset it
 					bu.default_payment_cc = None
 					if bu.payment_method == 'card':
 						if bu.default_payment_ba:
@@ -246,7 +247,7 @@ def deletePayment(request,type,id):
 				accounts = request.user.basicuser.balancedbankaccount_set.exclude(id=bank.id)
 				if accounts:
 					bu.default_payout_ba = accounts[0]
-				else: #No other bank accounts, must check default payment maybe reset it
+				else: # No other bank accounts, must check default payment, maybe reset it
 					bu.default_payout_ba = None
 					if bu.payout_method == 'bank':
 						bu.payout_method = 'none'
@@ -287,6 +288,7 @@ def setMailingAddress(request,addressid):
 		bu.check_address = address
 		bu.payout_method = 'check'
 		bu.save()
+	email_view.composeEmailPayoutUpdated(bu)
 	return HttpResponseRedirect('/account/payment')
 	
 @login_required

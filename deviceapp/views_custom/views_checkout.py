@@ -118,7 +118,7 @@ def addToCart(request,itemid):
 			request.session['shoppingcart'] = shoppingcart.id
 		item = Item.objects.get(id=itemid)
 		# Only creates the cart object if it doesn't exist
-		newCartItem, created = CartItem.objects.get_or_create(shoppingcart=shoppingcart,item=item,quantity=1)
+		newCartItem, created = CartItem.objects.get_or_create(shoppingcart=shoppingcart,item=item,price=item.price,quantity=1)
 		newCartItem.save()
 		return HttpResponseRedirect('/cart')
 	
@@ -231,6 +231,7 @@ def createCheckout(bu):
 	for cartitem in cartitems:
 		if cartitem.item.liststatus == 'active':
 			cartitem.checkout = checkout
+			cartitem.price = cartitem.item.price
 			cartitem.save()
 	return checkout.id
 
@@ -504,8 +505,8 @@ def checkoutPurchase(request,checkoutid):
 		elif item.quantity > cartitem.quantity:
 			item.quantity -= cartitem.quantity
 		item.save()
-		amount = cartitem.item.price * cartitem.quantity
-		pi = PurchasedItem(seller=item.user,buyer=bu,cartitem=cartitem,unit_price=item.price,checkout=cartitem.checkout,total=amount,item_name=cartitem.item.name,quantity=cartitem.quantity)
+		amount = cartitem.price * cartitem.quantity
+		pi = PurchasedItem(seller=item.user,buyer=bu,cartitem=cartitem,unit_price=cartitem.price,checkout=cartitem.checkout,total=amount,item_name=cartitem.item.name,quantity=cartitem.quantity)
 		pi.save()
 		cartitem.shoppingcart = None
 		cartitem.save()

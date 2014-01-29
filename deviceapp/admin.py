@@ -11,11 +11,6 @@ class ItemAdmin(admin.ModelAdmin):
 	list_display = ['id','user','name','price','liststatus','listeddate','savedcount','subcategory','manufacturer','serialno','modelyear','originalowner','contract','conditiontype','conditionquality','shippingincluded',]
 admin.site.register(Item, ItemAdmin)
 
-class ItemImageAdmin(admin.ModelAdmin):
-	list_display = ['id','item','photo']
-admin.site.register(ItemImage, ItemImageAdmin)
-
-
 admin.site.register(Category)
 admin.site.register(ShoppingCart)
 admin.site.register(CartItem)

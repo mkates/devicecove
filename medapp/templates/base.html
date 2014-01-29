@@ -22,7 +22,7 @@
 <body>
 {% block overlaydiv %}{% endblock %}
 {% block header %}
-{% load humanize %}
+{% load dollars %}
 <div class="navigation-container">
 	<nav class="navbar navbar-default" role="navigation">
 	  <!-- Brand and toggle get grouped for better mobile display -->
@@ -59,7 +59,7 @@
 				  					{% if cart_item.item.liststatus != 'active' %}
 				  						<span>Item no longer available</span>
 				  					{% else %}
-				  						${{cart_item.item.price|floatformat:"2"|intcomma}}
+				  						{{cart_item.item.price|dollars}}
 				  					{% endif %}
 				  				</p>
 				  			</div>

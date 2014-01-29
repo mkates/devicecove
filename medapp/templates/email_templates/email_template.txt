@@ -5,7 +5,7 @@
 VetCove
 =================
 
-Dear {{email_name}}, {% if welcome %}
+Dear {{email_name}},{% if welcome %}
 
 Welcome to VetCove, the safest and easiest way to buy and sell veterinary equipment!  You're joining  the web's most trusted community of veterinarians and their industry partners.  We're here to ensure that veterinarians across the country have access to affordable and high quality devices and instruments for their practices and hospitals. 
 
@@ -27,7 +27,7 @@ If you have any questions at all not included in our FAQ, please don't hesitate 
 
 Warmest regards,
 Alex and The VetCove Team
-{% endif %} {% if pvp %}
+{% endif %}{% if pvp %}
 Thank you again for registering for VetCove. We are pleased to inform you that our team has investigated your business, and that you have been accepted as a part of the VetCove Partner Verification Program (PVP)!
 
 You now have full and unrestricted access to the website to buy and sell equipment.  Below are some quick links to get you started:
@@ -91,8 +91,7 @@ Responding quickly could help you close the sale. Best of luck selling your item
 
 Warmest regards,
 Alex and The VetCove Team
-{% endif %}
-{% if commission_charged %}
+{% endif %} {% if commission_charged %}
 Thank you for selling on VetCove!  We’re so pleased that there are buyers interested in viewing {{commission_obj.item.name}}.  Per the terms of our selling contract, your chosen payment method on file has been charged the VetCove selling fees associated with this transaction.
 
 Product Information
@@ -151,7 +150,7 @@ Thank you again for choosing VetCove!
 
 Warmest regards,
 Alex and The VetCove Team
-{% endif %}{% if selling_reminder %}
+{% endif %} {% if selling_reminder %}
 Two weeks ago, we sent you a buyer's contact information that was interested in purchasing your item: {{item.name}}.  That buyer's name and business information is below:
 Buyer Message
 {{contact_message.buyer.name}}
@@ -176,7 +175,7 @@ Thank you again for choosing VetCove!
 
 Warmest regards,
 Alex and The VetCove Team
-{% endif %}{% if item_sold_seller %}
+{% endif %} {% if item_sold_seller %}
 Congratulations! A VetCove member has purchased {%if purchased_item.quantity > 1 %}{{purchased_item.quantity}}{% endif %} of your item, {{item.name}} and payment has been confirmed.  You may now prepare to ship the item in accordance with the terms of your listing.  The contact information and shipping address of the buyer is below:
 
 Shipping Address
@@ -320,8 +319,25 @@ you should get in contact with us immediately so we can resolve the issue.
 
 Warmest regards,
 Alex and The VetCove Team
-{% endif %} {% if purchase_confirmation %}
+{% endif %} {% if authorized_buyer %}
+Dear {{email_name}},
+Great news!  The seller for an item, {{item.name}}, has just authorized you to pay for the item through VetCove.  If you’ve reached an agreement to pay for the item with the seller, please use the link below to pay and complete the transaction.
 
+Add Item To Cart and Complete Purchase
+http://www.vetcove.com/item/{{item.id}}/details
+
+Once the payment has been processed, the seller will be notified to proceed with shipping or allowing pickup of the item.  If you have any questions, or would not like to purchase the item at this time, please contact the seller using the information below:
+
+Seller Information
+{{item.user.name}}
+{{item.user.email}}
+{{item.user.phonenumber}}
+
+Remember that your payment through VetCove is completely secured by Balanced Payments, who is Level 1 PCI certified.  By paying through VetCove, you are also entitled to our VetCove Buyer Protection program. 
+
+Warmest regards,
+Alex and The VetCove Team
+{% endif %}{% if purchase_confirmation %}
 Shipping Address
 {{shipping_address.name}}
 {{shipping_address.address_one}}
@@ -367,7 +383,6 @@ Thank for you using VetCove. We hope you enjoyed the experience. If you have
 any comments or ideas for ways we can improve our service, we would love to hear about them!
 Drop us an email at ideas@vetcove.com
 {% endif %}
-
 ===============
 
 We hope you enjoyed receiving this message. If you would like to change your email preferences, you can update your preferences at http://www.vetcove.com/account/usersettings

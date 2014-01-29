@@ -22,9 +22,9 @@ def render_and_send_email(template_data,subject,receiver):
 		plaintext_context = Context(autoescape=False) # HTML escaping not appropriate in plaintext
 		text_body = render_to_string("email_templates/email_template.txt", template_data, plaintext_context)
 		html_body = render_to_string("email_templates/email_template.html", template_data)
-		msg = EmailMultiAlternatives(subject=subject, from_email="mhkates@gmail.com",to=[receiver], body=text_body)
+		msg = EmailMultiAlternatives(subject, text_body, "The VetCove Team <info@vetcove.com>",[receiver])
 		msg.attach_alternative(html_body, "text/html")
-		#msg.send()
+		msg.send()
 		return 201
 	except Exception,e:
 		print e
@@ -143,10 +143,10 @@ def composeEmailItemSold_Seller(request,basicuser,purchased_item):
 		'item':item,
 		'email_title':"Commission Payment Confirmation",
 		'email_teaser':'NEEDS TO BE FINISHED',
-		'email_name':basicuser.name
+		'email_name':purchased_item.seller.name
 	}
 	subject = "Your VetCove item sold! "+purchased_item.cartitem.item.name
-	email = render_and_send_email(template_data,subject,basicuser.email)
+	email = render_and_send_email(template_data,subject,purchased_item.seller.email)
 	return email	
 
 
@@ -168,7 +168,7 @@ def composeEmailItemPurchased_Buyer(request,basicuser,checkout):
 		'email_name':basicuser.name
 	}
 	subject = "Purchase Receipt from VetCove"
-	email = render_and_send_email(template_data,subject,'johnsonb@mit.edu')
+	email = render_and_send_email(template_data,subject,basicuser.email)
 	return email	
 
 #### Item has shipped - to Buyer ######
@@ -333,7 +333,21 @@ def composeEmailPayoutUpdated(basicuser):
 	email = render_and_send_email(template_data,subject,basicuser.email)
 	return email	
 
+#### Authorized Buyer ######
+def composeEmailAuthorizedBuyer(item,buyer):
+	template_data = {
+		'STATIC_URL':settings.STATIC_URL,
+		'authorized_buyer':True,
+		'item':item,
+		'email_title':"Buyer Authorization",
+		'email_teaser':'NEEDS TO BE FINISHED',
+		'email_name':buyer.name
+	}
+	subject = "You are now approved to buy "+item.name+" online"
+	email = render_and_send_email(template_data,subject,buyer.email)
+	return email
 
+	
 
 
 
