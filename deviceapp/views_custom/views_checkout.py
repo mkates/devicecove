@@ -86,6 +86,7 @@ def newuserform(request):
 			return HttpResponseRedirect('/account/profile')
 			
 		except Exception,e:
+			print e
 			# Any sign up errors go the error page
 			return HttpResponseRedirect('/error/signup')
 	# They called this method as a GET, its a hacker or im a bad developer, TBD
