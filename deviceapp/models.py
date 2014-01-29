@@ -42,29 +42,6 @@ class SubCategory(models.Model):
 		return self.displayname
 	
 ############################################
-####### Uploaded Images ####################
-############################################
-#This function generates a random name for the uploaded image
-def get_file_path_original(instance, filename):
-	ext = filename.split('.')[-1]
-	filename = "%s.%s" % (str(uuid.uuid4()), ext)
-	return os.path.join('userimages', filename)
-def get_file_path_small(instance, filename):
-	ext = filename.split('.')[-1]
-	filenamesmall = "%s.%s" % (str(uuid.uuid4())+"_small", ext)
-	return os.path.join('userimages', filenamesmall)
-def get_file_path_medium(instance, filename):
-	ext = filename.split('.')[-1]
-	filenamemedium = "%s.%s" % (str(uuid.uuid4())+"_medium", ext)
-	return os.path.join('userimages', filenamemedium)
-		
-class Image(models.Model):
-	photo = ProcessedImageField(upload_to=get_file_path_original,processors=[ResizeToFit(1300, 1000)],format='JPEG',options={'quality': 60})
-	photo_small = ProcessedImageField(upload_to=get_file_path_small, processors=[ResizeToFit(100, 100)],format='JPEG',options={'quality': 60})
-	photo_medium = ProcessedImageField(upload_to=get_file_path_medium, processors=[ResizeToFit(500, 500)],format='JPEG',options={'quality': 60})
-	id = models.AutoField(primary_key = True)
-
-############################################
 ####### User Class #########################
 ############################################	
 # Generic User already includes email/password
@@ -73,7 +50,6 @@ class BasicUser(models.Model):
 	user = models.OneToOneField(User)
 	name = models.CharField(max_length=60)
 	email = models.CharField(max_length=60) # Contact Email, login email stored in User class
-	age = models.IntegerField(default=0,null=True,blank=True)
 	
 	# Business Information
 	businesstype = models.CharField(max_length=60)
@@ -164,7 +140,7 @@ class Item(models.Model):
 	serialno = models.CharField(max_length=30,null=True,blank=True)
 	modelyear = models.IntegerField(max_length=4,null=True,blank=True)
 	originalowner = models.BooleanField(default=False)
-	mainimage = models.ForeignKey(Image,null=True,blank=True)
+	mainimage = models.ForeignKey('Image',related_name="mainitemimage",null=True,blank=True)
 	
 	### Warranty + Service Contracts ###
 	CONTRACT_OPTIONS =  (
@@ -225,6 +201,30 @@ class Item(models.Model):
 	def __unicode__(self):
 		return self.name
 		
+############################################
+####### Uploaded Images ####################
+############################################
+#This function generates a random name for the uploaded image
+def get_file_path_original(instance, filename):
+	ext = filename.split('.')[-1]
+	filename = "%s.%s" % (str(uuid.uuid4()), ext)
+	return os.path.join('userimages', filename)
+def get_file_path_small(instance, filename):
+	ext = filename.split('.')[-1]
+	filenamesmall = "%s.%s" % (str(uuid.uuid4())+"_small", ext)
+	return os.path.join('userimages', filenamesmall)
+def get_file_path_medium(instance, filename):
+	ext = filename.split('.')[-1]
+	filenamemedium = "%s.%s" % (str(uuid.uuid4())+"_medium", ext)
+	return os.path.join('userimages', filenamemedium)
+		
+class Image(models.Model):
+	item = models.ForeignKey(Item)
+	photo = ProcessedImageField(upload_to=get_file_path_original,processors=[ResizeToFit(1300, 1000)],format='JPEG',options={'quality': 60})
+	photo_small = ProcessedImageField(upload_to=get_file_path_small, processors=[ResizeToFit(100, 100)],format='JPEG',options={'quality': 60})
+	photo_medium = ProcessedImageField(upload_to=get_file_path_medium, processors=[ResizeToFit(500, 500)],format='JPEG',options={'quality': 60})
+	id = models.AutoField(primary_key = True)
+
 ############################################
 ####### Seller Contact Message #############
 ############################################

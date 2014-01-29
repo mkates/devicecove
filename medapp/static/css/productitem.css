@@ -17,7 +17,7 @@
 	height: 350px;
 	text-align: center;
 	display:inline-block;
-	width: 300px;
+	width: 100%;
 	background: white;
 	border:1px solid #ddd;
 	border-radius: 2px;
@@ -31,7 +31,7 @@
 
 .product-box .pricebox {
 	margin: 0 auto;
-	width: 93%;
+	width: 95%;
 	height: 45px;
 	background: #f4f4f4;
 	border:1px solid #ddd;
@@ -65,17 +65,16 @@
 	height: 250px;
 	overflow: hidden;
 	position: relative;
-	width: 300px;
+	width: 100%;
 }
 .product-box .itemimage .verticalaligner {
-	vertical-align: middle;
-	display: table-cell;
+	margin: 0 auto;
 	height: 250px;
-	width: 300px;
+	width: 100%;
 	text-align: center;
 }
 .product-box .itemimage img {
-	max-width: 240px;
+	max-width: 100%;
 	max-height: 240px;
 }
 

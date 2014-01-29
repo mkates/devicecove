@@ -220,8 +220,8 @@
 		</div>
 		<div class='clear'></div>
 		<div id="imagepreview" class="itemview">
-			{% if item.itemimage_set.all %}
-				{% for p in item.itemimage_set.all %}
+			{% if item.image_set.all %}
+				{% for p in item.image_set.all %}
 					<div class='imagepreviewcontainer' data-imageid='{{p.id}}'>{% if item.mainimage.id == p.id %}<h6 class="main">Main Photo</h6>{% else %}<h6>Make Main Photo</h6>{% endif %}<div class='imagepreviewborder'><img class='imagepreview' src='{{p.photo.url}}'/></div><p class='delete'>Delete Photo</p></div>
 				{% endfor %}
 			{% else %}
@@ -235,7 +235,7 @@
 {% block customjs %}
 
 <script>
-var numberpics = {{item.itemimage_set.count }};
+var numberpics = {{item.image_set.count }};
 var mainpicid = {% if item.mainimage %}{{item.mainimage.id}}{% else %}""{% endif %};
 var pictureBinds = function pictureBinds() {
 	$(".imagepreviewcontainer .delete").click(function() {

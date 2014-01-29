@@ -160,7 +160,7 @@ INSTALLED_APPS = (
     'django.contrib.humanize',
     'boto', #For S3 File Storage
     'deviceapp', # Our sole app
-    'south', #DB Migrations
+    #'south', #DB Migrations
     'imagekit', #For resizing images before S3 Upload
     'storages', #For file storage, works with S3
     'django_extensions',

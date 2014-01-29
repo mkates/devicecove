@@ -143,7 +143,7 @@ def listitemphotos(request,itemid):
 def deleteimage(request):
 	if request.method == "POST":
 		imageid = request.POST['imageid']
-		itemimg = ItemImage.objects.get(id=imageid)
+		itemimg = Image.objects.get(id=imageid)
 		bu = BasicUser.objects.get(user = request.user)
 		if itemimg.item.user == bu:
 			if itemimg.item.mainimage.id == itemimg.id:
@@ -159,7 +159,7 @@ def deleteimage(request):
 def setmainimage(request):
 	if request.method == "POST":
 		imageid = request.POST['mainimageid']
-		img = ItemImage.objects.get(id=imageid)
+		img = Image.objects.get(id=imageid)
 		bu = BasicUser.objects.get(user = request.user)
 		if img.item.user == bu:
 			img.item.mainimage = img
@@ -181,9 +181,9 @@ def imageupload(request,itemid):
 					return HttpResponse(json.dumps('filetype'), content_type='application/json')
 				if file.size > 1048576:
 					return HttpResponse(json.dumps('filesize'), content_type='application/json')
-				if item.itemimage_set.count() > 7:
+				if item.image_set.count() > 7:
 					return HttpResponse(json.dumps('filecount'), content_type='application/json')
-				ui = ItemImage(item=item,photo=file,photo_small=file,photo_medium=file)
+				ui = Image(item=item,photo=file,photo_small=file,photo_medium=file)
 				ui.save()
 				imagehandlers.append([ui.id,ui.photo_medium.url])
 			return HttpResponse(json.dumps(imagehandlers), content_type='application/json')

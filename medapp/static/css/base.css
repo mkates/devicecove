@@ -413,12 +413,10 @@ footer ul li a:hover {
 	}
 
 	@media (max-width: 1000px) {
-		.navigation-container .navbar {
+		.navigation-container {
 			padding: 0 10px;
 		}
 		.navigation-container .searchbar-row {
-			padding: 0 5px;
-			margin-bottom: 10px;
 		}
 	}
 	@media (max-width: 768px) {	
@@ -432,7 +430,7 @@ footer ul li a:hover {
 			padding-left: 0;
 		}
 		.navigation-container .navbar-toggle {
-			margin-right: 5px;
+			margin-right: 0px;
 		}
 		.navigation-container .navbar-brand {
 			margin-left: 5px;
