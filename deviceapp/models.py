@@ -71,7 +71,6 @@ class Image(models.Model):
 class BasicUser(models.Model):
 	# General
 	user = models.OneToOneField(User)
-	date_created = models.DateTimeField(auto_now_add=True,null=True,blank=True)
 	name = models.CharField(max_length=60)
 	email = models.CharField(max_length=60) # Contact Email, login email stored in User class
 	
