@@ -73,6 +73,7 @@ class BasicUser(models.Model):
 	user = models.OneToOneField(User)
 	name = models.CharField(max_length=60)
 	email = models.CharField(max_length=60) # Contact Email, login email stored in User class
+	age = models.IntegerField(default=0,null=True,blank=True)
 	
 	# Business Information
 	businesstype = models.CharField(max_length=60)
