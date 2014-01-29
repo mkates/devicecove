@@ -30,7 +30,7 @@ class Migration(SchemaMigration):
             ('name', self.gf('django.db.models.fields.CharField')(max_length=60)),
             ('displayname', self.gf('django.db.models.fields.CharField')(max_length=50)),
             ('industry', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['deviceapp.Industry'])),
-            ('totalunits', self.gf('django.db.models.fields.IntegerField')()),
+            ('totalunits', self.gf('django.db.models.fields.IntegerField')(default=0)),
         ))
         db.send_create_signal(u'deviceapp', ['Category'])
 
@@ -40,7 +40,7 @@ class Migration(SchemaMigration):
             ('name', self.gf('django.db.models.fields.CharField')(unique=True, max_length=60)),
             ('displayname', self.gf('django.db.models.fields.CharField')(max_length=50)),
             ('maincategory', self.gf('django.db.models.fields.related.ForeignKey')(related_name='maincategory', to=orm['deviceapp.Category'])),
-            ('totalunits', self.gf('django.db.models.fields.IntegerField')()),
+            ('totalunits', self.gf('django.db.models.fields.IntegerField')(default=0)),
         ))
         db.send_create_signal(u'deviceapp', ['SubCategory'])
 
@@ -55,7 +55,7 @@ class Migration(SchemaMigration):
 
         # Adding model 'Image'
         db.create_table(u'deviceapp_image', (
-            ('photo', self.gf('django.db.models.fields.files.ImageField')(max_length=100)),
+            ('photo', self.gf('imagekit.models.fields.ProcessedImageField')(max_length=100)),
             ('photo_small', self.gf('imagekit.models.fields.ProcessedImageField')(max_length=100)),
             ('photo_medium', self.gf('imagekit.models.fields.ProcessedImageField')(max_length=100)),
             ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
@@ -66,24 +66,23 @@ class Migration(SchemaMigration):
         db.create_table(u'deviceapp_basicuser', (
             (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
             ('user', self.gf('django.db.models.fields.related.OneToOneField')(to=orm['auth.User'], unique=True)),
-            ('date_created', self.gf('django.db.models.fields.DateTimeField')(auto_now_add=True, blank=True)),
-            ('businesstype', self.gf('django.db.models.fields.CharField')(max_length=60)),
             ('name', self.gf('django.db.models.fields.CharField')(max_length=60)),
-            ('company', self.gf('django.db.models.fields.CharField')(max_length=60)),
             ('email', self.gf('django.db.models.fields.CharField')(max_length=60)),
+            ('businesstype', self.gf('django.db.models.fields.CharField')(max_length=60)),
+            ('company', self.gf('django.db.models.fields.CharField')(max_length=60)),
+            ('website', self.gf('django.db.models.fields.CharField')(max_length=60, null=True)),
             ('address_one', self.gf('django.db.models.fields.CharField')(max_length=60)),
             ('address_two', self.gf('django.db.models.fields.CharField')(max_length=60, null=True, blank=True)),
             ('zipcode', self.gf('django.db.models.fields.IntegerField')(max_length=5)),
             ('city', self.gf('django.db.models.fields.CharField')(max_length=60)),
             ('state', self.gf('django.db.models.fields.CharField')(max_length=60)),
-            ('website', self.gf('django.db.models.fields.CharField')(max_length=60, null=True)),
             ('phonenumber', self.gf('django.db.models.fields.BigIntegerField')(max_length=14)),
             ('user_rank', self.gf('django.db.models.fields.CharField')(default='newb', max_length=20)),
             ('balanceduri', self.gf('django.db.models.fields.CharField')(max_length=255, null=True, blank=True)),
-            ('payout_method', self.gf('django.db.models.fields.CharField')(default='none', max_length=20)),
             ('payment_method', self.gf('django.db.models.fields.CharField')(default='none', max_length=20)),
             ('default_payment_cc', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['deviceapp.BalancedCard'], null=True, blank=True)),
             ('default_payment_ba', self.gf('django.db.models.fields.related.ForeignKey')(blank=True, related_name='default_payment_ba', null=True, to=orm['deviceapp.BalancedBankAccount'])),
+            ('payout_method', self.gf('django.db.models.fields.CharField')(default='none', max_length=20)),
             ('default_payout_ba', self.gf('django.db.models.fields.related.ForeignKey')(blank=True, related_name='default_payout_ba', null=True, to=orm['deviceapp.BalancedBankAccount'])),
             ('check_address', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['deviceapp.UserAddress'], null=True, blank=True)),
         ))
@@ -93,14 +92,15 @@ class Migration(SchemaMigration):
         db.create_table(u'deviceapp_item', (
             (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
             ('user', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['deviceapp.BasicUser'])),
+            ('listeddate', self.gf('django.db.models.fields.DateField')(auto_now_add=True, blank=True)),
             ('name', self.gf('django.db.models.fields.CharField')(max_length=200)),
             ('subcategory', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['deviceapp.SubCategory'])),
             ('manufacturer', self.gf('django.db.models.fields.TextField')(blank=True)),
             ('serialno', self.gf('django.db.models.fields.CharField')(max_length=30, null=True, blank=True)),
             ('modelyear', self.gf('django.db.models.fields.IntegerField')(max_length=4, null=True, blank=True)),
-            ('originalowner', self.gf('django.db.models.fields.BooleanField')()),
+            ('originalowner', self.gf('django.db.models.fields.BooleanField')(default=False)),
             ('mainimage', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['deviceapp.Image'], null=True, blank=True)),
-            ('contract', self.gf('django.db.models.fields.CharField')(max_length=40)),
+            ('contract', self.gf('django.db.models.fields.CharField')(default='none', max_length=40)),
             ('contractdescription', self.gf('django.db.models.fields.TextField')(blank=True)),
             ('conditiontype', self.gf('django.db.models.fields.CharField')(max_length=20)),
             ('conditionquality', self.gf('django.db.models.fields.IntegerField')(max_length=10)),
@@ -116,7 +116,6 @@ class Migration(SchemaMigration):
             ('commission_paid', self.gf('django.db.models.fields.BooleanField')(default=False)),
             ('sold_online', self.gf('django.db.models.fields.BooleanField')(default=False)),
             ('liststatus', self.gf('django.db.models.fields.CharField')(max_length=30)),
-            ('listeddate', self.gf('django.db.models.fields.DateField')(auto_now_add=True, blank=True)),
             ('quantity', self.gf('django.db.models.fields.IntegerField')(default=1)),
             ('savedcount', self.gf('django.db.models.fields.IntegerField')()),
             ('liststage', self.gf('django.db.models.fields.IntegerField')()),
@@ -146,13 +145,6 @@ class Migration(SchemaMigration):
         ))
         db.send_create_signal(u'deviceapp', ['SavedItem'])
 
-        # Adding model 'ItemImage'
-        db.create_table(u'deviceapp_itemimage', (
-            (u'image_ptr', self.gf('django.db.models.fields.related.OneToOneField')(to=orm['deviceapp.Image'], unique=True, primary_key=True)),
-            ('item', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['deviceapp.Item'], null=True)),
-        ))
-        db.send_create_signal(u'deviceapp', ['ItemImage'])
-
         # Adding model 'LatLong'
         db.create_table(u'deviceapp_latlong', (
             (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
@@ -168,13 +160,13 @@ class Migration(SchemaMigration):
         # Adding model 'Question'
         db.create_table(u'deviceapp_question', (
             (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('question', self.gf('django.db.models.fields.TextField')()),
             ('item', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['deviceapp.Item'])),
             ('buyer', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['deviceapp.BasicUser'])),
             ('seller', self.gf('django.db.models.fields.related.ForeignKey')(related_name='seller', to=orm['deviceapp.BasicUser'])),
             ('dateasked', self.gf('django.db.models.fields.DateTimeField')(auto_now_add=True, blank=True)),
-            ('answer', self.gf('django.db.models.fields.TextField')(null=True, blank=True)),
             ('dateanswered', self.gf('django.db.models.fields.DateTimeField')(null=True, blank=True)),
+            ('question', self.gf('django.db.models.fields.TextField')()),
+            ('answer', self.gf('django.db.models.fields.TextField')(null=True, blank=True)),
         ))
         db.send_create_signal(u'deviceapp', ['Question'])
 
@@ -217,9 +209,6 @@ class Migration(SchemaMigration):
             ('name', self.gf('django.db.models.fields.CharField')(max_length=100)),
             ('account_number', self.gf('django.db.models.fields.CharField')(max_length=255)),
             ('datecreated', self.gf('django.db.models.fields.DateTimeField')(auto_now_add=True, blank=True)),
-            ('verified', self.gf('django.db.models.fields.BooleanField')(default=False)),
-            ('verified_date', self.gf('django.db.models.fields.DateTimeField')(null=True, blank=True)),
-            ('verification_uri', self.gf('django.db.models.fields.CharField')(max_length=255)),
         ))
         db.send_create_signal(u'deviceapp', ['BalancedBankAccount'])
 
@@ -252,6 +241,7 @@ class Migration(SchemaMigration):
             ('checkout', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['deviceapp.Checkout'], null=True, blank=True)),
             ('dateadded', self.gf('django.db.models.fields.DateTimeField')(auto_now_add=True, blank=True)),
             ('item', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['deviceapp.Item'])),
+            ('price', self.gf('django.db.models.fields.BigIntegerField')()),
             ('shoppingcart', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['deviceapp.ShoppingCart'], null=True, blank=True)),
             ('quantity', self.gf('django.db.models.fields.IntegerField')(default=1, max_length=3)),
         ))
@@ -416,9 +406,6 @@ class Migration(SchemaMigration):
         # Deleting model 'SavedItem'
         db.delete_table(u'deviceapp_saveditem')
 
-        # Deleting model 'ItemImage'
-        db.delete_table(u'deviceapp_itemimage')
-
         # Deleting model 'LatLong'
         db.delete_table(u'deviceapp_latlong')
 
@@ -524,10 +511,7 @@ class Migration(SchemaMigration):
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'name': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
             'uri': ('django.db.models.fields.CharField', [], {'max_length': '255'}),
-            'user': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['deviceapp.BasicUser']", 'null': 'True', 'blank': 'True'}),
-            'verification_uri': ('django.db.models.fields.CharField', [], {'max_length': '255'}),
-            'verified': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
-            'verified_date': ('django.db.models.fields.DateTimeField', [], {'null': 'True', 'blank': 'True'})
+            'user': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['deviceapp.BasicUser']", 'null': 'True', 'blank': 'True'})
         },
         u'deviceapp.balancedcard': {
             'Meta': {'object_name': 'BalancedCard'},
@@ -558,7 +542,6 @@ class Migration(SchemaMigration):
             'check_address': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['deviceapp.UserAddress']", 'null': 'True', 'blank': 'True'}),
             'city': ('django.db.models.fields.CharField', [], {'max_length': '60'}),
             'company': ('django.db.models.fields.CharField', [], {'max_length': '60'}),
-            'date_created': ('django.db.models.fields.DateTimeField', [], {'auto_now_add': 'True', 'blank': 'True'}),
             'default_payment_ba': ('django.db.models.fields.related.ForeignKey', [], {'blank': 'True', 'related_name': "'default_payment_ba'", 'null': 'True', 'to': u"orm['deviceapp.BalancedBankAccount']"}),
             'default_payment_cc': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['deviceapp.BalancedCard']", 'null': 'True', 'blank': 'True'}),
             'default_payout_ba': ('django.db.models.fields.related.ForeignKey', [], {'blank': 'True', 'related_name': "'default_payout_ba'", 'null': 'True', 'to': u"orm['deviceapp.BalancedBankAccount']"}),
@@ -588,6 +571,7 @@ class Migration(SchemaMigration):
             'dateadded': ('django.db.models.fields.DateTimeField', [], {'auto_now_add': 'True', 'blank': 'True'}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'item': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['deviceapp.Item']"}),
+            'price': ('django.db.models.fields.BigIntegerField', [], {}),
             'quantity': ('django.db.models.fields.IntegerField', [], {'default': '1', 'max_length': '3'}),
             'shoppingcart': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['deviceapp.ShoppingCart']", 'null': 'True', 'blank': 'True'})
         },
@@ -597,7 +581,7 @@ class Migration(SchemaMigration):
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'industry': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['deviceapp.Industry']"}),
             'name': ('django.db.models.fields.CharField', [], {'max_length': '60'}),
-            'totalunits': ('django.db.models.fields.IntegerField', [], {})
+            'totalunits': ('django.db.models.fields.IntegerField', [], {'default': '0'})
         },
         u'deviceapp.checkout': {
             'Meta': {'object_name': 'Checkout'},
@@ -634,7 +618,7 @@ class Migration(SchemaMigration):
         u'deviceapp.image': {
             'Meta': {'object_name': 'Image'},
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'photo': ('django.db.models.fields.files.ImageField', [], {'max_length': '100'}),
+            'photo': ('imagekit.models.fields.ProcessedImageField', [], {'max_length': '100'}),
             'photo_medium': ('imagekit.models.fields.ProcessedImageField', [], {'max_length': '100'}),
             'photo_small': ('imagekit.models.fields.ProcessedImageField', [], {'max_length': '100'})
         },
@@ -657,7 +641,7 @@ class Migration(SchemaMigration):
             'conditiondescription': ('django.db.models.fields.TextField', [], {'blank': 'True'}),
             'conditionquality': ('django.db.models.fields.IntegerField', [], {'max_length': '10'}),
             'conditiontype': ('django.db.models.fields.CharField', [], {'max_length': '20'}),
-            'contract': ('django.db.models.fields.CharField', [], {'max_length': '40'}),
+            'contract': ('django.db.models.fields.CharField', [], {'default': "'none'", 'max_length': '40'}),
             'contractdescription': ('django.db.models.fields.TextField', [], {'blank': 'True'}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'listeddate': ('django.db.models.fields.DateField', [], {'auto_now_add': 'True', 'blank': 'True'}),
@@ -669,7 +653,7 @@ class Migration(SchemaMigration):
             'msrp_price': ('django.db.models.fields.BigIntegerField', [], {'max_length': '20'}),
             'name': ('django.db.models.fields.CharField', [], {'max_length': '200'}),
             'offlineviewing': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
-            'originalowner': ('django.db.models.fields.BooleanField', [], {}),
+            'originalowner': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
             'price': ('django.db.models.fields.BigIntegerField', [], {'max_length': '20'}),
             'productdescription': ('django.db.models.fields.TextField', [], {'blank': 'True'}),
             'promo_code': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['deviceapp.PromoCode']", 'null': 'True', 'blank': 'True'}),
@@ -683,11 +667,6 @@ class Migration(SchemaMigration):
             'user': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['deviceapp.BasicUser']"}),
             'views': ('django.db.models.fields.IntegerField', [], {'default': '0'}),
             'whatsincluded': ('django.db.models.fields.TextField', [], {'blank': 'True'})
-        },
-        u'deviceapp.itemimage': {
-            'Meta': {'object_name': 'ItemImage', '_ormbases': [u'deviceapp.Image']},
-            u'image_ptr': ('django.db.models.fields.related.OneToOneField', [], {'to': u"orm['deviceapp.Image']", 'unique': 'True', 'primary_key': 'True'}),
-            'item': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['deviceapp.Item']", 'null': 'True'})
         },
         u'deviceapp.itemreview': {
             'Meta': {'object_name': 'ItemReview'},
@@ -810,7 +789,7 @@ class Migration(SchemaMigration):
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'maincategory': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'maincategory'", 'to': u"orm['deviceapp.Category']"}),
             'name': ('django.db.models.fields.CharField', [], {'unique': 'True', 'max_length': '60'}),
-            'totalunits': ('django.db.models.fields.IntegerField', [], {})
+            'totalunits': ('django.db.models.fields.IntegerField', [], {'default': '0'})
         },
         u'deviceapp.useraddress': {
             'Meta': {'object_name': 'UserAddress'},
