@@ -112,3 +112,90 @@
 	float: right;
 	margin: 5px 10px;
 }
+.maincontent-title {
+	color: #888;
+	letter-spacing: .5px;
+	font-weight: 800;
+	background: #f2f2f2;
+	border-bottom:1px solid #ddd;
+	margin: 0;
+	line-height: 32px;
+	padding: 10px 0px 0px 20px;
+	margin-bottom: 0px;
+	background-image: -ms-linear-gradient(top, #FFFFFF 0%, #EEEEEE 100%);
+	background-image: -moz-linear-gradient(top, #FFFFFF 0%, #EEEEEE 100%);
+	background-image: -o-linear-gradient(top, #FFFFFF 0%, #EEEEEE 100%);
+	background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #FFFFFF), color-stop(1, #EEEEEE));
+	background-image: -webkit-linear-gradient(top, #FFFFFF 0%, #EEEEEE 100%);
+	background-image: linear-gradient(to bottom, #FFFFFF 0%, #EEEEEE 100%);
+}
+
+/*Payment Address formatting*/
+
+.paymentbox .payment-address {
+}
+.paymentbox .payment-address .address-toggle {
+	margin: 10px 0;
+	margin-left: 20px;
+}
+.paymentbox .payment-address .checkbox label {
+	font-weight: 200;
+	font-size: 13px;
+}
+.paymentbox .payment-address-div div {
+	padding: 15px 3px;
+}
+.paymentbox .address-box {
+	padding: 10px 0 20px 0;
+	border:1px solid #ddd;
+	border-radius: 3px;
+	background: #f6f6f6;
+	text-align: center;	
+}
+.paymentbox .address-box form {
+	display: inline-block;
+}
+
+.paymentbox .address-box button {
+	margin-top: 15px;
+}
+.paymentbox .address-box p {
+	margin: 0;
+	font-size: 13px;
+	text-align: center;
+	font-weight: 500;
+	padding: 0;
+}
+.payment-address-new-button {
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+.payment-address-new-button div {
+	padding: 0;
+	padding-left: 3px;
+}
+.payment-address-new-form {
+	border:1px solid #ddd;
+	border-radius: 4px;
+	padding: 20px;
+	background: #f6f6f6;
+	display: none;
+}
+.paymentbox .payment-address-new-form .address-description {
+	padding: 0 20px;
+	margin-bottom: 20px;
+}
+.payment-address-new-form .addressform {
+	padding: 0 20px;
+}
+.payment-address-new-form .addressform table{
+	width: 100%;
+	max-width: 400px;
+}
+.payment-address-new-form .addressform .form-img {
+	width: 50px;
+}
+.payment-address-new-form .addressform .form-img img{
+	max-width: 20px;
+	margin-left: 10px;
+}

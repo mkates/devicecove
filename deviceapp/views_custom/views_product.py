@@ -3,7 +3,7 @@ from django.template.loader import render_to_string
 from deviceapp.models import *
 import views_checkout as checkoutview
 import views_email as email_view
-import views_general as general_view
+import commission as commission
 from django.template import RequestContext, Context, loader
 from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth import authenticate, login, logout
@@ -12,11 +12,7 @@ from django.utils.html import escape
 from django.shortcuts import render
 from django.core.exceptions import ObjectDoesNotExist
 from django.conf import settings
-import json
-import math
-import difflib
-import locale
-import time
+import json, re, string, math, difflib, locale, time
 
 ###########################################
 #### Listing Pages  #######################
@@ -53,8 +49,30 @@ def listproduct(request,subcategory):
  						liststage = 0,
  						savedcount = 0)
  		newitem.save()
+ 		if not (bu.businesstype and bu.phonenumber and bu.company):
+ 			return HttpResponseRedirect('/list/business/'+str(newitem.id))
 		return HttpResponseRedirect('/list/describe/'+str(newitem.id))
 	return HttpResponse(request.method)
+
+#Business Description
+@login_required
+def listbusiness(request,itemid):
+	item = Item.objects.get(id=itemid)
+	return render_to_response('item/item_business.html',{'item':item},context_instance=RequestContext(request))
+
+#Save Business Description
+@login_required
+def savebusiness(request,itemid):
+	item = Item.objects.get(id=itemid)
+	if itemOwner(request,itemid) and request.method=="POST":
+		bu = request.user.basicuser
+		bu.company = request.POST.get('company','')
+		bu.phonenumber = int(re.sub("[^0-9]", "",request.POST.get("phonenumber","")))
+		bu.businesstype = request.POST.get('business','')
+		bu.website = request.POST.get('website','')
+		bu.save()
+		return HttpResponseRedirect('/list/describe/'+str(itemid))
+	return HttpResponseRedirect('/listintro')
 
 #Item Description
 @login_required

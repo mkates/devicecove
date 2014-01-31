@@ -57,6 +57,7 @@ h3 span {
 {% endblock %}
 
 {% block maincontent %}
+{% load phonenumber %}
 {% if not pitem.report %}
 <div class="covebox report-container">
 	<div class="report-step">
@@ -69,9 +70,7 @@ h3 span {
 			<p class="report-seller">Seller Information</p>
 			<p class="report-seller-info">{{pitem.seller.name}}</p>
 			<p class="report-seller-info">{{pitem.seller.email}}</p>
-			<p class="report-seller-info">{{pitem.seller.company}}</p>
-			<p class="report-seller-info">{{pitem.seller.city}}, {{pitem.seller.state}}</p>
-			<p class="report-seller-info">{{pitem.seller.phonenumber}}</p>
+			<p class="report-seller-info">{{pitem.seller.phonenumber|phonenumber}}</p>
 		</div>
 	</div>
 	<div class="report-step">

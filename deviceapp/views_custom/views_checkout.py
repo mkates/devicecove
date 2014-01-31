@@ -27,40 +27,43 @@ import balanced
 # Then, transfer all the items from the session shopping cart to their account
 # Finally, create a Checkout if the user is checking out
 def newuserform(request):
-	print request
 	if request.method == 'POST':
 		try:
-			# Extract all sign up data
-			businesstype = request.POST['businesstype']
+			# Business Information
+			businesstype = request.POST.get('businesstype','')
 			company = request.POST.get('company','')
+			website = request.POST.get('website','')
+			
+			# General user sign-up
 			name = request.POST['name']
 			email = request.POST['email']
+			zipcode = request.POST['zipcode']
+			
+			password = request.POST['password']
 			#If user email is already in user, go to signup + email error
 			if User.objects.filter(username=email).exists():
 				return HttpResponseRedirect("/signup?e=email")
-			address_one = request.POST['address_one']
-			address_two = request.POST.get('address_two','')
-			zipcode = request.POST['zipcode']
-			city = request.POST['city']
-			state = request.POST['state']
-			website = request.POST.get('website','')
-			phonenumber = request.POST['phonenumber']
-			phonenumber = int(re.sub("[^0-9]", "", phonenumber))
-			password = request.POST['password']
+			
 			newuser = User.objects.create_user(email,email,password)
 			newuser.save()
 			
 			# Create the basic user
-			nbu = BasicUser(user=newuser,name=name,businesstype=businesstype,company=company,email=email,address_one=address_one,address_two=address_two,zipcode=zipcode,city=city,
-			state=state,website=website,phonenumber=phonenumber)
+			nbu = BasicUser(user=newuser,name=name,email=email,zipcode=zipcode)
 			nbu.save()
+			
+			try:
+				latlong_obj = LatLong.objects.get(zipcode=int(zipcode))
+				nbu.city = latlong_obj.city
+				nbu.county = latlong_obj.county
+				nbu.state = latlong_obj.state
+				nbu.save()
+			except:
+				latlong_obj = None
 			
 			# Create the shopping cart
 			shoppingcart = ShoppingCart(user=nbu)
 			shoppingcart.save()
-			#Create a user address
-			address = UserAddress(user=nbu,name=name,address_one=address_one,address_two=address_two,city=city,state=state,zipcode=zipcode,phonenumber=phonenumber)
-			address.save()
+			
 			user = authenticate(username=newuser,password=password)
 			
 			# Add all session cart items into their account's shopping cart

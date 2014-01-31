@@ -1,4 +1,4 @@
-var formelements = {'businesstype':false,'name':false,'company':true,'email':false,'address_one':false,'address_two':true,'zipcode':false,'city':false,'state':true,'website':true,'phonenumber':false, 'password':false};
+var formelements = {'name':false,'email':false,'password':false};
 var states = ['AK',"AL","AR","AS","AZ","CA","CO","CT","DC","DE","FL","GA","GU","HI","IA","ID","IL","IN","KS","KY","LA","MA","MD","ME","MH","MI","MN","MO","MS","MT","NC","ND","NE","NH","NJ","NM","NV","NY","OH","OK","OR","PA","PR","PW","RI","SC","SD","TN","TX","UT","VA","VI","VT","WA","WI","WV","WY"];
 
 function isEmail(email) {
@@ -7,26 +7,14 @@ function isEmail(email) {
 }
 
 $(document).ready(function() {
-	$(".phonenumber").mask("(999) 999-9999");
 	$("input").blur(function() {
 		validateinput($(this),false);
 	});
 	$("input").keyup(function() {
 		validateinput($(this),false);
 	});
-	$("select").change(function() {
-		validateinput($(this),false);
-	});
 	$("#zipcode").keyup(function() {
 		$(this).val($(this).val().replace(/\D/g,''));
-	});
-	//Populate the state field
-	for (var i=0; i < states.length; i++) {
-		$("#state").append("<option>"+states[i]+"</option>");
-	}
-	//Hide certain elements
-	$("#businesstype").change(function() {
-		$(this).val() != 'none' ? $(".companyextra").fadeIn() : $(".companyextra").fadeOut();
 	});
 	//On sign up submission
 	$(".signupform").submit(function() {
@@ -63,11 +51,6 @@ var updateformcss = function updateformcss(handler) {
 
 //Takes in a list of inputs to verify
 var validateinput = function validateinput(handler,submiting) {
-	if ($(handler).attr('id') =='businesstype' || submiting) {
-		var validated = ($("#businesstype").val() == 'none' ) ? false : true;
-		formelements['businesstype'] = validated;
-		updateformcss($("#businesstype"));
-	}
 	if ($(handler).attr('id') =='name' || submiting) {
 		var validated = ($("#name").val().length < 1 ) ? false : true;
 		formelements['name'] = validated;
@@ -76,38 +59,14 @@ var validateinput = function validateinput(handler,submiting) {
 	if ($(handler).attr('id') =='email' || submiting ) {
 		checkEmail();
 	}
-	if ($(handler).attr('id') =='address_one' || submiting) {
-		var validated = ($("#address_one").val().length < 5) ? false : true;
-		formelements['address_one'] = validated;
-		updateformcss($("#address_one"));
-	}
-	if ($(handler).attr('id') =='city' || submiting) {
-		var validated = ($("#city").val().length < 3) ? false : true;
-		formelements['city'] = validated;
-		updateformcss($("#city"));
-	}
-	if ($(handler).attr('id') =='state' || submiting) {
-		formelements['state'] = true;
-		updateformcss($("#state"));
-	}
 	if ($(handler).attr('id') =='zipcode' || submiting) {
 		var validated = ($("#zipcode").val().length == 5) ? true : false;
 		formelements['zipcode'] = validated;
 		updateformcss($("#zipcode"));
 	}
-	if ($(handler).attr('id') =='website' || submiting) {
-		formelements['website'] = true;
-	}
-	if ($(handler).attr('id') =='phonenumber' || submiting) {
-		var pn = $("#phonenumber").val();
-		pn_stripped = pn.replace(/\D/g,'');
-		var validated = (pn_stripped.length == 10) ? true : false;
-		formelements['phonenumber'] = validated;
-		updateformcss($("#phonenumber"));
-	}
 	if ($(handler).attr('id') =='password' || submiting) {
 		if ($("#password").val().length < 6) {
-			$("#passwordtext").html("Too Short");
+			$("#passwordtext").html("Too Short (Minimum 6 Characters)");
 			formelements['password'] = false;
 		}  else {
 			$("#passwordtext").html("");
@@ -148,7 +107,7 @@ var checkEmail = function checkEmail() {
 			} else {
 				formelements['email'] = false;
 				updateformcss($("#email"));
-				$("#formemailtext").text("Already in use");
+				$("#formemailtext").text("Already in use (Login Instead)");
 			}
 		}
 	});

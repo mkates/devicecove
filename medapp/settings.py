@@ -165,7 +165,8 @@ INSTALLED_APPS = (
     'storages', #For file storage, works with S3
     'django_extensions',
     'password_reset', # Password reset app
-    'djrill' #Django-Mandrill App
+    'djrill', #Django-Mandrill App
+    'collectfast' #Used for quicker S3 Collectstatic (fixes modified_time bug in s3 uploads)
 )
 CACHES = {
     'default': {
@@ -247,7 +248,7 @@ BALANCED_API_KEY = 'ak-test-2iiPtmDbNKZNUPEVNEcoPOTO0GMBMFsm3'
 DEFAULT_FILE_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
 STATICFILES_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
 AWS_STORAGE_BUCKET_NAME = 'devicerock'
-
+AWS_PRELOAD_METADATA = True
 #ImageKit File Storage
 AWS_BUCKET_NAME = AWS_STORAGE_BUCKET_NAME 
 IMAGEKIT_DEFAULT_FILE_STORAGE = 'storages.backends.s3boto.S3BotoStorage'

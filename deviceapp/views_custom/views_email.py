@@ -9,7 +9,7 @@ from django.utils.html import escape
 from django.shortcuts import render
 from django.core.exceptions import ObjectDoesNotExist
 from django.conf import settings
-
+import commission as commission
 from django.core.mail import EmailMultiAlternatives
 from django.template import Context
 from django.template.loader import render_to_string
@@ -122,6 +122,8 @@ def composeEmailContactMessageFollowUp_Buyer(request,basicuser):
 def composeEmailCommissionCharged(request,basicuser,commission_obj):
 	template_data = {
 		'STATIC_URL':settings.STATIC_URL,
+		'savings': commission.commissionSavings(commission_obj.item),
+		'original_commission':commission.originalCommission(commission_obj.item),
 		'commission_charged':True,
 		'commission_obj':commission_obj,
 		'email_title':"Commission Payment Confirmation",
@@ -207,22 +209,13 @@ def composeEmailItemShipped_Seller(request,basicuser,purchased_item):
 #### Confirmation check has been mailed ######
 def composeEmailPayoutCheckSent(basicuser,check_obj):
 	purchased_items = check_obj.purchaseditem_set.all()
-	payout_subtotal = 0
-	for ui in purchased_items:
-		payout_subtotal += ui.total
-	commission = int(.09*payout_subtotal*100)/float(100)
-	cc_fee = int(.03*payout_subtotal*100)/float(100)
-	payout_total = payout_subtotal-commission-cc_fee
 	template_data = {
 		'STATIC_URL':settings.STATIC_URL,
 		'payout_check_sent':True,
 		'purchased_items': purchased_items,
 		'check_obj':check_obj,
 		'totals':True,
-		'cc_fee':cc_fee,
-		'pay_subtotal':payout_subtotal,
-		'pay_total':payout_total,
-		'commission':commission,
+		'payment':check_obj,
 		'email_title':"Check Payment Sent",
 		'email_teaser':'NEEDS TO BE FINISHED',
 		'email_name':basicuser.name
@@ -234,22 +227,13 @@ def composeEmailPayoutCheckSent(basicuser,check_obj):
 #### Confirmation check has been mailed ######
 def composeEmailPayoutBankSent(basicuser,bank_obj):
 	purchased_items = bank_obj.purchaseditem_set.all()
-	payout_subtotal = 0
-	for ui in purchased_items:
-		payout_subtotal += ui.total
-	commission = int(.09*payout_subtotal*100)/float(100)
-	cc_fee = int(.03*payout_subtotal*100)/float(100)
-	payout_total = payout_subtotal-commission-cc_fee
 	template_data = {
 		'STATIC_URL':settings.STATIC_URL,
 		'payout_bank_sent':True,
 		'purchased_items': purchased_items,
 		'bank_obj':bank_obj,
 		'totals':True,
-		'cc_fee':cc_fee,
-		'pay_subtotal':payout_subtotal,
-		'pay_total':payout_total,
-		'commission':commission,
+		'payment':bank_obj,
 		'email_title':"Bank Account Payout Sent",
 		'email_teaser':'NEEDS TO BE FINISHED',
 		'email_name':basicuser.name
@@ -262,20 +246,12 @@ def composeEmailPayoutBankSent(basicuser,bank_obj):
 def composeEmailNoPayment(basicuser):
 	bu = basicuser
 	unpaid_items = bu.purchaseditemseller.filter(paid_out=False)
-	payout_subtotal = 0
-	for ui in unpaid_items:
-		payout_subtotal += ui.total
-	commission = int(.09*payout_subtotal*100)/float(100)
-	cc_fee = int(.03*payout_subtotal*100)/float(100)
-	payout_total = payout_subtotal-commission-cc_fee
+	payment = commission.getStatsFromPurchasedItems(unpaid_items)
 	template_data = {
 		'STATIC_URL':settings.STATIC_URL,
 		'no_payment':True,
 		'totals':True,
-		'cc_fee':cc_fee,
-		'pay_subtotal':payout_subtotal,
-		'pay_total':payout_total,
-		'commission':commission,
+		'payment':payment,
 		'purchased_items':unpaid_items,
 		'email_title':"No Payment Method",
 		'email_teaser':'NEEDS TO BE FINISHED',
@@ -287,22 +263,13 @@ def composeEmailNoPayment(basicuser):
 
 def composeEmailPayoutFailed(basicuser,bank_obj):
 	purchased_items = bank_obj.purchaseditem_set.all()
-	payout_subtotal = 0
-	for ui in purchased_items:
-		payout_subtotal += ui.total
-	commission = int(.09*payout_subtotal*100)/float(100)
-	cc_fee = int(.03*payout_subtotal*100)/float(100)
-	payout_total = payout_subtotal-commission-cc_fee
+	payment = commission.getStatsFromPurchasedItems(purchased_items)
 	template_data = {
 		'STATIC_URL':settings.STATIC_URL,
 		'payout_failed':True,
 		'purchased_items': purchased_items,
-		'bank_obj':bank_obj,
 		'totals':True,
-		'cc_fee':cc_fee,
-		'pay_subtotal':payout_subtotal,
-		'pay_total':payout_total,
-		'commission':commission,
+		'payment':payment,
 		'email_title':"Bank Account Payout Failed",
 		'email_teaser':'NEEDS TO BE FINISHED',
 		'email_name':basicuser.name

@@ -98,6 +98,11 @@ Product Information
 Item Number: {{commission_obj.item.id}}
 Listing Price: {{commission_obj.item.price|dollars}}
 Selling Fees: 9% Commission
+{% if commission_obj.item.promo_code %}
+Original Commission: {{original_commission|dollars}}
+Promotional Code: {{commission_obj.item.promo_code.code}} ({{commission_obj.item.promo_code.details}})
+Promotional Savings: {{savings|dollars}}
+{% endif %}
 Transaction ID: #0000{{commission_obj.id}}
 Amount Charged: {{commission_obj.amount|dollars}}
 

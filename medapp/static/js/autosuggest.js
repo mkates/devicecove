@@ -55,13 +55,20 @@ var autosuggestcall = function autosuggestcall() {
 
 
 $(document).ready(function() {
+	if ($("#searchinput").val().length > 0) {
+		$("#search-exit").css("display","block");
+	}
 	$(".customsearchbar input").focus(function() {
 		$(".customsearchbar button").addClass("blueborder");
 	});
 	$(".customsearchbar input").blur(function() {
 		$(".customsearchbar button").removeClass("blueborder");
 	});
-	
+	$("#search-exit").click(function() {
+		$("#searchinput").val("");
+		$("#searchinput").focus();
+		$("#search-exit").css("display","none");
+	});
 	$("#searchinput").focus(function() {
 		if ($("#searchinput").val().length > 0) {
 			//autosuggestcall();
@@ -73,12 +80,14 @@ $(document).ready(function() {
 	});
 	$("#searchinput").keyup(function(e) {
 		if ($("#searchinput").val().length > 0) {
+			$("#search-exit").css("display","block");
 			if ($(e.target).attr("id") == "searchinput" && e.keyCode != 40 && e.keyCode !=38)  {
 				autosuggestcall();
 			}
 			autosuggest = true;
 		} else {
 			$("#autosuggest").css("display","none");
+			$("#search-exit").css("display","none");
 			autosuggest = false;
 		}
 		if (e.keyCode != 40 && e.keyCode !=38) {

@@ -419,7 +419,7 @@ footer ul li a:hover {
 		.navigation-container .searchbar-row {
 		}
 	}
-	@media (max-width: 768px) {	
+	@media (max-width: 767px) {	
 		.hide-search {
 			display: none;
 		}

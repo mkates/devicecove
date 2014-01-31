@@ -1,0 +1,86 @@
+{% extends 'base.html' %}
+{% block headertitle %}<title>VetCove | Business Information</title>{% endblock%}
+
+{% block headercss %}
+<style>
+
+.maincontainer {
+	background: #fff;
+	border:1px solid #ddd;
+	border-radius: 3px;
+	box-shadow: 0 0 4px #ccc;
+	max-width: 700px;
+	margin: 50px auto
+}
+.maincontainer h3 {
+	display: block;
+	border-bottom: 1px solid #eee;
+	padding-left: 20px;
+	font-weight: 200;
+	padding-bottom: 10px;
+}
+.seller-block {
+	padding: 20px 40px;
+}
+.seller-block .form-group {	
+	max-width: 400px;
+}
+.seller-block label {
+	font-weight: 200;
+}
+</style>
+{% endblock%}
+
+
+{% block content %}
+<div class="maincontainer">
+	<h3>Seller Information</h3>
+	<div class="seller-block">
+		<p> In order to sell on VetCove, we need to collect some information about your business. This information
+		can be updated at any time in your profile</p>
+		<form id="business-form" role="form" action="/savebusiness/{{item.id}}" method="POST">
+		{% csrf_token %}
+		  <div class="form-group">
+			<label for="exampleInputEmail1">Business Type</label>
+			<select class="form-control" name="business">
+				<option>Cool</option>
+			</select>
+		  </div>
+		  <div class="form-group">
+			<label for="exampleInputPassword1">Company Name</label>
+			<input type="text" required class="form-control" name="company" id="exampleInputPassword1" placeholder="i.e. Wildwood Equine">
+		  </div>
+		   <div class="form-group">
+			<label for="exampleInputPassword1">Website</label>
+			<input type="text" class="form-control" name="website" id="exampleInputPassword1" placeholder="i.e. www.wildwoodequine.com">
+		  </div>
+		   <div class="form-group">
+			<label for="exampleInputPassword1">Phone Number</label>
+			<input required type="text" name="phonenumber" id="phonenumber" class="form-control" placeholder="i.e. (732) 431-1231">
+		  </div>
+		  <button type="submit" class="button button-rounded button-action">Continue to Listing</button>
+		</form>
+
+	</div>
+</div>
+
+
+{% endblock %}
+
+{% block jsblock %}
+<script src="{{STATIC_URL}}js/maskedinput.js" type="text/javascript" ></script>
+<script>
+$(document).ready(function() {
+	$("#phonenumber").mask("(999) 999-9999");
+	$("#business-form").submit(function() {
+		var pn = $("#phonenumber").val();
+		pn_stripped = pn.replace(/\D/g,'');
+		var validated = (pn_stripped.length == 10) ? true : false;
+		console.log(validated);
+		if (validated) {return true};
+		$("#phonenumber").css('border','1px solid red');
+		return false;
+	});
+});
+</script>
+{% endblock %}

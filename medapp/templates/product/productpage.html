@@ -24,7 +24,7 @@
 					<div class="row">
 						<div class="col-md-6 col-sm-6 col-xs-12">
 							<label>Phone</label>
-							<input type="text" class="form-control" name="contact-phone" value="{{user.basicuser.phonenumber|phonenumber}}">
+							<input type="text" id="phonenumber" class="form-control" name="contact-phone" value="{% if user.basicuser.phonenumber %}{{user.basicuser.phonenumber|phonenumber}}{% endif %}">
 						</div>
 						<div class="col-md-6 col-sm-6 col-xs-12">
 							<label> Reason for Contact</label>
@@ -143,8 +143,8 @@
 		</div>
 		<div class="sideproduct" id="productspecs">
 			<h2>Seller Information</h2>
-			<p><span>Type</span>{{item.user.businesstype | title}}</p>
-			<p><span>Location</span>{{item.user.city}}, {{item.user.state}}</p>
+			<p><span>Type</span>{% if item.user.businesstype %}{{item.user.businesstype | title}}{% else %}None Specified{% endif %}</p>
+			<p><span>Location</span>{% if item.user.city %}{{item.user.city}}, {{item.user.state}}{% else %}Zipcode: {{item.user.zipcode}}{%endif %}</p>
 		</div>
 		<div class="sideproduct" id="productspecs">
 			<h2>Product Information</h2>
@@ -158,17 +158,14 @@
 		</div>
 	  </div>
 	<div class="col-xs-12 col-sm-8 col-md-8 col-md-pull-4 col-sm-pull-4 mainproductcontainer">
-		{%if item.itemimage_set.all %}
+		{%if item.image_set.all %}
 		<div class="mainproduct imageproduct">
 			<div class="mainproduct-header">
 				<div id="zoomcontainer">
 					<div class='mainimage-div' id="ex1" style="background-image:url('{{item.mainimage.photo.url}}')">
 					</div>
 					<div class="thumbnails">
-						{% for img in item.itemimage_set.all %}
-							<div class="thumbnail-container"><img src="{{img.photo_small.url}}" data-original="{{img.photo.url}}"/></div>
-						{% endfor %}
-						{% for img in item.productimage_set.all %}
+						{% for img in item.image_set.all %}
 							<div class="thumbnail-container"><img src="{{img.photo_small.url}}" data-original="{{img.photo.url}}"/></div>
 						{% endfor %}
 					</div>

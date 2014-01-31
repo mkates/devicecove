@@ -9,7 +9,7 @@
 	border:1px solid #ddd;
 	border-radius: 3px;
 	box-shadow: 0 0 4px #ccc;
-	width: 1000px;
+	max-width: 1000px;
 	margin: 50px auto
 }
 .maincontainer h3 {
@@ -31,7 +31,12 @@
 .question p {
 	font-weight: 200;
 }
-
+@media(max-width:1000px) {
+	.maincontainer {
+		margin-left: 10px;
+		margin-right: 10px;
+	}
+}
 </style>
 {% endblock%}
 

@@ -17,20 +17,19 @@
 .maincontainer .company-intro {
 	background: url("{{STATIC_URL}}img/companypic.png") no-repeat;
 	background-size: 100%;
-	max-height: 632px;
 	max-width: 1000px;
-	padding: 580px 30px 30px 30px;
+	padding: 540px 0px 30px 0px;
 	vertical-align: bottom;
 	text-align: center;
 	position: relative;
-	border-bottom:1px solid #ddd;
+	border-bottom:1px solid #eee;
 }
 .maincontainer .company-intro h1 {
 	text-shadow: 0 0 2px #fff;
 	font-weight: 200;
 	font-size: 50px;
 	position:absolute;
-	padding: 30px;
+	padding: 30px 30px 10px 30px;
 	bottom: 0;
 	vertical-align:baseline;
 	line-height: 65px;
@@ -52,6 +51,18 @@
 	width: 100%;
 	border-top:1px solid #ddd;
 	border-bottom:1px solid #ddd;
+}
+@media(max-width:767px) {
+	.maincontainer .company-intro h1 {
+		font-size: 24px;
+		line-height: 35px;
+	}
+	.maincontainer .company-intro {
+		padding-top: 350px;
+	}
+	.maincontainer .company-info {
+		padding: 70px 20px;
+	}
 }
 </style>
 {% endblock%}

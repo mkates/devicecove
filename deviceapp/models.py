@@ -50,19 +50,16 @@ class BasicUser(models.Model):
 	user = models.OneToOneField(User)
 	name = models.CharField(max_length=60)
 	email = models.CharField(max_length=60) # Contact Email, login email stored in User class
-	
-	# Business Information
-	businesstype = models.CharField(max_length=60)
-	company = models.CharField(max_length=60)
-	website = models.CharField(max_length=60,null=True)
-	
-	# Default Address
-	address_one = models.CharField(max_length=60)
-	address_two = models.CharField(max_length=60,null=True,blank=True)
 	zipcode = models.IntegerField(max_length=5)
-	city = models.CharField(max_length=60)
-	state = models.CharField(max_length=60)
-	phonenumber = models.BigIntegerField(max_length=14)
+	city = models.CharField(max_length=100,null=True,blank=True)
+	county = models.CharField(max_length=100,null=True,blank=True)
+	state = models.CharField(max_length=100,null=True,blank=True)
+	
+	# Business Information (if they are a seller)
+	businesstype = models.CharField(max_length=60,null=True,blank=True)
+	company = models.CharField(max_length=60,null=True,blank=True)
+	website = models.CharField(max_length=60,null=True)
+	phonenumber = models.IntegerField(max_length=10,null=True,blank=True)
 	
 	# User's Rank - Used for specials and promotions
 	USER_RANK =  (('0', '0'),('1', '1'),('2', '2'),('3', '3'),('4', '4'),('5', '5'))
@@ -78,7 +75,7 @@ class BasicUser(models.Model):
 	default_payment_ba = models.ForeignKey('BalancedBankAccount',null=True,blank=True,related_name="default_payment_ba") 
 	
 	# User's Payout Options
-	PAYOUT_OPTIONS =  (('none', 'None'),('check', 'Check'),('bank', 'Bank'))
+	PAYOUT_OPTIONS =  (('none', 'None'),('check', 'Check By Mail'),('bank', 'Bank Account Deposit'))
 	payout_method = models.CharField(max_length=20,choices=PAYOUT_OPTIONS,default='none')
 	default_payout_ba = models.ForeignKey('BalancedBankAccount',null=True,blank=True,related_name="default_payout_ba") 
 	check_address = models.ForeignKey('UserAddress',null=True,blank=True)
@@ -253,7 +250,7 @@ class SavedItem(models.Model):
 ####### Lat Long Model #####################
 ############################################
 class LatLong(models.Model):
-	zipcode = models.IntegerField(max_length=5, db_index=True)
+	zipcode = models.IntegerField(max_length=5, db_index=True,unique=True)
 	latitude = models.FloatField()
 	longitude = models.FloatField()
 	city = models.CharField(max_length=50)
@@ -409,18 +406,27 @@ class BankPayout(models.Model):
 	amount = models.BigIntegerField(max_length=20)
 	bank_account = models.ForeignKey(BalancedBankAccount)
 	date = models.DateTimeField(auto_now_add = True)
-
+	total_commission = models.BigIntegerField(max_length=20)
+	cc_fee = models.BigIntegerField(max_length=20)
+	def subtotal(self):
+		return self.amount+self.total_commission+self.cc_fee
+		
 #### Record of all checks ##################
 class CheckPayout(models.Model):
 	user = models.ForeignKey(BasicUser)
 	amount = models.BigIntegerField(max_length=20)
+	address = models.ForeignKey(UserAddress)
 	sent = models.BooleanField(default=False)
 	date = models.DateTimeField(auto_now_add = True)
-	address = models.ForeignKey(UserAddress)
-	
+	total_commission = models.BigIntegerField(max_length=20)
+	cc_fee = models.BigIntegerField(max_length=20)
+	def subtotal(self):
+		return self.amount+self.total_commission+self.cc_fee
+		
 #### Commission ############################
 class Commission(models.Model):
 	item = models.OneToOneField(Item)
+	price = models.BigIntegerField(max_length=12)
 	amount = models.BigIntegerField(max_length=20)
 	PAYMENT_OPTIONS = (('bank','bank'),('card','card'))
 	payment_method = models.CharField(default='none',max_length=20, choices=PAYMENT_OPTIONS)

@@ -761,7 +761,12 @@
                                                 <h4>Product Information</h4>
                                                 <p class="thin">Item Number: {{commission_obj.item.id}}</p>
                                                 <p class="thin">Listing Price: {{commission_obj.item.price|dollars}}</p>
-                                                <p class="thin">Selling Fees: 9% Commission</p>
+                                                <p class="thin">Selling Fees: {{percentage}}% Commission</p>
+                                                {% if commission_obj.item.promo_code %}
+                                                	<p class="thin">Original Commission: {{original_commission|dollars}}</p>
+                                               		<p class="thin">Promotional Code: {{commission_obj.item.promo_code.code}} ({{commission_obj.item.promo_code.details}})</p>
+                                               		<p class="thin">Promotional Savings: {{savings|dollars}}</p>
+                                               {% endif %}
                                                 <p class="thin">Transaction ID: #0000{{commission_obj.id}}</p>
                                                 <p class="thin">Amount Charged: {{commission_obj.amount|dollars}}</p>
                                                 <br>
@@ -928,9 +933,9 @@
 												<p>Thank you for selling on VetCove!  We hope you’re enjoying your experience with our service.</p>
 												<p>We’re pleased to inform you that that your item has been paid for by the buyer, and instant payment is on its way to you in the form of a bank transfer. Please allow up to three business days for the money to appear in your account. Details of the transaction are below:</p>
 												<h5 class="thin">Bank Account Information</h5>
-												<p class="thin">{{bank_obj.name}}</p>
-												<p class="thin">{{bank_obj.bank_name}}</p>
-												<p class="thin">{{bank_obj.account_number}}</p>
+												<p class="thin">{{bank_obj.bank_account.name}}</p>
+												<p class="thin">{{bank_obj.bank_account.bank_name}}</p>
+												<p class="thin">{{bank_obj.bank_account.account_number}}</p>
 												<p>Warmest regards,</p>
 												<p>Alex and The VetCove Team</p>
 											{% endif %}
@@ -1083,11 +1088,11 @@
                                                     	<td class="totalColumnContent">
                                                     		{% if purchase_confirmation %}
                                                     			<h4 class="totalColumnContent_total">Total Amount: <span class="price">{{checkout.total|dollars}}</span></h4>
-                                                    		{% elif pay_total %}
-                                                    			<h4>Sales Total: <span class="price">{{pay_subtotal|dollars}}</span></h4>
-                                                    			<h4>9% <span class="hide-mobile">VetCove</span> Commission: <span class="price">-{{commission|dollars}}</span></h4>
-                                                    			<h4>3% Credit Card <span class="hide-mobile">Processing</span> Fee: <span class="price">-{{cc_fee|dollars}}</span></h4>
-                                                    			<h4 class="totalColumnContent_total">Total Credits: <span class="price">{{pay_total|dollars}}</span></h4>
+                                                    		{% elif payment %}
+                                                    			<h4>Sales Total: <span class="price">{{payment.subtotal|dollars}}</span></h4>
+                                                    			<h4><span class="hide-mobile">VetCove</span> Commission: <span class="price">-{{payment.total_commission|dollars}}</span></h4>
+                                                    			<h4>3% Credit Card <span class="hide-mobile">Processing</span> Fee: <span class="price">-{{payment.cc_fee|dollars}}</span></h4>
+                                                    			<h4 class="totalColumnContent_total">Total Credits: <span class="price">{{payment.amount|dollars}}</span></h4>
                                                     		{% endif %}
                                                         </td>
                                                     </tr>

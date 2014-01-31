@@ -81,23 +81,6 @@ $(document).ready(function() {
 <link href="{{STATIC_URL}}css/payment_methods.css" rel="stylesheet" type="text/css" />
 
 <style>
-.maincontent-title {
-	color: #888;
-	letter-spacing: .5px;
-	font-weight: 800;
-	background: #f2f2f2;
-	border-bottom:1px solid #ddd;
-	margin: 0;
-	line-height: 32px;
-	padding: 10px 0px 0px 20px;
-	margin-bottom: 0px;
-	background-image: -ms-linear-gradient(top, #FFFFFF 0%, #EEEEEE 100%);
-	background-image: -moz-linear-gradient(top, #FFFFFF 0%, #EEEEEE 100%);
-	background-image: -o-linear-gradient(top, #FFFFFF 0%, #EEEEEE 100%);
-	background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #FFFFFF), color-stop(1, #EEEEEE));
-	background-image: -webkit-linear-gradient(top, #FFFFFF 0%, #EEEEEE 100%);
-	background-image: linear-gradient(to bottom, #FFFFFF 0%, #EEEEEE 100%);
-}
 
 .paymentbox-container {
 	margin-bottom: 15px;
@@ -186,75 +169,7 @@ $(document).ready(function() {
 	display: inline-block;
 }
 
-/*Payment Address formatting*/
 
-.paymentbox .payment-address {
-}
-.paymentbox .payment-address .address-toggle {
-	margin: 10px 0;
-	margin-left: 20px;
-}
-.paymentbox .payment-address .checkbox label {
-	font-weight: 200;
-	font-size: 13px;
-}
-.paymentbox .payment-address-div div {
-	padding: 15px 3px;
-}
-.paymentbox .address-box {
-	padding: 10px 0 20px 0;
-	border:1px solid #ddd;
-	border-radius: 3px;
-	background: #f6f6f6;
-	text-align: center;	
-}
-.paymentbox .address-box form {
-	display: inline-block;
-}
-
-.paymentbox .address-box button {
-	margin-top: 15px;
-}
-.paymentbox .address-box p {
-	margin: 0;
-	font-size: 13px;
-	text-align: center;
-	font-weight: 500;
-	padding: 0;
-}
-.payment-address-new-button {
-	margin-top: 10px;
-	margin-bottom: 10px;
-}
-.payment-address-new-button div {
-	padding: 0;
-	padding-left: 3px;
-}
-.payment-address-new-form {
-	border:1px solid #ddd;
-	border-radius: 4px;
-	padding: 20px;
-	background: #f6f6f6;
-	display: none;
-}
-.paymentbox .payment-address-new-form .address-description {
-	padding: 0 20px;
-	margin-bottom: 20px;
-}
-.payment-address-new-form .addressform {
-	padding: 0 20px;
-}
-.payment-address-new-form .addressform table{
-	width: 100%;
-	max-width: 400px;
-}
-.payment-address-new-form .addressform .form-img {
-	width: 50px;
-}
-.payment-address-new-form .addressform .form-img img{
-	max-width: 20px;
-	margin-left: 10px;
-}
 .hide-div {
 	display: none;
 }
@@ -264,6 +179,7 @@ $(document).ready(function() {
 </style>
 {% endblock %}
 {% block maincontent %}
+{% load phonenumber %}
 	<div class="covebox paymentbox-container">
 		<h4 class="maincontent-title">Paying Out and Receiving Payments<img class="balanced-image" src="{{STATIC_URL}}img/balanced-image.png"/></h4>
 		{% if user.basicuser.payout_method == 'none' %}
@@ -276,13 +192,10 @@ $(document).ready(function() {
 		
 		<div class="paymentbox">
 			<div class="payment-current">
-				<h5>Paying for Items and Paying Seller Commission</h5>
-				<p>For sellers, the commission payment account is used to assess commission on items that
-				are sold offline (For online sales, the commission is deducted from the credit). When purchasing
-				items, you will always have the choice which payment method to use.</p>	
-				<h5>Receiving Payment</h5>
-				<p>When you sell an item, you can either have your bank account credited, or we can mail you a
-				check monthly. </p>
+				<h5>Payments on VetCove</h5>
+				<p>On VetCove, you can buy items with a credit card or a bank account. To receive payments as a seller,
+				you can receive a check by mail or we can make a direct deposit right into your bank account.</p>	
+				<h5>Receiving Payment Method: <strong>{{user.basicuser.get_payout_method_display}}</strong></h5>
 				<div class="payment-address">	
 					<form class="address-toggle">
 						<div class="checkbox">
@@ -298,9 +211,9 @@ $(document).ready(function() {
 								<div class="address-box">
 									<p>{{address.name}}</p>
 									<p>{{address.address_one}}</p>
-									<p>{{address.address_two}}</p>
+									{% if address.address_two %}<p>{{address.address_two}}</p>{% endif %}
 									<p>{{address.city}}, {{address.state}} {{address.zipcode}}</p>
-									<p>{{address.phonenumber}}</p>
+									<p>{{address.phonenumber|phonenumber}}</p>
 									{% if user.basicuser.check_address == address and user.basicuser.payout_method == 'check'%}
 									<button class="button button-tiny button-rounded button-highlight">Current Mailing Address</button>
 									{% else %}

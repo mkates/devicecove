@@ -3,7 +3,7 @@ from django.template.loader import render_to_string
 from deviceapp.models import *
 import views_payment as payment_view
 import views_email as email_view
-import views_general as general_view
+import commission as commission
 from django.template import RequestContext, Context, loader
 from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth import authenticate, login, logout
@@ -15,6 +15,27 @@ from django.conf import settings
 import medapp.settings as settings
 import json
 import balanced
+
+@login_required
+def addPromoCode(request,itemid):
+	dict = {}
+	item = Item.objects.get(id=itemid)
+	if request.method == "POST" and item.user == request.user.basicuser: 
+		promocode = request.POST.get('promocode','')
+		promocode = promocode.lower()
+		try:
+			pc = PromoCode.objects.get(code=promocode.lower())
+			if pc.active:
+				item.promo_code = pc
+				item.save()
+				dict = {'status':201,'message':pc.promo_text}
+			else:
+				dict = {'status':400,'message':"You're too late! This code has expired! Sorry"}
+		except:
+			dict = {'status':500,'message':'This code does not exist'}
+	else:
+		dict = {'status':500,'message':'Not the owner of the item'}
+	return HttpResponse(json.dumps(dict), content_type='application/json')
 
 @login_required
 def messageseller(request,itemid):
@@ -38,9 +59,9 @@ def messageseller(request,itemid):
 @login_required
 def buyermessages(request,itemid):
 	item = Item.objects.get(id=itemid)
-	net_commission = general_view.commission(item)
-	standard_commission = general_view.commissionPercentage(item.price)*item.price
-	discount = standard_commission-net_commission
+	net_commission = commission.commission(item)
+	standard_commission = commission.originalCommission(item)
+	savings = commission.commissionSavings(item)
 	# If the user logged in owns the item
 	messages = item.sellermessage_set.all()
 	if request.user.basicuser == item.user:
@@ -49,7 +70,7 @@ def buyermessages(request,itemid):
 			#item.save()
 			return render_to_response('account/selling/messages.html',{'item':item},context_instance=RequestContext(request))
 		else:
-			dict = {'gate':True,'item':item,'standard_commission':standard_commission,'net_commission':net_commission,'discount':discount,'commission_percent':general_view.commissionPercentage(item.price)}
+			dict = {'gate':True,'item':item,'standard_commission':standard_commission,'net_commission':net_commission,'discount':savings,'commission_percent':commission.commissionPercentage(item.price)}
 			if request.GET.get('e',''):
 				dict['error'] = request.GET.get('e')
 			return render_to_response('account/contact_gate.html',dict,context_instance=RequestContext(request))
@@ -75,11 +96,11 @@ def newcard_chargecommission(request,itemid):
 			card_uri = card.uri
 			balanced.configure(settings.BALANCED_API_KEY) # Configure Balanced API
 			customer = balanced.Customer.find(balanced_addCard['balanceduri'])
-			amount = general_view.commission(item)
+			amount = commission.commission(item)
 			customer.debit(appears_on_statement_as="Vet Cove Fee",amount=amount,source_uri=card_uri)
 			item.commission_paid = True
 			item.save()
-			commission_obj = Commission(item=item,amount=amount,payment_method='card',cc_payment=card)
+			commission_obj = Commission(item=item,price=item.price,amount=amount,payment_method='card',cc_payment=card)
 			commission_obj.save()
 			email_view.composeEmailCommissionCharged(request,bu,commission_obj)
 			return HttpResponse(json.dumps({'status':201}), content_type='application/json')
@@ -104,11 +125,11 @@ def newbank_chargecommission(request,itemid):
 			bank_uri = bank.uri
 			balanced.configure(settings.BALANCED_API_KEY) # Configure Balanced API
 			customer = balanced.Customer.find(balanced_addBankAccount['balanceduri'])
-			amount = general_view.commission(item)
+			amount = commission.commission(item)
 			customer.debit(appears_on_statement_as="Vet Cove Fee",amount=amount,source_uri=bank_uri)
 			item.commission_paid = True
 			item.save()
-			commission_obj = Commission(item=item,amount=amount,payment_method='bank',ba_payment=bank)
+			commission_obj = Commission(item=item,price=item.price,amount=amount,payment_method='bank',ba_payment=bank)
 			commission_obj.save()
 			email_view.composeEmailCommissionCharged(request,bu,commission_obj)
 			return HttpResponse(json.dumps({'status':201}), content_type='application/json')
@@ -132,14 +153,14 @@ def gatePayment(request,paymenttype,paymentid,itemid):
 				bu = request.user.basicuser
 				balanced.configure(settings.BALANCED_API_KEY) # Configure Balanced API
 				customer = balanced.Customer.find(bu.balanceduri)
-				amount = general_view.commission(item)
+				amount = commission.commission(item)
 				customer.debit(appears_on_statement_as="Vet Cove Fee",amount=amount,source_uri=payment.uri)
 				item.commission_paid = True
 				item.save()
 				if paymenttype == 'bank':
-					commission_obj = Commission(item=item,amount=comm_amount,payment_method=paymenttype,ba_payment=payment)
+					commission_obj = Commission(item=item,price=item.price,amount=comm_amount,payment_method=paymenttype,ba_payment=payment)
 				elif paymenttype == 'card':
-					commission_obj = Commission(item=item,amount=comm_amount,payment_method=paymenttype,cc_payment=payment)
+					commission_obj = Commission(item=item,price=item.price,amount=comm_amount,payment_method=paymenttype,cc_payment=payment)
 				commission_obj.save()
 				email_view.composeEmailCommissionCharged(request,bu,commission_obj)
 				return HttpResponseRedirect('/account/messages/'+str(item.id))
@@ -169,7 +190,7 @@ def purchaseshippinginfo(request,purchaseditemid):
 	shipping_details = request.POST['shipping-details']
 	shipped = request.POST.get('shipped','')
 	pi.seller_message = shipping_details
-	if request.POST['submit'] == 'shipped':
+	if request.POST['submit'] == 'shipped' and pi.item_sent == False:
 		pi.item_sent = True
 		email_view.composeEmailItemShipped_Buyer(request,request.user.basicuser,pi)
 		email_view.composeEmailItemShipped_Seller(request,request.user.basicuser,pi)
@@ -186,7 +207,8 @@ def authorizeBuyer(request,buyerid,itemid):
 		au = BuyAuthorization(seller=request.user.basicuser,buyer=buyer,item=item)
 		obj, created = BuyAuthorization.objects.get_or_create(seller=request.user.basicuser,buyer=buyer,item=item)
 		obj.save()
-		email_view.composeEmailAuthorizedBuyer(item,buyer)
+		if not created:
+			email_view.composeEmailAuthorizedBuyer(item,buyer)
 	return HttpResponseRedirect('/account/messages/'+str(item.id))
 
 @login_required

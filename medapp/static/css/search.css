@@ -275,7 +275,7 @@ input[type=checkbox]:checked + label:before {
 	margin-left: 0px;
 	margin-top: 3px;
 	background: #fcfcfc;
-	width: 170px;
+	max-width: 170px;
 	text-align: center;
 }
 .notopborder {
@@ -404,13 +404,13 @@ outline:none;
 }
 .resultitem .textdiv .itemname {
 	font-size: 16px;
-	height: 18px;
+	min-height: 18px;
 }
 .resultitem .textdiv .itemname:hover {
 	cursor:pointer;
 	color: #2A6496;
 	font-size: 16px;
-	height: 18px;
+	min-height: 18px;
 	overflow: hidden;
 }
 
@@ -525,6 +525,7 @@ outline:none;
 
 .resultitem .imgdiv {
 	text-align: center;
+	border:1px solid transparent;
 }
 .resultitem .imgdiv img {
 	max-width:100%;
@@ -702,7 +703,7 @@ outline:none;
 	text-decoration: underline;
 	cursor: pointer;
 }
-@media(max-width: 768px) {
+@media(max-width: 767px) {
 	.sidecontent-title {
 		font-size: 16px;
 	}
@@ -750,6 +751,14 @@ outline:none;
 	.pricediv {
 		background: #f2f2f2;
 		border-bottom:1px solid #ddd;
+	}
+	.msrp_price {
+		margin-left: 10px;
+		margin-top: 5px;
+	}
+	.resultitem .infobutton {
+		padding-left: 5px;
+		padding-right: 5px;
 	}
 	
 }

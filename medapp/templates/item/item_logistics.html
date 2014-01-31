@@ -212,12 +212,20 @@ var validateInputs = function validateInputs() {
 	</div>
 	<div class="entry promo-entry">
 		<h5>Promotional Code</h5>
+		{% if item.commission_paid %}
+		<p>You have already paid the commission for this item. 
+			{% if item.promo_code %}
+				You used promo code {{item.promo_code.code}} ({{item.promo_code.details}})
+			{% endif %}
+		</p>
+		{% else %}
 		<p>If you have a promotional code, please enter it below. Only one promotional code can be used.</p>
 		<h6 class="current-code">Current Promotion Code: <span id="current-code"> {{item.promo_code.code}}</span> <span class="promo_message">{% if item.promo_code %}({{item.promo_code.promo_text}}){% endif %}</span></h6>
 		<input id="promocode" name="promocode" class="form-control" value="{% if item.promo_code %}{{item.promo_code.code}}{% endif %}" />
 		<a id="promo-check" class="button button-rounded button-primary">Use This Promo Code</a>
 		<img src="{{STATIC_URL}}img/ajax-loader.gif"/>
 		<h6 id="code-explain"></h6>
+		{% endif %}
 	</div>
 </div>
 

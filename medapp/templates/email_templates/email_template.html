@@ -761,7 +761,12 @@
                                                 <h4 style="display: block;font-family: Helvetica;font-size: 14px;font-weight: 800;line-height: 100%;letter-spacing: normal;margin-top: 0;margin-right: 0;margin-bottom: 10px;margin-left: 0;text-align: left;color: #444;">Product Information</h4>
                                                 <p class="thin" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 130%;margin: 0;padding: 0;">Item Number: {{commission_obj.item.id}}</p>
                                                 <p class="thin" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 130%;margin: 0;padding: 0;">Listing Price: {{commission_obj.item.price|dollars}}</p>
-                                                <p class="thin" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 130%;margin: 0;padding: 0;">Selling Fees: 9% Commission</p>
+                                                <p class="thin" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 130%;margin: 0;padding: 0;">Selling Fees: {{percentage}}% Commission</p>
+                                                {% if commission_obj.item.promo_code %}
+                                                	<p class="thin" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 130%;margin: 0;padding: 0;">Original Commission: {{original_commission|dollars}}</p>
+                                               		<p class="thin" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 130%;margin: 0;padding: 0;">Promotional Code: {{commission_obj.item.promo_code.code}} ({{commission_obj.item.promo_code.details}})</p>
+                                               		<p class="thin" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 130%;margin: 0;padding: 0;">Promotional Savings: {{savings|dollars}}</p>
+                                               {% endif %}
                                                 <p class="thin" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 130%;margin: 0;padding: 0;">Transaction ID: #0000{{commission_obj.id}}</p>
                                                 <p class="thin" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 130%;margin: 0;padding: 0;">Amount Charged: {{commission_obj.amount|dollars}}</p>
                                                 <br>
@@ -789,14 +794,13 @@
                           					{% if selling_reminder %}
                           						<p style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 140%;">Dear {{email_name}},</p>
                                                 <p style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 140%;">Two weeks ago, we sent you a buyer's contact information that was interested in purchasing your item: {{item.name}}.  That buyer's name and business information is below:</p>
-                                                <h4 style="display: block;font-family: Helvetica;font-size: 14px;font-weight: 800;line-height: 100%;letter-spacing: normal;margin-top: 0;margin-right: 0;margin-bottom: 10px;margin-left: 0;text-align: left;color: #444;">Buyer Address</h4>
-                                                <p style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 140%;">{{contact_message.buyer.name}}</p>
-                                                <p style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 140%;">Contact Date: {{contact_message.date_sent}}</p>
-                                                {% if contact_message.buyer.email %}<p style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 140%;">Email: {{contact_message.email}}</p>{% endif %}
-                                                {% if contact_message.buyer.phone %}<p style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 140%;">Phone: {{contact_message.phone|phonenumber}}</p>{% endif %}
-                                                <p style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 140%;">{{contact_message.message}}</p>
+                                                <h4 style="display: block;font-family: Helvetica;font-size: 14px;font-weight: 800;line-height: 100%;letter-spacing: normal;margin-top: 0;margin-right: 0;margin-bottom: 10px;margin-left: 0;text-align: left;color: #444;">Buyer Message</h4>
+                                                <p class="thin" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 130%;margin: 0;padding: 0;">{{contact_message.buyer.name}}</p>
+                                                <p class="thin" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 130%;margin: 0;padding: 0;">Contact Date: {{contact_message.date_sent}}</p>
+                                                {% if contact_message.buyer.email %}<p class="thin" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 130%;margin: 0;padding: 0;">Email: {{contact_message.email}}</p>{% endif %}
+                                                {% if contact_message.buyer.phone %}<p class="thin" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 130%;margin: 0;padding: 0;">Phone: {{contact_message.phone|phonenumber}}</p>{% endif %}
+                                                <p class="thin" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 130%;margin: 0;padding: 0;">Message: {{contact_message.message}}</p>
                                             	<p style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 140%;">How did it go?  Were you able to sell the item to this buyer?</p>
-                                            	<br>
                                             	<a href="{{temp_base}}/account/updatelisting/sold/{{token}}" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;color: #167BAD;font-weight: normal;text-decoration: underline;">I sold the item to this buyer</a>
                                             	<br>
                                             	<a href="{{temp_base}}/account/updatelisting/differentsold/{{token}}" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;color: #167BAD;font-weight: normal;text-decoration: underline;">I sold the item to a different VetCove buyer</a>
@@ -929,9 +933,9 @@
 												<p style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 140%;">Thank you for selling on VetCove!  We hope you’re enjoying your experience with our service.</p>
 												<p style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 140%;">We’re pleased to inform you that that your item has been paid for by the buyer, and instant payment is on its way to you in the form of a bank transfer. Please allow up to three business days for the money to appear in your account. Details of the transaction are below:</p>
 												<h5 class="thin" style="line-height: 130%;margin: 0;padding: 0;">Bank Account Information</h5>
-												<p class="thin" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 130%;margin: 0;padding: 0;">{{bank_obj.name}}</p>
-												<p class="thin" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 130%;margin: 0;padding: 0;">{{bank_obj.bank_name}}</p>
-												<p class="thin" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 130%;margin: 0;padding: 0;">{{bank_obj.account_number}}</p>
+												<p class="thin" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 130%;margin: 0;padding: 0;">{{bank_obj.bank_account.name}}</p>
+												<p class="thin" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 130%;margin: 0;padding: 0;">{{bank_obj.bank_account.bank_name}}</p>
+												<p class="thin" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 130%;margin: 0;padding: 0;">{{bank_obj.bank_account.account_number}}</p>
 												<p style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 140%;">Warmest regards,</p>
 												<p style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 140%;">Alex and The VetCove Team</p>
 											{% endif %}
@@ -951,6 +955,24 @@
 												<p style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 140%;">Warmest regards,</p>
 												<p style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 140%;">Alex and The VetCove Team</p>
 											{% endif %}
+											
+											{% if authorized_buyer %}
+												<p style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 140%;">Dear {{email_name}},</p>
+												<p style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 140%;">Great news!  The seller for an item, {{item.name}}, has just authorized you to pay for the item through VetCove.  If you’ve reached an agreement to pay for the item with the seller, please use the link below to pay and complete the transaction.</p> 
+												<p style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 140%;"><span>
+                                            		<a href="http://www.vetcove.com/item/{{item.id}}/details" " style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;color: #167BAD;font-weight: normal;text-decoration: underline;">Add Item To Cart and Complete Purchase</a>
+												</span></p>	
+												<p style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 140%;">Once the payment has been processed, the seller will be notified to proceed with shipping or allowing pickup of the item.  If you have any questions, or would not like to purchase the item at this time, please contact the seller using the information below:</p>
+												<h5 class="thin" style="line-height: 130%;margin: 0;padding: 0;">Seller Information</h5>
+												<p class="thin" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 130%;margin: 0;padding: 0;">{{item.user.name}}</p>
+												<p class="thin" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 130%;margin: 0;padding: 0;">{{item.user.email}}</p>
+												<p class="thin" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 130%;margin: 0;padding: 0;">{{item.user.phonenumber}}</p>
+												<p style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 140%;">Remember that your payment through VetCove is completely secured by Balanced Payments, who is Level 1 PCI certified.  By paying through VetCove, you are also entitled to our VetCove Buyer Protection program. </p>
+												<p style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 140%;">Warmest regards,</p>
+												<p style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 140%;">Alex and The VetCove Team</p>
+											{% endif %}
+
+
                           	          		</td>
                                         </tr>
                                     </table>
@@ -1066,11 +1088,11 @@
                                                     	<td class="totalColumnContent" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;mso-table-lspace: 0pt;mso-table-rspace: 0pt;padding-bottom: 0px;">
                                                     		{% if purchase_confirmation %}
                                                     			<h4 class="totalColumnContent_total" style="display: block;font-family: Helvetica;font-size: 14px;font-weight: 800;line-height: 100%;letter-spacing: normal;margin-top: 10px;margin-right: 0;margin-bottom: 5px;margin-left: 0;text-align: right;padding-bottom: 0;color: #444;">Total Amount: <span class="price" style="font-weight: 800;width: 110px;display: inline-block;">{{checkout.total|dollars}}</span></h4>
-                                                    		{% elif pay_total %}
-                                                    			<h4 style="display: block;font-family: Helvetica;font-size: 14px;font-weight: 200;line-height: 100%;letter-spacing: normal;margin-top: 0;margin-right: 0;margin-bottom: 5px;margin-left: 0;text-align: right;padding-bottom: 0;color: #444;">Sales Total: <span class="price" style="font-weight: 200;width: 110px;display: inline-block;">{{pay_subtotal|dollars}}</span></h4>
-                                                    			<h4 style="display: block;font-family: Helvetica;font-size: 14px;font-weight: 200;line-height: 100%;letter-spacing: normal;margin-top: 0;margin-right: 0;margin-bottom: 5px;margin-left: 0;text-align: right;padding-bottom: 0;color: #444;">9% <span class="hide-mobile">VetCove</span> Commission: <span class="price" style="font-weight: 200;width: 110px;display: inline-block;">-{{commission|dollars}}</span></h4>
-                                                    			<h4 style="display: block;font-family: Helvetica;font-size: 14px;font-weight: 200;line-height: 100%;letter-spacing: normal;margin-top: 0;margin-right: 0;margin-bottom: 5px;margin-left: 0;text-align: right;padding-bottom: 0;color: #444;">3% Credit Card <span class="hide-mobile">Processing</span> Fee: <span class="price" style="font-weight: 200;width: 110px;display: inline-block;">-{{cc_fee|dollars}}</span></h4>
-                                                    			<h4 class="totalColumnContent_total" style="display: block;font-family: Helvetica;font-size: 14px;font-weight: 800;line-height: 100%;letter-spacing: normal;margin-top: 10px;margin-right: 0;margin-bottom: 5px;margin-left: 0;text-align: right;padding-bottom: 0;color: #444;">Total Credits: <span class="price" style="font-weight: 800;width: 110px;display: inline-block;">{{pay_total|dollars}}</span></h4>
+                                                    		{% elif payment %}
+                                                    			<h4 style="display: block;font-family: Helvetica;font-size: 14px;font-weight: 200;line-height: 100%;letter-spacing: normal;margin-top: 0;margin-right: 0;margin-bottom: 5px;margin-left: 0;text-align: right;padding-bottom: 0;color: #444;">Sales Total: <span class="price" style="font-weight: 200;width: 110px;display: inline-block;">{{payment.subtotal|dollars}}</span></h4>
+                                                    			<h4 style="display: block;font-family: Helvetica;font-size: 14px;font-weight: 200;line-height: 100%;letter-spacing: normal;margin-top: 0;margin-right: 0;margin-bottom: 5px;margin-left: 0;text-align: right;padding-bottom: 0;color: #444;">9% <span class="hide-mobile">VetCove</span> Commission: <span class="price" style="font-weight: 200;width: 110px;display: inline-block;">-{{payment.total_commission|dollars}}</span></h4>
+                                                    			<h4 style="display: block;font-family: Helvetica;font-size: 14px;font-weight: 200;line-height: 100%;letter-spacing: normal;margin-top: 0;margin-right: 0;margin-bottom: 5px;margin-left: 0;text-align: right;padding-bottom: 0;color: #444;">3% Credit Card <span class="hide-mobile">Processing</span> Fee: <span class="price" style="font-weight: 200;width: 110px;display: inline-block;">-{{payment.cc_fee|dollars}}</span></h4>
+                                                    			<h4 class="totalColumnContent_total" style="display: block;font-family: Helvetica;font-size: 14px;font-weight: 800;line-height: 100%;letter-spacing: normal;margin-top: 10px;margin-right: 0;margin-bottom: 5px;margin-left: 0;text-align: right;padding-bottom: 0;color: #444;">Total Credits: <span class="price" style="font-weight: 800;width: 110px;display: inline-block;">{{payment.amount|dollars}}</span></h4>
                                                     		{% endif %}
                                                         </td>
                                                     </tr>

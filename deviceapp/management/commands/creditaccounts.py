@@ -2,7 +2,7 @@ from django.core.management.base import BaseCommand, CommandError
 from deviceapp.models import *
 import balanced
 from deviceapp.views_custom import views_email as email_view
-from deviceapp.views_general import views_general as email_general
+from deviceapp.views_custom import commission as commission_view
 from django.conf import settings
 import datetime as datetime
 from django.utils.timezone import utc
@@ -19,30 +19,41 @@ class Command(BaseCommand):
     help = 'Credits all the sellers bank accounts'
 
     def handle(self, *args, **options):
+    	
+    	#Initialize balanced
+    	#balanced.configure(settings.BALANCED_API_KEY) # Configure Balanced API
+    	
+    	# Counts
 		vetcove_check_count = 0
 		vetcove_checkpayout_total = 0
 		vetcove_payout_count = 0
 		vetcove_payout_total = 0
 		bu_set = BasicUser.objects.all() # Iterate over every user in the system
- 		#Get all the eligible purchased items
+		
+ 		# Get all the eligible purchased items
  		for basicuser in bu_set:
  			payout_total = 0
  			commission_total = 0
  			eligiblePurchasedItems = [] #Items for payout
 			for p_item in basicuser.purchaseditemseller.all():
 				if purchasedItemEligibleForPayout(p_item):
+					#If the commission hasn't already been paid (offline items)
+					commission = 0
 					if not p_item.cartitem.item.commission_paid: 
-						commission = general_view.commission(p_item.cartitem.item)
+						commission = commission_view.purchaseditemCommission(p_item)
 						commission_total += commission
 					payout_total += p_item.total-commission
 					eligiblePurchasedItems.append(p_item)
+					
 			# Continue only if items available for payout
 			if eligiblePurchasedItems:
 				if basicuser.payout_method == 'none':
 					email_view.composeEmailNoPayment(basicuser)
 				elif basicuser.payout_method == 'check':
-					if basicuser.check_address:	
-						check_obj = CheckPayout(user=basicuser,amount=payout_total,address=basicuser.check_address)
+					if basicuser.check_address:
+						cc_fee = int(payout_total*CC_PROCESSING_FEE)
+						amount = payout_total-cc_fee
+						check_obj = CheckPayout(user=basicuser,amount=amount,address=basicuser.check_address,total_commission=commission_total,cc_fee=cc_fee)
 						check_obj.save()
 						for pi in eligiblePurchasedItems:
 							pi.paid_out = True
@@ -50,26 +61,26 @@ class Command(BaseCommand):
 							pi.check = check_obj
 							pi.save()
 						vetcove_check_count += 1
-						vetcove_checkpayout_total += payout_total
+						vetcove_checkpayout_total += amount
 						email_view.composeEmailPayoutCheckSent(basicuser,check_obj)
 					else:
 						email_view.composeEmailNoPayment(basicuser)
 				elif basicuser.payout_method == 'bank':
 					if basicuser.default_payout_ba:
 						try:
-							balanced.configure(settings.BALANCED_API_KEY) # Configure Balanced API
-							customer = balanced.Customer.find(basicuser.balanceduri)
-							amount = payout_total-int(payout_total*CC_PROCESSING_FEE)
+							#customer = balanced.Customer.find(basicuser.balanceduri)
+							cc_fee = int(payout_total*CC_PROCESSING_FEE)
+							amount = payout_total-cc_fee
 							source_uri = basicuser.default_payout_ba.uri
-							customer.credit(appears_on_statement_as="Vet Cove",description="Seller Credit",amount=amount,source_uri=source_uri)
-							bank_payout_obj = BankPayout(user=basicuser,amount = payout_total,bank_account=basicuser.default_payout_ba)
+							#customer.credit(appears_on_statement_as="Vet Cove",description="Seller Credit",amount=amount,source_uri=source_uri)
+							bank_payout_obj = BankPayout(user=basicuser,cc_fee=cc_fee, amount=amount,bank_account=basicuser.default_payout_ba,total_commission=commission_total)
 							bank_payout_obj.save()
 							for bpi in eligiblePurchasedItems:
 								bpi.paid_out = True
 								bpi.payout_method = 'bank'
 								bpi.online_payment = bank_payout_obj
 								bpi.save()
-							vetcove_payout_total += amount/float(100)
+							vetcove_payout_total += amount
 							vetcove_payout_count += 1
 							email_view.composeEmailPayoutBankSent(basicuser,bank_payout_obj)
 						except Exception,e:
@@ -78,9 +89,9 @@ class Command(BaseCommand):
 					else:
 						email_view.composeEmailNoPayment(basicuser)
 		write(self,"Payouts Complete")
-		write(self,"Payout Total: "+str(vetcove_payout_total))
+		write(self,"Online Payout Total: $"+str(vetcove_payout_total/float(100)))
 		write(self,"Number of Online Purchases: "+str(vetcove_payout_count))
-		write(self,"Check Total: "+str(vetcove_checkpayout_total))
+		write(self,"Check Total: $"+str(vetcove_checkpayout_total/float(100)))
 		write(self,"Number of Checks: "+str(vetcove_check_count))		
 
 				

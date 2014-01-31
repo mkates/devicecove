@@ -29,6 +29,8 @@ import balanced
 def loginview(request):
 	next = request.GET.get('next',None)
 	action = request.GET.get('action',None)
+	if request.user.is_authenticated():
+		return HttpResponseRedirect("/account/profile")
 	return render_to_response('account/login.html',{'next':next,'action':action},context_instance=RequestContext(request))
 
 def lgnrequest(request):
@@ -55,19 +57,11 @@ def lgnrequest(request):
 				request.GET['next']
 				return HttpResponseRedirect(request.GET['next'])
 			except:
-				return HttpResponseRedirect("/signup")
+				return HttpResponseRedirect("/account/profile")
 		else:
 			return HttpResponse("Your account has been disabled")
 	else:
 		return render_to_response('account/login.html',{'outcome':'Invalid Login'},context_instance=RequestContext(request))
-
-def signup(request):
-	if request.method == 'GET':
-		error = request.GET.get('e','')
-		next = request.GET.get('next','')
-	if request.user.is_authenticated():
-		return HttpResponseRedirect("/account/profile")
-	return render_to_response('account/signup.html',{'error':error,'next':next},context_instance=RequestContext(request))
 
 def checkemail(request):
 	if request.method == "GET":
@@ -91,20 +85,30 @@ def forgotpassword(request):
 ###########################################
 
 @login_required
-def updateprofsettings(request,field):
-	if request.user.is_authenticated():
+def updateGeneralSettings(request):
+	if request.user.is_authenticated() and request.method=="POST":
 		bu = BasicUser.objects.get(user=request.user)
-		if field == 'password':
-			change = setUserProfileDict(field,[request.POST['password1'],request.POST['password2']],bu)
-			if change['status'] == 500:
-				return HttpResponseRedirect("/account/profile?e=password")
-		else:
-			change = setUserProfileDict(field,request.POST[field],bu)
-			if change['status'] == 500:
-				return HttpResponseRedirect("/account/profile?e="+change['error'])
-		return HttpResponseRedirect("/account/profile")
+		bu.name = request.POST.get('name','')
+		bu.email = request.POST.get('email','')
+		bu.zipcode = int(request.POST.get('zipcode',''))
+		bu.save()
+		return HttpResponseRedirect('/account/profile')
 	else:
    		return render_to_response('general/index.html',context_instance=RequestContext(request))
+
+@login_required
+def updateSellerSettings(request):
+	if request.user.is_authenticated() and request.method=="POST":
+		bu = BasicUser.objects.get(user=request.user)
+		bu.company = request.POST.get('company','')
+		bu.businesstype = request.POST.get('business','')
+		bu.website = request.POST.get('website','')
+		phonenumber = request.POST.get('phonenumber','')
+		bu.phonenumber = int(re.sub("[^0-9]", "", phonenumber))
+		bu.save()
+		return HttpResponseRedirect('/account/profile')
+	else:
+		return render_to_response('general/index.html',context_instance=RequestContext(request))
 
 @login_required
 def wishlist(request):
@@ -157,7 +161,7 @@ def usersettings(request):
 def profile(request):
 	if request.user.is_authenticated():
 		bu = BasicUser.objects.get(user=request.user)
-		dict = {'basicuser':bu}
+		dict = {'basicuser':bu,'profile':True}
 		if request.method == "GET":
 			if request.GET.get('e',''):
 				dict['error']= request.GET.get('e','')
@@ -278,58 +282,3 @@ def editListingRelist(request,itemid):
 			item.save()
 			return HttpResponseRedirect('/item/'+str(item.id)+'/details')
 	return HttpResponseRedirect(request.POST['page'])
-	
-#################################################
-### Helper function to update a user's profile  #
-#################################################
-
-def setUserProfileDict(field,value,usermodel):
-	if field == 'businesstype':
-		usermodel.businesstype = value
-	elif field == 'company':
-		usermodel.company = value
-	elif field == 'website':
-		usermodel.website = value
-	elif field == 'name':
-		if len(value) < 5:
-			return {'status':500,'error':'name'}
-		usermodel.name = value
-	elif field == 'address_one':
-		if len(value) < 5:
-			return {'status':500,'error':'address_one'}
-		usermodel.address_one = value
-	elif field == 'address_two':
-		usermodel.address_two = value
-	elif field == 'email':
-		if len(value) < 5:
-			return {'status':500,'error':'email'}
-		usermodel.email = value
-	elif field == 'city':
-		if len(value) < 3:
-			return {'status':500,'error':'city'}
-		usermodel.city = value
-	elif field == 'state':
-		usermodel.state = value
-	elif field == 'zipcode':
-		if len(value) <= 5:
-			try:
-				value = int(str(value).zfill(5))
-				usermodel.zipcode = value
-			except Exception,e:
-				print e
-				return {'status':500,'error':'zipcode'}
-	elif field == 'phonenumber':
-		if not value:
-			return {'status':500,'error':'phonenumber'}
-		phonenumber = int(re.sub("[^0-9]", "", value))
-		if len(str(phonenumber)) != 10:
-			return {'status':500,'error':'phonenumber'}
-		usermodel.phonenumber = phonenumber
-	elif field == 'password':
-		if usermodel.user.check_password(value[0]):
-			usermodel.user.set_password(value[1])
-			usermodel.user.save()
-		else:
-			return {'status':500,'error':'password'}
-	usermodel.save()
-	return {'status':201}

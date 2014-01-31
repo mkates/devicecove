@@ -7,7 +7,7 @@ from django.contrib.auth.decorators import login_required
 from django.conf import settings
 import views_email as email_view
 from deviceapp.models import *
-import json
+import json, re, string
 import datetime
 from django.utils.timezone import utc
 import balanced
@@ -271,14 +271,17 @@ def addMailingAddress(request):
 		city = request.POST['city']
 		state = request.POST['state']
 		zipcode = request.POST['zipcode']
-		phonenumber = request.POST['phonenumber']
+		phonenumber = int(re.sub("[^0-9]", "",request.POST.get("phonenumber","")))
 		useraddress = UserAddress(user=bu,name=name,address_one=address_one,address_two=address_two,city=city,state=state,zipcode=zipcode,phonenumber=phonenumber)
 		useraddress.save()
-		bu.payout_method = 'check'
-		bu.check_address = useraddress
-		bu.save()
-		return HttpResponseRedirect('/account/payment')
-	return HttpResponseRedirect('/account/payment')
+		if request.POST.get('payment',''):
+			bu.payout_method = 'check'
+			bu.check_address = useraddress
+			bu.save()
+			return HttpResponseRedirect('/account/payment')
+		else:
+			return HttpResponseRedirect('/account/profile')
+	return HttpResponseRedirect('/account/profile')
 	
 @login_required
 def setMailingAddress(request,addressid):
@@ -310,6 +313,8 @@ def deleteMailingAddress(request,addressid):
 		bu.save()
 		address.user = None
 		address.save()
+		if request.POST.get('profile',''):
+			return HttpResponseRedirect('/account/profile')
 		return HttpResponseRedirect('/account/payment')
 	return HttpResponseRedirect('/account/payment')
 	

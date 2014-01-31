@@ -6,81 +6,79 @@
 	margin: 20px;
 	
 }
+.profile-info {
+	margin-bottom: 15px;
+}
 .profileitem {
-	font-size: 14px;
-	text-align: left;
-	line-height: 40px;
-	width: 100%;
+	padding: 20px;
 }
-.profileitem tr {
-	border-bottom:1px dotted #ddd;
-	height: 45px;
+.profileitem .row {
+	border-bottom:1px dotted #ccc;
+	padding: 5px 0;
+	line-height: 30px;
 }
-.profileitem form {
-	padding: 0;
-	margin: 0;
+.profileitem .row .category-label {
+	font-weight: 200;
 }
-.profileitem input {
-	width: 200px;
-	display: block;
-	margin-left: 0;
-	margin-top: 10px;
-	line-height: 28px;
-	padding: 0 3px;
-	height: 28px;
+.profileitem .row .category-input input,.profileitem .row .category-input select {
+	max-width: 300px;
+	display:none;
 }
-.profileitem form {
+.profileitem .row .category-input button {
 	display: none;
 }
-.profileitem button {
-	display: inline-block;
-	margin: 10px 10px 10px 0;
+.profileitem .row .category-input a {
+	display:none;
 }
-.profileitem .category {
-	width: 200px;
+.profileitem .row .category-input h6 {
+	display:none;
+	color: red;
 	font-weight: 800;
-	font-size: 14px;
 }
-.profileitem .uservalue {
-	padding-left: 3px;
-	min-width: 400px;
-	font-weight: 200;
-}
-.profileitem .edit {
-	width: 100px;
-	text-align: right;
-	font-size: 12px;
-	color: #aaa;
-	transition: color .2s;
-}
-.profileitem .uservalue p {
-	padding: 0;
+.profileitem .row p {
 	margin: 0;
-}
-.profileitem .edit:hover {
-	text-decoration:underline;
-	cursor: pointer;
-	color: #333;
-}
-#passwordform h6 {
-	line-height: 15px;
-	font-size: 12px;
-	padding: 0;
-	margin: 0;
-	margin-bottom: -5px;
-	margin-top: 5px;
-	font-weight: 200;
 }
 .error {
 	color: red;
 	font-weight: 800;
 }
+.profileitem .noborder {
+	border:none;
+}
+.addressbox {
+	padding: 20px;
+}
+.maincontent-title span {
+	float: right;
+	margin-right: 15px;
+	font-size: 13px;
+}
+.maincontent-title span:hover {
+	cursor: pointer;
+}
+.editable .placeholder {
+	color: #aaa;
+	font-style:italic;
+}
+#default-address {
+	padding: 0px 10px 0px 10px;
+	font-weight: 200;
+	color: #555;
+	height: 39px;
+}
+#default-address a:hover {
+	text-decoration: underline;	
+}
 </style>
 {% endblock %}
 {% block jsblock %}
 <script src="{{STATIC_URL}}js/maskedinput.js" type="text/javascript" ></script>
-
+<script type="text/javascript" src="{{STATIC_URL}}js/address.js"></script>
 <script>
+var x_mark_src = "{{STATIC_URL}}img/xmark.png";
+var check_mark_src = "{{STATIC_URL}}img/checkmark.png";
+var blank_src = "{{STATIC_URL}}img/blank.png";
+var loading_src = "{{STATIC_URL}}img/ajax-loader2.gif";
 var states = ['AK',"AL","AR","AS","AZ","CA","CO","CT","DC","DE","FL","GA","GU","HI","IA","ID","IL","IN","KS","KY","LA","MA","MD","ME","MH","MI","MN","MO","MS","MT","NC","ND","NE","NH","NJ","NM","NV","NY","OH","OK","OR","PA","PR","PW","RI","SC","SD","TN","TX","UT","VA","VI","VT","WA","WI","WV","WY"];
 $(document).ready(function() {
 	var inputs = $(".uservalue p");
@@ -94,14 +92,68 @@ $(document).ready(function() {
 		$(this).parent().prev().css("display","inline-block");
 		return false;
 	});
-	$("#phonenumber").mask("(999) 999-9999");
+	$("#si-phonenumber").mask("(999) 999-9999");
 	//Populate the state field
 	for (var i=0; i < states.length; i++) {
 		$("#state").append("<option value="+states[i]+">"+states[i]+"</option>");
 	}
-	$("#state option[value='{{basicuser.state}}']").attr('selected','selected'); 
-	
+	$(".address-cancel").click(function() {
+		$(".payment-address-new-form").css('display','none');
+		$(".payment-address-div").css('display','block');
+		$(".payment-address-new-button").css('display','block');
+	});
+	$(".payment-address-new-button button").click(function() {
+		$(".payment-address-new-button").css('display','none');
+		$(".payment-address-new-form").css('display','block');
+	});
+	$(".form-edit").click(function() {
+		grouping = $(this).attr('data-block');
+		$(grouping+" input").css("display","block");
+		$(grouping+" select").css("display","block");
+		$(grouping+" button").css("display","inline-block");
+		$(grouping+" a").css("display","inline-block");
+		$(grouping+" .editable").css("display","none");
+	});
+	$(".form-cancel").click(function() {
+		grouping = $(this).attr('data-block');
+		$(grouping+" input").css("display","none");
+		$(grouping+" select").css("display","none");
+		$(grouping+" button").css("display","none");
+		$(grouping+" h6").css("display","none");
+		$(grouping+" .editable").css("display","block");
+		$(grouping+" a").css("display","none");
+	});
+	$("#gi-zipcode").keyup(function() {
+		$(this).val($(this).val().replace(/\D/g,''));
+	});
+	$("#gi-form").submit(function() {
+		submittable = true;
+		if ($("#gi-name").val().length < 3) {
+			addError($("#gi-name"));
+			submittable = false;
+		}
+		if (!(isEmail($("#gi-email").val()))) {
+			addError($("#gi-email"));
+			submittable = false;
+		}
+		if ($("#gi-zipcode").val().length != 5) {
+			addError($("#gi-zipcode"));
+			submittable = false;
+		}
+		if (submittable) {return true}
+		return false
+	});
 });
+
+function isEmail(email) {
+  var emailReg = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/;
+  return emailReg.test(email);
+}
+
+function addError(handle) {
+	$(handle).css('border','1px solid red');
+	$(handle).next().css('display','block');
+}
 </script>
 {% endblock %}
 {% block profile %}active{% endblock %}
@@ -109,191 +161,173 @@ $(document).ready(function() {
 {% block maintitle %}Profile{% endblock %}
 
 {% block maincontent %}
-<div class="maincontent-container covebox">
-	<div class="profilediv">
-		<div class="profileitem">
-			{% if error == "password" %}
-				<p class="error">Password failed to reset. Please make sure you enter your old password correctly</p>
-			{% elif error == "name" %}
-				<p class="error">Your name is too short. Please enter your full name</p>
-			{% elif error == "city" %}
-				<p class="error">City is invalid. City field must be at least 3 characters</p>
-			{% elif error == "zipcode" %}
-				<p class="error">Invalid zipcode. Zipcode must be an integer of length 5</p>
-			{% elif error == "address" %}
-				<p class="error">Your address is too short. Please try again.</p>
-			{% elif error == "phonenumber" %}
-				<p class="error">Invalid phone number. Phone number must follow the format (xxx) xxx - xxxx</p>
-			{% endif %}
-			<table>
-				<tr>
-					<td class="category">Business Type</td>
-					<td class="uservalue">
-						<p>{{basicuser.businesstype}}</p>
-						<form method="post" action="/account/profsettings/businesstype">
+{% if error == "password" %}
+	<p class="error">Password failed to reset. Please make sure you enter your old password correctly</p>
+{% elif error == "name" %}
+	<p class="error">Your name is too short. Please enter your full name</p>
+{% elif error == "city" %}
+	<p class="error">City is invalid. City field must be at least 3 characters</p>
+{% elif error == "zipcode" %}
+	<p class="error">Invalid zipcode. Zipcode must be an integer of length 5</p>
+{% elif error == "address" %}
+	<p class="error">Your address is too short. Please try again.</p>
+{% elif error == "phonenumber" %}
+	<p class="error">Invalid phone number. Phone number must follow the format (xxx) xxx - xxxx</p>
+{% endif %}
+{% load zipcodify %}
+{% load phonenumber %}
+<div class="maincontent-container">
+	<div class="profile-info covebox">
+		<h4 class="maincontent-title">General Information<span data-block=".general-information" class="form-edit button button-small button-rounded button-primary">Edit</span></h4>
+		<div class="profileitem general-information">
+			<form id="gi-form" action="/account/updategeneral" method="POST">
+				{% csrf_token %}
+				<div class="row">
+					<div class="col-md-3 col-sm-3 col-xs-3 category-label">
+						Name
+					</div>
+					<div class="col-md-9 col-sm-9 col-xs-9 category-input">
+						<p class="editable">{{basicuser.name}}</p>
+						<input id="gi-name" type="text" name="name" class="form-control" value="{{basicuser.name}}">
+						<h6>Name must be at least 3 characters</h6>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-3 col-sm-3 col-xs-3 category-label">
+						Login Email
+					</div>
+					<div class="col-md-9 col-sm-9 col-xs-9 category-input">
+						<p>{{user.username}}</p>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-3 col-sm-3 col-xs-3 category-label">
+						Contact Email
+					</div>
+					<div class="col-md-9 col-sm-9 col-xs-9 category-input">
+						<p class="editable">{{basicuser.email}}</p>
+						<input id="gi-email" type="email" required name="email" class="form-control" value="{{basicuser.email}}">
+						<h6>Not A Valid Email Address</h6>
+					</div>
+				</div>
+				<div class="row noborder">
+					<div class="col-md-3 col-sm-3 col-xs-3 category-label">
+						Zipcode
+					</div>
+					<div class="col-md-9 col-sm-9 col-xs-9 category-input">
+						<p class="editable">{{basicuser.zipcode|zipcodify}}</p>
+						<input id="gi-zipcode" length="5" type="text" name="zipcode" class="form-control" value="{{basicuser.zipcode|zipcodify}}">
+						<h6>Zipcode must be a 5 digits</h6>
+					</div>
+				</div>
+				<div class="row noborder">
+					<div class="col-md-3 col-sm-3 col-xs-3 category-label"></div>
+					<div class="col-md-9 col-sm-9 col-xs-9 category-input">
+						<button type="submit" class="button button-tiny button-rounded button-action" value="submit">Update Information</button>
+						<a data-block=".general-information" class="form-cancel button button-rounded button-tiny">Cancel</a>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+	<div class="profile-info covebox paymentbox">
+		<h4 class="maincontent-title">Addresses</h4>
+		<div id="payment-address-container" class="addressbox">
+			<div class="payment-address-div row">
+				{% for address in user.basicuser.useraddress_set.all %}
+				<div class="col-md-6 col-sm-6 col-xs-12">
+					<div class="address-box">
+						<p>{{address.name}}</p>
+						<p>{{address.address_one}}</p>
+						{% if address.address_two %}<p>{{address.address_two}}</p>{% endif %}
+						<p>{{address.city}}, {{address.state}} {{address.zipcode}}</p>
+						<p>{{address.phonenumber|phonenumber}}</p>
+						{% if user.basicuser.payout_method == 'check' and user.basicuser.check_address == address %}
+						<p id="default-address">This is your default payout mailing address. You can update your <a href="/account/payment">payment preferences here</a></p>
+						{% else %}
+						<form action="/account/deletemailingaddress/{{address.id}}" method="POST">
 							{% csrf_token %}
-							<select id="businesstype" name="businesstype" class="forminput form-control">
-								<option>Private Practice</option>
-								<option>Individual</option>
-								<option>Refurbisher</option>
-								<option>Supplier</option>
-								<option>Manufacturer</option>
-								<option>Other</option>
-							</select>
-							<button value="submit" class="button button-rounded button-primary button-tiny">Save</button><button type="button" class="button button-rounded cancel button-tiny">Cancel</button>
+							<input type="hidden" value="true" name="profile">
+							<button class="button button-tiny button-rounded">Delete Address</button>
 						</form>
-					</td>
-					<td class="edit">edit</td>
-				</tr>
-				<tr>
-					<td class="category">Name</td>
-					<td class="uservalue">
-						<p>{{basicuser.name}}</p>
-						<form method="post" action="/account/profsettings/name">
-							{% csrf_token %}
-							<input type="text" class="forminput form-control" name="name" value="{{basicuser.name}}" />
-							<button value="submit" class="button button-rounded button-primary button-tiny">Save</button><button type="button" class="button button-rounded cancel button-tiny">Cancel</button>
-						</form>
-					</td>
-					<td class="edit">edit</td>
-				</tr>
-				<tr>
-					<td class="category">Company</td>
-					<td class="uservalue">
-						<p>{{basicuser.company}}</p>
-						<form method="post" action="/account/profsettings/company">
-							{% csrf_token %}
-							<input type="text" class="forminput form-control" name="company" value="{{basicuser.company}}" />
-							<button value="submit" class="button button-rounded button-primary button-tiny">Save</button><button type="button" class="button button-rounded cancel button-tiny">Cancel</button>
-						</form>
-					</td>
-					<td class="edit">edit</td>
-				</tr>
-				<tr>
-					<td class="category">Contact Email</td>
-					<td class="uservalue">
-						<p>{{basicuser.email}}</p>
-						<form method="post" action="/account/profsettings/email">
-							{% csrf_token %}
-							<input type="email" class="forminput form-control" name="email" value="{{basicuser.email}}" />
-							<button value="submit" class="button button-rounded button-primary button-tiny">Save</button><button type="button" class="button button-rounded cancel button-tiny">Cancel</button>
-						</form>
-					</td>
-					<td class="edit">edit</td>
-				</tr>
-				<tr>
-					<td class="category">Address One</td>
-					<td class="uservalue">
-						<p>{{basicuser.address_one}}</p>
-						<form method="post" action="/account/profsettings/address_one">
-							{% csrf_token %}
-							<input type="text" class="forminput form-control" name="address_one" value="{{basicuser.address_one}}" />
-							<button value="submit" class="button button-rounded button-primary button-tiny">Save</button><button type="button" class="button button-rounded cancel button-tiny">Cancel</button>
-						</form>
-					</td>
-					<td class="edit">edit</td>
-				</tr>
-				<tr>
-					<td class="category">Address Two</td>
-					<td class="uservalue">
-						<p>{{basicuser.address_two}}</p>
-						<form method="post" action="/account/profsettings/address_two">
-							{% csrf_token %}
-							<input type="text" class="forminput form-control" name="address_two" value="{% if basicuser.address_two %}{{basicuser.address_two}}{% endif %}" />
-							<button value="submit" class="button button-rounded button-primary button-tiny">Save</button><button type="button" class="button button-rounded cancel button-tiny">Cancel</button>
-						</form>
-					</td>
-					<td class="edit">edit</td>
-				</tr>
-				<tr>
-					<td class="category">Zipcode</td>
-					<td class="uservalue">
-						{% load zipcodify %}
-						<p>{{basicuser.zipcode|zipcodify}}</p>
-						<form method="post" action="/account/profsettings/zipcode">
-							{% csrf_token %}
-							<input type="text" class="forminput form-control" name="zipcode" value="{{basicuser.zipcode}}" />
-							<button value="submit" class="button button-rounded button-primary button-tiny">Save</button><button type="button" class="button button-rounded cancel button-tiny">Cancel</button>
-						</form>
-					</td>
-					<td class="edit">edit</td>
-				</tr>
-				<tr>
-					<td class="category">City</td>
-					<td class="uservalue">
-						<p>{{basicuser.city}}</p>
-						<form method="post" action="/account/profsettings/city">
-							{% csrf_token %}
-							<input type="text" class="forminput form-control" name="city" value="{{basicuser.city}}" />
-							<button value="submit" class="button button-rounded button-primary button-tiny">Save</button><button type="button" class="button button-rounded cancel button-tiny">Cancel</button>
-						</form>
-					</td>
-					<td class="edit">edit</td>
-				</tr>
-				<tr>
-					<td class="category">State</td>
-					<td class="uservalue">
-						<p>{{basicuser.state}}</p>
-						<form method="post" action="/account/profsettings/state">
-							{% csrf_token %}
-							<select class="form-control" id="state" name="state"></select>
-							<button value="submit" class="button button-rounded button-primary button-tiny">Save</button><button type="button" class="button button-rounded cancel button-tiny">Cancel</button>
-						</form>
-					</td>
-					<td class="edit">edit</td>
-				</tr>
-				<tr>
-					<td class="category">Website</td>
-					<td class="uservalue">
-						<p>{{basicuser.website}}</p>
-						<form method="post" action="/account/profsettings/website">
-							{% csrf_token %}
-							<input type="text" class="forminput form-control" name="website" value="{{basicuser.website}}" />
-							<button value="submit" class="button button-rounded button-primary button-tiny">Save</button><button type="button" class="button button-rounded cancel button-tiny">Cancel</button>
-						</form>
-					</td>
-					<td class="edit">edit</td>
-				</tr>
-				<tr>
-					<td class="category">Phone Number</td>
-					<td class="uservalue">
-						{% load phonenumber %}
-						<p>{{basicuser.phonenumber|phonenumber}}</p>
-						<form method="post" action="/account/profsettings/phonenumber">
-							{% csrf_token %}
-							<input type="text" class="forminput form-control" id="phonenumber" name="phonenumber" value="{{basicuser.phonenumber|phonenumber}}" />
-							<button value="submit" class="button button-rounded button-primary button-tiny">Save</button><button type="button" class="button button-rounded cancel button-tiny">Cancel</button>
-						</form>
-					</td>
-					<td class="edit">edit</td>
-				</tr>
-				<tr>
-					<td class="category">Login Email</td>
-					<td class="uservalue">
-						<p>{{basicuser.user.email}}</p>
-					</td>
-					<td class="uneditable"></td>
-				</tr>
-				<tr>
-					<td class="category">Password</td>
-					<td class="uservalue">
-						<p>*******</p>
-						<form id="passwordform" method="post" action="/account/profsettings/password">
-							{% csrf_token %}
-							<h6> Old Password</h6>
-							<input type="password" class="forminput form-control" name="password1" placeholder="" />
-							<h6> New Password</h6>
-							<input type="password" class="forminput form-control" name="password2" placeholder="" />
-							<button value="submit" class="button button-rounded button-primary button-tiny">Save</button><button type="button" class="button button-rounded cancel button-tiny">Cancel</button>
-						</form>
-					</td>
-					<td class="edit">edit</td>
-				</tr>
-
-
-
-
-			</table>
+						{% endif %}
+					</div>
+				</div>
+				{% endfor %}
+			</div>
+			<div class="row payment-address-new-button">
+				<div class="col-md-12 col-sm-12 col-xs-12">
+					<button class="button button-primary button-rounded">Enter a New Address</button>
+				</div>
+			</div>
+			<div class="row payment-address-new-form">
+				<p> Enter a new address below:</p>
+				{% include 'general/address.html' %}
+			</div>
+		</div>
+		
+	</div>
+	<div class="profile-info covebox">
+		<h4 class="maincontent-title">Additional Information (for Sellers) <span data-block=".seller-information" class="form-edit button button-small button-rounded button-primary">Edit</span></h4>
+		<div class="profileitem seller-information">
+			<form id="si-form" action="/account/updateseller" method="POST">
+				{% csrf_token %}
+				<div class="row">
+					<div class="col-md-3 col-sm-3 col-xs-3 category-label">
+						Business Type
+					</div>
+					<div class="col-md-9 col-sm-9 col-xs-9 category-input">
+						<p class="editable">{% if basicuser.businesstype %}{{basicuser.businesstype}}{% else %}<span class="placeholder">None entered</span>{% endif %}</p>
+						<select id="si-business" name="business" class="form-control">
+							<option>Individual</option>
+						</select>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-3 col-sm-3 col-xs-3 category-label">
+						Company Name
+					</div>
+					<div class="col-md-9 col-sm-9 col-xs-9 category-input">
+						<p class="editable">{% if basicuser.company %}{{basicuser.company}}{% else %}<span class="placeholder">None entered</span>{% endif %}</p>
+						<input id="si-company" required type="text" name="company" class="form-control" value="{% if basicuser.company %}{{basicuser.company}}{% endif %}">
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-3 col-sm-3 col-xs-3 category-label">
+						Website
+					</div>
+					<div class="col-md-9 col-sm-9 col-xs-9 category-input">
+						<p class="editable">{% if basicuser.website %}{{basicuser.website}}{% else %}<span class="placeholder">None entered</span>{% endif %}</p>
+						<input id="si-website" type="text" name="website" class="form-control" value="{% if basicuser.website %}{{basicuser.website}}{% endif %}">
+						<h6>Not A Valid Email Address</h6>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-3 col-sm-3 col-xs-3 category-label">
+						Phone Number
+					</div>
+					<div class="col-md-9 col-sm-9 col-xs-9 category-input">
+						<p class="editable">{% if basicuser.phonenumber %}{{basicuser.phonenumber|phonenumber}}{% else %}<span class="placeholder">None entered</span>{% endif %}</p>
+						<input id="si-phonenumber" required type="text" name="phonenumber" class="form-control" value="{% if basicuser.phonenumber %}{{basicuser.phonenumber|phonenumber}}{% endif %}">
+						<h6>Zipcode must be a 5 digits</h6>
+					</div>
+				</div>
+				<div class="row noborder">
+					<div class="col-md-3 col-sm-3 col-xs-3 category-label">
+						VetCove Verified
+					</div>
+					<div class="col-md-9 col-sm-9 col-xs-9 category-input">
+						<p>{% if basicuser.verified %}Yes{% else %}Not Yet. Please call us at 732-598-6434 to become verified{% endif %}</p>
+					</div>
+				</div>
+				<div class="row noborder">
+					<div class="col-md-3 col-sm-3 col-xs-3 category-label"></div>
+					<div class="col-md-9 col-sm-9 col-xs-9 category-input">
+						<button type="submit" class="button button-tiny button-rounded button-action" value="submit">Update Information</button>
+						<a data-block=".seller-information" class="form-cancel button button-rounded button-tiny">Cancel</a>
+					</div>
+				</div>
+			</form>
 		</div>
 	</div>
 </div>

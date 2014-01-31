@@ -12,8 +12,10 @@ admin.autodiscover()
 urlpatterns = patterns('',
 
 	#Admin
+	url(r'^admin/overview/(?P<type>\w+)','deviceapp.views_custom.adminOverview'),
     url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
     url(r'^admin/', include(admin.site.urls)),
+    url(r'^staff/markassent','deviceapp.views_custom.staffMarkAsSent'),
     
     #Password Reset
     url('',include('password_reset.urls')),
@@ -44,6 +46,8 @@ urlpatterns = patterns('',
     
     
     #Listing and edit listing pages
+    url(r'^list/business/(?P<itemid>\d+)','deviceapp.views_custom.listbusiness'),
+    url(r'^savebusiness/(?P<itemid>\d+)','deviceapp.views_custom.savebusiness'),
     url(r'^list/describe/(?P<itemid>\d+)','deviceapp.views_custom.listitemdescribe'),
     url(r'^list/details/(?P<itemid>\d+)','deviceapp.views_custom.listitemdetails'),
     url(r'^list/photos/(?P<itemid>\d+)','deviceapp.views_custom.listitemphotos'),
@@ -103,7 +107,8 @@ urlpatterns = patterns('',
 
 urlpatterns += patterns('',
 	url(r'^account/profile','deviceapp.views_custom.profile'),
-	url(r'^account/profsettings/(?P<field>\w+)','deviceapp.views_custom.updateprofsettings'),
+	url(r'^account/updategeneral','deviceapp.views_custom.updateGeneralSettings'),
+	url(r'^account/updateseller','deviceapp.views_custom.updateSellerSettings'),
     url(r'^account/usersettings','deviceapp.views_custom.usersettings'),
     url(r'^account/listings/(?P<listingtype>\w+)','deviceapp.views_custom.listings'),
     url(r'^account/wishlist','deviceapp.views_custom.wishlist'),
@@ -112,7 +117,6 @@ urlpatterns += patterns('',
     url(r'^forgotpassword','deviceapp.views_custom.forgotpassword'),
     url(r'^lgnrequest','deviceapp.views_custom.lgnrequest'),
     url(r'^login','deviceapp.views_custom.loginview'),
-    url(r'^signup','deviceapp.views_custom.signup'), 
     url(r'^account/buyerquestions','deviceapp.views_custom.buyerquestions'),
     url(r'^account/sellerquestions','deviceapp.views_custom.sellerquestions'),
     url(r'^account/buyhistory','deviceapp.views_custom.buyhistory'),

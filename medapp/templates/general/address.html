@@ -1,4 +1,4 @@
-<form class="addressform" action="{% if payment %}/account/addmailingaddress{% else %}/newaddress/{{checkout.id}}{% endif %}" method="post">
+<form class="addressform" action="{% if payment or profile %}/account/addmailingaddress{% else %}/newaddress/{{checkout.id}}{% endif %}" method="post">
 		{% csrf_token %}
 		<div class="form-group">
 			<label for="companyname">Name</label>
@@ -10,7 +10,7 @@
 			</table>
 		</div>
 		<div class="form-group">
-			<label for="companyname">Address 1</label>
+			<label for="companyname">Street 1</label>
 			<table>
 				<tr>
 					<td class="form-input"><input type="text" class="form-control" id="address_one" name="address_one" placeholder="Street Address, P.O. Box, Company Name, c/o" ></td>
@@ -19,7 +19,7 @@
 			</table>
 		</div>
 		<div class="form-group">
-			<label for="companyname">Address 2</label>
+			<label for="companyname">Street 2</label>
 			<table>
 				<tr>
 					<td class="form-input"><input type="text" class="form-control" id="address_two" name="address_two" placeholder="Apartment, Suite, Unit, Building, Floor, etc." /></td>
@@ -74,6 +74,9 @@
 				</tr>
 			</table>
 		</div>
-	<button name="submit" class="button button-action button-rounded" value="submit">{% if payment %}Mail Checks{% else %}Ship{% endif %} to this Address</button>	
-	{% if payment %}<a class="button button-rounded address-cancel">Cancel</a>{% endif %}
+		{% if payment %}
+		<input type="hidden" value="true" name="payment">
+		{% endif %}
+	<button name="submit" class="button button-action button-rounded" value="submit">{% if payment %}Mail Checks to{% elif profile %}Add{% else %}Ship to {% endif %} this Address</button>	
+	{% if payment or profile %}<a class="button button-rounded address-cancel">Cancel</a>{% endif %}
  </form>

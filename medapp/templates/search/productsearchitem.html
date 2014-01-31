@@ -34,12 +34,14 @@
 					{% if item.contract == 'servicecontract' %}<span class="lightred">service contract</span>{% endif %} 
 		
 				</h6>
-				<h4><a>Location<span>{{item.user.city}}, {{item.user.state}}{% if item.distance or item.distance == 0%}{% if item.distance != -1 %} ( ~{{item.distance |intcomma}} miles away ){% endif %}{% endif %}</span></a></h4>
+				{% load multiply %}
+				<h4><a>Location<span>{% if item.user.city %}{{item.user.city}}, {{item.user.state}}{% else %}(Zipcode: {{item.user.zipcode}}){%endif %}{% if item.distance or item.distance == 0%}{% if item.distance != -1 %} ( ~{{item.distance |intcomma}} miles away ){% endif %}{% endif %}</span></a></h4>
 				<h4><a>List Date<span>{{item.listeddate}}</span></a></h4>
-				<h4><a>Manufacturer<span>{{ item.manufacturer }}</span></a></h4>
+				<h4><a>Percent off MSRP<span>{{ item.price|dividepercent:item.msrp_price }}</span></a></h4>
 				<div class='buttondiv'>
 					<button class='btn-custom-gray infobutton detailsbutton' data-ref="#moredetails_{{item.id}}">Details</button>
 					<button class='btn-custom-gray infobutton specsbutton' data-ref="#quickfacts_{{item.id}}">Quick Facts</button>
+					
 					<button class='btn-custom-gray infobutton conditionbutton' data-ref="#morecondition_{{item.id}}">Condition</button>
 				</div>
 			</div>

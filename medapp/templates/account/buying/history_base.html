@@ -46,16 +46,18 @@
 			
 			</div>
 			{% endif %}
-			<p class="order-price">Total Price: <span>{{pitem.cartitem.price|dollars}}</span>
+			<p class="order-price">Total Price: <span>{{pitem.total|dollars}}</span>
 			<p class="order-quantity">Quantity: <span>{{pitem.cartitem.quantity}} (at {{pitem.cartitem.price|dollars}} each)</span>
 			<p class="order-number">Payout Status: 
 				<span>
 					{% if pitem.paid_out and pitem.payout_method == 'bank'%}
 						Paid - Bank Account Credited
-					{% elif pitem.paid_out and item.payout_method == 'check' %}
+					{% elif pitem.paid_out and pitem.payout_method == 'check' %}
 						Paid - Check Mailed
+					{% elif pitem.item_sent %}
+						Payout Pending (14 day wait period)
 					{% else %}
-						Payout Pending
+						Waiting until Shipped
 					{% endif %}
 				</span>
 			</p>
@@ -82,7 +84,7 @@
 				</div>
 			</div>
 			<div class="row">
-				<p class="order-seller-message">Shipping Information: <span>{% if pitem.seller_message %}{{pitem.seller_message}}{% else %} The seller has not provided any shipping details{% endif %}</span><a class="shipping-show" data-shipping="#shipping-overlay-{{pitem.id}}">edit shipping</a></p>
+				<p class="order-seller-message">Shipping Information: <span>{% if pitem.seller_message %}{{pitem.seller_message}}{% else %} The seller has not provided any shipping details{% endif %}</span>{% if sellhistory%}<a class="shipping-show" data-shipping="#shipping-overlay-{{pitem.id}}">edit shipping</a>{% endif %}</p>
 				{% if buyhistory %}
 				<p id="seller-message-current-{{pitem.id}}" class="seller-message-current order-seller-message">
 					Your Message for Seller: 
