@@ -23,21 +23,20 @@ class Command(BaseCommand):
     	#Initialize balanced
     	#balanced.configure(settings.BALANCED_API_KEY) # Configure Balanced API
     	
-    	# Counts
+    	# Counts for Internal Purposes
 		vetcove_check_count = 0
 		vetcove_checkpayout_total = 0
 		vetcove_payout_count = 0
 		vetcove_payout_total = 0
-		bu_set = BasicUser.objects.all() # Iterate over every user in the system
-		
- 		# Get all the eligible purchased items
- 		for basicuser in bu_set:
+
+ 		# Iterate through users, get all the eligible purchased items
+ 		for basicuser in BasicUser.objects.all():
  			payout_total = 0
  			commission_total = 0
- 			eligiblePurchasedItems = [] #Items for payout
+ 			eligiblePurchasedItems = [] # Items for payout
 			for p_item in basicuser.purchaseditemseller.all():
 				if purchasedItemEligibleForPayout(p_item):
-					#If the commission hasn't already been paid (offline items)
+					# If the commission hasn't already been paid i.e. offline items
 					commission = 0
 					if not p_item.cartitem.item.commission_paid: 
 						commission = commission_view.purchaseditemCommission(p_item)
@@ -57,6 +56,7 @@ class Command(BaseCommand):
 						check_obj.save()
 						for pi in eligiblePurchasedItems:
 							pi.paid_out = True
+							pi.paid_date = datetime.datetime.utcnow().replace(tzinfo=utc)
 							pi.payout_method = 'check'
 							pi.check = check_obj
 							pi.save()
@@ -77,6 +77,7 @@ class Command(BaseCommand):
 							bank_payout_obj.save()
 							for bpi in eligiblePurchasedItems:
 								bpi.paid_out = True
+								bpi.paid_date = datetime.datetime.utcnow().replace(tzinfo=utc)
 								bpi.payout_method = 'bank'
 								bpi.online_payment = bank_payout_obj
 								bpi.save()
@@ -84,7 +85,7 @@ class Command(BaseCommand):
 							vetcove_payout_count += 1
 							email_view.composeEmailPayoutBankSent(basicuser,bank_payout_obj)
 						except Exception,e:
-							write(self,e)
+							write(self,str(basicuser.id)+": "+str(e))
 							email_view.composeEmailPayoutFailed(basicuser,bank_payout_obj)
 					else:
 						email_view.composeEmailNoPayment(basicuser)

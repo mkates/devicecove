@@ -90,7 +90,16 @@ def updateGeneralSettings(request):
 		bu = BasicUser.objects.get(user=request.user)
 		bu.name = request.POST.get('name','')
 		bu.email = request.POST.get('email','')
-		bu.zipcode = int(request.POST.get('zipcode',''))
+		zipcode = request.POST.get('zipcode','')
+		if bu.zipcode != int(zipcode):
+			bu.zipcode = zipcode
+			try:
+				latlong_obj = LatLong.objects.get(zipcode=int(zipcode))
+				bu.city = latlong_obj.city
+				bu.county = latlong_obj.county
+				bu.state = latlong_obj.state
+			except:
+				latlong_obj = None
 		bu.save()
 		return HttpResponseRedirect('/account/profile')
 	else:
@@ -110,6 +119,21 @@ def updateSellerSettings(request):
 	else:
 		return render_to_response('general/index.html',context_instance=RequestContext(request))
 
+@login_required
+def updatePassword(request):
+	if request.user.is_authenticated() and request.method=="POST":
+		bu = BasicUser.objects.get(user=request.user)
+		op = request.POST.get('oldpassword','')
+		np = request.POST.get('newpassword','')
+		if bu.user.check_password(op):
+			bu.user.set_password(np)
+			bu.user.save()
+		else:
+			return HttpResponseRedirect('/account/profile?e=password')
+		return HttpResponseRedirect('/account/profile?s=password')
+	else:
+		return render_to_response('general/index.html',context_instance=RequestContext(request))
+		
 @login_required
 def wishlist(request):
 	if request.user.is_authenticated():
@@ -165,6 +189,8 @@ def profile(request):
 		if request.method == "GET":
 			if request.GET.get('e',''):
 				dict['error']= request.GET.get('e','')
+			if request.GET.get('s',''):
+				dict['success']= request.GET.get('s','')
 		return render_to_response('account/profile.html',dict,context_instance=RequestContext(request))
 	else:
    		return render_to_response('general/index.html',context_instance=RequestContext(request))

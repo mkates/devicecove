@@ -2,6 +2,7 @@ from django.shortcuts import render_to_response, redirect
 from django.template.loader import render_to_string
 from deviceapp.models import *
 from django.template import RequestContext, Context, loader
+from django.contrib.admin.views.decorators import staff_member_required
 from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
@@ -95,7 +96,7 @@ def adminOverview(request,type):
 		return render_to_response('general/adminoverview.html',dict,context_instance=RequestContext(request))
 	return HttpResponseRedirect("/")
 
-@login_required
+@staff_member_required
 def staffMarkAsSent(request):
 	if request.user.is_staff and request.user.is_authenticated() and request.method=="POST":
 		cpid = request.POST.get('cp_id','')

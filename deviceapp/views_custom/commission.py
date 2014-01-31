@@ -1,5 +1,5 @@
 #################################################
-### Promotional Codes Functionality  ############
+############# Commission ########################
 #################################################
 
 # Calculate commission amount:
@@ -8,8 +8,8 @@
 # $20-$50   14%
 # $50-$200  13%
 # $200-$500 12%
-# $500-2000 10%
-# $2000+     9%
+# $500-2,000 10%
+# $2,000+     9%
 def commissionPercentage(total_price):
 	if total_price < 2000:
 		commission = .15
@@ -25,14 +25,17 @@ def commissionPercentage(total_price):
 		commission = .09
 	return commission
 
+######## Amount Saved in commission for a given item #############
 def commissionSavings(item):
 	start_commission = commissionPercentage(item.price)
 	end_commission = commission(item)
 	return abs(start_commission-end_commission)
 
+######## Original Item Commission ########################
 def originalCommission(item):
 	return int(item.price*commissionPercentage(item.price))
-	
+
+######## Get commission of an item ########################	
 def commission(item):
 	if not item.promo_code:
 		return int(item.price*commissionPercentage(item.price))
@@ -42,11 +45,13 @@ def commission(item):
 		return int(max(0,item.price*commissionPercentage(item.price)-item.promo_code.discount))
 	return int(item.price*commissionPercentage(item.price))
 
+
 # I create an object because it is easier to only have one template for emails
-# and i want the no payment method to mimic the payment sent emails
+# and i want the no_payment_email to mimic the payment_sent_emails
 class Payment(object):
     pass
-    	
+
+######## Purchased Item Commission Values ##################	
 def getStatsFromPurchasedItems(pitem_list):	
 	subtotal = 0
 	comm = 0
@@ -61,6 +66,7 @@ def getStatsFromPurchasedItems(pitem_list):
 	payment.total_commission = comm
 	return payment
 
+######## PurchasedItem Commission ########################
 # Need separate method in case price changes on the item, we need to use the purchased item price
 def purchaseditemCommission(pitem):
 	item = pitem.cartitem.item

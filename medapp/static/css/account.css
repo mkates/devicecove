@@ -24,6 +24,9 @@
 .admin-section {
 	margin-bottom: 15px;
 }
+.sidecontent {
+	padding-left: 0px;
+}
 .sidecontent ul {
 	padding: 0;
 	margin: 0;

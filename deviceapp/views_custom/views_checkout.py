@@ -514,14 +514,15 @@ def checkoutPurchase(request,checkoutid):
 		pi.save()
 		cartitem.shoppingcart = None
 		cartitem.save()
-		#Email the seller of the item
+		# Email the seller of the item
 		email_view.composeEmailItemSold_Seller(request,bu,pi)
 
 	# 5. Mark checkout object as purchased
 	checkout.purchased = True
+	checkout.purchased_time = datetime.datetime.utcnow().replace(tzinfo=utc)
 	checkout.save()
 	
-	#6. Email confirmation
+	# 6. Email confirmation
 	email_view.composeEmailItemPurchased_Buyer(request,bu,checkout)
 	
 	return HttpResponseRedirect('/checkout/confirmation/'+str(checkout.id))
@@ -540,13 +541,6 @@ def checkoutConfirmation(request,checkoutid):
 ####################################################
 ###### Checkout Helper Methods #####################
 ####################################################
-
-#Assign a balanced URI if one does not exist
-def addBalancedUser(request):
-	bu = request.user.basicuser
-	
-
-
 
 
 #Get the shopping cart from the user, the session, or return none
@@ -614,7 +608,7 @@ def checkoutValidCheck(checkout,request):
 	
 	#If the user's shoppingcart is empty
 	if not checkout.cartitem_set.all():
-		dict = {'status':100,'error':'emptycart'} # Incorrect user
+		dict = {'status':100,'error':'emptycart'} # Empty Shopping Cart
 	if dict:
 		dict['checkout'] = checkout
 		return dict

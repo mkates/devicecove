@@ -24,7 +24,7 @@ class Category(models.Model):
 	name = models.CharField(max_length=60)
 	displayname = models.CharField(max_length=50)
 	industry = models.ForeignKey(Industry)
-	totalunits = models.IntegerField(default=0) # Regular script to update this
+	totalunits = models.IntegerField(default=0) # Script updates this
 	def __unicode__(self):
 		return self.displayname
 	
@@ -37,7 +37,7 @@ class SubCategory(models.Model):
 	displayname = models.CharField(max_length=50)
 	category = models.ManyToManyField(Category)
 	maincategory = models.ForeignKey(Category,related_name='maincategory')
-	totalunits = models.IntegerField(default=0)
+	totalunits = models.IntegerField(default=0) # Script updates this
 	def __unicode__(self):
 		return self.displayname
 	
@@ -51,6 +51,8 @@ class BasicUser(models.Model):
 	name = models.CharField(max_length=60)
 	email = models.CharField(max_length=60) # Contact Email, login email stored in User class
 	zipcode = models.IntegerField(max_length=5)
+	
+	# These automatically populate from the zipcode (Can be changed in profile)
 	city = models.CharField(max_length=100,null=True,blank=True)
 	county = models.CharField(max_length=100,null=True,blank=True)
 	state = models.CharField(max_length=100,null=True,blank=True)
@@ -341,7 +343,7 @@ class Checkout(models.Model):
 	purchased = models.BooleanField(default=False)
 	purchased_time = models.DateTimeField(null=True,blank=True)
 	
-	#Retrieves the payment object
+	# Retrieves the payment object
 	def getpayment(self):
 		if self.payment_method == 'bank':
 			return self.ba_payment
@@ -462,7 +464,7 @@ class PurchasedItem(models.Model):
 	paid_out = models.BooleanField(default=False)
 	paid_date = models.DateTimeField(null=True,blank=True)
 	
-	#should replicate payout in the checkout
+	#To keep track of how the purchased item is paid out
 	PAYOUT_OPTIONS =  (('none', 'None'),('check', 'Check'),('bank', 'Bank'))
 	payout_method = models.CharField(max_length=20,choices=PAYOUT_OPTIONS,default='none')
 	

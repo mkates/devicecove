@@ -1,5 +1,6 @@
-{%load dollars %}
-{%load phonenumber %}
+{% load dollars %}
+{% load phonenumber %}
+{% load zipcodify %}
 {% if not preview and item.offlineviewing %}
 <div id="buynowcontainer">
 	<div id="buynowbackalign">
@@ -144,7 +145,7 @@
 		<div class="sideproduct" id="productspecs">
 			<h2>Seller Information</h2>
 			<p><span>Type</span>{% if item.user.businesstype %}{{item.user.businesstype | title}}{% else %}None Specified{% endif %}</p>
-			<p><span>Location</span>{% if item.user.city %}{{item.user.city}}, {{item.user.state}}{% else %}Zipcode: {{item.user.zipcode}}{%endif %}</p>
+			<p><span>Location</span>{% if item.user.city %}{{item.user.city}}, {{item.user.state}}{% else %}Zipcode: {{item.user.zipcode|zipcodify}}{%endif %}</p>
 		</div>
 		<div class="sideproduct" id="productspecs">
 			<h2>Product Information</h2>

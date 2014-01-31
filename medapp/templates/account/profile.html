@@ -41,6 +41,11 @@
 .error {
 	color: red;
 	font-weight: 800;
+	text-align: center;
+}
+.success {
+	text-align: center;
+	font-weight: 800;
 }
 .profileitem .noborder {
 	border:none;
@@ -68,6 +73,16 @@
 }
 #default-address a:hover {
 	text-decoration: underline;	
+}
+.password-information .row .category-input input {
+	display:block;
+}
+.password-information .row .category-input button {
+	display:block;
+}
+.password-information .error {
+	text-align: center;
+	display: none;
 }
 </style>
 {% endblock %}
@@ -143,6 +158,23 @@ $(document).ready(function() {
 		if (submittable) {return true}
 		return false
 	});
+	$("#password-form").submit(function() {
+		error = $(".password-information .error");
+		op = $("#old-password").val();
+		np = $("#new-password").val();
+		if (np == op) {
+			$(error).text("New password must be different from old password");
+			$(error).css('display','block');
+			return false;
+		}
+		else if (np.length < 6) {
+			$(error).text("New Password must be at least 6 characters");
+			$(error).css('display','block');
+			return false;
+		}
+		return true;
+		
+	});
 });
 
 function isEmail(email) {
@@ -160,20 +192,26 @@ function addError(handle) {
 
 {% block maintitle %}Profile{% endblock %}
 
+{% block server_message %}
+	{% if error == "password" %}
+	<div class="error alert alert-danger">Password failed to reset. Please make sure you entered your old password correctly</div>
+	{% elif error == "name" %}
+		<div class="error alert alert-danger">Your name is too short. Please enter your full name</div>
+	{% elif error == "city" %}
+		<div class="error alert alert-danger">City is invalid. City field must be at least 3 characters</div>
+	{% elif error == "zipcode" %}
+		<div class="error alert alert-danger">Invalid zipcode. Zipcode must be an integer of length 5</div>
+	{% elif error == "address" %}
+		<div class="error alert alert-danger">Your address is too short. Please try again.</div>
+	{% elif error == "phonenumber" %}
+		<div class="error alert alert-danger">Invalid phone number. Phone number must follow the format (xxx) xxx - xxxx</div>
+	{% endif %}
+	{% if success == "password" %}
+		<div class="success alert alert-success">You have successfully reset your password</div>
+	{% endif %}
+{% endblock %}
+
 {% block maincontent %}
-{% if error == "password" %}
-	<p class="error">Password failed to reset. Please make sure you enter your old password correctly</p>
-{% elif error == "name" %}
-	<p class="error">Your name is too short. Please enter your full name</p>
-{% elif error == "city" %}
-	<p class="error">City is invalid. City field must be at least 3 characters</p>
-{% elif error == "zipcode" %}
-	<p class="error">Invalid zipcode. Zipcode must be an integer of length 5</p>
-{% elif error == "address" %}
-	<p class="error">Your address is too short. Please try again.</p>
-{% elif error == "phonenumber" %}
-	<p class="error">Invalid phone number. Phone number must follow the format (xxx) xxx - xxxx</p>
-{% endif %}
 {% load zipcodify %}
 {% load phonenumber %}
 <div class="maincontent-container">
@@ -289,7 +327,7 @@ function addError(handle) {
 					</div>
 					<div class="col-md-9 col-sm-9 col-xs-9 category-input">
 						<p class="editable">{% if basicuser.company %}{{basicuser.company}}{% else %}<span class="placeholder">None entered</span>{% endif %}</p>
-						<input id="si-company" required type="text" name="company" class="form-control" value="{% if basicuser.company %}{{basicuser.company}}{% endif %}">
+						<input id="si-company" required type="text" name="company" class="form-control" value="{% if basicuser.company %}{{basicuser.company}}{% endif %}"  placeholder="i.e. Wildwood Equine">
 					</div>
 				</div>
 				<div class="row">
@@ -298,7 +336,7 @@ function addError(handle) {
 					</div>
 					<div class="col-md-9 col-sm-9 col-xs-9 category-input">
 						<p class="editable">{% if basicuser.website %}{{basicuser.website}}{% else %}<span class="placeholder">None entered</span>{% endif %}</p>
-						<input id="si-website" type="text" name="website" class="form-control" value="{% if basicuser.website %}{{basicuser.website}}{% endif %}">
+						<input id="si-website" type="text" name="website" class="form-control" value="{% if basicuser.website %}{{basicuser.website}}{% endif %}" placeholder="i.e. www.wildwoodequine.com">
 						<h6>Not A Valid Email Address</h6>
 					</div>
 				</div>
@@ -308,7 +346,7 @@ function addError(handle) {
 					</div>
 					<div class="col-md-9 col-sm-9 col-xs-9 category-input">
 						<p class="editable">{% if basicuser.phonenumber %}{{basicuser.phonenumber|phonenumber}}{% else %}<span class="placeholder">None entered</span>{% endif %}</p>
-						<input id="si-phonenumber" required type="text" name="phonenumber" class="form-control" value="{% if basicuser.phonenumber %}{{basicuser.phonenumber|phonenumber}}{% endif %}">
+						<input id="si-phonenumber" required type="text" name="phonenumber" class="form-control" value="{% if basicuser.phonenumber %}{{basicuser.phonenumber|phonenumber}}{% endif %}"  placeholder="i.e. (732) 431-1231">
 						<h6>Zipcode must be a 5 digits</h6>
 					</div>
 				</div>
@@ -325,6 +363,37 @@ function addError(handle) {
 					<div class="col-md-9 col-sm-9 col-xs-9 category-input">
 						<button type="submit" class="button button-tiny button-rounded button-action" value="submit">Update Information</button>
 						<a data-block=".seller-information" class="form-cancel button button-rounded button-tiny">Cancel</a>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+	<div class="profile-info covebox">
+		<h4 class="maincontent-title">Password</h4>
+		<div class="profileitem password-information">
+			<p class="error">Passwords do not match</p>
+			<form id="password-form" action="/account/updatepassword" method="POST">
+				{% csrf_token %}
+				<div class="row">
+					<div class="col-md-3 col-sm-3 col-xs-3 category-label">
+						Old Password
+					</div>
+					<div class="col-md-9 col-sm-9 col-xs-9 category-input">
+						<input id="old-password" required type="password" name="oldpassword" class="form-control" value=""  placeholder="Old Password">
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-3 col-sm-3 col-xs-3 category-label">
+						New Password
+					</div>
+					<div class="col-md-9 col-sm-9 col-xs-9 category-input">
+						<input id="new-password" required type="password" name="newpassword" class="form-control" value="" placeholder="New Password">
+					</div>
+				</div>
+				<div class="row noborder">
+					<div class="col-md-3 col-sm-3 col-xs-3 category-label"></div>
+					<div class="col-md-9 col-sm-9 col-xs-9 category-input">
+						<button type="submit" class="button button-tiny button-rounded button-action" value="submit">Update Password</button>
 					</div>
 				</div>
 			</form>
