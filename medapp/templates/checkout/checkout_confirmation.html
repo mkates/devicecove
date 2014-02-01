@@ -107,10 +107,9 @@
 				<div class="item-information col-md-7 col-sm-7 col-xs-12">
 					<h6>{{checkoutcartitem.item.name}}</h6>
 					<p class="seller-header"> Seller </p>
-					<p class="sellerinfo">{{checkoutcartitem.item.user.name}} ({{checkoutcartitem.item.user.company}})</p>
-					<p class="sellerinfo">{{checkoutcartitem.item.user.address_one}}</p>
-					{% if checkoutcartitem.item.user.address_two %}<p>{{checkoutcartitem.item.user.address_two}}</p>{% endif %}
-					<p class="sellerinfo">{{checkoutcartitem.item.user.state}} {{checkoutcartitem.item.user.zipcode}}</p>
+					<p class="sellerinfo">{{checkoutcartitem.item.user.name}}</p>
+					<p class="sellerinfo">{{checkoutcartitem.item.user.company}}</p>
+					<p class="sellerinfo">{{checkoutcartitem.item.user.city}} {{checkoutcartitem.item.user.state}} {{checkoutcartitem.item.user.zipcode}}</p>
 					<p class="sellerinfo">Phone: {{checkoutcartitem.item.user.phonenumber|phonenumber}}</p>
 				</div>
 				<div class="item-price col-md-2 col-sm-2 col-xs-12">

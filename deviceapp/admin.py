@@ -8,7 +8,7 @@ class IndustryAdmin(admin.ModelAdmin):
 admin.site.register(Industry, IndustryAdmin)
 
 class ItemAdmin(admin.ModelAdmin):
-	list_display = ['id','user','name','price','liststatus','listeddate','savedcount','subcategory','manufacturer','serialno','modelyear','originalowner','contract','conditiontype','conditionquality','shippingincluded',]
+	list_display = ['id','user','name','price','liststatus','creation_date','savedcount','subcategory','manufacturer','serialno','modelyear','originalowner','contract','conditiontype','conditionquality','shippingincluded']
 admin.site.register(Item, ItemAdmin)
 
 admin.site.register(Category)

@@ -198,14 +198,14 @@ var validateInputs = function validateInputs() {
 		<div class="pricecontainer">
 			<div class="listprice">
 				<h6>New Price / MSRP Price</h6>
-				<input id="inputmsrpprice" name="inputmsrpprice" step="1" class="form-control inputprice" placeholder="Ex: $24,200.50" value="{{item.msrp_price|dollars}}" />
+				<input id="inputmsrpprice" name="inputmsrpprice" step="1" class="form-control inputprice" placeholder="Ex: $24,200.50" value="{% if item.msrp_price %}{{item.msrp_price|dollars}}{% endif %}" />
 				<p>This is the price of the item purchased new. Even new items can be below the MSRP. After all, people want to see what a great deal they are getting.</p>
 			</div>
 		</div>
 		<div class="pricecontainer">
 			<div class="listprice">
 				<h6>Your Listing Price</h6>
-				<input id="inputlistprice" name="inputlistprice" step="1" class="form-control inputprice" placeholder="Ex: $8,320.25" value="{{item.price|dollars}}" />
+				<input id="inputlistprice" name="inputlistprice" step="1" class="form-control inputprice" placeholder="Ex: $8,320.25" value="{% if item.price %}{{item.price|dollars}}{% endif %}" />
 				<p>We suggest you price your item competitively with other items in our system.  The price you choose should be inclusive of shipping costs (if you indicated you will be shipping), and any taxes as required by law (if applicable)</p>
 			</div>
 		</div>

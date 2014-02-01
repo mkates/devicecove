@@ -46,49 +46,42 @@ class Command(BaseCommand):
 					
 			# Continue only if items available for payout
 			if eligiblePurchasedItems:
-				if basicuser.payout_method == 'none':
-					email_view.composeEmailNoPayment(basicuser)
-				elif basicuser.payout_method == 'check':
-					if basicuser.check_address:
+				if hasattr(basicuser.payout_method,'checkaddress'):
+					cc_fee = int(payout_total*CC_PROCESSING_FEE)
+					amount = payout_total-cc_fee
+					check_obj = CheckPayout(user=basicuser,amount=amount,address=basicuser.payout_method.checkaddress.address,total_commission=commission_total,cc_fee=cc_fee)
+					check_obj.save()
+					for pi in eligiblePurchasedItems:
+						pi.paid_out = True
+						pi.paid_date = datetime.datetime.utcnow().replace(tzinfo=utc)
+						pi.payout = check_obj
+						pi.save()
+					vetcove_check_count += 1
+					vetcove_checkpayout_total += amount
+					email_view.composeEmailPayoutCheckSent(basicuser,check_obj)
+				elif hasattr(basicuser.payout_method,'balancedbankaccount'):
+					try:
+						#customer = balanced.Customer.find(basicuser.balanceduri)
 						cc_fee = int(payout_total*CC_PROCESSING_FEE)
 						amount = payout_total-cc_fee
-						check_obj = CheckPayout(user=basicuser,amount=amount,address=basicuser.check_address,total_commission=commission_total,cc_fee=cc_fee)
-						check_obj.save()
-						for pi in eligiblePurchasedItems:
-							pi.paid_out = True
-							pi.paid_date = datetime.datetime.utcnow().replace(tzinfo=utc)
-							pi.payout_method = 'check'
-							pi.check = check_obj
-							pi.save()
-						vetcove_check_count += 1
-						vetcove_checkpayout_total += amount
-						email_view.composeEmailPayoutCheckSent(basicuser,check_obj)
-					else:
-						email_view.composeEmailNoPayment(basicuser)
-				elif basicuser.payout_method == 'bank':
-					if basicuser.default_payout_ba:
-						try:
-							#customer = balanced.Customer.find(basicuser.balanceduri)
-							cc_fee = int(payout_total*CC_PROCESSING_FEE)
-							amount = payout_total-cc_fee
-							source_uri = basicuser.default_payout_ba.uri
-							#customer.credit(appears_on_statement_as="Vet Cove",description="Seller Credit",amount=amount,source_uri=source_uri)
-							bank_payout_obj = BankPayout(user=basicuser,cc_fee=cc_fee, amount=amount,bank_account=basicuser.default_payout_ba,total_commission=commission_total)
-							bank_payout_obj.save()
-							for bpi in eligiblePurchasedItems:
-								bpi.paid_out = True
-								bpi.paid_date = datetime.datetime.utcnow().replace(tzinfo=utc)
-								bpi.payout_method = 'bank'
-								bpi.online_payment = bank_payout_obj
-								bpi.save()
-							vetcove_payout_total += amount
-							vetcove_payout_count += 1
-							email_view.composeEmailPayoutBankSent(basicuser,bank_payout_obj)
-						except Exception,e:
-							write(self,str(basicuser.id)+": "+str(e))
-							email_view.composeEmailPayoutFailed(basicuser,bank_payout_obj)
-					else:
-						email_view.composeEmailNoPayment(basicuser)
+						source_uri = basicuser.default_payout_ba.uri
+						#customer.credit(appears_on_statement_as="Vet Cove",description="Seller Credit",amount=amount,source_uri=source_uri)
+						bank_payout_obj = BankPayout(user=basicuser,cc_fee=cc_fee, amount=amount,bank_account=basicuser.default_payout_ba,total_commission=commission_total)
+						bank_payout_obj.save()
+						for bpi in eligiblePurchasedItems:
+							bpi.paid_out = True
+							bpi.paid_date = datetime.datetime.utcnow().replace(tzinfo=utc)
+							bpi.payout_method = 'bank'
+							bpi.online_payment = bank_payout_obj
+							bpi.save()
+						vetcove_payout_total += amount
+						vetcove_payout_count += 1
+						email_view.composeEmailPayoutBankSent(basicuser,bank_payout_obj)
+					except Exception,e:
+						write(self,str(basicuser.id)+": "+str(e))
+						email_view.composeEmailPayoutFailed(basicuser,bank_payout_obj)	
+				else:
+					email_view.composeEmailNoPayment(basicuser)
 		write(self,"Payouts Complete")
 		write(self,"Online Payout Total: $"+str(vetcove_payout_total/float(100)))
 		write(self,"Number of Online Purchases: "+str(vetcove_payout_count))

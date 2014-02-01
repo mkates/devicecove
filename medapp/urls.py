@@ -13,6 +13,7 @@ urlpatterns = patterns('',
 
 	#Admin
 	url(r'^admin/overview/(?P<type>\w+)','deviceapp.views_custom.adminOverview'),
+	url(r'^admin/overview','deviceapp.views_custom.adminOverviewForward'),
     url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^staff/markassent','deviceapp.views_custom.staffMarkAsSent'),
@@ -91,8 +92,8 @@ urlpatterns = patterns('',
     # Payment Experience
     url(r'^checkout/addcard/(?P<checkoutid>\d+)','deviceapp.views_custom.checkoutAddCard'),
     url(r'^checkout/addbankaccount/(?P<checkoutid>\d+)','deviceapp.views_custom.checkoutAddBankAccount'),
-    url(r'^checkout/deletepayment/(?P<paymenttype>\w+)/(?P<checkoutid>\d+)/(?P<paymentid>\d+)','deviceapp.views_custom.checkoutDeletePayment'),
-    url(r'^checkout/usepayment/(?P<paymenttype>\w+)/(?P<checkoutid>\d+)/(?P<paymentid>\d+)','deviceapp.views_custom.checkoutUsePayment'),
+    url(r'^checkout/deletepayment/(?P<checkoutid>\d+)/(?P<paymentid>\d+)','deviceapp.views_custom.checkoutDeletePayment'),
+    url(r'^checkout/usepayment/(?P<checkoutid>\d+)/(?P<paymentid>\d+)','deviceapp.views_custom.checkoutUsePayment'),
     
     # Review Experience
     url(r'^checkoutmovetosaved/(?P<checkoutid>\d+)','deviceapp.views_custom.checkoutMoveToSaved'),
@@ -128,10 +129,9 @@ urlpatterns += patterns('',
     #Payment
     url(r'^account/addcreditcard','deviceapp.views_custom.addCreditCard'),
     url(r'^account/addbankaccount','deviceapp.views_custom.addBankAccount'),
-    url(r'^account/makedefaultpayment/(?P<type>\w+)/(?P<id>\d+)','deviceapp.views_custom.makeDefaultPayment'),
-    url(r'^account/makedefaultpayout/(?P<type>\w+)/(?P<id>\d+)','deviceapp.views_custom.makeDefaultPayout'),
-    url(r'^account/deletepayment/(?P<type>\w+)/(?P<id>\d+)','deviceapp.views_custom.accountDeletePayment'),
-    url(r'^account/setmailingaddress/(?P<addressid>\d+)','deviceapp.views_custom.setMailingAddress'),
+    url(r'^account/makedefaultpayment/(?P<id>\d+)','deviceapp.views_custom.makeDefaultPayment'),
+    url(r'^account/makedefaultpayout/(?P<id>\d+)','deviceapp.views_custom.makeDefaultPayout'),
+    url(r'^account/deletepayment/(?P<id>\d+)','deviceapp.views_custom.accountDeletePayment'),
     url(r'^account/addmailingaddress','deviceapp.views_custom.addMailingAddress'),
     url(r'^account/deletemailingaddress/(?P<addressid>\d+)','deviceapp.views_custom.deleteMailingAddress'),
     

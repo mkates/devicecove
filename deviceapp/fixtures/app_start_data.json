@@ -205,7 +205,7 @@
     "pk": 1, 
     "model": "auth.user", 
     "fields": {
-        "username": "admin@aim.com", 
+        "username": "admin@admin.com", 
         "first_name": "", 
         "last_name": "", 
         "is_active": true, 
@@ -215,30 +215,12 @@
         "groups": [], 
         "user_permissions": [], 
         "password": "pbkdf2_sha256$10000$xSO9oRFz88LQ$XGNybzF63vtLfbJllBzLt6hfO0tTY2W3BXaln8ncgBM=", 
-        "email": "admin@aim.com", 
+        "email": "admin@admin.com", 
         "date_joined": "2013-10-28T04:36:12.295Z"
     }
 },
 {
     "pk": 2, 
-    "model": "auth.user", 
-    "fields": {
-        "username": "brooke2@aim.com", 
-        "first_name": "", 
-        "last_name": "", 
-        "is_active": true, 
-        "is_superuser": false, 
-        "is_staff": false, 
-        "last_login": "2013-10-28T04:37:27.969Z", 
-        "groups": [], 
-        "user_permissions": [], 
-        "password": "pbkdf2_sha256$10000$baG2jbKu2fmr$GQMak8dwaoerfKjoVBxom27VVhAlm5IAOlcE5wW1fQw=", 
-        "email": "brooke2@aim.com", 
-        "date_joined": "2013-10-28T04:37:27.969Z"
-    }
-},	
-{
-    "pk": 3, 
     "model": "auth.user", 
     "fields": {
         "username": "mkates@mit.edu", 
@@ -251,7 +233,25 @@
         "groups": [], 
         "user_permissions": [], 
         "password": "pbkdf2_sha256$10000$baG2jbKu2fmr$GQMak8dwaoerfKjoVBxom27VVhAlm5IAOlcE5wW1fQw=", 
-        "email": "brooke@aim.com", 
+        "email": "mkates@mit.edu", 
+        "date_joined": "2013-10-28T04:37:27.969Z"
+    }
+},	
+{
+    "pk": 3, 
+    "model": "auth.user", 
+    "fields": {
+        "username": "mhkates@gmail.com", 
+        "first_name": "", 
+        "last_name": "", 
+        "is_active": true, 
+        "is_superuser": false, 
+        "is_staff": false, 
+        "last_login": "2013-10-28T04:37:27.969Z", 
+        "groups": [], 
+        "user_permissions": [], 
+        "password": "pbkdf2_sha256$10000$baG2jbKu2fmr$GQMak8dwaoerfKjoVBxom27VVhAlm5IAOlcE5wW1fQw=", 
+        "email": "mhkates@gmail.com", 
         "date_joined": "2013-10-28T04:37:27.969Z"
     }
 },
@@ -259,464 +259,129 @@
     "pk": 1, 
     "model": "deviceapp.basicuser", 
     "fields": {
-        "website": null, 
-        "businesstype": null, 
-        "name": "Brooke Johnson", 
-        "default_payment_cc": null, 
-        "payment_method": "bank", 
-        "company": null, 
-        "payout_method": "bank", 
-        "default_payment_ba": 1, 
-        "zipcode": 12345, 
-        "phonenumber": null, 
-        "user": 1, 
-        "user_rank": "newb", 
-        "default_payout_ba": 1, 
-        "check_address": null, 
-        "email": "admin@aim.com", 
-        "balanceduri": "/v1/customers/CU7Io4OjPOocXx9HZWeFpnkP"
+    	"user": 1, 
+        "name": "Admin",
+        "email": "admin@admin.com", 
+        "zipcode": 12345  
+    }
+},
+{
+    "pk": 1, 
+    "model": "deviceapp.shoppingcart", 
+    "fields": {
+    	"user": 1
     }
 },
 {
     "pk": 2, 
     "model": "deviceapp.basicuser", 
     "fields": {
-        "website": null, 
-        "businesstype": null, 
-        "name": "Mike Rogers", 
-        "default_payment_cc": null, 
-        "payment_method": "none", 
-        "company": null, 
-        "payout_method": "none", 
-        "default_payment_ba": null, 
-        "zipcode": 12345, 
-        "phonenumber": null, 
-        "user": 2, 
-        "user_rank": "newb", 
-        "default_payout_ba": null, 
-        "check_address": null, 
+    	"user": 2, 
+        "name": "Mitch MHKates",
         "email": "mkates@mit.edu", 
-        "balanceduri": null
+        "zipcode": 90012   
+    }
+},
+{
+    "pk": 2, 
+    "model": "deviceapp.shoppingcart", 
+    "fields": {
+    	"user": 2
     }
 },
 {
     "pk": 3, 
     "model": "deviceapp.basicuser", 
     "fields": {
-        "website": null, 
-        "businesstype": null, 
-        "name": "Bob Rogers", 
-        "default_payment_cc": null, 
-        "payment_method": "bank", 
-        "company": null, 
-        "payout_method": "bank", 
-        "default_payment_ba": 2, 
-        "zipcode": 12345, 
-        "phonenumber": null, 
-        "user": 3, 
-        "user_rank": "newb", 
-        "default_payout_ba": 2, 
-        "check_address": null, 
+    	"user": 3, 
+        "name": "Mitch MHKates",
         "email": "mkates@mit.edu", 
-        "balanceduri": "/v1/customers/CUVyoLt3CuQBcUMMsiOdR6g"
-    }
-},
-{
-    "pk": 1, 
-    "model": "deviceapp.item", 
-    "fields": {
-        "liststatus": "active", 
-        "subcategory": 1, 
-        "offlineviewing": false, 
-        "savedcount": 2, 
-        "promo_code": null, 
-        "sold_online": false, 
-        "shippingincluded": true, 
-        "tos": false, 
-        "mainimage": null, 
-        "conditiontype": "preowned", 
-        "productdescription": "The New Fazone CB Ultrasound with Zone Sonography Technology. Anytime, anywhere 'CB' usability is stress free and easy, regardless of place or occasion. This elegant, ultra high quality ultrasound easily moves from the exam room to your vehicle bringing all aspects of FujiFilms' attention to detail along with it. Features include a full screen, 12-inch LCD monitor, instant one touch image optimization, intuitive operation with keys grouped by functionality, fast boot-up time, easy on and off cart capability, and stylish compact design", 
-        "views": 0, 
-        "whatsincluded": "", 
-        "serialno": "542523519864", 
-        "price": 4430, 
-        "listeddate": "2013-11-01", 
-        "msrp_price": 22320, 
-        "user": 1, 
-        "liststage": 5, 
-        "manufacturer": "Fuji", 
-        "conditionquality": 2, 
-        "originalowner": true, 
-        "name": "XT450 Power UltraSound Machine 1", 
-        "conditiondescription": "This product was mainly used in mobile veterinary trucks and carried from farm to farm. There are a couple scratches on the machine but otherwise it is in great working order", 
-        "commission_paid": false, 
-        "contract": "none", 
-        "modelyear": 2001, 
-        "quantity": 1, 
-        "contractdescription": ""
-    }
-},
-{
-    "pk": 2, 
-    "model": "deviceapp.item", 
-    "fields": {
-        "liststatus": "active", 
-        "subcategory": 2, 
-        "offlineviewing": true, 
-        "savedcount": 2, 
-        "promo_code": null, 
-        "sold_online": false, 
-        "shippingincluded": true, 
-        "tos": false, 
-        "mainimage": null, 
-        "conditiontype": "new", 
-        "productdescription": "The New Fazone CB Ultrasound with Zone Sonography Technology. Anytime, anywhere 'CB' usability is stress free and easy, regardless of place or occasion. This elegant, ultra high quality ultrasound easily moves from the exam room to your vehicle bringing all aspects of FujiFilms' attention to detail along with it. Features include a full screen, 12-inch LCD monitor, instant one touch image optimization, intuitive operation with keys grouped by functionality, fast boot-up time, easy on and off cart capability, and stylish compact design", 
-        "views": 0, 
-        "whatsincluded": "", 
-        "serialno": "542523519864", 
-        "price": 6230, 
-        "listeddate": "2013-11-01", 
-        "msrp_price": 12320, 
-        "user": 3, 
-        "liststage": 5, 
-        "manufacturer": "Fuji", 
-        "conditionquality": 2, 
-        "originalowner": true, 
-        "name": "XT450 Power UltraSound Machine 2", 
-        "conditiondescription": "This product was mainly used in mobile veterinary trucks and carried from farm to farm. There are a couple scratches on the machine but otherwise it is in great working order", 
-        "commission_paid": false, 
-        "contract": "none", 
-        "modelyear": 2001, 
-        "quantity": 5, 
-        "contractdescription": ""
-    }
-},
-{
-    "pk": 3, 
-    "model": "deviceapp.item", 
-    "fields": {
-        "liststatus": "active", 
-        "subcategory": 3, 
-        "offlineviewing": false, 
-        "savedcount": 2, 
-        "promo_code": null, 
-        "sold_online": false, 
-        "shippingincluded": true, 
-        "tos": false, 
-        "mainimage": null, 
-        "conditiontype": "new", 
-        "productdescription": "The New Fazone CB Ultrasound with Zone Sonography Technology. Anytime, anywhere 'CB' usability is stress free and easy, regardless of place or occasion. This elegant, ultra high quality ultrasound easily moves from the exam room to your vehicle bringing all aspects of FujiFilms' attention to detail along with it. Features include a full screen, 12-inch LCD monitor, instant one touch image optimization, intuitive operation with keys grouped by functionality, fast boot-up time, easy on and off cart capability, and stylish compact design", 
-        "views": 0, 
-        "whatsincluded": "", 
-        "serialno": "542523519864", 
-        "price": 520124, 
-        "listeddate": "2013-11-01", 
-        "msrp_price": 642012, 
-        "user": 3, 
-        "liststage": 5, 
-        "manufacturer": "Fuji", 
-        "conditionquality": 2, 
-        "originalowner": true, 
-        "name": "XT450 Power UltraSound Machine 3", 
-        "conditiondescription": "This product was mainly used in mobile veterinary trucks and carried from farm to farm. There are a couple scratches on the machine but otherwise it is in great working order", 
-        "commission_paid": false, 
-        "contract": "none", 
-        "modelyear": 2001, 
-        "quantity": 3, 
-        "contractdescription": ""
-    }
-},
-{
-    "pk": 1, 
-    "model": "deviceapp.sellermessage", 
-    "fields": {
-        "name": "Jack Smirnoff", 
-        "phone": null, 
-        "date_sent": null, 
-        "item": 2, 
-        "reason": null, 
-        "buyer": 1, 
-        "message": "", 
-        "email": null
-    }
-},
-{
-    "pk": 2, 
-    "model": "deviceapp.sellermessage", 
-    "fields": {
-        "name": "Brooke Johnson", 
-        "phone": "", 
-        "date_sent": "2014-01-30T21:28:01.606Z", 
-        "item": 2, 
-        "reason": "view", 
-        "buyer": 1, 
-        "message": "want it", 
-        "email": "brooke@aim.com"
-    }
-},
-{
-    "pk": 1, 
-    "model": "deviceapp.useraddress", 
-    "fields": {
-        "city": "Menlo Park", 
-        "name": "Brooke", 
-        "zipcode": 1232, 
-        "address_two": null, 
-        "state": "NJ", 
-        "phonenumber": "7313223343", 
-        "user": 1, 
-        "address_one": "1 Paper Court"
-    }
-},
-{
-    "pk": 2, 
-    "model": "deviceapp.useraddress", 
-    "fields": {
-        "city": "cotls enck", 
-        "name": "mitch", 
-        "zipcode": 7722, 
-        "address_two": "", 
-        "state": "NJ", 
-        "phonenumber": "7321929191", 
-        "user": 2, 
-        "address_one": "1 paper corut"
-    }
-},
-{
-    "pk": 1, 
-    "model": "deviceapp.balancedcard", 
-    "fields": {
-        "expiration_year": 2020, 
-        "brand": "Visa", 
-        "uri": "/v1/marketplaces/TEST-MP49EIrAntwbE1iYZDuZWtjo/cards/CC2GFNrqxK9y27l6hd9VZCIu", 
-        "datecreated": "2014-01-30T21:27:41.694Z", 
-        "expiration_month": 12, 
-        "user": 1, 
-        "last_four": 1111, 
-        "cardhash": "b3ecb5551877e4c9ee9937f74cffbcfacc388e575cb4c061c30f8a32d340001b"
-    }
-},
-{
-    "pk": 2, 
-    "model": "deviceapp.balancedcard", 
-    "fields": {
-        "expiration_year": 2014, 
-        "brand": "Visa", 
-        "uri": "/v1/marketplaces/TEST-MP49EIrAntwbE1iYZDuZWtjo/cards/CC3tevYh50ZnoeILrWeXiWmQ", 
-        "datecreated": "2014-01-30T21:28:24.160Z", 
-        "expiration_month": 1, 
-        "user": 2, 
-        "last_four": 1111, 
-        "cardhash": "3d2d03be3b0707383e89a4e2d92488b318fb754d8f3d5cda955d8a80b2a0cbf4"
-    }
-},
-{
-    "pk": 1, 
-    "model": "deviceapp.balancedbankaccount", 
-    "fields": {
-        "bank_name": "SAN MATEO CREDIT UNION", 
-        "name": "John Hancock", 
-        "bank_code": "321174851", 
-        "uri": "/v1/marketplaces/TEST-MP49EIrAntwbE1iYZDuZWtjo/bank_accounts/BA7HmWhoHioggHsy4prr83a8", 
-        "datecreated": "2014-01-30T21:39:25.422Z", 
-        "user": 1, 
-        "fingerprint": "3e91c0608d24e7fdf9f897214924d6250f6809b7df5e0cffd6f9d26a071a522f", 
-        "account_number": "xxxxxx0000"
-    }
-},
-{
-    "pk": 2, 
-    "model": "deviceapp.balancedbankaccount", 
-    "fields": {
-        "bank_name": "SAN MATEO CREDIT UNION", 
-        "name": "John Hancock", 
-        "bank_code": "321174851", 
-        "uri": "/v1/marketplaces/TEST-MP49EIrAntwbE1iYZDuZWtjo/bank_accounts/BAUgds3rFsJk9PLK8fkmZ50", 
-        "datecreated": "2014-01-30T21:40:20.735Z", 
-        "user": 3, 
-        "fingerprint": "3e91c0608d24e7fdf9f897214924d6250f6809b7df5e0cffd6f9d26a071a522f", 
-        "account_number": "xxxxxx0000"
-    }
-},
-{
-    "pk": 1, 
-    "model": "deviceapp.checkout", 
-    "fields": {
-        "cc_payment": 1, 
-        "payment_method": "card", 
-        "start_time": "2014-01-30T21:27:33.651Z", 
-        "ba_payment": null, 
-        "state": 2, 
-        "purchased": true, 
-        "shipping_address": 1, 
-        "buyer": 1, 
-        "purchased_time": null
-    }
-},
-{
-    "pk": 2, 
-    "model": "deviceapp.checkout", 
-    "fields": {
-        "cc_payment": 1, 
-        "payment_method": "card", 
-        "start_time": "2014-01-30T21:28:47.619Z", 
-        "ba_payment": null, 
-        "state": 2, 
-        "purchased": true, 
-        "shipping_address": 1, 
-        "buyer": 1, 
-        "purchased_time": null
-    }
-},
-{
-    "pk": 1, 
-    "model": "deviceapp.shoppingcart", 
-    "fields": {
-        "user": 1, 
-        "datecreated": null
-    }
-},
-{
-    "pk": 2, 
-    "model": "deviceapp.shoppingcart", 
-    "fields": {
-        "user": 2, 
-        "datecreated": null
+        "zipcode": "07722"
     }
 },
 {
     "pk": 3, 
     "model": "deviceapp.shoppingcart", 
     "fields": {
-        "user": 3, 
-        "datecreated": null
-    }
-},
-{
-    "pk": 4, 
-    "model": "deviceapp.shoppingcart", 
-    "fields": {
-        "user": null, 
-        "datecreated": "2014-01-30T21:27:25.919Z"
+    	"user": 3
     }
 },
 {
     "pk": 1, 
-    "model": "deviceapp.cartitem", 
+    "model": "deviceapp.address", 
     "fields": {
-        "dateadded": "2014-01-30T21:27:25.925Z", 
-        "price": 520124, 
-        "item": 3, 
-        "shoppingcart": null, 
-        "checkout": 1, 
-        "quantity": 2
+    	"user": 1,
+    	"name": "Admin",
+    	"address_one" : "1 Admin Street",
+    	"city": "Adminville",
+    	"state": "NJ",
+    	"zipcode": "02455",
+    	"phonenumber": "9192340591"
+    }
+},
+{
+    "pk": 1, 
+    "model": "deviceapp.payment", 
+    "fields": {
+    	"user":1,
+    	"datecreated": "2013-12-10",
+    	"payment_type":"check"
+    }
+},
+{
+    "pk": 1, 
+    "model": "deviceapp.checkaddress", 
+    "fields": {
+    	"address": 1
+    }
+},
+{
+    "pk": 1, 
+    "model": "deviceapp.item", 
+    "fields": {
+    	"user": 1,
+    	"name": "XT450 Power UltraSound Machine 1", 
+    	"creation_date": "2013-12-01",
+    	"subcategory":1,
+    	"manufacturer": "Fuji", 
+    	"serialno": "542523519864",
+    	"modelyear": 2001,  
+    	"msrp_price": 22320, 
+    	"price": 4430,
+    	"liststatus":"active",
+    	"quantity":3
     }
 },
 {
     "pk": 2, 
-    "model": "deviceapp.cartitem", 
+    "model": "deviceapp.item", 
     "fields": {
-        "dateadded": "2014-01-30T21:28:38.658Z", 
-        "price": 6230, 
-        "item": 2, 
-        "shoppingcart": null, 
-        "checkout": 2, 
-        "quantity": 3
+    	"user": 2,
+    	"name": "XT450 Power UltraSound Machine 2",
+    	"creation_date": "2013-12-10",
+    	"subcategory":1, 
+    	"manufacturer": "Fuji", 
+    	"serialno": "542523519864",
+    	"modelyear": 2001,  
+    	"msrp_price": 22320, 
+    	"price": 4430,
+    	"liststatus":"active"
     }
 },
 {
-    "pk": 1, 
-    "model": "deviceapp.commission", 
+    "pk": 3, 
+    "model": "deviceapp.item", 
     "fields": {
-        "cc_payment": 2, 
-        "payment_method": "card", 
-        "price": 6230, 
-        "ba_payment": null, 
-        "item": 2, 
-        "amount": 809, 
-        "date": "2014-01-30T21:28:26.038Z"
-    }
-},
-{
-    "pk": 1, 
-    "model": "deviceapp.purchaseditem", 
-    "fields": {
-        "online_payment": null, 
-        "paid_out": false, 
-        "cartitem": 1, 
-        "item_name": "XT450 Power UltraSound Machine 3", 
-        "payout_method": "check", 
-        "unit_price": 520124, 
-        "seller": 2, 
-        "buyer_message": "", 
-        "item_sent": true, 
-        "paid_date": null, 
-        "purchase_date": "2014-01-30T21:27:46.366Z", 
-        "seller_message": "shipped to brooke", 
-        "buyer": 1, 
-        "total": 1040248, 
-        "checkout": 1, 
-        "check": null, 
-        "quantity": 2
-    }
-},
-{
-    "pk": 2, 
-    "model": "deviceapp.purchaseditem", 
-    "fields": {
-        "online_payment": null, 
-        "paid_out": false, 
-        "cartitem": 2, 
-        "item_name": "XT450 Power UltraSound Machine 2", 
-        "payout_method": "check", 
-        "unit_price": 6230, 
-        "seller": 2, 
-        "buyer_message": "", 
-        "item_sent": true, 
-        "paid_date": null, 
-        "purchase_date": "2014-01-30T21:28:56.289Z", 
-        "seller_message": "shipped", 
-        "buyer": 2, 
-        "total": 18690, 
-        "checkout": 2, 
-        "check": null, 
-        "quantity": 3
-    }
-},
-{
-    "pk": 1, 
-    "model": "deviceapp.buyauthorization", 
-    "fields": {
-        "buyer": 1, 
-        "item": 2, 
-        "date": "2014-01-30T21:28:28.561Z", 
-        "seller": 2
-    }
-},
-{
-    "pk": 1, 
-    "model": "deviceapp.promocode", 
-    "fields": {
-        "code": "beta14", 
-        "promo_type": "factor", 
-        "discount": null, 
-        "details": "50% off", 
-        "factor": 50, 
-        "active": true, 
-        "promo_text": "Sweet! You are saving 50% on your commission"
-    }
-},
-{
-    "pk": 2, 
-    "model": "deviceapp.promocode", 
-    "fields": {
-        "code": "vegeta", 
-        "promo_type": "discount", 
-        "discount": 500, 
-        "details": "$5 off", 
-        "factor": null, 
-        "active": true, 
-        "promo_text": "$5 off commission on this item"
+    	"user": 3,
+    	"name": "XT450 Power UltraSound Machine 3", 
+    	"creation_date": "2013-12-20",
+    	"subcategory":1,
+    	"manufacturer": "Fuji", 
+    	"serialno": "542523519864",
+    	"modelyear": 2001,  
+    	"msrp_price": 22320, 
+    	"price": 4430,
+    	"liststatus":"active"
     }
 }
 ]

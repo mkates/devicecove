@@ -24,7 +24,7 @@ def render_and_send_email(template_data,subject,receiver):
 		html_body = render_to_string("email_templates/email_template.html", template_data)
 		msg = EmailMultiAlternatives(subject, text_body, "The VetCove Team <info@vetcove.com>",[receiver])
 		msg.attach_alternative(html_body, "text/html")
-		msg.send()
+		#msg.send()
 		return 201
 	except Exception,e:
 		print e
@@ -164,7 +164,7 @@ def composeEmailItemPurchased_Buyer(request,basicuser,checkout):
 		'checkout':checkout,
 		'totals':True,
 		'shipping_address':shipping_address,
-		'payment':checkout.getpayment,
+		'payment':checkout.payment,
 		'email_title':"Commission Payment Confirmation",
 		'email_teaser':'NEEDS TO BE FINISHED',
 		'email_name':basicuser.name

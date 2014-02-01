@@ -98,8 +98,8 @@ header img {
 	</div>
 	<div class="col-md-4 col-sm-4 col-xs-12">
 		<div class="stat">
-			<h1>{{total_revenue|dollars}}</h1>
-			<p>Total Revenue (post payout only)</p>
+			<h1>{{tobepaidout|dollars}}</h1>
+			<p>To Be Paid Out</p>
 		</div>
 	</div>
 	<div class="col-md-4 col-sm-4 col-xs-12">
@@ -114,28 +114,46 @@ header img {
 			<p>Offline Commission Revenue</p>
 		</div>
 	</div>
-	<div class="col-md-3 col-sm-3 col-xs-13">
+	<div class="col-md-4 col-sm-4 col-xs-12">
+		<div class="stat">
+			<h1>{{online_commission_revenue|dollars}}</h1>
+			<p>Online Commission Revenue</p>
+		</div>
+	</div>
+	<div class="col-md-4 col-sm-4 col-xs-12">
+		<div class="stat">
+			<h1>{{total_commission_revenue|dollars}}</h1>
+			<p>Total Commission Revenue</p>
+		</div>
+	</div>
+	<div class="col-md-3 col-sm-3 col-xs-12">
 		<div class="stat">
 			<h1>{{items_sold}}</h1>
 			<p>Items Sold</p>
 		</div>
 	</div>
-	<div class="col-md-3 col-sm-3 col-xs-13">
+	<div class="col-md-3 col-sm-3 col-xs-12">
 		<div class="stat">
 			<h1>{{checkouts}}</h1>
 			<p>Checkouts</p>
 		</div>
 	</div>
-	<div class="col-md-3 col-sm-3 col-xs-13">
+	<div class="col-md-3 col-sm-3 col-xs-12">
 		<div class="stat">
 			<h1>{{users}}</h1>
 			<p>Users</p>
 		</div>
 	</div>
-	<div class="col-md-3 col-sm-3 col-xs-13">
+	<div class="col-md-3 col-sm-3 col-xs-12">
 		<div class="stat">
 			<h1>{{active_items}}</h1>
 			<p>Active Items</p>
+		</div>
+	</div>
+	<div class="col-md-4 col-sm-4 col-xs-12">
+		<div class="stat">
+			<h1>{{total_revenue|dollars}}</h1>
+			<p>Total Revenue</p>
 		</div>
 	</div>
 </div>

@@ -1,5 +1,6 @@
 {% load phonenumber %}
 {% load dollars %}
+{% load zipcodify %}
 <div class="maincontent-container covebox history-item">
 	{% if sellhistory %}
 		<div class="shipping-overlay" id="shipping-overlay-{{pitem.id}}">
@@ -28,31 +29,31 @@
 				<p>{{pitem.cartitem.checkout.shipping_address.name}}</p>
 				<p>{{pitem.cartitem.checkout.shipping_address.address_one}}</p>
 				{% if pitem.cartitem.checkout.shipping_address.address_two %}<p>{{pitem.cartitem.checkout.shipping_address.address_two}}</p>{% endif %}
-				<p>{{pitem.cartitem.checkout.shipping_address.city}}, {{pitem.cartitem.checkout.shipping_address.state}} {{pitem.cartitem.checkout.shipping_address.zipcode}}</p>
-				<p>{{pitem.cartitem.checkout.shipping_address.phonenumber|phonenumber}}</p>
+				<p>{{pitem.cartitem.checkout.shipping_address.city}}, {{pitem.cartitem.checkout.shipping_address.state}} {{pitem.cartitem.checkout.shipping_address.zipcode|zipcodify}}</p>
+				<p>{{pitem.cartitem.checkout.shipping_address.phonenumber}}</p>
 			</div>
 			{% if buyhistory %}
 			<div class="order-info">
 				<p class="order-info-header">Payment</p>
-				{% if pitem.cartitem.checkout.payment_method == 'card' %}
-				<p>{{pitem.cartitem.checkout.cc_payment.brand}}</p>
-				<p>* * * * * * * * {{pitem.cartitem.checkout.cc_payment.last_four}}</p>
-				<p>Expires: {{pitem.cartitem.checkout.cc_payment.expiration_month}}/{{pitem.cartitem.checkout.cc_payment.expiration_year}}</p>
-				{% elif pitem.cartitem.checkout.payment_method == 'bank' %}
-				<p>{{pitem.cartitem.checkout.ba_payment.name}}</p>
-				<p>{{pitem.cartitem.checkout.ba_payment.bank_name}}</p>
-				<p>{{pitem.cartitem.checkout.ba_payment.account_number}}</p>
+				{% if pitem.cartitem.checkout.payment.balancedcard %}
+				<p>{{pitem.cartitem.checkout.payment.balancedcard.brand}}</p>
+				<p>* * * * * * * * {{pitem.cartitem.checkout.payment.balancedcard.last_four}}</p>
+				<p>Expires: {{pitem.cartitem.checkout.payment.balancedcard.expiration_month}}/{{pitem.cartitem.checkout.payment.balancedcard.expiration_year}}</p>
+				{% elif pitem.cartitem.checkout.payment.balancedbankaccount %}
+				<p>{{pitem.cartitem.checkout.payment.balancedbankaccount.name}}</p>
+				<p>{{pitem.cartitem.checkout.payment.balancedbankaccount.bank_name}}</p>
+				<p>{{pitem.cartitem.checkout.payment.balancedbankaccount.account_number}}</p>
 				{% endif %}
 			
 			</div>
 			{% endif %}
 			<p class="order-price">Total Price: <span>{{pitem.total|dollars}}</span>
-			<p class="order-quantity">Quantity: <span>{{pitem.cartitem.quantity}} (at {{pitem.cartitem.price|dollars}} each)</span>
+			<p class="order-quantity">Quantity: <span>{{pitem.cartitem.quantity}}{% if pitem.cartitem.quantity > 1 %}(at {{pitem.cartitem.price|dollars}} each){% endif %}</span>
 			<p class="order-number">Payout Status: 
 				<span>
-					{% if pitem.paid_out and pitem.payout_method == 'bank'%}
+					{% if pitem.item_sent and pitem.payout.bankpayout %}
 						Paid - Bank Account Credited
-					{% elif pitem.paid_out and pitem.payout_method == 'check' %}
+					{% elif pitem.paid_out and pitem.payout.checkpayout %}
 						Paid - Check Mailed
 					{% elif pitem.item_sent %}
 						Payout Pending (14 day wait period)
@@ -79,7 +80,6 @@
 					<p class="order-seller-info">{{pitem.seller.name}}</p>
 					<p class="order-seller-info">{{pitem.seller.email}}</p>
 					<p class="order-seller-info">{{pitem.seller.company}}</p>
-					<p class="order-seller-info">{{pitem.seller.city}}, {{pitem.seller.state}}</p>
 					<p class="order-seller-info">{{pitem.seller.phonenumber|phonenumber}}</p>
 				</div>
 			</div>

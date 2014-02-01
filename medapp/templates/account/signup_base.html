@@ -1,8 +1,6 @@
 <form class="signupform" action="/newuserform{% if next %}?next={{next}}{% endif %}" method="post">
 	  {% csrf_token %}
-	  {% if checkout_verify %}
-	  	<input type="hidden" value="true" name="checkoutsignin">
-	  {% endif %}
+	  <input type="hidden" value="{% if checkout_verify %}true{% else %}false{% endif %}" name="checkout_signup">
 	  <div class="form-group">
 		<label id="label-name">Name *</label>
 		<table>

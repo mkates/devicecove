@@ -272,15 +272,15 @@ function addError(handle) {
 		<h4 class="maincontent-title">Addresses</h4>
 		<div id="payment-address-container" class="addressbox">
 			<div class="payment-address-div row">
-				{% for address in user.basicuser.useraddress_set.all %}
+				{% for address in user.basicuser.address_set.all %}
 				<div class="col-md-6 col-sm-6 col-xs-12">
 					<div class="address-box">
 						<p>{{address.name}}</p>
 						<p>{{address.address_one}}</p>
 						{% if address.address_two %}<p>{{address.address_two}}</p>{% endif %}
-						<p>{{address.city}}, {{address.state}} {{address.zipcode}}</p>
+						<p>{{address.city}}, {{address.state}} {{address.zipcode|zipcodify}}</p>
 						<p>{{address.phonenumber|phonenumber}}</p>
-						{% if user.basicuser.payout_method == 'check' and user.basicuser.check_address == address %}
+						{% if user.basicuser.payout_method.checkaddress and user.basicuser.payout_method.checkaddress.address == address %}
 						<p id="default-address">This is your default payout mailing address. You can update your <a href="/account/payment">payment preferences here</a></p>
 						{% else %}
 						<form action="/account/deletemailingaddress/{{address.id}}" method="POST">

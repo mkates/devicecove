@@ -229,7 +229,11 @@ def savelogistics(request,itemid):
 			item.shippingincluded = True if request.POST.get('shippingincluded','True') == 'True' else False
 			item.offlineviewing = True if request.POST.get('offlineviewing','True') == 'True' else False
 			price = request.POST.get('inputlistprice','0')
-			item.price = int(round(float(price.replace(",","").replace("$","0")),2)*100)
+			new_price = int(round(float(price.replace(",","").replace("$","0")),2)*100)
+			if item.price and item.price != new_price and item.liststatus == "active":
+				pc = PriceChange(item=item,original_price=item.price,new_price=new_price)
+				pc.save()
+			item.price = new_price
 			msrp_price = request.POST.get('inputmsrpprice','0')
 			item.msrp_price = int(round(float(msrp_price.replace(",","").replace("$","0")),2)*100)
 			item.save()
@@ -309,7 +313,7 @@ def itemdetails(request,itemid):
 			item.save()
 		if BuyAuthorization.objects.filter(seller=item.user,item=item,buyer=bu).exists():
 			authorized = True
-	related = Item.objects.filter(subcategory = item.subcategory).order_by('savedcount')[:6]
+	related = Item.objects.filter(subcategory = item.subcategory).filter(liststatus='active').order_by('views')[:9]
 	dict = {'saved':saved,'item':item,'industry':industry,'related':related,'authorized':authorized}
 	#Is the item in their shopping cart?
 	isInShoppingCart = False

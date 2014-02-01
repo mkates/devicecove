@@ -109,7 +109,7 @@
 					</div>
 					<div class="item-information col-md-7 col-sm-7 col-xs-12">
 						<h6><a href="/item/{{cartitem.item.id}}/details">{{cartitem.item.name}}</a></h6>
-						<p>Sold by: {{cartitem.item.user.company}} ({{cartitem.item.user.city}}, {{cartitem.item.user.state}} {{cartitem.item.user.zipcode}})</p>
+						<p>Sold by: {{cartitem.item.user.company}} </p>
 						{% if cartitem.item.liststatus == "active" %}
 						<p class="item-quantity">Quantity: <span class="quantity">
 								{% load get_range %}

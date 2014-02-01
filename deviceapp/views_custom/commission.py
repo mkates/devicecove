@@ -35,6 +35,10 @@ def commissionSavings(item):
 def originalCommission(item):
 	return int(item.price*commissionPercentage(item.price))
 
+######## CC Fee for an Online Purchase ########################
+def ccFee(purchaseditem):
+	return (purchaseditem.total-purchaseditemCommission(purchaseditem))*.97
+	
 ######## Get commission of an item ########################	
 def commission(item):
 	if not item.promo_code:
@@ -44,7 +48,6 @@ def commission(item):
 	elif item.promo_code.promo_type == 'discount':
 		return int(max(0,item.price*commissionPercentage(item.price)-item.promo_code.discount))
 	return int(item.price*commissionPercentage(item.price))
-
 
 # I create an object because it is easier to only have one template for emails
 # and i want the no_payment_email to mimic the payment_sent_emails

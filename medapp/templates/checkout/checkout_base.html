@@ -360,7 +360,7 @@ var addError = function addError(handle) {
 						<p>{{checkout.shipping_address.name}}</p>
 						<p>{{checkout.shipping_address.address_one}}</p>
 						{% if checkout.shipping_address.address_two %}<p>{{checkout.shipping_address.address_two}}</p>{% endif %}
-						<p>{{checkout.shipping_address.city}}, {{checkout.shipping_address.state}} {{checkout.shipping_address.zipcode}}</span>
+						<p>{{checkout.shipping_address.city}}, {{checkout.shipping_address.state}} {{checkout.shipping_address.zipcode|zipcodify}}</span>
 						<p>{{checkout.shipping_address.phonenumber|phonenumber}}</p>
 						{% else %}
 						<p class="incomplete-data">Shipping Address has not yet been added</p>
@@ -369,16 +369,16 @@ var addError = function addError(handle) {
 					
 					<div class="summary-block">
 						<h5>Payment Information</h5>
-						{% if checkout.payment_method == 'card' %}
+						{% if checkout.payment.balancedcard %}
 						<p class="strong">Debit / Credit Card</p>
-						<p>{{checkout.cc_payment.brand}}</p>
-						<p>********{{checkout.cc_payment.last_four}}</p>
-						<p>Expires: {{checkout.cc_payment.expiration_month}}/{{checkout.cc_payment.expiration_year}}</p>
-						{% elif checkout.payment_method == 'bank' %}
+						<p>{{checkout.payment.balancedcard.brand}}</p>
+						<p>********{{checkout.payment.balancedcard.last_four}}</p>
+						<p>Expires: {{checkout.payment.balancedcard.expiration_month}}/{{checkout.payment.balancedcard.expiration_year}}</p>
+						{% elif checkout.payment.balancedbankaccount %}
 						<p class="strong">Bank Account</p>
-						<p>{{checkout.ba_payment.name}}</p>
-						<p>{{checkout.ba_payment.bank_name}}</p>
-						<p>{{checkout.ba_payment.account_number}}</p>
+						<p>{{checkout.payment.balancedbankaccount.name}}</p>
+						<p>{{checkout.payment.balancedbankaccount.bank_name}}</p>
+						<p>{{checkout.payment.balancedbankaccount.account_number}}</p>
 						{% else %}
 						<p class="incomplete-data">Payment Information has not yet been entered</p>
 						{% endif %}

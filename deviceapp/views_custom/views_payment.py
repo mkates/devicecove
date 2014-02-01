@@ -40,18 +40,13 @@ def addBalancedCard(request):
 			customer = balanced.Customer(name=bu.name,email=bu.email,phone=bu.phonenumber).save()
 			bu.balanceduri = customer.uri
 			bu.save()
-		print customer
 		# If card not already saved, add the card to the customer and add the card to the database
 		if not doesCardExist(bu,cardhash):
 			customer.add_card(uri)
 			new_card = BalancedCard(user=bu,uri=uri,brand=brand,cardhash=cardhash,expiration_month=expiration_month,expiration_year=expiration_year,last_four=last_four)
 			new_card.save()
-			# If it's the only credit card, set is as the default
-			if not bu.default_payment_cc:
-				bu.default_payment_cc = new_card
-				#If no payment method is set, make it the payment method
-				if bu.payment_method == 'none':
-					bu.payment_method = 'card'
+			if not bu.payment_method:
+				bu.payment_method = new_card
 				bu.save()
 			return {'status':201,'card':new_card,'error':'None','balanceduri':bu.balanceduri} # Success
 		return {'status':500,'error':'Card Already Saved'} # Card Already Saved
@@ -59,38 +54,18 @@ def addBalancedCard(request):
 		print e
 		return {'status':500,'error':e} # Failure
 
-#Helper method to see if the card hash already exists
+# Helper method to see if the card hash already exists
 @login_required
 def doesCardExist(bu,hash):
-	cards = bu.balancedcard_set.all();
-	for card in cards:
-		if card.cardhash == hash:
-			return True
+	payments = bu.payment_set.all()
+	for payment in payments:
+		try: #Try block because payment could not be a balancedcard
+			if payment.balancedcard and payment.balancedcard.cardhash == hash:
+				return True
+		except:
+			i = 1 #Dummy variable
 	return False	
-	
-######## Deleting a Credit Card ############################
-# Removes all references to the BU, but card remains to view in things like
-# purchase history
-@login_required
-def deleteBalancedCard(request,bc):
-	bu = request.user.basicuser
-	# Delete the card from Balanced.com
-	balanced.configure(settings.BALANCED_API_KEY)
-	card = balanced.Card.find(bc.card_uri)
-	card.unstore()
-	#Remove reference to basic user 
-	bc.user = None
-	bc.save()
-	bu.default_cc = None
-	bu.save()
-	#Make another card the default
-	other_cards = bu.balancedcard_set.all()
-	if other_cards:
-		bu.default_cc = other_cards[0]
-		bu.save()
-	return 201
-	
-	
+		
 ##########################################################
 ######## Bank Accounts  ##################################
 ##########################################################
@@ -107,18 +82,6 @@ def addBalancedBankAccount(request):
 	if not doesBankAccountExist(bu,fingerprint):
 		bankaccount = BalancedBankAccount(user=bu,name=name,uri=uri,fingerprint=fingerprint,bank_name=bank_name,bank_code=bank_code,account_number=account_number)
 		bankaccount.save()
-		#If no bank accounts, make it the default
-		if bu.default_payout_ba == None:
-			bu.default_payout_ba = bankaccount
-		if bu.default_payment_ba == None:
-			bu.default_payment_ba = bankaccount
-		#If no payment method is set, make it the payment method
-		if bu.payment_method == 'none':
-			bu.payment_method = 'bank'
-		if bu.payout_method == 'none':
-			bu.payout_method = 'bank'
-			email_view.composeEmailPayoutUpdated(bu)
-		bu.save()
 		# See if user has a balanced account
 		balanced.configure(settings.BALANCED_API_KEY)
 		if bu.balanceduri:
@@ -136,6 +99,12 @@ def addBalancedBankAccount(request):
 			verification = bank_account.verify()
 			if verification.confirm(1, 1).state != 'verified':
 				return {'status':500,'bank':bankaccount,'error':'Unable to verify the bank account'}
+			if not bu.payment_method:
+				bu.payment_method = bankaccount
+			if not bu.payout_method:
+				bu.payout_method = bankaccount
+				email_view.composeEmailPayoutUpdated(bu)
+			bu.save()
 			return {'status':201,'bank':bankaccount,'error':'None','balanceduri':bu.balanceduri}
 		except Exception,e:
 			return {'status':500,'bank':bankaccount,'error':e}
@@ -144,118 +113,80 @@ def addBalancedBankAccount(request):
 #Helper method to see if the card hash already exists
 @login_required
 def doesBankAccountExist(bu,fingerprint):
-	bas = bu.balancedbankaccount_set.all();
-	for ba in bas:
-		if ba.fingerprint == fingerprint:
-			return True
+	payments = bu.payment_set.all()
+	for payment in payments:
+		try: #Try block because payment could not be a balancedcard
+			if payment.balancedbankaccount and payment.balancedbankccount.fingerprint == fingerprint:
+				return True
+		except:
+			i = 1 #Dummy variable
 	return False
-		
-@login_required
-def makeDefaultBankAccount(bu,ba_object):
-	bu.default_payout_ba = ba_object
-	bu.save()
-	return
-	
 
 ##########################################################
 ######## Payment Preferences##############################
 ##########################################################
 
 @login_required
-def makeDefaultPayment(request,type,id):
-	if type == 'card' and request.method=="POST":
-		card = BalancedCard.objects.get(id=id)
-		bu = request.user.basicuser
-		# Security Check
-		if card.user == bu:
-			bu.payment_method = 'card';
-			bu.default_payment_cc = card
-			bu.save() 
-	elif type == 'bank' and request.method=="POST":
-		bank = BalancedBankAccount.objects.get(id=id)
-		bu = request.user.basicuser
-		# Security Check
-		if bank.user == bu:
-			bu.payment_method = 'bank';
-			bu.default_payment_ba = bank
-			bu.save() 
-	return HttpResponseRedirect('/account/payment')
-
-@login_required
-def makeDefaultPayout(request,type,id):	
-	if type == 'bank' and request.method=="POST":
-		bank = BalancedBankAccount.objects.get(id=id)
-		bu = request.user.basicuser
-		# Security Check
-		if bank.user == bu:
-			bu.payout_method = 'bank';
-			bu.default_payout_ba = bank
-			bu.save() 
-			email_view.composeEmailPayoutUpdated(bu)
-	return HttpResponseRedirect('/account/payment')
-
-
-@login_required
-def accountDeletePayment(request,type,id):
-	dp = deletePayment(request,type,id)
-	if dp['status'] == 201:
-		return HttpResponseRedirect('/account/payment')
-		
-@login_required
-def deletePayment(request,type,id):	
-	if type == 'card' and request.method=="POST":
-		card = BalancedCard.objects.get(id=id)
-		bu = request.user.basicuser
-		# Security Check
-		if card.user == bu:
-			# First check if its the default
-			if bu.default_payment_cc == card:
-				# Are there other cards?, make one of them the default
-				cards = request.user.basicuser.balancedcard_set.exclude(id=card.id)
-				if cards:
-					bu.default_payment_cc = cards[0]
-				else: #No other cards, must check default payment, maybe reset it
-					bu.default_payment_cc = None
-					if bu.payment_method == 'card':
-						if bu.default_payment_ba:
-							bu.payment_method = 'bank'
-						else:
-							bu.payment_method = 'none'
-			bu.save()
-			card.user = None
-			card.save()
-	elif type == 'bank' and request.method=="POST":
-		bank = BalancedBankAccount.objects.get(id=id)
-		bu = request.user.basicuser
-		# Security Check
-		if bank.user == bu:
-			# First check if its the default
-			if bu.default_payment_ba == bank:
-				# Are there other bank accounts?, make one of them the default payment
-				accounts = request.user.basicuser.balancedbankaccount_set.exclude(id=bank.id)
-				if accounts:
-					bu.default_payment_ba = accounts[0]
-				else: #No other bank accounts, must check default payment maybe reset it
-					bu.default_payment_ba = None
-					if bu.payment_method == 'bank':
-						if bu.default_payment_cc:
-							bu.payment_method = 'card'
-						else:
-							bu.payment_method = 'none'
-			if bu.default_payout_ba == bank:
-				# Are there other bank accounts?, make one of them the default payout
-				accounts = request.user.basicuser.balancedbankaccount_set.exclude(id=bank.id)
-				if accounts:
-					bu.default_payout_ba = accounts[0]
-				else: # No other bank accounts, must check default payment, maybe reset it
-					bu.default_payout_ba = None
-					if bu.payout_method == 'bank':
-						bu.payout_method = 'none'
+def makeDefaultPayment(request,id):
+	payment = Payment.objects.get(id=id)
+	bu = request.user.basicuser
+	if payment.user == bu and request.method=="POST":
+		bu.payment_method = payment
 		bu.save()
-		bank.user = None
-		bank.save()
-	return {'status':201}
+	return HttpResponseRedirect('/account/payment')
+
+@login_required
+def makeDefaultPayout(request,id):	
+	payment = Payment.objects.get(id=id)
+	bu = request.user.basicuser
+	if payment.user == bu and request.method=="POST":
+		bu.payout_method = payment
+		bu.save()
+	return HttpResponseRedirect('/account/payment')
+
+##### Gets all the payment objects of that type ####
+def paymentObjectsOfType(bu,type):
+	payments = bu.payment_set.all()
+	p = []
+	for payment in payments:
+		if hasattr(payment,type):
+			p.append(payment)
+	return p
 	
+	
+@login_required
+def accountDeletePayment(request,id):
+	deletePayment(request,id)
+	return HttpResponseRedirect('/account/payment')		
+
+@login_required
+def deletePayment(request,id):
+	payment = Payment.objects.get(id=id)
+	bu = request.user.basicuser
+	if payment.user == bu and request.method=="POST":
+		payment.user = None
+		payment.save()
+		if bu.payment_method == payment:
+			if paymentObjectsOfType(bu,'balancedcard'):
+				bu.payment_method = paymentObjectsOfType(bu,'balancedcard')[0]
+			elif paymentObjectsOfType(bu,'balancedbankaccount'):
+				bu.payment_method = paymentObjectsOfType(bu,'balancedbankaccount')[0]
+			else:
+				bu.payment_method = None
+			bu.save()
+		if bu.payout_method == payment:
+			if paymentObjectsOfType(bu,'balancedbankaccount'):
+				bu.payout_method = paymentObjectsOfType(bu,'balancedbankaccount')[0]
+			elif paymentObjectsOfType(bu,'balancedcheckaddress'):
+				bu.payout_method = paymentObjectsOfType(bu,'balancedcheckaddress')[0]
+			else:
+				bu.payout_method = None
+			bu.save()
+	if hasattr(payment,'checkaddress'):
+		payment.checkaddress.address.user = None
+		payment.checkaddress.address.save()
+	return 201
+		
 ##########################################################
 ######## Update Address ##################################
 ##########################################################
@@ -264,7 +195,7 @@ def deletePayment(request,type,id):
 @login_required
 def addMailingAddress(request):
 	if request.method == "POST":
-		bu = BasicUser.objects.get(user=request.user)
+		bu = request.user.basicuser
 		name = request.POST['name']
 		address_one = request.POST['address_one']
 		address_two = request.POST.get('address_two','')
@@ -272,11 +203,13 @@ def addMailingAddress(request):
 		state = request.POST['state']
 		zipcode = request.POST['zipcode']
 		phonenumber = int(re.sub("[^0-9]", "",request.POST.get("phonenumber","")))
-		useraddress = UserAddress(user=bu,name=name,address_one=address_one,address_two=address_two,city=city,state=state,zipcode=zipcode,phonenumber=phonenumber)
+		useraddress = Address(user=bu,name=name,address_one=address_one,address_two=address_two,city=city,state=state,zipcode=zipcode,phonenumber=phonenumber)
 		useraddress.save()
+		#Every new mailing address is payout address object as well
+		new_payment = CheckAddress(user=bu,address=useraddress)
+		new_payment.save()
 		if request.POST.get('payment',''):
-			bu.payout_method = 'check'
-			bu.check_address = useraddress
+			bu.payout_method = new_payment
 			bu.save()
 			return HttpResponseRedirect('/account/payment')
 		else:
@@ -284,44 +217,28 @@ def addMailingAddress(request):
 	return HttpResponseRedirect('/account/profile')
 	
 @login_required
-def setMailingAddress(request,addressid):
-	address = UserAddress.objects.get(id=addressid)
-	bu = BasicUser.objects.get(user=request.user)
-	if request.method == "POST" and address.user == bu:
-		bu.check_address = address
-		bu.payout_method = 'check'
-		bu.save()
-	email_view.composeEmailPayoutUpdated(bu)
-	return HttpResponseRedirect('/account/payment')
-	
-@login_required
 def deleteMailingAddress(request,addressid):
-	address = UserAddress.objects.get(id=addressid)
-	bu = BasicUser.objects.get(user=request.user)
-	if request.method == "POST" and address.user == bu:
-		if bu.check_address == address: #If its the default mailing address
-			addresses = request.user.basicuser.useraddress_set.exclude(id=address.id)
-			if addresses:
-				bu.check_address = addresses[0]
-			else:
-				bu.check_address = None
-				if bu.payout_method == 'check':
-					if bu.default_payout_ba:
-						bu.payout_method = 'bank'
-					else:
-						bu.payout_method = 'none'
-		bu.save()
-		address.user = None
-		address.save()
+	address = Address.objects.get(id=addressid)
+	if request.method == "POST" and address.user == request.user.basicuser:
+		deleteAddress(request,address)
 		if request.POST.get('profile',''):
 			return HttpResponseRedirect('/account/profile')
-		return HttpResponseRedirect('/account/payment')
 	return HttpResponseRedirect('/account/payment')
 	
-	
-	
-	
-	
+# Generic function to delete address, which also removes the payout objects
+def deleteAddress(request,address):
+	bu = request.user.basicuser
+	for ca in CheckAddress.objects.filter(user=bu,address=address):
+		if hasattr(bu.payout_method,'checkaddress'):
+			if bu.payout_method.checkaddress.address != address: # only continue if not the payout address
+				ca.user = None
+				ca.save()
+		else:
+			ca.user = None
+			ca.save()
+	address.user = None
+	address.save()
+	return
 	
 		
 		

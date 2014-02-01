@@ -101,3 +101,7 @@
 	height: 22px;
 	text-decoration: none;
 }
+.thin {
+	font-weight: 200;
+	color: #aaa
+}

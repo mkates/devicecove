@@ -139,7 +139,7 @@ $(document).ready(function() {
 						</div>
 						<div class="item-information col-md-7 col-sm-7 col-xs-12">
 							<h6><a target="_blank" href="/item/{{checkoutcartitem.item.id}}/details">{{checkoutcartitem.item.name}}</a></h6>
-							<p>Sold by: {{checkoutcartitem.item.user.company}} ({{checkoutcartitem.item.user.city}}, {{checkoutcartitem.item.user.state}} {{checkoutcartitem.item.user.zipcode}})</p>
+							<p>Sold by: {{checkoutcartitem.item.user.company}} </p>
 							<p class="item-quantity">Quantity: <span class="quantity">
 									{% load get_range %}
 									{% if checkoutcartitem.item.quantity > 1 %}
@@ -200,18 +200,18 @@ $(document).ready(function() {
 			</div>
 			<div class="review-block review-block-billing col-md-6 col-sm-6 col-xs-12">
 				<h4>Billing Information<a href="/checkout/payment/{{checkout.id}}" class="change">change</a></h4>
-				{% if checkout.payment_method == 'card' %}
-					<p>Debit / Credit Card</p>
-					<p>{{checkout.cc_payment.brand}} Card</p>
-					<p>* * * * * * * * {{checkout.cc_payment.last_four}}</p>
-					<p>Expires: {{checkout.cc_payment.expiration_month}}/{{checkout.cc_payment.expiration_year}}</p>
-				{% elif checkout.payment_method == 'bank' %}
-					<p>Bank Account</p>
-					<p>{{checkout.ba_payment.name}}</p>
-					<p>{{checkout.ba_payment.bank_name}}</p>
-					<p>{{checkout.ba_payment.account_number}}</p>
+				{% if checkout.payment.balancedcard %}
+				<p class="strong">Debit / Credit Card</p>
+				<p>{{checkout.payment.balancedcard.brand}}</p>
+				<p>********{{checkout.payment.balancedcard.last_four}}</p>
+				<p>Expires: {{checkout.payment.balancedcard.expiration_month}}/{{checkout.payment.balancedcard.expiration_year}}</p>
+				{% elif checkout.payment.balancedbankaccount %}
+				<p class="strong">Bank Account</p>
+				<p>{{checkout.payment.balancedbankaccount.name}}</p>
+				<p>{{checkout.payment.balancedbankaccount.bank_name}}</p>
+				<p>{{checkout.payment.balancedbankaccount.account_number}}</p>
 				{% else %}
-					<p class="incomplete-data">Payment Information has not yet been entered</p>
+				<p class="incomplete-data">Payment Information has not yet been entered</p>
 				{% endif %}
 			</div>
 		</div>

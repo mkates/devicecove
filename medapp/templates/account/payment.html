@@ -62,7 +62,7 @@ $(document).ready(function() {
 		$(".payment-address-new-form").css('display','block');
 	});
 	
-	$('.mailchecks').prop('checked',{% if user.basicuser.payout_method == 'check' %}true{%else%}false{% endif %});
+	$('.mailchecks').prop('checked',{% if user.basicuser.payout_method.checkaddress %}true{%else%}false{% endif %});
 	$('.mailchecks').click(function() {
 		if ($(this).is(':checked')) {
 			$('#payment-address-container').css('display','block');
@@ -180,6 +180,7 @@ $(document).ready(function() {
 {% endblock %}
 {% block maincontent %}
 {% load phonenumber %}
+{% load zipcodify %}
 	<div class="covebox paymentbox-container">
 		<h4 class="maincontent-title">Paying Out and Receiving Payments<img class="balanced-image" src="{{STATIC_URL}}img/balanced-image.png"/></h4>
 		{% if user.basicuser.payout_method == 'none' %}
@@ -195,44 +196,71 @@ $(document).ready(function() {
 				<h5>Payments on VetCove</h5>
 				<p>On VetCove, you can buy items with a credit card or a bank account. To receive payments as a seller,
 				you can receive a check by mail or we can make a direct deposit right into your bank account.</p>	
-				<h5>Receiving Payment Method: <strong>{{user.basicuser.get_payout_method_display}}</strong></h5>
+				<h5>Receiving Payment Method: 
+					<strong>
+					{% if user.basicuser.payout_method.checkaddress %}
+						Check By Mail
+					{% elif  user.basicuser.payout_method.balancedbankaccount %}
+						Direct Deposit to Bank Account
+					{% else %}
+					 	No Payout Method Set
+					{% endif %}
+					</strong>
+				</h5>
 				<div class="payment-address">	
 					<form class="address-toggle">
 						<div class="checkbox">
 							<label>
-								<input class="mailchecks" type="checkbox" {% if user.basicuser.payout_method == 'check' %}checked{% endif %}> I'd rather receive payments from sales via check by mail
+								<input class="mailchecks" type="checkbox" {% if user.basicuser.payout_method.checkaddress %}checked="checked"{% endif %}> I'd rather receive payments from sales via check by mail
 							</label>
 						</div>
 					</form>	
-					<div id="payment-address-container" class="{% if user.basicuser.payout_method != 'check' %}hide-div{% endif %}">
-						<div class="payment-address-div row">
-							{% for address in user.basicuser.useraddress_set.all %}
-							<div class="col-md-6 col-sm-6 col-xs-12">
-								<div class="address-box">
-									<p>{{address.name}}</p>
-									<p>{{address.address_one}}</p>
-									{% if address.address_two %}<p>{{address.address_two}}</p>{% endif %}
-									<p>{{address.city}}, {{address.state}} {{address.zipcode}}</p>
-									<p>{{address.phonenumber|phonenumber}}</p>
-									{% if user.basicuser.check_address == address and user.basicuser.payout_method == 'check'%}
-									<button class="button button-tiny button-rounded button-highlight">Current Mailing Address</button>
+					<div id="payment-address-container" class="{% if not user.basicuser.payout_method.checkaddress %}hide-div{% endif %}">
+					
+						{% for payment in user.basicuser.payment_set.all %}
+							{% if payment.checkaddress %} 
+								<div class="payment-method">
+									<div class="row payment-description">
+										<div class="payment-type col-md-8 col-sm-8 col-xs-12">
+											<p><span>Check By Direct Mail</span><p>
+										</div>
+										<div class="payment-info col-md-4 col-sm-4 col-xs-12">
+											<p>{{payment.checkaddress.address.name}}
+											<p>{{payment.checkaddress.address.address_one}}</p>
+											{% if payment.checkaddress.address.address_two %}<p>{{payment.checkaddress.address.address_two}}</p>{% endif %}
+											<p>{{payment.checkaddress.address.city}}, {{payment.checkaddress.address.state}} {{payment.checkaddress.address.zipcode|zipcodify}}</p>
+											<p>{{payment.checkaddress.address.phonenumber|phonenumber}}</p>
+										</div>
+									</div>
+									{% if not gate %}
+									<div class="row payment-actions">
+										{% if user.basicuser.payout_method == payment %}	
+											<button class="button button-rounded button-tiny button-primary">Payouts will be sent to this address</button>
+										{% else %}
+											<form action="/account/makedefaultpayout/{{payment.id}}" method="POST">
+												{% csrf_token %}
+												<button value="submit" name="submit" class="button button-rounded button-tiny">Send payouts to this address</button>
+											</form>
+										{% endif %}
+										</form>
+										<form action="/account/deletepayment/{{payment.id}}" method="POST">
+											{% csrf_token %}
+											<button value="submit" name="submit" class="button button-rounded button-tiny">Delete this Address</button>
+										</form>
+									</div>
 									{% else %}
-									<form action="/account/setmailingaddress/{{address.id}}" method="POST">
-										{% csrf_token %}
-										<button class="button button-tiny button-rounded">Set as Mailing Address</button>
-									</form>
+										<form class="gateform" action="/gatepayment/bank/{{payment.balancedbankaccount.id}}/{{item.id}}" method="POST">
+											{% csrf_token %}
+											<button value="submit" name="submit" class="use-payment-button button button-rounded button-action button-tiny">Pay With This Bank Account</button>
+										</form>
 									{% endif %}
-									<form action="/account/deletemailingaddress/{{address.id}}" method="POST">
-										{% csrf_token %}
-										<button class="button button-tiny button-rounded">Delete Address</button>
-									</form>
 								</div>
-							</div>
-							{% endfor %}
-						</div>
+							{% endif %}
+						{% endfor %}
+
 						<div class="row payment-address-new-button">
 							<div class="col-md-12 col-sm-12 col-xs-12">
-								<button class="button button-tiny button-rounded">{% if user.basicuser.useraddress_set.all %}or {% endif %}Enter a New Mailing Address</button>
+								<button class="button button-tiny button-rounded">{% if user.basicuser.address_set.all %}or {% endif %}Enter a New Mailing Address</button>
 							</div>
 						</div>
 						<div class="row payment-address-new-form">

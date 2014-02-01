@@ -35,9 +35,9 @@
 		
 				</h6>
 				{% load multiply %}
-				<h4><a>Location<span>{% if item.user.city %}{{item.user.city}}, {{item.user.state}}{% else %}(Zipcode: {{item.user.zipcode}}){%endif %}{% if item.distance or item.distance == 0%}{% if item.distance != -1 %} ( ~{{item.distance |intcomma}} miles away ){% endif %}{% endif %}</span></a></h4>
-				<h4><a>List Date<span>{{item.listeddate}}</span></a></h4>
-				<h4><a>Percent off MSRP<span>{{ item.price|dividepercent:item.msrp_price }}</span></a></h4>
+				<h4><a>Percent off MSRP<span><strong>{{ item.price|dividepercent:item.msrp_price }}</strong></span></a></h4>
+				<h4><a>Location<span>{% if item.user.city %}{{item.user.city}}, {{item.user.state}}{% else %}Zipcode: {{item.user.zipcode}}{%endif %}{% if item.distance or item.distance == 0%}{% if item.distance != -1 %} ( ~{{item.distance |intcomma}} miles away ){% endif %}{% endif %}</span></a></h4>
+				<h4><a>List Date<span>{{item.creation_date}}</span></a></h4>
 				<div class='buttondiv'>
 					<button class='btn-custom-gray infobutton detailsbutton' data-ref="#moredetails_{{item.id}}">Details</button>
 					<button class='btn-custom-gray infobutton specsbutton' data-ref="#quickfacts_{{item.id}}">Quick Facts</button>
@@ -66,14 +66,22 @@
 		</div>
 	</div>
 	<div id="moredetails_{{item.id}}" class='detailsdiv previewdiv row'>
-		<p>{{ item.productdescription }}</p>
+		{% if item.productdescription %}
+			<p>{{ item.productdescription }}</p>
+		{% else %}
+			<p class="thin">The seller has not provided a product description for this item</p>
+		{% endif %}
 		<div class='morediv'>
 			<a href="/item/{{item.id}}/details"> Show all product specifications &#8594;</a>
 			<button class='btn-custom-gray closebutton'>Close</button>
 		</div>
 	</div>
 	<div id="morecondition_{{item.id}}" class='conditiondiv previewdiv row'>
-		<p>{{ item.conditiondescription }}</p>
+		{% if item.conditiondescription %}
+			<p>{{ item.conditiondescription }}</p>
+		{% else %}
+			<p class="thin">The seller has not provided a condition description for this item</p>
+		{% endif %}
 		<div class='morediv'>
 			<a href="/item/{{item.id}}/details"> Show all product specifications &#8594;</a>
 			<button class='btn-custom-gray closebutton'>Close</button>

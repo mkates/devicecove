@@ -86,44 +86,45 @@
 	<div class="row">
 		<div class="checkoutcol col-md-6 col-sm-6 col-xs-12">
 			<h4>Saved Payment Options</h4>
-			{% if user.basicuser.balancedcard_set.all or user.basicuser.balancedbankaccount_set.all %}
-				{% for payment in user.basicuser.balancedcard_set.all %}
+			{% for payment in user.basicuser.payment_set.all %}
+				{% if payment.balancedcard %}
 				<div class="information-block">
 					<h5>Credit / Debit Card</h5>
-					<p><span>Company: </span>{{payment.brand}}</p>
-					<p><span>Card: </span> * * * * * * * * {{payment.last_four}}</p>
-					<p><span>Expires On: </span>{{payment.expiration_month}}/{{payment.expiration_year}}</p>
-					<form action="/checkout/usepayment/card/{{checkout.id}}/{{payment.id}}" method="POST">
+					<p><span>Company: </span>{{payment.balancedcard.brand}}</p>
+					<p><span>Card: </span> * * * * * * * * {{payment.balancedcard.last_four}}</p>
+					<p><span>Expires On: </span>{{payment.balancedcard.expiration_month}}/{{payment.balancedcard.expiration_year}}</p>
+					<form action="/checkout/usepayment/{{checkout.id}}/{{payment.id}}" method="POST">
 					{% csrf_token %}
 					<button class="information-select button button-action button-rounded" value="submit">Use This Card</button>
 					</form>
-					<form action="/checkout/deletepayment/card/{{checkout.id}}/{{payment.id}}" method="POST">
+					<form action="/checkout/deletepayment/{{checkout.id}}/{{payment.id}}" method="POST">
 					{% csrf_token %}
 					<input type="hidden" value="{{checkout.id}}" name="checkout_id">
-					<input type="hidden" value="{{payment.id}}" name="payment_id">
+					<input type="hidden" value="{{payment.balancedcard.id}}" name="payment_id">
 					<button value="submit" class="deletepayment button button-rounded button-tiny" value="submit">Delete</button>	
 					</form>
 				</div>
-				{% endfor %}
-				{% for ba in user.basicuser.balancedbankaccount_set.all %}
+				{% endif %}
+				{% if payment.balancedbankaccount %}
 				<div class="information-block">
 					<h5>Bank Account</h5>
-					<p><span>Name: </span>{{ba.name}}</p>
-					<p><span>Bank: </span>{{ba.bank_name}}</p>
-					<p><span>Account: </span>{{ba.account_number}}</p>
-					<form action="/checkout/usepayment/bank/{{checkout.id}}/{{ba.id}}" method="POST">
+					<p><span>Name: </span>{{payment.balancedbankaccount.name}}</p>
+					<p><span>Bank: </span>{{payment.balancedbankaccount.bank_name}}</p>
+					<p><span>Account: </span>{{payment.balancedbankaccount.account_number}}</p>
+					<form action="/checkout/usepayment/{{checkout.id}}/{{payment.id}}" method="POST">
 					{% csrf_token %}
 					<button class="information-select button button-action button-rounded" value="submit">Use This Card</button>
 					</form>
-					<form action="/checkout/deletepayment/bank/{{checkout.id}}/{{ba.id}}" method="POST">
+					<form action="/checkout/deletepayment/{{checkout.id}}/{{payment.id}}" method="POST">
 					{% csrf_token %}
 					<input type="hidden" value="{{checkout.id}}" name="checkout_id">
 					<input type="hidden" value="{{payment.id}}" name="payment_id">
 					<button value="submit" class="deletepayment button button-rounded button-tiny" value="submit">Delete</button>	
 					</form>
 				</div>
-				{% endfor %}
-			{% else %}
+				{% endif %}
+			{% endfor %}
+			{% if not payment_methods %}
 				<p class="none-saved"> You do not currently have any saved payment methods </p>
 			{% endif %}
 		</div>

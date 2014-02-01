@@ -10,6 +10,7 @@ from django.utils.html import escape
 from django.shortcuts import render
 from django.core.exceptions import ObjectDoesNotExist
 from django.conf import settings
+import commission as commission
 import json
 import math
 import difflib
@@ -57,36 +58,52 @@ def error(request,errorname):
 	return render_to_response('general/error.html',{'errormessage':errormessage},context_instance=RequestContext(request))
 
 @login_required
+def adminOverviewForward(request):
+	return HttpResponseRedirect('/admin/overview/dashboard')
+	
+@login_required
 def adminOverview(request,type):
 	if request.user.is_staff and request.user.is_authenticated():
 		dict = {}
 		if type == 'dashboard':
+			# Get relevant objects
 			pi = PurchasedItem.objects.all()
 			users = BasicUser.objects.all().count()
 			active_items = Item.objects.filter(liststatus="active").count()
-			checkouts = pi.count()
-			items_sold = 0
-			amount_sold = 0
-			for p in pi:
-				items_sold += p.quantity
-				amount_sold += p.quantity*p.unit_price
+			checkouts = Checkout.objects.filter(purchased=True).count()
 			bp = BankPayout.objects.all()
 			cp = CheckPayout.objects.all()
+			
+			total_amount_charged = 0
+			number_items_sold = 0
+			online_commission_revenue = 0
+			for p in pi:
+				total_amount_charged += p.quantity*p.unit_price
+				number_items_sold += p.quantity
+				if not p.cartitem.item.commission_paid:
+					online_commission_revenue += commission.purchaseditemCommission(p)
+
 			offline_commission_revenue = 0
-			total_revenue = 0
 			total_paidout = 0
+			total_ccfee_revenue = 0
 			for b in bp:
-				total_revenue += b.total_commission+b.cc_fee
 				total_paidout += b.amount
+				total_ccfee_revenue += b.cc_fee
 			for c in cp:
-				total_revenue += c.total_commission+c.cc_fee
 				total_paidout += c.amount
+				total_ccfee_revenue += c.cc_fee
 			for comm in Commission.objects.all():
-				total_revenue += comm.amount
 				offline_commission_revenue += comm.amount
-			dict = {'dashboard':True,'users':users,'checkouts':checkouts,'items_sold':items_sold,
-			'offline_commission_revenue':offline_commission_revenue,'amount_sold':amount_sold,
-			'total_revenue':total_revenue,'total_paidout':total_paidout,'active_items':active_items}
+				
+			total_commission_revenue = online_commission_revenue + offline_commission_revenue
+			tobepaidout = total_amount_charged-total_paidout-total_commission_revenue-total_ccfee_revenue
+			total_revenue = total_commission_revenue+total_ccfee_revenue
+			dict = {'dashboard':True,'users':users,'checkouts':checkouts,'items_sold':number_items_sold,
+			'offline_commission_revenue':offline_commission_revenue,'amount_sold':total_amount_charged,
+			'total_paidout':total_paidout,'active_items':active_items, 'tobepaidout':tobepaidout,
+			'online_commission_revenue':online_commission_revenue,
+			'total_commission_revenue':total_commission_revenue,
+			'total_revenue':total_revenue}
 		elif type == 'purchaseditem':
 			dict['purchaseditems'] = PurchasedItem.objects.all()
 		elif type == 'bankpayout':
