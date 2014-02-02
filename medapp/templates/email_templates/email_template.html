@@ -636,6 +636,7 @@
     </head>
     <body leftmargin="0" marginwidth="0" topmargin="0" marginheight="0" offset="0" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;margin: 0;padding: 0;background-color: #DEE0E2;height: 100%;width: 100%;">
     	{% load phonenumber %}
+    	{% load zipcodify %}
     	{% load dollars %}
     	<center>
         	<table align="center" border="0" cellpadding="0" cellspacing="0" height="100%" width="100%" id="bodyTable" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;mso-table-lspace: 0pt;mso-table-rspace: 0pt;margin: 0;padding: 0;background-color: #DEE0E2;border-collapse: collapse;height: 100%;width: 100%;">
@@ -771,16 +772,16 @@
                                                 <p class="thin" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 130%;margin: 0;padding: 0;">Amount Charged: {{commission_obj.amount|dollars}}</p>
                                                 <br>
                                                 <h4 style="display: block;font-family: Helvetica;font-size: 14px;font-weight: 800;line-height: 100%;letter-spacing: normal;margin-top: 0;margin-right: 0;margin-bottom: 10px;margin-left: 0;text-align: left;color: #444;">Payment Method</h4>
-                                                	{% if commission_obj.payment_method == 'bank' %}
+                                                	{% if commission_obj.payment.balancedbankaccount %}
 														<p class="thin" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 130%;margin: 0;padding: 0;">Bank Account</p>
-														<p class="thin" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 130%;margin: 0;padding: 0;">{{commission_obj.ba_payment.name}}</p>
-														<p class="thin" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 130%;margin: 0;padding: 0;">{{commission_obj.ba_payment.bank_name}}</p>
-														<p class="thin" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 130%;margin: 0;padding: 0;">{{commission_obj.ba_payment.account_number}}</p>
-													{% elif payment_method == 'card' %}
+														<p class="thin" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 130%;margin: 0;padding: 0;">{{commission_obj.payment.balancedbankaccount.name}}</p>
+														<p class="thin" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 130%;margin: 0;padding: 0;">{{commission_obj.payment.balancedbankaccount.bank_name}}</p>
+														<p class="thin" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 130%;margin: 0;padding: 0;">{{commission_obj.payment.balancedbankaccount.account_number}}</p>
+													{% elif commission_obj.payment.balancedcard  %}
 														<p class="thin" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 130%;margin: 0;padding: 0;">Credit / Debit Card</p>
-														<p class="thin" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 130%;margin: 0;padding: 0;">{{commission_obj.cc_payment.brand}}</p>
-														<p class="thin" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 130%;margin: 0;padding: 0;">********{{commission_obj.cc_payment.last_four}}</p>
-														<p class="thin" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 130%;margin: 0;padding: 0;">Expires: {{commission_obj.cc_payment.expiration_month}}/{{commission_obj.cc_payment.expiration_year}}</p>	
+														<p class="thin" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 130%;margin: 0;padding: 0;">{{commission_obj.payment.balancedcard.brand}}</p>
+														<p class="thin" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 130%;margin: 0;padding: 0;">********{{commission_obj.payment.balancedcard.last_four}}</p>
+														<p class="thin" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 130%;margin: 0;padding: 0;">Expires: {{commission_obj.payment.balancedcard.expiration_month}}/{{commission_obj.payment.balancedcard.expiration_year}}</p>	
 													{% endif %}
                                                 <p style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 140%;"><span>
                                             		<a href="http://www.vetcove.com/account/payment" " style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;color: #167BAD;font-weight: normal;text-decoration: underline;">Update Payment and Payout Preferences</a>
@@ -827,7 +828,7 @@
                                             	<h4 style="display: block;font-family: Helvetica;font-size: 14px;font-weight: 800;line-height: 100%;letter-spacing: normal;margin-top: 0;margin-right: 0;margin-bottom: 10px;margin-left: 0;text-align: left;color: #444;">Buyer's Contact Information</h4>
                                             	<p class="thin" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 130%;margin: 0;padding: 0;">{{purchased_item.buyer.name}}</p>
                                             	<p class="thin" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 130%;margin: 0;padding: 0;">{{purchased_item.buyer.email}}</p>
-                                            	<p class="thin" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 130%;margin: 0;padding: 0;">{{purchased_item.buyer.phonenumber|phonenumber}}</p>
+                                            	<p class="thin" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 130%;margin: 0;padding: 0;">{{purchased_item.cartitem.checkout.shipping_address.phonenumber|phonenumber}}</p>
                                             	<br>
                                             	<p class="thin" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 130%;margin: 0;padding: 0;">Once you have shipped the item, please click the link below to notify the buyer that the item has been shipped.  You will be able to upload tracking information to help the buyer track the shipment.  Feel free to correspond directly with the buyer by e-mail if you wish.</p>
                                             	<p style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 140%;"><span>
@@ -891,18 +892,18 @@
                                                 <h4 style="display: block;font-family: Helvetica;font-size: 14px;font-weight: 800;line-height: 100%;letter-spacing: normal;margin-top: 0;margin-right: 0;margin-bottom: 10px;margin-left: 0;text-align: left;color: #444;">Current Payout Method: <strong>{% if payout_method == 'check' %}Check By Mail{% else %}Bank Account Direct Deposit{% endif %}</strong></h4>
                                                 <p style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 140%;">Currently, we have the following set as your default payout option:</p>
                                                 
-                                                {% if payout_method == 'bank' %}
+                                                {% if payout.balancedbankaccount %}
 													<h5 class="thin" style="line-height: 130%;margin: 0;padding: 0;">Bank Account</h5>
-													<p class="thin" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 130%;margin: 0;padding: 0;">{{payout.name}}</p>
-													<p class="thin" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 130%;margin: 0;padding: 0;">{{payout.bank_name}}</p>
-													<p class="thin" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 130%;margin: 0;padding: 0;">{{payout.account_number}}</p>
+													<p class="thin" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 130%;margin: 0;padding: 0;">{{payout.balancedbankaccount.name}}</p>
+													<p class="thin" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 130%;margin: 0;padding: 0;">{{payout.balancedbankaccount.bank_name}}</p>
+													<p class="thin" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 130%;margin: 0;padding: 0;">{{payout.balancedbankaccount.account_number}}</p>
 												{% else %}
 													<h5 class="thin" style="line-height: 130%;margin: 0;padding: 0;">Check Mailing Address</h5>
-													<p class="thin" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 130%;margin: 0;padding: 0;">{{payout.name}}</p>
-													<p class="thin" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 130%;margin: 0;padding: 0;">{{payout.address_one}}</p>
-													{% if payout.address_two %}<p style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 140%;">{{payout.address_two}}</p>{% endif %}
-													<p class="thin" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 130%;margin: 0;padding: 0;">{{payout.city}}, {{payout.state}} {{payout.zipcode}}</p>
-													<p class="thin" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 130%;margin: 0;padding: 0;">{{payout.phonenumber|phonenumber}}</p>
+													<p class="thin" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 130%;margin: 0;padding: 0;">{{payout.checkaddress.address.name}}</p>
+													<p class="thin" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 130%;margin: 0;padding: 0;">{{payout.checkaddress.address.address_one}}</p>
+													{% if payout.checkaddress.address.address_two %}<p style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 140%;">{{payout.checkaddress.address.address_two}}</p>{% endif %}
+													<p class="thin" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 130%;margin: 0;padding: 0;">{{payout.checkaddress.address.city}}, {{payout.checkaddress.address.state}} {{payout.checkaddress.address.zipcode|zipcodify}}</p>
+													<p class="thin" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 130%;margin: 0;padding: 0;">{{payout.checkaddress.address.phonenumber|phonenumber}}</p>
                                             	
 												{% endif %}
                                                 <p style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 140%;">If you would like to review the changes or make further modifications, feel free to use the link below. If you believe this update was the result of unauthorized access to your account, please contact us immediately.</p>
@@ -922,7 +923,7 @@
 												<p class="thin" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 130%;margin: 0;padding: 0;">{{check_obj.address.name}}</p>
 												<p class="thin" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 130%;margin: 0;padding: 0;">{{check_obj.address_one}}</p>
 												{% if check_obj.address.address_two %}<p style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 140%;">{{check_obj.address.address_two}}</p>{% endif %}
-												<p class="thin" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 130%;margin: 0;padding: 0;">{{check_obj.address.city}}, {{check_obj.address.state}} {{check_obj.address.zipcode}}</p>
+												<p class="thin" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 130%;margin: 0;padding: 0;">{{check_obj.address.city}}, {{check_obj.address.state}} {{check_obj.address.zipcode|zipcodify}}</p>
 												<p class="thin" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 130%;margin: 0;padding: 0;">{{check_obj.address.phonenumber|phonenumber}}</p>
 												<p style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 140%;">Warmest regards,</p>
 												<p style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 140%;">Alex and The VetCove Team</p>
@@ -947,9 +948,9 @@
                                             		<a href="http://www.vetcove.com/account/payment" " style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;color: #167BAD;font-weight: normal;text-decoration: underline;">Update Payment and Payout Preferences</a>
 												</span></p>	
 												<h5 class="thin" style="line-height: 130%;margin: 0;padding: 0;">Bank Account Information</h5>
-												<p class="thin" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 130%;margin: 0;padding: 0;">{{bank_obj.name}}</p>
-												<p class="thin" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 130%;margin: 0;padding: 0;">{{bank_obj.bank_name}}</p>
-												<p class="thin" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 130%;margin: 0;padding: 0;">{{bank_obj.account_number}}</p>
+												<p class="thin" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 130%;margin: 0;padding: 0;">{{bank_obj.bank_account.name}}</p>
+												<p class="thin" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 130%;margin: 0;padding: 0;">{{bank_obj.bank_account.bank_name}}</p>
+												<p class="thin" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 130%;margin: 0;padding: 0;">{{bank_obj.bank_account.account_number}}</p>
 												<p style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 140%;">If you are sure the information is correct and it is indeed a valid bank account,
 												you should get in contact with us immediately so we can resolve the issue.</p>
 												<p style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 140%;">Warmest regards,</p>
@@ -1008,16 +1009,16 @@
 													<tr>
 														<td valign="top" class="leftColumnContent" mc:edit="right_column_content" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;mso-table-lspace: 0pt;mso-table-rspace: 0pt;color: #505050;font-family: Helvetica;font-size: 14px;line-height: 150%;padding-top: 0;padding-right: 20px;padding-bottom: 20px;padding-left: 20px;text-align: left;">
 															<h4 style="display: block;font-family: Helvetica;font-size: 14px;font-weight: 800;line-height: 100%;letter-spacing: normal;margin-top: 0;margin-right: 0;margin-bottom: 10px;margin-left: 0;text-align: left;color: #444;">Payment Method</h4>
-															{% if checkout.payment_method == 'bank' %}
-																<p class="thin" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 130%;margin: 0;padding: 0;">Bank Account</p>
-																<p class="thin" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 130%;margin: 0;padding: 0;">{{payment.name}}</p>
-																<p class="thin" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 130%;margin: 0;padding: 0;">{{payment.bank_name}}</p>
-																<p class="thin" p style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 130%;margin: 0;padding: 0;">{{payment.account_number}}</p>
-															{% elif checkout.payment_method == 'card' %}
+															{% if payt.balancedbankaccount %}
+																<h5 class="thin" style="line-height: 130%;margin: 0;padding: 0;">Bank Account</h5>
+																<p class="thin" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 130%;margin: 0;padding: 0;">{{payment.balancedbankaccount.name}}</p>
+																<p class="thin" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 130%;margin: 0;padding: 0;">{{payment.balancedbankaccount.bank_name}}</p>
+																<p class="thin" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 130%;margin: 0;padding: 0;">{{payment.balancedbankaccount.account_number}}</p>
+															{% elif payment.balancedcard %}
 																<p class="thin" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 130%;margin: 0;padding: 0;">Credit / Debit Card</p>
-																<p class="thin" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 130%;margin: 0;padding: 0;">{{payment.brand}}</p>
-																<p class="thin" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 130%;margin: 0;padding: 0;">********{{payment.last_four}}</p>
-																<p class="thin" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 130%;margin: 0;padding: 0;">Expires: {{payment.expiration_month}}/{{payment.expiration_year}}</p>	
+																<p class="thin" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 130%;margin: 0;padding: 0;">{{payment.balancedcard.brand}}</p>
+																<p class="thin" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 130%;margin: 0;padding: 0;">********{{payment.balancedcard.last_four}}</p>
+																<p class="thin" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 130%;margin: 0;padding: 0;">Expires: {{payment.balancedcard.expiration_month}}/{{payment.balancedcard.expiration_year}}</p>	
 															{% endif %}
 														</td>
 													</tr>
@@ -1090,7 +1091,7 @@
                                                     			<h4 class="totalColumnContent_total" style="display: block;font-family: Helvetica;font-size: 14px;font-weight: 800;line-height: 100%;letter-spacing: normal;margin-top: 10px;margin-right: 0;margin-bottom: 5px;margin-left: 0;text-align: right;padding-bottom: 0;color: #444;">Total Amount: <span class="price" style="font-weight: 800;width: 110px;display: inline-block;">{{checkout.total|dollars}}</span></h4>
                                                     		{% elif payment %}
                                                     			<h4 style="display: block;font-family: Helvetica;font-size: 14px;font-weight: 200;line-height: 100%;letter-spacing: normal;margin-top: 0;margin-right: 0;margin-bottom: 5px;margin-left: 0;text-align: right;padding-bottom: 0;color: #444;">Sales Total: <span class="price" style="font-weight: 200;width: 110px;display: inline-block;">{{payment.subtotal|dollars}}</span></h4>
-                                                    			<h4 style="display: block;font-family: Helvetica;font-size: 14px;font-weight: 200;line-height: 100%;letter-spacing: normal;margin-top: 0;margin-right: 0;margin-bottom: 5px;margin-left: 0;text-align: right;padding-bottom: 0;color: #444;">9% <span class="hide-mobile">VetCove</span> Commission: <span class="price" style="font-weight: 200;width: 110px;display: inline-block;">-{{payment.total_commission|dollars}}</span></h4>
+                                                    			<h4 style="display: block;font-family: Helvetica;font-size: 14px;font-weight: 200;line-height: 100%;letter-spacing: normal;margin-top: 0;margin-right: 0;margin-bottom: 5px;margin-left: 0;text-align: right;padding-bottom: 0;color: #444;"><span class="hide-mobile">VetCove</span> Commission: <span class="price" style="font-weight: 200;width: 110px;display: inline-block;">-{{payment.total_commission|dollars}}</span></h4>
                                                     			<h4 style="display: block;font-family: Helvetica;font-size: 14px;font-weight: 200;line-height: 100%;letter-spacing: normal;margin-top: 0;margin-right: 0;margin-bottom: 5px;margin-left: 0;text-align: right;padding-bottom: 0;color: #444;">3% Credit Card <span class="hide-mobile">Processing</span> Fee: <span class="price" style="font-weight: 200;width: 110px;display: inline-block;">-{{payment.cc_fee|dollars}}</span></h4>
                                                     			<h4 class="totalColumnContent_total" style="display: block;font-family: Helvetica;font-size: 14px;font-weight: 800;line-height: 100%;letter-spacing: normal;margin-top: 10px;margin-right: 0;margin-bottom: 5px;margin-left: 0;text-align: right;padding-bottom: 0;color: #444;">Total Credits: <span class="price" style="font-weight: 800;width: 110px;display: inline-block;">{{payment.amount|dollars}}</span></h4>
                                                     		{% endif %}

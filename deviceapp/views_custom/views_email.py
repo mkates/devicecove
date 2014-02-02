@@ -24,7 +24,7 @@ def render_and_send_email(template_data,subject,receiver):
 		html_body = render_to_string("email_templates/email_template.html", template_data)
 		msg = EmailMultiAlternatives(subject, text_body, "The VetCove Team <info@vetcove.com>",[receiver])
 		msg.attach_alternative(html_body, "text/html")
-		#msg.send()
+		msg.send()
 		return 201
 	except Exception,e:
 		print e
@@ -268,6 +268,7 @@ def composeEmailPayoutFailed(basicuser,bank_obj):
 		'STATIC_URL':settings.STATIC_URL,
 		'payout_failed':True,
 		'purchased_items': purchased_items,
+		'bank_obj':bank_obj,
 		'totals':True,
 		'payment':payment,
 		'email_title':"Bank Account Payout Failed",
@@ -281,16 +282,13 @@ def composeEmailPayoutFailed(basicuser,bank_obj):
 #### User updated their payment information ######
 def composeEmailPayoutUpdated(basicuser):
 	bu = basicuser
-	if bu.payout_method == 'check':
-		payout = bu.check_address
-	elif bu.payout_method == 'bank':
-		payout = bu.default_payout_ba
+	if basiuser.payout_method:
+		payout = basicuser.payout_method
 	else:
 		return composeEmailNoPayment(basicuser)
 	template_data = {
 		'STATIC_URL':settings.STATIC_URL,
 		'payout_updated':True,
-		'payout_method':bu.payout_method,
 		'payout':payout,
 		'email_title':"Updated Payout Method",
 		'email_teaser':'NEEDS TO BE FINISHED',

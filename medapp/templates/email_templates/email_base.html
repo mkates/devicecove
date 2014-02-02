@@ -636,6 +636,7 @@
     </head>
     <body leftmargin="0" marginwidth="0" topmargin="0" marginheight="0" offset="0">
     	{% load phonenumber %}
+    	{% load zipcodify %}
     	{% load dollars %}
     	<center>
         	<table align="center" border="0" cellpadding="0" cellspacing="0" height="100%" width="100%" id="bodyTable">
@@ -771,16 +772,16 @@
                                                 <p class="thin">Amount Charged: {{commission_obj.amount|dollars}}</p>
                                                 <br>
                                                 <h4>Payment Method</h4>
-                                                	{% if commission_obj.payment_method == 'bank' %}
+                                                	{% if commission_obj.payment.balancedbankaccount %}
 														<p class="thin">Bank Account</p>
-														<p class="thin">{{commission_obj.ba_payment.name}}</p>
-														<p class="thin">{{commission_obj.ba_payment.bank_name}}</p>
-														<p class="thin">{{commission_obj.ba_payment.account_number}}</p>
-													{% elif payment_method == 'card' %}
+														<p class="thin">{{commission_obj.payment.balancedbankaccount.name}}</p>
+														<p class="thin">{{commission_obj.payment.balancedbankaccount.bank_name}}</p>
+														<p class="thin">{{commission_obj.payment.balancedbankaccount.account_number}}</p>
+													{% elif commission_obj.payment.balancedcard  %}
 														<p class="thin">Credit / Debit Card</p>
-														<p class="thin">{{commission_obj.cc_payment.brand}}</p>
-														<p class="thin">********{{commission_obj.cc_payment.last_four}}</p>
-														<p class="thin">Expires: {{commission_obj.cc_payment.expiration_month}}/{{commission_obj.cc_payment.expiration_year}}</p>	
+														<p class="thin">{{commission_obj.payment.balancedcard.brand}}</p>
+														<p class="thin">********{{commission_obj.payment.balancedcard.last_four}}</p>
+														<p class="thin">Expires: {{commission_obj.payment.balancedcard.expiration_month}}/{{commission_obj.payment.balancedcard.expiration_year}}</p>	
 													{% endif %}
                                                 <p><span>
                                             		<a href="http://www.vetcove.com/account/payment"">Update Payment and Payout Preferences</a>
@@ -827,7 +828,7 @@
                                             	<h4>Buyer's Contact Information</h4>
                                             	<p class="thin">{{purchased_item.buyer.name}}</p>
                                             	<p class="thin">{{purchased_item.buyer.email}}</p>
-                                            	<p class="thin">{{purchased_item.buyer.phonenumber|phonenumber}}</p>
+                                            	<p class="thin">{{purchased_item.cartitem.checkout.shipping_address.phonenumber|phonenumber}}</p>
                                             	<br>
                                             	<p class="thin">Once you have shipped the item, please click the link below to notify the buyer that the item has been shipped.  You will be able to upload tracking information to help the buyer track the shipment.  Feel free to correspond directly with the buyer by e-mail if you wish.</p>
                                             	<p><span>
@@ -891,18 +892,18 @@
                                                 <h4>Current Payout Method: <strong>{% if payout_method == 'check' %}Check By Mail{% else %}Bank Account Direct Deposit{% endif %}</strong></h4>
                                                 <p>Currently, we have the following set as your default payout option:</p>
                                                 
-                                                {% if payout_method == 'bank' %}
+                                                {% if payout.balancedbankaccount %}
 													<h5 class="thin">Bank Account</h5>
-													<p class="thin">{{payout.name}}</p>
-													<p class="thin">{{payout.bank_name}}</p>
-													<p class="thin">{{payout.account_number}}</p>
+													<p class="thin">{{payout.balancedbankaccount.name}}</p>
+													<p class="thin">{{payout.balancedbankaccount.bank_name}}</p>
+													<p class="thin">{{payout.balancedbankaccount.account_number}}</p>
 												{% else %}
 													<h5 class="thin">Check Mailing Address</h5>
-													<p class="thin">{{payout.name}}</p>
-													<p class="thin">{{payout.address_one}}</p>
-													{% if payout.address_two %}<p>{{payout.address_two}}</p>{% endif %}
-													<p class="thin">{{payout.city}}, {{payout.state}} {{payout.zipcode}}</p>
-													<p class="thin">{{payout.phonenumber|phonenumber}}</p>
+													<p class="thin">{{payout.checkaddress.address.name}}</p>
+													<p class="thin">{{payout.checkaddress.address.address_one}}</p>
+													{% if payout.checkaddress.address.address_two %}<p>{{payout.checkaddress.address.address_two}}</p>{% endif %}
+													<p class="thin">{{payout.checkaddress.address.city}}, {{payout.checkaddress.address.state}} {{payout.checkaddress.address.zipcode|zipcodify}}</p>
+													<p class="thin">{{payout.checkaddress.address.phonenumber|phonenumber}}</p>
                                             	
 												{% endif %}
                                                 <p>If you would like to review the changes or make further modifications, feel free to use the link below. If you believe this update was the result of unauthorized access to your account, please contact us immediately.</p>
@@ -922,7 +923,7 @@
 												<p class="thin">{{check_obj.address.name}}</p>
 												<p class="thin">{{check_obj.address_one}}</p>
 												{% if check_obj.address.address_two %}<p>{{check_obj.address.address_two}}</p>{% endif %}
-												<p class="thin">{{check_obj.address.city}}, {{check_obj.address.state}} {{check_obj.address.zipcode}}</p>
+												<p class="thin">{{check_obj.address.city}}, {{check_obj.address.state}} {{check_obj.address.zipcode|zipcodify}}</p>
 												<p class="thin">{{check_obj.address.phonenumber|phonenumber}}</p>
 												<p>Warmest regards,</p>
 												<p>Alex and The VetCove Team</p>
@@ -947,9 +948,9 @@
                                             		<a href="http://www.vetcove.com/account/payment"">Update Payment and Payout Preferences</a>
 												</span></p>	
 												<h5 class="thin">Bank Account Information</h5>
-												<p class="thin">{{bank_obj.name}}</p>
-												<p class="thin">{{bank_obj.bank_name}}</p>
-												<p class="thin">{{bank_obj.account_number}}</p>
+												<p class="thin">{{bank_obj.bank_account.name}}</p>
+												<p class="thin">{{bank_obj.bank_account.bank_name}}</p>
+												<p class="thin">{{bank_obj.bank_account.account_number}}</p>
 												<p>If you are sure the information is correct and it is indeed a valid bank account,
 												you should get in contact with us immediately so we can resolve the issue.</p>
 												<p>Warmest regards,</p>
@@ -1008,16 +1009,16 @@
 													<tr>
 														<td valign="top" class="leftColumnContent" mc:edit="right_column_content">
 															<h4>Payment Method</h4>
-															{% if checkout.payment_method == 'bank' %}
-																<p class="thin">Bank Account</p>
-																<p class="thin">{{payment.name}}</p>
-																<p class="thin">{{payment.bank_name}}</p>
-																<p class="thin"p>{{payment.account_number}}</p>
-															{% elif checkout.payment_method == 'card' %}
+															{% if payt.balancedbankaccount %}
+																<h5 class="thin">Bank Account</h5>
+																<p class="thin">{{payment.balancedbankaccount.name}}</p>
+																<p class="thin">{{payment.balancedbankaccount.bank_name}}</p>
+																<p class="thin">{{payment.balancedbankaccount.account_number}}</p>
+															{% elif payment.balancedcard %}
 																<p class="thin">Credit / Debit Card</p>
-																<p class="thin">{{payment.brand}}</p>
-																<p class="thin">********{{payment.last_four}}</p>
-																<p class="thin">Expires: {{payment.expiration_month}}/{{payment.expiration_year}}</p>	
+																<p class="thin">{{payment.balancedcard.brand}}</p>
+																<p class="thin">********{{payment.balancedcard.last_four}}</p>
+																<p class="thin">Expires: {{payment.balancedcard.expiration_month}}/{{payment.balancedcard.expiration_year}}</p>	
 															{% endif %}
 														</td>
 													</tr>
