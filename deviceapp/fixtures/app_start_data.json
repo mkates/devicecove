@@ -205,7 +205,7 @@
     "pk": 1, 
     "model": "auth.user", 
     "fields": {
-        "username": "admin@admin.com", 
+        "username": "admin@vetcove.com", 
         "first_name": "", 
         "last_name": "", 
         "is_active": true, 
@@ -214,8 +214,8 @@
         "last_login": "2013-10-28T04:37:02.515Z", 
         "groups": [], 
         "user_permissions": [], 
-        "password": "pbkdf2_sha256$10000$xSO9oRFz88LQ$XGNybzF63vtLfbJllBzLt6hfO0tTY2W3BXaln8ncgBM=", 
-        "email": "admin@admin.com", 
+        "password": "pbkdf2_sha256$10000$baG2jbKu2fmr$GQMak8dwaoerfKjoVBxom27VVhAlm5IAOlcE5wW1fQw=", 
+        "email": "admin@vetcove.com", 
         "date_joined": "2013-10-28T04:36:12.295Z"
     }
 },
@@ -223,25 +223,25 @@
     "pk": 2, 
     "model": "auth.user", 
     "fields": {
-        "username": "mkates@mit.edu", 
+        "username": "staff@vetcove.com", 
         "first_name": "", 
         "last_name": "", 
         "is_active": true, 
         "is_superuser": false, 
-        "is_staff": false, 
-        "last_login": "2013-10-28T04:37:27.969Z", 
+        "is_staff": true, 
+        "last_login": "2013-10-28T04:37:02.515Z", 
         "groups": [], 
         "user_permissions": [], 
-        "password": "pbkdf2_sha256$10000$baG2jbKu2fmr$GQMak8dwaoerfKjoVBxom27VVhAlm5IAOlcE5wW1fQw=", 
-        "email": "mkates@mit.edu", 
-        "date_joined": "2013-10-28T04:37:27.969Z"
+        "password": "pbkdf2_sha256$10000$baG2jbKu2fmr$GQMak8dwaoerfKjoVBxom27VVhAlm5IAOlcE5wW1fQw=",
+        "email": "staff@vetcove.com", 
+        "date_joined": "2013-10-28T04:36:12.295Z"
     }
-},	
+},
 {
     "pk": 3, 
     "model": "auth.user", 
     "fields": {
-        "username": "mhkates@gmail.com", 
+        "username": "auntj@aim.com", 
         "first_name": "", 
         "last_name": "", 
         "is_active": true, 
@@ -251,7 +251,43 @@
         "groups": [], 
         "user_permissions": [], 
         "password": "pbkdf2_sha256$10000$baG2jbKu2fmr$GQMak8dwaoerfKjoVBxom27VVhAlm5IAOlcE5wW1fQw=", 
-        "email": "mhkates@gmail.com", 
+        "email": "auntj@aim.com", 
+        "date_joined": "2013-10-28T04:37:27.969Z"
+    }
+},	
+{
+    "pk": 4, 
+    "model": "auth.user", 
+    "fields": {
+        "username": "jim@aim.com", 
+        "first_name": "", 
+        "last_name": "", 
+        "is_active": true, 
+        "is_superuser": false, 
+        "is_staff": false, 
+        "last_login": "2013-10-28T04:37:27.969Z", 
+        "groups": [], 
+        "user_permissions": [], 
+        "password": "pbkdf2_sha256$10000$baG2jbKu2fmr$GQMak8dwaoerfKjoVBxom27VVhAlm5IAOlcE5wW1fQw=", 
+        "email": "jim@aim.com", 
+        "date_joined": "2013-10-28T04:37:27.969Z"
+    }
+},
+{
+    "pk": 5, 
+    "model": "auth.user", 
+    "fields": {
+        "username": "sanders@aim.com", 
+        "first_name": "", 
+        "last_name": "", 
+        "is_active": true, 
+        "is_superuser": false, 
+        "is_staff": false, 
+        "last_login": "2013-10-28T04:37:27.969Z", 
+        "groups": [], 
+        "user_permissions": [], 
+        "password": "pbkdf2_sha256$10000$baG2jbKu2fmr$GQMak8dwaoerfKjoVBxom27VVhAlm5IAOlcE5wW1fQw=", 
+        "email": "sanders@aim.com", 
         "date_joined": "2013-10-28T04:37:27.969Z"
     }
 },
@@ -260,8 +296,8 @@
     "model": "deviceapp.basicuser", 
     "fields": {
     	"user": 1, 
-        "name": "Admin",
-        "email": "admin@admin.com", 
+        "name": "VetCove Admin",
+        "email": "admin@vetcove.com", 
         "zipcode": 12345  
     }
 },
@@ -277,8 +313,8 @@
     "model": "deviceapp.basicuser", 
     "fields": {
     	"user": 2, 
-        "name": "Mitch MHKates",
-        "email": "mkates@mit.edu", 
+        "name": "VetCove Staff",
+        "email": "staff@vetcove.com", 
         "zipcode": 90012   
     }
 },
@@ -294,8 +330,8 @@
     "model": "deviceapp.basicuser", 
     "fields": {
     	"user": 3, 
-        "name": "Mitch MHKates",
-        "email": "mkates@mit.edu", 
+        "name": "Aunt Jemima",
+        "email": "auntj@aim.com", 
         "zipcode": "07722"
     }
 },
@@ -307,14 +343,48 @@
     }
 },
 {
+    "pk": 4, 
+    "model": "deviceapp.basicuser", 
+    "fields": {
+    	"user": 4, 
+        "name": "Jim Bean",
+        "email": "jim@aim.com", 
+        "zipcode": "07722"
+    }
+},
+{
+    "pk": 4, 
+    "model": "deviceapp.shoppingcart", 
+    "fields": {
+    	"user": 4
+    }
+},
+{
+    "pk": 5, 
+    "model": "deviceapp.basicuser", 
+    "fields": {
+    	"user": 5, 
+        "name": "Colonel Sanders",
+        "email": "sanders@aim.com", 
+        "zipcode": "07722"
+    }
+},
+{
+    "pk": 5, 
+    "model": "deviceapp.shoppingcart", 
+    "fields": {
+    	"user": 5
+    }
+},
+{
     "pk": 1, 
     "model": "deviceapp.address", 
     "fields": {
-    	"user": 1,
-    	"name": "Admin",
-    	"address_one" : "1 Admin Street",
-    	"city": "Adminville",
-    	"state": "NJ",
+    	"user": 3,
+    	"name": "Aunt Jemima",
+    	"address_one" : "Buttersworth Road",
+    	"city": "Stratton",
+    	"state": "VT",
     	"zipcode": "02455",
     	"phonenumber": "9192340591"
     }
@@ -323,9 +393,8 @@
     "pk": 1, 
     "model": "deviceapp.payment", 
     "fields": {
-    	"user":1,
-    	"datecreated": "2013-12-10",
-    	"payment_type":"check"
+    	"user":3,
+    	"datecreated": "2013-12-10"
     }
 },
 {
@@ -339,16 +408,18 @@
     "pk": 1, 
     "model": "deviceapp.item", 
     "fields": {
-    	"user": 1,
+    	"user": 3,
     	"name": "XT450 Power UltraSound Machine 1", 
     	"creation_date": "2013-12-01",
-    	"subcategory":1,
+    	"subcategory":105,
     	"manufacturer": "Fuji", 
     	"serialno": "542523519864",
     	"modelyear": 2001,  
     	"msrp_price": 22320, 
     	"price": 4430,
-    	"liststatus":"active",
+    	"conditiontype": "new",
+    	"liststatus": "active",
+    	"liststage":5,
     	"quantity":3
     }
 },
@@ -356,16 +427,18 @@
     "pk": 2, 
     "model": "deviceapp.item", 
     "fields": {
-    	"user": 2,
+    	"user": 3,
     	"name": "XT450 Power UltraSound Machine 2",
     	"creation_date": "2013-12-10",
-    	"subcategory":1, 
+    	"subcategory":105, 
+    	"offlineviewing": true,
     	"manufacturer": "Fuji", 
     	"serialno": "542523519864",
     	"modelyear": 2001,  
     	"msrp_price": 22320, 
     	"price": 4430,
-    	"liststatus":"active"
+    	"liststatus":"active",
+    	"liststage":5
     }
 },
 {
@@ -375,13 +448,40 @@
     	"user": 3,
     	"name": "XT450 Power UltraSound Machine 3", 
     	"creation_date": "2013-12-20",
-    	"subcategory":1,
+    	"subcategory":105,
     	"manufacturer": "Fuji", 
     	"serialno": "542523519864",
     	"modelyear": 2001,  
     	"msrp_price": 22320, 
     	"price": 4430,
-    	"liststatus":"active"
+    	"liststatus":"active",
+    	"liststage":5
+    }
+},
+{
+    "pk": 1, 
+    "model": "deviceapp.promocode", 
+    "fields": {
+        "code": "beta14", 
+        "promo_type": "factor", 
+        "discount": null, 
+        "details": "50% off", 
+        "factor": 50, 
+        "active": true, 
+        "promo_text": "Sweet! You are saving 50% on your commission"
+    }
+},
+{
+    "pk": 2, 
+    "model": "deviceapp.promocode", 
+    "fields": {
+        "code": "vegeta", 
+        "promo_type": "discount", 
+        "discount": 500, 
+        "details": "$5 off", 
+        "factor": null, 
+        "active": true, 
+        "promo_text": "$5 off commission on this item"
     }
 }
 ]

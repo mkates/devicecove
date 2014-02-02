@@ -84,6 +84,9 @@
 	text-align: center;
 	display: none;
 }
+.alert {
+	box-shadow: 0 0 2px #aaa;
+}
 </style>
 {% endblock %}
 {% block jsblock %}
@@ -208,6 +211,8 @@ function addError(handle) {
 	{% endif %}
 	{% if success == "password" %}
 		<div class="success alert alert-success">You have successfully reset your password</div>
+	{% elif success == "info" %}
+		<div class="success alert alert-success">You have successfully updated your profile information</div>
 	{% endif %}
 {% endblock %}
 
@@ -317,7 +322,17 @@ function addError(handle) {
 					<div class="col-md-9 col-sm-9 col-xs-9 category-input">
 						<p class="editable">{% if basicuser.businesstype %}{{basicuser.businesstype}}{% else %}<span class="placeholder">None entered</span>{% endif %}</p>
 						<select id="si-business" name="business" class="form-control">
-							<option>Individual</option>
+							<option {% if basicuser.businesstype == "Small animal veterinarian exclusive" %}selected{% endif %}>Small animal veterinarian exclusive</option>
+							<option {% if basicuser.businesstype == "Large animal veterinarian predominant" %}selected{% endif %}>Large animal veterinarian predominant</option>
+							<option {% if basicuser.businesstype == "Equine veterinarian predominant" %}selected{% endif %}>Equine veterinarian predominant</option>
+							<option {% if basicuser.businesstype == "Mixed animal veterinarian" %}selected{% endif %}>Mixed animal veterinarian</option>
+							<option {% if basicuser.businesstype == "Industry veterinarian" %}selected{% endif %}>Industry veterinarian</option>
+							<option {% if basicuser.businesstype == "University hospital" %}selected{% endif %}>University hospital</option>
+							<option {% if basicuser.businesstype == "Manufacturer" %}selected{% endif %}>Manufacturer</option>
+							<option {% if basicuser.businesstype == "Reseller/refurbisher" %}selected{% endif %}>Reseller/refurbisher</option>
+							<option {% if basicuser.businesstype == "Veterinary distributor" %}selected{% endif %}>Veterinary distributor</option>
+							<option {% if basicuser.businesstype == "Individual" %}selected{% endif %}>Individual</option>
+							<option {% if basicuser.businesstype == "Other" %}selected{% endif %}>Other</option>
 						</select>
 					</div>
 				</div>

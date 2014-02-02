@@ -35,7 +35,7 @@ $(document).ready(function () {
         	balanced.card.create(payload, function (response) {
             switch (response.status) {
 			 case 201:
-			 	if (response.data.postal_code_check == "passed" || response.data.security_code_check == "passed") {
+			 	if (response.data.postal_code_check == "passed" && response.data.security_code_check == "passed") {
 					$.post(responseTarget_cc, {
 						brand: response.data.brand,
 						hash: response.data.hash,
@@ -45,7 +45,8 @@ $(document).ready(function () {
 						uri: response.data.uri
 					}, function(r) {
 						if (r['status'] == 201) {
-							window.location.href = success_redirect_cc;
+							//window.location.href = success_redirect_cc;
+							console.log("cool");
 						} else {
 							display_CC_Error('Error saving your Card. '+r['error']);
 							Balanced_CC_Enable();

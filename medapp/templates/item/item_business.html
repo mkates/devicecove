@@ -31,7 +31,7 @@
 </style>
 {% endblock%}
 
-
+{% load phonenumber %}
 {% block content %}
 <div class="maincontainer">
 	<h3>Seller Information</h3>
@@ -43,20 +43,30 @@
 		  <div class="form-group">
 			<label for="exampleInputEmail1">Business Type</label>
 			<select class="form-control" name="business">
-				<option>Cool</option>
+				<option {% if user.basicuser.businesstype == "Small animal veterinarian exclusive" %}selected{% endif %}>Small animal veterinarian exclusive</option>
+				<option {% if user.basicuser.businesstype == "Large animal veterinarian predominant" %}selected{% endif %}>Large animal veterinarian predominant</option>
+				<option {% if user.basicuser.businesstype == "Equine veterinarian predominant" %}selected{% endif %}>Equine veterinarian predominant</option>
+				<option {% if user.basicuser.businesstype == "Mixed animal veterinarian" %}selected{% endif %}>Mixed animal veterinarian</option>
+				<option {% if user.basicuser.businesstype == "Industry veterinarian" %}selected{% endif %}>Industry veterinarian</option>
+				<option {% if user.basicuser.businesstype == "University hospital" %}selected{% endif %}>University hospital</option>
+				<option {% if user.basicuser.businesstype == "Manufacturer" %}selected{% endif %}>Manufacturer</option>
+				<option {% if user.basicuser.businesstype == "Reseller/refurbisher" %}selected{% endif %}>Reseller/refurbisher</option>
+				<option {% if user.basicuser.businesstype == "Veterinary distributor" %}selected{% endif %}>Veterinary distributor</option>
+				<option {% if user.basicuser.businesstype == "Individual" %}selected{% endif %}>Individual</option>
+				<option {% if user.basicuser.businesstype == "Other" %}selected{% endif %}>Other</option>
 			</select>
 		  </div>
 		  <div class="form-group">
 			<label for="exampleInputPassword1">Company Name</label>
-			<input type="text" required class="form-control" name="company" id="exampleInputPassword1" placeholder="i.e. Wildwood Equine">
+			<input type="text" required class="form-control" name="company" id="exampleInputPassword1" placeholder="i.e. Wildwood Equine" value="{% if item.user.company %}{{item.user.company}}{% endif %}">
 		  </div>
 		   <div class="form-group">
 			<label for="exampleInputPassword1">Website</label>
-			<input type="text" class="form-control" name="website" id="exampleInputPassword1" placeholder="i.e. www.wildwoodequine.com">
+			<input type="text" class="form-control" name="website" id="exampleInputPassword1" placeholder="i.e. www.wildwoodequine.com" value="{% if item.user.website %}{{item.user.website}}{% endif %}">
 		  </div>
 		   <div class="form-group">
 			<label for="exampleInputPassword1">Phone Number</label>
-			<input required type="text" name="phonenumber" id="phonenumber" class="form-control" placeholder="i.e. (732) 431-1231">
+			<input required type="text" name="phonenumber" id="phonenumber" class="form-control" placeholder="i.e. (732) 431-1231" value="{% if item.user.phonenumber %}{{item.user.phonenumber|phonenumber}}{% endif %}">
 		  </div>
 		  <button type="submit" class="button button-rounded button-action">Continue to Listing</button>
 		</form>

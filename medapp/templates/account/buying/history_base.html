@@ -72,10 +72,10 @@
 			{% endif %}
 			<div class="order-item row">
 				<div class="col-md-4 col-sm-4 col-xs-12 order-image">
-					<img src="{{STATIC_URL}}img/blueshield.png"/>
+					<img src="{% if pitem.cartitem.item.mainimage %}{{pitem.cartitem.item.mainimage.photo_small.url}}{% else %}{{STATIC_URL}}img/noimage_300x400.jpg{% endif %}" alt="{{pitem.cartitem.item.name}}"/>
 				</div>
 				<div class="col-md-8 col-sm-8 col-xs-12 order-description">
-					<p class="order-name"><a href='/item/{{pitem.cartitem.item.id}}/details'>{{pitem.cartitem.item.name}} (Condition: {{pitem.cartitem.item.get_conditionquality_display}})</a></p>
+					<p class="order-name"><a href='/item/{{pitem.cartitem.item.id}}/details'>{{pitem.item_name}} (Condition: {{pitem.cartitem.item.get_conditionquality_display}})</a></p>
 					<p class="order-seller">Seller Information</p>
 					<p class="order-seller-info">{{pitem.seller.name}}</p>
 					<p class="order-seller-info">{{pitem.seller.email}}</p>

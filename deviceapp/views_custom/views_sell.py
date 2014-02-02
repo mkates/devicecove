@@ -100,7 +100,7 @@ def newcard_chargecommission(request,itemid):
 			customer.debit(appears_on_statement_as="Vet Cove Fee",amount=amount,source_uri=card_uri)
 			item.commission_paid = True
 			item.save()
-			commission_obj = Commission(item=item,price=item.price,amount=amount,payment_method='card',cc_payment=card)
+			commission_obj = Commission(item=item,price=item.price,amount=amount,payment=card)
 			commission_obj.save()
 			email_view.composeEmailCommissionCharged(request,bu,commission_obj)
 			return HttpResponse(json.dumps({'status':201}), content_type='application/json')
@@ -129,7 +129,7 @@ def newbank_chargecommission(request,itemid):
 			customer.debit(appears_on_statement_as="Vet Cove Fee",amount=amount,source_uri=bank_uri)
 			item.commission_paid = True
 			item.save()
-			commission_obj = Commission(item=item,price=item.price,amount=amount,payment_method='bank',ba_payment=bank)
+			commission_obj = Commission(item=item,price=item.price,amount=amount,payment=bank)
 			commission_obj.save()
 			email_view.composeEmailCommissionCharged(request,bu,commission_obj)
 			return HttpResponse(json.dumps({'status':201}), content_type='application/json')
@@ -157,10 +157,7 @@ def gatePayment(request,paymenttype,paymentid,itemid):
 				customer.debit(appears_on_statement_as="Vet Cove Fee",amount=amount,source_uri=payment.uri)
 				item.commission_paid = True
 				item.save()
-				if paymenttype == 'bank':
-					commission_obj = Commission(item=item,price=item.price,amount=comm_amount,payment_method=paymenttype,ba_payment=payment)
-				elif paymenttype == 'card':
-					commission_obj = Commission(item=item,price=item.price,amount=comm_amount,payment_method=paymenttype,cc_payment=payment)
+				commission_obj = Commission(item=item,price=item.price,amount=amount,payment=payment)
 				commission_obj.save()
 				email_view.composeEmailCommissionCharged(request,bu,commission_obj)
 				return HttpResponseRedirect('/account/messages/'+str(item.id))

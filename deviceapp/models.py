@@ -61,7 +61,7 @@ class BasicUser(models.Model):
 	businesstype = models.CharField(max_length=60,blank=True)
 	company = models.CharField(max_length=60,blank=True)
 	website = models.CharField(max_length=60,blank=True)
-	phonenumber = models.IntegerField(max_length=10,null=True,blank=True)
+	phonenumber = models.BigIntegerField(max_length=10,null=True,blank=True)
 	
 	# User's Rank - Used for specials, promotions, etc.
 	USER_RANK =  ((0, 0),(1, 1),(2, 2),(3, 3),(4, 4),(5, 5))
@@ -277,20 +277,16 @@ class Address(models.Model):
 	phonenumber = models.CharField(max_length=100)
 
 ############################################
-####### Balanced Models ####################
+####### Payment Models #####################
 ############################################
 
 class Payment(models.Model):
 	user = models.ForeignKey(BasicUser,null=True,blank=True)
 	datecreated = models.DateTimeField(auto_now_add=True)
-	PAYMENT_TYPES = (('check','check'),('card','card'),('bank','bank'))
-	payment_type = models.CharField(max_length=10, choices=PAYMENT_TYPES)
 	
 #### Mailing Payment ##################
 class CheckAddress(Payment):
 	address = models.ForeignKey(Address)
-	def __unicode__(self):
-		return 'Check by Mail to '+self.address.name
 	
 #### Balanced Credit Card ##################
 class BalancedCard(Payment):
@@ -395,13 +391,17 @@ class BankPayout(Payout):
 class CheckPayout(Payout):
 	address = models.ForeignKey(Address)
 	sent = models.BooleanField(default=False)
-	
+
+############################################
+### Offline Commission #####################
+############################################
+
 #### Commission ############################
 class Commission(models.Model):
 	item = models.OneToOneField(Item)
 	price = models.BigIntegerField(max_length=12)
 	amount = models.BigIntegerField(max_length=20)
-	payment = models.ForeignKey(Payment)
+	payment = models.ForeignKey(Payment) # Can only be a card or bank account
 	date = models.DateTimeField(auto_now_add = True)
 
 ############################################
@@ -409,22 +409,20 @@ class Commission(models.Model):
 ############################################	
 	
 class PurchasedItem(models.Model):
-	#Seller and Buyer
+	# Seller and Buyer
 	seller = models.ForeignKey(BasicUser,related_name="purchaseditemseller")
 	buyer = models.ForeignKey(BasicUser,related_name="purchaseditembuyer")
 	
+	# Details
 	quantity = models.IntegerField(max_length = 5)
 	total = models.BigIntegerField(max_length=20)
-	
-	#Replicate these fields in case they change post sale
 	unit_price = models.BigIntegerField(max_length=20)
 	item_name = models.CharField(max_length=300)
+	purchase_date = models.DateTimeField(auto_now_add = True)
 	
 	# Reference to cart item of the purchase and the checkout
 	cartitem = models.OneToOneField(CartItem)
 	checkout = models.ForeignKey(Checkout)
-	
-	purchase_date = models.DateTimeField(auto_now_add = True)
 	
 	# Post Purchase
 	item_sent = models.BooleanField(default=False)
@@ -435,7 +433,7 @@ class PurchasedItem(models.Model):
 	paid_out = models.BooleanField(default=False)
 	paid_date = models.DateTimeField(null=True,blank=True)
 	
-	# References to the actual payout object
+	# References to the actual payout/payment objects
 	payment = models.ForeignKey(Payment,null=True,blank=True)
 	payout = models.ForeignKey(Payout,null=True,blank=True)
 	
@@ -503,7 +501,6 @@ class PromoCode(models.Model):
 	promo_type = models.CharField(max_length = 50,choices=PROMO_TYPE)
 	factor = models.IntegerField(max_length=100,null=True,blank=True) # % off commission / 100
 	discount = models.IntegerField(max_length = 10,null=True,blank=True) # straight discount
-
 
 ############################################
 ### Price Changes  #########################

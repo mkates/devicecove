@@ -179,13 +179,13 @@ var validateInputs = function validateInputs() {
 		  	<p>Sorry, offline viewing is only available for used and refurbished items</p>
 		  {% else %}
 		  <label>
-			<input type="radio" name="offlineviewing" name="offlineviewing" class="offlineviewing" value="False" {% if item.offlineviewing %}checked{% endif %}>
+			<input type="radio" name="offlineviewing" name="offlineviewing" class="offlineviewing" value="False" {% if not item.offlineviewing %}checked{% endif %}>
 			Online: Item can only be purchased online directly through Vetcove <span>*Recommended for items $499 or less.  Buyers can “buy now” instantly through the VetCove website.  Buyers cannot view your contact information and are not permitted to contact you directly or view the item in person.</span>
 		  </label>
 		</div>
 		<div class="radio">
 		  <label>
-			<input type="radio" name="offlineviewing" name="offlineviewing" class="offlineviewing" value="True" {% if not item.offlineviewing %}checked{% endif %}>
+			<input type="radio" name="offlineviewing" name="offlineviewing" class="offlineviewing" value="True" {% if item.offlineviewing %}checked{% endif %}>
 			Offline: Buyers can contact me to view and/or purchase the item in person<span>*Recommended for items $500 or more.  Buyers can contact you directly to arrange for viewing and/or purchase.  Sales can be made online through VetCove or outside of VetCove.  Instant “buy now” through VetCove website is not available when choosing this option.</span>
 		  </label>
 		</div>

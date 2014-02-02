@@ -75,17 +75,19 @@ header img {
 
 {% block header %}
 <header>
-<img src="{{STATIC_URL}}img/logo_new.png" alt="VetCove"/>
+<a href="/"><img src="{{STATIC_URL}}img/logo_new.png" alt="VetCove"/></a>
 <div class="admin-nav">
-	<a href="/admin">Return to Main Admin Page</a> &#183;
+	<a href="/">Return to Main Site</a> &#183;
+	<a href="/admin">Admin Portal</a> &#183;
 	<a href="/logout" class="">Logout</a>
 </div>
 </header>
 <div class="admin-views">
-	<a class="button button-rounded button-primary button-royal" href="/admin/overview/dashboard">Dashboard</a>
-	<a class="button button-rounded button-primary" href="/admin/overview/purchaseditem">Online Purchases</a>
-	<a class="button button-rounded button-primary" href="/admin/overview/bankpayout">Bank Payouts</a>
-	<a class="button button-rounded button-primary" href="/admin/overview/checkpayout">Check Payouts</a>
+	<a class="button button-rounded button-primary button-royal" href="/staff/overview/dashboard">Dashboard</a>
+	<a class="button button-rounded button-primary" href="/staff/overview/purchaseditem">Online Purchases</a>
+	<a class="button button-rounded button-primary" href="/staff/overview/bankpayout">Bank Payouts</a>
+	<a class="button button-rounded button-primary" href="/staff/overview/commission">Offline Commissions</a>
+	<a class="button button-rounded button-primary" href="/staff/overview/checkpayout">Check Payouts</a>
 </div>
 
 {% if dashboard %}
@@ -218,6 +220,37 @@ header img {
 						<td>{{bp.total_commission|dollars}}</td>
 						<td>{{bp.cc_fee|dollars}}</td>
 						<td>{{bp.amount|dollars}}</td>
+					</tr>
+					
+				{% endfor %}
+			</tbody>
+		</table>
+	</div>
+	{% endif %}
+	
+	{% if commission %}
+	<div class="admin-log covebox">
+		<h3>Offline Commission Payments</h3>
+		<table class="admin-table">
+			<thead>
+				<tr>
+					<td>Payment Date</td>
+					<td>Item</td>
+					<td>Seller</td>
+					<td>Promo Code</td>
+					<td>Item Price</td>
+					<td>Commission</td>
+				</tr>
+			</thead>
+			<tbody>
+				{% for co in commission %}
+					<tr>
+						<td>{{co.date}}</td>
+						<td>{{co.item.name}}</td>
+						<td>{{co.item.user.name}}</td>
+						<td>{{co.item.promo_code}}</td>
+						<td>{{co.item.price|dollars}}</td>
+						<td>{{co.amount|dollars}}</td>
 					</tr>
 					
 				{% endfor %}

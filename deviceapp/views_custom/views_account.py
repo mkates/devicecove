@@ -101,7 +101,7 @@ def updateGeneralSettings(request):
 			except:
 				latlong_obj = None
 		bu.save()
-		return HttpResponseRedirect('/account/profile')
+		return HttpResponseRedirect('/account/profile?s=info')
 	else:
    		return render_to_response('general/index.html',context_instance=RequestContext(request))
 
@@ -115,7 +115,7 @@ def updateSellerSettings(request):
 		phonenumber = request.POST.get('phonenumber','')
 		bu.phonenumber = int(re.sub("[^0-9]", "", phonenumber))
 		bu.save()
-		return HttpResponseRedirect('/account/profile')
+		return HttpResponseRedirect('/account/profile?s=info')
 	else:
 		return render_to_response('general/index.html',context_instance=RequestContext(request))
 

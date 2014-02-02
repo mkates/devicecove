@@ -22,24 +22,29 @@ $(document).ready(function() {
 				console.log(response);
 				switch (response.status) {
 				 case 201:
-					$.post(responseTarget_ba, {
-						name: response.data.name,
-						bank_code: response.data.bank_code,
-						account_number:response.data.account_number,
-						bank_name: response.data.bank_name,
-						fingerprint: response.data.fingerprint,
-						uri: response.data.uri
-					}, function (r) {
-						if (r['status'] == 201) {
-							window.location.href = success_redirect_ba
-						} else {
-							display_BA_Error('Error saving your Card. '+r['error']);
-							Balanced_BA_Enable();
-						}
-					}).fail( function(xhr, textStatus, errorThrown) {
-						 display_BA_Error("We experienced a problem with our servers. We will fix the problem shortly");
-						 Balanced_BA_Enable();
-					});
+				 	if (response.data.is_valid == 'true') {
+						$.post(responseTarget_ba, {
+							name: response.data.name,
+							bank_code: response.data.bank_code,
+							account_number:response.data.account_number,
+							bank_name: response.data.bank_name,
+							fingerprint: response.data.fingerprint,
+							uri: response.data.uri
+						}, function (r) {
+							if (r['status'] == 201) {
+								window.location.href = success_redirect_ba
+							} else {
+								display_BA_Error('Error saving your Card. '+r['error']);
+								Balanced_BA_Enable();
+							}
+						}).fail( function(xhr, textStatus, errorThrown) {
+							 display_BA_Error("We experienced a problem with our servers. We will fix the problem shortly");
+							 Balanced_BA_Enable();
+						});
+					} else {
+						display_BA_Error("Failed to authorize your bank account. Please double check your name, account and routing number");
+					 	Balanced_BA_Enable();
+					}
 					break;
 				 case 400:
 					 // Missing Field, display appropriate error message

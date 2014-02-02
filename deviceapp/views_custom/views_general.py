@@ -23,7 +23,8 @@ def index(request):
 	return render_to_response('general/index.html',{'featured':items},context_instance=RequestContext(request))
 
 def categories(request):
-	return render_to_response('general/categories.html',{'categories':Category.objects.all()},context_instance=RequestContext(request))
+	categories = Category.objects.all().order_by('name')
+	return render_to_response('general/categories.html',{'categories':categories},context_instance=RequestContext(request))
 
 def faq(request):
 	return render_to_response('general/faqs.html',context_instance=RequestContext(request))
@@ -58,11 +59,11 @@ def error(request,errorname):
 	return render_to_response('general/error.html',{'errormessage':errormessage},context_instance=RequestContext(request))
 
 @login_required
-def adminOverviewForward(request):
-	return HttpResponseRedirect('/admin/overview/dashboard')
+def staffOverviewForward(request):
+	return HttpResponseRedirect('/staff/overview/dashboard')
 	
-@login_required
-def adminOverview(request,type):
+@staff_member_required
+def staffOverview(request,type):
 	if request.user.is_staff and request.user.is_authenticated():
 		dict = {}
 		if type == 'dashboard':
@@ -110,6 +111,10 @@ def adminOverview(request,type):
 			dict['bankpayout'] = BankPayout.objects.all()
 		elif type == 'checkpayout':
 			dict['checkpayout'] = CheckPayout.objects.all()
+		elif type == 'commission':
+			dict['commission'] = Commission.objects.all()
+			print 'here'
+			print dict['commission']
 		return render_to_response('general/adminoverview.html',dict,context_instance=RequestContext(request))
 	return HttpResponseRedirect("/")
 

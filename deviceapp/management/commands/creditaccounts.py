@@ -71,8 +71,7 @@ class Command(BaseCommand):
 						for bpi in eligiblePurchasedItems:
 							bpi.paid_out = True
 							bpi.paid_date = datetime.datetime.utcnow().replace(tzinfo=utc)
-							bpi.payout_method = 'bank'
-							bpi.online_payment = bank_payout_obj
+							bpi.payout = bank_payout_obj
 							bpi.save()
 						vetcove_payout_total += amount
 						vetcove_payout_count += 1
@@ -94,8 +93,9 @@ def purchasedItemEligibleForPayout(pitem):
 	#First check its been paid out already
 	if pitem.paid_out == True:
 		return False
-	#See if the item has been sent (unsent items don't get paid out)
-	if pitem.item_sent == False:
+	# See if the item has been sent (unsent items don't get paid out)
+	# Offline items are exempt from this requirement
+	if not (pitem.item_sent == True or pitem.cartitem.item.offlineviewing):
 		return False
 	#Check if it is been enough time to pay the seller
 	now = datetime.datetime.utcnow().replace(tzinfo=utc)

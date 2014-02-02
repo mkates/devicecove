@@ -497,7 +497,11 @@ def checkoutPurchase(request,checkoutid):
 		balanced.configure(settings.BALANCED_API_KEY) # Configure Balanced API
 		customer = balanced.Customer.find(bu.balanceduri)
 		amount = checkout.total()
-		customer.debit(appears_on_statement_as="Vet Cove",amount=amount,source_uri=uri)
+		cd = customer.debit(appears_on_statement_as="Vet Cove",amount=amount,source_uri=uri)
+		print cd
+		if cd.status != "succeeded":
+			print 'here'
+			raise Exception("Charge Failed")
 	except Exception,e:
 		return render_to_response('checkout/checkout_review.html',{'checkout':checkout,'error':e},context_instance=RequestContext(request))
 	

@@ -12,8 +12,8 @@ admin.autodiscover()
 urlpatterns = patterns('',
 
 	#Admin
-	url(r'^admin/overview/(?P<type>\w+)','deviceapp.views_custom.adminOverview'),
-	url(r'^admin/overview','deviceapp.views_custom.adminOverviewForward'),
+	url(r'^staff/overview/(?P<type>\w+)','deviceapp.views_custom.staffOverview'),
+	url(r'^staff/overview','deviceapp.views_custom.staffOverviewForward'),
     url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^staff/markassent','deviceapp.views_custom.staffMarkAsSent'),
