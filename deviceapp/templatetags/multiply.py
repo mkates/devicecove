@@ -8,4 +8,4 @@ def multiply( value , arg ):
 
 @register.filter
 def dividepercent( value , arg ):
-  return str(int(round(float(value)/float(arg),2)*100))+"%"
+  return str(100-int(round(float(value)/float(arg),2)*100))+"%"

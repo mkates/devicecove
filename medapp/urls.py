@@ -30,7 +30,7 @@ urlpatterns = patterns('',
     url(r'^buyerprotect','deviceapp.views_custom.buyerprotect'),
     url(r'^listintro','deviceapp.views_custom.listintro'),
     url(r'^categories','deviceapp.views_custom.categories'),
-    
+    url(r'^buy/','deviceapp.views_custom.buy'),
     #User Actions
     url(r'^imageupload/(?P<itemid>\d+)','deviceapp.views_custom.imageupload'), 
     url(r'^deleteimage','deviceapp.views_custom.deleteimage'),  

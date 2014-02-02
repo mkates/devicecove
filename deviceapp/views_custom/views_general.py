@@ -22,6 +22,9 @@ def index(request):
 	items = Item.objects.filter(liststatus='active').order_by('savedcount')[:9]
 	return render_to_response('general/index.html',{'featured':items},context_instance=RequestContext(request))
 
+def buy(request):
+	return HttpResponseRedirect('/productsearch/veterinary/all/all')
+	
 def categories(request):
 	categories = Category.objects.all().order_by('name')
 	return render_to_response('general/categories.html',{'categories':categories},context_instance=RequestContext(request))
