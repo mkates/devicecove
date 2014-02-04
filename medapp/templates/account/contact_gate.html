@@ -11,7 +11,7 @@
 }
 .gateway {
 	padding: 20px;
-	border-bottom:1px solid #eee;
+	margin-bottom: 30px;
 }
 .gateway-header h3 {
 	text-align: center;
@@ -26,10 +26,13 @@
 	margin-bottom: 20px;
 	font-size: 16px;
 }
+.gateway-body {
+	margin-bottom: 35px;
+}
 .gateway-body p {
 	font-weight: 400;
-	font-size: 14px;
-	padding: 10px 15px;
+	font-size: 13px;
+	padding: 5px 15px;
 }
 .gateway-body p span {
 	font-weight: 800;
@@ -77,6 +80,10 @@
 }
 .error-block {
 	display: block;
+}
+.gateway-body p .underline {
+	text-decoration: underline;
+	font-weight: normal;
 }
 </style>
 
@@ -130,17 +137,13 @@ $(document).ready(function() {
 		</div>
 		{% endif %}
 		<div class="gateway-header">
-			<h3>You have <span class="badge">1</span> buyer who wants to view your item offline</h3>
+			<h3>You have <span class="badge">1</span> buyer who would like to buy or schedule a viewing</h3>
 		</div>
-		{{user.basicuser.balanceduri}}
 		<div class="row gateway-body">
-			<p>In order to ensure that all items listed on VetCove and sold offline receive
-			the commission fee, we charge the 9% commission fee upfront. This allows you
-			to either complete the transaction offline, or you can authorize a buyer to 
-			purchase your item directly online (there are no additional fees for buying online).
-			We <span class="bold">GUARANTEE</span> your item will be sold through the VetCove
-			system. At the end of 90 days, if your item is still not sold, we will offer a 100%
-			refund.</p>
+			<p>Congratulations on attracting buyers with serious intent to purchase your item! By proceeding with this step, you will be able to freely contact all interested buyers to arrange for viewings and/or purchase outside of VetCove.
+			In order to ensure that all VetCove items slated for offline sale are accounted for, we require a valid credit card to assess a fully refundable VetCove selling fee.  Once this fee is assessed, you will be provided with the complete business and contact information for all current and future prospective buyers until your item is sold.</p>
+			<p>If you are unable to sell your item in <span class="underline">ninety</span> days, we will refund <strong>100% of the assessed fees directly to the credit card or bank account</strong> from which it was charged.  If and when your item does get sold successfully, we would appreciate you marking the item as sold in your VetCove account.  We value your honesty that makes offline transactions possible, and appreciate your understanding in allowing us continue to serve the veterinary community. </p>
+			<p>Please note that if you proceed, you will still be able to authorize buyers to pay you online through VetCove.  If you choose to do so, 100% of the purchase price will be passed through to you, as the VetCove Seller fees will have already been paid.  You will also be eligible for VetCove Seller Protection by choosing to use VetCove to complete the payment transaction.</p>
 		</div>
 		<div class="row">
 			<div class="col-md-8 col-sm-8 col-xs-12 payment-row">
@@ -149,7 +152,7 @@ $(document).ready(function() {
 					<div class="paymentbox">
 						{% include 'account/payment_methods.html'%}
 					</div>
-					<button class="add-payment button button-rounded">Add A Payment</button>
+					<button class="add-payment button button-rounded">Use A Different Payment Method</button>
 					<div class="add-payment-container">
 						<button class="payment-button show-cc button button-rounded button-tiny button-primary">Pay by Credit Card</button>
 						<button class="payment-button show-ba button button-rounded button-tiny">Pay by Bank Account</button>
@@ -166,8 +169,7 @@ $(document).ready(function() {
 			<div class="col-md-4 col-sm-4 col-xs-12 total-row">
 				<div class="gateway-row">
 					<h5>Refundable Commission Fee</h5>
-					<p class="subheader">*The commission fee is {{commission_percent|multiply:100}}% of the list price ({{item.price|dollars}})
-					charged once and fully refundable if the item is not sold</p>
+					<p class="subheader">* The commission fee is {{commission_percent|multiply:100}}% of the list price, based on our <a target="_blank" href="/commission">commission structure</a>, charged once and fully refundable if your item does not sell.</p>
 					<p>Commission Fee ({{commission_percent|multiply:100}}%)<span>{{standard_commission|dollars}}</span></p>
 					{% if item.promo_code %}
 					<p>Promo Code ({{item.promo_code.details}})<span>-{{discount|dollars}}</span></p>

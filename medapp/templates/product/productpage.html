@@ -7,9 +7,7 @@
 		<div class="buynowbox">
 			<div id="contactbox">
 				<h4>Contact Seller</h4>
-				<p>Contact the seller with a personal message if you are interested in viewing this product in person
-				or buying the item online. For general product questions, please use the public questions 
-				feature.</p>
+				<p> If you're ready to schedule an in-person viewing of the product or buy it online through VetCove, use this form to contact the seller to arrange for next steps.  To inquire for specific additional information about the item itself, we suggest you ask a question instead.</p>
 				<form action="/messageseller/{{item.id}}" method="POST" id="messageseller">
 					{% csrf_token %}
 					<div class="row">
@@ -44,7 +42,7 @@
 					<div class="row">
 						<div class="col-md-12 col-sm-12 col-xs-12">
 							<label>Message For Seller</label>
-							<textarea required class="form-control" name="contact-message" placeholder="I'd like to check out this item in person. When are you available to demo the product?"></textarea>
+							<textarea required class="form-control" name="contact-message"></textarea>
 						</div>
 					</div>
 					<input type="hidden" value="{{item.user.id}}" name="seller">
@@ -55,8 +53,7 @@
 			<div id="successbox">
 				<div class="contact-success">
 					<img src="{{STATIC_URL}}img/checkmark.png"/>
-					<h5> We have notified the seller with your message and contact information. Please allow up to 48 hours
-					for the seller to contact you. If this item is no longer available, please let us know!</h5>
+					<h5>We have notified the seller of your intent, and provided him or her with your contact information.  If the seller is interested in having you schedule a viewing or purchase the item based on the information provided, you will be notified by e-mail and/or phone.  If you have intent to purchase this item, but the seller does not respond or notifies you that the item is no longer available, please let us know immediately by e-mailing info@vetcove.com</h5>
 				</div>
 				<div class="contact-error">
 					<img class="contact-xmark" src="{{STATIC_URL}}img/xmark.png"/>

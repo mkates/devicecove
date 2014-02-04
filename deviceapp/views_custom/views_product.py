@@ -229,13 +229,15 @@ def savelogistics(request,itemid):
 			item.shippingincluded = True if request.POST.get('shippingincluded','True') == 'True' else False
 			item.offlineviewing = True if request.POST.get('offlineviewing','True') == 'True' else False
 			price = request.POST.get('inputlistprice','0')
-			new_price = int(round(float(price.replace(",","").replace("$","0")),2)*100)
-			if item.price and item.price != new_price and item.liststatus == "active":
-				pc = PriceChange(item=item,original_price=item.price,new_price=new_price)
-				pc.save()
+			if price:
+				new_price = int(round(float(price.replace(",","").replace("$","0")),2)*100)
+				if item.price and item.price != new_price and item.liststatus == "active":
+					pc = PriceChange(item=item,original_price=item.price,new_price=new_price)
+					pc.save()
 			item.price = new_price
 			msrp_price = request.POST.get('inputmsrpprice','0')
-			item.msrp_price = int(round(float(msrp_price.replace(",","").replace("$","0")),2)*100)
+			if msrp_price:
+				item.msrp_price = int(round(float(msrp_price.replace(",","").replace("$","0")),2)*100)
 			item.save()
 			return HttpResponse(submitcode)
 		return HttpResponse(500)

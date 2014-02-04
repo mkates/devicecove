@@ -24,19 +24,28 @@ def index(request):
 
 def buy(request):
 	return HttpResponseRedirect('/productsearch/veterinary/all/all')
-	
+
+def tos(request):
+	return render_to_response('general/tos.html',{'tos':True},context_instance=RequestContext(request))
+
+def commissionpage(request):
+	return render_to_response('general/commission.html',{'commission':True},context_instance=RequestContext(request))
+
+def privacypolicy(request):
+	return render_to_response('general/privacypolicy.html',{'privacypolicy':True},context_instance=RequestContext(request))
+
 def categories(request):
 	categories = Category.objects.all().order_by('name')
 	return render_to_response('general/categories.html',{'categories':categories},context_instance=RequestContext(request))
 
 def faq(request):
-	return render_to_response('general/faqs.html',context_instance=RequestContext(request))
+	return render_to_response('general/faqs.html',{'faq':True},context_instance=RequestContext(request))
 
 def pvp(request):
-	return render_to_response('general/pvp.html',context_instance=RequestContext(request))
+	return render_to_response('general/pvp.html',{'pvp':True},context_instance=RequestContext(request))
 
 def about(request):
-	return render_to_response('general/about.html',context_instance=RequestContext(request))
+	return render_to_response('general/about.html',{'about':True},context_instance=RequestContext(request))
 
 def testemail(request):
 	return render_to_response('email_templates/test_email.html',context_instance=RequestContext(request))
@@ -48,7 +57,7 @@ def my_500_view(request):
 	return render_to_response('500.html',context_instance=RequestContext(request))
 	
 def buyerprotect(request):
-	return render_to_response('general/buyerprotect.html',context_instance=RequestContext(request))
+	return render_to_response('general/buyerprotect.html',{'buyerprotect':True,'PHONE_NUMBER':settings.CONTACT_PHONE_NUMBER},context_instance=RequestContext(request))
 
 ### Anytime there is an error, send the user here ####
 def error(request,errorname):

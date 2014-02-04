@@ -231,6 +231,8 @@ STATICFILES_DIRS = (
 TEMPLATE_DIRS = (
      os.path.join(BASE_DIR, 'templates'),
 )
+#General settings
+CONTACT_PHONE_NUMBER = 7325986434
 
 #Amazon Credentials
 AWS_ACCESS_KEY_ID = 'AKIAJOLZ5657Q7HHW2CA'

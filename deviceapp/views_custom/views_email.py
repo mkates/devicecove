@@ -282,7 +282,7 @@ def composeEmailPayoutFailed(basicuser,bank_obj):
 #### User updated their payment information ######
 def composeEmailPayoutUpdated(basicuser):
 	bu = basicuser
-	if basiuser.payout_method:
+	if basicuser.payout_method:
 		payout = basicuser.payout_method
 	else:
 		return composeEmailNoPayment(basicuser)

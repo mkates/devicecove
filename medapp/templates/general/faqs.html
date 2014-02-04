@@ -1,86 +1,78 @@
-{% extends 'base.html' %}
+{% extends 'general/info_base.html' %}
 {% block headertitle %}<title>VetCove | FAQ</title>{% endblock%}
-{% block headercss %}
+{% block infocss %}
 
-<style>
-
-.maincontainer {
-	background: #fff;
-	border:1px solid #ddd;
-	border-radius: 3px;
-	box-shadow: 0 0 4px #ccc;
-	max-width: 1000px;
-	margin: 50px auto
-}
-.maincontainer h3 {
-	display: block;
-	border-bottom: 1px solid #eee;
-	padding-left: 20px;
-	font-weight: 200;
-	padding-bottom: 10px;
-	margin-bottom: 20px;
-}
-.maincontainer h5 {
-	display: block;
-	font-size: 26px;
-	padding-left: 40px;
-	font-weight: 500;
-	margin-bottom: 0;
-}
-.question {
-	margin: 40px 40px;
-}
-.question h4 {
-	font-weight: 800;
-	font-size: 15px;
-	color: #333;
-}
-.question p {
-	font-weight: 200;
-}
-
-</style>
-{% endblock%}
+{% endblock %}
 
 
-{% block content %}
-<div class="maincontainer">
+{% block info_block %}
+<div class="section-container covebox faq-header">
 	<h3>Frequently Asked Questions</h3>
-	<h5> Selling Items on VetCove</h5>
+</div>
+<div class="section-container covebox">
+	<h5 class="sidecontent-title"> Selling Items on VetCove</h5>
+
 	<div class="question">
-		<h4>I have many products to list. How long does it take to list a product on VetCove?</h4>
-		<p>Listing a product takes as little as two minutes.  If others have listed the same product before, many details will be completed for you.  We do recommend providing detailed descriptions of the product’s condition, history, and warranty to improve buyer confidence and get your item sold faster.</p>
+		<h4> I have many products to list. How long does it take to list a product on VetCove?</h4>
+		<p> Listing a product takes as little as two minutes.  If others have listed the same product before, many details will be completed for you.  We do recommend providing detailed descriptions of the product’s condition, history, and warranty to improve buyer confidence and get your item sold faster.</p>
 	</div>
 	<div class="question">
-		<h4>When a buyer is ready to buy, can I complete the transaction in person?</h4>
-		<p>Yes, absolutely.  In fact, we encourage it.  Deals can be completed in person by check or by cash after the buyer thoroughly examines the product.  In these cases commission will be assessed by credit card rather than deducted from the money received from the buyer.  When you list a product, you can choose whether or not you’d like buyers to be able to contact you directly to view the product and complete the transaction in person instead of through the website.</p>
+		<h4> When a buyer is ready to buy, can I complete the transaction in person?</h4>
+		<p> Yes, absolutely.  In fact, we encourage it.  Deals can be completed in person by check or by cash after the buyer thoroughly examines the product.  In these cases commission will be assessed by credit card rather than deducted from the money received from the buyer.  When you list a product, you can choose whether or not you’d like buyers to be able to contact you directly to view the product and complete the transaction in person instead of through the website.</p>
 	</div>
 	<div class="question">
-		<h4>Who is responsible for shipping the product to the buyer?</h4>
-		<p>We’ll help you price your product, using information like the item’s MSRP, age, projected useful life, condition, and warranty information.  You are free to use any listing price you see fit based on your own knowledge of the product.</p>
+		<h4> Who is responsible for shipping the product to the buyer?</h4>
+		<p> When you list a product, you decide whether or not you will provide shipping for the product.  If you will provide shipping, you will be responsible for packaging the product(s) and arranging for the shipping service at your expense.  If you do not wish to provide shipping, buyers may still pick up the product in person, or may arrange to have the product shipped to them at their own expense.  Keep in mind that providing the option to ship to a buyer allows you to reach many more buyers, and may increase the value your product can be sold for.  You may specify the shipping details and considerations with text.</p>
+	</div>
+	<div class="question"> 
+		<h4> How do I know how to price my used device or instrument?</h4>
+		<p> We’ll help you price your product, using information like the item’s MSRP, age, projected useful life, condition, and warranty information.  You are free to use any listing price you see fit based on your own knowledge of the product.</p>
 	</div>
 	<div class="question">
-		<h4>How do I know how to price my used device or instrument?</h4>
-		<p>To list a product, you must be a certified veterinarian, distributor, supplier, or manufacturer. We vet our sellers
-		to ensure they meet the standard requirements to be a seller on our service</p>
-	</div>
-	<div class="question">
-		<h4>Do I need detailed warranty information about the product I’m selling?</h4>
-		<p>For expensive items, buyers will generally pay more for an item that includes warranty information.  If the warranty or service contract is current and transferrable to a buyer, indicating this in the listing will help the item sell quicker.  If a warranty or service contract can be acquired on the item after the sale, it will be useful to mention this as well to alert buyers that they can do so after they buy.  Some savvy sellers get new warranties or service contracts on items before they list to ensure their items sell for the highest prices.  Items that cannot get a new service contract after a sale, or when the warranty status is not known, are sold “as is.”</p>
+		<h4> Do I need detailed warranty information about the product I’m selling?</h4>
+		<p> For expensive items, buyers will generally pay more for an item that includes warranty information.  If the warranty or service contract is current and transferrable to a buyer, indicating this in the listing will help the item sell quicker.  If a warranty or service contract can be acquired on the item after the sale, it will be useful to mention this as well to alert buyers that they can do so after they buy.  Some savvy sellers get new warranties or service contracts on items before they list to ensure their items sell for the highest prices.  Items that cannot get a new service contract after a sale, or when the warranty status is not known, are sold “as is.”</p>
 	</div>
 	<div class="question">
 		<h4> What if the buyer wants to return the product or is displeased with it?</h4>
-		<p>All of our sellers are protected by the VetCove Seller Protection guarantee.  Except in cases where we determine a product was inaccurately described or misrepresented, buyers will have five business days to return the product to you in its original condition at the buyer’s own expense.</p>
+		<p> All of our sellers are protected by the VetCove Seller Protection guarantee.  Except in cases where we determine a product was inaccurately described or misrepresented, buyers will have five business days to return the product to you in its original condition at the buyer’s own expense.</p>
+ 	</div>
+</div>
+<div class="section-container covebox"> 	
+	<h5 class="sidecontent-title"> Buying Items on VetCove</h5>
+	
+	<div class="question"> 
+		<h4> Do I need to register an account to buy items on VetCove?</h4>
+		<p> Yes, you must register your business in order to buy or sell on VetCove.  The registration process takes less than 60 seconds.  Please have your business name, address, and full contact details available, as you will need them when you register. </p>
 	</div>
-	<h5>Buying Items on VetCove</h5>
+	<div class="question"> 
+		<h4> How do I guarantee the business I’m buying from on VetCove is trustworthy?</h4>
+		<p> All businesses, including veterinary practices, hospitals, suppliers, and manufacturers will be fully investigated and vetted by the VetCove team after registration.  This is done to ensure we maintain a high-quality and legitimate community of vets and their business partners.  Those businesses listing items will go through an extra layer of verification by the VetCove team to ensure the quality of listings is extremely high sitewide.</p> 
+	</div>
+	<div class="question">  
+		<h4> Can I see the name of the business I’m considering a purchase from?</h4>
+		<p> Absolutely.  Although all members of the community are thoroughly vetted by VetCove, we feel it is important to know who you’re buying from.  On a product’s listing page, when you click the “Contact Seller” button and submit a message, a seller will receive an e-mail that you are interested in connecting with them about this product.  The seller will then contact you with their full business details, and with information about viewing the product and/or conducting a product sale.</p>
+	</div>
+	<div class="question">  
+		<h4> What is the VetCove Total Buyer Protection Guarantee?</h4>
+		<p> We want you to feel completely confident buying high-value items through VetCove’s services.  Under the VetCove Total Buyer Protection Guarantee, we ensure you receive the item you paid for without any compromises, and that you are happy with your purchase.  You have five full business days to use the unit you purchased without any risk.  If you are not completely satisfied with your purchase, you may return it to the seller by initiating a return within five business days. </p>
+	</div>
+	<div class="question"> 
+		<h4> What if I want to return an item I purchased after I receive it?</h4>
+		<p> Please contact VetCove within five business days of receiving your product to initiate a return.  Products must be returned in the same condition it was received, using the similar shipping conditions to the original sale.  Return shipping will be at the buyer’s expense.  If you wish to return an item because it arrives in materially different cosmetic or functioning condition from its listing, VetCove will facilitate resolution that may place the cost burden of return shipping on the seller. </p>
+	</div>
+	<div class="question"> 
+		<h4> What if the product I received is not as described?</h4>
+		<p> All buyers are guaranteed to receive the product they purchased as it was described under the VetBay Total Buyer Protection Guarantee.  If an item is not as described, please contact us immediately.  If the VetBay team determines there is a significant misrepresentation or oversight in the product’s description that materially affects the value and/or functionality of the unit, we will facilitate a resolution for you.  This can be a complete refund and return of the unit at the Seller’s expense, or a mutually agreed-upon price adjustment facilitated by the VetCove team.  All buyers must contact VetCove within five business days of receiving the unit if the product is not as described. </p>
+	</div>
+	<div class="question"> 
+		<h4> How do I contact VetCove in the event of a problem with a transaction?</h4>
+		<p> You may contact us via via email (buyerprotection@vetcove.com), by phone at XXX-XXX-XXXX, or via our website through a support request.  We will respond to all inquiries within 48 hours.  If you are contacting us about a return under the Total Buyer Protection Guarantee, as long as your communication is received by us within five business days of a product’s receipt, the Guarantee will apply, even if we respond after the five day period.</p>
+	</div>
 </div>
 
 
 {% endblock %}
 
 {% block jsblock %}
-<script>
-$(document).ready(function() {
-});
-</script>
+
 {% endblock %}

@@ -147,7 +147,7 @@ label .floatright {
   				<option value="25">25 Miles</option>
   			</select>
   			<p>from</p>
-  			<input id="zipcode-input" onkeyup="this.value=this.value.replace(/[^\d]/,'')" class='form-control' placeholder='Zipcode' type='number' maxlength='5' value="{{zipcode}}"/>
+  			<input id="zipcode-input" onkeyup="this.value=this.value.replace(/[^\d]/,'')" class='form-control' placeholder='Zipcode' type='number' maxlength='5' value="{% if zipcode %}{{zipcode}}{% endif %}"/>
   		</div>		
   	</div>
   </div>
@@ -157,7 +157,7 @@ label .floatright {
   	<div id='loadingoverlay'>
   		<div id='loaderdiv'>
   			<h3> Filtering search results . . .</h3>
-  			<img src='{{STATIC_URL}}img/ajax-loader2.gif'/>
+  			<img src='{{STATIC_URL}}img/ajax-loader2.gif' alt="Loading. . . "/>
   		</div>
   	</div>
   	<div class='resultsbox resultsnav covebox'>
@@ -196,12 +196,12 @@ label .floatright {
   		{% include 'search/productsearchitem.html' %}
 		<div id="noresults" class="resultitem covebox">
 			<p class="noluck">Sorry, we can't find anything that matches your search</p>
-			<img class="noresults" src="{{STATIC_URL}}img/saddog.jpg"/>
+			<img class="noresults" src="{{STATIC_URL}}img/saddog.jpg" alt=""/>
 			<p>Try changing your filters, or call us with what you want and we will let you know when one becomes available!</p>
 		</div>
 		<div class='showmorebutton resultsbox'>
 			<p>Show More Results</p>
-			<img src='{{STATIC_URL}}img/ajax-loader.gif'/>
+			<img src='{{STATIC_URL}}img/ajax-loader.gif' alt="Loading. . ."/>
 		</div>
   	</div>
   </div>

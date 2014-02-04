@@ -61,7 +61,7 @@ def lgnrequest(request):
 		else:
 			return HttpResponse("Your account has been disabled")
 	else:
-		return render_to_response('account/login.html',{'outcome':'Invalid Login'},context_instance=RequestContext(request))
+		return render_to_response('account/login.html',{'outcome':'Your email and/or password was incorrect'},context_instance=RequestContext(request))
 
 def checkemail(request):
 	if request.method == "GET":

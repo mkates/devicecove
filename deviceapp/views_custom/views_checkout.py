@@ -604,11 +604,11 @@ def checkoutValidCheck(checkout,request):
 	if checkout.purchased:
 		dict = {'status':100,'error':'purchased'}
 	
-	# Next check if it has been too long
+	# Next check if it has been too long: 20 minutes to complete checkout
 	time_now = datetime.utcnow().replace(tzinfo=utc)
 	time_elapsed = time_now - checkout.start_time
 	seconds_elapsed = time_elapsed.seconds
-	if seconds_elapsed > 9000:
+	if seconds_elapsed > 1200:
 		dict = {'status':100,'error':'timeout'}
 	
 	# See if it is the right user

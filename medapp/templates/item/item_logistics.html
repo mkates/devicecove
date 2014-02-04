@@ -112,7 +112,7 @@ $(document).ready(function() {
 				case 78: break; // N (Opera 9.63+ maps the "." from the number key section to the "N" key too!) (See: http://unixpapa.com/js/key.html search for ". Del")
 				case 110: break; // . number block (Opera 9.63+ maps the "." from the number block to the "N" key (78) !!!)
 				case 190: break; // .
-				default: $(this).formatCurrency({ colorize: true, negativeFormat: '-%s%n', roundToDecimalPlace: -1, eventOnDecimalsEntered: true });
+				default: $(this).formatCurrency({ colorize: true, negativeFormat: '-%s%n', roundToDecimalPlace: 2, eventOnDecimalsEntered: true });
 			}
 		}
 	});

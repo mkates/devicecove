@@ -78,7 +78,7 @@
 	padding: 0;
 }
 .history-item .order-image img{
-	max-width: 100%;
+	width: 100%;
 	border:2px solid #eee;
 }
 .history-item .order-name {

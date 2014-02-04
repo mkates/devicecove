@@ -317,7 +317,6 @@ def withinDistance(item,zipcode,distance,latlongs):
 #Get the user's zipcode if they are not logged in or have it saved as a cookie
 def callZipcodeAPI(request):
 	try:
-	  return None #Disable calling the Zipcode
 	  remote_addr = request.META['REMOTE_ADDR']
 	  url = "http://www.iptolatlng.com?ip="+remote_addr+"&type=json"
 	  result = urllib2.urlopen(url)

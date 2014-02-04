@@ -87,6 +87,24 @@
 	border-bottom:1px solid #ddd;
 	text-align: left;
 }
+
+.maincontent-title {
+	color: #888;
+	letter-spacing: .5px;
+	font-weight: 800;
+	background: #f2f2f2;
+	border-bottom:1px solid #ddd;
+	margin: 0;
+	line-height: 32px;
+	padding: 10px 0px 0px 20px;
+	margin-bottom: 0px;
+	background-image: -ms-linear-gradient(top, #FFFFFF 0%, #EEEEEE 100%);
+	background-image: -moz-linear-gradient(top, #FFFFFF 0%, #EEEEEE 100%);
+	background-image: -o-linear-gradient(top, #FFFFFF 0%, #EEEEEE 100%);
+	background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #FFFFFF), color-stop(1, #EEEEEE));
+	background-image: -webkit-linear-gradient(top, #FFFFFF 0%, #EEEEEE 100%);
+	background-image: linear-gradient(to bottom, #FFFFFF 0%, #EEEEEE 100%);
+}
 .nolistings {
 	text-align: center;
 	padding: 50px 20px;
@@ -114,23 +132,6 @@
 	border-radius: 3px;
 	float: right;
 	margin: 5px 10px;
-}
-.maincontent-title {
-	color: #888;
-	letter-spacing: .5px;
-	font-weight: 800;
-	background: #f2f2f2;
-	border-bottom:1px solid #ddd;
-	margin: 0;
-	line-height: 32px;
-	padding: 10px 0px 0px 20px;
-	margin-bottom: 0px;
-	background-image: -ms-linear-gradient(top, #FFFFFF 0%, #EEEEEE 100%);
-	background-image: -moz-linear-gradient(top, #FFFFFF 0%, #EEEEEE 100%);
-	background-image: -o-linear-gradient(top, #FFFFFF 0%, #EEEEEE 100%);
-	background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #FFFFFF), color-stop(1, #EEEEEE));
-	background-image: -webkit-linear-gradient(top, #FFFFFF 0%, #EEEEEE 100%);
-	background-image: linear-gradient(to bottom, #FFFFFF 0%, #EEEEEE 100%);
 }
 
 /*Payment Address formatting*/

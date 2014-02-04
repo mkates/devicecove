@@ -80,12 +80,13 @@
 
 {% load dollars %}
 {% load phonenumber %}
+{% load zipcodify %}
 {% block content %}
 <div class="confirmation-container covebox">
 	<h3> Thank you for your order!</h3>
 	<h5> For reference, your order number is {{checkout.id}}</h5>
 	<p>We have sent an email to {{user.basicuser.email}} with a confirmation of your order! Your credit card has been charged {{checkout.total|dollars}}. The seller of the items you purchased have been contacted and will be shipping your items shortly. To see the status of 
-	the items you purchase, you can visit your <a href='/purchaseditems'>purchased items </a> page. </p>
+	the items you purchase, you can visit your <a href='/account/buyhistory'>purchased items </a> page. </p>
 	
 	<p class="disclaimer"> Note: If you do not hear from the seller and the item does not arrive within 2 weeks, please contact
 	us immediately. You have 48 hours from the time you receive the item to submit a complaint.</p>
@@ -102,14 +103,15 @@
 		<div class="covebox cart-item {% if forloop.last %}last-cart-item{% endif %}" id="cart-item-{{cartitem.item.id}}">
 			<div class="row">
 				<div class="item-image col-md-3 col-sm-3 col-xs-12">
-					<img src="{%if cartitem.item.mainimage %}{{cartitem.item.mainimage.photo_medium.url}}{% else %}{{STATIC_URL}}img/noimage.jpg{% endif %}" alt="{{cartitem.item.name}}"/>		
+					<img src="{% if checkoutcartitem.item.mainimage %}{{checkoutcartitem.item.mainimage.photo_medium.url}}{% else %}{{STATIC_URL}}img/noimage.jpg{% endif %}" alt="{{cartitem.item.name}}"/>		
 				</div>
 				<div class="item-information col-md-7 col-sm-7 col-xs-12">
 					<h6>{{checkoutcartitem.item.name}}</h6>
 					<p class="seller-header"> Seller </p>
 					<p class="sellerinfo">{{checkoutcartitem.item.user.name}}</p>
 					<p class="sellerinfo">{{checkoutcartitem.item.user.company}}</p>
-					<p class="sellerinfo">{{checkoutcartitem.item.user.city}} {{checkoutcartitem.item.user.state}} {{checkoutcartitem.item.user.zipcode}}</p>
+					<p class="sellerinfo">{{checkoutcartitem.item.user.email}}</p>
+					<p class="sellerinfo">{{checkoutcartitem.item.user.city}} {{checkoutcartitem.item.user.state}} {{checkoutcartitem.item.user.zipcode|zipcodify}}</p>
 					<p class="sellerinfo">Phone: {{checkoutcartitem.item.user.phonenumber|phonenumber}}</p>
 				</div>
 				<div class="item-price col-md-2 col-sm-2 col-xs-12">

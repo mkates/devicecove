@@ -3,7 +3,7 @@
 <head>
 
 {% block headertitle %}<title>VetCove</title>{% endblock%}
-<meta name="description" content="">
+<meta name="description" content="VetCove is the top equipment marketplace for veterinarians to buy and sell new, pre-owned, and refurbished equipment and supplies">
 <meta http-equiv="content-type" content="text/html;charset=UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -56,7 +56,7 @@
 		  <span class="icon-bar"></span>
 		</button>
 		<button id="search_icon" class="navbar-toggle">
-			<img src="{{STATIC_URL}}img/search_icon.png"/>
+			<img src="{{STATIC_URL}}img/search_icon.png" alt="Search"/>
 		</button>
 		<a class="navbar-brand" href="/"><img src="{{STATIC_URL}}img/logo_new.png" alt="VetCove"/></a>
 	  </div>
@@ -92,7 +92,7 @@
 				  	</a>
 				  </li>
 				  {% endfor %}
-				  <li><a class="viewcart" href="/cart">View Cart ({{cart_items_count}}) &rarr;</a>
+				  <li><a class="viewcart" href="/cart" alt="">View Cart ({{cart_items_count}}) &rarr;</a>
 				</ul>
 			</li>
 			{% if user.is_authenticated %}
@@ -125,7 +125,7 @@
 				<form id="searchform" class="searchbar" action="/customsearch" method="get">
 					<table>
 						<tr>
-						<td><input name="q" id="searchinput" autocomplete="off" class="form-control" type="text" placeholder="Search Equipment" value="{% block searchvalue %}{% endblock %}"></input><span id="search-exit"></span></td>
+						<td><input name="q" id="searchinput" autocomplete="off" class="form-control" type="text" placeholder="Search Equipment" value="{% block searchvalue %}{% endblock %}"><span id="search-exit"></span></td>
 						<td class="searchbutton"><button type="submit" class="button button-rounded">Go</button></td>
 						</tr>
 					</table>
@@ -244,7 +244,9 @@
 		<li class="dot"> &#8901; </li>
 		<li><a href="/about">About</a></li>
 		<li class="dot"> &#8901; </li>
-		<li><a href="/terms">Terms</a></li>
+		<li><a href="/tos">Terms</a></li>
+		<li class="dot"> &#8901; </li>
+		<li><a href="/privacypolicy">Privacy</a></li>
 		<li class="dot"> &#8901; </li>
 		<li><a href="/categories">Item Directory</a></li>
 	</ul>
