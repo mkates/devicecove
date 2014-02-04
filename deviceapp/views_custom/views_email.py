@@ -24,7 +24,7 @@ def render_and_send_email(template_data,subject,receiver):
 		html_body = render_to_string("email_templates/email_template.html", template_data)
 		msg = EmailMultiAlternatives(subject, text_body, "The VetCove Team <info@vetcove.com>",[receiver])
 		msg.attach_alternative(html_body, "text/html")
-		msg.send()
+		#msg.send()
 		return 201
 	except Exception,e:
 		print e

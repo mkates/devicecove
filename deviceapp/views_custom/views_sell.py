@@ -97,10 +97,13 @@ def newcard_chargecommission(request,itemid):
 			balanced.configure(settings.BALANCED_API_KEY) # Configure Balanced API
 			customer = balanced.Customer.find(balanced_addCard['balanceduri'])
 			amount = commission.commission(item)
-			customer.debit(appears_on_statement_as="Vet Cove Fee",amount=amount,source_uri=card_uri)
+			description = "Charge for item "+str(item.id)
+			debit = customer.debit(appears_on_statement_as="Vet Cove Fee",amount=amount,source_uri=card_uri,description=description)
+			if not debit.status == "succeeded":
+				return HttpResponse(json.dumps({'status':501,'error':'Failed to charge your card.'}), content_type='application/json')
 			item.commission_paid = True
 			item.save()
-			commission_obj = Commission(item=item,price=item.price,amount=amount,payment=card)
+			commission_obj = Commission(item=item,price=item.price,amount=amount,payment=card,transcation_number=debit.transaction_number)
 			commission_obj.save()
 			email_view.composeEmailCommissionCharged(request,bu,commission_obj)
 			return HttpResponse(json.dumps({'status':201}), content_type='application/json')
@@ -126,7 +129,9 @@ def newbank_chargecommission(request,itemid):
 			balanced.configure(settings.BALANCED_API_KEY) # Configure Balanced API
 			customer = balanced.Customer.find(balanced_addBankAccount['balanceduri'])
 			amount = commission.commission(item)
-			customer.debit(appears_on_statement_as="Vet Cove Fee",amount=amount,source_uri=bank_uri)
+			debit = customer.debit(appears_on_statement_as="Vet Cove Fee",amount=amount,source_uri=bank_uri)
+			if not debit.status == "succeeded":
+				return HttpResponse(json.dumps({'status':501,'error':'Failed to charge your bank account.'}), content_type='application/json')
 			item.commission_paid = True
 			item.save()
 			commission_obj = Commission(item=item,price=item.price,amount=amount,payment=bank)
@@ -145,16 +150,16 @@ def gatePayment(request,paymenttype,paymentid,itemid):
 		return HttpResponseRedirect('/account/messages/'+str(item.id))
 	if request.user.basicuser == item.user and request.method == 'POST':
 		try:
-			if paymenttype == 'card':
-				payment = BalancedCard.objects.get(id=paymentid)
-			elif paymenttype == 'bank':
-				payment = BalancedBankAccount.objects.get(id=paymentid)
+			payment = Payment.objects.get(id=paymentid)
 			if payment.user == request.user.basicuser:
 				bu = request.user.basicuser
 				balanced.configure(settings.BALANCED_API_KEY) # Configure Balanced API
 				customer = balanced.Customer.find(bu.balanceduri)
 				amount = commission.commission(item)
-				customer.debit(appears_on_statement_as="Vet Cove Fee",amount=amount,source_uri=payment.uri)
+				uri = payment.balancedcard.uri if hasattr(payment,'balancedcard') else payment.balancedbankaccount.uri
+				debit = customer.debit(appears_on_statement_as="Vet Cove Fee",amount=amount,source_uri=uri)
+				if not debit.status == "succeeded":
+					return HttpResponseRedirect('/account/messages/'+str(item.id)+"?e=fail")
 				item.commission_paid = True
 				item.save()
 				commission_obj = Commission(item=item,price=item.price,amount=amount,payment=payment)

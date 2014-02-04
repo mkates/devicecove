@@ -95,7 +95,7 @@ def addBalancedBankAccount(request):
 		try:
 			customer.add_bank_account(bankaccount.uri)
 			bank_account = balanced.BankAccount.find(bankaccount.uri)
-			#Verify the account for debiting it
+			# Verify the account for debiting it
 			verification = bank_account.verify()
 			if verification.confirm(1, 1).state != 'verified':
 				return {'status':500,'bank':bankaccount,'error':'Unable to verify the bank account'}
