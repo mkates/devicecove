@@ -25,17 +25,17 @@
 			<input id="inputmanufacturer" name="manufacturer" type="text" class="form-control" placeholder="eg. Siemens" value="{{item.manufacturer}}"/>
 		</div>
 		<div class="entry">
-			<h5>Model Name <span>(Listing Title)</h5>
+			<h5>Model Name <span>(This will be your listing title)</h5>
 			<input id="inputname" type="text" name="name" class="form-control " value="{{item.name}}" placeholder="eg. Siemens-Acuson P300 Veterinary Ultrasound"/>
 		</div>
 	</div>
 	<div class="formcolumn col-md-6 col-sm-6">
 		<div class="entry">
-			<h5>Serial Number <span>( * hidden to sellers, optional )</span></h5>
+			<h5>Serial Number <span>(*optional & hidden to sellers)</span></h5>
 			<input id="inputserialnumber" name="serialnumber" type="text" class="form-control " value="{% if item.serialno != None %}{{item.serialno}}{% endif %}" placeholder="eg. 1298493292"/>
 		</div>
 		<div class="entry">
-			<h5>Model Year <span>( * optional )</span></h5>
+			<h5>Model Year <span>( *optional )</span></h5>
 			<select id="inputyear" name="modelyear" class="form-control smallinput">
 				<option value="0" class="pre-text">Select Model Year. . .</option>
 					{% for i in range %}
@@ -44,7 +44,7 @@
 			</select>
 		</div>
 		<div class="entry">
-			<h5>New, reburbished, or preowned</h5>
+			<h5>Listing Type</h5>
 			{% if item.liststatus != 'incomplete' %}
 				{% if item.conditiontype == 'new' %}
 					<p class="helper-text">This item was listed as <strong>new</strong>. To sell pre-owned items, you can create a new listing</p>
@@ -68,12 +68,12 @@
 			</label>
 			{% endif %}
 		</div>
-		<div class="entry">
-			<h5>Quantity <span>(must be 1 for any used items)</span></h5>
+		<div class="entry quantity-entry">
+			<h5>Quantity <span>(must be 1 for any reburfished/pre-owned items)</span></h5>
 			<input id="inputquantity" style="width:80px" type="number" name="quantity" class="form-control" value="{{item.quantity}}" {% if item.conditiontype != 'new' %}disabled{% endif %}>
 		</div>
 		<div class="entry">
-			<h5>Are You the Original Owner?</h5>
+			<h5>Are you the original owner of the item?</h5>
 			<label class="radio-inline">
 			  <input type="radio" name="originalowner" id="producttype_preowned" value="True" {%if item.originalowner %}checked{% endif %}> Yes
 			</label>
@@ -97,8 +97,10 @@ $(document).ready(function() {
 		if ($(this).attr('value') != 'new') {
 			$("#inputquantity").val(1);
 			$("#inputquantity").prop('disabled',true);
+			$(".quantity-entry").css('display','none');
 		} else {
 			$("#inputquantity").prop('disabled',false);
+			$(".quantity-entry").css('display','block');
 		}
 	});
 	//Insures quantity of at least 1
@@ -140,8 +142,13 @@ var retrieveCategories = function(cat) {
 </script>
 {% endblock %}
 {% block customcss %}
-<link href="{{STATIC_URL}}css/datepicker.css" rel="stylesheet" type="text/css" />
-
+<style>
+{% if item.conditiontype != 'new' %}
+.quantity-entry {
+	display: none;
+}
+{% endif %}
+</style>
 {% endblock %}
 {% block hidebackbutton%}{% endblock %}
 {% block nextpage %}/list/details/{{item.id}}{% endblock%}

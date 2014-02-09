@@ -19,13 +19,13 @@
 }
 .history-item .order-date {
 	font-size: 18px;
-	font-weight: 800;
+	font-weight: bold;
 }
 .history-item .order-number {
 	font-weight: 200;
 }
 .history-item .order-number span {
-	font-weight: 800;
+	font-weight: bold;
 }
 .history-item .order-info p {
 	margin: 2px 0;
@@ -33,7 +33,7 @@
 	font-size: 12px;
 }
 .history-item .order-info .order-info-header {
-	font-weight: 800;
+	font-weight: bold;
 	margin-top: 15px;
 	margin-bottom: 3px;
 }
@@ -45,7 +45,7 @@
 	margin-bottom: 0px;
 }
 .history-item .order-price span {
-	font-weight: 800;
+	font-weight: bold;
 }
 .history-item .order-status {
 	font-size: 18px;
@@ -58,7 +58,7 @@
 }
 
 .history-item .order-status span {
-	font-weight: 800;
+	font-weight: bold;
 	color: #E47911;
 }
 .history-item .order-next {
@@ -89,7 +89,7 @@
 	text-decoration: underline;
 }
 .history-item .order-seller {
-	font-weight: 800;
+	font-weight: bold;
 	margin: 0;
 	font-size: 12px;
 }
@@ -100,7 +100,7 @@
 }
 .history-item .order-seller-message {
 	font-size: 13px;
-	font-weight: 800;
+	font-weight: bold;
 	margin-top: 15px;
 }
 .history-item .order-seller-message a {

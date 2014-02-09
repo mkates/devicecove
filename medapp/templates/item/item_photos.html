@@ -107,7 +107,7 @@
 	position:absolute;
 	bottom: 0;
 	color: white;
-	font-weight: 800;
+	font-weight: bold;
 	font-size: 12px;
 	line-height: 18px;
 	text-align: center;
@@ -167,7 +167,7 @@
 	border:1px solid #ccc;
 }
 .error {
-	font-weight: 800;
+	font-weight: bold;
 	color: red;
 	display: none;
 }
@@ -176,13 +176,18 @@
 }
 .tips h4 {
 	font-size: 14px;
-	font-weight: 800;
+	font-weight: bold;
 	color: #2397BA;
 }
 .tips p {
 	font-size: 13px;
 	font-weight: 200;
 }
+{% if item.image_set.all %}
+#noimages {
+	display: none;
+}
+{% endif %}
 </style>
 {% endblock %}
 {% block photocontent %}
@@ -223,10 +228,9 @@
 			{% if item.image_set.all %}
 				{% for p in item.image_set.all %}
 					<div class='imagepreviewcontainer' data-imageid='{{p.id}}'>{% if item.mainimage.id == p.id %}<h6 class="main">Main Photo</h6>{% else %}<h6>Make Main Photo</h6>{% endif %}<div class='imagepreviewborder'><img class='imagepreview' src='{{p.photo.url}}'/></div><p class='delete'>Delete Photo</p></div>
-				{% endfor %}
-			{% else %}
-				<p id="noimages">Upload multiple photos at once choosing 'Select pictures to upload. . .' and selecting multiple photos at once. We only accept PNG and JPEG images smaller than 2MB </p>					
+				{% endfor %}			
 			{% endif %}
+			<p id="noimages">Upload multiple photos at once choosing 'Select pictures to upload. . .' and selecting multiple photos at once. We only accept PNG and JPEG images smaller than 2MB </p>		
 		</div>
 	</div>
 </div>

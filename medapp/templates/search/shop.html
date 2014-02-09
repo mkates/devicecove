@@ -1,0 +1,83 @@
+{% extends 'base.html' %}
+{% load dollars %}
+{% block headercss %}
+<link href="{{STATIC_URL}}css/base.css" rel="stylesheet" type="text/css" />
+<link href="{{STATIC_URL}}css/product/top-product.css" rel="stylesheet" type="text/css" />
+<link href="{{STATIC_URL}}css/productitem.css" rel="stylesheet" type="text/css" />
+<link href="{{STATIC_URL}}css/shop.css" rel="stylesheet" type="text/css" />
+<style>
+.shop-intro {
+	margin: 30px auto 0 auto;
+	max-width: 1000px;
+	text-align: center;
+	padding-bottom: 10px;
+
+}
+.shop-intro div {
+	padding: 13px 10px 3px 10px;
+}
+.shop-intro div div {
+	background: #eee;
+	border:1px solid #ddd;
+}
+.shop-intro h2 {
+	font-size: 22px;
+	margin-top: 10px;
+	color: #008DB2;
+}
+.shop-intro h2 span {
+	font-size: 18px;
+	text-align: center;
+	margin-right: 10px;
+	font-weight: normal;
+	background:  #008DB2;
+	color: #fff;
+}
+.shop-intro p {
+	font-weight: 200;
+	font-size: 13px;
+}
+.shop-intro-select {
+	border-top:1px solid #eee;
+	padding-top: 10px;
+	text-align: center;
+	font-size: 14px;
+	font-weight: 200;
+
+}
+
+</style>
+{% endblock%}
+
+
+{% block content %}
+<div class="shop-intro row covebox">
+	<div class="col-md-4 col-sm-4 col-xs-12">
+		<div>
+			<h2><span class="badge">1</span>Find</h2>
+			<p>Search thousands of local listings from verified doctors, refurbishers, manufacturers, and suppliers</p>
+		</div>
+	</div>
+	<div class="col-md-4 col-sm-4 col-xs-12">
+		<div>
+			<h2><span class="badge">2</span>View</h2>
+			<p>You can view some items in person, and all items have detailed descriptions and images</p>
+		</div>
+	</div>
+	<div class="col-md-4 col-sm-4 col-xs-12">
+		<div>
+			<h2><span class="badge">3</span>Buy</h2>
+			<p>Encrypted payments by credit card, debit card, bank account, or check by mail</p>
+		</div>
+	</div> 
+	<div class="clear"></div>
+	<div class="shop-intro-select col-md-12 col-sm-12 col-xs-12">
+		&#x25BC; &#x25BC; &#x25BC; Select a category below to get started &#x25BC; &#x25BC; &#x25BC;
+	</div>
+</div>
+{% include 'product/top-product.html' %}
+
+{% endblock %}
+
+{% block jsblock %}
+{% endblock %}

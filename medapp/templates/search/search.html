@@ -66,6 +66,34 @@ label .floatright {
 .nobottomborder {
 	border-bottom: none;
 }
+.filter-category a {
+	font-size: 12px;
+	color: #;
+	display: block;
+}
+.filter-category a:hover {
+	text-decoration: underline;
+}
+.filter-category .tree-all {
+	margin-left: 0px;
+}
+.filter-category .subtree {
+	margin-left: 10px;
+}
+.filter-category .subsubtree {
+	margin-left: 25px;
+}
+.filter-category .tree-active {
+	background: none;
+	font-weight: bold;
+	color: #666;
+}
+.filter-category .tree-active:hover {
+	text-decoration: none;
+}
+.filter-category span {
+	tex
+}
 </style>
 {% endblock%}
 
@@ -74,37 +102,30 @@ label .floatright {
 <div class='row searchcontainer'>
   <!--Filter Container -->
   <div class='col-xs-12 col-sm-3 filtercontainer'>
-  	<!-- 
-<div class='filterbox'>
-  		<h4>Categories</h4>
-  		<div class='filter-category notopborder'>
-			{% for cat in categories %} 
-				{% if cat.totalunits > -1 %}
-					{% if forloop.counter < 7 %} 			
-						{% if category.name != cat.name %}<a class="catlink" href="/productsearch/{{ind.name}}/{{cat.name}}/all">{{cat.displayname}} <span>{{cat.totalunits}}</span></a>{% endif %}
-					{% else %}
-						<div class="{% if custom == on %}cat-hidden{% endif %}">
-							{% if category.name != cat.name %}<a class="catlink" href="/productsearch/{{ind.name}}/{{cat.name}}/all">{{cat.displayname}} <span>{{cat.totalunits}}</span></a>{% endif %}
-						</div>
-					{% endif %}	
+	<div class='filterbox covebox'>
+		<h4 class="sidecontent-title">Filters <span class="sortbyfilters"> Sort By Filters<b class="caret"></b></span></h4>
+		{% if not custom %}
+		<div class='filter-category notopborder'>
+			<h2>Categories</h2>
+			<a href="/shop" class="tree-all">&lsaquo; All Items</a>
+			{% if not category %}
+				<a href="/productsearch/veterinary/{{subcategory.maincategory.name}}/all" class="subtree">&lsaquo; {{subcategory.maincategory.displayname}} <span>({{category.totalunits}})</span></a>
+			{% elif not subcategory %}
+				<a class="subtree tree-active">{{category.displayname}} <span>({{category.totalunits}})</span></a>
+			{% else %}
+				<a href="/productsearch/veterinary/{{category.name}}/all" class="subtree"> &lsaquo; {{category.displayname}} <span>({{category.totalunits}})</span></a>
+			{% endif%}
+			{% for subcat in category.subcategory_set.all %} 
+				{% if subcat == subcategory %}
+				<a href="" class="subsubtree tree-active">{{subcat.displayname}} <span>({{subcat.totalunits}})</span></a>
+				{% else %}
+				<a href="/productsearch/veterinary/{% if not category %}{{subcat.maincategory.name}}{% else %}{{category.name}}{% endif %}/{{subcat.name}}" class="subsubtree">{{subcat.displayname}} <span>({{subcat.totalunits}})</span></a>
 				{% endif %}
 			{% endfor %}
 			<p class="seeall">Show All Categories</p>
 		</div>
-		{% if custom == on %}
-  		<div class='filter-category nobottomborder'>
-			<h2>{{category.displayname}}</h2>
-			<a class="catlink {% if subcategory == all %}active{% endif %}" href="/productsearch/{{ind.name}}/{{category.name}}/all">All {{category.displayname}}<span>{{category.totalunits}}</span></a>
-			{% for sc in category.subcategory_set.all %} 	
-				<a class="catlink {% if subcategory.name == sc.name %}active{% endif %}" href="/productsearch/{{ind.name}}/{{category.name}}/{{sc.name}}">{{sc.displayname}} <span>{{sc.totalunits}}</span></a>
-			{% endfor %}
-		</div>
 		{% endif %}
-	</div>
- -->
-	<div class='filterbox covebox'>
-		<h4 class="sidecontent-title">Filters <span class="sortbyfilters"> Sort By Filters<b class="caret"></b></span></h4>
-		<div id='pricecategory' class='filter-category notopborder'>
+		<div id='pricecategory' class='filter-category'>
   			<h2>Price Range</h2>
   			<div id='price-slider-container'>
   				{% load humanize %}
@@ -199,7 +220,7 @@ label .floatright {
 			<img class="noresults" src="{{STATIC_URL}}img/saddog.jpg" alt=""/>
 			<p>Try changing your filters, or call us with what you want and we will let you know when one becomes available!</p>
 		</div>
-		<div class='showmorebutton resultsbox'>
+		<div class='showmorebutton resultsbox covebox'>
 			<p>Show More Results</p>
 			<img src='{{STATIC_URL}}img/ajax-loader.gif' alt="Loading. . ."/>
 		</div>

@@ -20,7 +20,7 @@
 }
 .introslide h3 span {
 	text-decoration: underline;
-	font-weight: 800;
+	font-weight: bold;
 }
 .introslide button {
 	margin-top: 100px;
@@ -59,7 +59,7 @@
 	height: 30px;
 	display: inline-block;
 	font-size: 15px;
-	font-weight: 800;
+	font-weight: bold;
 	margin-right: 10px;
 	margin-left: 10px;
 	opacity: 1;
@@ -138,7 +138,7 @@
 	font-size: 12px;
 }
 .qualitybox .qualitydescription span {
-	font-weight: 800;
+	font-weight: bold;
 }
 .qualitybox .downarrow {
 	width: 30px;
@@ -161,7 +161,7 @@
 	line-height: 26px;
 	text-align: center;
 	color: white;
-	font-weight: 800;
+	font-weight: bold;
 	margin-right: 25px;
 	margin-top: 10px;
 	float: left;
@@ -206,7 +206,7 @@
 	width: 13px;
 	margin-top: 10px;
 	line-height: 30px;
-	font-weight: 800;
+	font-weight: bold;
 	font-size: 16px;
 	color: #555;
 	
@@ -215,7 +215,7 @@
 	float: left;
 	padding-left: 10px;
 	width: 150px;
-	font-weight: 800;
+	font-weight: bold;
 	letter-spacing: .3px;
 	height: 40px;
 	line-height: 40px;
@@ -327,7 +327,7 @@
 	right: 0;
 	position: relative;
 	color: white;
-	font-weight: 800;
+	font-weight: bold;
 	font-size: 18px;
 	line-height: 18px;
 	text-align: center;

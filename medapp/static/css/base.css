@@ -196,8 +196,16 @@ footer ul li a:hover {
 		border-top: 1px solid #fff;
 		box-shadow: 0 2px 2px #CCCCCC;
 	}
+	.navigation-container .navbar-nav > li > .dropdown-menu li a {
+		padding: 5px 10px;
+		font-weight: 200;
+		font-size: 13px;
+	}
 	.navigation-container .shoppingcart-image img {
 		width: 20px;
+	}
+	.navigation-container .viewcart {
+		padding: 5px 15px;
 	}
 	/* Move the image inline with the searchbar*/
 	.navigation-container .navbar-brand img {
@@ -247,6 +255,7 @@ footer ul li a:hover {
 	.navigation-container .shopbycategory-container {
 		padding: 0;
 		position: static;
+		display:inline-block;
 	}
 	.navigation-container .shopbycategory {
 		border: 1px solid rgba(0, 0, 0, 0);

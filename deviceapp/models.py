@@ -148,13 +148,13 @@ class Item(models.Model):
 	)
 	conditiontype = models.CharField(max_length=20, choices=TYPE_OPTIONS,default="preowned")
 	CONDITION_OPTIONS =  (
-		(1, 'Parts Only'),
-		(2, 'Acceptable'),
-		(3, 'Good'),
-		(4, 'Like New'),
+		(1, 'Parts Only / Not Working'),
+		(2, 'Functional with Defects'),
+		(3, 'Used Fully Functional'),
+		(4, 'Used Like New'),
 		(5, 'Brand New')
 	)
-	conditionquality = models.IntegerField(max_length=10,choices=CONDITION_OPTIONS,default=4)
+	conditionquality = models.IntegerField(max_length=10,choices=CONDITION_OPTIONS,default=3)
 	conditiondescription = models.TextField(blank=True)
 	productdescription = models.TextField(blank=True)
 	whatsincluded = models.TextField(blank=True)		

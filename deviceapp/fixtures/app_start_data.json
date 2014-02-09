@@ -459,6 +459,60 @@
     }
 },
 {
+    "pk": 4, 
+    "model": "deviceapp.item", 
+    "fields": {
+    	"user": 3,
+    	"name": "XT450 Power UltraSound Machine 4", 
+    	"creation_date": "2013-12-01",
+    	"subcategory":105,
+    	"manufacturer": "Fuji", 
+    	"serialno": "542523519864",
+    	"modelyear": 2001,  
+    	"msrp_price": 22320, 
+    	"price": 4430,
+    	"conditiontype": "new",
+    	"liststatus": "active",
+    	"liststage":5,
+    	"quantity":3
+    }
+},
+{
+    "pk": 5, 
+    "model": "deviceapp.item", 
+    "fields": {
+    	"user": 3,
+    	"name": "XT450 Power UltraSound Machine 5",
+    	"creation_date": "2013-12-10",
+    	"subcategory":105, 
+    	"offlineviewing": true,
+    	"manufacturer": "Fuji", 
+    	"serialno": "542523519864",
+    	"modelyear": 2001,  
+    	"msrp_price": 22320, 
+    	"price": 4430,
+    	"liststatus":"active",
+    	"liststage":5
+    }
+},
+{
+    "pk": 6, 
+    "model": "deviceapp.item", 
+    "fields": {
+    	"user": 3,
+    	"name": "XT450 Power UltraSound Machine 6", 
+    	"creation_date": "2013-12-20",
+    	"subcategory":105,
+    	"manufacturer": "Fuji", 
+    	"serialno": "542523519864",
+    	"modelyear": 2001,  
+    	"msrp_price": 22320, 
+    	"price": 4430,
+    	"liststatus":"active",
+    	"liststage":5
+    }
+},
+{
     "pk": 1, 
     "model": "deviceapp.promocode", 
     "fields": {

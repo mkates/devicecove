@@ -43,7 +43,7 @@ def listproduct(request,subcategory):
  						msrp_price = 0,
  						price = 0,
  						conditiontype = "preowned",
- 						conditionquality = 4,
+ 						conditionquality = 3,
  						shippingincluded = True,
  						liststatus = 'incomplete',
  						liststage = 0,
@@ -167,8 +167,7 @@ def deleteimage(request):
 			if itemimg.item.mainimage.id == itemimg.id:
 				itemimg.item.mainimage = None
 				itemimg.item.save()
-			itemimg.item = None
-			itemimg.save()
+			itemimg.delete()
 		return HttpResponse(700)
 	return HttpResponse(500)
 

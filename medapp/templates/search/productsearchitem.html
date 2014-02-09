@@ -8,7 +8,7 @@
 			<div class='col-md-2 col-sm-2 col-xs-12 pricediv'>
 				<p>{{item.price|dollars}}</p>
 				<p class="msrp_price">{{item.msrp_price|dollars}}</p>
-				<a class='button button-rounded button-primary' href="/item/{{item.id}}/details">Select</a>
+				<a class='button button-rounded button-primary' href="/item/{{item.id}}/details">View</a>
 				{% if wishlist %}
 					<form action="/removeitem" method="POST">
 						{% csrf_token %}
@@ -90,7 +90,7 @@
 	<div class="mobile-select">
 		<div class='col-md-2 col-sm-2 col-xs-12 pricediv'>
 			<p>{{item.price|dollars}}</p>
-			<a class='button button-rounded button-primary' href="/item/{{item.id}}/details">Select</a>
+			<a class='button button-rounded button-primary' href="/item/{{item.id}}/details">View</a>
 			{% if savedpage %}
 				<form action="/removeitem" method="POST">
 					{% csrf_token %}

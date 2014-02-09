@@ -84,7 +84,7 @@
 .topbar h2 {
 	margin: 0;
 	font-size: 25px;
-	font-weight: 800;
+	font-weight: bold;
 }
 .topbar .row div {
 	padding: 0;
@@ -96,7 +96,7 @@
 	vertical-align: bottom;
 }
 .topbar .listdate span {
-	font-weight: 800;
+	font-weight: bold;
 }
 @media(max-width: 768px) {
 	.topbar .breadcrumbs {
@@ -132,7 +132,7 @@
 	margin: 5px 0;
 }
 .otherviewers span {
-	font-weight: 800;
+	font-weight: bold;
 	color: #333;
 }
  */
@@ -151,7 +151,7 @@
 	margin: 20px 0 5px 0;
 	font-size: 35px;
 	color: green;
-	font-weight: 800;
+	font-weight: bold;
 }
 .actionbox p {
 	font-weight: 200;
@@ -290,7 +290,7 @@
 	font-size: 18px;
 	color: #2589B0;
 	margin: 0;
-	font-weight: 800;
+	font-weight: bold;
 }
 #productcondition h4{
 	font-size: 14px;
@@ -329,7 +329,7 @@
 	padding: 0;
 	margin-bottom: 0px;
 	margin-top: 12px;
-	font-weight: 800;
+	font-weight: bold;
 	color: #1966B3;
 }
 #buyerprotect h4 {
@@ -383,7 +383,7 @@
 	border-bottom:1px solid #bbb;
 }
 .elastislide-list li a p {
-	font-weight: 800;
+	font-weight: bold;
 	margin-top: 10px;
 	color: green;
 }
@@ -501,7 +501,7 @@
 /* Questions * *** ********/
 /**************************/
 .question h5 {
-	font-weight: 800;
+	font-weight: bold;
 }
 .question p {
 	font-weight: 200;

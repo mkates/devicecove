@@ -104,10 +104,13 @@
 			<li class="dropdown">
 				<a href="#" class="dropdown-toggle" data-toggle="dropdown">Hi, {{user.basicuser.name}}<b class="caret"></b></a>
 				<ul class="navigation-options dropdown-menu pull-left">
-				  <li><a href="/account/wishlist">Wishlist</a></li>
-				  <li><a href="/account/buyerquestions">Your Questions</a></li>
-				  <li><a href="/account/buyhistory">Order History</a></li>
-				  <li><a href="/account/listings/all">Seller Portal</a></li>
+				  <li><a href="/account/buyerquestions">Questions I’ve Asked</a></li>
+				  <li><a href="/account/wishlist">Wish List</a></li>
+				  <li><a href="/account/buyhistory">Purchase History</a></li>
+				  <li><a href="/account/sellerquestions">Questions to Answer</a></li>
+				  <li><a href="/account/listings/all">My Seller Listings</a></li>
+				  <li><a href="/account/sellhistory">Selling History</a></li>
+				  <li><a href="/account/usersettings">Account Settings</a></li>
 				  <li><a href="/logout">Logout</a></li>
 				</ul>
 			</li>
@@ -291,7 +294,7 @@
  			$(this).removeClass("shopbycategory-button-active");
  		}
  	});
- 	$('.browse-categories').hover(function() {
+ 	$('.shopbycategory-container').hover(function() {
  	},function() {
  		$('.browse-categories').css('display','none');
  		$('.shopbycategory-button').removeClass("shopbycategory-button-active");

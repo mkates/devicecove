@@ -24,7 +24,7 @@
 	font-size: 12px;
 }
 .qualitybox .qualitydescription span {
-	font-weight: 800;
+	font-weight: bold;
 }
 .qualitybox .downarrow {
 	width: 30px;
@@ -38,41 +38,55 @@
 }
 .qualitybox .selectors {
 	margin-top: 10px;
-	padding: 0 5px;
+	padding: 0;
 	text-transform: uppercase;
 	text-align: center;
 }
 
 .qualitybox .selectors div {
 	text-align: center;
-	display:inline-block;
-	width: 19%;
+	display: table-cell;
+	vertical-align: middle;
+	width: 18%;
 	line-height: 20px;
-}
-@media (max-width: 768px) {
-	.qualitybox .selectors .qualitynumber {
-		margin-bottom: 5px;
-	}
 }
 .qualitybox .selectors .qualitynumber p {
-	border-radius: 4px;
-	height: 40px;
-	text-shadow: 0 0 1px #777;
-	line-height: 20px;
+	line-height: 15px;
 	overflow: hidden;
 	text-align: center;
 	margin: 0 0%;
-	color: white;
+	color: #333;
 	font-size: 12px;
-	opacity: .3;
 }
-.qualitybox .selectors .quality1 p {background: #169E21;}
-.qualitybox .selectors .quality2 p {background: #169E56;}
-.qualitybox .selectors .quality3 p {background: #169E7E;}
-.qualitybox .selectors .quality4 p {background: #169E9E; opacity:1;}
-.qualitybox .selectors .quality5 p {background: #16759E}
-.qualitybox .selectors .quality6 p {background: #16759E;}
+@media (max-width: 768px) {
+	.qualitybox .selectors div {
+		display:block;
+	}
+	.qualitybox .selectors .qualitynumber {
+		padding-bottom: 5px;
+	}
+	.qualitybox .selectors .qualitynumber p {
+		line-height: 40px;
+		border-bottom: 1px solid #aaa;
 
+	}
+}
+.quality-active {
+	background: #8FCF00;
+}
+.qualitybox .selectors   {
+	background: #ddd;
+	margin: 0 18px;
+	border-radius: 4px;
+}
+
+.qualitybox .selectors .qualitynumber {
+	height: 40px;
+	border-left:2px solid #bbb;
+}
+.qualitybox .selectors .noborder {
+	border:none;
+}
 .qualitybox .selectors .qualitynumber:hover {
 	cursor: pointer;
 	opacity: 1;
@@ -135,20 +149,19 @@
 	$(".qualitydescription p").html(q4);
 	var qualitydict = {"1":q1,"2":q2,"3":q3,"4":q4,"5":q5};
 	
-	$(".qualitynumber p").click(function() {
-		qualityNumberClick($(this).parent());
+	$(".qualitynumber").click(function() {
+		qualityNumberClick($(this));
 	});
 	
 	var qualityNumberClick = function qualityNumberClick(handle_) {
 		var element = $(handle_).children('p');
 		var handle = $(handle_)
+		$(".qualitynumber").removeClass('quality-active');
+		handle.addClass("quality-active");
 		var value = $(handle).attr('id').split("_")[1];
 		if (currentvalue != value) {
 			currentvalue = value;
 			$("#conditionquality").val(currentvalue);
-			//Change opacities of the numbers
-			$(".qualitynumber p").css("opacity",".3");
-			element.css("opacity","1");
 			//Move the arrow
 			var margintomove = "";
 			if (value == 1) {margintomove = '10%'};
@@ -185,7 +198,7 @@
 	<h5 id="qualitytitle">Choose Your Item Condition</h5>
 	<div class="qualitybox">
 		<div class="selectors">
-			<div id="quality_1" class="qualitynumber quality1"><p>Parts Only / Not Working</p></div>
+			<div id="quality_1" class="qualitynumber quality1 noborder"><p>Parts Only / Not Working</p></div>
 			<div id="quality_2" class="qualitynumber quality2"><p>Functional with Defects</p></div>
 			<div id="quality_3" class="qualitynumber quality3"><p>Used Fully Functional</p></div>
 			<div id="quality_4" class="qualitynumber quality4"><p>Used Like New</p></div>

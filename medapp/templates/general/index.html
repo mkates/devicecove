@@ -2,7 +2,8 @@
 {% load dollars %}
 {% block headercss %}
 <link href="{{STATIC_URL}}css/base.css" rel="stylesheet" type="text/css" />
-<link href="{{STATIC_URL}}css/productitem.css" rel="stylesheet" type="text/css" />
+<link href="{{STATIC_URL}}css/product/productitem.css" rel="stylesheet" type="text/css" />
+<link href="{{STATIC_URL}}css/product/top-product.css" rel="stylesheet" type="text/css" />
 <link href="{{STATIC_URL}}css/index.css" rel="stylesheet" type="text/css" />
 
 {% endblock%}
@@ -23,7 +24,7 @@
 				<div class="bg-row">
 				</div>
 				<div class="row">
-					<a href='/productsearch/veterinary/all/all'><div class="col-md-6 col-sm-6 col-xs-12 new_intro_explain explain_buy">
+					<a href='/shop'><div class="col-md-6 col-sm-6 col-xs-12 new_intro_explain explain_buy">
 						<h2> Buy Equipment</h2>
 						<p> The largest selection of new and preowned</p>
 						<img src="{{STATIC_URL}}img/arrow_circle.png" alt=""/>
@@ -40,83 +41,7 @@
 	</div>
 </div>
 
-<div class="top-products">
-	<div class="row">
-		<div class="col-md-3 col-sm-3 col-xs-6 product-left">
-			<a href="/productsearch/veterinary/anesthesia/all"><div class="top-product">
-				<h3>Anesthesia</h3>
-				<img src="{{STATIC_URL}}img/homepage/anesthesia.jpg" alt="Anesthesia"/>
-			</div></a>
-		</div>
-		<div class="col-md-3 col-sm-3 col-xs-6 product-middle">
-			<a href="/productsearch/veterinary/diagnostic/all"><div class="top-product">
-				<h3>Diagnostic</h3>
-				<img src="{{STATIC_URL}}img/homepage/diagnostic.jpg" alt="Diagnostic"/>
-			</div></a>
-		</div>
-		<div class="col-md-3 col-sm-3 col-xs-6 product-middle">
-			<a href="/productsearch/veterinary/monitors/all"><div class="top-product">
-				<h3>Monitors</h3>
-				<img src="{{STATIC_URL}}img/homepage/monitor.jpg" alt="Monitors"/>
-			</div></a>
-		</div>
-		<div class="col-md-3 col-sm-3 col-xs-6 product-right">
-			<a href="/productsearch/veterinary/xray/all"><div class="top-product">
-				<h3>X-Ray</h3>
-				<img src="{{STATIC_URL}}img/homepage/xray.jpg" alt="X-Ray"/>
-			</div></a>
-		</div>
-		<div class="col-md-3 col-sm-3 col-xs-6 product-left">
-			<a href="/productsearch/veterinary/ultrasound/all"><div class="top-product">
-				<h3>Ultrasound</h3>
-				<img src="{{STATIC_URL}}img/homepage/ultrasound.jpg" alt="Ultrasouns"/>
-			</div></a>
-		</div>
-		<div class="col-md-3 col-sm-3 col-xs-6 product-middle">
-			<a href="/productsearch/veterinary/endoscopy/all"><div class="top-product">
-				<h3>Endoscopy</h3>
-				<img src="{{STATIC_URL}}img/homepage/endoscopy.jpg" alt="Endoscopy"/>
-			</div></a>
-		</div>
-		<div class="col-md-3 col-sm-3 col-xs-6 product-middle">
-			<a href="/productsearch/veterinary/casework/all"><div class="top-product">
-				<h3>Casework</h3>
-				<img src="{{STATIC_URL}}img/homepage/casework.jpg" alt="Casework"/>
-			</div></a>
-		</div>
-		<div class="col-md-3 col-sm-3 col-xs-6 product-right">
-			<a href="/productsearch/veterinary/surgeryandsurgicalinstruments/all"><div class="top-product">
-				<h3>Surgical Instruments</h3>
-				<img src="{{STATIC_URL}}img/homepage/surgery.jpg" alt="Surgical Instruments"/>
-			</div></a>
-		</div>
-		<div class="col-md-3 col-sm-3 col-xs-6 product-left">
-			<a href="/productsearch/veterinary/laboratory/all"><div class="top-product">
-				<h3>Laboratory</h3>
-				<img src="{{STATIC_URL}}img/homepage/laboratory.jpg" alt="Laboratory"/>
-			</div></a>
-		</div>
-		<div class="col-md-3 col-sm-3 col-xs-6 product-middle">
-			<a href="/productsearch/veterinary/lighting/all"><div class="top-product">
-				<h3>Lighting</h3>
-				<img src="{{STATIC_URL}}img/homepage/lighting.jpg" alt="Lighting"/>
-			</div></a>
-		</div>
-		<div class="col-md-3 col-sm-3 col-xs-6 product-middle">
-			<a href="/productsearch/veterinary/dental/all"><div class="top-product">
-				<h3>Dental</h3>
-				<img src="{{STATIC_URL}}img/homepage/dental.jpg" alt="Dental"/>
-			</div></a>
-		</div>
-		<div class="col-md-3 col-sm-3 col-xs-6 product-right">
-			<a href="/productsearch/veterinary/all/pharmaceuticals"><div class="top-product">
-				<h3>Pharmaceuticals</h3>
-				<img src="{{STATIC_URL}}img/homepage/pharmacy.jpg" alt="Pharmacy"/>
-			</div></a>
-		</div>
-	</div>
-	<a href="/categories" class="view-all-categories"> View All Categories &rarr;</a>
-</div>
+{% include 'product/top-product.html' %}
 
 <div class="featuredcontainer">
 	<div class="row featured">

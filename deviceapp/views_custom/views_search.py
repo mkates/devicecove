@@ -25,46 +25,42 @@ import timeit
 #If 0, means it shows cats and subcats with 0 listings, 
 showItems = 0
 #Number of results per page
-resultsPerPage = 10
+resultsPerPage = 4
+
+def shop(request):
+	return render_to_response('search/shop.html',{},context_instance=RequestContext(request))
 
 def productsearch(request,industryterm,categoryterm,subcategoryterm):
-	catlist = getCategoriesAndQuantity()
 	industry = Industry.objects.get(name=industryterm)
 	category = None
 	subcategory = None
-	# Case 1: If you have no search criteria
+	### Case 1: If you have no search criteria. redirect to the shop page
 	if categoryterm == 'all' and subcategoryterm == 'all':
-		categoryname = categoryterm
-		subcategoryname = subcategoryterm
-		itemqs = Item.objects.filter(liststatus='active').order_by('price')
-		relatedItems = None
-	# Case 2: If you only have a category, ie subcategory is all
+		return HttpResponseRedirect("/shop")
+	### Case 2: If you only have a category, ie subcategory is all
 	elif subcategoryterm == 'all':
 		category = Category.objects.get(name=categoryterm)
 		categoryname = category.displayname
 		subcategoryname = subcategoryterm
 		itemqs = Item.objects.filter(subcategory__in=category.subcategory_set.all()).filter(liststatus='active').order_by('price')
 		relatedItems = getSubcategories(category)
-	# Case 3: If you only have a subcategory, and category = all
-	elif categoryterm == 'all':
-		subcategory = SubCategory.objects.get(name=subcategoryterm)
-		categoryname = categoryterm
-		subcategoryname = subcategory.displayname
-		itemqs = Item.objects.filter(subcategory=subcategory).filter(liststatus='active').order_by('price')
-		relatedItems = getOtherSubcategories(subcategory)
-	#Case 3: If you have a subcategory and a category
+	### Case 3: If you have a subcategory
 	else:
-		category = Category.objects.get(name=categoryterm)
 		subcategory = SubCategory.objects.get(name=subcategoryterm)
+		# Set category if not set
+		if categoryterm == 'all':
+			category = subcategory.maincategory
+		else:
+			category = Category.objects.get(name=categoryterm)
 		categoryname = category.displayname
 		subcategoryname = subcategory.displayname
 		itemqs = Item.objects.filter(subcategory=subcategory).filter(liststatus='active').order_by('price')
 		relatedItems = getOtherSubcategories(subcategory)
-	#Get price range, more boolean, and zipcodes
+	# Get price range, more boolean, and zipcodes
 	pricerange = getPriceRange(itemqs)
-	more = True if len(itemqs ) > resultsPerPage else False
+	more = True if len(itemqs) > resultsPerPage else False
 	zipcode = getDistances(request,itemqs[0:resultsPerPage])
-	dict = {'zipcode':zipcode,'relatedItems':relatedItems,'resultcount':len(itemqs),'more':more,'pricerange':pricerange,'items':itemqs[0:resultsPerPage],'categories':catlist,'categoryname':categoryname,'subcategoryname':subcategoryname,'ind':industry,'category':category,'subcategory':subcategory}
+	dict = {'zipcode':zipcode,'relatedItems':relatedItems,'resultcount':len(itemqs),'more':more,'pricerange':pricerange,'items':itemqs[0:resultsPerPage],'categoryname':categoryname,'subcategoryname':subcategoryname,'ind':industry,'category':category,'subcategory':subcategory}
 	response = render_to_response('search/search.html',dict,context_instance=RequestContext(request))
 	request.session['zipcode'] = zipcode
 	return response
@@ -76,41 +72,50 @@ def autosuggest(request):
 	searchterm = searchterm.replace(' ','')
 	industry = Industry.objects.get(id=1)
 	
-	#Find all categories that match the search term
+	# Find all categories that match the search term
 	categories = Category.objects.filter(name__icontains=searchterm).filter(totalunits__gte=showItems)
-	#Add all matched categories
+	# Add all matched categories
 	for cat in categories:
 		results.append({'type':'category','name':cat.displayname,'results':'','link':"/productsearch/"+industry.name+"/"+cat.name+"/all"})
 		results = results[0:5]
-	
-	#Find all sub-categories that match the search term
+	 
+	# Find all sub-categories that match the search term
 	subcategories = SubCategory.objects.filter(name__icontains=searchterm).filter(totalunits__gte=showItems)
 	for subcat in subcategories:
 		results.append({'type':'subcategory','name':subcat.displayname,'results':'','link':"/productsearch/"+industry.name+"/all/"+subcat.name})
 		results = results[0:10]
 		
-	#Find all items that match the search term
-	item = Item.objects.filter(subcategory__name__icontains=searchterm).filter(liststatus='active')
-	for itm in item:
-		dict = {'type':'product','name':itm.name,'category':itm.subcategory.displayname,'mainimage':checkMainImage(itm),'link':"/item/"+str(itm.id)+"/details"};
-		results.append(dict);
-		
-	#Do a relative match if no results are found
+	# Find all items that match the search term
+	# item = Item.objects.filter(subcategory__name__icontains=searchterm).filter(liststatus='active')
+	# for itm in item:
+	# 	dict = {'type':'product','name':itm.name,'category':itm.subcategory.displayname,'mainimage':checkMainImage(itm),'link':"/item/"+str(itm.id)+"/details"};
+	# 	results.append(dict);
+	
+	# if len(results) == 0:
+	# 	items = closeCategories(searchterm)
+	# 	for itm in items:
+	# 		dict = {'type':'product','name':itm.name,'category':itm.subcategory.displayname,'mainimage':checkMainImage(itm),'link':"/item/"+str(itm.id)+"/details"};
+	# 		results.append(dict);
+
+	# #Do a relative match if no results are found
 	if len(results) == 0:
-		allitems = Item.objects.filter(liststatus="active")
-		itemnames = []
-		matchlist = []
-		for p in allitems:
-			itemnames.append(str(p.name))
-			if difflib.SequenceMatcher(None,searchterm,p.name.lower()).ratio() > .35:
-				matchlist.append(p)
-		for itm in matchlist:
-			results.append({'type':'product','name':itm.name,'category':itm.subcategory.displayname,'mainimage':checkMainImage(itm),'link':"/item/"+str(itm.id)+"/details"});
+		allcategories = Category.objects.all()
+		subcategories = SubCategory.objects.all()
+		for cat in categories:
+			if difflib.SequenceMatcher(None,searchterm,cat.name.lower()).ratio() > .5:
+				_cat = {'type':'category','name':cat.displayname,'results':'','link':"/productsearch/"+industry.name+"/"+cat.name+"/all"}
+				results.append(_cat)
+		for subcat in subcategories:
+			if difflib.SequenceMatcher(None,searchterm,subcat.name.lower()).ratio() > .5:
+				sub = {'type':'subcategory','name':subcat.displayname,'results':'','link':"/productsearch/"+industry.name+"/all/"+subcat.name}
+				results.append(sub)
 	return HttpResponse(json.dumps(results[0:15]), content_type='application/json')
 
 def customsearch(request):
 	if request.method == "GET":
 		searchword = request.GET['q']
+		if not searchword:
+			return HttpResponseRedirect("/shop")
 		relatedItems = closeCategories(searchword)
 		allitems = Item.objects.all().filter(liststatus='active').order_by('price')
 		items = filterItemsByQuery(searchword,allitems)
@@ -121,8 +126,8 @@ def customsearch(request):
 		manufacturers = Manufacturer.objects.all()
 		distance = getDistances(request,items)
 		pricerange = getPriceRange(items)
-		more = True if len(items) > 5 else False
-		return render_to_response('search/search.html',{'custom':'on','zipcode':zipcode,'relatedItems':relatedItems,'resultcount':len(items),'searchquery':searchword,'more':more,'pricerange':pricerange,'searchquery':searchquery,'items':items[0:5],'categories':catlist,'ind':industry,'manufacturer':manufacturers},context_instance=RequestContext(request))
+		more = True if len(items) > resultsPerPage else False
+		return render_to_response('search/search.html',{'custom':True,'zipcode':zipcode,'relatedItems':relatedItems,'resultcount':len(items),'searchquery':searchword,'more':more,'pricerange':pricerange,'searchquery':searchquery,'items':items[0:resultsPerPage],'categories':catlist,'ind':industry,'manufacturer':manufacturers},context_instance=RequestContext(request))
 	
 def searchquery(request):
 	if request.method == "GET":
@@ -220,9 +225,7 @@ def checkMainImage(item):
 ###########################################	
 
 def getItems(categoryterm,subcategoryterm):
-	if categoryterm == 'all' and subcategoryterm == 'all':
-		itemqs = Item.objects.filter(liststatus='active').order_by('price')
-	elif subcategoryterm == 'all':
+	if subcategoryterm == 'all':
 		category = Category.objects.get(name=categoryterm)
 		itemqs = Item.objects.filter(subcategory__in=category.subcategory_set.all()).filter(liststatus='active').order_by('price')
 	elif categoryterm == 'all':

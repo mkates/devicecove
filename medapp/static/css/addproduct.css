@@ -61,7 +61,7 @@
 	height: 40px;
 	display: inline-block;
 	font-size: 20px;
-	font-weight: 800;
+	font-weight: bold;
 	margin-right: 10px;
 	margin-left: 10px;
 }
@@ -127,7 +127,7 @@
 	padding: 5px 10px;
 }
 .qualitybox .qualitydescription span {
-	font-weight: 800;
+	font-weight: bold;
 }
 .qualitybox .downarrow {
 	width: 30px;
@@ -208,7 +208,7 @@
 	color: #FCC2C2;
 	border:3px solid #fcc2c2;
 	text-align: center;
-	font-weight: 800;
+	font-weight: bold;
 	display: table;
 	overflow: hidden;
 	display: none;
