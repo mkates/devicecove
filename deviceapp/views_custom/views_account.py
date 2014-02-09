@@ -72,7 +72,6 @@ def checkemail(request):
 			return HttpResponse(json.dumps('valid'), content_type='application/json')
 	return HttpResponse(json.dumps('error'), content_type='application/json')
 		
-		
 def logout_view(request):
 	logout(request)
 	return HttpResponseRedirect('/')
