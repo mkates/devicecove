@@ -45,7 +45,7 @@ $(document).ready(function () {
 						uri: response.data.uri
 					}, function(r) {
 						if (r['status'] == 201) {
-							//window.location.href = success_redirect_cc;
+							window.location.href = success_redirect_cc;
 							console.log("cool");
 						} else {
 							display_CC_Error('Error saving your Card. '+r['error']);

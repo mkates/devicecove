@@ -72,14 +72,6 @@
 				<p>{{item.get_conditiontype_display}}</p>
 			</div>
 		</div>
-		<div class="row">
-			<div class="col-md-3 col-sm-3 col-xs-12 info_header">
-				<p>Features</p>
-			</div>
-			<div class="col-md-9 col-sm-9 col-xs-12">
-				<p>{{item.productdescription}}</p>
-			</div>
-		</div>
 		<h4>Details<a href="/list/details/{{item.id}}">edit</a></h4>
 		<div class="row">
 			<div class="col-md-3 col-sm-3 col-xs-12 info_header">
@@ -140,6 +132,14 @@
 		</div>
 		<div class="row">
 			<div class="col-md-3 col-sm-3 col-xs-12 info_header">
+				<p>Shipping</p>
+			</div>
+			<div class="col-md-9 col-sm-9 col-xs-12">
+				<p>{% if item.shippingincluded %}Shipping Included{% else %}Local Pickup Only{% endif %}</p>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-3 col-sm-3 col-xs-12 info_header">
 				<p>MSRP Price</p>
 			</div>
 			<div class="col-md-9 col-sm-9 col-xs-12">
@@ -171,7 +171,7 @@
 		{% if item.mainimage %}
 			<img class="preview-mainimage"src="{{item.mainimage.photo_medium.url}}" alt="{{img.item}}"/>
 		{% endif %}
-		{% for img in item.itemimage_set.all %}
+		{% for img in item.image_set.all %}
 			{% if item.mainimage.id != img.id %}
 			<img class="preview-subimage" src="{{img.photo_medium.url}}" alt="{{img.item}}"/>
 			{% endif %}
@@ -367,7 +367,7 @@ $(document).ready(function() {
 		<button class="saveandcontinue button button-rounded button-highlight">
 			{% csrf_token%}
 			{% if item.liststatus == 'active' %}
-				View Your Listing
+				View Updated Listing
 			{% elif item.liststatus == "incomplete" %}
 				List Your Item
 			{% elif item.liststatus == "unsold" %}

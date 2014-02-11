@@ -162,6 +162,11 @@ h5 span {
 	}
 
 }
+#list-summary {
+	margin: 30px 30px 15px 30px;
+	padding-bottom: 15px;
+	border-bottom:1px solid #ddd;
+}
 </style>
 {% block customcss %}{% endblock %}
 {% endblock %}
@@ -264,7 +269,8 @@ var addError = function addError(handle) {
 		</div>
 		{% if preview %}
 			{% if item.liststatus != 'sold' and item.liststatus != 'disabled' and item.liststatus != 'deleted' %}
-			<div class="listnav">
+			<h3 id="list-summary">Listing Summary</h3>
+			<!-- <div class="listnav">
 				<a href="/list/logistics/{{item.id}}" class="backbutton button button-rounded">Back to Logistics</a>
 				<form action="/list/activate/{{item.id}}" method="POST">
 					<button class="saveandcontinue button button-rounded button-highlight">
@@ -280,7 +286,7 @@ var addError = function addError(handle) {
 				</form>
 				<a class="viewpreview button button-rounded">Preview Listing</a>
 				<div class="clear"></div>
-			</div>
+			</div> -->
 			{% endif %}
 		{% endif %}
 		<div class="listcontent">

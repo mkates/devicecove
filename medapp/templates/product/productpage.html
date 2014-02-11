@@ -7,7 +7,7 @@
 		<div class="buynowbox">
 			<div id="contactbox">
 				<h4>Contact Seller</h4>
-				<p> If you're ready to schedule an in-person viewing of the product or buy it online through VetCove, use this form to contact the seller to arrange for next steps.  To inquire for specific additional information about the item itself, we suggest you ask a question instead.</p>
+				<p>If you're ready to schedule an in-person viewing of the product or buy it online through VetCove, use this form to contact the seller to arrange for next steps.  To inquire for specific additional information from the seller, we suggest you <span class="underline">ask a question</span> instead</p>
 				<form action="/messageseller/{{item.id}}" method="POST" id="messageseller">
 					{% csrf_token %}
 					<div class="row">
@@ -17,13 +17,13 @@
 						</div>
 						<div class="col-md-6 col-sm-6 col-xs-12">
 							<label>Email</label>
-							<input type="text" class="form-control" name="contact-email" value="{{user.basicuser.email}}">
+							<input required type="email" class="form-control" name="contact-email" value="{{user.basicuser.email}}">
 						</div>
 					</div>
 					<div class="row">
 						<div class="col-md-6 col-sm-6 col-xs-12">
 							<label>Phone</label>
-							<input type="text" id="phonenumber" class="form-control" name="contact-phone" value="{% if user.basicuser.phonenumber %}{{user.basicuser.phonenumber|phonenumber}}{% endif %}">
+							<input required type="text" id="phonenumber" class="form-control" name="contact-phone" value="{% if user.basicuser.phonenumber %}{{user.basicuser.phonenumber|phonenumber}}{% endif %}">
 						</div>
 						<div class="col-md-6 col-sm-6 col-xs-12">
 							<label> Reason for Contact</label>
@@ -92,7 +92,18 @@
 			<h3>{{item.price|dollars}}</h3>
 			<p class="original-price">{{item.msrp_price|dollars}}</p>
 			<h4> Quantity Available: {{item.quantity}}</h4>
-			<p>All items on VetCove include free shipping</p>
+			{% if not item.shippingincluded %}
+			<p>This item includes FREE domestic shipping</p>
+			{% else %}
+			<p>This item is available for local pick-up only. Please make sure you are
+				willing to travel to
+				{% if item.user.city and item.user.state %}
+					{{item.user.city}}, {{item.user.state}}
+				{% else %}
+					{{item.user.zipcode|zipcodify}} 
+				{% endif %}
+				to pick up this item.</p>
+			{% endif %}
 			{% if not preview %}
 			<div class="actionbuttons">
 				{% if item.liststatus == 'active' and user.basicuser != item.user %}

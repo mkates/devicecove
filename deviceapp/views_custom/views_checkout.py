@@ -117,6 +117,10 @@ def addToCart(request,itemid):
 			shoppingcart.save()
 			request.session['shoppingcart'] = shoppingcart.id
 		item = Item.objects.get(id=itemid)
+		# Make sure if item if offline the user can add the item to their cart
+		if item.offlineviewing:
+			if BuyAuthorization.objects.filter(buyer=request.user.basicuser,item=item).exists():
+				return HttpResponseRedirect('/item/'+itemid+"/details")
 		# Only creates the cart object if it doesn't exist
 		newCartItem, created = CartItem.objects.get_or_create(shoppingcart=shoppingcart,item=item,price=item.price,quantity=1)
 		newCartItem.save()
@@ -519,6 +523,7 @@ def checkoutPurchase(request,checkoutid):
 						unit_price=cartitem.price,
 						checkout=cartitem.checkout,
 						total=amount,
+						shipping_included=item.shippingincluded,
 						item_name=cartitem.item.name,
 						quantity=cartitem.quantity,
 						payment=checkout.payment)

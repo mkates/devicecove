@@ -39,24 +39,30 @@
 .qualitybox .selectors {
 	margin-top: 10px;
 	padding: 0;
-	text-transform: uppercase;
 	text-align: center;
 }
 
 .qualitybox .selectors div {
 	text-align: center;
-	display: table-cell;
 	vertical-align: middle;
-	width: 18%;
-	line-height: 20px;
+	line-height: 40px;
 }
 .qualitybox .selectors .qualitynumber p {
-	line-height: 15px;
+	line-height: 40px;
 	overflow: hidden;
 	text-align: center;
 	margin: 0 0%;
 	color: #333;
-	font-size: 12px;
+	font-weight: 200;
+	font-size: 13px;
+}
+.qualitybox .right-rounded {
+	border-bottom-right-radius: 4px;
+	border-top-right-radius: 4px;
+}
+.qualitybox .left-rounded {
+	border-top-left-radius: 4px;
+	border-bottom-left-radius: 4px;
 }
 @media (max-width: 768px) {
 	.qualitybox .selectors div {
@@ -72,7 +78,16 @@
 	}
 }
 .quality-active {
-	background: #8FCF00;
+	background: #00B5E5;
+	background-image: -ms-linear-gradient(top, #00B5E5 0%, #008DB2 100%);
+	background-image: -moz-linear-gradient(top, #00B5E5 0%, #008DB2 100%);
+	background-image: -o-linear-gradient(top, #00B5E5 0%, #008DB2 100%);
+	background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #00B5E5), color-stop(1, #008DB2));
+	background-image: -webkit-linear-gradient(top, #00B5E5 0%, #008DB2 100%);
+	background-image: linear-gradient(to bottom, #00B5E5 0%, #008DB2 100%);
+}
+.qualitybox .selectors .quality-active p {
+	color: #fff;
 }
 .qualitybox .selectors   {
 	background: #ddd;
@@ -164,12 +179,10 @@
 			$("#conditionquality").val(currentvalue);
 			//Move the arrow
 			var margintomove = "";
-			if (value == 1) {margintomove = '10%'};
-			if (value == 2) {margintomove = '29%'};
-			if (value == 3) {margintomove = '48%'};
-			if (value == 4) {margintomove = '68%'};
-			if (value == 5) {margintomove = '87%'};
-			qualityChange(value);
+			if (value == 1) {margintomove = '12%'};
+			if (value == 2) {margintomove = '36%'};
+			if (value == 3) {margintomove = '60%'};
+			if (value == 4) {margintomove = '84%'};
 			$(".downarrow").animate({"margin-left":margintomove},400);
 			$(".qualitydescription p").fadeOut('fast',function() {
 				$(".qualitydescription p").html(qualitydict[value]);
@@ -183,26 +196,20 @@
 		submittable = true;
 		return submittable;
 	};
-	 var qualityChange = function qualityChange(conditionvalue) {
-		if (conditionvalue != 6) {
-			$('.conditionentry').fadeIn();
-		} else {
-			$('.conditionentry').fadeOut();
-		}
-    }
+
 </script>
 {% endblock %}
 {% block formcontent %}
 <div class="formcontent row">
 	<input id="conditionquality" type="hidden" name="conditionquality" value="{{item.conditionquality}}">
+	{% if not item.conditiontype == 'new' %}
 	<h5 id="qualitytitle">Choose Your Item Condition</h5>
 	<div class="qualitybox">
-		<div class="selectors">
-			<div id="quality_1" class="qualitynumber quality1 noborder"><p>Parts Only / Not Working</p></div>
-			<div id="quality_2" class="qualitynumber quality2"><p>Functional with Defects</p></div>
-			<div id="quality_3" class="qualitynumber quality3"><p>Used Fully Functional</p></div>
-			<div id="quality_4" class="qualitynumber quality4"><p>Used Like New</p></div>
-			<div id="quality_5" class="qualitynumber quality5"><p>Brand New</p></div>
+		<div class="selectors row">
+			<div id="quality_1" class="qualitynumber noborder left-rounded quality1 col-md-3 col-sm-3 col-xs-12"><p>Parts Only / Not Working</p></div>
+			<div id="quality_2" class="qualitynumber quality2 col-md-3 col-sm-3 col-xs-12"><p>Functional with Defects</p></div>
+			<div id="quality_3" class="qualitynumber quality3 col-md-3 col-sm-3 col-xs-12"><p>Used Fully Functional</p></div>
+			<div id="quality_4" class="qualitynumber quality4 right-rounded col-md-3 col-sm-3 col-xs-12"><p>Used Like New</p></div>
 		</div>
 		<div class='clear'></div>
 		<div class="downarrow"></div>
@@ -211,15 +218,16 @@
 		</div>
 	</div>
 	<div class="entry conditionentry">
-		<h5>Describe Item Condition <span>Describe any defects, product malfunctions, repairs, or otherwise</span></h5>
-		<textarea id="inputconditiondescription" name="conditiondescription" type="text" class="form-control" placeholder="Example: This ultrasound was used in mobile veterinary trucks. I was the s. . . ">{{item.conditiondescription}}</textarea>
+		<h5>Describe Item Condition and Item History <span>Include any defects, imperfections, cosmetic blemishes, missing accessories, etc.</span></h5>
+		<textarea id="inputconditiondescription" name="conditiondescription" type="text" class="form-control" placeholder="">{{item.conditiondescription}}</textarea>
+	</div>
+	{% endif %}
+	<div class="entry">
+		<h5>Model Features and Specifications <span>Please describe the item/model you’re selling.  Feel free to copy and paste information provided by the manufacturer.</span></h5>
+		<textarea id="inputproductdescription" name="productdescription" type="text" class="form-control" placeholder="">{{item.productdescription}}</textarea>
 	</div>
 	<div class="entry">
-		<h5>Model Features and Specifications <span>Please describe the item/model you’re selling.  Feel free to copy and paste information provided by the manufacturer</span></h5>
-		<textarea id="inputproductdescription" name="productdescription" type="text" class="form-control" placeholder="Make sure you include any defects, product malfunctions, repairs, or otherwise">{{item.productdescription}}</textarea>
-	</div>
-	<div class="entry">
-		<h5>Warranty / Service Contract</h5>
+		<h5>Service Contract / Warranty</h5>
 		<div class="radio">
 		  <label>
 			<input type="radio" name="contract" class="contract" value="warranty" {% if item.contract == 'transferwarranty' %}checked{% endif %}>
@@ -239,13 +247,13 @@
 		  </label>
 		</div>
 		<div class="contractdescription-container">
-			<p>Please describe, in detail, the service contract or warranty -- Be sure to include terms, end dates, requirements for transfer, and/or any costs that a buyer may incur</p>
-			<textarea id="inputcontractdescription" name="contractdescription" type="text" class="form-control" placeholder="Please describe, in detail, the service contract or warranty -- Be sure to include terms, end dates, requirements for transfer, and/or any costs that a buyer may incur">{{item.contractdescription}}</textarea>
+			<p>If applicable, please describe detailed terms, end dates, requirements for transfer, and/or costs the buyer may incur.</p>
+			<textarea id="inputcontractdescription" name="contractdescription" type="text" class="form-control" placeholder="">{{item.contractdescription}}</textarea>
 		</div>
 	</div>
 	<div class="entry">
 		<h5>What's Included? <span>Please describe what items are included in your sale, such as accessories, spare parts, manuals/documentation, packaging, etc.</span></h5>
-		<textarea id="inputwhatsincluded" name="whatsincluded" type="text" class="form-control" placeholder="Please describe what items are included in your sale, such as accessories, spare parts, manuals/documentation, packaging, etc.">{{item.whatsincluded}}</textarea>
+		<textarea id="inputwhatsincluded" name="whatsincluded" type="text" class="form-control" placeholder="">{{item.whatsincluded}}</textarea>
 	</div>
 	
 </div>

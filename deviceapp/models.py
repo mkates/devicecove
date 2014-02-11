@@ -403,6 +403,7 @@ class Commission(models.Model):
 	amount = models.BigIntegerField(max_length=20)
 	payment = models.ForeignKey(Payment) # Can only be a card or bank account
 	date = models.DateTimeField(auto_now_add = True)
+	transcation_number = models.CharField(max_length=40)
 
 ############################################
 ### Purchased Items  #######################
@@ -425,6 +426,7 @@ class PurchasedItem(models.Model):
 	checkout = models.ForeignKey(Checkout)
 	
 	# Post Purchase
+	shipping_included = models.BooleanField(default=True)
 	item_sent = models.BooleanField(default=False)
 	seller_message = models.TextField(blank=True)
 	buyer_message = models.TextField(blank=True)

@@ -49,6 +49,7 @@
 	margin-bottom: 15px;
 	padding: 5px;
 }
+
 </style>
 {% endblock %}
 
@@ -95,19 +96,16 @@
 				</div>
 				<div class="col-md-4 col-sm-4 col-xs-12 authorization-box">
 					{% if message.authorizedBuyer %}
-						<p>Authorization:<span> Allowed</span></p>
-						<p>This seller can purchase your item directly online. You should only authorize a seller 
-						after you agree to sell them the item but you would like VetCove to handle the 
-						payment processing.</p>
+						<p>Authorized: <span>You have authorized this buyer to pay for this item online through VetCove</span></p>
+						<p>You should only authorize a buyer to pay online once you mutually agree to engage in the transaction, and would like VetCove to handle the payment processing.  Since seller fees have already been paid to VetCove, 100% of the total will be passed through to you once payment has been completed.</p>
 						<form method="POST" action="/deauthorizebuyer/{{message.buyer.id}}/{{item.id}}">
 							{% csrf_token %}
 							<button value="submit" name="submit" class="messagebox-button button button-tiny button-rounded button-caution">Remove Authorization</button>
 						</form>
 					{% else %}
-						<p>Authorization:<span> Not Allowed</span></p>
-						<p> This seller CANNOT purchase your item online. You should only authorize a seller 
-						after you agree to sell them the item but you would like VetCove to handle the 
-						payment processing.</p>
+						<p>Not Yet Authorized: <span> You have not yet authorized this buyer to pay for this item online through VetCove.</span></p>
+						<p>You are free to complete the transaction with the buyer outside of VetCove by check, cash, or credit if you wish.  If you would like to authorize this buyer to pay you directly through VetCove, please click the button below.  You should only authorize a buyer to pay online once you mutually agree to engage in the transaction, and would like VetCove to handle the payment processing.  Since seller fees have already been paid to VetCove, you will NOT be assessed any
+						commission fees for letting a potential buyer pay for this item through VetCove.</p>
 						<form method="POST" action="/authorizebuyer/{{message.buyer.id}}/{{item.id}}">
 							{% csrf_token %}
 							<button value="submit" name="submit" class="messagebox-button button button-tiny button-rounded button-action">Authorize to Buy Online</button>

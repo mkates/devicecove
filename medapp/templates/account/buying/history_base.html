@@ -64,7 +64,19 @@
 			</p>
 		</div>
 		<div class="col-md-8 col-sm-8 col-xs-12">
-			<p class="order-status">Status: <span>{% if pitem.item_sent %}Shipped {% else %}Waiting to be Shipped{% endif %}</span></p>
+			<p class="order-status">Status: 
+				<span>
+				{% if pitem.shipping_included %}
+					{% if pitem.item_sent %}
+						Shipped 
+					{% else %}
+						Waiting to be Shipped
+					{% endif %}
+				{% else %}
+					Ready for Pick-Up
+				{% endif %}
+				</span>
+			</p>
 			{% if buyhistory %}
 			<p class="order-next"><span>Waiting for seller to provide shipping information</span></p>
 			{% else %}

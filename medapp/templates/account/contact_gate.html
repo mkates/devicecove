@@ -76,7 +76,6 @@
 	padding: 20px;
 	border:1px solid #ddd;
 	border-radius: 4px;
-	
 }
 .error-block {
 	display: block;
@@ -85,6 +84,11 @@
 	text-decoration: underline;
 	font-weight: normal;
 }
+{% if not payment_methods %}
+.add-payment-container {
+	display: block;
+}
+{% endif %}
 </style>
 
 {% endblock %}
@@ -152,7 +156,9 @@ $(document).ready(function() {
 					<div class="paymentbox">
 						{% include 'account/payment_methods.html'%}
 					</div>
+					{% if payment_methods %}
 					<button class="add-payment button button-rounded">Use A Different Payment Method</button>
+					{% endif %}
 					<div class="add-payment-container">
 						<button class="payment-button show-cc button button-rounded button-tiny button-primary">Pay by Credit Card</button>
 						<button class="payment-button show-ba button button-rounded button-tiny">Pay by Bank Account</button>

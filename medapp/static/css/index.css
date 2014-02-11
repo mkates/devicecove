@@ -29,11 +29,13 @@
 }
 .new_intro_pic {
 	border:1px solid white;
-	padding-bottom: 30px;
+	padding-bottom: 60px;
+	padding-top: 35px;
 }
 .new_intro h1 {
 	color: white;
 	font-weight: 200;
+	line-height: 45px;
 	font-size: 36px;
 	padding-left: 20px;
 	margin-top: 30px;

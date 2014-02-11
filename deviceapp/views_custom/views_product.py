@@ -100,10 +100,15 @@ def savedescribe(request,itemid):
 			item.serialno = request.POST.get('serialnumber','None')
 			item.modelyear = request.POST.get('modelyear',2014)
 			item.conditiontype = request.POST.get('conditiontype','preowned')
+			item.quantity = request.POST.get('quantity',1)
 			# New items can't be viewed offline
 			if item.conditiontype == 'new':
 				item.offlineviewing = False
-			item.quantity = request.POST.get('quantity',1)
+				item.conditionquality = 5
+			else:
+				item.quantity = 1
+				if item.conditionquality == 5:
+					item.conditionquality = 3
 			item.originalowner = True if request.POST.get('originalowner','True')=='True' else False
 			item.save()
 			return HttpResponse(submitcode)
@@ -132,7 +137,7 @@ def savedetails(request,itemid):
 			submitcode = 600 if int(request.POST['submitcode']) == 600 else 700
 			item = Item.objects.get(id=itemid)
 			item.whatsincluded = request.POST.get('whatsincluded','')
-			item.conditionquality = request.POST.get('conditionquality',4)
+			item.conditionquality = request.POST.get('conditionquality',3)
 			item.conditiondescription = request.POST.get('conditiondescription','')
 			item.productdescription = request.POST.get('productdescription','')
 			item.contract = request.POST.get('contract','')
@@ -198,7 +203,7 @@ def imageupload(request,itemid):
 					return HttpResponse(json.dumps('filetype'), content_type='application/json')
 				if file.size > 1048576:
 					return HttpResponse(json.dumps('filesize'), content_type='application/json')
-				if item.image_set.count() > 7:
+				if item.image_set.count() > 10:
 					return HttpResponse(json.dumps('filecount'), content_type='application/json')
 				ui = Image(item=item,photo=file,photo_small=file,photo_medium=file)
 				ui.save()
@@ -233,7 +238,7 @@ def savelogistics(request,itemid):
 				if item.price and item.price != new_price and item.liststatus == "active":
 					pc = PriceChange(item=item,original_price=item.price,new_price=new_price)
 					pc.save()
-			item.price = new_price
+				item.price = new_price
 			msrp_price = request.POST.get('inputmsrpprice','0')
 			if msrp_price:
 				item.msrp_price = int(round(float(msrp_price.replace(",","").replace("$","0")),2)*100)

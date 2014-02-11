@@ -30,11 +30,11 @@ def addPromoCode(request,itemid):
 				item.save()
 				dict = {'status':201,'message':pc.promo_text}
 			else:
-				dict = {'status':400,'message':"You're too late! This code has expired! Sorry"}
+				dict = {'status':400,'message':"You're too late! This code has expired. Sorry!"}
 		except:
-			dict = {'status':500,'message':'This code does not exist'}
+			dict = {'status':500,'message':'The code you entered is invalid'}
 	else:
-		dict = {'status':500,'message':'Not the owner of the item'}
+		dict = {'status':500,'message':'You are not the owner of the item'}
 	return HttpResponse(json.dumps(dict), content_type='application/json')
 
 @login_required
@@ -70,7 +70,12 @@ def buyermessages(request,itemid):
 			#item.save()
 			return render_to_response('account/selling/messages.html',{'item':item},context_instance=RequestContext(request))
 		else:
-			dict = {'gate':True,'item':item,'standard_commission':standard_commission,'net_commission':net_commission,'discount':savings,'commission_percent':commission.commissionPercentage(item.price)}
+			payment_methods = False
+			payments =  request.user.basicuser.payment_set.all()
+			for payment in payments:
+				if hasattr(payment,'balancedcard') or hasattr(payment,'balancedbankaccount'):
+					payment_methods = True
+			dict = {'gate':True,'payment_methods':payment_methods,'item':item,'standard_commission':standard_commission,'net_commission':net_commission,'discount':savings,'commission_percent':commission.commissionPercentage(item.price)}
 			if request.GET.get('e',''):
 				dict['error'] = request.GET.get('e')
 			return render_to_response('account/contact_gate.html',dict,context_instance=RequestContext(request))
@@ -134,7 +139,7 @@ def newbank_chargecommission(request,itemid):
 				return HttpResponse(json.dumps({'status':501,'error':'Failed to charge your bank account.'}), content_type='application/json')
 			item.commission_paid = True
 			item.save()
-			commission_obj = Commission(item=item,price=item.price,amount=amount,payment=bank)
+			commission_obj = Commission(item=item,price=item.price,amount=amount,payment=bank,transcation_number=debit.transaction_number)
 			commission_obj.save()
 			email_view.composeEmailCommissionCharged(request,bu,commission_obj)
 			return HttpResponse(json.dumps({'status':201}), content_type='application/json')

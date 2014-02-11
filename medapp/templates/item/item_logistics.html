@@ -8,6 +8,9 @@
 .entry {
 	margin: 35px 0;
 }
+.entry h5 {
+	margin-bottom: 20px;
+}
 .radio {
 }
 .radio span {
@@ -91,7 +94,7 @@
 <script>
 $(document).ready(function() {
 	$('.inputprice').blur(function() {
-		$('.inputprice').html(null);
+		$(this).html(null);
 		$(this).formatCurrency({ colorize: true, negativeFormat: '-%s%n', roundToDecimalPlace: 2 });
 	})
 	.keyup(function(e) {
@@ -112,10 +115,10 @@ $(document).ready(function() {
 				case 78: break; // N (Opera 9.63+ maps the "." from the number key section to the "N" key too!) (See: http://unixpapa.com/js/key.html search for ". Del")
 				case 110: break; // . number block (Opera 9.63+ maps the "." from the number block to the "N" key (78) !!!)
 				case 190: break; // .
-				default: $(this).formatCurrency({ colorize: true, negativeFormat: '-%s%n', roundToDecimalPlace: 2, eventOnDecimalsEntered: true });
+				default: $(this).formatCurrency({ colorize: true, negativeFormat: '-%s%n', roundToDecimalPlace: -1, eventOnDecimalsEntered: true });
 			}
 		}
-	});
+	})
 	$('#promo-check').click(function() {
 		$(".promo-entry img").css('display','inline-block');
 		$.post( "/promocode/{{item.id}}",{
@@ -123,7 +126,7 @@ $(document).ready(function() {
 		}, function(e) {
 			$(".promo-entry img").css('display','none');
 			if (e['status'] == 201) {
-				$("#code-explain").text(e['message']);
+				$("#code-explain").text("Promo Code Successfully Added!");
 				$("#current-code").text($("#promocode").val());
 				$(".promo_message").text("("+e['message']+")")
 				$("#code-explain").css('color','green');
@@ -155,6 +158,7 @@ var validateInputs = function validateInputs() {
 
 </script>
 {% endblock %}
+{% load zipcodify %}
 {% block formcontent %}
 <div class="formcontent row">
 	<div class="entry">
@@ -162,13 +166,13 @@ var validateInputs = function validateInputs() {
 		<div class="radio">
 		  <label>
 			<input type="radio" name="shippingincluded" class="shippingncluded" value="True" {% if item.shippingincluded %}checked{% endif %}>
-			I will arrange and pay for shipping to anywhere in the continental United Sates <span>( * recommended )</span>
+			I will arrange and pay for shipping to anywhere in the continental United States <span>( * recommended )</span>
 		  </label>
 		</div>
 		<div class="radio">
 		  <label>
 			<input type="radio" name="shippingincluded" class="shippingincluded" value="False" {% if not item.shippingincluded %}checked{% endif %}>
-			The item must be picked up and/or the buyer is responsible for arranging shipping
+			This item is only available for pick-up at {% if item.user.city %}{{item.user.city}}, {{item.user.state}}{% else %}{{item.user.zipcode|zipcodify}}{% endif %}
 		  </label>
 		</div>
 	</div>
@@ -197,16 +201,16 @@ var validateInputs = function validateInputs() {
 		<h5>Price</h5>
 		<div class="pricecontainer">
 			<div class="listprice">
-				<h6>New Price / MSRP Price</h6>
-				<input id="inputmsrpprice" name="inputmsrpprice" step="1" class="form-control inputprice" placeholder="Ex: $24,200.50" value="{% if item.msrp_price %}{{item.msrp_price|dollars}}{% endif %}" />
-				<p>This is the price of the item purchased new. Even new items can be below the MSRP. After all, people want to see what a great deal they are getting.</p>
+				<h6>MSRP / New Price</h6>
+				<input id="inputmsrpprice" type="text" name="inputmsrpprice" step="1" class="form-control inputprice" placeholder="" value="{% if item.msrp_price %}{{item.msrp_price|dollars}}{% endif %}" />
+				<p>Please enter the MSRP of the item when new, or if not available, your best guess.  This is only used to provide buyers with perspective.</p>
 			</div>
 		</div>
 		<div class="pricecontainer">
 			<div class="listprice">
 				<h6>Your Listing Price</h6>
-				<input id="inputlistprice" name="inputlistprice" step="1" class="form-control inputprice" placeholder="Ex: $8,320.25" value="{% if item.price %}{{item.price|dollars}}{% endif %}" />
-				<p>We suggest you price your item competitively with other items in our system.  The price you choose should be inclusive of shipping costs (if you indicated you will be shipping), and any taxes as required by law (if applicable)</p>
+				<input id="inputlistprice" type="text" name="inputlistprice" step="1" class="form-control inputprice" placeholder="" value="{% if item.price %}{{item.price|dollars}}{% endif %}" />
+				<p>Please enter the amount you’d like to sell your item for, inclusive of shipping costs if applicable. This can be modified later</p>
 			</div>
 		</div>
 	</div>
@@ -219,8 +223,9 @@ var validateInputs = function validateInputs() {
 			{% endif %}
 		</p>
 		{% else %}
-		<p>If you have a promotional code, please enter it below. Only one promotional code can be used.</p>
-		<h6 class="current-code">Current Promotion Code: <span id="current-code"> {{item.promo_code.code}}</span> <span class="promo_message">{% if item.promo_code %}({{item.promo_code.promo_text}}){% endif %}</span></h6>
+		<p>If you have a promotion code, please enter it below. Only one promotion code can be used per listing.</p>
+		<h6 class="current-code">Current Promotion Code: {% if item.promo_code %}<span id="current-code"> {{item.promo_code.code}}</span> <span class="promo_message">
+			{% if item.promo_code %}({{item.promo_code.promo_text}}){% endif %}</span>{% else %}None{% endif %}</h6>
 		<input id="promocode" name="promocode" class="form-control" value="{% if item.promo_code %}{{item.promo_code.code}}{% endif %}" />
 		<a id="promo-check" class="button button-rounded button-primary">Use This Promo Code</a>
 		<img src="{{STATIC_URL}}img/ajax-loader.gif"/>

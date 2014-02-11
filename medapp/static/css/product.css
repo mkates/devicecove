@@ -461,7 +461,9 @@
 	border-bottom:1px solid #ccc;
 	margin: 15px 10px 15px 10px;
 }
-
+#contactbox p .underline {
+	text-decoration:underline;
+}
 #messageseller {
 	text-align: left;
 	font-weight: 400;

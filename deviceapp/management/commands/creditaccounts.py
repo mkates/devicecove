@@ -95,7 +95,7 @@ def purchasedItemEligibleForPayout(pitem):
 		return False
 	# See if the item has been sent (unsent items don't get paid out)
 	# Offline items are exempt from this requirement
-	if not (pitem.item_sent == True or pitem.cartitem.item.offlineviewing):
+	if not (pitem.item_sent == True or pitem.cartitem.item.offlineviewing or not pitem.shipping_included):
 		return False
 	#Check if it is been enough time to pay the seller
 	now = datetime.datetime.utcnow().replace(tzinfo=utc)
