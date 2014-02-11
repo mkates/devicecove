@@ -40,7 +40,13 @@ class SubCategory(models.Model):
 	totalunits = models.IntegerField(default=0) # Script updates this
 	def __unicode__(self):
 		return self.displayname
-	
+
+class Charity(models.Model):
+	name = models.CharField(max_length=40)
+	active = models.BooleanField(default=True)
+	def __unicode__(self):
+		return self.name
+
 ############################################
 ####### User Class #########################
 ############################################	
@@ -182,6 +188,11 @@ class Item(models.Model):
 		('sold', 'Sold'),
 		('unsold', 'Not Sold')
 	)
+
+	### Charity ###
+	charity = models.BooleanField(default=False)
+	charity_name = models.ForeignKey(Charity,null=True,blank=True)
+
 	liststatus = models.CharField(max_length=30,choices=LISTSTATUS_OPTIONS,db_index=True,default='incomplete')
 	liststage = models.IntegerField(default=0)
 	savedcount = models.IntegerField(default=0)
@@ -424,6 +435,10 @@ class PurchasedItem(models.Model):
 	# Reference to cart item of the purchase and the checkout
 	cartitem = models.OneToOneField(CartItem)
 	checkout = models.ForeignKey(Checkout)
+	
+	#Charity
+	charity = models.BooleanField(default=False)
+	charity_name = models.ForeignKey(Charity,null=True,blank=True)
 	
 	# Post Purchase
 	shipping_included = models.BooleanField(default=True)

@@ -523,6 +523,8 @@ def checkoutPurchase(request,checkoutid):
 						unit_price=cartitem.price,
 						checkout=cartitem.checkout,
 						total=amount,
+						charity = item.charity,
+						charity_name = item.charity_name,
 						shipping_included=item.shippingincluded,
 						item_name=cartitem.item.name,
 						quantity=cartitem.quantity,

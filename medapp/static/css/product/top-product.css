@@ -5,7 +5,7 @@
 
 .top-products {
 	max-width: 1000px;
-	margin: 50px auto;
+	margin: 80px auto;
 }
 .top-products div div {
 	padding: 0;
@@ -21,7 +21,7 @@
 	padding-left: 10px;
 }
 .top-product {
-	text-align: center;
+	text-align: left;
 	padding: none;
 	position:relative;
 	margin-bottom: 10px;
@@ -29,7 +29,7 @@
 	border:1px solid white;
 }
 .top-product h3 {
-	padding: 5px;
+	padding: 6px 10px 5px 10px;
 	height: 30px;
 	margin: 0;
 	color: #fff;
@@ -38,11 +38,13 @@
 	font-weight: 200;
 	position: relative;
 	z-index: 2;
-	background:  url("../../img/blacktransparency.png");
+	background: #222;
+}
+.top-product h3 span {
+	float: right;
 }
 .top-product img {
 	width: 100%;
-	margin-top: -30px;
 	position: relative;
 	z-index: 1
 }
@@ -66,13 +68,11 @@
 	margin: 15px auto 0 auto;
 }	
 .view-all-categories {
-	text-align: right;
-	display: block;
-	color: #444;
-	font-weight: bold;
+	float: right;
+	margin-top: 10px;
+	display: inline-block;
 }
 .view-all-categories:hover {
-	text-decoration: underline;
 }
 @media (max-width: 1000px) {
 	.top-products {

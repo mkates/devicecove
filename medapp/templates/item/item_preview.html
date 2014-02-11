@@ -56,6 +56,7 @@
 				<p>{% if item.modelyear %}{{item.modelyear}}{% else %}N/A{% endif %}</p>
 			</div>
 		</div>
+		{% if item.conditiontype == 'new' %}
 		<div class="row">
 			<div class="col-md-3 col-sm-3 col-xs-12 info_header">
 				<p>Quantity</p>
@@ -64,6 +65,7 @@
 				<p>{{item.quantity}}</p>
 			</div>
 		</div>
+		{% endif %}
 		<div class="row">
 			<div class="col-md-3 col-sm-3 col-xs-12 info_header">
 				<p>Type</p>
@@ -161,6 +163,16 @@
 			</div>
 			<div class="col-md-9 col-sm-9 col-xs-12">
 				<p>{{item.promo_code.code}} ({{item.promo_code.details}})</p>
+			</div>
+		</div>
+		{% endif %}
+		{% if item.charity %}
+		<div class="row">
+			<div class="col-md-3 col-sm-3 col-xs-12 info_header">
+				<p>1+1 Program Charity</p>
+			</div>
+			<div class="col-md-9 col-sm-9 col-xs-12">
+				<p>{{item.charity_name}}</p>
 			</div>
 		</div>
 		{% endif %}

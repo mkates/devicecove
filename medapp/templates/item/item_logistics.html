@@ -87,6 +87,14 @@
 #promocode {
 	max-width: 200px;
 }
+#charity_name {
+	max-width: 400px;
+}
+{% if not item.charity %}
+#charity_name {
+	display:none;
+}
+{% endif %}
 </style>
 {% endblock %}
 {% block customjs %}
@@ -138,6 +146,13 @@ $(document).ready(function() {
 		alert( "error" );
 		});
 	})
+	$('#charity').click(function () {
+	    if ($("#charity").is(":checked")) {
+	    	$("#charity_name").css('display','block');
+	    } else {
+	    	$("#charity_name").css('display','none');
+	    }
+	});
 });
 
 var submittable = false;
@@ -231,6 +246,20 @@ var validateInputs = function validateInputs() {
 		<img src="{{STATIC_URL}}img/ajax-loader.gif"/>
 		<h6 id="code-explain"></h6>
 		{% endif %}
+	</div>
+	<div class="entry">
+		<h5>VetCove 1+1 Program</h5>
+		<div class="checkbox">
+		  <label>
+			<input id="charity" type="checkbox" name="charity" {% if item.charity %}checked{% endif %}>
+			I would like to participate in the <a target="_blank" href="/giveback">1+1 Program</a>, where I donate 1% of the sale to my charity and VetCove matches the 1% (only available if the purchase is made online)
+		  </label>
+		</div>
+		<select id="charity_name" class="form-control" name="charity_name">
+			{% for char in charities %}
+				<option value="{{char}}" {% if item.charity_name == char %}selected{% endif %}>{{char}}</option>
+			{% endfor %}
+		</select>
 	</div>
 </div>
 

@@ -39,6 +39,7 @@ def listproduct(request,subcategory):
  		newitem = Item(user=bu,
  						subcategory=subcategory,
  						originalowner=True,
+ 						offlineviewing=False,
  						contract="none",
  						msrp_price = 0,
  						price = 0,
@@ -219,7 +220,8 @@ def listitemlogistics(request,itemid):
 		item = Item.objects.get(id=itemid)
 		item.liststage = max(4,item.liststage)
 		item.save()
-		dict = {'item':item,'logistics':True}
+		charities = Charity.objects.all()
+		dict = {'item':item,'logistics':True,'charities':charities}
 		categories = Category.objects.all()
 		return render_to_response('item/item_logistics.html',dict,context_instance=RequestContext(request))
 	return HttpResponseRedirect('/listintro')
@@ -242,6 +244,8 @@ def savelogistics(request,itemid):
 			msrp_price = request.POST.get('inputmsrpprice','0')
 			if msrp_price:
 				item.msrp_price = int(round(float(msrp_price.replace(",","").replace("$","0")),2)*100)
+			item.charity = True if request.POST.get('charity',False) else False
+			item.charity_name = Charity.objects.get(name=request.POST.get('charity_name','Any'))
 			item.save()
 			return HttpResponse(submitcode)
 		return HttpResponse(500)

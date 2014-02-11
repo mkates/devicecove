@@ -235,6 +235,22 @@
 }
 
 /**************************/
+/* Give Back*************/
+/**************************/
+.giveback_img {
+	display: inline-block;
+	width: 100%;
+	padding-left: 5px;
+	margin-top: 10px;
+}
+#giveback div {
+	padding: 5px;
+}
+#giveback p {
+	margin-top: 5px;
+	font-size: 12px;
+}
+/**************************/
 /* Product Specs **********/
 /**************************/
 

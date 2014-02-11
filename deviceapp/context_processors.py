@@ -15,10 +15,10 @@ def basics(request):
 				sc = ShoppingCart.objects.get(id=request.session['shoppingcart'])
 				ci = sc.cartitem_set.all()
 		if ci:
-			ci_count = activeItemCount(ci)
 			for itm in ci:
 				if itm.item.liststatus == 'active':
 					total += itm.item.price *itm.quantity
+					ci_count += itm.quantity
 	################# Shipping Notifications ######################
 		itemsToBeShipped = 0
 		if request.user.is_authenticated():
@@ -32,12 +32,6 @@ def basics(request):
 		print e
 		return {}
 
-def activeItemCount(queryset):
-	count = 0
-	for ci in queryset:
-		if ci.item.liststatus == 'active':
-			count += 1
-	return count
 
 			
 			

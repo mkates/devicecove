@@ -84,7 +84,7 @@
 				  					{% if cart_item.item.liststatus != 'active' %}
 				  						<span>Item no longer available</span>
 				  					{% else %}
-				  						{{cart_item.item.price|dollars}}
+				  						{{cart_item.item.price|dollars}} {% if cart_item.quantity > 1 %}(Quantity: {{cart_item.quantity}}){% endif %}
 				  					{% endif %}
 				  				</p>
 				  			</div>

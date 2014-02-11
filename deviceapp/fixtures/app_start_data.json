@@ -203,6 +203,27 @@
 {"pk": 163, "model": "deviceapp.subcategory", "fields": {"category": [20, 21], "totalunits": 0, "displayname": "MRI Compatible Monitors", "name": "mricompatiblemonitors", "maincategory": 20}},
 {
     "pk": 1, 
+    "model": "deviceapp.charity", 
+    "fields": {
+        "name": "A VetCoA ve Approved Charity"
+    }
+},
+{
+    "pk": 2, 
+    "model": "deviceapp.charity", 
+    "fields": {
+        "name": "AAEP"
+    }
+},
+{
+    "pk": 3, 
+    "model": "deviceapp.charity", 
+    "fields": {
+        "name": "Standardbred Retirement Foundation"
+    }
+},
+{
+    "pk": 1, 
     "model": "auth.user", 
     "fields": {
         "username": "admin@vetcove.com", 

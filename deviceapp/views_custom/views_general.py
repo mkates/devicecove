@@ -28,6 +28,9 @@ def buy(request):
 def tos(request):
 	return render_to_response('general/tos.html',{'tos':True},context_instance=RequestContext(request))
 
+def giveback(request):
+	return render_to_response('general/giveback.html',{'giveback':True},context_instance=RequestContext(request))
+
 def commissionpage(request):
 	return render_to_response('general/commission.html',{'commission':True},context_instance=RequestContext(request))
 

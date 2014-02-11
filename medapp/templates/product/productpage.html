@@ -143,6 +143,16 @@
 			</div>
 			{% endif %}
 		</div>
+		{% if item.charity %}
+		<div class="sideproduct row" id="giveback">
+			<div class="col-md-2 col-sm-2 col-xs-12">
+				<img class="giveback_img" src="{{STATIC_URL}}img/giveback_80x75.png"/>
+			</div>
+			<div class="col-md-10 col-sm-10 col-xs-12">
+				<p>2% of all proceeds go to the {{item.charity_name}} through our <a href="/giveback">1+1 program</a></p>
+			</div>
+		</div>
+		{% endif %}
 		<div class="sideproduct" id="buyerprotect">
 			<img class="buyerbadge" src="{{STATIC_URL}}img/vetcoveprotected.png"/> 	
 			<h3>Buy With Confidence</h3>
