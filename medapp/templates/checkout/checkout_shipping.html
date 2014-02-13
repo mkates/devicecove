@@ -4,7 +4,7 @@
 
 {% block shippingactive %}active{% endblock %}
 
-{% block checkout_nav %}{% if checkout.state >= 2 %}<p class="topnav"><a class="continuebutton button button-tiny" href="/checkout/payment/{{checkout.id}}">Continue to Payment &#8594;</a></p>{% endif %}{% endblock %}
+{% block checkout_nav %}<p class="topnav"><a class="returnbutton button button-tiny" href="/cart">&#8592; Return To Shopping Cart</a>{% if checkout.state >= 2 %}<a class="continuebutton button button-tiny" href="/checkout/payment/{{checkout.id}}">Continue to Payment &#8594;</a>{% endif %}</p>{% endblock %}
 
 
 {% block customcss %}
@@ -13,7 +13,10 @@
 .newaddresscol {
 	border-left:1px solid #eee;
 }
-
+.shipping-not-required {
+	text-align: center;
+	padding: 20px;
+}
 </style>
 {% endblock %}
 
@@ -33,6 +36,7 @@ var loading_src = "{{STATIC_URL}}img/ajax-loader2.gif";
 <div class="checkout-container">
 	<h3>Shipping</h3>
 	<div class="row">
+		{% if checkout.shippingAddressRequired %}
 		<div class="checkoutcol col-md-6 col-sm-6 col-xs-12">
 			<h4>Saved Shipping Addresses</h4>
 			{% if user.basicuser.address_set.all %}
@@ -72,6 +76,12 @@ var loading_src = "{{STATIC_URL}}img/ajax-loader2.gif";
 			    {% include 'general/address.html' %}
 			 </div>
 		</div>
+		{% else %}
+		<div class="shipping-not-required">
+			<p> All of the items you purchased are for local pick-up only, so no shipping address in required. Make sure you are able to pick up these items in a timely manner from the zipcode provided by the seller.<p>
+			<a class="button button-rounded button-action" href="/checkout/payment/{{checkout.id}}">Continue to Payment</a>
+		</div>
+		{% endif %}
 	</div>
 
 </div>

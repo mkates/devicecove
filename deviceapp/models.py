@@ -295,10 +295,14 @@ class Payment(models.Model):
 	user = models.ForeignKey(BasicUser,null=True,blank=True)
 	datecreated = models.DateTimeField(auto_now_add=True)
 	
-#### Mailing Payment ##################
+#### Mailing Payout ##################
 class CheckAddress(Payment):
 	address = models.ForeignKey(Address)
-	
+
+### Mailing Payment ##################
+class CheckPayment(Payment):
+	received = models.BooleanField(default=False)
+
 #### Balanced Credit Card ##################
 class BalancedCard(Payment):
 	uri = models.CharField(max_length=255)
@@ -349,6 +353,13 @@ class Checkout(models.Model):
 		for cartitem in cartitems:
 			count += cartitem.quantity
 		return count
+
+	#Is shipping address required?
+	def shippingAddressRequired(self):
+		for cartitem in self.cartitem_set.all():
+			if cartitem.item.shippingincluded:
+				return True
+		return False
 
 ############################################
 ####### Shopping Cart and Cart Items########
@@ -431,7 +442,8 @@ class PurchasedItem(models.Model):
 	unit_price = models.BigIntegerField(max_length=20)
 	item_name = models.CharField(max_length=300)
 	purchase_date = models.DateTimeField(auto_now_add = True)
-	
+	shipping_address = models.ForeignKey(Address,null=True,blank=True) # Can be null if only pick-up items
+
 	# Reference to cart item of the purchase and the checkout
 	cartitem = models.OneToOneField(CartItem)
 	checkout = models.ForeignKey(Checkout)

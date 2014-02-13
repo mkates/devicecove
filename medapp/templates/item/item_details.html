@@ -152,7 +152,6 @@
 <script>
 	$(document).ready(function() {
 		qualityNumberClick($("#quality_{{item.conditionquality}}"));
-		qualityChange({{item.conditionquality}});
 	});
 	var currentvalue = 0;
 	$(".qualitybox select").css("opacity",".4");
@@ -190,7 +189,6 @@
 			});
 		}	
 	}
-	
 	var submittable = false;
 	var validateInputs = function validateInputs() {
 		submittable = true;

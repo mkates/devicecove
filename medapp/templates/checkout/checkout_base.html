@@ -315,7 +315,7 @@ var addError = function addError(handle) {
 	<div class="listbox">
 		<div class="listbar covebox">
 			<div class="col-md-3 col-sm-3 col-xs-6 liststep">
-				<a class="{% block signinactive %}{% endblock%}"><span class="badge">{% block signin_check%}1{% endblock %}</span>Sign In</a>
+				<a class="{% block signinactive %}{% endblock%}"><span class="badge">{% block signin_check%}1{% endblock %}</span>Verify Account</a>
 			</div>
 			<div class="col-md-3 col-sm-3 col-xs-6 liststep">
 				<a class="{% block shippingactive %}{% endblock%}"><span class="badge">{% block shipping_check %}2{% endblock %}</span>Shipping</a>
@@ -353,7 +353,7 @@ var addError = function addError(handle) {
 						{% endfor %}
 						<h6 class="checkout-total">Total:<span>{{checkout.total|dollars}}</span></h6>
 					</div>
-					
+					{% if checkout.shippingAddressRequired %}
 					<div class="summary-block">
 						<h5>Shipping Address</h5>
 						{% if checkout.shipping_address %}
@@ -366,7 +366,7 @@ var addError = function addError(handle) {
 						<p class="incomplete-data">Shipping Address has not yet been added</p>
 						{% endif %}
 					</div>
-					
+					{% endif %}
 					<div class="summary-block">
 						<h5>Payment Information</h5>
 						{% if checkout.payment.balancedcard %}
@@ -379,6 +379,14 @@ var addError = function addError(handle) {
 						<p>{{checkout.payment.balancedbankaccount.name}}</p>
 						<p>{{checkout.payment.balancedbankaccount.bank_name}}</p>
 						<p>{{checkout.payment.balancedbankaccount.account_number}}</p>
+						{% elif checkout.payment.checkpayment %}
+						<p class="strong">Check By Mail</p>
+						<p>You will be mailing a check for the total to the following address:</p>
+						<br>
+						<p>10 Pacer Court</p>
+						<p>Colts Neck, NJ 07722</p>
+						<br>
+						<p>We give 3 days to receive payment before relisting purchased items as active</p>
 						{% else %}
 						<p class="incomplete-data">Payment Information has not yet been entered</p>
 						{% endif %}

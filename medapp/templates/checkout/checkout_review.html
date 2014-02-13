@@ -187,6 +187,7 @@ $(document).ready(function() {
 			{% endif %}
 		</div>
 		<div class="row">
+			{% if checkout.shippingAddressRequired %}
 			<div class="review-block review-block-shipping col-md-6 col-sm-6 col-xs-12">
 				<h4>Shipping Information<a href="/checkout/shipping/{{checkout.id}}" class="change">change</a></h4>
 				{% if checkout.shipping_address %}
@@ -199,6 +200,7 @@ $(document).ready(function() {
 					<p class="incomplete-data">Shipping Address has not yet been added</p>
 				{% endif %}
 			</div>
+			{% endif %}
 			<div class="review-block review-block-billing col-md-6 col-sm-6 col-xs-12">
 				<h4>Billing Information<a href="/checkout/payment/{{checkout.id}}" class="change">change</a></h4>
 				{% if checkout.payment.balancedcard %}
@@ -211,6 +213,14 @@ $(document).ready(function() {
 				<p>{{checkout.payment.balancedbankaccount.name}}</p>
 				<p>{{checkout.payment.balancedbankaccount.bank_name}}</p>
 				<p>{{checkout.payment.balancedbankaccount.account_number}}</p>
+				{% elif checkout.payment.checkpayment %}
+				<p class="strong">Check By Mail</p>
+				<p>You will be mailing a check for the total to the following address:</p>
+				<br>
+				<p>10 Pacer Court</p>
+				<p>Colts Neck, NJ 07722</p>
+				<br>
+				<p>We give 3 days to receive payment before relisting purchased items as active</p>
 				{% else %}
 				<p class="incomplete-data">Payment Information has not yet been entered</p>
 				{% endif %}

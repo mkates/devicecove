@@ -5,7 +5,6 @@
 	{% if sellhistory %}
 		<div class="shipping-overlay" id="shipping-overlay-{{pitem.id}}">
 			<div class="row shippingrow">
-		
 				<form method="POST" action="/account/purchaseshippinginfo/{{pitem.id}}" id="shipping-form-{{pitem.id}}" class="shipping-form">
 					{% csrf_token %}
 					<p> Please describe shipping details, including shipping company and tracking number. If there was a problem,
@@ -20,66 +19,116 @@
 	{% endif %}
 
 	<div class="order-overview row">
+		{% if sellhistory and pitem.payment.checkpayment %}
+			{% if not pitem.payment.checkpayment.received %}
+				<div class="alert alert-danger alert-nocheck">
+					<strong>Payment Still Processing - Do Not {% if shippingincluded %}Ship{% else %}Allow A Pick-Up of {% endif %}this Item</strong>
+					<p>This seller has chosen to pay by check, but we have not yet received and processed the payment. Once payment is confirmed, we will contact you, at which time you can {% if shippingincluded %}ship your item{% else %}organize to have the buyer pick up your item.{% endif %}</p>
+				</div>
+			{% endif %}
+		{% endif %}
 		<div class="col-md-4 col-sm-4 col-xs-12 order-details-container">
 			<h4 class="order-details">Order Placed</h4>
 			<p class="order-date">{{pitem.purchase_date|date:"F jS, Y"}}</p>
 			<p class="order-number">Order #: <span>00000{{pitem.cartitem.id}}</span></p>
+
+			{% if pitem.shipping_address %}
 			<div class="order-info">
 				<p class="order-info-header">Shipping Address</p>
-				<p>{{pitem.cartitem.checkout.shipping_address.name}}</p>
-				<p>{{pitem.cartitem.checkout.shipping_address.address_one}}</p>
-				{% if pitem.cartitem.checkout.shipping_address.address_two %}<p>{{pitem.cartitem.checkout.shipping_address.address_two}}</p>{% endif %}
-				<p>{{pitem.cartitem.checkout.shipping_address.city}}, {{pitem.cartitem.checkout.shipping_address.state}} {{pitem.cartitem.checkout.shipping_address.zipcode|zipcodify}}</p>
-				<p>{{pitem.cartitem.checkout.shipping_address.phonenumber}}</p>
+				<p>{{pitem.shipping_address.name}}</p>
+				<p>{{pitem.shipping_address.address_one}}</p>
+				{% if pitem.shipping_address.address_two %}<p>{{pitem.shipping_address.address_two}}</p>{% endif %}
+				<p>{{pitem.cartitem.checkout.shipping_address.city}}, {{pitem.shipping_address.state}} {{pitem.shipping_address.zipcode|zipcodify}}</p>
+				<p>{{pitem.shipping_address.phonenumber}}</p>
 			</div>
+			{% endif %}
 			{% if buyhistory %}
 			<div class="order-info">
 				<p class="order-info-header">Payment</p>
-				{% if pitem.cartitem.checkout.payment.balancedcard %}
-				<p>{{pitem.cartitem.checkout.payment.balancedcard.brand}}</p>
-				<p>* * * * * * * * {{pitem.cartitem.checkout.payment.balancedcard.last_four}}</p>
-				<p>Expires: {{pitem.cartitem.checkout.payment.balancedcard.expiration_month}}/{{pitem.cartitem.checkout.payment.balancedcard.expiration_year}}</p>
-				{% elif pitem.cartitem.checkout.payment.balancedbankaccount %}
-				<p>{{pitem.cartitem.checkout.payment.balancedbankaccount.name}}</p>
-				<p>{{pitem.cartitem.checkout.payment.balancedbankaccount.bank_name}}</p>
-				<p>{{pitem.cartitem.checkout.payment.balancedbankaccount.account_number}}</p>
+				{% if pitem.payment.balancedcard %}
+				<p>{{pitem.payment.balancedcard.brand}}</p>
+				<p>* * * * * * * * {{pitem.payment.balancedcard.last_four}}</p>
+				<p>Expires: {{pitem.payment.balancedcard.expiration_month}}/{{pitem.payment.balancedcard.expiration_year}}</p>
+				{% elif pitem.payment.balancedbankaccount %}
+				<p>{{pitem.payment.balancedbankaccount.name}}</p>
+				<p>{{pitem.payment.balancedbankaccount.bank_name}}</p>
+				<p>{{pitem.payment.balancedbankaccount.account_number}}</p>
+				{% elif pitem.payment.checkpayment %}
+					{% if not pitem.payment.checkpayment.received %}
+					<p>Payment by check to the following address:</p>
+					<ul>
+						<li>VetCove</li>
+						<li>10 Pacer Court</li>
+						<li>Colts Neck, NJ 07722</li>
+					</ul>
+					{% else %}
+					<p> Payment for this item has been received!</p>
+					{% endif %}
 				{% endif %}
 			
 			</div>
 			{% endif %}
 			<p class="order-price">Total Price: <span>{{pitem.total|dollars}}</span>
 			<p class="order-quantity">Quantity: <span>{{pitem.cartitem.quantity}}{% if pitem.cartitem.quantity > 1 %}(at {{pitem.cartitem.price|dollars}} each){% endif %}</span>
+			{% if sellhistory %}
 			<p class="order-number">Payout Status: 
 				<span>
-					{% if pitem.item_sent and pitem.payout.bankpayout %}
+					{% if pitem.paid_out and pitem.payout.bankpayout %}
 						Paid - Bank Account Credited
 					{% elif pitem.paid_out and pitem.payout.checkpayout %}
 						Paid - Check Mailed
-					{% elif pitem.item_sent %}
-						Payout Pending (14 day wait period)
+					{% elif pitem.payment.checkpayment %}
+						{% if not pitem.payment.checkpayment.received %}
+							Payment Still Pending From Seller
+						{% else %}
+							{% if pitem.shipping_included and not pitem.item_sent %}
+								Waiting Until Item is Shipped
+							{% else %}
+								Payout Pending (14 day wait period)
+							{% endif %}
+						{% endif %}
 					{% else %}
-						Waiting until Shipped
+						{% if pitem.shipping_included and not pitem.item_sent %}
+							Waiting Until Item is Shipped
+						{% else %}
+							Payout Pending (14 day wait period)
+						{% endif %}
 					{% endif %}
 				</span>
 			</p>
+			{% endif %}
 		</div>
 		<div class="col-md-8 col-sm-8 col-xs-12">
 			<p class="order-status">Status: 
 				<span>
-				{% if pitem.shipping_included %}
-					{% if pitem.item_sent %}
-						Shipped 
+				{% if pitem.payment.checkpayment %}
+					{% if pitem.payment.checkpayment.received %}
+						{% if pitem.shipping_included %}
+							{% if pitem.item_sent %}
+								Shipped 
+							{% else %}
+								Waiting to be Shipped
+							{% endif %}
+						{% else %}
+							Ready for Pick-Up
+						{% endif %}
 					{% else %}
-						Waiting to be Shipped
+						Payment Not Yet Received
 					{% endif %}
 				{% else %}
-					Ready for Pick-Up
+					{% if pitem.shipping_included %}
+						{% if pitem.item_sent %}
+							Shipped 
+						{% else %}
+							Waiting to be Shipped
+						{% endif %}
+					{% else %}
+						Ready for Pick-Up
+					{% endif %}
 				{% endif %}
 				</span>
 			</p>
-			{% if buyhistory %}
-			<p class="order-next"><span>Waiting for seller to provide shipping information</span></p>
-			{% else %}
+			{% if pitem.shipping_included %}
 			<a class="shipping-button shipping-show button button-tiny button-action button-rounded " data-shipping="#shipping-overlay-{{pitem.id}}">Edit Shipping Status</a>
 			{% endif %}
 			<div class="order-item row">
@@ -96,22 +145,25 @@
 				</div>
 			</div>
 			<div class="row">
-				<p class="order-seller-message">Shipping Information: <span>{% if pitem.seller_message %}{{pitem.seller_message}}{% else %} The seller has not provided any shipping details{% endif %}</span>{% if sellhistory%}<a class="shipping-show" data-shipping="#shipping-overlay-{{pitem.id}}">edit shipping</a>{% endif %}</p>
-				{% if buyhistory %}
-				<p id="seller-message-current-{{pitem.id}}" class="seller-message-current order-seller-message">
-					Your Message for Seller: 
-					<span>
-						{% if pitem.buyer_message %}
-							{{pitem.buyer_message}} <span data-message-current="#seller-message-current-{{pitem.id}}" data-form="#seller-message-form-{{pitem.id}}" class="edit-message seller-message-button">edit</span>
-						{% else %} 
-							You have not yet provided any additional information<span data-message-current="#seller-message-current-{{pitem.id}}" data-form="#seller-message-form-{{pitem.id}}" class="edit-message seller-message-button">add message</span>
-						{% endif %}
-					</span>
-				</p>
+				{% if pitem.shipping_included %}
+					<p class="order-seller-message">Shipping Information: <span>{% if pitem.seller_message %}{{pitem.seller_message}}{% else %} The seller has not provided any shipping details{% endif %}</span>{% if sellhistory%}<a class="shipping-show" data-shipping="#shipping-overlay-{{pitem.id}}">edit shipping</a>{% endif %}</p>
+					{% if buyhistory %}
+					<p id="seller-message-current-{{pitem.id}}" class="seller-message-current order-seller-message">
+						Your Message for Seller: 
+						<span>
+							{% if pitem.buyer_message %}
+								{{pitem.buyer_message}} <span data-message-current="#seller-message-current-{{pitem.id}}" data-form="#seller-message-form-{{pitem.id}}" class="edit-message seller-message-button">edit</span>
+							{% else %} 
+								You have not yet provided any additional information<span data-message-current="#seller-message-current-{{pitem.id}}" data-form="#seller-message-form-{{pitem.id}}" class="edit-message seller-message-button">add message</span>
+							{% endif %}
+						</span>
+					</p>
+					{% else %}
+					<p class="order-seller-message">Buyer Message: <span>{% if pitem.buyer_message %}{{pitem.buyer_message}}{% else %}The buyer has not provided any additional shipping details{% endif %}</span></p>
+					{% endif %}
 				{% else %}
-				<p class="order-seller-message">Buyer Message: <span>{% if pitem.buyer_message %}{{pitem.buyer_message}}{% else %}The buyer has not provided any additional shipping details{% endif %}</span></p>
+					<p class="order-seller-message"> Pick up must me organized with the buyer. Please contact us if there are problems arranging a time for item pick up</p>
 				{% endif %}
-				
 				{% if buyhistory %}
 				<form method="POST" action="/purchasesellermessage/{{pitem.id}}" id="seller-message-form-{{pitem.id}}" class="seller-message-form">
 					{% csrf_token %}
@@ -127,8 +179,10 @@
 	</div>
 	{% if buyhistory %}
 	<div class="row order-actions">
-		<a href="/account/reportproblem/{{pitem.id}}" class="button button-rounded button-tiny">Report A Problem</button>
-		<a data-message-current="#seller-message-current-{{pitem.id}}" data-form="#seller-message-form-{{pitem.id}}" class="seller-message-button button button-rounded button-tiny">Send Seller Shipping Instructions</a>
+		<a href="/account/reportproblem/{{pitem.id}}" class="button button-rounded button-tiny">Report A Problem</a>
+		{% if pitem.shipping_included %}
+			<a data-message-current="#seller-message-current-{{pitem.id}}" data-form="#seller-message-form-{{pitem.id}}" class="seller-message-button button button-rounded button-tiny">Send Seller Shipping Instructions</a>
+		{% endif %}
 	</div>
 	{% endif %}
 

@@ -4,6 +4,7 @@
 .history-item {
 	position:relative;
 }
+
 .history-item .order-overview {
 	padding:20px;
 }
@@ -31,6 +32,15 @@
 	margin: 2px 0;
 	font-weight: 200;
 	font-size: 12px;
+}
+.history-item .order-info ul {
+	list-style-type: none;
+	padding-left: 10px;
+}
+.history-item .order-info ul li {
+	font-weight: 200;
+	font-size: 12px;
+	margin-left: 0;
 }
 .history-item .order-info .order-info-header {
 	font-weight: bold;
@@ -68,6 +78,7 @@
 .history-item .order-item {
 	border-bottom: 1px solid #ddd;
 	padding-bottom: 15px;
+	padding-top: 10px;
 }
 .history-item .order-quantity {
 	font-weight: 200;

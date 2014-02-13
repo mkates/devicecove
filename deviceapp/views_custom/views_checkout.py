@@ -236,7 +236,7 @@ def checkoutlogin(request):
 	return HttpResponseRedirect('/checkout/verify/error')
 
 ### Helper method to create a checkout object for a user ###
-### Adds each item from the BU into the checkout cart
+### Adds each item from the BU into the checkout cart ###
 def createCheckout(bu):	
 	cartitems = bu.shoppingcart.cartitem_set.all()
 	checkout = Checkout(buyer=bu,shipping_address=None,state=1)
@@ -342,11 +342,11 @@ def checkoutPayment(request,checkoutid):
 	checkoutValid = checkoutValidCheck(checkout,request)
 	payment_methods = False
 	for payment in request.user.basicuser.payment_set.all():
-		if hasattr(payment,'balancedbankaccount') or hasattr(payment,'balancedcard'):
+		if hasattr(payment,'balancedbankaccount') or hasattr(payment,'balancedcard') or hasattr(payment,'checkpayment'):
 			payment_methods = True
 	if checkoutValid['status'] != 201:
 		return HttpResponseRedirect('/checkout/verify/'+checkoutValid['error'])
-	elif checkout.shipping_address == None:
+	elif checkout.shipping_address == None and checkout.shippingAddressRequired():
 		return HttpResponseRedirect('/checkout/shipping/'+str(checkoutid))
 	return render_to_response('checkout/checkout_payment.html',{'checkout':checkout,'payment_methods':payment_methods},context_instance=RequestContext(request))
 
@@ -397,6 +397,7 @@ def checkoutAddCard(request,checkoutid):
 		checkout.save()	
 	return HttpResponse(json.dumps({'status':balancedCard['status'],'error':balancedCard['error']}), content_type='application/json')
 
+### Currently Not Used At This Point ###
 @login_required
 def checkoutAddBankAccount(request,checkoutid):
 	# Checkout Validation
@@ -410,7 +411,22 @@ def checkoutAddBankAccount(request,checkoutid):
 		checkout.payment = balancedBankAccount['bank']
 		checkout.save()	
 	return HttpResponse(json.dumps({'status':balancedBankAccount['status'],'error':balancedBankAccount['error']}), content_type='application/json')
-	
+
+@login_required
+def checkoutAddCheckPayment(request,checkoutid):
+	# Checkout Validation
+	checkout = Checkout.objects.get(id=checkoutid)
+	checkoutValid = checkoutValidCheck(checkout,request)
+	if checkoutValid['status'] != 201:
+		return HttpResponseRedirect('/checkout/verify/'+checkoutValid['error'])
+	# Add bank account to checkout
+	checkPayment = CheckPayment(user=request.user.basicuser)
+	checkPayment.save()
+	checkout.payment = checkPayment;
+	checkout.save()	
+	return HttpResponseRedirect('/checkout/review/'+str(checkoutid))
+
+
 ###################################
 ### Checkout Review  ##############
 ###################################
@@ -421,12 +437,13 @@ def checkoutReview(request,checkoutid):
 	checkoutValid = checkoutValidCheck(checkout,request)
 	if checkoutValid['status'] != 201:
 		return HttpResponseRedirect('/checkout/verify/'+checkoutValid['error'])
-	if not checkout.shipping_address:
+	if checkout.shipping_address == None and checkout.shippingAddressRequired():
 		return HttpResponseRedirect('/checkout/shipping/'+str(checkoutid))
-	elif checkout.shipping_address.user != request.user.basicuser:
-		checkout.shipping_address = None
-		checkout.save()
-		return HttpResponseRedirect('/checkout/shipping/'+str(checkoutid))
+	if checkout.shipping_address:
+		if checkout.shipping_address.user != request.user.basicuser:
+			checkout.shipping_address = None
+			checkout.save()
+			return HttpResponseRedirect('/checkout/shipping/'+str(checkoutid))
 	elif checkout.payment == None:
 		return HttpResponseRedirect('/checkout/payment/'+str(checkoutid))
 	error = allItemsAvailable(checkout)
@@ -494,16 +511,17 @@ def checkoutPurchase(request,checkoutid):
 	# 3. Make purchase
 	try:
 		bu = BasicUser.objects.get(user=request.user)
-		if hasattr(checkout.payment,'balancedcard'):
-			uri = checkout.payment.balancedcard.uri
-		else:
-			uri = checkout.payment.balancedbankaccount.uri
-		balanced.configure(settings.BALANCED_API_KEY) # Configure Balanced API
-		customer = balanced.Customer.find(bu.balanceduri)
-		amount = checkout.total()
-		cd = customer.debit(appears_on_statement_as="Vet Cove",amount=amount,source_uri=uri)
-		if not cd.status == "succeeded":
-			raise Exception("Failed to Complete Transcation")
+		if not hasattr(checkout.payment,'checkpayment'): # Only charge if its a bank account or cc
+			if hasattr(checkout.payment,'balancedcard'):
+				uri = checkout.payment.balancedcard.uri
+			elif hasattr(checkout.payment,'balancedbankaccount'):
+				uri = checkout.payment.balancedbankaccount.uri
+			balanced.configure(settings.BALANCED_API_KEY) # Configure Balanced API
+			customer = balanced.Customer.find(bu.balanceduri)
+			amount = checkout.total()
+			cd = customer.debit(appears_on_statement_as="Vet Cove",amount=amount,source_uri=uri)
+			if not cd.status == "succeeded":
+				raise Exception("Failed to Complete Transcation")
 	except Exception,e:
 		return render_to_response('checkout/checkout_review.html',{'checkout':checkout,'error':e},context_instance=RequestContext(request))
 	
@@ -522,6 +540,7 @@ def checkoutPurchase(request,checkoutid):
 						cartitem=cartitem,
 						unit_price=cartitem.price,
 						checkout=cartitem.checkout,
+						shipping_address=checkout.shipping_address,
 						total=amount,
 						charity = item.charity,
 						charity_name = item.charity_name,
@@ -594,7 +613,7 @@ def allItemsAvailable(checkout):
 			checkout.cartitem.quantity = cartitem.item.quantity
 			changed = True
 	if changed:
-		return 'Some items in your cart are no longer available. Your cart has been updated'
+		return 'Some items in your cart are no longer available or the quantity changed. Your cart has been updated'
 	else:
 		return None
 	

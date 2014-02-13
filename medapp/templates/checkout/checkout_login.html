@@ -2,7 +2,8 @@
 
 {% block signinactive %}active{% endblock%}
 
-{% block checkout_nav %}{% endblock %}
+{% block checkout_nav %}<p class="topnav"><a class="returnbutton button button-tiny" href="/cart">&#8592; Return To Shopping Cart</a></p>{% endblock %}
+
 
 {% block customcss %}
 <link href="{{STATIC_URL}}css/checkoutform.css" rel="stylesheet" type="text/css" />
@@ -22,7 +23,9 @@
 .checkoutloginform input {
 	margin-bottom: 10px;
 }
-
+.checkoutloginform button {
+	float: left;
+}
 .checkoutcol .forgotpassword {
 	display: inline-block;
 	font-weight: 200;
@@ -121,7 +124,9 @@ var loading_src = "{{STATIC_URL}}img/ajax-loader2.gif";
 					<a class="forgotpassword" href="{% url "password_reset_recover" %}">Forgot Password?</a>
 
 				</span>
+				{% if not user.basicuser %}
 				<div class="clear"></div>
+				{% endif %}
 				<button class="button button-action button-rounded" value="submit">Login</button>
 				<div class="clear"></div>
 			</form>

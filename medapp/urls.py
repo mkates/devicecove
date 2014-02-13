@@ -1,5 +1,5 @@
 from django.conf.urls import *
-
+from django.conf import settings
 # Uncomment the next two lines to enable the admin:
 from django.contrib import admin
 from djrill import DjrillAdminSite
@@ -97,6 +97,7 @@ urlpatterns = patterns('',
     # Payment Experience
     url(r'^checkout/addcard/(?P<checkoutid>\d+)','deviceapp.views_custom.checkoutAddCard'),
     url(r'^checkout/addbankaccount/(?P<checkoutid>\d+)','deviceapp.views_custom.checkoutAddBankAccount'),
+    url(r'^checkout/addcheckpayment/(?P<checkoutid>\d+)','deviceapp.views_custom.checkoutAddCheckPayment'),
     url(r'^checkout/deletepayment/(?P<checkoutid>\d+)/(?P<paymentid>\d+)','deviceapp.views_custom.checkoutDeletePayment'),
     url(r'^checkout/usepayment/(?P<checkoutid>\d+)/(?P<paymentid>\d+)','deviceapp.views_custom.checkoutUsePayment'),
     
@@ -179,3 +180,12 @@ urlpatterns += patterns('',
 
 handler404 = 'deviceapp.views_custom.my_404_view'
 handler500 = 'deviceapp.views_custom.my_500_view'
+
+#####################################################################
+#########  Django Debug Toolbar  ####################################
+#####################################################################
+if settings.DEBUG:
+    import debug_toolbar
+    urlpatterns += patterns('',
+        url(r'^__debug__/', include(debug_toolbar.urls)),
+    )

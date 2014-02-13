@@ -92,7 +92,7 @@
 			<h3>{{item.price|dollars}}</h3>
 			<p class="original-price">{{item.msrp_price|dollars}}</p>
 			<h4> Quantity Available: {{item.quantity}}</h4>
-			{% if not item.shippingincluded %}
+			{% if item.shippingincluded %}
 			<p>This item includes FREE domestic shipping</p>
 			{% else %}
 			<p>This item is available for local pick-up only. Please make sure you are

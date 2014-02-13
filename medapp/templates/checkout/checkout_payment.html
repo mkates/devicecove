@@ -42,10 +42,15 @@
 #bankaccount label {
 	font-weight: 200;
 }
-.ba-container {
+.check-container {
 	display: none;
+	padding: 20px 10px;
+	font-weight: 200;
+	font-size: 13px;
 }
-
+.check-container ul {
+	list-style-type: none;
+}
 </style>
 {% endblock %}
 
@@ -66,14 +71,14 @@
 		$('.show-cc').click(function() {
 			$(".payment-button").removeClass('button-primary');
 			$(this).addClass('button-primary');
-			$('.ba-container').css('display','none');
+			$('.check-container').css('display','none');
 			$('.cc-container').css('display','block');
 		});
-		$('.show-ba').click(function() {
+		$('.show-check').click(function() {
 			$(".payment-button").removeClass('button-primary');
 			$(this).addClass('button-primary');
 			$('.cc-container').css('display','none');
-			$('.ba-container').css('display','block');
+			$('.check-container').css('display','block');
 		});
 	});
 </script>
@@ -130,14 +135,25 @@
 		</div>
 		<div class="checkoutcol newpaymentcol col-md-6 col-sm-6 col-xs-12">
 			<h4>Enter New Payment Method</h4>
-			<button class="populate">populate</button>
+			<!-- <button class="populate">populate</button> -->
 			<button class="payment-button show-cc button button-rounded button-tiny button-primary">Pay by Credit Card</button>
-			<button class="payment-button show-ba button button-rounded button-tiny">Pay by Bank Account</button>
+			<button class="payment-button show-check button button-rounded button-tiny">Pay by Check</button>
 			<div class="cc-container">
 				{% include 'account/cc_form.html' %}
 			</div>
-			<div class="ba-container">
-				{% include 'account/ba_form.html' %}
+			<div class="check-container">
+				<p>To pay by check, we require you to mail a check addressed to:</p>
+				<ul>
+					<li>TheCove Inc.</li>
+					<li>10 Pacer Court</li>
+					<li>Colts Neck, NJ 07722</li>
+				</ul>
+				<p> Please include <strong>"Purchase Number {{checkout.id}}"</strong> in the note of the check. We will reserve your items
+				for up to three business days. </p>
+				<form method="POST" action="/checkout/addcheckpayment/{{checkout.id}}">
+					{% csrf_token %}
+					<button value="submit" name="submit" class="button button-rounded button-action">Continue to Order Review </a>
+				</form>
 			</div>
  		
 		</div>

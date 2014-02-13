@@ -91,28 +91,28 @@ STATICFILES_DIRS = (
 )
 
 #Caching 
-os.environ['MEMCACHE_SERVERS'] = os.environ.get('MEMCACHIER_SERVERS', '').replace(',', ';')
-os.environ['MEMCACHE_USERNAME'] = os.environ.get('MEMCACHIER_USERNAME', '')
-os.environ['MEMCACHE_PASSWORD'] = os.environ.get('MEMCACHIER_PASSWORD', '')
-CACHES = {
-  'default': {
-    'BACKEND': 'django_pylibmc.memcached.PyLibMCCache',
-    'TIMEOUT': 500,
-    'BINARY': True,
-    'OPTIONS': {
-        'tcp_nodelay': True,
-        'remove_failed': 4
-    }
-  }
-}
+# os.environ['MEMCACHE_SERVERS'] = os.environ.get('MEMCACHIER_SERVERS', '').replace(',', ';')
+# os.environ['MEMCACHE_USERNAME'] = os.environ.get('MEMCACHIER_USERNAME', '')
+# os.environ['MEMCACHE_PASSWORD'] = os.environ.get('MEMCACHIER_PASSWORD', '')
+# CACHES = {
+#   'default': {
+#     'BACKEND': 'django_pylibmc.memcached.PyLibMCCache',
+#     'TIMEOUT': 500,
+#     'BINARY': True,
+#     'OPTIONS': {
+#         'tcp_nodelay': True,
+#         'remove_failed': 4
+#     }
+#   }
+# }
 
 
 # List of finder classes that know how to find static files in
 # various locations.
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
-    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
-    'django.contrib.staticfiles.finders.DefaultStorageFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder'
+    #'django.contrib.staticfiles.finders.DefaultStorageFinder', ##I removed this to get debug toolbar to work, if causes problems re-add it
 )
 
 # Make this unique, and don't share it with anybody.
@@ -125,7 +125,9 @@ TEMPLATE_LOADERS = (
 #     'django.template.loaders.eggs.Loader',
 )
 
+
 MIDDLEWARE_CLASSES = (
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -140,11 +142,6 @@ ROOT_URLCONF = 'medapp.urls'
 # Python dotted path to the WSGI application used by Django's runserver.
 WSGI_APPLICATION = 'medapp.wsgi.application'
 
-TEMPLATE_DIRS = (
-    # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
-    # Always use forward slashes, even on Windows.
-    # Don't forget to use absolute paths, not relative paths.
-)
 
 INSTALLED_APPS = (
     'django.contrib.auth',
@@ -153,9 +150,7 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    # Uncomment the next line to enable the admin:
     'django.contrib.admin',
-    # Uncomment the next line to enable admin documentation:
     'django.contrib.admindocs',
     'django.contrib.humanize',
     'boto', #For S3 File Storage
@@ -166,13 +161,11 @@ INSTALLED_APPS = (
     'django_extensions',
     'password_reset', # Password reset app
     'djrill', #Django-Mandrill App
-    'collectfast' #Used for quicker S3 Collectstatic (fixes modified_time bug in s3 uploads)
+    'collectfast', #Used for quicker S3 Collectstatic (fixes modified_time bug in s3 uploads)
+    'debug_toolbar'
+    #'debug_toolbar_autoreload'
 )
-CACHES = {
-    'default': {
-        'BACKEND': 'django.core.cache.backends.dummy.DummyCache',
-    }
-}
+
 SESSION_SERIALIZER = 'django.contrib.sessions.serializers.JSONSerializer'
 
 # A sample logging configuration. The only tangible logging
@@ -252,5 +245,25 @@ STATICFILES_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
 AWS_STORAGE_BUCKET_NAME = 'devicerock'
 AWS_PRELOAD_METADATA = True
 #ImageKit File Storage
-AWS_BUCKET_NAME = AWS_STORAGE_BUCKET_NAME 
+AWS_BUCKET_ = NAME = AWS_STORAGE_BUCKET_NAME 
 IMAGEKIT_DEFAULT_FILE_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
+
+DEBUG_TOOLBAR_PATCH_SETTINGS = False
+INTERNAL_IPS=("127.0.0.1",)
+INTERCEPT_REDIRECTS = False
+DEBUG_TOOLBAR_PANELS = [
+    'debug_toolbar.panels.timer.TimerPanel',
+    #'debug_toolbar.panels.settings.SettingsPanel',
+    'debug_toolbar.panels.headers.HeadersPanel',
+    'debug_toolbar.panels.request.RequestPanel',
+    'debug_toolbar.panels.sql.SQLPanel',
+    'debug_toolbar.panels.staticfiles.StaticFilesPanel',
+    'debug_toolbar.panels.templates.TemplatesPanel',
+    'debug_toolbar.panels.cache.CachePanel',
+    'debug_toolbar.panels.signals.SignalsPanel',
+    'debug_toolbar.panels.logging.LoggingPanel',
+    'debug_toolbar.panels.redirects.RedirectsPanel',
+    #'debug_toolbar_autoreload.AutoreloadPanel'
+]
+
+    

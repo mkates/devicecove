@@ -52,7 +52,7 @@ $(document).ready(function () {
 							Balanced_CC_Enable();
 						}
 					}).fail( function(xhr, textStatus, errorThrown) {
-						 display_CC_Error("We experienced a problem with our servers. We are working on fixing the problem");
+						 display_CC_Error("We experienced a problem }. We are working on fixing the problem");
 						 Balanced_CC_Enable();
 					});
 				} else {
@@ -91,7 +91,7 @@ $(document).ready(function () {
 				 break;
 		     }
            
-        }); 
+        	}); 
     	} //End of balanced_cc_submitable if statement
     });
     
