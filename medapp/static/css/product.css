@@ -98,6 +98,40 @@
 .topbar .listdate span {
 	font-weight: bold;
 }
+.popover-class {
+	outline: none;
+	background: #ccc;
+	color: #fff;
+	height: 20px;
+	border-radius: 10px;
+	font-size: 10px;
+	text-align: center;
+	width: 20px;
+	border:1px solid #ddd;
+}
+.popover-class:hover {
+	background: #aaa;
+}
+.condition-quality {
+	display:inline-block;
+	margin-top: 6px;
+	line-height: 23px;
+	vertical-align: center;
+	padding-top: 2px;
+	border-radius: 3px;
+	font-size: 13px;
+	background: #E8EDF0;
+	color: #2F5D92;
+	padding: 2px 5px;
+}
+.popover-class:active {
+	border:1px solid red;
+	padding: 0;
+}
+.popover-content {
+	font-size: 13px;
+	font-weight: 200;
+}
 @media(max-width: 768px) {
 	.topbar .breadcrumbs {
 		display: none;
@@ -259,7 +293,7 @@
 }
 .sideproduct h2{
 	font-size: 14px;
-	color: #ccc;
+	color: #555;
 	text-align: center;
 }
 #productspecs p {
@@ -268,6 +302,7 @@
 	margin: 0 auto;
 	text-align: right;
 	padding: 2px 0;
+	padding-right: 10px;
 	color: #555;
 	font-weight: 600;
 }
@@ -284,7 +319,7 @@
 
 .productdetails h2 {
 	font-size: 18px;
-	color: #ccc;
+	color: #555;
 	padding-bottom: 10px;
 }
 .productdetails p {

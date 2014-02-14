@@ -160,7 +160,7 @@ label .floatright {
   		<div id='milecategory' class='filter-category'>
   			<h2>Distance</h2>
   			<select class='form-control' id="distance-select">
-  				<option value="-1">Any Miles</option>
+  				<option value="-1">Any Distance</option>
   				<option value="500">500 Miles</option>
   				<option value="250">250 Miles</option>
   				<option value="100">100 Miles</option>
@@ -177,7 +177,7 @@ label .floatright {
   <div class='col-xs-12 col-sm-9 resultscontainer'>
   	<div id='loadingoverlay'>
   		<div id='loaderdiv'>
-  			<h3> Filtering search results . . .</h3>
+  			<h3> Updating Search Results. . .</h3>
   			<img src='{{STATIC_URL}}img/ajax-loader2.gif' alt="Loading. . . "/>
   		</div>
   	</div>
@@ -185,10 +185,13 @@ label .floatright {
   		<div id='sortby'>
   			<p> Sort By: </p>
   			<select id="sortby-select" class='form-control'>
-  				<option value="price"> Price </option>
-  				<option value="distance">Distance</option>
-  				<option value="mostrecent">Most Recent</option>
-  				<option value="leastrecent">Least Recent</option>
+  				<option value="relevance"> Relevance</option>
+  				<option value="price-high"> Price: Highest First</option>
+  				<option value="price-low">Price: Lowest First</option>
+  				<option value="distance">Distance: Nearest First</option>
+  				<option value="mostrecent">Time: Newly Listed First</option>
+  				<option value="leastrecent">Time: Oldest Listed First</option>
+  				<option value="msrp-discount">Percent off MSRP: Highest First</option>
   			</select>
   		</div>
   		<div id='numberofresults'>{{ resultcount }} Results</div>
@@ -265,7 +268,7 @@ $(document).ready(function(){
 	//Start with everything checked
 	$('.checkboxitem').prop('checked',true);
 	//Set sorting to price
-	$("#sortby-select").val("price");
+	$("#sortby-select").val("relevance");
 	//Initial distance value to -1
 	$("#distance-select").val(-1);
 	//Activate boxes

@@ -79,7 +79,7 @@
 						Paid - Check Mailed
 					{% elif pitem.payment.checkpayment %}
 						{% if not pitem.payment.checkpayment.received %}
-							Payment Still Pending From Seller
+							Payment Still Pending From Buyer
 						{% else %}
 							{% if pitem.shipping_included and not pitem.item_sent %}
 								Waiting Until Item is Shipped
@@ -168,7 +168,7 @@
 				<form method="POST" action="/purchasesellermessage/{{pitem.id}}" id="seller-message-form-{{pitem.id}}" class="seller-message-form">
 					{% csrf_token %}
 					<p> Additional Information for Seller <span>(i.e. special delivery instructions, any shipping delays)</span></p>
-					<textarea name="buyer-message" class="buymessage form-control">{{pitem.buyer_message}}</textarea> 
+					<textarea maxlength="500" name="buyer-message" class="buymessage form-control">{{pitem.buyer_message}}</textarea> 
 					<button class="button button-tiny button-primary button-rounded" name="submit" value="submit">Send Message</button>
 					<a data-message-current="#seller-message-current-{{pitem.id}}" data-form="#seller-message-form-{{pitem.id}}" class="seller-message-cancel button button-rounded button-tiny">Cancel</a>
 				</form>

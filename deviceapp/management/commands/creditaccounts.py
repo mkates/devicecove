@@ -93,11 +93,18 @@ def purchasedItemEligibleForPayout(pitem):
 	#First check its been paid out already
 	if pitem.paid_out == True:
 		return False
-	# See if the item has been sent (unsent items don't get paid out)
-	# Offline items are exempt from this requirement
+
+	#Second check if the item was paid for by a check and we haven't received the check yet
+	if hasattr(pitem.payment,'checkpayment'):
+		if not pitem.payment.checkpayment.received:
+			return False
+
+	# Third, See if the item has been sent (unsent items don't get paid out)
+	# Offline items are exempt from this requirementm, as well as items that are pick up only 
 	if not (pitem.item_sent == True or pitem.cartitem.item.offlineviewing or not pitem.shipping_included):
 		return False
-	#Check if it is been enough time to pay the seller
+
+	# Fourth, check if it is been enough time to pay the seller
 	now = datetime.datetime.utcnow().replace(tzinfo=utc)
 	wait_date = now - datetime.timedelta(days=WAITING_DAYS)
 	if pitem.purchase_date > wait_date:

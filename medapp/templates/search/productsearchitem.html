@@ -1,5 +1,7 @@
 {% load dollars %}
 {% load humanize %}
+{% load dates %}
+{% load zipcodify %}
 <div id="resultcontainer">
 {% for item in items %}
 
@@ -24,20 +26,19 @@
 			<div class='textdiv col-md-6 col-md-pull-4 col-sm-6 col-sm-pull-4 col-xs-12'>
 				<a href="/item/{{item.id}}/details"><h2 class="itemname">{{ item.name }}</h2></a>
 				<h6 class="resulttag"> 
-					{% if item.user.verified %}<span class="verified">verified seller</span>{% endif %} 
-					{% if item.offlineviewing %}<span class="lightorange">view in person</span>{% endif %} 
-					{% if not item.offlineviewing %}<span class="buyonline">buy online</span>{% endif %} 
 					{% if item.conditiontype == 'refurbished' %}<span class="refurbished">refurbished</span>{% endif %} 
 					{% if item.conditiontype == 'preowned' %}<span class="preowned">preowned</span>{% endif %} 
 					{% if item.conditiontype == 'new' %}<span class="verified">new</span>{% endif %} 
+					{% if item.user.verified %}<span class="verified">verified seller</span>{% endif %} 
+					{% if item.offlineviewing %}<span class="lightorange">view in person</span>{% endif %} 
+					{% if not item.offlineviewing %}<span class="buyonline">buy online</span>{% endif %} 
 					{% if item.contract == 'warranty' %}<span class="lightgreen">warranty</span>{% endif %}
 					{% if item.contract == 'servicecontract' %}<span class="lightred">service contract</span>{% endif %} 
-		
 				</h6>
 				{% load multiply %}
-				<h4><a>Percent off MSRP<span><strong>{{ item.price|dividepercent:item.msrp_price }}</strong></span></a></h4>
-				<h4><a>Location<span>{% if item.user.city %}{{item.user.city}}, {{item.user.state}}{% else %}Zipcode: {{item.user.zipcode}}{%endif %}{% if item.distance or item.distance == 0%}{% if item.distance != -1 %} ( ~{{item.distance |intcomma}} miles away ){% endif %}{% endif %}</span></a></h4>
-				<h4><a>List Date<span>{{item.creation_date}}</span></a></h4>
+				<h4>Percent off MSRP<span><strong>{{ item.price|dividepercent:item.msrp_price }}</strong></span></h4>
+				<h4>Condition<span>{{item.get_conditionquality_display}}</span></h4>
+				<h4>Location<span>{% if item.user.city %}{{item.user.city}}, {{item.user.state}}{% else %}Zipcode: {{item.user.zipcode|zipcodify}}{%endif %}{% if item.distance or item.distance == 0%}{% if item.distance != -1 %} ( ~{{item.distance |intcomma}} miles away ){% endif %}{% endif %}</span></h4>
 				<div class='buttondiv'>
 					<button class='btn-custom-gray infobutton detailsbutton' data-ref="#moredetails_{{item.id}}">Details</button>
 					<button class='btn-custom-gray infobutton specsbutton' data-ref="#quickfacts_{{item.id}}">Quick Facts</button>
@@ -52,6 +53,7 @@
 			<p>Contract<span>{{item.get_contract_display}}</span></p>
 			<p>Manufacturer<span>{{item.manufacturer}}</span></p>
 			<p>Model Year<span>{{item.modelyear}}</span></p>
+			<p>Listed Date<span>{{item.creation_date}} ({{item.creation_date|days_since}} days ago)</span></p>
 		</div>
 		<div class="col-md-6 col-sm-6 col-xs-12">
 			<p>Shipping Included<span>{{item.shippingincluded|yesno:"Included,Not Included"}}</span></p>
@@ -61,18 +63,19 @@
 		</div>
 		<div class="clear"></div>
 		<div class='morediv'>
-			<a href="/item/{{item.id}}/details"> Show all product specifications &#8594;</a>
+			<a href="/item/{{item.id}}/details"> View complete product details &#8594;</a>
 			<button class='btn-custom-gray closebutton'>Close</button>
 		</div>
 	</div>
 	<div id="moredetails_{{item.id}}" class='detailsdiv previewdiv row'>
 		{% if item.productdescription %}
-			<p>{{ item.productdescription }}</p>
+			<p>"Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+			"Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
 		{% else %}
 			<p class="thin">The seller has not provided a product description for this item</p>
 		{% endif %}
 		<div class='morediv'>
-			<a href="/item/{{item.id}}/details"> Show all product specifications &#8594;</a>
+			<a href="/item/{{item.id}}/details"> View complete product details &#8594;</a>
 			<button class='btn-custom-gray closebutton'>Close</button>
 		</div>
 	</div>
@@ -83,7 +86,7 @@
 			<p class="thin">The seller has not provided a condition description for this item</p>
 		{% endif %}
 		<div class='morediv'>
-			<a href="/item/{{item.id}}/details"> Show all product specifications &#8594;</a>
+			<a href="/item/{{item.id}}/details"> View complete product details &#8594;</a>
 			<button class='btn-custom-gray closebutton'>Close</button>
 		</div>
 	</div>

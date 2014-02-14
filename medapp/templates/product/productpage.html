@@ -1,5 +1,6 @@
 {% load dollars %}
 {% load phonenumber %}
+{% load condition_quality %}
 {% load zipcodify %}
 {% if not preview and item.offlineviewing %}
 <div id="buynowcontainer">
@@ -78,6 +79,10 @@
 			<div class="row">
 				<div class="col-md-7 col-sm-7 col-xs-12">
 					<h2>{% if item.name %}{{ item.name }}{% else %}VetCove Item{% endif %}</h2>
+					<p class="condition-quality">{{item.get_conditionquality_display}}</p>
+					<button type="button" class="popover-class" data-container="body" data-toggle="popover" data-placement="right" data-trigger="hover" data-content="{{item.conditionquality|condition_quality}}">
+					  ?
+					</button>
 				</div>
 				<div class="listdate col-md-5 col-sm-5 col-xs-12">
 					<p>This item was listed on <span>{{item.creation_date}}</span></p>
@@ -158,7 +163,7 @@
 			<h3>Buy With Confidence</h3>
 			<h4>We've got you covered</h4>
 			<div class="clear"></div>
-			<p>Every product on our system, regardless of warranty, comes with a 14 day product guarantee. If the product does not meet the specifications and condition described, you will receive a full refund. <a href="/buyerprotect" target="_blank">View All Details</a></p>
+			<p>Every product on our system, regardless of warranty, comes with a 5 day product guarantee. If the product does not meet the specifications and condition described, you will be eligible for a full refund. <a href="/buyerprotect" target="_blank">View All Details</a></p>
 		</div>
 		<div class="sideproduct" id="productspecs">
 			<h2>Seller Information</h2>
@@ -213,10 +218,10 @@
 			<p id="productfeatures">{{item.whatsincluded}}</p>
 		</div>
 		{% endif %}
-		{% if item.contract != 'none' %}
+		{% if item.contract != 'none' or item.contractdescription %}
 		<div class="mainproduct productdetails" id="features">
 			<h2>Warranty / Service Contract Details</h2>
-			<p id="productfeatures">{{item.get_contract_display}}</p>
+			<p id="productfeatures"><strong>{{item.get_contract_display}}</strong></p>
 			<p id="productfeatures">{{item.contractdescription}}</p>
 		</div>
 		{% endif %}

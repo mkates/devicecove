@@ -25,13 +25,20 @@ def basics(request):
 			bu = BasicUser.objects.get(user=request.user)
 			pis = PurchasedItem.objects.filter(seller=bu)
 			for pi in pis:
-				if pi.item_sent == False:
+				if item_paid_for(pi) and not pi.item_sent:
 					itemsToBeShipped += 1
-		return {'cart_items':ci,'cart_items_count':ci_count,'cart_total':total,'items_to_be_shipped':itemsToBeShipped }
+				elif pi.item_sent == False:
+					itemsToBeShipped += 1
+		return {'cart_items':ci,'cart_items_count':ci_count,'cart_total':total,'items_to_be_shipped':itemsToBeShipped}
 	except Exception,e:
 		print e
 		return {}
 
 
-			
+
+def item_paid_for(purchaseditem):
+	if hasattr(purchaseditem.payment,'checkpayment'):
+		if not purchaseditem.payment.checkpayment.received:
+			return False
+	return True
 			

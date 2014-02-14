@@ -47,22 +47,14 @@
 	{% if not gate %}
 	<div class="row payment-actions">
 		{% if user.basicuser.payout_method == payment %}	
-			<button class="button button-rounded button-tiny button-primary">Default for Receiving Payments</button>
+			<button class="button button-rounded button-tiny button-primary">Seller payouts will be credited to this account</button>
 		{% else %}
 			<form action="/account/makedefaultpayout/{{payment.id}}" method="POST">
 				{% csrf_token %}
-				<button value="submit" name="submit" class="button button-rounded button-tiny">Make Default for Receiving Payments</button>
+				<button value="submit" name="submit" class="button button-rounded button-tiny">Use this account to receive seller payouts</button>
 			</form>
 		{% endif %}
 		
-		{% if user.basicuser.payment_method == payment %}
-			<button value="submit" name="submit" class="button button-rounded button-action button-tiny">Default For Paying Commission Fees</button>
-		{% else %}
-		<form action="/account/makedefaultpayment/{{payment.id}}" method="POST">
-			{% csrf_token %}
-			<button value="submit" name="submit" class="button button-rounded button-tiny">Make Default For Paying Commission Fees</button>
-		</form>
-		{% endif %}
 		</form>
 		<form action="/account/deletepayment/{{payment.id}}" method="POST">
 			{% csrf_token %}

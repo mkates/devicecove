@@ -41,6 +41,8 @@ $(document).ready(function() {
 	$( '#carouselrelated' ).elastislide( {
 		minItems : 3
 	});
+	$('.popover-class').popover();
+
 });
 var loggedIn = {% if user.is_authenticated %}true{% else %}false{% endif %};
 $(document).ready(function(){

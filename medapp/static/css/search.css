@@ -430,12 +430,12 @@ outline:none;
 	border-bottom: 1px dotted #bbb;
 }
 
-.resultitem .textdiv h4 a span {
+.resultitem .textdiv h4 span {
 	color: #4EA3BF;
 	font-weight: 200;
 	float: right;
 }
-.resultitem .textdiv h4 a {
+.resultitem .textdiv h4 {
 	display: block;
 	color: #333;
 	font-weight: 400;
@@ -590,47 +590,13 @@ outline:none;
 
 .detailsdiv p, .conditiondiv p {
 	font-size:13px;
+	line-height: 20px;
 	padding: 20px;
+	height: 160px;
+	overflow:hidden;
 }
 
-.imagegallery {
-	width: 200px;
-	height: 150px;
-	padding: 0;
-	margin-right: 2px;
-	float: right;
-	padding-top: 16px;
-}
-.imagegallery .imagethumbnail {
-	float: right;
-	border:3px solid #fff;
-	width: 60px;
-	height: 60px;
-}
-.imagegallery .imagethumbnail img {
-	max-width: 54px;
-	max-height: 54px;
-}
-.imageviewer {
-	position: absolute;
-	z-index: 9999;
-	height: 416px;
-	width: 520px;
-	background: url("../img/blacktransparency.png");
-	opacity: 1;
-	display: none;
-}
-.imageviewer .verticalalign {
-	vertical-align: middle;
-	height: 416px;
-	width: 520px;
-	text-align: center;
-	display: table-cell;
-}
-.imageviewer img {
-	max-width: 520px;
-	max-height: 416px;
-}
+
 .morediv {
 	clear: both;
 	margin-top: 20px;

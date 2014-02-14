@@ -25,7 +25,7 @@ import timeit
 #If 0, means it shows cats and subcats with 0 listings, 
 showItems = 0
 #Number of results per page
-resultsPerPage = 4
+resultsPerPage = 8
 
 def shop(request):
 	return render_to_response('search/shop.html',{},context_instance=RequestContext(request))
@@ -174,11 +174,17 @@ def checkWarranty(item,contracts):
 
 def sortItems(itemspassed,sortmethod):
 	if sortmethod == 'mostrecent':
-		itemspassed.sort(key=lambda x: x.listeddate, reverse=True)
+		itemspassed.sort(key=lambda x: x.creation_date, reverse=True)
 	if sortmethod == 'leastrecent':
-		itemspassed.sort(key=lambda x: x.listeddate, reverse=False)
+		itemspassed.sort(key=lambda x: x.creation_date, reverse=False)
 	if sortmethod == 'distance':
 		itemspassed.sort(key=lambda x: x.distance, reverse=False)
+	if sortmethod == 'price-low':
+		itemspassed.sort(key=lambda x: x.price, reverse=False)
+	if sortmethod == 'price-high':
+		itemspassed.sort(key=lambda x: x.price, reverse=True)
+	if sortmethod == 'msrp-discount':
+		itemspassed.sort(key=lambda x: x.msrp_discount(), reverse=True)
 	return itemspassed
 	
 ###########################################

@@ -95,12 +95,8 @@ def addBalancedBankAccount(request):
 		try:
 			customer.add_bank_account(bankaccount.uri)
 			bank_account = balanced.BankAccount.find(bankaccount.uri)
-			# Verify the account for debiting it
-			verification = bank_account.verify()
-			if verification.confirm(1, 1).state != 'verified':
-				return {'status':500,'bank':bankaccount,'error':'Unable to verify the bank account'}
-			if not bu.payment_method:
-				bu.payment_method = bankaccount
+			#if not bu.payment_method:
+				#bu.payment_method = bankaccount
 			if not bu.payout_method:
 				bu.payout_method = bankaccount
 				email_view.composeEmailPayoutUpdated(bu)
@@ -169,8 +165,8 @@ def deletePayment(request,id):
 		if bu.payment_method == payment:
 			if paymentObjectsOfType(bu,'balancedcard'):
 				bu.payment_method = paymentObjectsOfType(bu,'balancedcard')[0]
-			elif paymentObjectsOfType(bu,'balancedbankaccount'):
-				bu.payment_method = paymentObjectsOfType(bu,'balancedbankaccount')[0]
+			#elif paymentObjectsOfType(bu,'balancedbankaccount'):
+				#bu.payment_method = paymentObjectsOfType(bu,'balancedbankaccount')[0]
 			else:
 				bu.payment_method = None
 			bu.save()

@@ -12,7 +12,7 @@
 		{% if unanswered %}
 			{% for question in unanswered %}
 			<div class="questionbox">
-				<p class="question">{{question}} for <a class="itemspan" href="/item/{{question.item.id}}/details">{{question.item.name}}</a></p>
+				<p class="question"><a class="itemspan" href="/item/{{question.item.id}}/details">{{question.item.name}}:</a> {{question}} <span class="timestamp">{{question.dateasked}}</span></p>
 				<button class="editanswer button-tiny button button-rounded button-primary">Answer This Question</button>
 				<form action="/deletequestion/{{question.id}}" method="POST">
 					{% csrf_token %}
@@ -39,8 +39,8 @@
 		{% if answered %}
 			{% for question in answered reversed %}
 			<div class="questionbox">
-				<p class="question">{{question}} for <a class="itemspan" href="/item/{{question.item.id}}/details">{{question.item.name}}</a></p>
-				<p class="questionanswer">{{question.answer}} <span> answered on {{question.dateanswered}}</p>
+				<p class="question"><a class="itemspan" href="/item/{{question.item.id}}/details">{{question.item.name}}:</a> {{question}} <span class="timestamp">{{question.dateasked}}</span></p>
+				<p class="questionanswer">{{question.answer}} <span>{{question.dateanswered}}</p>
 				<button class="editanswer editquestion button-tiny button button-rounded">Edit Answer</button>
 				<form action="/deletequestion/{{question.id}}" method="POST">
 					{% csrf_token %}

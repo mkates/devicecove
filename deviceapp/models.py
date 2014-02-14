@@ -200,7 +200,9 @@ class Item(models.Model):
 	
 	def __unicode__(self):
 		return self.name
-		
+	
+	def msrp_discount(self):
+		return int((self.price-self.msrp_price)/float(self.price)*100)
 ############################################
 ####### Uploaded Images ####################
 ############################################
@@ -443,7 +445,7 @@ class PurchasedItem(models.Model):
 	item_name = models.CharField(max_length=300)
 	purchase_date = models.DateTimeField(auto_now_add = True)
 	shipping_address = models.ForeignKey(Address,null=True,blank=True) # Can be null if only pick-up items
-
+	
 	# Reference to cart item of the purchase and the checkout
 	cartitem = models.OneToOneField(CartItem)
 	checkout = models.ForeignKey(Checkout)

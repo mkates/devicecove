@@ -91,9 +91,9 @@
 <div class="confirmation-container covebox">
 	<h3> Thank you for your order!</h3>
 	<h5> For reference, your order number is {{checkout.id}}</h5>
-	<p>We have sent an email to {{user.basicuser.email}} with a confirmation of your order! 
+	<p>We have sent an email to {{user.basicuser.email}} confirming your purchase! 
 	{% if not checkout.payment.checkpayment %}
-	Your credit card has been charged {{checkout.total|dollars}}. The seller of the items you purchased have been contacted and will be shipping your items shortly. 
+	Your credit card has been charged {{checkout.total|dollars}}. The seller(s) of the item(s) you purchased have been contacted about your successful purchase, and will be in touch with you shortly about your item(s) being shipped.
 	{% else %}
 	You will have <strong> 3 business days</strong> to mail VetCove a check, at which time we will contact the seller to ship the items. If we do not receive your check in that time, we will relist your purchased items. If there are unique circumstances, please contact us immediately.
 	{% endif %}</p>
@@ -104,10 +104,10 @@
 		<li>10 Pacer Court</li>
 		<li>Colts Neck, NJ 07722</li>
 	</ul>
-	<p>To see the status of the items you purchase, you can visit your <a href='/account/buyhistory'>purchased items </a> page. </p>
+	<p>To see the status of your order at any time, you may visit your purchase history and click on the item you've purchase.  From your <a href='/account/buyhistory'>purchase history</a>, you may also leave the seller a note with shipping instructions or other special requests related to your order. page. </p>
 	<p class="disclaimer"> Note: If you do not hear from the seller and the item does not arrive within 2 weeks, please contact
 	us immediately. You have 48 hours from the time you receive the item to submit a complaint.</p>
-	
+	<p>We require that sellers on VetCove respond to purchases quickly, but sometimes there are delays.  If you do not hear from a seller within 5 business days, please feel free to use their contact information to inquire about the timing of your order's shipment.  If a buyer continues to be unresponsive, please contact us or report a problem from your <a href='/account/buyhistory'>purchase history</a> portal. </p>
 	<span>
 		<a class="button button-primary button-rounded" href="/account/buyhistory">View Purchased Item's Status</a>
 		<a class="button button-rounded" href="/productsearch/veterinary/all/all">Continue Shopping</a>

@@ -154,9 +154,8 @@ $(document).ready(function() {
 				{% if item.liststatus == 'active' %}
 				<!-- confirmation box for making inactive (only available to online+offline active listings)-->
 				<div id="makeinactive-confirmation-{{item.id}}" class="confirmation-box">
-					<h3>Please explain why you are marking this item as inactive</h3>
-					<h4>If you sold the item offline, please mark the item as sold instead. Let us know why you
-					have decided to inactivate your listing.</h4>
+					<h3>Please explain why you are making this item inactive</h3>
+					<h4>If you sold the item though a transaction where the funds that did pass through VetCove, please mark the item as <strong>sold</strong> instead.  If you wish to deactivate your listing for some other reason, please proceed and provide your reason/explanation below.</h4>
 					<form action="/account/editlisting/inactive/{{item.id}}" method="POST">
 						{% csrf_token %}
 						<input type="hidden" name="page" value="/account/listings/{{listingtype}}">

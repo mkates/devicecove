@@ -12,7 +12,7 @@
 		{% if questions %}
 			{% for question in questions %}
 			<div class="questionbox">
-				<p class="question">{{question}} for <a class="itemspan" href="/item/{{question.item.id}}/details">{{question.item.name}}</a> on {{question.dateasked}}</p>
+				<p class="question"><a class="itemspan" href="/item/{{question.item.id}}/details">{{question.item.name}}:</a> {{question}} <span class="timestamp">{{question.dateasked}}</span></p>
 				{% if question.answer %}
 				<p class="questionanswer">{{question.answer}} <span> answered on {{question.dateanswered}}</p>
 				{% else %}
