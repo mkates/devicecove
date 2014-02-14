@@ -247,9 +247,9 @@ var retrieveCategories = function(cat) {
 			dataType: 'json',
 			success: function(response){	
 				$("#subcategory-select").empty();
-				$("#subcategory-select").append("<option value='Null'>Item. . .</option>");
+				$("#subcategory-select").append("<option value='Null'>Item. . .");
 				$.each(response,function(index,value) {
-					$("#subcategory-select").append("<option value='"+index+"'>"+value+"</option>");
+					$("#subcategory-select").append("<option value='"+index+"'>"+value);
 				});
 			}
 		});

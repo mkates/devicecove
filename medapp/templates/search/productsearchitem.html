@@ -32,8 +32,8 @@
 					{% if item.user.verified %}<span class="verified">verified seller</span>{% endif %} 
 					{% if item.offlineviewing %}<span class="lightorange">view in person</span>{% endif %} 
 					{% if not item.offlineviewing %}<span class="buyonline">buy online</span>{% endif %} 
-					{% if item.contract == 'warranty' %}<span class="lightgreen">warranty</span>{% endif %}
-					{% if item.contract == 'servicecontract' %}<span class="lightred">service contract</span>{% endif %} 
+					{% if not item.shippingincluded %}<span class="lightred">local pickup only</span>{% endif %} 
+					{% if item.creation_date|days_since < 7 %}<span class="lightgreen">new listing</span>{% endif %}
 				</h6>
 				{% load multiply %}
 				<h4>Percent off MSRP<span><strong>{{ item.price|dividepercent:item.msrp_price }}</strong></span></h4>

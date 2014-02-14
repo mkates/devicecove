@@ -165,6 +165,7 @@ $(document).ready(function() {
 		error = $(".password-information .error");
 		op = $("#old-password").val();
 		np = $("#new-password").val();
+		npc = $("#new-password-confirm").val();
 		if (np == op) {
 			$(error).text("New password must be different from old password");
 			$(error).css('display','block');
@@ -172,6 +173,11 @@ $(document).ready(function() {
 		}
 		else if (np.length < 6) {
 			$(error).text("New Password must be at least 6 characters");
+			$(error).css('display','block');
+			return false;
+		}
+		else if (np != npc) {
+			$(error).text("New Passwords do not match");
 			$(error).css('display','block');
 			return false;
 		}
@@ -403,6 +409,14 @@ function addError(handle) {
 					</div>
 					<div class="col-md-9 col-sm-9 col-xs-9 category-input">
 						<input id="new-password" required type="password" name="newpassword" class="form-control" value="" placeholder="New Password">
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-3 col-sm-3 col-xs-3 category-label">
+						Re-enter New Password
+					</div>
+					<div class="col-md-9 col-sm-9 col-xs-9 category-input">
+						<input id="new-password-confirm" required type="password" name="newpasswordconfirm" class="form-control" value="" placeholder="Re-enter New Password">
 					</div>
 				</div>
 				<div class="row noborder">

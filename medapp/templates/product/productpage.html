@@ -79,10 +79,6 @@
 			<div class="row">
 				<div class="col-md-7 col-sm-7 col-xs-12">
 					<h2>{% if item.name %}{{ item.name }}{% else %}VetCove Item{% endif %}</h2>
-					<p class="condition-quality">{{item.get_conditionquality_display}}</p>
-					<button type="button" class="popover-class" data-container="body" data-toggle="popover" data-placement="right" data-trigger="hover" data-content="{{item.conditionquality|condition_quality}}">
-					  ?
-					</button>
 				</div>
 				<div class="listdate col-md-5 col-sm-5 col-xs-12">
 					<p>This item was listed on <span>{{item.creation_date}}</span></p>
@@ -206,12 +202,14 @@
 			<p> There currently is no description for this item</p>
 			{% endif %}
 		</div>
-		{% if item.conditiondescription %}
 		<div class="mainproduct productdetails" id="features">
 			<h2> Product Condition</h2>
+			<p class="condition-quality">{{item.get_conditionquality_display}}</p>
+			<button type="button" class="popover-class" data-container="body" data-toggle="popover" data-placement="right" data-trigger="hover" data-content="{{item.conditionquality|condition_quality}}">
+			  ?
+			</button>
 			<p id="productfeatures">{{item.conditiondescription}}</p>
 		</div>
-		{% endif %}
 		{% if item.whatsincluded %}
 		<div class="mainproduct productdetails" id="features">
 			<h2>What's Included</h2>

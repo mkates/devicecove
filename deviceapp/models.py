@@ -432,11 +432,18 @@ class Commission(models.Model):
 ############################################
 ### Purchased Items  #######################
 ############################################	
-	
+
+class Order(models.Model):
+	buyer = models.ForeignKey(BasicUser)
+	payment = models.ForeignKey(Payment,null=True,blank=True)
+	purchase_date = models.DateTimeField(auto_now_add = True)
+	total = models.BigIntegerField(max_length=20)
+
 class PurchasedItem(models.Model):
 	# Seller and Buyer
 	seller = models.ForeignKey(BasicUser,related_name="purchaseditemseller")
 	buyer = models.ForeignKey(BasicUser,related_name="purchaseditembuyer")
+	order = models.ForeignKey(Order)
 	
 	# Details
 	quantity = models.IntegerField(max_length = 5)
@@ -464,8 +471,7 @@ class PurchasedItem(models.Model):
 	paid_out = models.BooleanField(default=False)
 	paid_date = models.DateTimeField(null=True,blank=True)
 	
-	# References to the actual payout/payment objects
-	payment = models.ForeignKey(Payment,null=True,blank=True)
+	# Reference to the payout object
 	payout = models.ForeignKey(Payout,null=True,blank=True)
 	
 ############################################

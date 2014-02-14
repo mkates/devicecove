@@ -64,7 +64,6 @@ h3 span {
 		<h3><span>Action 1:</span> Resolve directly with the seller</h3>
 		<p>VetCove is committed to ensuring that every transaction that takes place through our site goes smoothly.  We strive to create mutually beneficial transactions between trusted partners that result in getting quality equipment into the hands of those who need it.  Try as we may, sometimes items do not arrive as a buyer expects.  For those situations, we’ve created the Buyer Protection Program to ensure that buyers find total satisfaction when using VetCove.</p>
 		<p>When an item arrives materially different than it was described on the site, such that it materially affects the value and/or functionality of the unit, we will facilitate a resolution for you to return the item at the seller’s expense for a full refund.  We require that buyers try to resolve a dispute directly with a seller first.  Please use the contact information below to contact the seller directly</p>
-		<p>If you are still unable to resolve the disagreement after five business days, you may submit a dispute to the VetCove Resolution team. To submit a request for resolution, please choose a reason for your report, and provide as many details as possible in the box below.  Please note that VetCove Buyer Protection only applies to financial transactions that take place through VetCove.  VetCove limited authority to resolve disputes that took place between businesses in person and/or outside of our system</p>
 		<div class="seller-contact">
 			<p class="report-seller">Seller Information</p>
 			<p class="report-seller-info">{{pitem.seller.name}}</p>
@@ -74,10 +73,7 @@ h3 span {
 	</div>
 	<div class="report-step">
 		<h3><span>Action 2:</span> Filing a Report</h3>
-		<p>If you cannot come to an agreement with the seller, you can file a report
-		that lets VetCove make a ruling on the decision. Please note, VetCove Buyer
-		Protection only applies to items purchased online. You are responsible for
-		the quality.</p>
+		<p>If you are still unable to resolve the disagreement after five business days, you may submit a dispute to the VetCove Resolution team. To submit a request for resolution, please choose a reason for your report, and provide as many details as possible in the box below.  Please note that VetCove Buyer Protection only applies to financial transactions that take place through VetCove.  VetCove has limited authority to resolve disputes that took place between businesses in person and/or outside of our system</p>
 		<form action="/account/reportproblemform/{{pitem.id}}" class="report-form" method="POST">
 			{% csrf_token %}
 			<div class="input-element">

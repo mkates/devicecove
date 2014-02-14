@@ -526,6 +526,8 @@ def checkoutPurchase(request,checkoutid):
 		return render_to_response('checkout/checkout_review.html',{'checkout':checkout,'error':e},context_instance=RequestContext(request))
 	
 	# 4. Update Items in the system, delete cart-items create Purchased Objects
+	order = Order(buyer=bu,payment=checkout.payment,total=checkout.total())
+	order.save()
 	for cartitem in checkout.cartitem_set.all():
 		item = cartitem.item
 		if item.quantity == cartitem.quantity:
@@ -537,6 +539,7 @@ def checkoutPurchase(request,checkoutid):
 		amount = cartitem.price * cartitem.quantity
 		pi = PurchasedItem(seller=item.user,
 						buyer=bu,
+						order=order,
 						cartitem=cartitem,
 						unit_price=cartitem.price,
 						checkout=cartitem.checkout,
@@ -546,8 +549,8 @@ def checkoutPurchase(request,checkoutid):
 						charity_name = item.charity_name,
 						shipping_included=item.shippingincluded,
 						item_name=cartitem.item.name,
-						quantity=cartitem.quantity,
-						payment=checkout.payment)
+						quantity=cartitem.quantity
+						)
 		pi.save()
 		cartitem.shoppingcart = None
 		cartitem.save()

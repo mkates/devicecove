@@ -208,8 +208,8 @@ import os
 if os.path.abspath( __file__ ).split("/")[2] == 'alexanderkates':
     LOCAL = True
     STATIC_URL = '/static/'
-    INSTALLED_APPS = INSTALLED_APPS + ('fresh',)
-    MIDDLEWARE_CLASSES = MIDDLEWARE_CLASSES + ('fresh.middleware.FreshMiddleware',)
+    #INSTALLED_APPS = INSTALLED_APPS + ('fresh',)
+    #MIDDLEWARE_CLASSES = MIDDLEWARE_CLASSES + ('fresh.middleware.FreshMiddleware',)
     SITE_ROOT = os.path.dirname(os.path.abspath(__file__))
 else:
 	import dj_database_url

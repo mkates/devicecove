@@ -128,8 +128,12 @@ def staffOverview(request,type):
 			dict['checkpayout'] = CheckPayout.objects.all()
 		elif type == 'commission':
 			dict['commission'] = Commission.objects.all()
-			print 'here'
-			print dict['commission']
+		elif type == 'checkpayment':
+			checkpayment = []
+			for order in Order.objects.all():
+				if hasattr(order.payment,'checkpayment'):
+					checkpayment.append(order)
+			dict['checkpayment'] = checkpayment
 		return render_to_response('general/adminoverview.html',dict,context_instance=RequestContext(request))
 	return HttpResponseRedirect("/")
 
@@ -145,6 +149,21 @@ def staffMarkAsSent(request):
 			cp.sent = True
 		cp.save()
 		return HttpResponse(json.dumps({'status':201,'sent':cp.sent}), content_type='application/json')
+	else:
+		return HttpResponse(json.dumps({'status':500}), content_type='application/json')
+	
+@staff_member_required
+def staffMarkAsReceived(request):
+	if request.user.is_staff and request.user.is_authenticated() and request.method=="POST":
+		reid = request.POST.get('re_id','')
+		reval = request.POST.get('re_val','')
+		order = Order.objects.get(id=reid)
+		if reval == 'received':
+			order.payment.checkpayment.received = True
+		else:
+			order.payment.checkpayment.received = False
+		order.payment.checkpayment.save()
+		return HttpResponse(json.dumps({'status':201,'received':order.payment.checkpayment.received}), content_type='application/json')
 	else:
 		return HttpResponse(json.dumps({'status':500}), content_type='application/json')
 	

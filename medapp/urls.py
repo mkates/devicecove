@@ -17,6 +17,7 @@ urlpatterns = patterns('',
     url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^staff/markassent','deviceapp.views_custom.staffMarkAsSent'),
+     url(r'^staff/markasreceived','deviceapp.views_custom.staffMarkAsReceived'),
     
     #Password Reset
     url('',include('password_reset.urls')),

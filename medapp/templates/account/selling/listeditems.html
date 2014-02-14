@@ -74,6 +74,9 @@
 .sold-confirmation-box {
 	padding-top: 20px;
 }
+.delete-confirmation-box {
+	padding-top: 30px;
+}
 .confirmation-box h3 {
 	font-size: 18px;
 	font-weight:800;
@@ -144,7 +147,7 @@ $(document).ready(function() {
 					<form action="/list/markassold/{{item.id}}" method="POST">
 						{% csrf_token %}
 						<input type="hidden" name="page" value="/account/listings/{{listingtype}}">
-						<button name="submit" value="submit" class="button button-rounded button-small button-action">Mark as Sold</a></button>
+						<button name="submit" value="submit" class="button button-rounded button-small button-action">Mark as Sold</button>
 						<a data-confirm-box="#sold-confirmation-{{item.id}}" class="confirmation-cancel button button-rounded button-small">Cancel</a>
 
 					</form>
@@ -161,8 +164,22 @@ $(document).ready(function() {
 						<input type="hidden" name="page" value="/account/listings/{{listingtype}}">
 						<textarea required name="inactive-reason" class="form-control"></textarea>
 						<div class="clear"></div>
-						<button name="submit" value="submit" class="button button-rounded button-small button-caution">Make Inactive</a></button>
+						<button name="submit" value="submit" class="button button-rounded button-small button-caution">Make Inactive</button>
 						<a data-confirm-box="#makeinactive-confirmation-{{item.id}}" class="confirmation-cancel button button-rounded button-small">Cancel</a>
+					</form>
+				</div>
+				{% endif %}
+
+				{% if item.liststatus == 'unsold' %}
+				<!-- confirmation box for making inactive (only available to online+offline active listings)-->
+				<div id="reactive-confirmation-{{item.id}}" class="confirmation-box">
+					<h3>Are you sure you want to reactivate this listing?</h3>
+					<h4>Buyers will be able to purchase your item, so make sure the item is still available before reactivating the listing</h4>
+					<form action="/account/editlisting/active/{{item.id}}" method="POST">
+						{% csrf_token %}
+						<input type="hidden" name="page" value="/account/listings/{{listingtype}}">
+						<button name="submit" value="submit" class="button button-rounded button-small button-action">Reactivate Listing</button>
+						<a data-confirm-box="#reactive-confirmation-{{item.id}}" class="confirmation-cancel button button-rounded button-small">Cancel</a>
 					</form>
 				</div>
 				{% endif %}
@@ -179,8 +196,21 @@ $(document).ready(function() {
 							<input placeholder="1" required name="quantity" type="number" class="form-control newquantity"></input>
 						</div>
 						<div class="clear"></div>
-						<button name="submit" value="submit" class="button button-rounded button-small button-action">Relist and Activate Listing</a></button>
+						<button name="submit" value="submit" class="button button-rounded button-small button-action">Relist and Activate Listing</button>
 						<a data-confirm-box="#sold-confirmation-{{item.id}}" class="confirmation-cancel button button-rounded button-small">Cancel</a>
+					</form>
+				</div>
+				{% endif %}
+
+				{% if item.liststatus == 'incomplete' %}
+				<!-- confirmation box for deleting an incomplete listing-->
+				<div id="delete-confirmation-{{item.id}}" class="confirmation-box delete-confirmation-box">
+					<h3>Are you sure you want to delete this listing?</h3>
+					<form action="/deletelisting/{{item.id}}" method="POST" class="form-horizontal">
+						{% csrf_token %}
+						<input type="hidden" name="page" value="/account/listings/{{listingtype}}">
+						<button name="submit" value="submit" class="button button-rounded button-small button-caution">Delete Listing</button>
+						<a data-confirm-box="#delete-confirmation-{{item.id}}" class="confirmation-cancel button button-rounded button-small">Cancel</a>
 					</form>
 				</div>
 				{% endif %}
@@ -227,7 +257,7 @@ $(document).ready(function() {
 								<a href="/item/{{item.id}}/details" class="button button-rounded button-small">View Listing</a>
 								<a href="/list/describe/{{item.id}}" class="button button-rounded button-small">Edit Listing</a>
 								{% if item.offlineviewing %}
-									<button data-confirm-box="#sold-confirmation-{{item.id}}" class="confirmation-show button button-rounded button-small">Mark as Sold</a></button>
+									<button data-confirm-box="#sold-confirmation-{{item.id}}" class="confirmation-show button button-rounded button-small">Mark as Sold</button>
 									{% if item.sellermessage_set.all %}
 										<a href="/account/messages/{{item.id}}" class="button button-rounded button-small">View Buyer Messages ({{item.sellermessage_set.count}})</a>
 									{% endif %}
@@ -235,18 +265,11 @@ $(document).ready(function() {
 								<button data-confirm-box="#makeinactive-confirmation-{{item.id}}" class="confirmation-show button button-rounded button-small">Make Inactive</button>
 							{% elif item.liststatus == 'incomplete' %}
 								<a href="/list/describe/{{item.id}}" class="button button-rounded button-small">Complete Listing</a>
-								<form action="/deletelisting/{{item.id}}" method="POST">
-									{% csrf_token %}
-									<button href="/deletelisting/{{item.id}}" class="button button-rounded button-small">Delete Listing</button>
-								</form>
+								<button data-confirm-box="#delete-confirmation-{{item.id}}" class="confirmation-show button button-rounded button-small">Delete Listing</button>
 							{% elif item.liststatus == 'unsold' %}
 								<a href="/item/{{item.id}}/details" class="button button-rounded button-small">View Listing</a>
 								<a href="/list/describe/{{item.id}}" class="button button-rounded button-small">Edit Listing</a>
-								<form action="/account/editlisting/active/{{item.id}}" method="POST">
-									{% csrf_token %}
-									<input type="hidden" name="page" value="/account/listings/{{listingtype}}">
-									<button class="button button-rounded button-small">Reactivate Listing</button>
-								</form>
+								<button data-confirm-box="#reactive-confirmation-{{item.id}}" class="confirmation-show button button-rounded button-small">Reactivate Listing</button>
 							{% elif item.liststatus == 'sold' %}
 								<a href="/item/{{item.id}}/details" class="button button-rounded button-small">View Listing</a>
 								{% if item.offlineviewing %}

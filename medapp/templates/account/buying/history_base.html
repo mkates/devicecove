@@ -19,10 +19,10 @@
 	{% endif %}
 
 	<div class="order-overview row">
-		{% if sellhistory and pitem.payment.checkpayment %}
-			{% if not pitem.payment.checkpayment.received %}
+		{% if sellhistory and pitem.order.payment.checkpayment %}
+			{% if not pitem.order.payment.checkpayment.received %}
 				<div class="alert alert-danger alert-nocheck">
-					<strong>Payment Still Processing - Do Not {% if shippingincluded %}Ship{% else %}Allow A Pick-Up of {% endif %}this Item</strong>
+					<strong>Payment Still Processing - Do not {% if pitem.shipping_included %}ship {% else %}allow a pick-up of {% endif %}this item</strong>
 					<p>This seller has chosen to pay by check, but we have not yet received and processed the payment. Once payment is confirmed, we will contact you, at which time you can {% if shippingincluded %}ship your item{% else %}organize to have the buyer pick up your item.{% endif %}</p>
 				</div>
 			{% endif %}
@@ -53,7 +53,7 @@
 				<p>{{pitem.payment.balancedbankaccount.name}}</p>
 				<p>{{pitem.payment.balancedbankaccount.bank_name}}</p>
 				<p>{{pitem.payment.balancedbankaccount.account_number}}</p>
-				{% elif pitem.payment.checkpayment %}
+				{% elif pitem.order.payment.checkpayment %}
 					{% if not pitem.payment.checkpayment.received %}
 					<p>Payment by check to the following address:</p>
 					<ul>
@@ -69,7 +69,7 @@
 			</div>
 			{% endif %}
 			<p class="order-price">Total Price: <span>{{pitem.total|dollars}}</span>
-			<p class="order-quantity">Quantity: <span>{{pitem.cartitem.quantity}}{% if pitem.cartitem.quantity > 1 %}(at {{pitem.cartitem.price|dollars}} each){% endif %}</span>
+			<p class="order-quantity">Quantity: <span>{{pitem.cartitem.quantity}} {% if pitem.cartitem.quantity > 1 %}(at {{pitem.cartitem.price|dollars}} each){% endif %}</span>
 			{% if sellhistory %}
 			<p class="order-number">Payout Status: 
 				<span>
@@ -77,8 +77,8 @@
 						Paid - Bank Account Credited
 					{% elif pitem.paid_out and pitem.payout.checkpayout %}
 						Paid - Check Mailed
-					{% elif pitem.payment.checkpayment %}
-						{% if not pitem.payment.checkpayment.received %}
+					{% elif pitem.order.payment.checkpayment %}
+						{% if not pitem.order.payment.checkpayment.received %}
 							Payment Still Pending From Buyer
 						{% else %}
 							{% if pitem.shipping_included and not pitem.item_sent %}
@@ -101,8 +101,8 @@
 		<div class="col-md-8 col-sm-8 col-xs-12">
 			<p class="order-status">Status: 
 				<span>
-				{% if pitem.payment.checkpayment %}
-					{% if pitem.payment.checkpayment.received %}
+				{% if pitem.order.payment.checkpayment %}
+					{% if pitem.order.payment.checkpayment.received %}
 						{% if pitem.shipping_included %}
 							{% if pitem.item_sent %}
 								Shipped 
@@ -128,7 +128,7 @@
 				{% endif %}
 				</span>
 			</p>
-			{% if pitem.shipping_included %}
+			{% if pitem.shipping_included and sellhistory%}
 			<a class="shipping-button shipping-show button button-tiny button-action button-rounded " data-shipping="#shipping-overlay-{{pitem.id}}">Edit Shipping Status</a>
 			{% endif %}
 			<div class="order-item row">
