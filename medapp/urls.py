@@ -189,3 +189,10 @@ if settings.DEBUG:
     urlpatterns += patterns('',
         url(r'^__debug__/', include(debug_toolbar.urls)),
     )
+urlpatterns += patterns('', 
+    url(r'', include('fresh.urls'))
+)
+
+
+
+

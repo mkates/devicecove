@@ -1,8 +1,11 @@
 Collectfast==0.1.13
 Django==1.6
 Pillow==2.2.2
+PyYAML==3.10
 South==0.8.2
+argh==0.24.1
 balanced==0.11.14
+beautifulsoup4==4.3.2
 boto==2.16.0
 certifi==0.0.8
 chardet==1.0.1
@@ -12,8 +15,10 @@ dj-static==0.0.5
 django-appconf==0.6
 django-balanced==0.1.10
 django-boto==0.2.1
+django-debug-toolbar==1.0.1
 django-extensions==1.2.5
 django-filer==0.9.4
+django-fresh==1.0.5
 django-imagekit==3.0.4
 django-mptt==0.5.5
 django-password-reset==0.5.1
@@ -29,6 +34,7 @@ gunicorn==18.0
 iso8601==0.1.4
 mock==0.8.0
 newrelic==2.8.0.7
+pathtools==0.1.2
 pilkit==1.1.5
 psycopg2==2.5.1
 pylibmc==1.2.3
@@ -40,4 +46,5 @@ simplejson==2.3.2
 six==1.4.1
 sqlparse==0.1.11
 static==0.4
+watchdog==0.7.1
 wsgiref==0.1.2
