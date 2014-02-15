@@ -50,6 +50,8 @@ def messageseller(request,itemid):
 		seller = item.user
 		sm = SellerMessage(buyer=bu,name=name,item=item,email=email,phone=phone,reason=reason,message=message) 
 		sm.save()
+		notification = SellerNotification(user=seller,sellermessage=sm)
+		notification.save()
 		email_view.composeEmailContactMessage_Seller(request,seller,sm)
 		status = 201
 	else:
@@ -66,8 +68,8 @@ def buyermessages(request,itemid):
 	messages = item.sellermessage_set.all()
 	if request.user.basicuser == item.user:
 		if item.commission_paid or net_commission == 0:
-			#item.commission_paid = True
-			#item.save()
+			item.commission_paid = True
+			item.save()
 			return render_to_response('account/selling/messages.html',{'item':item},context_instance=RequestContext(request))
 		else:
 			payment_methods = False

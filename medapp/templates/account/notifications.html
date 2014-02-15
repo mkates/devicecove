@@ -1,0 +1,69 @@
+{% extends 'account/account.html' %}
+{% block headertitle %}<title>VetCove | Notifications</title>{% endblock%}
+{% block accounthistory %}active{% endblock %}
+
+{% block maintitle %}Account History{% endblock %}
+{% block headersubcss %}
+<style>
+.notification {
+	font-weight: 200;
+	padding: 20px;
+	color: #333;
+	border-bottom:1px solid #ddd;
+}
+.notification span {
+	float: right;
+	line-height: 24px;
+	color: #999;
+	font-size:12px;
+}
+.notification:hover {
+	background: #f6f6f6;
+}
+.notification-form:hover {
+	cursor:pointer;
+}
+.unviewed {
+	background: #feffe5;
+}
+.unviewed:hover {
+	background: #eeefcb;
+}
+</style>
+{% endblock %}
+
+{% block jsblock %}
+<script>
+$(".notification-form").click(function() {
+	$(this).submit();
+});
+</script>
+{% endblock %}
+{% block maincontent %}
+	{% if notification_set %}
+	<div class="maincontent-container covebox">
+		{% for notification in notification_set reversed %}
+		<form class="notification-form" action="/account/updatenotification" method="POST">
+			{% csrf_token %}
+			<input type="hidden" name="notification_id" value="{{notification.id}}">
+			<div class="notification {% if not notification.viewed %}unviewed{% endif %}">
+				{% if notification.sellernotification %}
+					A buyer would like to schedule a viewing of {{notification.sellernotification.sellermessage.item}}
+				{% elif notification.soldnotification %}
+					Your {{notification.soldnotification.purchaseditem.item_name}} 
+					{% if notification.soldnotification.purchaseditem.quantity > 1 %}
+						(Quantity: {{notification.soldnotification.purchaseditem.quantity }}) 
+					{% endif %}
+					has sold!
+				{% endif %}
+				<span>{{notification.date}}</span>
+			</div>
+		</form>
+		{% endfor %}
+	</div>
+	{% else %}
+	<div class="maincontent-container covebox">
+		<p class="nolistings"> You have not have any notifications</p>
+	</div>
+	{% endif %}
+{% endblock %}

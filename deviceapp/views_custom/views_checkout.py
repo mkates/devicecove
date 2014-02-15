@@ -552,6 +552,8 @@ def checkoutPurchase(request,checkoutid):
 						quantity=cartitem.quantity
 						)
 		pi.save()
+		notification = SoldNotification(user=item.user,purchaseditem=pi)
+		notification.save()
 		cartitem.shoppingcart = None
 		cartitem.save()
 		# Email the seller of the item

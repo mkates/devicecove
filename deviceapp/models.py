@@ -203,6 +203,7 @@ class Item(models.Model):
 	
 	def msrp_discount(self):
 		return int((self.price-self.msrp_price)/float(self.price)*100)
+
 ############################################
 ####### Uploaded Images ####################
 ############################################
@@ -226,6 +227,27 @@ class Image(models.Model):
 	photo_small = ProcessedImageField(upload_to=get_file_path_small, processors=[ResizeToFit(100, 100)],format='JPEG',options={'quality': 60})
 	photo_medium = ProcessedImageField(upload_to=get_file_path_medium, processors=[ResizeToFit(500, 500)],format='JPEG',options={'quality': 60})
 
+############################################
+####### Notification #######################
+############################################
+
+class Notification(models.Model):
+	user = models.ForeignKey(BasicUser)
+	date = models.DateTimeField(auto_now_add=True)
+	viewed = models.BooleanField(default=False)
+
+class SellerNotification(Notification):
+	sellermessage = models.ForeignKey('SellerMessage')
+
+class SoldNotification(Notification):
+	purchaseditem = models.ForeignKey('PurchasedItem')
+
+class SellerQuestionNotification(Notification):
+	question = models.ForeignKey('Question')
+
+class BuyerQuestionNotification(Notification):
+	question = models.ForeignKey('Question')
+	
 ############################################
 ####### Seller Contact Message #############
 ############################################

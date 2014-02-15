@@ -97,7 +97,7 @@
 			</li>
 			{% if user.is_authenticated %}
 			{% if user.basicuser.unansweredQuestionCount %}<li class="nav-questionstoanswer"><a href="/account/sellerquestions">Questions<span class="sc-count question-count">{{user.basicuser.unansweredQuestionCount}}</span></a></li>{% endif %}
-			{% if items_to_be_shipped %}<li class="nav-questionstoanswer"><a href="/account/sellhistory">Sold Items<span class="sc-count solditem-count">{{items_to_be_shipped}}</span></a></li>{% endif %}
+			{% if notifications %}<li class="nav-notifications"><a href="/account/notifications">Notifications<span class="sc-count notification-count">{{notifications.count}}</span></a></li>{% endif %}
 			
 			
 			<li><a href="/listintro">List Your Equipment</a></li>

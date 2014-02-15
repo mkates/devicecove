@@ -84,6 +84,24 @@ def forgotpassword(request):
 ###########################################
 
 @login_required
+def notifications(request):
+	notifications = request.user.basicuser.notification_set.all()
+	return render_to_response('account/notifications.html',{'notification_set':notifications},context_instance=RequestContext(request))	
+
+@login_required
+def updateNotification(request):
+	if request.method == "POST":
+		notification = Notification.objects.get(id=request.POST.get('notification_id',''))
+		if notification.user == request.user.basicuser:
+			notification.viewed = True
+			notification.save()
+			if hasattr(notification,'sellernotification'):
+				return HttpResponseRedirect('/account/messages/'+str(notification.sellernotification.sellermessage.id))
+			elif hasattr(notification,'soldnotification'):
+				return HttpResponseRedirect('/account/sellhistory')
+	return HttpResponseRedirect('/account/notifications')
+
+@login_required
 def updateGeneralSettings(request):
 	if request.user.is_authenticated() and request.method=="POST":
 		bu = BasicUser.objects.get(user=request.user)

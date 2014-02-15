@@ -18,6 +18,12 @@
 	{% endblock %}
 	<div class="sidecontent col-md-3 col-sm-3">
 		<div class="covebox admin-section">
+			<h4 class="sidecontent-title">Notifications</h4>
+			<ul>
+				<a href="/account/notifications"><li class="{% block notifications %}{% endblock %}"><h3>Notifications{% if notifications %} <span class="badge redbadge">{{ notifications.count }}</span>{% endif %}</h3></li></a>
+			</ul>
+		</div>
+		<div class="covebox admin-section">
 			<h4 class="sidecontent-title"> Buying Equipment</h4>
 			<ul>
 				<a href="/account/buyerquestions"><li class="{% block buyquestions %}{% endblock %}"><h3>Questions I've Asked{% if user.basicuser.askedQuestionCount %} <span class="badge">{{ user.basicuser.askedQuestionCount }}</span>{% endif %}</h3></li></a>

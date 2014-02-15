@@ -19,17 +19,12 @@ def basics(request):
 				if itm.item.liststatus == 'active':
 					total += itm.item.price *itm.quantity
 					ci_count += itm.quantity
-	################# Shipping Notifications ######################
-		itemsToBeShipped = 0
+	################# General Notifications ######################
+		notifications = None
 		if request.user.is_authenticated():
 			bu = BasicUser.objects.get(user=request.user)
-			pis = PurchasedItem.objects.filter(seller=bu)
-			for pi in pis:
-				if item_paid_for(pi) and not pi.item_sent:
-					itemsToBeShipped += 1
-				elif pi.item_sent == False:
-					itemsToBeShipped += 1
-		return {'cart_items':ci,'cart_items_count':ci_count,'cart_total':total,'items_to_be_shipped':itemsToBeShipped}
+			notifications = bu.notification_set.filter(viewed=False)
+		return {'cart_items':ci,'cart_items_count':ci_count,'cart_total':total,'notifications':notifications}
 	except Exception,e:
 		print e
 		return {}
