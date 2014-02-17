@@ -78,6 +78,9 @@ class BasicUser(models.Model):
 	payment_method = models.ForeignKey('Payment',related_name="paymentmethod",null=True,blank=True)
 	payout_method = models.ForeignKey('Payment',related_name="payoutmethod",null=True,blank=True)
 	
+	# Settings 
+	newsletter = models.BooleanField(default=True)
+
 	def __unicode__(self):
 		return self.name
 	
@@ -228,7 +231,7 @@ class Image(models.Model):
 	photo_medium = ProcessedImageField(upload_to=get_file_path_medium, processors=[ResizeToFit(500, 500)],format='JPEG',options={'quality': 60})
 
 ############################################
-####### Notification #######################
+####### Notification Center ################
 ############################################
 
 class Notification(models.Model):
@@ -236,18 +239,38 @@ class Notification(models.Model):
 	date = models.DateTimeField(auto_now_add=True)
 	viewed = models.BooleanField(default=False)
 
-class SellerNotification(Notification):
+# When buyer messages the seller about an offline item
+class SellerMessageNotification(Notification):
 	sellermessage = models.ForeignKey('SellerMessage')
 
-class SoldNotification(Notification):
-	purchaseditem = models.ForeignKey('PurchasedItem')
-
+# When a seller has a new question
 class SellerQuestionNotification(Notification):
 	question = models.ForeignKey('Question')
 
+# When a buyer asks a question that is answered
 class BuyerQuestionNotification(Notification):
 	question = models.ForeignKey('Question')
-	
+
+# When a seller authorizes a buyer to purchase online
+class AuthorizedBuyerNotification(Notification):
+	item = models.ForeignKey('Item')
+
+# When an item is sold - seller
+class SoldNotification(Notification):
+	purchaseditem = models.ForeignKey('PurchasedItem')
+
+# Check payment clears if it is a check
+class SoldPaymentNotification(Notification):
+	purchaseditem = models.ForeignKey('PurchasedItem')
+
+class ShippedNotification(Notification):
+	purchaseditem = models.ForeignKey('PurchasedItem')
+
+# When a seller is paid out 
+class PayoutNotification(Notification):
+	payout = models.ForeignKey('Payout',null=True,blank=True)
+	success = models.BooleanField(default=True)
+
 ############################################
 ####### Seller Contact Message #############
 ############################################

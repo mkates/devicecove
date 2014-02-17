@@ -6,50 +6,64 @@
 
 {% block headersubcss %}
 <style>
+.maincontent-container {
+	padding: 20px;
+	padding-top: 0px;
+}
 h4 {
 	text-align: left;
-	margin-left: 20px;
 	margin-top: 30px;
 	margin-bottom: 10px;
 }
-.udpates {
+.settingsform {
 	text-align: left;
-	margin-left: 20px;
+}
+.delete-button {
 }
 .deleteaccount {
 	text-align: left;
 }
 .deleteaccount a {
-	margin-left: 20px;
 	display: inline-block;
 	margin-bottom: 40px;
+}
+#delete-form {
+	display:none;
 }
 
 </style>
 {% endblock %}
+
+{% block jsblock %}
+<script>
+$(document).ready(function() {
+	$("#newsletter").change(function() {
+		$("#newsletter-form").submit();
+	});
+	$('.delete-button').click(function() {
+		$("#delete-form").fadeIn();
+		$('.delete-button').css('display','none');
+	})
+});
+</script>
+{% endblock %}
 {% block maincontent %}
 <div class="maincontent-container covebox">
 	<h4> Notifications </h4>
-		<form class="udpates">
+		<form id="newsletter-form" class="settingsform" method="POST" action="/account/updatesettings/newsletter">
+			{% csrf_token %}
 			<div class="checkbox">
 				<label>
-					<input type="checkbox"> Receive weekly emails with specials and promotions
-				</label>
-			</div>
-			<div class="checkbox">
-				<label>
-					<input type="checkbox"> Email me when someone adds a new product to an item I have saved
-				</label>
-			</div>
-			<div class="checkbox">
-				<label>
-					<input type="checkbox"> Text me when someone buys a product I have listed
+					<input type="checkbox" id="newsletter" name="newsletter" {% if user.basicuser.newsletter %}checked{% endif %}> Receive weekly emails with specials and promotions
 				</label>
 			</div>
 		</form>
 	<h4> Account </h4>
-		<form class="deleteaccount">
-			<a href="/delete" class="button button-rounded button-caution">Delete Account</a>
+		<button class="delete-button button button-rounded button-caution">Delete Account</button>
+		<form id="delete-form" class="settingsform" method="POST" action="/account/updatesettings/delete">
+			{% csrf_token %}
+			<p>Are you sure you want to disable your account? You will need to contact VetCove directly if you would like to reactivate this account </p>
+			<button value="submit" name="submit" class="button button-caution button-rounded">Confirm Delete Account</button>
 		</form>
 </div>
 

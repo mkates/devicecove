@@ -344,6 +344,8 @@ def askquestion(request):
 		if len(question) > 3: # Make sure it is a legitimate question
 			questionobject = Question(question=question,item=item,buyer=user,seller=item.user,dateanswered=None,answer='')
 			questionobject.save() 
+			notification = SellerQuestionNotification(user=item.user,question=questionobject)
+			notification.save()
 			email_view.composeEmailNewQuestion(request,user,questionobject)
 		return HttpResponseRedirect(redirect)
 	return HttpResponseRedirect("/login?next="+redirect)
@@ -356,6 +358,10 @@ def deletequestion(request):
 		ques = Question.objects.get(id=questionid)
 		if ques.buyer == bu or ques.seller == bu:
 			ques.delete()
+		# Remove the notification if the question is deleted before it is answered
+		if ques.seller == bu:
+			notification = SellerQuestionNotification.objects.get(question=ques)
+			notification.delete()
 	if not page:
 		return HttpResponse(json.dumps(201), content_type='application/json')
 	else:

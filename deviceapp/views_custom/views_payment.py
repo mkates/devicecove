@@ -201,7 +201,7 @@ def addMailingAddress(request):
 		phonenumber = int(re.sub("[^0-9]", "",request.POST.get("phonenumber","")))
 		useraddress = Address(user=bu,name=name,address_one=address_one,address_two=address_two,city=city,state=state,zipcode=zipcode,phonenumber=phonenumber)
 		useraddress.save()
-		#Every new mailing address is payout address object as well
+		# Every new mailing address is payout address object as well
 		new_payment = CheckAddress(user=bu,address=useraddress)
 		new_payment.save()
 		if request.POST.get('payment',''):

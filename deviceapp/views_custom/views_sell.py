@@ -50,7 +50,7 @@ def messageseller(request,itemid):
 		seller = item.user
 		sm = SellerMessage(buyer=bu,name=name,item=item,email=email,phone=phone,reason=reason,message=message) 
 		sm.save()
-		notification = SellerNotification(user=seller,sellermessage=sm)
+		notification = SellerMessageNotification(user=seller,sellermessage=sm)
 		notification.save()
 		email_view.composeEmailContactMessage_Seller(request,seller,sm)
 		status = 201
@@ -203,6 +203,8 @@ def purchaseshippinginfo(request,purchaseditemid):
 		pi.item_sent = True
 		email_view.composeEmailItemShipped_Buyer(request,request.user.basicuser,pi)
 		email_view.composeEmailItemShipped_Seller(request,request.user.basicuser,pi)
+		notification = ShippedNotification(user=pi.buyer,purchaseditem=pi)
+		notification.save()
 	else:
 		pi.item_sent = False
 	pi.save()
@@ -216,7 +218,9 @@ def authorizeBuyer(request,buyerid,itemid):
 		au = BuyAuthorization(seller=request.user.basicuser,buyer=buyer,item=item)
 		obj, created = BuyAuthorization.objects.get_or_create(seller=request.user.basicuser,buyer=buyer,item=item)
 		obj.save()
-		if not created:
+		notification = AuthorizedBuyerNotification(user=buyer,item=item)
+		notification.save()
+		if created:
 			email_view.composeEmailAuthorizedBuyer(item,buyer)
 	return HttpResponseRedirect('/account/messages/'+str(item.id))
 

@@ -59,7 +59,8 @@ def lgnrequest(request):
 			except:
 				return HttpResponseRedirect("/account/profile")
 		else:
-			return HttpResponse("Your account has been disabled")
+			return render_to_response('account/login.html',{'outcome':'This account no longer exists'},context_instance=RequestContext(request))
+
 	else:
 		return render_to_response('account/login.html',{'outcome':'Your email and/or password was incorrect'},context_instance=RequestContext(request))
 
@@ -95,10 +96,25 @@ def updateNotification(request):
 		if notification.user == request.user.basicuser:
 			notification.viewed = True
 			notification.save()
-			if hasattr(notification,'sellernotification'):
-				return HttpResponseRedirect('/account/messages/'+str(notification.sellernotification.sellermessage.id))
+			if hasattr(notification,'sellermessagenotification'):
+				return HttpResponseRedirect('/account/messages/'+str(notification.sellermessagenotification.sellermessage.item.id))
+			elif hasattr(notification,'sellerquestionnotification'):
+				return HttpResponseRedirect('/account/sellerquestions')
+			elif hasattr(notification,'buyerquestionnotification'):
+				return HttpResponseRedirect('/account/buyerquestions')
 			elif hasattr(notification,'soldnotification'):
 				return HttpResponseRedirect('/account/sellhistory')
+			elif hasattr(notification,'authorizedbuyernotification'):
+				return HttpResponseRedirect('/item/'+str(notification.authorizedbuyernotification.item.id)+'/details')
+			elif hasattr(notification,'soldpaymentnotification'):
+				return HttpResponseRedirect('/account/sellhistory')
+			elif hasattr(notification,'shippednotification'):
+				return HttpResponseRedirect('/account/buyhistory')
+			elif hasattr(notification,'payoutnotification'):
+				if notification.payoutnotification.success:
+					return HttpResponseRedirect('/account/payouthistory')
+				else:
+					return HttpResponseRedirect('/account/payment')	
 	return HttpResponseRedirect('/account/notifications')
 
 @login_required
@@ -150,7 +166,30 @@ def updatePassword(request):
 		return HttpResponseRedirect('/account/profile?s=password')
 	else:
 		return render_to_response('general/index.html',context_instance=RequestContext(request))
-		
+
+@login_required
+def updatesettingsnewsletter(request):
+	if request.user.is_authenticated() and request.method=="POST":
+		if request.POST.get('newsletter',''):
+			request.user.basicuser.newsletter = True
+		else:
+			request.user.basicuser.newsletter = False
+		request.user.basicuser.save()
+		return HttpResponseRedirect('/account/usersettings')
+	else:
+		return render_to_response('general/index.html',context_instance=RequestContext(request)) 
+
+@login_required
+def deleteAccount(request):
+	if request.user.is_authenticated() and request.method=="POST":
+		request.user.is_active = False
+		request.user.save()
+		logout(request)
+		for item in request.user.basicuser.item_set.all():
+			item.liststatus = 'disabled'
+			item.save()
+		return HttpResponseRedirect('/')
+
 @login_required
 def wishlist(request):
 	if request.user.is_authenticated():
@@ -183,6 +222,10 @@ def buyhistory(request):
 		return render_to_response('account/buying/buyhistory.html',{'buyhistory':True},context_instance=RequestContext(request))
 	else:
    		return render_to_response('general/index.html',context_instance=RequestContext(request))
+
+@login_required
+def payoutHistory(request):
+   	return render_to_response('account/selling/payouthistory.html',context_instance=RequestContext(request))
 
 @login_required
 def sellhistory(request):
@@ -250,6 +293,9 @@ def answerquestion(request,questionid):
 			question.answer = request.POST.get('answer','')
 			question.dateanswered = datetime.utcnow().replace(tzinfo=utc)
 			question.save()
+			# Create notification for buyer
+			notification = BuyerQuestionNotification(user=question.buyer,question=question)
+			notification.save()
 		return HttpResponseRedirect('/account/sellerquestions')
 	return HttpResponseRedirect('/')
 

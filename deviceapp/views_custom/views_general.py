@@ -160,6 +160,9 @@ def staffMarkAsReceived(request):
 		order = Order.objects.get(id=reid)
 		if reval == 'received':
 			order.payment.checkpayment.received = True
+			for pi in order.purchaseditem_set.all():
+				notification = SoldPaymentNotification(user=pi.seller,purchaseditem=pi)
+				notification.save()
 		else:
 			order.payment.checkpayment.received = False
 		order.payment.checkpayment.save()

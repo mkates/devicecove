@@ -1,0 +1,73 @@
+{% extends 'account/account.html' %}
+{% block headertitle %}<title>VetCove | Payout History</title>{% endblock%}
+{% block payouthistory %}active{% endblock %}
+
+{% block jsblock %}
+{% endblock %}
+{% block maintitle %}Payout History{% endblock %}
+{% block headersubcss %}
+<style>
+table td p {
+	margin: 0 3px;
+}
+</style>
+{% endblock %}
+{% block maincontent %}
+{% load dollars %}
+{% load zipcodify %}
+{% load phonenumber %}
+{% if user.basicuser.payout_set.all %}
+<div class="covebox">
+	<table class="table table-striped">
+		<thead>
+			<tr>
+				<td>Payout Date</td>
+				<td>Type</td>
+				<td>Details</td>
+				<td>Items</td>
+				<td>Amount</td>
+			</tr>
+		</thead>
+		<tbody>
+			{% for payout in user.basicuser.payout_set.all %}
+				<tr>
+					<td>{{payout.date}}</td>
+					<td>
+						{% if payout.checkpayout %}
+							Check
+						{% else %}
+							Bank Account
+						{% endif %}
+					</td>
+					<td>
+						{% if payout.checkpayout %}
+							<p>{{payout.checkpayout.address.name}}</p>
+							<p>{{payout.checkpayout.address.address_one}}</p>
+							{% if payout.checkpayout.address.address_two %}<p>{{payout.checkpayout.address.address_two}}</p>{% endif %}
+							<p>{{payout.checkpayout.address.city}}, {{payout.checkpayout.address.state}} {{payout.checkpayout.address.zipcode|zipcodify}}</p>
+							<p>{{payout.checkpayout.address.phonenumber|phonenumber}}</p>
+						{% else %}
+							<p>{{payout.bankpayout.bank_account.name}}</p>
+							<p>{{payout.bankpayout.bank_account.bank_name}}</p>
+							<p>{{payout.bankpayout.bank_account.account_number}}</p>
+						{% endif %}
+					</td>
+					<td>
+						{% for pi in  payout.purchaseditem_set.all %}
+							<p>{{pi.item_name}}{% if pi.quantity > 1 %} (Quantity {{pi.quantity}}){% endif %} - {{pi.total|dollars}}</p>
+						{% endfor %}
+					</td>
+					<td>{{payout.amount|dollars}}</td>
+				</tr>
+				
+			{% endfor %}
+		</tbody>
+	</table>
+</div>
+{% else %}
+<div class="maincontent-container covebox">
+	<p class="nolistings" style="display:block">You do not have any payouts</p>
+</div>
+{% endif %}
+  		
+{% endblock %}

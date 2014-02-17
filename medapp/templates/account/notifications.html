@@ -47,14 +47,32 @@ $(".notification-form").click(function() {
 			{% csrf_token %}
 			<input type="hidden" name="notification_id" value="{{notification.id}}">
 			<div class="notification {% if not notification.viewed %}unviewed{% endif %}">
-				{% if notification.sellernotification %}
-					A buyer would like to schedule a viewing of {{notification.sellernotification.sellermessage.item}}
+				{% if notification.sellermessagenotification %}
+					A buyer would like to schedule a viewing of {{notification.sellermessagenotification.sellermessage.item}}
 				{% elif notification.soldnotification %}
 					Your {{notification.soldnotification.purchaseditem.item_name}} 
 					{% if notification.soldnotification.purchaseditem.quantity > 1 %}
 						(Quantity: {{notification.soldnotification.purchaseditem.quantity }}) 
 					{% endif %}
 					has sold!
+				{% elif notification.sellerquestionnotification %}
+					You have a new question for {{notification.sellerquestionnotification.question.item}}
+				{% elif notification.buyerquestionnotification %}
+					The seller of {{notification.buyerquestionnotification.question.item}} has answered your question
+				{% elif notification.authorizedbuyernotification %}
+					You can now purchase {{notification.authorizedbuyernotification.item}} online!
+				{% elif notification.soldpaymentnotification %}
+					We have received payment for order #0000{{notification.soldpaymentnotification.purchaseditem.order.id}}. You should now ship the items in this order.
+				{% elif notification.shippednotification %}
+					{{notification.shippednotification.purchaseditem.item_name}} has shipped!
+				{% elif notification.payoutnotification %}
+					{% if notification.payoutnotification.payout and notification.payoutnotification.success %}
+						We have successfully made payouts for your recently sold items
+					{% elif notification.payoutnotification.payout and not notification.payoutnotification.success %}
+						We were unable to credit your bank account for your recently sold items
+					{% else %}
+						We were unable to make payouts because you do not currently have a payout method set
+					{% endif %}
 				{% endif %}
 				<span>{{notification.date}}</span>
 			</div>

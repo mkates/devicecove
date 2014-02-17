@@ -117,9 +117,9 @@ def addToCart(request,itemid):
 			shoppingcart.save()
 			request.session['shoppingcart'] = shoppingcart.id
 		item = Item.objects.get(id=itemid)
-		# Make sure if item if offline the user can add the item to their cart
+		# Make sure if item is offline the user can add the item to their cart
 		if item.offlineviewing:
-			if BuyAuthorization.objects.filter(buyer=request.user.basicuser,item=item).exists():
+			if not BuyAuthorization.objects.filter(buyer=request.user.basicuser,item=item).exists():
 				return HttpResponseRedirect('/item/'+itemid+"/details")
 		# Only creates the cart object if it doesn't exist
 		newCartItem, created = CartItem.objects.get_or_create(shoppingcart=shoppingcart,item=item,price=item.price,quantity=1)
@@ -632,7 +632,7 @@ def checkoutValidCheck(checkout,request):
 	# First check if the checkout has already been completed
 	if checkout.purchased:
 		dict = {'status':100,'error':'purchased'}
-	
+
 	# Next check if it has been too long: 20 minutes to complete checkout
 	time_now = datetime.utcnow().replace(tzinfo=utc)
 	time_elapsed = time_now - checkout.start_time

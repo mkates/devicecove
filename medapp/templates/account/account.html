@@ -40,6 +40,7 @@
 				<a href="/account/listings/incomplete"><li class="suboption {% if listingtype == 'incomplete' %}active{% endif %}"><h3>Incomplete Listings{% if user.basicuser.listedItemCount.incomplete %} <span class="badge">{{ user.basicuser.listedItemCount.incomplete }}</span>{% endif %}</h3></li></a>
 				<a href="/account/listings/inactive"><li class="suboption {% if listingtype == 'inactive' %}active{% endif %}"><h3>Inactive Listings{% if user.basicuser.listedItemCount.inactive %} <span class="badge">{{ user.basicuser.listedItemCount.inactive }}</span>{% endif %}</h3></li></a>
 				<a href="/account/sellhistory"><li class="{% block sellhistory %}{% endblock %}"><h3>Selling History {% if user.basicuser.sellhistory %} <span class="badge">{{ user.basicuser.sellhistory }}</span>{% endif %}</h3></li></a>	
+				<a href="/account/payouthistory"><li class="{% block payouthistory %}{% endblock %}"><h3>Payout History</h3></li></a>	
 			</ul>
 		</div>
 		<div class="covebox admin-section">
