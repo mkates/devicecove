@@ -11,6 +11,7 @@ from django.shortcuts import render
 from django.core.exceptions import ObjectDoesNotExist
 from django.conf import settings
 import views_payment as payment_view
+import commission as commission
 import views_email	as email_view
 import json
 import re
@@ -537,6 +538,7 @@ def checkoutPurchase(request,checkoutid):
 			item.quantity -= cartitem.quantity
 		item.save()
 		amount = cartitem.price * cartitem.quantity
+		commission_amount = 0 if cartitem.item.commission_paid else commission.commission(item)
 		pi = PurchasedItem(seller=item.user,
 						buyer=bu,
 						order=order,
@@ -547,6 +549,7 @@ def checkoutPurchase(request,checkoutid):
 						total=amount,
 						charity = item.charity,
 						charity_name = item.charity_name,
+						commission = commission_amount,
 						shipping_included=item.shippingincluded,
 						item_name=cartitem.item.name,
 						quantity=cartitem.quantity

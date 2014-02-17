@@ -30,7 +30,7 @@
 		<div class="col-md-4 col-sm-4 col-xs-12 order-details-container">
 			<h4 class="order-details">Order Placed</h4>
 			<p class="order-date">{{pitem.purchase_date|date:"F jS, Y"}}</p>
-			<p class="order-number">Order #: <span>00000{{pitem.cartitem.id}}</span></p>
+			<p class="order-number">Order #: <span>00000{{pitem.order.id}}</span></p>
 
 			{% if pitem.shipping_address %}
 			<div class="order-info">

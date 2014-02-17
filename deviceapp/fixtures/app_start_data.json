@@ -205,7 +205,7 @@
     "pk": 1, 
     "model": "deviceapp.charity", 
     "fields": {
-        "name": "A VetCoA ve Approved Charity"
+        "name": "Any VetCove Approved Charity"
     }
 },
 {

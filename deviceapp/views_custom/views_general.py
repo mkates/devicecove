@@ -101,25 +101,29 @@ def staffOverview(request,type):
 
 			offline_commission_revenue = 0
 			total_paidout = 0
+			total_charity = 0
 			total_ccfee_revenue = 0
 			for b in bp:
 				total_paidout += b.amount
 				total_ccfee_revenue += b.cc_fee
+				total_charity += b.total_charity
 			for c in cp:
 				total_paidout += c.amount
 				total_ccfee_revenue += c.cc_fee
+				total_charity += c.total_charity
 			for comm in Commission.objects.all():
 				offline_commission_revenue += comm.amount
 				
 			total_commission_revenue = online_commission_revenue + offline_commission_revenue
-			tobepaidout = total_amount_charged-total_paidout-total_commission_revenue-total_ccfee_revenue
+			tobepaidout = total_amount_charged-total_paidout-total_commission_revenue-total_ccfee_revenue-total_charity
 			total_revenue = total_commission_revenue+total_ccfee_revenue
 			dict = {'dashboard':True,'users':users,'checkouts':checkouts,'items_sold':number_items_sold,
 			'offline_commission_revenue':offline_commission_revenue,'amount_sold':total_amount_charged,
 			'total_paidout':total_paidout,'active_items':active_items, 'tobepaidout':tobepaidout,
 			'online_commission_revenue':online_commission_revenue,
 			'total_commission_revenue':total_commission_revenue,
-			'total_revenue':total_revenue}
+			'total_revenue':total_revenue,
+			'total_charity':total_charity}
 		elif type == 'purchaseditem':
 			dict['purchaseditems'] = PurchasedItem.objects.all()
 		elif type == 'bankpayout':

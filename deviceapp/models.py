@@ -38,14 +38,32 @@ class SubCategory(models.Model):
 	category = models.ManyToManyField(Category)
 	maincategory = models.ForeignKey(Category,related_name='maincategory')
 	totalunits = models.IntegerField(default=0) # Script updates this
+	
 	def __unicode__(self):
 		return self.displayname
 
+
+############################################
+####### Charities  #########################
+############################################	
 class Charity(models.Model):
 	name = models.CharField(max_length=40)
 	active = models.BooleanField(default=True)
 	def __unicode__(self):
 		return self.name
+
+############################################
+### Promotional Codes ######################
+############################################
+class PromoCode(models.Model):
+	code = models.CharField(max_length=100,unique=True)
+	promo_text = models.CharField(max_length=255) # Fun description
+	active = models.BooleanField()
+	details = models.CharField(max_length=100) # Short description
+	PROMO_TYPE =  (('factor', 'Factor'),('discount', 'Discount'))
+	promo_type = models.CharField(max_length = 50,choices=PROMO_TYPE)
+	factor = models.IntegerField(max_length=100,null=True,blank=True) # % off commission / 100
+	discount = models.IntegerField(max_length = 10,null=True,blank=True) # straight discount
 
 ############################################
 ####### User Class #########################
@@ -58,7 +76,7 @@ class BasicUser(models.Model):
 	email = models.EmailField(max_length=60) # Contact Email, login email stored in User class
 	zipcode = models.IntegerField(max_length=5)
 	
-	# These automatically populate from the zipcode (for speed purposes)
+	# These automatically populate from the zipcode (stored for speed purposes)
 	city = models.CharField(max_length=100,blank=True)
 	county = models.CharField(max_length=100,blank=True)
 	state = models.CharField(max_length=100,blank=True)
@@ -69,7 +87,7 @@ class BasicUser(models.Model):
 	website = models.CharField(max_length=60,blank=True)
 	phonenumber = models.BigIntegerField(max_length=10,null=True,blank=True)
 	
-	# User's Rank - Used for specials, promotions, etc.
+	# User's Rank - Used for specials, promotions, commission tiers, etc. 
 	USER_RANK =  ((0, 0),(1, 1),(2, 2),(3, 3),(4, 4),(5, 5))
 	user_rank = models.IntegerField(max_length=2,choices=USER_RANK,default=0)
 	
@@ -115,15 +133,15 @@ class BasicUser(models.Model):
 				dict['inactive'] += 1
 		return dict
 	
-	#Number of Purchases
+	# Number of Purchases
 	def buyhistory(self):
 		return PurchasedItem.objects.filter(buyer=self).count()
 	
-	#Number of Sales
+	# Number of Sales
 	def sellhistory(self):
 		return PurchasedItem.objects.filter(seller=self).count()
 		
-#An individual item for sale associated with a product and a user
+# An individual item for sale associated with a product and a user
 class Item(models.Model):
 	### Reference to the user ###
 	user = models.ForeignKey(BasicUser)
@@ -179,7 +197,7 @@ class Item(models.Model):
 	quantity = models.IntegerField(default=1)
 	
 	### Payment ###
-	promo_code = models.ForeignKey('PromoCode',blank=True,null=True)
+	promo_code = models.ForeignKey(PromoCode,blank=True,null=True)
 	commission_paid = models.BooleanField(default=False)	
 	sold_online = models.BooleanField(default=False) # An offline viewable item was bought online
 	
@@ -206,6 +224,7 @@ class Item(models.Model):
 	
 	def msrp_discount(self):
 		return int((self.price-self.msrp_price)/float(self.price)*100)
+
 
 ############################################
 ####### Uploaded Images ####################
@@ -401,7 +420,7 @@ class Checkout(models.Model):
 			count += cartitem.quantity
 		return count
 
-	#Is shipping address required?
+	# Is shipping address required?
 	def shippingAddressRequired(self):
 		for cartitem in self.cartitem_set.all():
 			if cartitem.item.shippingincluded:
@@ -426,11 +445,11 @@ class CartItem(models.Model):
 	checkout = models.ForeignKey(Checkout,null=True,blank=True)
 	dateadded = models.DateTimeField(auto_now_add = True)
 	item = models.ForeignKey(Item)
-	price = models.BigIntegerField() # Need price here too in case item's price changes right before purchase is made
+	price = models.BigIntegerField() # In case price changes during checkout
 	shoppingcart = models.ForeignKey(ShoppingCart,null=True,blank=True)
 	quantity = models.IntegerField(default=1,max_length=4)
 	
-	#Finds the number of other shopping carts have this item
+	# Finds the number of other shopping carts that have this item
 	def numbercarts(self):
 		return CartItem.objects.filter(item=self.item).count()-1
 	
@@ -446,6 +465,7 @@ class Payout(models.Model):
 	amount = models.BigIntegerField(max_length=20)
 	date = models.DateTimeField(auto_now_add = True)
 	total_commission = models.BigIntegerField(max_length=20)
+	total_charity = models.BigIntegerField(max_length=20)
 	cc_fee = models.BigIntegerField(max_length=20)
 	def subtotal(self):
 		return self.amount+self.total_commission+self.cc_fee
@@ -496,16 +516,17 @@ class PurchasedItem(models.Model):
 	unit_price = models.BigIntegerField(max_length=20)
 	item_name = models.CharField(max_length=300)
 	purchase_date = models.DateTimeField(auto_now_add = True)
-	shipping_address = models.ForeignKey(Address,null=True,blank=True) # Can be null if only pick-up items
+	shipping_address = models.ForeignKey(Address,null=True,blank=True) # Can be null if pick-up only item
 	
 	# Reference to cart item of the purchase and the checkout
 	cartitem = models.OneToOneField(CartItem)
 	checkout = models.ForeignKey(Checkout)
 	
-	#Charity
+	# Deductions
 	charity = models.BooleanField(default=False)
 	charity_name = models.ForeignKey(Charity,null=True,blank=True)
-	
+	commission = models.BigIntegerField(max_length=14)
+
 	# Post Purchase
 	shipping_included = models.BooleanField(default=True)
 	item_sent = models.BooleanField(default=False)
@@ -516,7 +537,7 @@ class PurchasedItem(models.Model):
 	paid_out = models.BooleanField(default=False)
 	paid_date = models.DateTimeField(null=True,blank=True)
 	
-	# Reference to the payout object
+	# Paying Out
 	payout = models.ForeignKey(Payout,null=True,blank=True)
 	
 ############################################
@@ -525,16 +546,18 @@ class PurchasedItem(models.Model):
 class SellerReview(models.Model):
 	seller = models.ForeignKey(BasicUser,related_name="sellerreview_seller")
 	buyer = models.ForeignKey(BasicUser,related_name="sellerreview_buyer")
+	date = models.DateTimeField(auto_now_add = True)
 	REVIEW_OPTIONS =  (('negative', 'Negative'),('neutral', 'Neutral'),('positive', 'Positive'))
-	review_rating = models.IntegerField(max_length = 20,choices=REVIEW_OPTIONS)
+	review_rating = models.CharField(max_length = 20,choices=REVIEW_OPTIONS)
 	review = models.TextField(blank=True)
 
 class ItemReview(models.Model):
 	seller = models.ForeignKey(BasicUser,related_name="itemreview_seller")
 	buyer = models.ForeignKey(BasicUser,related_name="itemreview_buyer")
+	date = models.DateTimeField(auto_now_add = True)
 	item = models.ForeignKey(PurchasedItem)
 	REVIEW_OPTIONS =  (('negative', 'Negative'),('neutral', 'Neutral'),('positive', 'Positive'))
-	review_rating = models.IntegerField(max_length = 20,choices=REVIEW_OPTIONS)
+	review_rating = models.CharField(max_length = 20,choices=REVIEW_OPTIONS)
 	review = models.TextField(blank=True)
 
 ############################################
@@ -570,19 +593,6 @@ class ReminderToken(models.Model):
 	ACTION_OPTIONS =  (('none', 'None'),('sold', 'Sold'),('not_sold', 'Not Sold'),('different_sold','Different Buyer'))
 	action = models.CharField(max_length = 50,choices=ACTION_OPTIONS,default='none')
 	token = models.CharField(max_length = 20,unique=True)
-
-############################################
-### Promotional Codes ######################
-############################################
-class PromoCode(models.Model):
-	code = models.CharField(max_length=100,unique=True)
-	promo_text = models.CharField(max_length=255) # Fun description
-	active = models.BooleanField()
-	details = models.CharField(max_length=100) # Short description
-	PROMO_TYPE =  (('factor', 'Factor'),('discount', 'Discount'))
-	promo_type = models.CharField(max_length = 50,choices=PROMO_TYPE)
-	factor = models.IntegerField(max_length=100,null=True,blank=True) # % off commission / 100
-	discount = models.IntegerField(max_length = 10,null=True,blank=True) # straight discount
 
 ############################################
 ### Price Changes  #########################

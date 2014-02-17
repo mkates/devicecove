@@ -33,15 +33,19 @@ class Command(BaseCommand):
  		for basicuser in BasicUser.objects.all():
  			payout_total = 0
  			commission_total = 0
+ 			charity_total = 0
  			eligiblePurchasedItems = [] # Items for payout
 			for p_item in basicuser.purchaseditemseller.all():
 				if purchasedItemEligibleForPayout(p_item):
 					# If the commission hasn't already been paid i.e. offline items
 					commission = 0
+					charity = 0
 					if not p_item.cartitem.item.commission_paid: 
 						commission = commission_view.purchaseditemCommission(p_item)
+						charity = int(p_item.total*.01)
 						commission_total += commission
-					payout_total += p_item.total-commission
+						charity_total += charity
+					payout_total += p_item.total-commission-charity
 					eligiblePurchasedItems.append(p_item)
 					
 			# Continue only if items available for payout
@@ -49,7 +53,7 @@ class Command(BaseCommand):
 				if hasattr(basicuser.payout_method,'checkaddress'):
 					cc_fee = int(payout_total*CC_PROCESSING_FEE)
 					amount = payout_total-cc_fee
-					check_obj = CheckPayout(user=basicuser,amount=amount,address=basicuser.payout_method.checkaddress.address,total_commission=commission_total,cc_fee=cc_fee)
+					check_obj = CheckPayout(user=basicuser,amount=amount,address=basicuser.payout_method.checkaddress.address,total_commission=commission_total,cc_fee=cc_fee,total_charity=charity_total)
 					check_obj.save()
 					for pi in eligiblePurchasedItems:
 						pi.paid_out = True
@@ -68,7 +72,7 @@ class Command(BaseCommand):
 						amount = payout_total-cc_fee
 						source_uri = basicuser.default_payout_ba.uri
 						#customer.credit(appears_on_statement_as="Vet Cove",description="Seller Credit",amount=amount,source_uri=source_uri)
-						bank_payout_obj = BankPayout(user=basicuser,cc_fee=cc_fee, amount=amount,bank_account=basicuser.default_payout_ba,total_commission=commission_total)
+						bank_payout_obj = BankPayout(user=basicuser,cc_fee=cc_fee, amount=amount,bank_account=basicuser.default_payout_ba,total_commission=commission_total,total_charity=charity_total)
 						bank_payout_obj.save()
 						for bpi in eligiblePurchasedItems:
 							bpi.paid_out = True

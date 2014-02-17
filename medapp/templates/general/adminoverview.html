@@ -162,6 +162,12 @@ header img {
 			<p>Total Revenue</p>
 		</div>
 	</div>
+	<div class="col-md-4 col-sm-4 col-xs-12">
+		<div class="stat">
+			<h1>{{total_charity|dollars}}</h1>
+			<p>Total Charity Amount</p>
+		</div>
+	</div>
 </div>
 
 {% endif %}
@@ -209,6 +215,7 @@ header img {
 					<td>Items</td>
 					<td>Commission</td>
 					<td>CC Fee</td>
+					<td>Charity Fee</td>
 					<td>Total Paid Out</td>
 				</tr>
 			</thead>
@@ -223,6 +230,7 @@ header img {
 						{% endfor %}</td>
 						<td>{{bp.total_commission|dollars}}</td>
 						<td>{{bp.cc_fee|dollars}}</td>
+						<td>{{bp.total_charity|dollars}}</td>
 						<td>{{bp.amount|dollars}}</td>
 					</tr>
 					
@@ -274,6 +282,7 @@ header img {
 					<td>Items</td>
 					<td>Commission</td>
 					<td>CC Fee</td>
+					<td>Charity Fee</td>
 					<td>Total Paid Out</td>
 					<td>Check Mailed</td>
 					<td>Take Action</td>
@@ -290,6 +299,7 @@ header img {
 						{% endfor %}</td>
 						<td>{{cp.total_commission|dollars}}</td>
 						<td>{{cp.cc_fee|dollars}}</td>
+						<td>{{cp.total_charity|dollars}}</td>
 						<td>{{cp.amount|dollars}}</td>
 						<td>{{cp.sent}}</td>
 						<td class="check-action">

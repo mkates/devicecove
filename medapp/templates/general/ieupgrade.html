@@ -1,0 +1,99 @@
+{% extends 'base.html' %}
+
+{% block headercss %}
+<style>
+	.header {
+		text-align: center;
+		margin: 0 auto;
+		margin-top: 40px;
+		padding-bottom: 20px;
+		max-width: 1000px;
+		border-bottom:1px solid #ddd;
+	}
+	.header img {
+		max-width: 200px;
+	}
+	.content {
+		max-width: 1000px;
+		margin: 0 auto;
+		padding: 20px 0;
+		text-align: center;
+		border-top: 1px solid #fff;
+	}
+	.content h4 {
+		color: #555;
+		text-align: center;
+		line-height: 26px;
+	}
+	.browser-table {
+		margin: 30px auto;
+	}
+	.browser-table td div {
+		width: 100px;
+		background: url('{{STATIC_URL}}img/browsers.png');
+		height: 100px;
+		display: block;
+		margin: 0 30px;
+	}
+	.browser-table p{
+		margin: 0;
+		color: #333;
+		font-size: 14px;
+		font-weight: 400;
+	}
+	.browser-table td .safari {
+		background-position: 100px 0;
+	}
+	.browser-table td .firefox {
+		background-position: 400px 0;
+	}
+	.browser-table .safari {
+		background-position: 0 300px;
+	}
+	.browser-table .internetexplorer {
+		background-position: 300px 0;
+	}
+
+</style>
+{% endblock %}
+
+{% block header %}
+<div class="header">
+	<img src="{{STATIC_URL}}img/logo_new.png" alt="VetCove"/></a>
+</div>
+<div class="content">
+	<h4> Welcome to VetCove! Unfortunately, we do not support Interent Explorer 8 and below. For security and user experience reasons, please open VetCove in a supported browser (we support the latest versions of Chrome, Firefox, Internet Explorer 10 or higher, and Safari), or upgrade your browser to one of the recommended browsers below.</h4>
+	<table class="browser-table">
+		<tr>
+			<td>
+				<a href='https://www.google.com/intl/en/chrome/browser/'>
+					<p>Chrome</p>
+					<div class="" src='{{STATIC_URL}}img/browsers.png'></div>
+				</a>
+			</td>
+			<td>
+				<a href='http://support.apple.com/kb/dl1531'>
+					<p>Safari</p>
+					<div class="safari" src='{{STATIC_URL}}img/browsers.png'></div>
+				</a>
+			</td>
+			<td>
+				<a href='http://www.mozilla.org/en-US/firefox/new/'>
+					<p>Mozilla Firefox</p>
+					<div class="firefox" src='{{STATIC_URL}}img/browsers.png'></div>
+				</a>
+			</td>
+			<td>
+				<a href='http://windows.microsoft.com/en-us/internet-explorer/ie-11-worldwide-languages'>
+					<p>Internet Explorer 11</p>
+					<div class="internetexplorer" src='{{STATIC_URL}}img/browsers.png'></div>
+				</a>
+			</td>
+		</tr>
+	</table>
+	<p>We apologize for any inconvenience this may have cause. If you would like to reach us directly, please shoot us an email at &#105;&#110;&#102;&#111;&#064;&#118;&#101;&#116;&#099;&#111;&#118;&#101;&#046;&#099;&#111;&#109;</p>
+</div>
+{% endblock %}
+
+{% block footer %}
+{% endblock %}
