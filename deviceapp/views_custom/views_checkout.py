@@ -33,6 +33,7 @@ def newuserform(request):
 			# General user sign-up
 			name = form.cleaned_data['name']
 			email = form.cleaned_data['email']
+			email = email.lower()
 			zipcode = form.cleaned_data['zipcode']
 			password = form.cleaned_data['password']
 			checkout_signup = form.cleaned_data['checkout_signup']
