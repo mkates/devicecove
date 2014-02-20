@@ -62,7 +62,7 @@ class Command(BaseCommand):
 						pi.save()
 					vetcove_check_count += 1
 					vetcove_checkpayout_total += amount
-					email_view.composeEmailPayoutCheckSent(basicuser,check_obj)
+					#email_view.composeEmailPayoutCheckSent(basicuser,check_obj)
 					notification = PayoutNotification(user=basicuser,payout=check_obj)
 					notification.save()
 				elif hasattr(basicuser.payout_method,'balancedbankaccount'):
@@ -86,11 +86,11 @@ class Command(BaseCommand):
 						notification.save()
 					except Exception,e:
 						write(self,str(basicuser.id)+": "+str(e))
-						email_view.composeEmailPayoutFailed(basicuser,bank_payout_obj)	
+						#email_view.composeEmailPayoutFailed(basicuser,bank_payout_obj)	
 						notification = PayoutNotification(user=basicuser,payout=bank_payout_obj,success=False)
 						notification.save()
 				else:
-					email_view.composeEmailNoPayment(basicuser)
+					#email_view.composeEmailNoPayment(basicuser)
 					notification = PayoutNotification(user=basicuser,success=False)
 					notification.save()
 					
