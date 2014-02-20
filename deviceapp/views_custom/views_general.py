@@ -10,6 +10,7 @@ from django.utils.html import escape
 from django.shortcuts import render
 from django.core.exceptions import ObjectDoesNotExist
 from django.conf import settings
+import views_email	as email_view
 import commission as commission
 import json
 import math
@@ -17,6 +18,10 @@ import difflib
 import locale
 import time
 
+
+def testemail(request):
+	html_email = email_view.composeEmailItemShipped_Buyer(request,request.user.basicuser,PurchasedItem.objects.get(id=1))
+	return render_to_response(html_email['template'],html_email['data'],context_instance=RequestContext(request))
 
 def index(request):
 	items = Item.objects.filter(liststatus='active').order_by('savedcount')[:9]
@@ -50,9 +55,6 @@ def pvp(request):
 def about(request):
 	return render_to_response('general/about.html',{'about':True},context_instance=RequestContext(request))
 
-def testemail(request):
-	return render_to_response('email_templates/test_email.html',context_instance=RequestContext(request))
-	
 def my_404_view(request):
 	return render_to_response('404.html',context_instance=RequestContext(request))
 

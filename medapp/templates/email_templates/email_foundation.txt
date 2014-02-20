@@ -1,0 +1,19 @@
+Dear {{email_name}},
+
+{% block textblock %}{% endblock %}
+{% if two_col_row %}
+{% block col_a_title %}{% endblock %}
+{% block col_a_block %}{% endblock %}
+
+{% block col_b_title %}{% endblock %}
+{% block col_b_block %}{% endblock %}
+{% endif %}
+Warmest Regards,
+
+Alex and the VetCove Team
+
+--------------------------------------
+
+We hope you enjoyed receiving this message. If you would like to change your email preferences, you can update your  profile settings <http://www.vetcove.com/account/usersettings> at any time
+
+Copyright 2014 VetCove, All rights reserved.

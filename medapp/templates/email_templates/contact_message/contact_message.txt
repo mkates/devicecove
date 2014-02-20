@@ -1,0 +1,14 @@
+{% extends 'email_templates/email_foundation.txt' %}
+
+{% block textblock %}
+We have some good news for you! A prospective buyer located in {{contact_message.buyer.state}} is interested in viewing the {{contact_message.item.name}} you have listed for sale, and has requested to make direct contact with you.
+
+If you're interested in viewing this buyer's message and obtaining his or her contact information to schedule a viewing and complete the sale, use the link below to log into your VetCove account:
+
+View Buyer's Message and Schedule Viewing</a>
+<http://www.vetcove.com/account/messages/{{contact_message.item.id}}>
+
+Please note that in order to correspond directly with prospective buyers and complete transactions outside of the VetCove website, we require all sellers to provide payment information in the form of a credit card.  You will only be charged commission if your item sells.
+
+Responding quickly could help you close the sale. Best of luck selling your item.  Thank you again for choosing VetCove!
+{% endblock %}

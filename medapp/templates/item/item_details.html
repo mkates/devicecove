@@ -77,16 +77,43 @@
 
 	}
 }
-.quality-active {
-	background: #00B5E5;
-	background-image: -ms-linear-gradient(top, #00B5E5 0%, #008DB2 100%);
-	background-image: -moz-linear-gradient(top, #00B5E5 0%, #008DB2 100%);
-	background-image: -o-linear-gradient(top, #00B5E5 0%, #008DB2 100%);
-	background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #00B5E5), color-stop(1, #008DB2));
-	background-image: -webkit-linear-gradient(top, #00B5E5 0%, #008DB2 100%);
-	background-image: linear-gradient(to bottom, #00B5E5 0%, #008DB2 100%);
+.quality-active-3 {
+	background: #9C85DB;
+	background-image: -ms-linear-gradient(top, #9C85DB 0%, #705BA8 100%);
+	background-image: -moz-linear-gradient(top, #9C85DB 0%, #705BA8 100%);
+	background-image: -o-linear-gradient(top, #9C85DB 0%, #705BA8 100%);
+	background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #9C85DB), color-stop(1, #705BA8));
+	background-image: -webkit-linear-gradient(top, #9C85DB 0%, #705BA8 100%);
+	background-image: linear-gradient(to bottom, #9C85DB 0%, #705BA8 100%);
 }
-.qualitybox .selectors .quality-active p {
+.quality-active-4 {
+	background: #86A2DB;
+	background-image: -ms-linear-gradient(top, #86A2DB 0%, #5B77A8 100%);
+	background-image: -moz-linear-gradient(top, #86A2DB 0%, #5B77A8 100%);
+	background-image: -o-linear-gradient(top, #86A2DB 0%, #5B77A8 100%);
+	background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #86A2DB), color-stop(1, #5B77A8));
+	background-image: -webkit-linear-gradient(top, #86A2DB 0%, #5B77A8 100%);
+	background-image: linear-gradient(to bottom, #86A2DB 0%, #5B77A8 100%);
+}
+.quality-active-2 {
+	background: #DB88C5;
+	background-image: -ms-linear-gradient(top, #DB88C5 0%, #A85BA3 100%);
+	background-image: -moz-linear-gradient(top, #DB88C5 0%, #A85BA3 100%);
+	background-image: -o-linear-gradient(top, #DB88C5 0%, #A85BA3 100%);
+	background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #DB88C5), color-stop(1, #A85BA3));
+	background-image: -webkit-linear-gradient(top, #DB88C5 0%, #A85BA3 100%);
+	background-image: linear-gradient(to bottom, #DB88C5 0%, #A85BA3 100%);
+}
+.quality-active-1 {
+	background: #DB8694;
+	background-image: -ms-linear-gradient(top, #DB8694 0%, #A85B68 100%);
+	background-image: -moz-linear-gradient(top, #DB8694 0%, #A85B68 100%);
+	background-image: -o-linear-gradient(top, #DB8694 0%, #A85B68 100%);
+	background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #DB8694), color-stop(1, #A85B68));
+	background-image: -webkit-linear-gradient(top, #DB8694 0%, #A85B68 100%);
+	background-image: linear-gradient(to bottom, #DB8694 0%, #A85B68 100%);
+}
+.qualitybox .selectors .quality-active-1 p, .qualitybox .selectors .quality-active-2 p, .qualitybox .selectors .quality-active-3 p, .qualitybox .selectors .quality-active-4 p {
 	color: #fff;
 }
 .qualitybox .selectors   {
@@ -170,7 +197,10 @@
 	var qualityNumberClick = function qualityNumberClick(handle_) {
 		var element = $(handle_).children('p');
 		var handle = $(handle_)
-		$(".qualitynumber").removeClass('quality-active');
+		$(".qualitynumber").removeClass('quality-active-1');
+		$(".qualitynumber").removeClass('quality-active-2');
+		$(".qualitynumber").removeClass('quality-active-3');
+		$(".qualitynumber").removeClass('quality-active-4');
 		handle.addClass("quality-active");
 		var value = $(handle).attr('id').split("_")[1];
 		if (currentvalue != value) {
@@ -178,10 +208,10 @@
 			$("#conditionquality").val(currentvalue);
 			//Move the arrow
 			var margintomove = "";
-			if (value == 1) {margintomove = '12%'};
-			if (value == 2) {margintomove = '36%'};
-			if (value == 3) {margintomove = '60%'};
-			if (value == 4) {margintomove = '84%'};
+			if (value == 1) {margintomove = '12%';$('.quality1').addClass('quality-active-1')};
+			if (value == 2) {margintomove = '36%';$('.quality2').addClass('quality-active-2')};
+			if (value == 3) {margintomove = '60%';$('.quality3').addClass('quality-active-3')};
+			if (value == 4) {margintomove = '84%';$('.quality4').addClass('quality-active-4')};
 			$(".downarrow").animate({"margin-left":margintomove},400);
 			$(".qualitydescription p").fadeOut('fast',function() {
 				$(".qualitydescription p").html(qualitydict[value]);

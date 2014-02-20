@@ -1,1141 +1,1152 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+{% load dollars %}
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
-	<head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>{{email_title}}</title>
-        <style type="text/css">
-			/* ///////// CLIENT-SPECIFIC STYLES ///////// */
-			#outlook a{padding:0;} /* Force Outlook to provide a "view in browser" message */
-			.ReadMsgBody{width:100%;} .ExternalClass{width:100%;} /* Force Hotmail to display emails at full width */
-			.ExternalClass, .ExternalClass p, .ExternalClass span, .ExternalClass font, .ExternalClass td, .ExternalClass div {line-height: 100%;} /* Force Hotmail to display normal line spacing */
-			body, table, td, p, a, li, blockquote{-webkit-text-size-adjust:100%; -ms-text-size-adjust:100%;} /* Prevent WebKit and Windows mobile changing default text sizes */
-			table, td{mso-table-lspace:0pt; mso-table-rspace:0pt;} /* Remove spacing between tables in Outlook 2007 and up */
-			img{-ms-interpolation-mode:bicubic;} /* Allow smoother rendering of resized image in Internet Explorer */
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="viewport" content="width=device-width"/>
+  <style>
 
-			/* ///////// RESET STYLES ///////// */
-			body{margin:0; padding:0;}
-			img{border:0; height:auto; line-height:100%; outline:none; text-decoration:none;}
-			table{border-collapse:collapse !important;}
-			body, #bodyTable, #bodyCell{height:100% !important; margin:0; padding:0; width:100% !important;}
+  #outlook a { 
+    padding:0; 
+  } 
 
-			/* ///////// TEMPLATE STYLES ///////// */
+  body{ 
+    width:100% !important; 
+    min-width: 100%;
+    -webkit-text-size-adjust:100%; 
+    -ms-text-size-adjust:100%; 
+    margin:0; 
+    padding:0;
+  }
 
-			/* ========== Page Styles ========== */
+  .ExternalClass { 
+    width:100%;
+  } 
 
-			#bodyCell{padding:20px;}
-			#templateContainer{width:600px;}
+  .ExternalClass, 
+  .ExternalClass p, 
+  .ExternalClass span, 
+  .ExternalClass font, 
+  .ExternalClass td, 
+  .ExternalClass div { 
+    line-height: 100%; 
+  } 
 
-			/**
-			* @tab Page
-			* @section background style
-			* @tip Set the background color and top border for your email. You may want to choose colors that match your company's branding.
-			* @theme page
-			*/
-			body, #bodyTable{
-				/*@editable*/ background-color:#DEE0E2;
-			}
+  #backgroundTable { 
+    margin:0; 
+    padding:0; 
+    width:100% !important; 
+    line-height: 100% !important; 
+  }
 
-			/**
-			* @tab Page
-			* @section background style
-			* @tip Set the background color and top border for your email. You may want to choose colors that match your company's branding.
-			* @theme page
-			*/
-			#bodyCell{
-				/*@editable*/ border-top:4px solid #BBBBBB;
-			}
+  img { 
+    outline:none; 
+    text-decoration:none; 
+    -ms-interpolation-mode: bicubic;
+    width: auto;
+    max-width: 100%; 
+    float: left; 
+    clear: both; 
+    display: block;
+  }
 
-			/**
-			* @tab Page
-			* @section email border
-			* @tip Set the border for your email.
-			*/
-			#templateContainer{
-				/*@editable*/ border:1px solid #BBBBBB;
-			}
+  center {
+    width: 100%;
+    min-width: 580px;
+  }
 
-			/**
-			* @tab Page
-			* @section heading 1
-			* @tip Set the styling for all first-level headings in your emails. These should be the largest of your headings.
-			* @style heading 1
-			*/
-			p {
-				font-size: 14px;
-				line-height: 140%;
-			}
-			a {
-				color:#167BAD;
-			}
-			h1{
-				/*@editable*/ color:#202020 !important;
-				display:block;
-				/*@editable*/ font-family:Helvetica;
-				/*@editable*/ font-size:26px;
-				/*@editable*/ font-style:normal;
-				/*@editable*/ font-weight:bold;
-				/*@editable*/ line-height:100%;
-				/*@editable*/ letter-spacing:normal;
-				margin-top:0;
-				margin-right:0;
-				margin-bottom:10px;
-				margin-left:0;
-				/*@editable*/ text-align:left;
-			}
+  a img { 
+    border: none;
+  }
 
-			/**
-			* @tab Page
-			* @section heading 2
-			* @tip Set the styling for all second-level headings in your emails.
-			* @style heading 2
-			*/
-			h2{
-				/*@editable*/ color:#404040 !important;
-				display:block;
-				/*@editable*/ font-family:Helvetica;
-				/*@editable*/ font-size:20px;
-				/*@editable*/ font-style:normal;
-				/*@editable*/ font-weight:bold;
-				/*@editable*/ line-height:100%;
-				/*@editable*/ letter-spacing:normal;
-				margin-top:0;
-				margin-right:0;
-				margin-bottom:10px;
-				margin-left:0;
-				/*@editable*/ text-align:left;
-			}
+  p {
+    margin: 0 0 0 10px;
+  }
 
-			/**
-			* @tab Page
-			* @section heading 3
-			* @tip Set the styling for all third-level headings in your emails.
-			* @style heading 3
-			*/
-			h3{
-				/*@editable*/ color:#606060 !important;
-				display:block;
-				/*@editable*/ font-family:Helvetica;
-				/*@editable*/ font-size:16px;
-				/*@editable*/ font-style:italic;
-				/*@editable*/ font-weight:normal;
-				/*@editable*/ line-height:100%;
-				/*@editable*/ letter-spacing:normal;
-				margin-top:0;
-				margin-right:0;
-				margin-bottom:10px;
-				margin-left:0;
-				/*@editable*/ text-align:left;
-			}
+  table {
+    border-spacing: 0;
+    border-collapse: collapse;
+  }
 
-			/**
-			* @tab Page
-			* @section heading 4
-			* @tip Set the styling for all fourth-level headings in your emails. These should be the smallest of your headings.
-			* @style heading 4
-			*/
-			h4{
-				/*@editable*/ color:#444 !important;
-				display:block;
-				/*@editable*/ font-family:Helvetica;
-				/*@editable*/ font-size:14px;
-				/*@editable*/ font-weight:800;
-				/*@editable*/ line-height:100%;
-				/*@editable*/ letter-spacing:normal;
-				margin-top:0;
-				margin-right:0;
-				margin-bottom:10px;
-				margin-left:0;
-				/*@editable*/ text-align:left;
-			}
-			.thin {
-				line-height: 130%;
-				margin: 0;
-				padding: 0;
-			}
-			/* ========== Header Styles ========== */
+  td { 
+    word-break: break-word;
+    -webkit-hyphens: auto;
+    -moz-hyphens: auto;
+    hyphens: auto;
+    border-collapse: collapse !important; 
+  }
 
-			/**
-			* @tab Header
-			* @section preheader style
-			* @tip Set the background color and bottom border for your email's preheader area.
-			* @theme header
-			*/
-			#templatePreheader{
-				/*@editable*/ background-color:#F4F4F4;
-				/*@editable*/ border-bottom:1px solid #CCCCCC;
-			}
+  table, tr, td {
+    padding: 0;
+    vertical-align: top;
+    text-align: left;
+  }
 
-			/**
-			* @tab Header
-			* @section preheader text
-			* @tip Set the styling for your email's preheader text. Choose a size and color that is easy to read.
-			*/
-			.preheaderContent{
-				/*@editable*/ color:#808080;
-				/*@editable*/ font-family:Helvetica;
-				/*@editable*/ font-size:10px;
-				/*@editable*/ line-height:125%;
-				/*@editable*/ text-align:left;
-			}
+  hr {
+    color: #d9d9d9; 
+    background-color: #d9d9d9; 
+    height: 1px; 
+    border: none;
+  }
 
-			/**
-			* @tab Header
-			* @section preheader link
-			* @tip Set the styling for your email's preheader links. Choose a color that helps them stand out from your text.
-			*/
-			.preheaderContent a:link, .preheaderContent a:visited, /* Yahoo! Mail Override */ .preheaderContent a .yshortcuts /* Yahoo! Mail Override */{
-				/*@editable*/ color:#606060;
-				/*@editable*/ font-weight:normal;
-				/*@editable*/ text-decoration:underline;
-			}
+  /* Responsive Grid */
 
-			/**
-			* @tab Header
-			* @section header style
-			* @tip Set the background color and borders for your email's header area.
-			* @theme header
-			*/
-			#templateHeader{
-				/*@editable*/ background-color:#F4F4F4;
-				/*@editable*/ border-top:1px solid #FFFFFF;
-			}
+  table.body {
+    height: 100%;
+    width: 100%;
+  }
 
-			/**
-			* @tab Header
-			* @section header text
-			* @tip Set the styling for your email's header text. Choose a size and color that is easy to read.
-			*/
-			.headerContent{
-				/*@editable*/ color:#505050;
-				/*@editable*/ font-family:Helvetica;
-				/*@editable*/ font-size:20px;
-				/*@editable*/ font-weight:bold;
-				/*@editable*/ line-height:100%;
-				/*@editable*/ padding-top:0;
-				/*@editable*/ padding-right:0;
-				/*@editable*/ padding-bottom:0;
-				/*@editable*/ padding-left:0;
-				/*@editable*/ text-align:left;
-				/*@editable*/ vertical-align:middle;
-			}
+  table.container {
+    width: 580px;
+    margin: 0 auto;
+    text-align: inherit;
+  }
 
-			/**
-			* @tab Header
-			* @section header link
-			* @tip Set the styling for your email's header links. Choose a color that helps them stand out from your text.
-			*/
-			.headerContent a:link, .headerContent a:visited, /* Yahoo! Mail Override */ .headerContent a .yshortcuts /* Yahoo! Mail Override */{
-				/*@editable*/ color:#167BAD;
-				/*@editable*/ font-weight:normal;
-				/*@editable*/ text-decoration:underline;
-			}
+  table.row { 
+    padding: 0px; 
+    width: 100%;
+    position: relative;
+  }
 
-			#headerImage{
-				height:auto;
-				max-width:600px;
-			}
+  table.container table.row {
+    display: block;
+  }
 
-			/* ========== Body Styles ========== */
+  td.wrapper {
+    padding: 10px 20px 0px 0px;
+    position: relative;
+  }
 
-			/**
-			* @tab Body
-			* @section body style
-			* @tip Set the background color and borders for your email's body area.
-			*/
-			#templateBody{
-				/*@editable*/ background-color:#F4F4F4;
-				/*@editable*/ border-bottom:1px solid #CCCCCC;
-			}
+  table.columns,
+  table.column {
+    margin: 0 auto;
+  }
 
-			/**
-			* @tab Body
-			* @section body text
-			* @tip Set the styling for your email's main content text. Choose a size and color that is easy to read.
-			* @theme main
-			*/
-			.bodyContent{
-				/*@editable*/ color:#505050;
-				/*@editable*/ font-family:Helvetica;
-				/*@editable*/ font-size:16px;
-				/*@editable*/ line-height:150%;
-				padding-top:5px;
-				padding-right:20px;
-				padding-bottom:20px;
-				padding-left:20px;
-				/*@editable*/ text-align:left;
-			}
+  table.columns td,
+  table.column td {
+    padding: 0px 0px 10px; 
+  }
 
-			/**
-			* @tab Body
-			* @section body link
-			* @tip Set the styling for your email's main content links. Choose a color that helps them stand out from your text.
-			*/
-			.bodyContent a:link, .bodyContent a:visited, /* Yahoo! Mail Override */ .bodyContent a .yshortcuts /* Yahoo! Mail Override */{
-				/*@editable*/ color:#167BAD;
-				/*@editable*/ font-weight:normal;
-				/*@editable*/ text-decoration:underline;
-			}
+  table.columns td.sub-columns,
+  table.column td.sub-columns,
+  table.columns td.sub-column,
+  table.column td.sub-column {
+    padding-right: 10px;
+  }
 
-			.bodyContent img{
-				display:inline;
-				height:auto;
-				max-width:560px;
-			}
+  td.sub-column, td.sub-columns {
+    min-width: 0px;
+  }
 
-			/* ========== Column Styles ========== */
+  table.row td.last,
+  table.container td.last {
+    padding-right: 0px;
+  }
 
-			.templateColumnContainer{width:260px;}
-			.product_templateColumnContainerLeft {max-width: 100px;}
-			.product_templateColumnContainerMiddle {max-width: 280px;}
-			.product_templateColumnContainerRight {max-width: 100px;}
+  table.one { width: 30px; }
+  table.two { width: 80px; }
+  table.three { width: 130px; }
+  table.four { width: 180px; }
+  table.five { width: 230px; }
+  table.six { width: 280px; }
+  table.seven { width: 330px; }
+  table.eight { width: 380px; }
+  table.nine { width: 430px; }
+  table.ten { width: 480px; }
+  table.eleven { width: 530px; }
+  table.twelve { width: 580px; }
 
-			/**
-			* @tab Columns
-			* @section column style
-			* @tip Set the background color and borders for your email's column area.
-			*/
-			#templateColumns{
-				/*@editable*/ background-color:#F4F4F4;
-				/*@editable*/ border-top:1px solid #FFFFFF;
-				/*@editable*/ border-bottom:1px solid #CCCCCC;
-			}
-			#productColumns {
-				/*@editable*/ background-color:#F4F4F4;
-				/*@editable*/ border-top:1px solid #FFFFFF;
-				/*@editable*/ border-bottom:1px solid #DDDDDD;
-			}
-			/**
-			* @tab Columns
-			* @section left column text
-			* @tip Set the styling for your email's left column content text. Choose a size and color that is easy to read.
-			*/
-			.leftColumnContent{
-				/*@editable*/ color:#505050;
-				/*@editable*/ font-family:Helvetica;
-				/*@editable*/ font-size:14px;
-				/*@editable*/ line-height:150%;
-				padding-top:0;
-				padding-right:20px;
-				padding-bottom:20px;
-				padding-left:20px;
-				/*@editable*/ text-align:left;
-			}
+  table.one center { min-width: 30px; }
+  table.two center { min-width: 80px; }
+  table.three center { min-width: 130px; }
+  table.four center { min-width: 180px; }
+  table.five center { min-width: 230px; }
+  table.six center { min-width: 280px; }
+  table.seven center { min-width: 330px; }
+  table.eight center { min-width: 380px; }
+  table.nine center { min-width: 430px; }
+  table.ten center { min-width: 480px; }
+  table.eleven center { min-width: 530px; }
+  table.twelve center { min-width: 580px; }
 
-			/**
-			* @tab Columns
-			* @section left column link
-			* @tip Set the styling for your email's left column content links. Choose a color that helps them stand out from your text.
-			*/
-			.leftColumnContent a:link, .leftColumnContent a:visited, /* Yahoo! Mail Override */ .leftColumnContent a .yshortcuts /* Yahoo! Mail Override */{
-				/*@editable*/ color:#EB4102;
-				/*@editable*/ font-weight:normal;
-				/*@editable*/ text-decoration:underline;
-			}
+  table.one .panel center { min-width: 10px; }
+  table.two .panel center { min-width: 60px; }
+  table.three .panel center { min-width: 110px; }
+  table.four .panel center { min-width: 160px; }
+  table.five .panel center { min-width: 210px; }
+  table.six .panel center { min-width: 260px; }
+  table.seven .panel center { min-width: 310px; }
+  table.eight .panel center { min-width: 360px; }
+  table.nine .panel center { min-width: 410px; }
+  table.ten .panel center { min-width: 460px; }
+  table.eleven .panel center { min-width: 510px; }
+  table.twelve .panel center { min-width: 560px; }
 
-			/**
-			* @tab Columns
-			* @section right column text
-			* @tip Set the styling for your email's right column content text. Choose a size and color that is easy to read.
-			*/
-			.middleColumnContent{
-				/*@editable*/ color:#505050;
-				/*@editable*/ font-family:Helvetica;
-				/*@editable*/ font-size:13px;
-				/*@editable*/ line-height:150%;
-				padding-top:0;
-				padding-right:20px;
-				padding-bottom:20px;
-				padding-left:20px;
-				/*@editable*/ text-align:left;
-			}
-			.middleColumnContent p {
-				margin: 0;
-			}
-			.rightColumnContent{
-				/*@editable*/ color:#505050;
-				/*@editable*/ font-family:Helvetica;
-				/*@editable*/ line-height:150%;
-				padding-top:0;
-				padding-right:20px;
-				padding-bottom:20px;
-				padding-left:20px;
-				/*@editable*/ text-align:right;
-			}
-			.rightColumnContent h4 {
-				text-align: right;
-			}
+  .body .columns td.one,
+  .body .column td.one { width: 8.333333%; }
+  .body .columns td.two,
+  .body .column td.two { width: 16.666666%; }
+  .body .columns td.three,
+  .body .column td.three { width: 25%; }
+  .body .columns td.four,
+  .body .column td.four { width: 33.333333%; }
+  .body .columns td.five,
+  .body .column td.five { width: 41.666666%; }
+  .body .columns td.six,
+  .body .column td.six { width: 50%; }
+  .body .columns td.seven,
+  .body .column td.seven { width: 58.333333%; }
+  .body .columns td.eight,
+  .body .column td.eight { width: 66.666666%; }
+  .body .columns td.nine,
+  .body .column td.nine { width: 75%; }
+  .body .columns td.ten,
+  .body .column td.ten { width: 83.333333%; }
+  .body .columns td.eleven,
+  .body .column td.eleven { width: 91.666666%; }
+  .body .columns td.twelve,
+  .body .column td.twelve { width: 100%; }
 
-			/**
-			* @tab Columns
-			* @section right column link
-			* @tip Set the styling for your email's right column content links. Choose a color that helps them stand out from your text.
-			*/
-			.rightColumnContent a:link, .rightColumnContent a:visited, /* Yahoo! Mail Override */ .rightColumnContent a .yshortcuts /* Yahoo! Mail Override */{
-				/*@editable*/ color:#EB4102;
-				/*@editable*/ font-weight:normal;
-				/*@editable*/ text-decoration:underline;
-			}
+  td.offset-by-one { padding-left: 50px; }
+  td.offset-by-two { padding-left: 100px; }
+  td.offset-by-three { padding-left: 150px; }
+  td.offset-by-four { padding-left: 200px; }
+  td.offset-by-five { padding-left: 250px; }
+  td.offset-by-six { padding-left: 300px; }
+  td.offset-by-seven { padding-left: 350px; }
+  td.offset-by-eight { padding-left: 400px; }
+  td.offset-by-nine { padding-left: 450px; }
+  td.offset-by-ten { padding-left: 500px; }
+  td.offset-by-eleven { padding-left: 550px; }
 
-			.leftColumnContent img, .rightColumnContent img{
-				display:inline;
-				height:auto;
-				max-width:260px;
-			}
-			#productColumns .leftColumnContent img {
-				max-width: 120px;
-			}
-			.columnImage{
-				border:1px solid #ddd;
-			}
-			
-			/* ========== Total Column ========== */
-			#totalColumn {
-				/*@editable*/ background-color:#F4F4F4;
-				/*@editable*/ border-top:1px solid #FFFFFF;
-				/*@editable*/ border-bottom:1px solid #CCCCCC;
-			}
-			.totalColumnContent {
-				padding-bottom: 0px;
-			}
-			.totalColumnContent h4 {
-				text-align: right;
-				font-weight: 200;
-				margin-bottom: 5px;
-				padding-bottom: 0;
-			}
-			.totalColumnContent h4 .price {
-				font-weight: 200;
-				width: 110px;
-				display:inline-block;
-			}
-			.totalColumnContent .totalColumnContent_total {
-				margin-top: 10px;
-				font-weight: 800;
-			}
-			.totalColumnContent .totalColumnContent_total .price {
-				font-weight: 800;
-			}
-			.feedbackColumnContent p {
-				/*@editable*/ font-size:13px;
-				/*@editable*/ line-height:150%;
-				/*@editable*/ font-family:Helvetica;
-				margin: 0;
-				padding: 0;
-				color: #666;
-			}
-			
-			#order_summary h2 {
-				margin-bottom: 30px;
-			}
-			/* ========== Footer Styles ========== */
+  td.expander {
+    visibility: hidden;
+    width: 0px;
+    padding: 0 !important;
+  }
 
-			/**
-			* @tab Footer
-			* @section footer style
-			* @tip Set the background color and borders for your email's footer area.
-			* @theme footer
-			*/
-			#templateFooter{
-				/*@editable*/ background-color:#F4F4F4;
-				/*@editable*/ border-top:1px solid #FFFFFF;
-			}
+  table.columns .text-pad,
+  table.column .text-pad {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
 
-			/**
-			* @tab Footer
-			* @section footer text
-			* @tip Set the styling for your email's footer text. Choose a size and color that is easy to read.
-			* @theme footer
-			*/
-			.footerContent{
-				/*@editable*/ color:#808080;
-				/*@editable*/ font-family:Helvetica;
-				/*@editable*/ font-size:10px;
-				/*@editable*/ line-height:150%;
-				padding-top:20px;
-				padding-right:20px;
-				padding-bottom:20px;
-				padding-left:20px;
-				/*@editable*/ text-align:left;
-			}
+  table.columns .left-text-pad,
+  table.columns .text-pad-left,
+  table.column .left-text-pad,
+  table.column .text-pad-left {
+    padding-left: 10px;
+  }
 
-			/**
-			* @tab Footer
-			* @section footer link
-			* @tip Set the styling for your email's footer links. Choose a color that helps them stand out from your text.
-			*/
-			.footerContent a:link, .footerContent a:visited, /* Yahoo! Mail Override */ .footerContent a .yshortcuts, .footerContent a span /* Yahoo! Mail Override */{
-				/*@editable*/ color:#606060;
-				/*@editable*/ font-weight:normal;
-				/*@editable*/ text-decoration:underline;
-			}
+  table.columns .right-text-pad,
+  table.columns .text-pad-right,
+  table.column .right-text-pad,
+  table.column .text-pad-right {
+    padding-right: 10px;
+  }
 
-			/* ///////// MOBILE STYLES ///////// */
+  /* Block Grid */
 
-            @media only screen and (max-width: 480px){
-				/* /////// CLIENT-SPECIFIC MOBILE STYLES /////// */
-				body, table, td, p, a, li, blockquote{-webkit-text-size-adjust:none !important;} /* Prevent Webkit platforms from changing default text sizes */
-                body{width:100% !important; min-width:100% !important;} /* Prevent iOS Mail from adding padding to the body */
+  .block-grid {
+    width: 100%;
+    max-width: 580px;
+  }
 
-				/* /////// MOBILE RESET STYLES /////// */
-				#bodyCell{padding:10px !important;}
+  .block-grid td {
+    display: inline-block;
+    padding:10px;
+  }
 
-				/* /////// MOBILE TEMPLATE STYLES /////// */
+  .two-up td {
+    width:270px;
+  }
 
-				/* ======== Page Styles ======== */
+  .three-up td {
+    width:173px;
+  }
 
-				/**
-				* @tab Mobile Styles
-				* @section template width
-				* @tip Make the template fluid for portrait or landscape view adaptability. If a fluid layout doesn't work for you, set the width to 300px instead.
-				*/
-				#templateContainer{
-					max-width:600px !important;
-					/*@editable*/ width:100% !important;
-				}
-				p {
-					font-size: 15px;
-				}
-				/**
-				* @tab Mobile Styles
-				* @section heading 1
-				* @tip Make the first-level headings larger in size for better readability on small screens.
-				*/
-				h1{
-					/*@editable*/ font-size:24px !important;
-					/*@editable*/ line-height:100% !important;
-				}
+  .four-up td {
+    width:125px;
+  }
 
-				/**
-				* @tab Mobile Styles
-				* @section heading 2
-				* @tip Make the second-level headings larger in size for better readability on small screens.
-				*/
-				h2{
-					/*@editable*/ font-size:20px !important;
-					/*@editable*/ line-height:100% !important;
-				}
+  .five-up td {
+    width:96px;
+  }
 
-				/**
-				* @tab Mobile Styles
-				* @section heading 3
-				* @tip Make the third-level headings larger in size for better readability on small screens.
-				*/
-				h3{
-					/*@editable*/ font-size:18px !important;
-					/*@editable*/ line-height:100% !important;
-				}
+  .six-up td {
+    width:76px;
+  }
 
-				/**
-				* @tab Mobile Styles
-				* @section heading 4
-				* @tip Make the fourth-level headings larger in size for better readability on small screens.
-				*/
-				h4{
-					/*@editable*/ font-size:16px !important;
-					/*@editable*/ line-height:110% !important;
-				}
+  .seven-up td {
+    width:62px;
+  }
 
-				/* ======== Header Styles ======== */
+  .eight-up td {
+    width:52px;
+  }
 
-				#templatePreheader{display:none !important;} /* Hide the template preheader to save space */
+  /* Alignment & Visibility Classes */
 
-				/**
-				* @tab Mobile Styles
-				* @section header image
-				* @tip Make the main header image fluid for portrait or landscape view adaptability, and set the image's original width as the max-width. If a fluid setting doesn't work, set the image width to half its original size instead.
-				*/
-				#headerImage{
-					height:auto !important;
-					/*@editable*/ max-width:600px !important;
-					/*@editable*/ width:100% !important;
-				}
+  table.center, td.center {
+    text-align: center;
+  }
 
-				/**
-				* @tab Mobile Styles
-				* @section header text
-				* @tip Make the header content text larger in size for better readability on small screens. We recommend a font size of at least 16px.
-				*/
-				.headerContent{
-					/*@editable*/ font-size:20px !important;
-					/*@editable*/ line-height:125% !important;
-				}
+  h1.center,
+  h2.center,
+  h3.center,
+  h4.center,
+  h5.center,
+  h6.center {
+    text-align: center;
+  }
 
-				/* ======== Body Styles ======== */
+  span.center {
+    display: block;
+    width: 100%;
+    text-align: center;
+  }
 
-				/**
-				* @tab Mobile Styles
-				* @section body text
-				* @tip Make the body content text larger in size for better readability on small screens. We recommend a font size of at least 16px.
-				*/
-				.bodyContent{
-					/*@editable*/ font-size:18px !important;
-					/*@editable*/ line-height:125% !important;
-				}
+  img.center {
+    margin: 0 auto;
+    float: none;
+  }
 
-				/* ======== Column Styles ======== */
+  .show-for-small,
+  .hide-for-desktop {
+    display: none;
+  }
 
-				
-				.templateColumnContainer{display:block !important; width:100% !important;}
-				/*
-				.productContainer{display:block !important; max-width:100%; width:100% !important;padding-top: 0px;}
-				*/
-				.product_templateColumnContainerLeft{display:none}
-				/*
-				* @tab Mobile Styles
-				* @section column image
-				* @tip Make the column image fluid for portrait or landscape view adaptability, and set the image's original width as the max-width. If a fluid setting doesn't work, set the image width to half its original size instead.
-				*/
-				.columnImage{
-					height:auto !important;
-					/*@editable*/ max-width:480px !important;
-					/*@editable*/ width:100% !important;
-				}
+  /* Typography */
 
-				/**
-				* @tab Mobile Styles
-				* @section left column text
-				* @tip Make the left column content text larger in size for better readability on small screens. We recommend a font size of at least 16px.
-				*/
-				.leftColumnContent{
-					/*@editable*/ font-size:16px !important;
-					/*@editable*/ line-height:125% !important;
-					padding-right: 0px;
-				}
-				/**
-				* @tab Mobile Styles
-				* @section right column text
-				* @tip Make the right column content text larger in size for better readability on small screens. We recommend a font size of at least 16px.
-				*/
-				.rightColumnContent{
-					/*@editable*/ font-size:16px !important;
-					/*@editable*/ line-height:125% !important;
-					padding-right: 20px;
-				}
-				.feedbackColumnContent p {
-					/*@editable*/ font-size:15px;
-				}
-				.totalColumnContent h4 {
-					font-size: 13px;
-				}
-				.hide-mobile {	
-					display: none;
-				}
-				/* ======== Footer Styles ======== */
+  body, table.body, h1, h2, h3, h4, h5, h6, p, td { 
+    color: #222222;
+    font-family: "Helvetica", "Arial", sans-serif; 
+    font-weight: normal; 
+    padding:0; 
+    margin: 0;
+    text-align: left; 
+    line-height: 1.3;
+  }
 
-				/**
-				* @tab Mobile Styles
-				* @section footer text
-				* @tip Make the body content text larger in size for better readability on small screens.
-				*/
-				.footerContent{
-					/*@editable*/ font-size:13px !important;
-					/*@editable*/ line-height:130% !important;
-				}
-			}
-		</style>
-    </head>
-    <body leftmargin="0" marginwidth="0" topmargin="0" marginheight="0" offset="0" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;margin: 0;padding: 0;background-color: #DEE0E2;height: 100%;width: 100%;">
-    	{% load phonenumber %}
-    	{% load zipcodify %}
-    	{% load dollars %}
-    	<center>
-        	<table align="center" border="0" cellpadding="0" cellspacing="0" height="100%" width="100%" id="bodyTable" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;mso-table-lspace: 0pt;mso-table-rspace: 0pt;margin: 0;padding: 0;background-color: #DEE0E2;border-collapse: collapse;height: 100%;width: 100%;">
-            	<tr>
-                	<td align="center" valign="top" id="bodyCell" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;mso-table-lspace: 0pt;mso-table-rspace: 0pt;margin: 0;padding: 20px;border-top: 4px solid #BBBBBB;height: 100%;width: 100%;">
-                    	<!-- BEGIN TEMPLATE // -->
-                    	<table border="0" cellpadding="0" cellspacing="0" id="templateContainer" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;mso-table-lspace: 0pt;mso-table-rspace: 0pt;width: 600px;border: 1px solid #BBBBBB;border-collapse: collapse;">
-                        	<tr>
-                            	<td align="center" valign="top" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;mso-table-lspace: 0pt;mso-table-rspace: 0pt;">
-                                	<!-- BEGIN PREHEADER // -->
-                                    <table border="0" cellpadding="0" cellspacing="0" width="100%" id="templatePreheader" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;mso-table-lspace: 0pt;mso-table-rspace: 0pt;background-color: #F4F4F4;border-bottom: 1px solid #CCCCCC;border-collapse: collapse;">
-                                        <tr>
-                                            <td valign="top" class="preheaderContent" style="padding-top: 10px;padding-right: 20px;padding-bottom: 10px;padding-left: 20px;-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;mso-table-lspace: 0pt;mso-table-rspace: 0pt;color: #808080;font-family: Helvetica;font-size: 10px;line-height: 125%;text-align: left;" mc:edit="preheader_content00">
-                                                {{email_teaser}}
-                                            </td>
-                                           <!-- 
- 											<td valign="top" width="180" class="preheaderContent" style="padding-top:10px; padding-right:20px; padding-bottom:10px; padding-left:0;" mc:edit="preheader_content01">
-                                                Email not displaying correctly?<br /><a href="*|ARCHIVE|*" target="_blank">View it in your browser</a>.
-                                            </td>
-											 -->
-                                        </tr>
-                                    </table>
-                                    <!-- // END PREHEADER -->
-                                </td>
-                            </tr>
-                        	<tr>
-                            	<td align="center" valign="top" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;mso-table-lspace: 0pt;mso-table-rspace: 0pt;">
-                                	<!-- BEGIN HEADER // -->
-                                    <table border="0" cellpadding="0" cellspacing="0" width="100%" id="templateHeader" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;mso-table-lspace: 0pt;mso-table-rspace: 0pt;background-color: #F4F4F4;border-top: 1px solid #FFFFFF;border-collapse: collapse;">
-                                        <tr>
-                                            <td valign="top" class="headerContent" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;mso-table-lspace: 0pt;mso-table-rspace: 0pt;color: #505050;font-family: Helvetica;font-size: 20px;font-weight: bold;line-height: 100%;padding-top: 0;padding-right: 0;padding-bottom: 0;padding-left: 0;text-align: left;vertical-align: middle;">
-                                            	<img src="{{STATIC_URL}}img/vetcove_bg.png" style="max-width: 600px;-ms-interpolation-mode: bicubic;border: 0;height: auto;line-height: 100%;outline: none;text-decoration: none;" id="headerImage" mc:label="header_image" mc:edit="header_image" mc:allowdesigner mc:allowtext>
-                                            </td>
-                                        </tr>
-                                    </table>
-                                    <!-- // END HEADER -->
-                                </td>
-                            </tr>
-                            
+  h1, h2, h3, h4, h5, h6 {
+    word-break: normal;
+  }
+
+  h1 {font-size: 40px;}
+  h2 {font-size: 36px;}
+  h3 {font-size: 32px;}
+  h4 {font-size: 28px;}
+  h5 {font-size: 24px;}
+  h6 {font-size: 18px;}
+  body, table.body, p, td {font-size: 14px;line-height:19px;}
+
+  p.lead, p.lede, p.leed {
+    font-size: 18px;
+    line-height:21px;
+  }
+
+  p { 
+    margin-bottom: 10px;
+  }
+
+  small {
+    font-size: 10px;
+  }
+
+  a {
+    color: #2ba6cb; 
+    text-decoration: none;
+  }
+
+  a:hover { 
+    color: #2795b6 !important;
+  }
+
+  a:active { 
+    color: #2795b6 !important;
+  }
+
+  a:visited { 
+    color: #2ba6cb !important;
+  }
+
+  h1 a, 
+  h2 a, 
+  h3 a, 
+  h4 a, 
+  h5 a, 
+  h6 a {
+    color: #2ba6cb;
+  }
+
+  h1 a:active, 
+  h2 a:active,  
+  h3 a:active, 
+  h4 a:active, 
+  h5 a:active, 
+  h6 a:active { 
+    color: #2ba6cb !important; 
+  } 
+
+  h1 a:visited, 
+  h2 a:visited,  
+  h3 a:visited, 
+  h4 a:visited, 
+  h5 a:visited, 
+  h6 a:visited { 
+    color: #2ba6cb !important; 
+  } 
+
+  /* Custom text formatting */
+  .footer-text {
+    font-size: 11px;
+    color: #999999;
+  }
+  /* Panels */
+
+  .panel {
+    background: #f2f2f2;
+    border: 1px solid #d9d9d9;
+    padding: 10px !important;
+  }
+
+  .sub-grid table {
+    width: 100%;
+  }
+
+  .sub-grid td.sub-columns {
+    padding-bottom: 0;
+  }
+
+  /* Buttons */
+
+  table.button,
+  table.tiny-button,
+  table.small-button,
+  table.medium-button,
+  table.large-button {
+    width: 100%;
+    overflow: hidden;
+  }
+
+  table.button td,
+  table.tiny-button td,
+  table.small-button td,
+  table.medium-button td,
+  table.large-button td {
+    display: block;
+    width: auto !important;
+    text-align: center;
+    background: #2ba6cb;
+    border: 1px solid #2284a1;
+    color: #ffffff;
+    padding: 8px 0;
+  }
+
+  table.tiny-button td {
+    padding: 5px 0 4px;
+  }
+
+  table.small-button td {
+    padding: 8px 0 7px;
+  }
+
+  table.medium-button td {
+    padding: 12px 0 10px;
+  }
+
+  table.large-button td {
+    padding: 21px 0 18px;
+  }
+
+  table.button td a,
+  table.tiny-button td a,
+  table.small-button td a,
+  table.medium-button td a,
+  table.large-button td a {
+    font-weight: bold;
+    text-decoration: none;
+    font-family: Helvetica, Arial, sans-serif;
+    color: #ffffff;
+    font-size: 16px;
+  }
+
+  table.tiny-button td a {
+    font-size: 12px;
+    font-weight: normal;
+  }
+
+  table.small-button td a {
+    font-size: 16px;
+  }
+
+  table.medium-button td a {
+    font-size: 20px;
+  }
+
+  table.large-button td a {
+    font-size: 24px;
+  }
+
+  table.button:hover td,
+  table.button:visited td,
+  table.button:active td {
+    background: #2795b6 !important;
+  }
+
+  table.button:hover td a,
+  table.button:visited td a,
+  table.button:active td a {
+    color: #fff !important;
+  }
+
+  table.button:hover td,
+  table.tiny-button:hover td,
+  table.small-button:hover td,
+  table.medium-button:hover td,
+  table.large-button:hover td {
+    background: #2795b6 !important;
+  }
+
+  table.button:hover td a,
+  table.button:active td a,
+  table.button td a:visited,
+  table.tiny-button:hover td a,
+  table.tiny-button:active td a,
+  table.tiny-button td a:visited,
+  table.small-button:hover td a,
+  table.small-button:active td a,
+  table.small-button td a:visited,
+  table.medium-button:hover td a,
+  table.medium-button:active td a,
+  table.medium-button td a:visited,
+  table.large-button:hover td a,
+  table.large-button:active td a,
+  table.large-button td a:visited {
+    color: #ffffff !important; 
+  }
+
+  table.secondary td {
+    background: #e9e9e9;
+    border-color: #d0d0d0;
+    color: #555;
+  }
+
+  table.secondary td a {
+    color: #555;
+  }
+
+  table.secondary:hover td {
+    background: #d0d0d0 !important;
+    color: #555;
+  }
+
+  table.secondary:hover td a,
+  table.secondary td a:visited,
+  table.secondary:active td a {
+    color: #555 !important;
+  }
+
+  table.success td {
+    background: #5da423;
+    border-color: #457a1a;
+  }
+
+  table.success:hover td {
+    background: #457a1a !important;
+  }
+
+  table.alert td {
+    background: #c60f13;
+    border-color: #970b0e;
+  }
+
+  table.alert:hover td {
+    background: #970b0e !important;
+  }
+
+  table.radius td {
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+  }
+
+  table.round td {
+    -webkit-border-radius: 500px;
+    -moz-border-radius: 500px;
+    border-radius: 500px;
+  }
+
+  /* Outlook First */
+
+  body.outlook p {
+    display: inline !important;
+  }
+
+  /*  Media Queries */
+
+  @media only screen and (max-width: 600px) {
+
+    table[class="body"] img {
+      width: auto !important;
+      height: auto !important;
+    }
+
+    table[class="body"] center {
+      min-width: 0 !important;
+    }
+
+    table[class="body"] .container {
+      width: 95% !important;
+    }
+
+    table[class="body"] .row {
+      width: 100% !important;
+      display: block !important;
+    }
+
+    table[class="body"] .wrapper {
+      display: block !important;
+      padding-right: 0 !important;
+    }
+
+    table[class="body"] .columns,
+    table[class="body"] .column {
+      table-layout: fixed !important;
+      float: none !important;
+      width: 100% !important;
+      padding-right: 0px !important;
+      padding-left: 0px !important;
+      display: block !important;
+    }
+
+    table[class="body"] .wrapper.first .columns,
+    table[class="body"] .wrapper.first .column {
+      display: table !important;
+    }
+
+    table[class="body"] table.columns td,
+    table[class="body"] table.column td {
+      width: 100% !important;
+    }
+
+    table[class="body"] .columns td.one,
+    table[class="body"] .column td.one { width: 8.333333% !important; }
+    table[class="body"] .columns td.two,
+    table[class="body"] .column td.two { width: 16.666666% !important; }
+    table[class="body"] .columns td.three,
+    table[class="body"] .column td.three { width: 25% !important; }
+    table[class="body"] .columns td.four,
+    table[class="body"] .column td.four { width: 33.333333% !important; }
+    table[class="body"] .columns td.five,
+    table[class="body"] .column td.five { width: 41.666666% !important; }
+    table[class="body"] .columns td.six,
+    table[class="body"] .column td.six { width: 50% !important; }
+    table[class="body"] .columns td.seven,
+    table[class="body"] .column td.seven { width: 58.333333% !important; }
+    table[class="body"] .columns td.eight,
+    table[class="body"] .column td.eight { width: 66.666666% !important; }
+    table[class="body"] .columns td.nine,
+    table[class="body"] .column td.nine { width: 75% !important; }
+    table[class="body"] .columns td.ten,
+    table[class="body"] .column td.ten { width: 83.333333% !important; }
+    table[class="body"] .columns td.eleven,
+    table[class="body"] .column td.eleven { width: 91.666666% !important; }
+    table[class="body"] .columns td.twelve,
+    table[class="body"] .column td.twelve { width: 100% !important; }
+
+    table[class="body"] td.offset-by-one,
+    table[class="body"] td.offset-by-two,
+    table[class="body"] td.offset-by-three,
+    table[class="body"] td.offset-by-four,
+    table[class="body"] td.offset-by-five,
+    table[class="body"] td.offset-by-six,
+    table[class="body"] td.offset-by-seven,
+    table[class="body"] td.offset-by-eight,
+    table[class="body"] td.offset-by-nine,
+    table[class="body"] td.offset-by-ten,
+    table[class="body"] td.offset-by-eleven {
+      padding-left: 0 !important;
+    }
+
+    table[class="body"] table.columns td.expander {
+      width: 1px !important;
+    }
+
+    table[class="body"] .right-text-pad,
+    table[class="body"] .text-pad-right {
+      padding-left: 10px !important;
+    }
+
+    table[class="body"] .left-text-pad,
+    table[class="body"] .text-pad-left {
+      padding-right: 10px !important;
+    }
+
+    table[class="body"] .hide-for-small,
+    table[class="body"] .show-for-desktop {
+      display: none !important;
+    }
+
+    table[class="body"] .show-for-small,
+    table[class="body"] .hide-for-desktop {
+      display: inherit !important;
+    }
+  }
+
+    </style>
+    <style>
+
+      table.facebook td {
+        background: #3b5998;
+        border-color: #2d4473;
+      }
+
+      table.facebook:hover td {
+        background: #2d4473 !important;
+      }
+
+      table.twitter td {
+        background: #00acee;
+        border-color: #0087bb;
+      }
+
+      table.twitter:hover td {
+        background: #0087bb !important;
+      }
+
+      table.google-plus td {
+        background-color: #DB4A39;
+        border-color: #CC0000;
+      }
+
+      table.google-plus:hover td {
+        background: #CC0000 !important;
+      }
+
+      .template-label {
+        color: #888888;
+        font-weight: bold;
+        font-size: 11px;
+      }
+
+      .callout .panel {
+        background: #ECF8FF;
+        border-color: #b9e5ff;
+      }
+
+      .header {
+        border-bottom:1px solid #eeeeee;
+      }
+
+      .footer .wrapper {
+        background: #ebebeb;
+      }
+
+      .footer h5 {
+        padding-bottom: 10px;
+      }
+
+      table.columns .text-pad {
+        padding-left: 10px;
+        padding-right: 10px;
+      }
+
+      table.columns .left-text-pad {
+        padding-left: 10px;
+      }
+
+      table.columns .right-text-pad {
+        padding-right: 10px;
+      }
+
+      @media only screen and (max-width: 600px) {
+
+        table[class="body"] .right-text-pad {
+          padding-left: 10px !important;
+        }
+
+        table[class="body"] .left-text-pad {
+          padding-right: 10px !important;
+        }
+      }
+  </style>
+  <style>
+  .strong {
+    font-weight: bold;
+  }
+  .align-right {
+    text-align: right;
+  }
+  .logo-img {
+    float: none;
+    padding-bottom: 10px;
+  }
+  .thin {
+    margin-bottom: 3px;
+  }
+  .margin-bottom {
+    margin-bottom: 10px;
+  }
+  .total span {
+    width: 110px;
+    display:inline-block;
+  }
+  .light {
+    color: #888;
+  }
+  .borderbottom {
+    border-bottom:1px solid #eee;
+  } 
+
+  @media only screen and (max-width: 600px) {
+    p {
+      font-size: 16px;
+    }
+  }
+  </style>
+</head>
+<body>
+  <table class="body">
+    <tr>
+      <td class="center" align="center" valign="top">
+        <center>
+
+          <table class="row header">
+            <tr>
+              <td class="center" align="center">
+                <center>
+
+                  <table class="container">
+                    <tr>
+                      <td class="wrapper last">
+                        <table class="twelve columns">
                             <tr>
-                            	<td align="center" valign="top" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;mso-table-lspace: 0pt;mso-table-rspace: 0pt;">
-                                	<!-- BEGIN BODY // -->
-                                    <table border="0" cellpadding="0" cellspacing="0" width="100%" id="templateBody" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;mso-table-lspace: 0pt;mso-table-rspace: 0pt;background-color: #F4F4F4;border-bottom: 1px solid #CCCCCC;border-collapse: collapse;">
-                                        <tr>
-                                            <td valign="top" class="bodyContent" mc:edit="body_content" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;mso-table-lspace: 0pt;mso-table-rspace: 0pt;color: #505050;font-family: Helvetica;font-size: 16px;line-height: 150%;padding-top: 5px;padding-right: 20px;padding-bottom: 20px;padding-left: 20px;text-align: left;">
-                            				{% if welcome %}
-                                                <p style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 140%;">Dear {{email_name}},</p>
-                                                <p style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 140%;">Welcome to VetCove, the safest and easiest way to buy and sell veterinary equipment!  You're joining  the web's most trusted community of veterinarians and their industry partners.  We're here to ensure that veterinarians across the country have access to affordable and high quality devices and instruments for their practices and hospitals. </p>
-												<p style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 140%;">Please note that even though you've registered, you will now be vetted through our <a href="http://www.vetcove.com/pvp" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;color: #167BAD;font-weight: normal;text-decoration: underline;">VetCove Partner Verification Program (PVP)</a> to ensure the identity of your business for the safety of the VetCove community.  We go to great lengths to ensure that every buyer and seller on VetCove is a certified veterinarian, veterinary practice, or trusted veterinary partner.  You may be receiving a call or e-mail from us in the next two business days to confirm your registration information.  In the meantime, you will be able to immediately partake in the VetCove community by purchasing items and/or listing items for sale.  Below are quick links for you to get started:</p>
-                                            	<p style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 140%;"><span>
-                                            		<a href="http://www.vetcove.com/buy" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;color: #167BAD;font-weight: normal;text-decoration: underline;">Browse items to buy</a>&sdot;
-													<a href="http://www.vetcove.com/listintro" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;color: #167BAD;font-weight: normal;text-decoration: underline;">List an item for sale</a>&sdot;
-													<a href="http://www.vetcove.com/faq" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;color: #167BAD;font-weight: normal;text-decoration: underline;">Frequently Asked Questions</a>
-												</span></p>
-                                            	<p style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 140%;">If you have any questions at all not included in our FAQ, please don't hesitate to contact us using our website form or by replying to this e-mail. We look forward to your participation as an active member of the VetCove community!</p>
-												<p style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 140%;">Warmest regards,</p>
-												<p style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 140%;">Alex and The VetCove Team</p>
-                          					{% endif %}
-                          	
-                          					{% if pvp %}
-                                                <p style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 140%;">Dear {{email_name}},</p>
-                                                <p style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 140%;">Thank you again for registering for VetCove. We are pleased to inform you that our team has investigated your business, and that you have been accepted as a part of the VetCove Partner Verification Program (PVP)!</p>
-												<p style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 140%;">You now have full and unrestricted access to the website to buy and sell equipment.  Below are some quick links to get you started:</p>
-                                            	<p style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 140%;"><span>
-                                            		<a href="http://www.vetcove.com/buy" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;color: #167BAD;font-weight: normal;text-decoration: underline;">Browse items to buy</a>&sdot;
-													<a href="http://www.vetcove.com/listintro" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;color: #167BAD;font-weight: normal;text-decoration: underline;">List an item for sale</a>&sdot;
-													<a href="http://www.vetcove.com/faq" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;color: #167BAD;font-weight: normal;text-decoration: underline;">Frequently Asked Questions</a>
-												</span></p>
-                                            	<p style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 140%;">If you have any questions at all not included in our FAQ, please don't hesitate to contact us using our website form or by replying to this e-mail. We look forward to your participation as an active member of the VetCove community!</p>
-												<p style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 140%;">Warmest regards,</p>
-												<p style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 140%;">Alex and The VetCove Team</p>
-                          					{% endif %}
- 
-                          					{% if listing_confirmation %}
-                                                <p style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 140%;">Dear {{email_name}},</p>
-                                                <p style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 140%;">Thank you for listing on VetCove!  Your listing for <a href="http://www.vetcove.com/item/{{item.id}}/details" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;color: #167BAD;font-weight: normal;text-decoration: underline;">{{item.name}}</a> in confirmed, and it has been added to VetCove in the <strong>{{item.subcategory}}</strong> of our site.  It will be fully discoverable to VetCove buyers when browsing or searching the site.</p>
-                                            	<p style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 140%;"><span>
-                                            		<a href="http://www.vetcove.com/account/listings/all" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;color: #167BAD;font-weight: normal;text-decoration: underline;">Edit Your Listing</a>
-												</span></p>
-                                            	{% if not item.offlineviewing %}
-                                            		<p style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 140%;">When your item sells through VetCove, we will notify you immediately by e-mail and provide further instructions for shipping and receiving payment from the buyer.  Your item will also immediately be marked as sold on the website after payment is received from the buyer.  If you have any questions about selling in the meantime, please visit our <a href="http://www.vetcove.com/faq" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;color: #167BAD;font-weight: normal;text-decoration: underline;">Selling FAQ</a>.</p>
-                                            	{% else %}
-                                            		<p style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 140%;">As soon as you reach an agreement with a buyer to sell your item and payment has been arranged, it is your responsibility to remove the listing within one business day from the VetCove site, in accordance with our Seller Contract. Mark the item as sold using the link below:</p>
-                                            		<p style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 140%;"><span>
-														<a href="http://www.vetcove.com/account/listings/all" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;color: #167BAD;font-weight: normal;text-decoration: underline;">Remove Item After Sale</a>
-													</span></p>
-                                            	{% endif %}
-                                            	<p style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 140%;">Thank you again for listing with VetCove!</p>
-												<p style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 140%;">Warmest regards,</p>
-												<p style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 140%;">Alex and The VetCove Team</p>
-                          					{% endif %}
-                       	
-                          	
-                          					{% if new_question %}        
-                                                <p style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 140%;">Dear {{email_name}},</p>
-                                                <p style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 140%;">We have some good news for you! A prospective buyer interested in your item has asked you a question about your item you have for sale: {{question.item.name}}.  The buyer asked:</p>
-                                            	<h4 style="display: block;font-family: Helvetica;font-size: 14px;font-weight: 800;line-height: 100%;letter-spacing: normal;margin-top: 0;margin-right: 0;margin-bottom: 10px;margin-left: 0;text-align: left;color: #444;">{{question.question}}</h4>
-                                            	<p style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 140%;">Answering the question promptly may help your item sell over a similar item. To respond to the question right now, as well as any other questions awaiting your answers on other items, please click the link below:</p>
-                                            	<p style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 140%;"><span>
-                                            		<a href="http://www.vetcove.com/account/sellerquestions" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;color: #167BAD;font-weight: normal;text-decoration: underline;">Respond to Buyer's Question</a>
-												</span></p>
-                                            	<p style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 140%;">Best of luck selling your item. Thank you again for choosing VetCove!</p>
-												<p style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 140%;">Warmest regards,</p>
-												<p style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 140%;">Alex and The VetCove Team</p>
-                          					{% endif %}
-        	
-                          					{% if contactmessage_seller %}
-                                                <p style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 140%;">Dear {{email_name}},</p>
-                                                <p style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 140%;">We have some good news for you! A prospective buyer located in {{contact_message.buyer.state}} is interested in viewing the item you have listed for sale, and has requested to make direct contact with you.  The item is: {{contact_message.item.name}}.</p>
-                                            	<p style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 140%;">If you're interested in viewing this buyer's message and obtaining his or her contact information to schedule a viewing and complete the sale, use the link below to log into your VetCove account:</p>
-                                            	<p style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 140%;"><span>
-                                            		<a href="http://www.vetcove.com/account/messages/{{contact_message.item.id}}" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;color: #167BAD;font-weight: normal;text-decoration: underline;">View Buyer's Message and Schedule Viewing</a>
-												</span></p>
-                                            	<p style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 140%;">Please note that in order to correspond directly with prospective buyers and complete transactions outside of the VetCove website, we require all sellers to provide payment information in the form of a credit card or bank account.  You will only be charged commission if your item sells.</p>
-												<p style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 140%;">Responding quickly could help you close the sale. Best of luck selling your item.  Thank you again for choosing VetCove!</p>
-												<p style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 140%;">Warmest regards,</p>
-												<p style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 140%;">Alex and The VetCove Team</p>
-                          					{% endif %}
-
-											{% if commission_charged %}
-                          						<p style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 140%;">Dear {{email_name}},</p>
-                                                <p style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 140%;">Thank you for selling on VetCove!  We’re so pleased that there are buyers interested in viewing {{commission_obj.item.name}}.  Per the terms of our selling contract, your chosen payment method on file has been charged the VetCove selling fees associated with this transaction.</p>
-                                                <h4 style="display: block;font-family: Helvetica;font-size: 14px;font-weight: 800;line-height: 100%;letter-spacing: normal;margin-top: 0;margin-right: 0;margin-bottom: 10px;margin-left: 0;text-align: left;color: #444;">Product Information</h4>
-                                                <p class="thin" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 130%;margin: 0;padding: 0;">Item Number: {{commission_obj.item.id}}</p>
-                                                <p class="thin" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 130%;margin: 0;padding: 0;">Listing Price: {{commission_obj.item.price|dollars}}</p>
-                                                <p class="thin" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 130%;margin: 0;padding: 0;">Selling Fees: {{percentage}}% Commission</p>
-                                                {% if commission_obj.item.promo_code %}
-                                                	<p class="thin" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 130%;margin: 0;padding: 0;">Original Commission: {{original_commission|dollars}}</p>
-                                               		<p class="thin" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 130%;margin: 0;padding: 0;">Promotional Code: {{commission_obj.item.promo_code.code}} ({{commission_obj.item.promo_code.details}})</p>
-                                               		<p class="thin" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 130%;margin: 0;padding: 0;">Promotional Savings: {{savings|dollars}}</p>
-                                               {% endif %}
-                                                <p class="thin" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 130%;margin: 0;padding: 0;">Transaction ID: #0000{{commission_obj.id}}</p>
-                                                <p class="thin" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 130%;margin: 0;padding: 0;">Amount Charged: {{commission_obj.amount|dollars}}</p>
-                                                <br>
-                                                <h4 style="display: block;font-family: Helvetica;font-size: 14px;font-weight: 800;line-height: 100%;letter-spacing: normal;margin-top: 0;margin-right: 0;margin-bottom: 10px;margin-left: 0;text-align: left;color: #444;">Payment Method</h4>
-                                                	{% if commission_obj.payment.balancedbankaccount %}
-														<p class="thin" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 130%;margin: 0;padding: 0;">Bank Account</p>
-														<p class="thin" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 130%;margin: 0;padding: 0;">{{commission_obj.payment.balancedbankaccount.name}}</p>
-														<p class="thin" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 130%;margin: 0;padding: 0;">{{commission_obj.payment.balancedbankaccount.bank_name}}</p>
-														<p class="thin" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 130%;margin: 0;padding: 0;">{{commission_obj.payment.balancedbankaccount.account_number}}</p>
-													{% elif commission_obj.payment.balancedcard  %}
-														<p class="thin" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 130%;margin: 0;padding: 0;">Credit / Debit Card</p>
-														<p class="thin" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 130%;margin: 0;padding: 0;">{{commission_obj.payment.balancedcard.brand}}</p>
-														<p class="thin" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 130%;margin: 0;padding: 0;">********{{commission_obj.payment.balancedcard.last_four}}</p>
-														<p class="thin" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 130%;margin: 0;padding: 0;">Expires: {{commission_obj.payment.balancedcard.expiration_month}}/{{commission_obj.payment.balancedcard.expiration_year}}</p>	
-													{% endif %}
-                                                <p style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 140%;"><span>
-                                            		<a href="http://www.vetcove.com/account/payment" " style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;color: #167BAD;font-weight: normal;text-decoration: underline;">Update Payment and Payout Preferences</a>
-												</span></p>
-												<p style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 140%;">Best of luck selling your item!  If you are able to collect cash or check payment directly from a buyer, no further action is required on your part, and no further fees will be assessed.  You will be able to instantly receive direct contacts from prospective buyers for this item going forward without restriction.</p>
-                                            	<p style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 140%;">If you are unable to sell your item after a period of 90 days, VetCove will refund you 100% of all selling fees charged today, less any nomial credit card or bank transfer fees we incur to complete the transaction.  If you have any questions at all, please don’t hesitate to get in contact with us.</p>
-												<p style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 140%;">Warmest regards,</p>
-												<p style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 140%;">Alex and The VetCove Team</p>
-                          					{% endif %}
-
-                          					{% if selling_reminder %}
-                          						<p style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 140%;">Dear {{email_name}},</p>
-                                                <p style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 140%;">Two weeks ago, we sent you a buyer's contact information that was interested in purchasing your item: {{item.name}}.  That buyer's name and business information is below:</p>
-                                                <h4 style="display: block;font-family: Helvetica;font-size: 14px;font-weight: 800;line-height: 100%;letter-spacing: normal;margin-top: 0;margin-right: 0;margin-bottom: 10px;margin-left: 0;text-align: left;color: #444;">Buyer Message</h4>
-                                                <p class="thin" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 130%;margin: 0;padding: 0;">{{contact_message.buyer.name}}</p>
-                                                <p class="thin" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 130%;margin: 0;padding: 0;">Contact Date: {{contact_message.date_sent}}</p>
-                                                {% if contact_message.buyer.email %}<p class="thin" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 130%;margin: 0;padding: 0;">Email: {{contact_message.email}}</p>{% endif %}
-                                                {% if contact_message.buyer.phone %}<p class="thin" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 130%;margin: 0;padding: 0;">Phone: {{contact_message.phone|phonenumber}}</p>{% endif %}
-                                                <p class="thin" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 130%;margin: 0;padding: 0;">Message: {{contact_message.message}}</p>
-                                            	<p style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 140%;">How did it go?  Were you able to sell the item to this buyer?</p>
-                                            	<a href="{{temp_base}}/account/updatelisting/sold/{{token}}" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;color: #167BAD;font-weight: normal;text-decoration: underline;">I sold the item to this buyer</a>
-                                            	<br>
-                                            	<a href="{{temp_base}}/account/updatelisting/differentsold/{{token}}" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;color: #167BAD;font-weight: normal;text-decoration: underline;">I sold the item to a different VetCove buyer</a>
-                                            	<br>
-                                            	<a href="{{temp_base}}/account/updatelisting/notsold/{{token}}" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;color: #167BAD;font-weight: normal;text-decoration: underline;">I sold the item outside VetCove</a>
-												<br>
-                                            	<p style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 140%;">If your item sold, please remove it from the VetCove website using one one of the appropriate links above.  It is your responsibility to remove all sold items within two business days in accordance with the terms of the VetCove Seller Contract. </p>
-												<p style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 140%;">Please do not share this email with others as they will be able to mark your items as sold and the listing will no longer be visible to potential buyers.</p>
-												<p style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 140%;">Thank you again for choosing VetCove!</p>
-												<p style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 140%;">Warmest regards,</p>
-												<p style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 140%;">Alex and The VetCove Team</p>
-                          					{% endif %}
-
-                          					{% if item_sold_seller %}
-                          						<p style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 140%;">Dear {{email_name}},</p>
-                                                <p style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 140%;">Congratulations! A VetCove member has purchased {%if purchased_item.quantity > 1 %}{{purchased_item.quantity}}{% endif %} of your item, {{item.name}} and payment has been confirmed.  You may now prepare to ship the item in accordance with the terms of your listing.  The contact information and shipping address of the buyer is below:</p>
-                                                <h4 style="display: block;font-family: Helvetica;font-size: 14px;font-weight: 800;line-height: 100%;letter-spacing: normal;margin-top: 0;margin-right: 0;margin-bottom: 10px;margin-left: 0;text-align: left;color: #444;">Shipping Address</h4>
-                                                <p class="thin" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 130%;margin: 0;padding: 0;">{{purchased_item.cartitem.checkout.shipping_address.name}}</p>
-                                                <p class="thin" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 130%;margin: 0;padding: 0;">{{purchased_item.cartitem.checkout.shipping_address.address_one}}</p>
-                                                {% if purchased_item.cartitem.checkout.shipping_address.address_two %}<p style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 140%;">{{purchased_item.cartitem.checkout.shipping_address.address_two}}</p>{% endif %}
-                                                <p class="thin" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 130%;margin: 0;padding: 0;">{{purchased_item.cartitem.checkout.shipping_address.city}}, {{purchased_item.cartitem.checkout.shipping_address.state}} {{purchased_item.cartitem.checkout.shipping_address.zipcode}}</p>
-                                            	<p class="thin" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 130%;margin: 0;padding: 0;">{{purchased_item.cartitem.checkout.shipping_address.phonenumber|phonenumber}}</p>
-                                            	<br>
-                                            	<h4 style="display: block;font-family: Helvetica;font-size: 14px;font-weight: 800;line-height: 100%;letter-spacing: normal;margin-top: 0;margin-right: 0;margin-bottom: 10px;margin-left: 0;text-align: left;color: #444;">Buyer's Contact Information</h4>
-                                            	<p class="thin" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 130%;margin: 0;padding: 0;">{{purchased_item.buyer.name}}</p>
-                                            	<p class="thin" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 130%;margin: 0;padding: 0;">{{purchased_item.buyer.email}}</p>
-                                            	<p class="thin" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 130%;margin: 0;padding: 0;">{{purchased_item.cartitem.checkout.shipping_address.phonenumber|phonenumber}}</p>
-                                            	<br>
-                                            	<p class="thin" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 130%;margin: 0;padding: 0;">Once you have shipped the item, please click the link below to notify the buyer that the item has been shipped.  You will be able to upload tracking information to help the buyer track the shipment.  Feel free to correspond directly with the buyer by e-mail if you wish.</p>
-                                            	<p style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 140%;"><span>
-                                            		<a href="http://www.vetcove.com/account/sellhistory" " style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;color: #167BAD;font-weight: normal;text-decoration: underline;">Enter Shipping Information</a>
-												</span></p>
-												<p style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 140%;">Thank you again for choosing VetCove!</p>
-												<p style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 140%;">Warmest regards,</p>
-												<p style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 140%;">Alex and The VetCove Team</p>
-                          					{% endif %}
-                          					
-                          	
-                          					{% if item_shipped_buyer %}
-                          						<p style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 140%;">Dear {{email_name}},</p>
-                                                <p style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 140%;">Congratulations!  The seller for your item, {{item.name}} has just indicated that the package has been shipped to you.  Shipment details, including tracking information if available, can be found below.</p>
-                                                <h4 style="display: block;font-family: Helvetica;font-size: 14px;font-weight: 800;line-height: 100%;letter-spacing: normal;margin-top: 0;margin-right: 0;margin-bottom: 10px;margin-left: 0;text-align: left;color: #444;">{{purchased_item.seller_message}}</h4>
-                                                <p class="thin" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 130%;margin: 0;padding: 0;">If you have any questions about the purchase now or after your receive your item, please correspond with the seller directly using the below contact information.  </p>
-                                                <br>
-                                                <h4 style="display: block;font-family: Helvetica;font-size: 14px;font-weight: 800;line-height: 100%;letter-spacing: normal;margin-top: 0;margin-right: 0;margin-bottom: 10px;margin-left: 0;text-align: left;color: #444;">Seller Contact Information</h4>
-                                                <p class="thin" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 130%;margin: 0;padding: 0;">{{item.user.name}}</p>
-                                                <p class="thin" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 130%;margin: 0;padding: 0;">{{item.user.email}}</p>
-                                                <p class="thin" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 130%;margin: 0;padding: 0;">{{item.user.phonenumber|phonenumber}}</p>
-                                            	<p style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 140%;">And remember, your purchase is fully backed by VetCove’s <a href="http://www.vetcove.com/buyerprotect" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;color: #167BAD;font-weight: normal;text-decoration: underline;">buyer protection guarantee</a>.  If there is a problem with your order once you receive it, we ask that you please contact the seller first to find a solution.  If the problem still persists, please don’t hesitate to contact us, and we will assist you in finding a resolution in accordance our buyer protection policy to ensure you’re taken care of.</p>
-                                            	<p style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 140%;">Thank you again for choosing VetCove!</p>
-												<p style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 140%;">Warmest regards,</p>
-												<p style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 140%;">Alex and The VetCove Team</p>
-                          					{% endif %}
-                          					
-                          					{% if item_shipped_seller %}
-                          						<p style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 140%;">Dear {{email_name}},</p>
-                                                <p style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 140%;">Your item, {{item.name}}, has been marked as shipped, and the buyer has been notified via e-mail of the below information:</p>
-                                                <h4 style="display: block;font-family: Helvetica;font-size: 14px;font-weight: 800;line-height: 100%;letter-spacing: normal;margin-top: 0;margin-right: 0;margin-bottom: 10px;margin-left: 0;text-align: left;color: #444;">{{purchased_item.seller_message}}</h4>
-                                                <p style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 140%;">If you have additional information you’d like to send to the buyer, please feel free to contact them directly.  Thank you again for choosing VetCove!</p>
-												<p style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 140%;">Warmest regards,</p>
-												<p style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 140%;">Alex and The VetCove Team</p>
-                          					{% endif %}
-                          					
-                          					{% if purchase_confirmation %}
-                          						<p style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 140%;">Dear {{email_name}},</p>
-                          						<p style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 140%;">Thank you for your purchase on VetCove!  The seller will be in touch with you regarding any additional details, including shipment and tracking information (if applicable).  Information about your purchase is below, and further details can be found in your <a href="http://www.vetcove.com/account/buyhistory" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;color: #167BAD;font-weight: normal;text-decoration: underline;">VetCove transaction history</a>.</p>
-                          						<h2 style="display: block;font-family: Helvetica;font-size: 20px;font-style: normal;font-weight: bold;line-height: 100%;letter-spacing: normal;margin-top: 0;margin-right: 0;margin-bottom: 10px;margin-left: 0;text-align: left;color: #404040;"> Order Number: #001</h2>
-                          					{% endif %}
-                          					
-                          					{% if no_payment %}
-                          						<p style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 140%;">Dear {{email_name}},</p>
-                          						<p style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 140%;">Thank you for selling on VetCove!  We hope you’re enjoying your experience with our service.</p>
-                          						<p style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 140%;">We’re pleased to inform you that that your item has been paid for by the buyer, and payment is ready for you.  However, our records show that you do not have a payment method set up to receive payment.  To choose a preferred method of payment, please go to your VetCove account by clicking the below link.</p>
-                          						<p style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 140%;"><span>
-                                            		<a href="http://www.vetcove.com/account/payment" " style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;color: #167BAD;font-weight: normal;text-decoration: underline;">Account and Payment Preferences</a>
-												</span></p>
-                          						<p style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 140%;">VetCove cannot pay you for any sold items until a payout method is selected. You can either 
-                          						be paid through a direct deposit into a bank account, or we can mail a check to you. We attached
-                          						the items you have sold below that have not currently been paid out.</p>
-                                                <p style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 140%;">If you are having trouble entering a payout method, don't hesitate to get in contact with us.</p>
-                          						<p style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 140%;">Warmest regards,</p>
-												<p style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 140%;">Alex and The VetCove Team</p>
-                          					{% endif %}
-                          					
-                          					{% if payout_updated %}
-                          						<p style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 140%;">Dear {{email_name}},</p>
-                                                <p style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 140%;">Your payout preferences on file for receiving payments have been updated in our system. No further action is required.</p>
-                                                <h4 style="display: block;font-family: Helvetica;font-size: 14px;font-weight: 800;line-height: 100%;letter-spacing: normal;margin-top: 0;margin-right: 0;margin-bottom: 10px;margin-left: 0;text-align: left;color: #444;">Current Payout Method: <strong>{% if payout_method == 'check' %}Check By Mail{% else %}Bank Account Direct Deposit{% endif %}</strong></h4>
-                                                <p style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 140%;">Currently, we have the following set as your default payout option:</p>
-                                                
-                                                {% if payout.balancedbankaccount %}
-													<h5 class="thin" style="line-height: 130%;margin: 0;padding: 0;">Bank Account</h5>
-													<p class="thin" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 130%;margin: 0;padding: 0;">{{payout.balancedbankaccount.name}}</p>
-													<p class="thin" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 130%;margin: 0;padding: 0;">{{payout.balancedbankaccount.bank_name}}</p>
-													<p class="thin" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 130%;margin: 0;padding: 0;">{{payout.balancedbankaccount.account_number}}</p>
-												{% else %}
-													<h5 class="thin" style="line-height: 130%;margin: 0;padding: 0;">Check Mailing Address</h5>
-													<p class="thin" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 130%;margin: 0;padding: 0;">{{payout.checkaddress.address.name}}</p>
-													<p class="thin" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 130%;margin: 0;padding: 0;">{{payout.checkaddress.address.address_one}}</p>
-													{% if payout.checkaddress.address.address_two %}<p style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 140%;">{{payout.checkaddress.address.address_two}}</p>{% endif %}
-													<p class="thin" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 130%;margin: 0;padding: 0;">{{payout.checkaddress.address.city}}, {{payout.checkaddress.address.state}} {{payout.checkaddress.address.zipcode|zipcodify}}</p>
-													<p class="thin" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 130%;margin: 0;padding: 0;">{{payout.checkaddress.address.phonenumber|phonenumber}}</p>
-                                            	
-												{% endif %}
-                                                <p style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 140%;">If you would like to review the changes or make further modifications, feel free to use the link below. If you believe this update was the result of unauthorized access to your account, please contact us immediately.</p>
-                                                <p style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 140%;"><span>
-                                            		<a href="http://www.vetcove.com/account/payment" " style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;color: #167BAD;font-weight: normal;text-decoration: underline;">Update Payment and Payout Preferences</a>
-												</span></p>
-                                            	<p style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 140%;">Thank you again for choosing VetCove!</p>
-												<p style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 140%;">Warmest regards,</p>
-												<p style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 140%;">Alex and The VetCove Team</p>
-                          					{% endif %}
-                          					
-                          					{% if payout_check_sent %}
-                          						<p style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 140%;">Dear {{email_name}},</p>
-												<p style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 140%;">Thank you for selling on VetCove!  We hope you’re enjoying your experience with our service.</p>
-												<p style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 140%;">We’re pleased to inform you that the check from your recent transaction(s) is in the mail and on its way to you.  The details are attached below.</p>
-												<h5 class="thin" style="line-height: 130%;margin: 0;padding: 0;">Check Mailing Address</h5>
-												<p class="thin" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 130%;margin: 0;padding: 0;">{{check_obj.address.name}}</p>
-												<p class="thin" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 130%;margin: 0;padding: 0;">{{check_obj.address_one}}</p>
-												{% if check_obj.address.address_two %}<p style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 140%;">{{check_obj.address.address_two}}</p>{% endif %}
-												<p class="thin" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 130%;margin: 0;padding: 0;">{{check_obj.address.city}}, {{check_obj.address.state}} {{check_obj.address.zipcode|zipcodify}}</p>
-												<p class="thin" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 130%;margin: 0;padding: 0;">{{check_obj.address.phonenumber|phonenumber}}</p>
-												<p style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 140%;">Warmest regards,</p>
-												<p style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 140%;">Alex and The VetCove Team</p>
-											{% endif %}
-											
-											{% if payout_bank_sent %}
-                          						<p style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 140%;">Dear {{email_name}},</p>
-												<p style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 140%;">Thank you for selling on VetCove!  We hope you’re enjoying your experience with our service.</p>
-												<p style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 140%;">We’re pleased to inform you that that your item has been paid for by the buyer, and instant payment is on its way to you in the form of a bank transfer. Please allow up to three business days for the money to appear in your account. Details of the transaction are below:</p>
-												<h5 class="thin" style="line-height: 130%;margin: 0;padding: 0;">Bank Account Information</h5>
-												<p class="thin" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 130%;margin: 0;padding: 0;">{{bank_obj.bank_account.name}}</p>
-												<p class="thin" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 130%;margin: 0;padding: 0;">{{bank_obj.bank_account.bank_name}}</p>
-												<p class="thin" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 130%;margin: 0;padding: 0;">{{bank_obj.bank_account.account_number}}</p>
-												<p style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 140%;">Warmest regards,</p>
-												<p style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 140%;">Alex and The VetCove Team</p>
-											{% endif %}
-											
-											{% if payout_failed %}
-												<p style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 140%;">Dear {{email_name}},</p>
-												<p style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 140%;">We were unable to credit your bank account for the sold items below. Please check your bank account below and double check that all your information is correct. You can update your payout information by following the link below</p> 
-												<p style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 140%;"><span>
-                                            		<a href="http://www.vetcove.com/account/payment" " style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;color: #167BAD;font-weight: normal;text-decoration: underline;">Update Payment and Payout Preferences</a>
-												</span></p>	
-												<h5 class="thin" style="line-height: 130%;margin: 0;padding: 0;">Bank Account Information</h5>
-												<p class="thin" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 130%;margin: 0;padding: 0;">{{bank_obj.bank_account.name}}</p>
-												<p class="thin" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 130%;margin: 0;padding: 0;">{{bank_obj.bank_account.bank_name}}</p>
-												<p class="thin" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 130%;margin: 0;padding: 0;">{{bank_obj.bank_account.account_number}}</p>
-												<p style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 140%;">If you are sure the information is correct and it is indeed a valid bank account,
-												you should get in contact with us immediately so we can resolve the issue.</p>
-												<p style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 140%;">Warmest regards,</p>
-												<p style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 140%;">Alex and The VetCove Team</p>
-											{% endif %}
-											
-											{% if authorized_buyer %}
-												<p style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 140%;">Dear {{email_name}},</p>
-												<p style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 140%;">Great news!  The seller for an item, {{item.name}}, has just authorized you to pay for the item through VetCove.  If you’ve reached an agreement to pay for the item with the seller, please use the link below to pay and complete the transaction.</p> 
-												<p style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 140%;"><span>
-                                            		<a href="http://www.vetcove.com/item/{{item.id}}/details" " style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;color: #167BAD;font-weight: normal;text-decoration: underline;">Add Item To Cart and Complete Purchase</a>
-												</span></p>	
-												<p style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 140%;">Once the payment has been processed, the seller will be notified to proceed with shipping or allowing pickup of the item.  If you have any questions, or would not like to purchase the item at this time, please contact the seller using the information below:</p>
-												<h5 class="thin" style="line-height: 130%;margin: 0;padding: 0;">Seller Information</h5>
-												<p class="thin" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 130%;margin: 0;padding: 0;">{{item.user.name}}</p>
-												<p class="thin" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 130%;margin: 0;padding: 0;">{{item.user.email}}</p>
-												<p class="thin" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 130%;margin: 0;padding: 0;">{{item.user.phonenumber}}</p>
-												<p style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 140%;">Remember that your payment through VetCove is completely secured by Balanced Payments, who is Level 1 PCI certified.  By paying through VetCove, you are also entitled to our VetCove Buyer Protection program. </p>
-												<p style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 140%;">Warmest regards,</p>
-												<p style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 140%;">Alex and The VetCove Team</p>
-											{% endif %}
-
-
-                          	          		</td>
-                                        </tr>
-                                    </table>
-                                    <!-- // END BODY -->
-                                </td>
+                              <td align="center">
+                                <center>
+                                   <img class="logo-img" src="https://devicerock.s3.amazonaws.com/img/logo_42x150.png">
+                                </center>
+                              </td>
+                              <td class="expander"></td>
                             </tr>
-                            
-                            
-                            
-                          {% if purchase_confirmation %}
-                           <!-- 2 Column Template -->
-                            <tr>
-                            	<td align="center" valign="top" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;mso-table-lspace: 0pt;mso-table-rspace: 0pt;">
-                                    <!-- BEGIN 2 COLUMNS // -->
-                                    <table border="0" cellpadding="0" cellspacing="0" width="100%" id="templateColumns" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;mso-table-lspace: 0pt;mso-table-rspace: 0pt;background-color: #F4F4F4;border-top: 1px solid #FFFFFF;border-bottom: 1px solid #CCCCCC;border-collapse: collapse;">
-										<tr mc:repeatable>
-											<td align="center" valign="top" class="templateColumnContainer" style="padding-top: 20px;-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;mso-table-lspace: 0pt;mso-table-rspace: 0pt;width: 260px;">
-												<table border="0" cellpadding="20" cellspacing="0" width="100%" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;mso-table-lspace: 0pt;mso-table-rspace: 0pt;border-collapse: collapse;">
-													<tr>
-														<td valign="top" class="leftColumnContent" mc:edit="left_column_content" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;mso-table-lspace: 0pt;mso-table-rspace: 0pt;color: #505050;font-family: Helvetica;font-size: 14px;line-height: 150%;padding-top: 0;padding-right: 20px;padding-bottom: 20px;padding-left: 20px;text-align: left;">
-															<h4 style="display: block;font-family: Helvetica;font-size: 14px;font-weight: 800;line-height: 100%;letter-spacing: normal;margin-top: 0;margin-right: 0;margin-bottom: 10px;margin-left: 0;text-align: left;color: #444;">Shipping Address</h4>
-															<p class="thin" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 130%;margin: 0;padding: 0;">{{shipping_address.name}}</p>
-                                                			<p class="thin" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 130%;margin: 0;padding: 0;">{{shipping_address.address_one}}</p>
-															{% if shipping_address.address_two %}<p class="thin" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 130%;margin: 0;padding: 0;">{{shipping_address.address_two}}</p>{% endif %}
-															<p class="thin" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 130%;margin: 0;padding: 0;">{{shipping_address.city}}, {{shipping_address.state}} {{shipping_address.zipcode}}</p>
-															<p class="thin" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 130%;margin: 0;padding: 0;">{{shipping_address.phonenumber|phonenumber}}</p>
-														</td>
-													</tr>
-												</table>
-											</td>
-											<td align="center" valign="top" class="templateColumnContainer" style="padding-top: 20px;-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;mso-table-lspace: 0pt;mso-table-rspace: 0pt;width: 260px;">
-												<table border="0" cellpadding="20" cellspacing="0" width="100%" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;mso-table-lspace: 0pt;mso-table-rspace: 0pt;border-collapse: collapse;">
-													<tr>
-														<td valign="top" class="leftColumnContent" mc:edit="right_column_content" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;mso-table-lspace: 0pt;mso-table-rspace: 0pt;color: #505050;font-family: Helvetica;font-size: 14px;line-height: 150%;padding-top: 0;padding-right: 20px;padding-bottom: 20px;padding-left: 20px;text-align: left;">
-															<h4 style="display: block;font-family: Helvetica;font-size: 14px;font-weight: 800;line-height: 100%;letter-spacing: normal;margin-top: 0;margin-right: 0;margin-bottom: 10px;margin-left: 0;text-align: left;color: #444;">Payment Method</h4>
-															{% if payt.balancedbankaccount %}
-																<h5 class="thin" style="line-height: 130%;margin: 0;padding: 0;">Bank Account</h5>
-																<p class="thin" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 130%;margin: 0;padding: 0;">{{payment.balancedbankaccount.name}}</p>
-																<p class="thin" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 130%;margin: 0;padding: 0;">{{payment.balancedbankaccount.bank_name}}</p>
-																<p class="thin" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 130%;margin: 0;padding: 0;">{{payment.balancedbankaccount.account_number}}</p>
-															{% elif payment.balancedcard %}
-																<p class="thin" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 130%;margin: 0;padding: 0;">Credit / Debit Card</p>
-																<p class="thin" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 130%;margin: 0;padding: 0;">{{payment.balancedcard.brand}}</p>
-																<p class="thin" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 130%;margin: 0;padding: 0;">********{{payment.balancedcard.last_four}}</p>
-																<p class="thin" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 130%;margin: 0;padding: 0;">Expires: {{payment.balancedcard.expiration_month}}/{{payment.balancedcard.expiration_year}}</p>	
-															{% endif %}
-														</td>
-													</tr>
-												</table>
-											</td>
-										</tr>
-                                    </table>
-                                    <!-- // END 2 COLUMNS -->
-                                </td>
-                            </tr>
-                            <!-- // END 2 Column Template -->
-							{% endif %}
-                            
-                            
-                            <!-- ########## Draw the products ######## -->
-                            {% for pi in purchased_items %}
-                            <tr>
-                            	<td align="center" valign="top" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;mso-table-lspace: 0pt;mso-table-rspace: 0pt;">
-                                	<!-- BEGIN COLUMNS // -->
-                                    <table border="0" cellpadding="0" cellspacing="0" width="100%" id="productColumns" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;mso-table-lspace: 0pt;mso-table-rspace: 0pt;background-color: #F4F4F4;border-top: 1px solid #FFFFFF;border-bottom: 1px solid #DDDDDD;border-collapse: collapse;">
-                                    	<tr mc:repeatable>
-                                        	<td align="center" valign="top" class="productContainer product_templateColumnContainerLeft" style="padding-top: 20px;-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;mso-table-lspace: 0pt;mso-table-rspace: 0pt;max-width: 100px;">
-                                            	<table border="0" cellpadding="20" cellspacing="0" width="100%" class="product_templateColumnContainerLeft_table" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;mso-table-lspace: 0pt;mso-table-rspace: 0pt;border-collapse: collapse;">
-                                                	<tr>
-                                                    	<td class="leftColumnContent" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;mso-table-lspace: 0pt;mso-table-rspace: 0pt;color: #505050;font-family: Helvetica;font-size: 14px;line-height: 150%;padding-top: 0;padding-right: 20px;padding-bottom: 20px;padding-left: 20px;text-align: left;">
-                                                        	<img src="{%if pi.cartitem.item.mainimage %}{{pi.cartitem.item.mainimage.photo_small.url}}{% else %}{{STATIC_URL}}img/noimage_75x100.jpg{% endif %}" style="max-width: 100px;-ms-interpolation-mode: bicubic;border: 1px solid #ddd;height: auto;line-height: 100%;outline: none;text-decoration: none;display: inline;" class="columnImage" mc:label="left_column_image" mc:edit="left_column_image">
-                                                        </td>
-                                                    </tr>
-                                                </table>
-                                            </td>
-                                        	<td align="center" valign="top" class="productContainer product_templateColumnContainerMiddle" style="padding-top: 20px;-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;mso-table-lspace: 0pt;mso-table-rspace: 0pt;max-width: 280px;">
-                                            	<table border="0" cellpadding="20" cellspacing="0" width="100%" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;mso-table-lspace: 0pt;mso-table-rspace: 0pt;border-collapse: collapse;">
-                                                    <tr>
-                                                    	<td valign="top" class="middleColumnContent" mc:edit="right_column_content" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;mso-table-lspace: 0pt;mso-table-rspace: 0pt;color: #505050;font-family: Helvetica;font-size: 13px;line-height: 150%;padding-top: 0;padding-right: 20px;padding-bottom: 20px;padding-left: 20px;text-align: left;">
-                                                            <h4 style="display: block;font-family: Helvetica;font-size: 14px;font-weight: 800;line-height: 100%;letter-spacing: normal;margin-top: 0;margin-right: 0;margin-bottom: 10px;margin-left: 0;text-align: left;color: #444;"><a href="http://www.vetcove.com/item/{{pi.cartitem.item.id}}/details" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;color: #167BAD;">{{pi.cartitem.item.name}}</a></h4>
-                                                            <p style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 140%;margin: 0;">Sold by {{pi.cartitem.item.user.company}} ({{pi.cartitem.item.user.email}})</p>
-                                                            <p style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 14px;line-height: 140%;margin: 0;">Quantity: {{pi.cartitem.quantity}} {% if pi.cartitem.quantity > 1 %}(at {{pi.cartitem.item.price|dollars}} each){% endif %}</p>
-                                                        </td>
-                                                    </tr>
-                                                </table>
-                                            </td>
-                                            <td align="center" valign="top" class="productContainer product_templateColumnContainerRight" style="padding-top: 20px;-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;mso-table-lspace: 0pt;mso-table-rspace: 0pt;max-width: 100px;">
-                                            	<table border="0" cellpadding="20" cellspacing="0" width="100%" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;mso-table-lspace: 0pt;mso-table-rspace: 0pt;border-collapse: collapse;">
-                                                    <tr>
-                                                    	<td valign="top" class="rightColumnContent" mc:edit="right_column_content" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;mso-table-lspace: 0pt;mso-table-rspace: 0pt;color: #505050;font-family: Helvetica;line-height: 150%;padding-top: 0;padding-right: 20px;padding-bottom: 20px;padding-left: 20px;text-align: right;">
-                                                            <h4 style="display: block;font-family: Helvetica;font-size: 14px;font-weight: 800;line-height: 100%;letter-spacing: normal;margin-top: 0;margin-right: 0;margin-bottom: 10px;margin-left: 0;text-align: right;color: #444;">{{pi.total|dollars}}</h4>
-                                                        </td>
-                                                    </tr>
-                                                </table>
-                                            </td>
-                                        </tr>
-                                    </table>
-                                    <!-- // END COLUMNS -->
-                                </td>
-                            </tr>
-                            {% endfor %}
-                            
-                             <!-- ########## Totals ######## -->
-                            {% if totals %}
-                            <tr>
-                            	<td align="center" valign="top" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;mso-table-lspace: 0pt;mso-table-rspace: 0pt;">
-                                	<!-- BEGIN COLUMNS // -->
-                                    <table border="0" cellpadding="0" cellspacing="0" width="100%" id="totalColumn" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;mso-table-lspace: 0pt;mso-table-rspace: 0pt;background-color: #F4F4F4;border-top: 1px solid #FFFFFF;border-bottom: 1px solid #CCCCCC;border-collapse: collapse;">
-                                    	<tr mc:repeatable>
-                                        	<td align="center" valign="top" class="totalColumnTD" style="padding-top: 10px;-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;mso-table-lspace: 0pt;mso-table-rspace: 0pt;">
-                                            	<table border="0" cellpadding="20" cellspacing="0" width="100%" class="totalColumnTable" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;mso-table-lspace: 0pt;mso-table-rspace: 0pt;border-collapse: collapse;">
-                                                	<tr>
-                                                    	<td class="totalColumnContent" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;mso-table-lspace: 0pt;mso-table-rspace: 0pt;padding-bottom: 0px;">
-                                                    		{% if purchase_confirmation %}
-                                                    			<h4 class="totalColumnContent_total" style="display: block;font-family: Helvetica;font-size: 14px;font-weight: 800;line-height: 100%;letter-spacing: normal;margin-top: 10px;margin-right: 0;margin-bottom: 5px;margin-left: 0;text-align: right;padding-bottom: 0;color: #444;">Total Amount: <span class="price" style="font-weight: 800;width: 110px;display: inline-block;">{{checkout.total|dollars}}</span></h4>
-                                                    		{% elif payment %}
-                                                    			<h4 style="display: block;font-family: Helvetica;font-size: 14px;font-weight: 200;line-height: 100%;letter-spacing: normal;margin-top: 0;margin-right: 0;margin-bottom: 5px;margin-left: 0;text-align: right;padding-bottom: 0;color: #444;">Sales Total: <span class="price" style="font-weight: 200;width: 110px;display: inline-block;">{{payment.subtotal|dollars}}</span></h4>
-                                                    			<h4 style="display: block;font-family: Helvetica;font-size: 14px;font-weight: 200;line-height: 100%;letter-spacing: normal;margin-top: 0;margin-right: 0;margin-bottom: 5px;margin-left: 0;text-align: right;padding-bottom: 0;color: #444;"><span class="hide-mobile">VetCove</span> Commission: <span class="price" style="font-weight: 200;width: 110px;display: inline-block;">-{{payment.total_commission|dollars}}</span></h4>
-                                                    			<h4 style="display: block;font-family: Helvetica;font-size: 14px;font-weight: 200;line-height: 100%;letter-spacing: normal;margin-top: 0;margin-right: 0;margin-bottom: 5px;margin-left: 0;text-align: right;padding-bottom: 0;color: #444;">3% Credit Card <span class="hide-mobile">Processing</span> Fee: <span class="price" style="font-weight: 200;width: 110px;display: inline-block;">-{{payment.cc_fee|dollars}}</span></h4>
-                                                    			<h4 class="totalColumnContent_total" style="display: block;font-family: Helvetica;font-size: 14px;font-weight: 800;line-height: 100%;letter-spacing: normal;margin-top: 10px;margin-right: 0;margin-bottom: 5px;margin-left: 0;text-align: right;padding-bottom: 0;color: #444;">Total Credits: <span class="price" style="font-weight: 800;width: 110px;display: inline-block;">{{payment.amount|dollars}}</span></h4>
-                                                    		{% endif %}
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                    	<td class="feedbackColumnContent" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;mso-table-lspace: 0pt;mso-table-rspace: 0pt;">
-                                                    		<p style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 13px;line-height: 150%;font-family: Helvetica;margin: 0;padding: 0;color: #666;">Thank for you using VetCove. We hope you enjoyed the experience. If you have
-                                                    		any comments or ideas for ways we can improve our service, we would love to hear about them!
-                                                    		Drop us an email at ideas@vetcove.com</p>
-                                                        </td>
-                                                    </tr>
-                                                </table>
-                                            </td>
-                                        </tr>
-                                    </table>
-                                    <!-- // END COLUMNS -->
-                                </td>
-                            </tr>
-                         	{% endif %}
-                            
-                        	<tr>
-                            	<td align="center" valign="top" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;mso-table-lspace: 0pt;mso-table-rspace: 0pt;">
-                                	<!-- BEGIN FOOTER // -->
-                                    <table border="0" cellpadding="0" cellspacing="0" width="100%" id="templateFooter" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;mso-table-lspace: 0pt;mso-table-rspace: 0pt;background-color: #F4F4F4;border-top: 1px solid #FFFFFF;border-collapse: collapse;">
-                                        <tr>
-                                            <td valign="top" class="footerContent" style="padding-top: 10px;padding-bottom: 0px;-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;mso-table-lspace: 0pt;mso-table-rspace: 0pt;color: #808080;font-family: Helvetica;font-size: 10px;line-height: 150%;padding-right: 20px;padding-left: 20px;text-align: left;" mc:edit="footer_content02">
-                                        		We hope you enjoyed receiving this message. If you would like to change your email preferences, you can update your <a href="http://www.vetcove.com/account/usersettings" target="_blank" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;color: #2176D9;font-weight: normal;text-decoration: underline;"> profile settings</a>
-                                            </td>
-                                        </tr>
-                                         <tr>
-                                            <td valign="top" class="footerContent" style="padding-top: 10px;-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;mso-table-lspace: 0pt;mso-table-rspace: 0pt;color: #808080;font-family: Helvetica;font-size: 10px;line-height: 150%;padding-right: 20px;padding-bottom: 20px;padding-left: 20px;text-align: left;" mc:edit="footer_content01">
-                                                <em>Copyright &copy; 2014 VetCove, All rights reserved.</em>                       
-                                            </td>
-                                        </tr>
-                                    </table>
-                                    <!-- // END FOOTER -->
-                                </td>
-                            </tr>
-                        </table>
-                        <!-- // END TEMPLATE -->
-                    </td>
+                          </table>
+                        </td>
+                    </tr>
+                  </table>
+                </center>
+              </td>
+            </tr>
+          </table>
+
+          <br>
+
+          <table class="container">
+            <tr>
+              <td>
+
+              {% if alert %} 
+              <!-- Alert Box -->
+              <table class="row">
+                <tr>
+                  <td class="wrapper">
+                    <table class="twelve columns">
+                      <tr>
+                        <td class="panel">
+                          <p>{{alert}}</p>
+                        </td>
+                        <td class="expander"></td>
+                      </tr>
+                    </table>
+                  </td>
                 </tr>
-            </table>
+              </table>
+
+              <br>
+              {% endif %} 
+
+              <!-- Main Content -->
+              <table class="row">
+                <tr>
+                  <td class="wrapper last">
+
+                    <!-- Intro Table -->
+                    <table class="twelve columns">
+                      <tr>
+                        <td>
+                          <p>Dear {{email_name}},</p>
+                          {% block textblock %}
+                          {% endblock %}
+                        </td>
+                        <td class="expander"></td>
+                      </tr>
+                    </table>
+                  </td>
+                </tr>
+              </table>
+
+
+              {% if actionrow %}
+              <!-- Buttons Table -->
+              <table class="row">
+                <tr>
+                  <td class="wrapper">
+                    <table class="four columns">
+                      <tr>
+                        <td>
+                          <table class="button">
+                            <tr>
+                              <td>
+                                <a href="http://www.vetcove.com/shop">Buy Items</a>
+                              </td>
+                            </tr>
+                          </table>
+                        </td>
+                        <td class="expander"></td>
+                      </tr>
+                    </table>
+                  </td>
+                  <td class="wrapper">
+                    <table class="four columns">
+                      <tr>
+                        <td>
+                          <table class="button">
+                            <tr>
+                              <td>
+                                <a href="http://www.vetcove.com/listintro">Sell Items</a>
+                              </td>
+                            </tr>
+                          </table>
+                        </td>
+                        <td class="expander"></td>
+                      </tr>
+                    </table>
+                  </td>
+                  <td class="wrapper last">
+                    <table class="four columns">
+                      <tr>
+                        <td>
+                          <table class="button">
+                            <tr>
+                              <td>
+                                <a href="http://www.vetcove.com/faq">FAQ</a>
+                              </td>
+                            </tr>
+                          </table>
+                        </td>
+                        <td class="expander"></td>
+                      </tr>
+                    </table>
+                  </td>
+                </tr>
+              </table> 
+
+              <br>
+              {% endif %}
+
+              {% if two_col_row  %}
+              <!-- 2 Column Row -->
+              <table class="row">
+                <tr>
+                  <td class="wrapper">
+                    <table class="six columns">
+                      <tr>
+                        <td class="panel">
+                          <h6 class="margin-bottom">{% block col_a_title %}{% endblock %}</h6>
+                          {% block col_a_block %}{% endblock %}
+                        </td>
+                        <td class="expander"></td>
+                      </tr>
+                    </table>
+                  </td>
+                  <td class="wrapper last">
+                    <table class="six columns">
+                      <tr>
+                        <td class="panel">
+                          <h6 class="margin-bottom">{% block col_b_title %}{% endblock %}</h6>
+                          {% block col_b_block %}{% endblock %}
+                        </td>
+                        <td class="expander"></td>
+                      </tr>
+                    </table>
+                  </td>
+                </tr>
+              </table>
+
+              <br>
+              <br>
+              {% endif %}
+
+              <!-- Table to display products -->
+              {% for pi in purchaseditems %}
+              <table class="row borderbottom">
+                <tr>
+
+                  <td class="wrapper">
+                    <table class="three columns">
+                      <tr>
+                        <td>
+                          <img src="http://www.roomful.com/wp-content/uploads/2013/09/facebook-logo-resized-image-100x100.png">
+                        </td>
+                        <td class="expander"></td>
+                      </tr>
+                    </table>
+                  </td>
+
+                  <td class="wrapper">
+                    <table class="six columns">
+                      <tr>
+                        <td>
+
+                         <h6><a href="http://www.vetcove.com/account/buyhistory">{{pi.item_name}}</a></h6>
+                         <p class="thin">Purchased {{pi.purchase_date}}</p>
+                         {% if pi.quantity > 1 %}<p class="thin">Quantity: {{pi.quantity}}</p>{% endif %}
+
+                        </td>
+                        <td class="expander"></td>
+                      </tr>
+                    </table>
+                  </td>
+
+                  <td class="wrapper last">
+                    <table class="three columns">
+                      <tr>
+                        <td>
+                          <p class="align-right strong">{{pi.total|dollars}}</p>
+                        </td>
+                        <td class="expander"></td>
+                      </tr>
+                    </table>
+                  </td>
+                </tr>
+              </table>
+
+              <br>
+              {% endfor %}
+
+              <!-- Table to display totals -->
+              {% if totals %}
+              <table class="row" >
+                <tr class="full-width">
+                  <td class="wrapper last">
+
+                    <table class="twelve columns">
+                      <tr>
+                        <td>
+                          {% if purchase_confirmation %}
+                           <p class="align-right total"><strong style="font-weight:bold">Total:<span>{{order.total|dollars}}</span></strong></p>
+                          {% elif payout %}
+                          <p class="align-right total">Payout Subtotal:<span>here</span></p>
+                          <p class="align-right total">Commission Fees:<span>$24.32</span></p>
+                          <p class="align-right total">1+1 Program:<span>$12345689.01</span></p>
+                          <p class="align-right total">Processing Fee (3%):<span>$1</span></p>
+                          <p class="align-right total strong">Total Payout:<span>$122348.21</span></p>
+                          {% endif %}
+                        </td>
+                        
+                        <td class="expander"></td>
+                      </tr>
+                    </table>
+
+                  </td>
+                </tr>
+              </table>
+
+              <br>
+              {% endif %}
+
+              <!-- Second Content -->
+              {% if secondtextblock %}
+              <table class="row">
+                <tr>
+                  <td class="wrapper last">
+
+                    <!-- Intro Table -->
+                    <table class="twelve columns">
+                      <tr>
+                        <td>
+                          {% block secondtextblock %}
+                          {% endblock %}
+                        </td>
+                        <td class="expander"></td>
+                      </tr>
+                    </table>
+                  </td>
+                </tr>
+              </table>
+
+              {% endif %}
+
+              {% if actionbutton %}
+                  <table class="row">
+                    <tr>
+                      <td class="wrapper last">
+                        <table class="six columns">
+                          <tr>
+                            <td>
+                              <table class="button">
+                                <tr>
+                                  <td>
+                                    <a href="http://www.vetcove.com/account/sellhistory">Enter Shipping Information</a>
+                                  </td>
+                                </tr>
+                              </table>
+                            </td>
+                            <td class="expander"></td>
+                          </tr>
+                        </table>
+                      </td>
+                    </tr>
+                  </table> 
+              {% endif %}
+
+
+              <!-- Signature and Sign Off -->
+              <table class="row">
+                <tr>
+                  <td class="wrapper last">
+                    <table class="twelve columns">
+                      <tr>
+                        <td>
+                          <p>Warmest regards,</p>
+                          <p>Alex and the VetCove team</p>
+                        </td>
+                        <td class="expander"></td>
+                      </tr>
+                    </table>
+                  </td>
+                </tr>
+              </table>
+
+              <br>
+
+              <!-- Legal + Unsubscribe -->
+              <table class="row">
+                <tr>
+                  <td class="wrapper last">
+                    <table class="twelve columns">
+                      <tr>
+                        <td align="center">
+                          <center>
+                            <p class="footer-text" style="text-align:center;">We hope you enjoyed receiving this message. If you would like to change your email preferences, you can update your <a href="http://www.vetcove.com/account/usersettings"> profile settings</a> at any time</p>
+                            <p class="footer-text" style="text-align:center;">Copyright &copy; 2014 VetCove, All rights reserved.</p>
+                          </center>
+                        </td>
+                        <td class="expander"></td>
+                      </tr>
+                    </table>
+
+                  </td>
+                </tr>
+              </table>
+
+              <!-- container end below -->
+              </td>
+            </tr>
+          </table>
+
         </center>
-    </body>
+      </td>
+    </tr>
+  </table>
+</body>
 </html>

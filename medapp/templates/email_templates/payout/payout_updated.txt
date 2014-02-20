@@ -1,0 +1,37 @@
+{% load phonenumber %}{% load zipcodify %}
+Dear {{email_name}},
+
+Your payout preferences on file for receiving payments have been
+updated in our system. No further action is required.
+
+Current Payout Method: {% if payout_method == 'check' %}Check By Mail{% else%}Bank Account Direct Deposit{% endif %}
+
+Currently, we have the following set as your default payout option:
+{% if payout.balancedbankaccount %}
+Bank Account
+{{payout.balancedbankaccount.name}}
+{{payout.balancedbankaccount.bank_name}}
+{{payout.balancedbankaccount.account_number}}{% else %}
+Check Mailing Address
+{{payout.checkaddress.address.name}}
+{{payout.checkaddress.address.address_one}}
+{% if payout.checkaddress.address.address_two %}{{payout.checkaddress.address.address_two}}{% endif %}
+{{payout.checkaddress.address.city}},
+{{payout.checkaddress.address.state}}
+{{payout.checkaddress.address.zipcode|zipcodify}}
+{{payout.checkaddress.address.phonenumber|phonenumber}}
+{% endif %}
+
+If you would like to review the changes or make further modifications,
+feel free to use the link below. If you believe this update was the
+result of unauthorized access to your account, please contact us
+immediately.
+
+Update Payment and Payout Preferences
+http://www.vetcove.com/account/payment
+
+Thank you again for choosing VetCove!
+
+Warmest regards,
+
+Alex and The VetCove Team

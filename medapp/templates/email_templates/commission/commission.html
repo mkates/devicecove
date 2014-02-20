@@ -1,0 +1,36 @@
+{% extends 'email_templates/email_foundation.html' %}
+{% load dollars %}
+
+{% block col_a_title %}Commission Information{% endblock %}
+{% block col_b_title %}Payment Information{% endblock %}
+
+{% block textblock %}
+<p>Thank you for selling on VetCove!  We’re so pleased that there are buyers interested in viewing {{commission_obj.item.name}}.  Per the terms of our selling contract, your chosen payment method on file has been charged the VetCove selling fees associated with this transaction.</p>
+<p><span>
+	<a href="http://www.vetcove.com/account/payment">Update Payment and Payout Preferences</a>
+</span></p>
+{% endblock %}
+
+{% block secondtextblock %}
+<p>Best of luck selling your item!  If you are able to collect cash or check payment directly from a buyer, no further action is required on your part, and no further fees will be assessed.  You will be able to instantly receive direct contacts from prospective buyers for this item going forward without restriction.</p>
+<p>If you are unable to sell your item after a period of 90 days, VetCove will refund you 100% of all selling fees charged today, less any nomial credit card or bank transfer fees we incur to complete the transaction.  If you have any questions at all, please don’t hesitate to get in contact with us.</p>
+{% endblock %}
+
+{% block col_a_block %}
+	<p class="thin">Listed Item Price: {{commission_obj.item.price|dollars}}</p>
+	{% if commission_obj.item.promo_code %}
+		<p class="thin">Original Commission: {{original_commission|dollars}}</p>
+		<p class="thin">Promotional Code:{{commission_obj.item.promo_code.code}} ({{commission_obj.item.promo_code.details}})</p>
+		<p class="thin">Promotional Savings: {{savings|dollars}}</p>
+		<p class="thin"><strong style="font-weight: bold">Commission Charge: {{commission|dollars}}</strong></p>
+	{% else %}
+		<p class="thin"><strong style="font-weight: bold">Commission Charge: {{original_commission|dollars}}</strong></p>
+	{% endif %}
+{% endblock %}
+
+{% block col_b_block %}
+<p class="thin">Credit / Debit Card</p>
+<p class="thin">{{commission_obj.payment.balancedcard.brand}}</p>
+<p class="thin">********{{commission_obj.payment.balancedcard.last_four}}</p>
+<p class="thin">Expires: {{commission_obj.payment.balancedcard.expiration_month}}/{{commission_obj.payment.balancedcard.expiration_year}}</p> 
+{% endblock %}

@@ -1,0 +1,14 @@
+{% extends 'email_templates/email_foundation.html' %}
+
+{% block textblock %}
+<p>Thank you for listing on VetCove!  Your listing for <a href="http://www.vetcove.com/item/{{item.id}}/details">{{item.name}}</a> has been confirmed, and it has been added to VetCove in the <strong>{{item.subcategory}}</strong> section of our site.</p>
+{% if not item.offlineviewing %}
+	<p>When your item sells through VetCove, we will notify you immediately by e-mail and provide further instructions for shipping and receiving payment from the buyer.  Your item will also immediately be marked as sold on the website after payment is received from the buyer.  If you have any questions about selling in the meantime, please visit our <a href="http://www.vetcove.com/faq">Selling FAQ</a>.</p>
+{% else %}
+	<p>As soon as you reach an agreement with a buyer to sell your item and payment has been arranged, it is your responsibility to remove the listing within one business day from the VetCove site, in accordance with our Seller Contract. Mark the item as sold using the link below:</p>
+	<p><span>
+		<a href="http://www.vetcove.com/account/listings/all">Remove Item After Sale</a>
+	</span></p>
+{% endif %}
+<p>Thank you again for listing with VetCove!</p>
+{% endblock %}

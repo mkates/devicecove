@@ -6,7 +6,7 @@
 {% block headertitle %}<title>VetCove</title>{% endblock%}
 <meta name="description" content="VetCove is the top equipment marketplace for veterinarians to buy and sell new, pre-owned, and refurbished equipment and supplies">
 <meta http-equiv="content-type" content="text/html;charset=UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- <meta name="viewport" content="width=device-width, initial-scale=1.0"> -->
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <link rel="icon" type="image/png" href="{{STATIC_URL}}img/favicon32.png">
 <!--CSS-->
@@ -97,7 +97,6 @@
 				</ul>
 			</li>
 			{% if user.is_authenticated %}
-			{% if user.basicuser.unansweredQuestionCount %}<li class="nav-questionstoanswer"><a href="/account/sellerquestions">Questions<span class="sc-count question-count">{{user.basicuser.unansweredQuestionCount}}</span></a></li>{% endif %}
 			{% if notifications %}<li class="nav-notifications"><a href="/account/notifications">Notifications<span class="sc-count notification-count">{{notifications.count}}</span></a></li>{% endif %}
 			
 			

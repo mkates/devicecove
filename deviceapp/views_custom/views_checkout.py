@@ -201,6 +201,7 @@ def checkoutlogin(request):
 		form = LoginForm(request.POST)
 		if form.is_valid():	
 			email = form.cleaned_data['email']
+			email = email.lower()
 			password = form.cleaned_data['password']
 			rememberme = form.cleaned_data['rememberme']
 			user = authenticate(username=email,password=password)
@@ -528,7 +529,7 @@ def checkoutPurchase(request,checkoutid):
 		return render_to_response('checkout/checkout_review.html',{'checkout':checkout,'error':e},context_instance=RequestContext(request))
 	
 	# 4. Update Items in the system, delete cart-items create Purchased Objects
-	order = Order(buyer=bu,payment=checkout.payment,total=checkout.total())
+	order = Order(buyer=bu,payment=checkout.payment,total=checkout.total(),shipping_address=checkout.shipping_address)
 	order.save()
 	for cartitem in checkout.cartitem_set.all():
 		item = cartitem.item
@@ -543,10 +544,10 @@ def checkoutPurchase(request,checkoutid):
 		pi = PurchasedItem(seller=item.user,
 						buyer=bu,
 						order=order,
+						item=item,
 						cartitem=cartitem,
 						unit_price=cartitem.price,
 						checkout=cartitem.checkout,
-						shipping_address=checkout.shipping_address,
 						total=amount,
 						charity = item.charity,
 						charity_name = item.charity_name,

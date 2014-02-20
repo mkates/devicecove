@@ -470,13 +470,13 @@ class Payout(models.Model):
 	def subtotal(self):
 		return self.amount+self.total_commission+self.cc_fee
 	
-#### Record of the payment ##################
+#### Record of the bank payout ##################
 class BankPayout(Payout):
 	bank_account = models.ForeignKey(BalancedBankAccount)
 	def subtotal(self):
 		return self.amount+self.total_commission+self.cc_fee
 		
-#### Record of all checks ##################
+#### Record of the check payout ##################
 class CheckPayout(Payout):
 	address = models.ForeignKey(Address)
 	sent = models.BooleanField(default=False)
@@ -503,20 +503,22 @@ class Order(models.Model):
 	payment = models.ForeignKey(Payment,null=True,blank=True)
 	purchase_date = models.DateTimeField(auto_now_add = True)
 	total = models.BigIntegerField(max_length=20)
+	shipping_address = models.ForeignKey(Address,null=True,blank=True) # Can be null if pick-up only item
 
 class PurchasedItem(models.Model):
+	purchase_date = models.DateTimeField(auto_now_add = True)
+
 	# Seller and Buyer
 	seller = models.ForeignKey(BasicUser,related_name="purchaseditemseller")
 	buyer = models.ForeignKey(BasicUser,related_name="purchaseditembuyer")
 	order = models.ForeignKey(Order)
 	
 	# Details
+	item = models.ForeignKey(Item)
 	quantity = models.IntegerField(max_length = 5)
 	total = models.BigIntegerField(max_length=20)
 	unit_price = models.BigIntegerField(max_length=20)
 	item_name = models.CharField(max_length=300)
-	purchase_date = models.DateTimeField(auto_now_add = True)
-	shipping_address = models.ForeignKey(Address,null=True,blank=True) # Can be null if pick-up only item
 	
 	# Reference to cart item of the purchase and the checkout
 	cartitem = models.OneToOneField(CartItem)
@@ -536,8 +538,6 @@ class PurchasedItem(models.Model):
 	# Seller Payment
 	paid_out = models.BooleanField(default=False)
 	paid_date = models.DateTimeField(null=True,blank=True)
-	
-	# Paying Out
 	payout = models.ForeignKey(Payout,null=True,blank=True)
 	
 ############################################

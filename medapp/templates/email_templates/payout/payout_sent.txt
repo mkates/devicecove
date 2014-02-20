@@ -1,0 +1,34 @@
+{% load phonenumber %}{% load zipcodify %}
+Dear {{email_name}},
+
+Thank you for selling on VetCove! We hope you’re enjoying your
+experience with our service.
+
+{% if payout_obj.checkpayout %} We’re pleased to inform you that the check payout from
+your recent transaction(s) is on its way to you. {% else bank %} We’re
+pleased to inform you that we have successfully credited your bank
+account. The details are attached below: {% endif %} The details are
+attached below:
+{% if payout_obj.checkpayout %}
+Ceck Mailing Address
+{{payout.address.name}}
+{{payout.address_one}}
+{% if payout.address.address_two %}{{payout.address.address_two}}{% endif %}
+{{payout.address.city}}, {{payout.address.state}}
+{{payout.address.zipcode|zipcodify}}
+{{payout.address.phonenumber|phonenumber}}
+
+If you do receive the check by mail within 10 business days, please
+contact us so we can resolve this issue.{% else %}
+Bank Account Information
+{{payout.bank_account.name}}
+{{payout.bank_account.bank_name}}
+{{payout.bank_account.account_number}}
+
+If you do not see the deposit into your account within 3 business days,
+please contact us so we can resolve this issue.
+{% endif %}
+
+Warmest regards,
+
+Alex and The VetCove Team

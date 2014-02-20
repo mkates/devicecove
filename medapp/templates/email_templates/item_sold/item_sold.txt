@@ -1,0 +1,32 @@
+{% extends 'email_templates/email_foundation.txt' %}
+
+{% load phonenumber %}{% load zipcodify %}
+{% block textblock %}
+Congratulations! A VetCove member has purchased  {% if purchased_item.quantity > 1 %}{{purchased_item.quantity}} of{% endif %} your item, {{purchased_item.item_name}} and payment has been confirmed. You may now
+prepare to ship the item in accordance with the terms of your listing.
+The contact information and shipping address of the buyer is below:
+
+Shipping Address
+{{purchased_item.order.shipping_address.name}}
+{{purchased_item.order.shipping_address.address_one}}
+{% if purchased_item.order.shipping_address.address_two %}{{purchased_item.order.shipping_address.address_two}}{% endif %}
+{{purchased_item.order.shipping_address.city}},
+{{purchased_item.order.shipping_address.state}}
+{{purchased_item.order.shipping_address.zipcode|zipcodify}}
+{{purchased_item.order.shipping_address.phonenumber|phonenumber}}
+
+ Buyer's Contact Information
+{{purchased_item.buyer.name}}
+{{purchased_item.buyer.email}}
+{{purchased_item.shipping_address.phonenumber|phonenumber}}
+
+Once you have shipped the item, please click the link below to notify
+the buyer that the item has been shipped. You will be able to upload
+tracking information to help the buyer track the shipment. Feel free to
+correspond directly with the buyer by e-mail if you wish.
+
+*** Enter Shipping Information ***
+http://www.vetcove.com/account/sellhistory
+
+Thank you again for choosing VetCove!
+{% endblock %}

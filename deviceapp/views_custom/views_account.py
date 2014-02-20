@@ -35,6 +35,7 @@ def loginview(request):
 
 def lgnrequest(request):
 	username = request.POST['email']
+	username = username.lower()
 	password = request.POST['password']
 	rememberme = request.POST.get('rememberme','')
 	user = authenticate(username=username,password=password)

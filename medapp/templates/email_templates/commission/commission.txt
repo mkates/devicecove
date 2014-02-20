@@ -1,0 +1,36 @@
+{% extends 'email_templates/email_foundation.txt' %}
+{% load dollars %}
+
+{% block col_a_title %}Commission Information{% endblock %}
+{% block col_b_title %}Payment Information{% endblock %}
+
+{% block textblock %}
+Thank you for selling on VetCove! We’re so pleased that there are
+buyers interested in viewing {{commission_obj.item.name}}. Per the
+terms of our selling contract, your chosen payment method on file has
+been charged the VetCove selling fees associated with this transaction.
+
+Update Payment and Payout Preferences
+<http://www.vetcove.com/account/payment>
+{% endblock %}
+
+{% block secondtextblock %}
+Best of luck selling your item!  If you are able to collect cash or check payment directly from a buyer, no further action is required on your part, and no further fees will be assessed.  You will be able to instantly receive direct contacts from prospective buyers for this item going forward without restriction.
+
+If you are unable to sell your item after a period of 90 days, VetCove will refund you 100% of all selling fees charged today, less any nomial credit card or bank transfer fees we incur to complete the transaction.  If you have any questions at all, please don’t hesitate to get in contact with us.
+{% endblock %}
+
+{% block col_a_block %}
+Listed Item Price: {{commission_obj.item.price|dollars}}{% if commission_obj.item.promo_code %}
+Original Commission: {{original_commission|dollars}}
+Promotional Code:{{commission_obj.item.promo_code.code}} ({{commission_obj.item.promo_code.details}})
+Promotional Savings: {{savings|dollars}}
+Commission Charge: {{commission|dollars}}{% else %}
+Commission Charge: {{original_commission|dollars}}{% endif %}
+{% endblock %}
+{% block col_b_block %}
+Credit / Debit Card</p>
+{{commission_obj.payment.balancedcard.brand}}
+********{{commission_obj.payment.balancedcard.last_four}}
+Expires: {{commission_obj.payment.balancedcard.expiration_month}}/{{commission_obj.payment.balancedcard.expiration_year}}
+{% endblock %}

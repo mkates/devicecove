@@ -1,0 +1,27 @@
+{% extends 'email_templates/email_foundation.txt' %}
+{% load phonenumber %}{% load zipcodify %}
+
+{% block textblock %}
+Thank you for your purchase on VetCove!  The seller will be in touch with you regarding any additional details, including shipment and tracking information (if applicable).  Information about your purchase is below, and further details can be found in your VetCove transaction history.
+
+Order Number: #000{{order.id}}
+{% endblock %}
+
+{% block col_a_title %}Shipping Information{% endblock %}
+{% block col_b_title %}Payment Information{% endblock %}
+
+{% block col_a_block %}
+{{order.shipping_address.name}}
+{{order.shipping_address.address_one}}
+{% if order.shipping_address.address_two %}{{order.shipping_address.address_two}}{% endif %}
+{{order.shipping_address.city}}, {{order.shipping_address.state}}{{order.shipping_address.zipcode|zipcodify}}
+{{order.shipping_address.phonenumber|phonenumber}}
+{% endblock %}
+
+{% block col_b_block %}
+Credit / Debit Card
+{{order.payment.balancedcard.brand}}
+********{{order.payment.balancedcard.last_four}}
+Expires: {{order.payment.balancedcard.expiration_month}}/{{order.payment.balancedcard.expiration_year}} 
+{% endblock %}
+

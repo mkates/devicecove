@@ -1,0 +1,29 @@
+{% load phonenumber %}
+Dear {{email_name}},
+
+Great news! The seller for an item, {{item.name}}, has just authorized
+you to pay for the item through VetCove. If you’ve reached an agreement
+to pay for the item with the seller, please use the link below to pay
+and complete the transaction.
+
+Add Item To Cart and Complete Purchase
+http://www.vetcove.com/item/{{item.id}}/details
+
+Once the payment has been processed, the seller will be notified to
+proceed with shipping or allowing pickup of the item. If you have any
+questions, or would not like to purchase the item at this time, please
+contact the seller using the information below:
+
+Seller Information
+
+{{item.user.name}}
+{{item.user.email}}
+{{item.user.phonenumber|phonenumber}}
+
+Remember that your payment through VetCove is completely secured by
+Balanced Payments, who is Level 1 PCI certified. By paying through
+VetCove, you are also entitled to our VetCove Buyer Protection program.
+
+Warmest regards,
+
+Alex and The VetCove Team

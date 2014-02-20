@@ -22,11 +22,12 @@ class Command(BaseCommand):
     		subcategory.totalunits = subcategory.item_set.filter(liststatus='active').count()
     		subcategory.save()
     	for category in Category.objects.all():
-    		subcategory_set = category.subcategory_set.all()
-    		for subcat in subcategory_set:
-    			category.totalunits += subcat.totalunits
-    			category.save()		
-			
+            category.totalunits = 0 
+            subcategory_set = category.subcategory_set.all()
+            for subcat in subcategory_set:
+                category.totalunits += subcat.totalunits
+                category.save()
+                
 def write(self,string):
 	self.stdout.write(str(string))
 	return

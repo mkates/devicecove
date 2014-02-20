@@ -11,13 +11,15 @@ admin.autodiscover()
 #####################################################################
 urlpatterns = patterns('',
 
+    #Temporarily, please delete
+    url(r'^testemail/','deviceapp.views_custom.testemail'),
 	#Admin
 	url(r'^staff/overview/(?P<type>\w+)','deviceapp.views_custom.staffOverview'),
 	url(r'^staff/overview','deviceapp.views_custom.staffOverviewForward'),
     url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^staff/markassent','deviceapp.views_custom.staffMarkAsSent'),
-     url(r'^staff/markasreceived','deviceapp.views_custom.staffMarkAsReceived'),
+    url(r'^staff/markasreceived','deviceapp.views_custom.staffMarkAsReceived'),
     
     #Password Reset
     url('',include('password_reset.urls')),

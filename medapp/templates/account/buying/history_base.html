@@ -35,10 +35,10 @@
 			{% if pitem.shipping_address %}
 			<div class="order-info">
 				<p class="order-info-header">Shipping Address</p>
-				<p>{{pitem.shipping_address.name}}</p>
-				<p>{{pitem.shipping_address.address_one}}</p>
-				{% if pitem.shipping_address.address_two %}<p>{{pitem.shipping_address.address_two}}</p>{% endif %}
-				<p>{{pitem.cartitem.checkout.shipping_address.city}}, {{pitem.shipping_address.state}} {{pitem.shipping_address.zipcode|zipcodify}}</p>
+				<p>{{pitem.order.shipping_address.name}}</p>
+				<p>{{pitem.order.shipping_address.address_one}}</p>
+				{% if pitem.order.shipping_address.address_two %}<p>{{pitem.order.shipping_address.address_two}}</p>{% endif %}
+				<p>{{pitem.order.shipping_address.city}}, {{pitem.order.shipping_address.state}} {{pitem.order.shipping_address.zipcode|zipcodify}}</p>
 				<p>{{pitem.shipping_address.phonenumber}}</p>
 			</div>
 			{% endif %}

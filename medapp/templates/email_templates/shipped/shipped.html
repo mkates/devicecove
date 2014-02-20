@@ -1,0 +1,13 @@
+{% extends 'email_templates/email_foundation.html' %}
+
+{% block textblock %}
+
+<p>The item you have recently purchased, {{purchaseditem.item_name}} has shipped</p>
+
+<p> The details of the shipment are below:</p>
+
+<p><strong style="font-weight:bold">{{purchaseditem.seller_message}}</strong></p>
+
+<p> You can view your full purchase history and item status in your <a href="http://www.vetcove.com/account/buyhistory">Selling History</a></p>
+
+{% endblock %}

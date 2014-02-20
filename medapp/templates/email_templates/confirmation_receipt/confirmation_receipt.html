@@ -1,0 +1,28 @@
+{% extends 'email_templates/email_foundation.html' %}
+{% load phonenumber %}{% load zipcodify %}
+
+{% block textblock %}
+<p>Thank you for your purchase on VetCove!  The seller will be in touch with you regarding any additional details, including shipment and tracking information (if applicable).  Information about your purchase is below, and further details can be found in your <a href="http://www.vetcove.com/account/buyhistory">VetCove transaction history</a>.</p>
+<p>Order Number: #000{{order.id}}</p>
+{% endblock %}
+
+{% block col_a_title %}Shipping Information{% endblock %}
+{% block col_b_title %}Payment Information{% endblock %}
+
+{% block col_a_block %}
+<p class="thin">{{order.shipping_address.name}}</p>
+<p class="thin">{{order.shipping_address.address_one}}</p>
+<p class="thin">{% if order.shipping_address.address_two %}{{order.shipping_address.address_two}}{% endif %}</p>
+<p class="thin">{{order.shipping_address.city}}, {{order.shipping_address.state}}{{order.shipping_address.zipcode|zipcodify}}</p>
+<p class="thin">{{order.shipping_address.phonenumber|phonenumber}}</p>
+{% endblock %}
+
+{% block col_b_block %}
+<p class="thin">Credit / Debit Card</p>
+<p class="thin">{{order.payment.balancedcard.brand}}</p>
+<p class="thin">********{{order.payment.balancedcard.last_four}}</p>
+<p class="thin">Expires: {{order.payment.balancedcard.expiration_month}}/{{order.payment.balancedcard.expiration_year}}</p> 
+{% endblock %}
+
+
+

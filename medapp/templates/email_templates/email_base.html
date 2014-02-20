@@ -1,5 +1,5 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html>
+<html lang="en">
 	<head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <title>{{email_title}}</title>
@@ -63,6 +63,7 @@
 			p {
 				font-size: 14px;
 				line-height: 140%;
+				margin: 10px 0 0 0;
 			}
 			a {
 				color:#167BAD;
@@ -146,6 +147,9 @@
 				margin-bottom:10px;
 				margin-left:0;
 				/*@editable*/ text-align:left;
+			}
+			strong {
+				font-weight: bold;
 			}
 			.thin {
 				line-height: 130%;
@@ -682,358 +686,16 @@
                                     <table border="0" cellpadding="0" cellspacing="0" width="100%" id="templateBody">
                                         <tr>
                                             <td valign="top" class="bodyContent" mc:edit="body_content">
-                            				{% if welcome %}
-                                                <p>Dear {{email_name}},</p>
-                                                <p>Welcome to VetCove, the safest and easiest way to buy and sell veterinary equipment!  You're joining  the web's most trusted community of veterinarians and their industry partners.  We're here to ensure that veterinarians across the country have access to affordable and high quality devices and instruments for their practices and hospitals. </p>
-												<p>Please note that even though you've registered, you will now be vetted through our <a href='http://www.vetcove.com/pvp'>VetCove Partner Verification Program (PVP)</a> to ensure the identity of your business for the safety of the VetCove community.  We go to great lengths to ensure that every buyer and seller on VetCove is a certified veterinarian, veterinary practice, or trusted veterinary partner.  You may be receiving a call or e-mail from us in the next two business days to confirm your registration information.  In the meantime, you will be able to immediately partake in the VetCove community by purchasing items and/or listing items for sale.  Below are quick links for you to get started:</p>
-                                            	<p><span>
-                                            		<a href="http://www.vetcove.com/buy">Browse items to buy</a>&sdot;
-													<a href="http://www.vetcove.com/listintro">List an item for sale</a>&sdot;
-													<a href="http://www.vetcove.com/faq">Frequently Asked Questions</a>
-												</span></p>
-                                            	<p>If you have any questions at all not included in our FAQ, please don't hesitate to contact us using our website form or by replying to this e-mail. We look forward to your participation as an active member of the VetCove community!</p>
-												<p>Warmest regards,</p>
-												<p>Alex and The VetCove Team</p>
-                          					{% endif %}
-                          	
-                          					{% if pvp %}
-                                                <p>Dear {{email_name}},</p>
-                                                <p>Thank you again for registering for VetCove. We are pleased to inform you that our team has investigated your business, and that you have been accepted as a part of the VetCove Partner Verification Program (PVP)!</p>
-												<p>You now have full and unrestricted access to the website to buy and sell equipment.  Below are some quick links to get you started:</p>
-                                            	<p><span>
-                                            		<a href="http://www.vetcove.com/buy">Browse items to buy</a>&sdot;
-													<a href="http://www.vetcove.com/listintro">List an item for sale</a>&sdot;
-													<a href="http://www.vetcove.com/faq">Frequently Asked Questions</a>
-												</span></p>
-                                            	<p>If you have any questions at all not included in our FAQ, please don't hesitate to contact us using our website form or by replying to this e-mail. We look forward to your participation as an active member of the VetCove community!</p>
-												<p>Warmest regards,</p>
-												<p>Alex and The VetCove Team</p>
-                          					{% endif %}
- 
-                          					{% if listing_confirmation %}
-                                                <p>Dear {{email_name}},</p>
-                                                <p>Thank you for listing on VetCove!  Your listing for <a href="http://www.vetcove.com/item/{{item.id}}/details">{{item.name}}</a> in confirmed, and it has been added to VetCove in the <strong>{{item.subcategory}}</strong> of our site.  It will be fully discoverable to VetCove buyers when browsing or searching the site.</p>
-                                            	<p><span>
-                                            		<a href="http://www.vetcove.com/account/listings/all">Edit Your Listing</a>
-												</span></p>
-                                            	{% if not item.offlineviewing %}
-                                            		<p>When your item sells through VetCove, we will notify you immediately by e-mail and provide further instructions for shipping and receiving payment from the buyer.  Your item will also immediately be marked as sold on the website after payment is received from the buyer.  If you have any questions about selling in the meantime, please visit our <a href="http://www.vetcove.com/faq">Selling FAQ</a>.</p>
-                                            	{% else %}
-                                            		<p>As soon as you reach an agreement with a buyer to sell your item and payment has been arranged, it is your responsibility to remove the listing within one business day from the VetCove site, in accordance with our Seller Contract. Mark the item as sold using the link below:</p>
-                                            		<p><span>
-														<a href="http://www.vetcove.com/account/listings/all">Remove Item After Sale</a>
-													</span></p>
-                                            	{% endif %}
-                                            	<p>Thank you again for listing with VetCove!</p>
-												<p>Warmest regards,</p>
-												<p>Alex and The VetCove Team</p>
-                          					{% endif %}
-                       	
-                          	
-                          					{% if new_question %}        
-                                                <p>Dear {{email_name}},</p>
-                                                <p>We have some good news for you! A prospective buyer interested in your item has asked you a question about your item you have for sale: {{question.item.name}}.  The buyer asked:</p>
-                                            	<h4>{{question.question}}</h4>
-                                            	<p>Answering the question promptly may help your item sell over a similar item. To respond to the question right now, as well as any other questions awaiting your answers on other items, please click the link below:</p>
-                                            	<p><span>
-                                            		<a href="http://www.vetcove.com/account/sellerquestions">Respond to Buyer's Question</a>
-												</span></p>
-                                            	<p>Best of luck selling your item. Thank you again for choosing VetCove!</p>
-												<p>Warmest regards,</p>
-												<p>Alex and The VetCove Team</p>
-                          					{% endif %}
-        	
-                          					{% if contactmessage_seller %}
-                                                <p>Dear {{email_name}},</p>
-                                                <p>We have some good news for you! A prospective buyer located in {{contact_message.buyer.state}} is interested in viewing the item you have listed for sale, and has requested to make direct contact with you.  The item is: {{contact_message.item.name}}.</p>
-                                            	<p>If you're interested in viewing this buyer's message and obtaining his or her contact information to schedule a viewing and complete the sale, use the link below to log into your VetCove account:</p>
-                                            	<p><span>
-                                            		<a href="http://www.vetcove.com/account/messages/{{contact_message.item.id}}">View Buyer's Message and Schedule Viewing</a>
-												</span></p>
-                                            	<p>Please note that in order to correspond directly with prospective buyers and complete transactions outside of the VetCove website, we require all sellers to provide payment information in the form of a credit card or bank account.  You will only be charged commission if your item sells.</p>
-												<p>Responding quickly could help you close the sale. Best of luck selling your item.  Thank you again for choosing VetCove!</p>
-												<p>Warmest regards,</p>
-												<p>Alex and The VetCove Team</p>
-                          					{% endif %}
+                                            	{% block main_email_content %}
 
-											{% if commission_charged %}
-                          						<p>Dear {{email_name}},</p>
-                                                <p>Thank you for selling on VetCove!  We’re so pleased that there are buyers interested in viewing {{commission_obj.item.name}}.  Per the terms of our selling contract, your chosen payment method on file has been charged the VetCove selling fees associated with this transaction.</p>
-                                                <h4>Product Information</h4>
-                                                <p class="thin">Item Number: {{commission_obj.item.id}}</p>
-                                                <p class="thin">Listing Price: {{commission_obj.item.price|dollars}}</p>
-                                                <p class="thin">Selling Fees: {{percentage}}% Commission</p>
-                                                {% if commission_obj.item.promo_code %}
-                                                	<p class="thin">Original Commission: {{original_commission|dollars}}</p>
-                                               		<p class="thin">Promotional Code: {{commission_obj.item.promo_code.code}} ({{commission_obj.item.promo_code.details}})</p>
-                                               		<p class="thin">Promotional Savings: {{savings|dollars}}</p>
-                                               {% endif %}
-                                                <p class="thin">Transaction ID: #0000{{commission_obj.id}}</p>
-                                                <p class="thin">Amount Charged: {{commission_obj.amount|dollars}}</p>
-                                                <br>
-                                                <h4>Payment Method</h4>
-                                                	{% if commission_obj.payment.balancedbankaccount %}
-														<p class="thin">Bank Account</p>
-														<p class="thin">{{commission_obj.payment.balancedbankaccount.name}}</p>
-														<p class="thin">{{commission_obj.payment.balancedbankaccount.bank_name}}</p>
-														<p class="thin">{{commission_obj.payment.balancedbankaccount.account_number}}</p>
-													{% elif commission_obj.payment.balancedcard  %}
-														<p class="thin">Credit / Debit Card</p>
-														<p class="thin">{{commission_obj.payment.balancedcard.brand}}</p>
-														<p class="thin">********{{commission_obj.payment.balancedcard.last_four}}</p>
-														<p class="thin">Expires: {{commission_obj.payment.balancedcard.expiration_month}}/{{commission_obj.payment.balancedcard.expiration_year}}</p>	
-													{% endif %}
-                                                <p><span>
-                                            		<a href="http://www.vetcove.com/account/payment"">Update Payment and Payout Preferences</a>
-												</span></p>
-												<p>Best of luck selling your item!  If you are able to collect cash or check payment directly from a buyer, no further action is required on your part, and no further fees will be assessed.  You will be able to instantly receive direct contacts from prospective buyers for this item going forward without restriction.</p>
-                                            	<p>If you are unable to sell your item after a period of 90 days, VetCove will refund you 100% of all selling fees charged today, less any nomial credit card or bank transfer fees we incur to complete the transaction.  If you have any questions at all, please don’t hesitate to get in contact with us.</p>
-												<p>Warmest regards,</p>
-												<p>Alex and The VetCove Team</p>
-                          					{% endif %}
-
-                          					{% if selling_reminder %}
-                          						<p>Dear {{email_name}},</p>
-                                                <p>Two weeks ago, we sent you a buyer's contact information that was interested in purchasing your item: {{item.name}}.  That buyer's name and business information is below:</p>
-                                                <h4>Buyer Message</h4>
-                                                <p class="thin">{{contact_message.buyer.name}}</p>
-                                                <p class="thin">Contact Date: {{contact_message.date_sent}}</p>
-                                                {% if contact_message.buyer.email %}<p class="thin">Email: {{contact_message.email}}</p>{% endif %}
-                                                {% if contact_message.buyer.phone %}<p class="thin">Phone: {{contact_message.phone|phonenumber}}</p>{% endif %}
-                                                <p class="thin">Message: {{contact_message.message}}</p>
-                                            	<p>How did it go?  Were you able to sell the item to this buyer?</p>
-                                            	<a href="{{temp_base}}/account/updatelisting/sold/{{token}}">I sold the item to this buyer</a>
-                                            	<br>
-                                            	<a href="{{temp_base}}/account/updatelisting/differentsold/{{token}}">I sold the item to a different VetCove buyer</a>
-                                            	<br>
-                                            	<a href="{{temp_base}}/account/updatelisting/notsold/{{token}}">I sold the item outside VetCove</a>
-												<br>
-                                            	<p>If your item sold, please remove it from the VetCove website using one one of the appropriate links above.  It is your responsibility to remove all sold items within two business days in accordance with the terms of the VetCove Seller Contract. </p>
-												<p>Please do not share this email with others as they will be able to mark your items as sold and the listing will no longer be visible to potential buyers.</p>
-												<p>Thank you again for choosing VetCove!</p>
-												<p>Warmest regards,</p>
-												<p>Alex and The VetCove Team</p>
-                          					{% endif %}
-
-                          					{% if item_sold_seller %}
-                          						<p>Dear {{email_name}},</p>
-                                                <p>Congratulations! A VetCove member has purchased {%if purchased_item.quantity > 1 %}{{purchased_item.quantity}}{% endif %} of your item, {{item.name}} and payment has been confirmed.  You may now prepare to ship the item in accordance with the terms of your listing.  The contact information and shipping address of the buyer is below:</p>
-                                                <h4>Shipping Address</h4>
-                                                <p class="thin">{{purchased_item.cartitem.checkout.shipping_address.name}}</p>
-                                                <p class="thin">{{purchased_item.cartitem.checkout.shipping_address.address_one}}</p>
-                                                {% if purchased_item.cartitem.checkout.shipping_address.address_two %}<p>{{purchased_item.cartitem.checkout.shipping_address.address_two}}</p>{% endif %}
-                                                <p class="thin">{{purchased_item.cartitem.checkout.shipping_address.city}}, {{purchased_item.cartitem.checkout.shipping_address.state}} {{purchased_item.cartitem.checkout.shipping_address.zipcode}}</p>
-                                            	<p class="thin">{{purchased_item.cartitem.checkout.shipping_address.phonenumber|phonenumber}}</p>
-                                            	<br>
-                                            	<h4>Buyer's Contact Information</h4>
-                                            	<p class="thin">{{purchased_item.buyer.name}}</p>
-                                            	<p class="thin">{{purchased_item.buyer.email}}</p>
-                                            	<p class="thin">{{purchased_item.cartitem.checkout.shipping_address.phonenumber|phonenumber}}</p>
-                                            	<br>
-                                            	<p class="thin">Once you have shipped the item, please click the link below to notify the buyer that the item has been shipped.  You will be able to upload tracking information to help the buyer track the shipment.  Feel free to correspond directly with the buyer by e-mail if you wish.</p>
-                                            	<p><span>
-                                            		<a href="http://www.vetcove.com/account/sellhistory"">Enter Shipping Information</a>
-												</span></p>
-												<p>Thank you again for choosing VetCove!</p>
-												<p>Warmest regards,</p>
-												<p>Alex and The VetCove Team</p>
-                          					{% endif %}
-                          					
-                          	
-                          					{% if item_shipped_buyer %}
-                          						<p>Dear {{email_name}},</p>
-                                                <p>Congratulations!  The seller for your item, {{item.name}} has just indicated that the package has been shipped to you.  Shipment details, including tracking information if available, can be found below.</p>
-                                                <h4>{{purchased_item.seller_message}}</h4>
-                                                <p class="thin">If you have any questions about the purchase now or after your receive your item, please correspond with the seller directly using the below contact information.  </p>
-                                                <br>
-                                                <h4>Seller Contact Information</h4>
-                                                <p class="thin">{{item.user.name}}</p>
-                                                <p class="thin">{{item.user.email}}</p>
-                                                <p class="thin">{{item.user.phonenumber|phonenumber}}</p>
-                                            	<p>And remember, your purchase is fully backed by VetCove’s <a href="http://www.vetcove.com/buyerprotect">buyer protection guarantee</a>.  If there is a problem with your order once you receive it, we ask that you please contact the seller first to find a solution.  If the problem still persists, please don’t hesitate to contact us, and we will assist you in finding a resolution in accordance our buyer protection policy to ensure you’re taken care of.</p>
-                                            	<p>Thank you again for choosing VetCove!</p>
-												<p>Warmest regards,</p>
-												<p>Alex and The VetCove Team</p>
-                          					{% endif %}
-                          					
-                          					{% if item_shipped_seller %}
-                          						<p>Dear {{email_name}},</p>
-                                                <p>Your item, {{item.name}}, has been marked as shipped, and the buyer has been notified via e-mail of the below information:</p>
-                                                <h4>{{purchased_item.seller_message}}</h4>
-                                                <p>If you have additional information you’d like to send to the buyer, please feel free to contact them directly.  Thank you again for choosing VetCove!</p>
-												<p>Warmest regards,</p>
-												<p>Alex and The VetCove Team</p>
-                          					{% endif %}
-                          					
-                          					{% if purchase_confirmation %}
-                          						<p>Dear {{email_name}},</p>
-                          						<p>Thank you for your purchase on VetCove!  The seller will be in touch with you regarding any additional details, including shipment and tracking information (if applicable).  Information about your purchase is below, and further details can be found in your <a href="http://www.vetcove.com/account/buyhistory">VetCove transaction history</a>.</p>
-                          						<h2> Order Number: #001</h2>
-                          					{% endif %}
-                          					
-                          					{% if no_payment %}
-                          						<p>Dear {{email_name}},</p>
-                          						<p>Thank you for selling on VetCove!  We hope you’re enjoying your experience with our service.</p>
-                          						<p>We’re pleased to inform you that that your item has been paid for by the buyer, and payment is ready for you.  However, our records show that you do not have a payment method set up to receive payment.  To choose a preferred method of payment, please go to your VetCove account by clicking the below link.</p>
-                          						<p><span>
-                                            		<a href="http://www.vetcove.com/account/payment"">Account and Payment Preferences</a>
-												</span></p>
-                          						<p>VetCove cannot pay you for any sold items until a payout method is selected. You can either 
-                          						be paid through a direct deposit into a bank account, or we can mail a check to you. We attached
-                          						the items you have sold below that have not currently been paid out.</p>
-                                                <p>If you are having trouble entering a payout method, don't hesitate to get in contact with us.</p>
-                          						<p>Warmest regards,</p>
-												<p>Alex and The VetCove Team</p>
-                          					{% endif %}
-                          					
-                          					{% if payout_updated %}
-                          						<p>Dear {{email_name}},</p>
-                                                <p>Your payout preferences on file for receiving payments have been updated in our system. No further action is required.</p>
-                                                <h4>Current Payout Method: <strong>{% if payout_method == 'check' %}Check By Mail{% else %}Bank Account Direct Deposit{% endif %}</strong></h4>
-                                                <p>Currently, we have the following set as your default payout option:</p>
-                                                
-                                                {% if payout.balancedbankaccount %}
-													<h5 class="thin">Bank Account</h5>
-													<p class="thin">{{payout.balancedbankaccount.name}}</p>
-													<p class="thin">{{payout.balancedbankaccount.bank_name}}</p>
-													<p class="thin">{{payout.balancedbankaccount.account_number}}</p>
-												{% else %}
-													<h5 class="thin">Check Mailing Address</h5>
-													<p class="thin">{{payout.checkaddress.address.name}}</p>
-													<p class="thin">{{payout.checkaddress.address.address_one}}</p>
-													{% if payout.checkaddress.address.address_two %}<p>{{payout.checkaddress.address.address_two}}</p>{% endif %}
-													<p class="thin">{{payout.checkaddress.address.city}}, {{payout.checkaddress.address.state}} {{payout.checkaddress.address.zipcode|zipcodify}}</p>
-													<p class="thin">{{payout.checkaddress.address.phonenumber|phonenumber}}</p>
-                                            	
-												{% endif %}
-                                                <p>If you would like to review the changes or make further modifications, feel free to use the link below. If you believe this update was the result of unauthorized access to your account, please contact us immediately.</p>
-                                                <p><span>
-                                            		<a href="http://www.vetcove.com/account/payment"">Update Payment and Payout Preferences</a>
-												</span></p>
-                                            	<p>Thank you again for choosing VetCove!</p>
-												<p>Warmest regards,</p>
-												<p>Alex and The VetCove Team</p>
-                          					{% endif %}
-                          					
-                          					{% if payout_check_sent %}
-                          						<p>Dear {{email_name}},</p>
-												<p>Thank you for selling on VetCove!  We hope you’re enjoying your experience with our service.</p>
-												<p>We’re pleased to inform you that the check from your recent transaction(s) is in the mail and on its way to you.  The details are attached below.</p>
-												<h5 class="thin">Check Mailing Address</h5>
-												<p class="thin">{{check_obj.address.name}}</p>
-												<p class="thin">{{check_obj.address_one}}</p>
-												{% if check_obj.address.address_two %}<p>{{check_obj.address.address_two}}</p>{% endif %}
-												<p class="thin">{{check_obj.address.city}}, {{check_obj.address.state}} {{check_obj.address.zipcode|zipcodify}}</p>
-												<p class="thin">{{check_obj.address.phonenumber|phonenumber}}</p>
-												<p>Warmest regards,</p>
-												<p>Alex and The VetCove Team</p>
-											{% endif %}
-											
-											{% if payout_bank_sent %}
-                          						<p>Dear {{email_name}},</p>
-												<p>Thank you for selling on VetCove!  We hope you’re enjoying your experience with our service.</p>
-												<p>We’re pleased to inform you that that your item has been paid for by the buyer, and instant payment is on its way to you in the form of a bank transfer. Please allow up to three business days for the money to appear in your account. Details of the transaction are below:</p>
-												<h5 class="thin">Bank Account Information</h5>
-												<p class="thin">{{bank_obj.bank_account.name}}</p>
-												<p class="thin">{{bank_obj.bank_account.bank_name}}</p>
-												<p class="thin">{{bank_obj.bank_account.account_number}}</p>
-												<p>Warmest regards,</p>
-												<p>Alex and The VetCove Team</p>
-											{% endif %}
-											
-											{% if payout_failed %}
-												<p>Dear {{email_name}},</p>
-												<p>We were unable to credit your bank account for the sold items below. Please check your bank account below and double check that all your information is correct. You can update your payout information by following the link below</p> 
-												<p><span>
-                                            		<a href="http://www.vetcove.com/account/payment"">Update Payment and Payout Preferences</a>
-												</span></p>	
-												<h5 class="thin">Bank Account Information</h5>
-												<p class="thin">{{bank_obj.bank_account.name}}</p>
-												<p class="thin">{{bank_obj.bank_account.bank_name}}</p>
-												<p class="thin">{{bank_obj.bank_account.account_number}}</p>
-												<p>If you are sure the information is correct and it is indeed a valid bank account,
-												you should get in contact with us immediately so we can resolve the issue.</p>
-												<p>Warmest regards,</p>
-												<p>Alex and The VetCove Team</p>
-											{% endif %}
-											
-											{% if authorized_buyer %}
-												<p>Dear {{email_name}},</p>
-												<p>Great news!  The seller for an item, {{item.name}}, has just authorized you to pay for the item through VetCove.  If you’ve reached an agreement to pay for the item with the seller, please use the link below to pay and complete the transaction.</p> 
-												<p><span>
-                                            		<a href="http://www.vetcove.com/item/{{item.id}}/details"">Add Item To Cart and Complete Purchase</a>
-												</span></p>	
-												<p>Once the payment has been processed, the seller will be notified to proceed with shipping or allowing pickup of the item.  If you have any questions, or would not like to purchase the item at this time, please contact the seller using the information below:</p>
-												<h5 class="thin">Seller Information</h5>
-												<p class="thin">{{item.user.name}}</p>
-												<p class="thin">{{item.user.email}}</p>
-												<p class="thin">{{item.user.phonenumber}}</p>
-												<p>Remember that your payment through VetCove is completely secured by Balanced Payments, who is Level 1 PCI certified.  By paying through VetCove, you are also entitled to our VetCove Buyer Protection program. </p>
-												<p>Warmest regards,</p>
-												<p>Alex and The VetCove Team</p>
-											{% endif %}
-
-
+                                            	{% endblock %}
                           	          		</td>
                                         </tr>
                                     </table>
                                     <!-- // END BODY -->
                                 </td>
                             </tr>
-                            
-                            
-                            
-                          {% if purchase_confirmation %}
-                           <!-- 2 Column Template -->
-                            <tr>
-                            	<td align="center" valign="top">
-                                    <!-- BEGIN 2 COLUMNS // -->
-                                    <table border="0" cellpadding="0" cellspacing="0" width="100%" id="templateColumns">
-										<tr mc:repeatable>
-											<td align="center" valign="top" class="templateColumnContainer" style="padding-top:20px;">
-												<table border="0" cellpadding="20" cellspacing="0" width="100%">
-													<tr>
-														<td valign="top" class="leftColumnContent" mc:edit="left_column_content">
-															<h4>Shipping Address</h4>
-															<p class="thin">{{shipping_address.name}}</p>
-                                                			<p class="thin">{{shipping_address.address_one}}</p>
-															{% if shipping_address.address_two %}<p class="thin">{{shipping_address.address_two}}</p>{% endif %}
-															<p class="thin">{{shipping_address.city}}, {{shipping_address.state}} {{shipping_address.zipcode}}</p>
-															<p class="thin">{{shipping_address.phonenumber|phonenumber}}</p>
-														</td>
-													</tr>
-												</table>
-											</td>
-											<td align="center" valign="top" class="templateColumnContainer" style="padding-top:20px;">
-												<table border="0" cellpadding="20" cellspacing="0" width="100%">
-													<tr>
-														<td valign="top" class="leftColumnContent" mc:edit="right_column_content">
-															<h4>Payment Method</h4>
-															{% if payt.balancedbankaccount %}
-																<h5 class="thin">Bank Account</h5>
-																<p class="thin">{{payment.balancedbankaccount.name}}</p>
-																<p class="thin">{{payment.balancedbankaccount.bank_name}}</p>
-																<p class="thin">{{payment.balancedbankaccount.account_number}}</p>
-															{% elif payment.balancedcard %}
-																<p class="thin">Credit / Debit Card</p>
-																<p class="thin">{{payment.balancedcard.brand}}</p>
-																<p class="thin">********{{payment.balancedcard.last_four}}</p>
-																<p class="thin">Expires: {{payment.balancedcard.expiration_month}}/{{payment.balancedcard.expiration_year}}</p>	
-															{% endif %}
-														</td>
-													</tr>
-												</table>
-											</td>
-										</tr>
-                                    </table>
-                                    <!-- // END 2 COLUMNS -->
-                                </td>
-                            </tr>
-                            <!-- // END 2 Column Template -->
-							{% endif %}
-                            
-                            
-                            <!-- ########## Draw the products ######## -->
+
                             {% for pi in purchased_items %}
                             <tr>
                             	<td align="center" valign="top">

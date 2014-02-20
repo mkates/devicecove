@@ -1,0 +1,11 @@
+{% extends 'email_templates/email_foundation.html' %}
+
+{% block textblock %}
+<p>We have some good news for you! A prospective buyer interested in your item has asked you a question about your item you have for sale: {{question.item.name}}.  The buyer asked:</p>
+<p><strong style="font-weight:bold">{{question.question}}</strong></p>
+<p>Answering the question promptly may help your item sell over a similar item. To respond to the question right now, as well as any other questions awaiting your answers on other items, please click the link below:</p>
+<p><span>
+	<a href="http://www.vetcove.com/account/sellerquestions">Respond to Buyer's Question</a>
+</span></p>
+<p>Best of luck selling your item. Thank you again for choosing VetCove!</p>
+{% endblock %}

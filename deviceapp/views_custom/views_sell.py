@@ -202,7 +202,6 @@ def purchaseshippinginfo(request,purchaseditemid):
 	if request.POST['submit'] == 'shipped' and pi.item_sent == False:
 		pi.item_sent = True
 		email_view.composeEmailItemShipped_Buyer(request,request.user.basicuser,pi)
-		email_view.composeEmailItemShipped_Seller(request,request.user.basicuser,pi)
 		notification = ShippedNotification(user=pi.buyer,purchaseditem=pi)
 		notification.save()
 	else:
