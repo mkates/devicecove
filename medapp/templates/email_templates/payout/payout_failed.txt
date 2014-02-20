@@ -1,0 +1,15 @@
+{% extends 'email_templates/email_foundation.txt' %}
+
+{% block textblock %}
+Thank you for selling on VetCove!  We hope you’re enjoying your experience with our service.
+
+We are pleased to inform you that that your item has been paid for by the buyer, and payment is ready for you.  However, we were unable to successfully credit your bank account (account {{bank_account.balancedbankaccount.account_number}}). We attached
+the items you have sold below that have not currently been paid out.
+
+You can either be paid through a direct deposit into a bank account, or we can mail a check to you.
+
+Follow the link below to update your payment information. If you are having trouble entering a payout method, don't hesitate to get in contact with us.
+
+Payment Information
+http://www.vetcove.com/account/payment
+{% endblock %}

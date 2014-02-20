@@ -135,7 +135,7 @@ $(document).ready(function() {
 			$(".promo-entry img").css('display','none');
 			if (e['status'] == 201) {
 				$("#code-explain").text("Promo Code Successfully Added!");
-				$("#current-code").text($("#promocode").val());
+				$("#current-code").text(e['code']);
 				$(".promo_message").text("("+e['message']+")")
 				$("#code-explain").css('color','green');
 			} else {
@@ -239,8 +239,8 @@ var validateInputs = function validateInputs() {
 		</p>
 		{% else %}
 		<p>If you have a promotion code, please enter it below. Only one promotion code can be used per listing.</p>
-		<h6 class="current-code">Current Promotion Code: {% if item.promo_code %}<span id="current-code"> {{item.promo_code.code}}</span> <span class="promo_message">
-			{% if item.promo_code %}({{item.promo_code.promo_text}}){% endif %}</span>{% else %}None{% endif %}</h6>
+		<h6 class="current-code">Current Promotion Code: <span id="current-code">{% if item.promo_code %}{{item.promo_code.code}}{% else %}None{% endif %}</span> <span class="promo_message">
+			{% if item.promo_code %}({{item.promo_code.promo_text}}){% endif %}</span></h6>
 		<input id="promocode" name="promocode" class="form-control" value="{% if item.promo_code %}{{item.promo_code.code}}{% endif %}" />
 		<a id="promo-check" class="button button-rounded button-primary">Use This Promo Code</a>
 		<img src="{{STATIC_URL}}img/ajax-loader.gif"/>

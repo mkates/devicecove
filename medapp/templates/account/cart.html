@@ -143,10 +143,13 @@
 									1
 								{% endif %}
 						</span></p>
-						{% if cartitem.numbercarts %}<p class="otherbuyers">{{cartitem.numbercarts}} other {%if cartitem.numbercarts == 1 %}person has{% else %}people have{% endif %} this item in their cart</p>{% endif %}					
+						{% if cartitem.numbercarts %}<p class="otherbuyers">{{cartitem.numbercarts}} other {%if cartitem.numbercarts == 1 %}person has{% else %}people have{% endif %} this item in their shopping cart</p>{% endif %}					
 						{% endif %}
 						{% if cartitem.item.liststatus != "active" %}
 						<p class="not-available"> This item is no longer available. This item has been taken down or been purchased.</p>
+						{% endif %}
+						{% if not cartitem.item.shippingincluded %}
+						<p class="not-available">Note: You must pick up this item from {% if item.user.city and item.user.state %}{{item.user.city}}, {{item.user.state}}{% else %}zipcode {{item.user.zipcode|zipcodify}}{% endif %}</p>
 						{% endif %}
 						<span class="item-actions">
 							{% if cartitem.item.liststatus == "active" %}

@@ -1,4 +1,4 @@
-var formelements = {'name':false,'email':false,'password':false};
+var formelements = {'firstname':false,'lastname':false,'email':false,'password':false,'confirmpassword':false};
 var states = ['AK',"AL","AR","AS","AZ","CA","CO","CT","DC","DE","FL","GA","GU","HI","IA","ID","IL","IN","KS","KY","LA","MA","MD","ME","MH","MI","MN","MO","MS","MT","NC","ND","NE","NH","NJ","NM","NV","NY","OH","OK","OR","PA","PR","PW","RI","SC","SD","TN","TX","UT","VA","VI","VT","WA","WI","WV","WY"];
 
 function isEmail(email) {
@@ -51,10 +51,15 @@ var updateformcss = function updateformcss(handler) {
 
 //Takes in a list of inputs to verify
 var validateinput = function validateinput(handler,submiting) {
-	if ($(handler).attr('id') =='name' || submiting) {
-		var validated = ($("#name").val().length < 1 ) ? false : true;
-		formelements['name'] = validated;
-		updateformcss($("#name"));
+	if ($(handler).attr('id') =='firstname' || submiting) {
+		var validated = ($("#firstname").val().length < 1 ) ? false : true;
+		formelements['firstname'] = validated;
+		updateformcss($("#firstname"));
+	}
+	if ($(handler).attr('id') =='lastname' || submiting) {
+		var validated = ($("#lastname").val().length < 1 ) ? false : true;
+		formelements['lastname'] = validated;
+		updateformcss($("#lastname"));
 	}
 	if ($(handler).attr('id') =='email' || submiting ) {
 		checkEmail();
@@ -73,6 +78,16 @@ var validateinput = function validateinput(handler,submiting) {
 			formelements['password'] = true;
 		}
 		updateformcss($("#password"));
+	}
+	if ($(handler).attr('id') =='confirmpassword' || submiting) {
+		if ($("#confirmpassword").val() != $("#password").val()) {
+			$("#confirmpasswordtext").html("Passwords do not match");
+			formelements['confirmpassword'] = false;
+		}  else {
+			$("#confirmpasswordtext").html("");
+			formelements['confirmpassword'] = true;
+		}
+		updateformcss($("#confirmpassword"));
 	}
 	var submittable = true;
 	$.each(formelements, function(index,value) {

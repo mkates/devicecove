@@ -11,11 +11,14 @@ Order Number: #000{{order.id}}
 {% block col_b_title %}Payment Information{% endblock %}
 
 {% block col_a_block %}
+{% if order.shipping_address %}
 {{order.shipping_address.name}}
 {{order.shipping_address.address_one}}
 {% if order.shipping_address.address_two %}{{order.shipping_address.address_two}}{% endif %}
 {{order.shipping_address.city}}, {{order.shipping_address.state}}{{order.shipping_address.zipcode|zipcodify}}
 {{order.shipping_address.phonenumber|phonenumber}}
+{% else %}
+You must organize with the seller to pick up your recerntly purchased items.
 {% endblock %}
 
 {% block col_b_block %}

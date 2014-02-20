@@ -136,7 +136,7 @@ $(document).ready(function() {
 				<div class="covebox cart-item {% if forloop.last %}last-cart-item{% endif %}" id="cart-item-{{cartitem.item.id}}">
 					<div class="row">
 						<div class="item-image col-md-3 col-sm-3 col-xs-12">
-							<img src="{%if cartitem.item.mainimage %}{{cartitem.item.mainimage.photo_medium.url}}{% else %}{{STATIC_URL}}img/noimage.jpg{% endif %}" alt="{{cartitem.item.name}}"/>		
+							<img src="{% if checkoutcartitem.item.mainimage %}{{checkoutcartitem.item.mainimage.photo_medium.url}}{% else %}{{STATIC_URL}}img/noimage.jpg{% endif %}" alt="{{checkoutcartitem.item.name}}"/>		
 						</div>
 						<div class="item-information col-md-7 col-sm-7 col-xs-12">
 							<h6><a target="_blank" href="/item/{{checkoutcartitem.item.id}}/details">{{checkoutcartitem.item.name}}</a></h6>

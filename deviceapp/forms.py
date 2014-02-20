@@ -1,7 +1,8 @@
 from django import forms
 
 class NewUserForm(forms.Form):
-	name = forms.CharField(max_length=60)
+	firstname = forms.CharField(max_length=60)
+	lastname = forms.CharField(max_length=60)
 	email = forms.EmailField(max_length=60)
 	password = forms.CharField(widget=forms.PasswordInput) 
 	zipcode = forms.IntegerField()

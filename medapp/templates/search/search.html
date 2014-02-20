@@ -117,7 +117,7 @@ label .floatright {
 			{% endif%}
 			{% for subcat in category.subcategory_set.all %} 
 				{% if subcat == subcategory %}
-				<a href="" class="subsubtree tree-active">{{subcat.displayname}} <span>({{subcat.totalunits}})</span></a>
+				<a class="subsubtree tree-active">{{subcat.displayname}} <span>({{subcat.totalunits}})</span></a>
 				{% else %}
 				<a href="/productsearch/veterinary/{% if not category %}{{subcat.maincategory.name}}{% else %}{{category.name}}{% endif %}/{{subcat.name}}" class="subsubtree">{{subcat.displayname}} <span>({{subcat.totalunits}})</span></a>
 				{% endif %}

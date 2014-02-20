@@ -86,7 +86,7 @@ class Command(BaseCommand):
 						notification.save()
 					except Exception,e:
 						write(self,str(basicuser.id)+": "+str(e))
-						#email_view.composeEmailPayoutFailed(basicuser,bank_payout_obj)	
+						#email_view.composeEmailPayoutFailed(basicuser,basicuser.payout_method,eligiblePurchasedItems)	
 						notification = PayoutNotification(user=basicuser,payout=bank_payout_obj,success=False)
 						notification.save()
 				else:

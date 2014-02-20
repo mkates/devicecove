@@ -317,7 +317,7 @@
     "model": "deviceapp.basicuser", 
     "fields": {
     	"user": 1, 
-        "name": "VetCove Admin",
+        "firstname": "VetCove Admin",
         "email": "admin@vetcove.com", 
         "zipcode": 12345  
     }
@@ -334,7 +334,7 @@
     "model": "deviceapp.basicuser", 
     "fields": {
     	"user": 2, 
-        "name": "VetCove Staff",
+        "firstname": "VetCove Staff",
         "email": "staff@vetcove.com", 
         "zipcode": 90012   
     }
@@ -351,7 +351,8 @@
     "model": "deviceapp.basicuser", 
     "fields": {
     	"user": 3, 
-        "name": "Aunt Jemima",
+        "firstname": "Aunt",
+        "lastname":"Jemima",
         "email": "auntj@aim.com", 
         "zipcode": "07722"
     }
@@ -368,7 +369,8 @@
     "model": "deviceapp.basicuser", 
     "fields": {
     	"user": 4, 
-        "name": "Jim Bean",
+        "firstname": "Jim",
+        "lastname": "Bean",
         "email": "jim@aim.com", 
         "zipcode": "07722"
     }
@@ -385,7 +387,8 @@
     "model": "deviceapp.basicuser", 
     "fields": {
     	"user": 5, 
-        "name": "Colonel Sanders",
+        "firstname": "Colonel",
+        "lastname": "Sanders",
         "email": "sanders@aim.com", 
         "zipcode": "07722"
     }

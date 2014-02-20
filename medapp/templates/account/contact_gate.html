@@ -84,6 +84,9 @@
 	text-decoration: underline;
 	font-weight: normal;
 }
+.div-error {
+	margin-top: 0px;
+}
 {% if not payment_methods %}
 .add-payment-container {
 	display: block;
@@ -112,12 +115,6 @@ $(document).ready(function() {
 		$(this).addClass('button-primary');
 		$('.ba-container').css('display','none');
 		$('.cc-container').css('display','block');
-	});
-	$('.show-ba').click(function() {
-		$(".payment-button").removeClass('button-primary');
-		$(this).addClass('button-primary');
-		$('.cc-container').css('display','none');
-		$('.ba-container').css('display','block');
 	});
 	$('.add-payment').click(function() {
 		$('.add-payment-container').fadeIn();
@@ -160,13 +157,8 @@ $(document).ready(function() {
 					<button class="add-payment button button-rounded">Use A Different Payment Method</button>
 					{% endif %}
 					<div class="add-payment-container">
-						<button class="payment-button show-cc button button-rounded button-tiny button-primary">Pay by Credit Card</button>
-						<button class="payment-button show-ba button button-rounded button-tiny">Pay by Bank Account</button>
 						<div class="cc-container">
 							{% include 'account/cc_form.html'%}
-						</div>
-						<div class="ba-container">
-							{% include 'account/ba_form.html'%}
 						</div>
 					</div>
 				</div>

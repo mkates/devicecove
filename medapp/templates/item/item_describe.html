@@ -44,7 +44,10 @@
 			</select>
 		</div>
 		<div class="entry">
-			<h5>Listing Type</h5>
+			<h5>
+				Listing Type 
+				<button type="button" class="conditionquality-class question-mark" data-container="body" data-toggle="popover" data-placement="right" data-trigger="hover" data-content="<h6>Pre-Owned vs. Refurbished</h6><p>Refurbished have been used, but original manufacturer or certified refurbisher restored the item to like-new condition</p>">?</button>
+			</h5>
 			{% if item.liststatus != 'incomplete' %}
 				{% if item.conditiontype == 'new' %}
 					<p class="helper-text">This item was listed as <strong>new</strong>. To sell pre-owned items, you can create a new listing</p>
@@ -90,6 +93,7 @@
 <script src="{{STATIC_URL}}js/bootstrap-datepicker.js"></script> 
 <script>
 $(document).ready(function() {
+	$('.conditionquality-class').popover({html:true});
 	$("#inputcategory").change(function() {
 		retrieveCategories($("#inputcategory").val());
 	});
@@ -117,7 +121,6 @@ var validateInputs = function validateInputs() {
  	$("#inputsubcategory").val() != 0 ? removeError($("#inputsubcategory")) : addError($("#inputsubcategory"));
 	$("#inputmanufacturer").val().length > 2 ? removeError($("#inputmanufacturer")) : addError($("#inputmanufacturer"));
 	$("#inputname").val().length > 2 ? removeError($("#inputname")) : addError($("#inputname"));
-	$("#inputserialnumber").val().length > 2 ? removeError($("#inputserialnumber")) : addError($("#inputserialnumber"));
 	return submittable;
 };
 

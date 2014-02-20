@@ -33,7 +33,7 @@
 	{% endif %}
 </div>
 
-{% elif payment.balancedbankaccount %}
+{% elif payment.balancedbankaccount and not paying %}
 
 <div class="payment-method">
 	<div class="row payment-description">

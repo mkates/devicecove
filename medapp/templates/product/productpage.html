@@ -92,11 +92,11 @@
 			<h2>Buy This Item</h2>  
 			<h3>{{item.price|dollars}}</h3>
 			<p class="original-price">{{item.msrp_price|dollars}}</p>
-			<h4> Quantity Available: {{item.quantity}}</h4>
+			<p> Quantity Available: {{item.quantity}}</p>
 			{% if item.shippingincluded %}
-			<p>This item includes FREE domestic shipping</p>
+			<p class="action-information">This item includes FREE domestic shipping</p>
 			{% else %}
-			<p>This item is available for local pick-up only. Please make sure you are
+			<p class="action-information">This item is available for local pick-up only. Please make sure you are
 				willing to travel to
 				{% if item.user.city and item.user.state %}
 					{{item.user.city}}, {{item.user.state}}
@@ -142,6 +142,9 @@
 					{% endif %}
 				</div>
 			</div>
+			{% endif %}
+			{% if item.offlineviewing %}
+			<p class="offline-explain">* This item is available to be viewed offline. You must contact the seller to organize a time to view this item.</p>
 			{% endif %}
 		</div>
 		{% if item.charity %}
@@ -205,9 +208,11 @@
 		<div class="mainproduct productdetails" id="features">
 			<h2> Product Condition</h2>
 			<p class="condition-quality">{{item.get_conditionquality_display}}</p>
+			{% if not preview %}
 			<button type="button" class="popover-class" data-container="body" data-toggle="popover" data-placement="right" data-trigger="hover" data-content="{{item.conditionquality|condition_quality}}">
 			  ?
 			</button>
+			{% endif %}
 			<p id="productfeatures">{{item.conditiondescription}}</p>
 		</div>
 		{% if item.whatsincluded %}
@@ -255,7 +260,7 @@
 				<p id="noquestions">There have been no questions asked</p>
 			{% endif %}
 		</div>
-		{% if not preview %}
+		{% if not preview and related %}
 		<div class="mainproduct productdetails">
 			<h2>Customer Who Viewed This Item Also Viewed</h2>
 			<ul id="carouselrelated" class="elastislide-list">

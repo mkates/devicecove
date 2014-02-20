@@ -10,11 +10,15 @@
 {% block col_b_title %}Payment Information{% endblock %}
 
 {% block col_a_block %}
+{% if order.shipping_address %}
 <p class="thin">{{order.shipping_address.name}}</p>
 <p class="thin">{{order.shipping_address.address_one}}</p>
 <p class="thin">{% if order.shipping_address.address_two %}{{order.shipping_address.address_two}}{% endif %}</p>
 <p class="thin">{{order.shipping_address.city}}, {{order.shipping_address.state}}{{order.shipping_address.zipcode|zipcodify}}</p>
 <p class="thin">{{order.shipping_address.phonenumber|phonenumber}}</p>
+{% else %}
+<p class="thin">All your purchased items are local pick up only, so you will need to arange when and where you can pick up the items.</p>
+{% endif %}
 {% endblock %}
 
 {% block col_b_block %}

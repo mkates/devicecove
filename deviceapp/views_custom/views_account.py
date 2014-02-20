@@ -122,7 +122,8 @@ def updateNotification(request):
 def updateGeneralSettings(request):
 	if request.user.is_authenticated() and request.method=="POST":
 		bu = BasicUser.objects.get(user=request.user)
-		bu.name = request.POST.get('name','')
+		bu.firstname = request.POST.get('firstname','')
+		bu.lastname = request.POST.get('lastname','')
 		bu.email = request.POST.get('email','')
 		zipcode = request.POST.get('zipcode','')
 		if bu.zipcode != int(zipcode):

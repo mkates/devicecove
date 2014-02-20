@@ -1,4 +1,5 @@
 from django.db import models
+from django.db.models import Q
 from django.contrib.auth.models import User
 import uuid, os
 from imagekit.processors import ResizeToFill, ResizeToFit
@@ -72,7 +73,8 @@ class PromoCode(models.Model):
 class BasicUser(models.Model):
 	# General
 	user = models.OneToOneField(User)
-	name = models.CharField(max_length=60)
+	firstname = models.CharField(max_length=60)
+	lastname = models.CharField(max_length=60)
 	email = models.EmailField(max_length=60) # Contact Email, login email stored in User class
 	zipcode = models.IntegerField(max_length=5)
 	
@@ -102,6 +104,9 @@ class BasicUser(models.Model):
 	def __unicode__(self):
 		return self.name
 	
+	def name(self):
+		return self.firstname+" "+self.lastname
+		
 	#Get number of unanswered questions
 	def unansweredQuestionCount(self):
 		questions = Question.objects.filter(seller=self)
@@ -451,7 +456,7 @@ class CartItem(models.Model):
 	
 	# Finds the number of other shopping carts that have this item
 	def numbercarts(self):
-		return CartItem.objects.filter(item=self.item).count()-1
+		return CartItem.objects.filter(~Q(shoppingcart = None)).filter(item=self.item).count()-1
 	
 	def amount(self):
 		return self.item.price*self.quantity

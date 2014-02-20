@@ -1,6 +1,7 @@
+{% extends 'email_templates/email_foundation.html' %}
 {% load phonenumber %}{% load zipcodify %}
-Dear {{email_name}},
 
+{% block textblock %}
 Your payout preferences on file for receiving payments have been
 updated in our system. No further action is required.
 
@@ -31,7 +32,4 @@ Update Payment and Payout Preferences
 http://www.vetcove.com/account/payment
 
 Thank you again for choosing VetCove!
-
-Warmest regards,
-
-Alex and The VetCove Team
+{% endblock %}

@@ -318,13 +318,13 @@ var addError = function addError(handle) {
 				<a class="{% block signinactive %}{% endblock%}"><span class="badge">{% block signin_check%}1{% endblock %}</span>Verify Account</a>
 			</div>
 			<div class="col-md-3 col-sm-3 col-xs-6 liststep">
-				<a class="{% block shippingactive %}{% endblock%}"><span class="badge">{% block shipping_check %}2{% endblock %}</span>Shipping</a>
+				<a {% if checkout.state >= 1 %}href="/checkout/shipping/{{checkout.id}}"{% endif %} class="{% block shippingactive %}{% endblock%}"><span class="badge">{% block shipping_check %}2{% endblock %}</span>Shipping</a>
 			</div>
 			<div class="col-md-3 col-sm-3 col-xs-6 liststep">
-				<a class="{% block paymentactive %}{% endblock%}"><span class="badge">{% block payment_check %}3{% endblock %}</span>Payment</a>
+				<a {% if checkout.state >= 2 %}href="/checkout/payment/{{checkout.id}}"{% endif %} class="{% block paymentactive %}{% endblock%}"><span class="badge">{% block payment_check %}3{% endblock %}</span>Payment</a>
 			</div>
 			<div class="col-md-3 col-sm-3 col-xs-6 liststep">
-				<a class="{% block reviewactive %}{% endblock%}"><span class="badge">{% block review_check %}4{% endblock %}</span>Review</a>
+				<a {% if checkout.state >= 3 %}href="/checkout/review/{{checkout.id}}"{% endif %} class="{% block reviewactive %}{% endblock%}"><span class="badge">{% block review_check %}4{% endblock %}</span>Review</a>
 			</div>
 			<div class="clear"></div>
 		</div>

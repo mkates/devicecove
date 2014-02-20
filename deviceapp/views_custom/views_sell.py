@@ -28,7 +28,7 @@ def addPromoCode(request,itemid):
 			if pc.active:
 				item.promo_code = pc
 				item.save()
-				dict = {'status':201,'message':pc.promo_text}
+				dict = {'status':201,'code':pc.code,'message':pc.promo_text}
 			else:
 				dict = {'status':400,'message':"You're too late! This code has expired. Sorry!"}
 		except:
@@ -77,7 +77,7 @@ def buyermessages(request,itemid):
 			for payment in payments:
 				if hasattr(payment,'balancedcard') or hasattr(payment,'balancedbankaccount'):
 					payment_methods = True
-			dict = {'gate':True,'payment_methods':payment_methods,'item':item,'standard_commission':standard_commission,'net_commission':net_commission,'discount':savings,'commission_percent':commission.commissionPercentage(item.price)}
+			dict = {'gate':True,'paying':True,'payment_methods':payment_methods,'item':item,'standard_commission':standard_commission,'net_commission':net_commission,'discount':savings,'commission_percent':commission.commissionPercentage(item.price)}
 			if request.GET.get('e',''):
 				dict['error'] = request.GET.get('e')
 			return render_to_response('account/contact_gate.html',dict,context_instance=RequestContext(request))

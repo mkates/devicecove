@@ -289,8 +289,9 @@ $(document).ready(function() {
 			</div>
 		{% endfor %}
 	{% else %}
-	<div class="covebox">
+	<div class="covebox nolisting">
 		<p class="nolistings" style="display:block"> You do not have any {% if listingtype != "all" %}{{listingtype|title}}{% endif %} Listings</p>
+		<a href="/listintro" class="button button-rounded button-primary"> Create New Listing</a>
 	</div>
 	{% endif %}
 {% endblock %}

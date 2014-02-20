@@ -1,13 +1,14 @@
-Dear {{email_name}},
-
+{% extends 'email_templates/email_foundation.txt' %}
+{% load dollars %}
+{% block textblock %}
 Thank you for selling on VetCove! We hope you’re enjoying your
 experience with our service.
 
 We’re pleased to inform you that that your item has been paid for by
-the buyer, and payment is ready for you. However, our records show that
-you do not have a payment method set up to receive payment. To choose a
-preferred method of payment, please go to your VetCove account by
-clicking the below link.
+the buyer, and payment of {{payment.total|dollars}} is ready for you. 
+However, our records show that you do not have a payment method set up
+to receive payment. To choose a preferred method of payment, please go
+to your VetCove account by clicking the below link.
 
 Account and Payment Preferences
 http://www.vetcove.com/account/payment
@@ -19,7 +20,4 @@ sold below that have not currently been paid out.
 
 If you are having trouble entering a payout method, don't hesitate to
 get in contact with us.
-
-Warmest regards,
-
-Alex and The VetCove Team
+{% endblock %}

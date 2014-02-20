@@ -44,7 +44,7 @@
 }
 .check-container {
 	display: none;
-	padding: 20px 10px;
+	padding: 20px 0px;
 	font-weight: 200;
 	font-size: 13px;
 }
@@ -110,24 +110,6 @@
 					</form>
 				</div>
 				{% endif %}
-				{% if payment.balancedbankaccount %}
-				<div class="information-block">
-					<h5>Bank Account</h5>
-					<p><span>Name: </span>{{payment.balancedbankaccount.name}}</p>
-					<p><span>Bank: </span>{{payment.balancedbankaccount.bank_name}}</p>
-					<p><span>Account: </span>{{payment.balancedbankaccount.account_number}}</p>
-					<form action="/checkout/usepayment/{{checkout.id}}/{{payment.id}}" method="POST">
-					{% csrf_token %}
-					<button class="information-select button button-action button-rounded" value="submit">Use This Card</button>
-					</form>
-					<form action="/checkout/deletepayment/{{checkout.id}}/{{payment.id}}" method="POST">
-					{% csrf_token %}
-					<input type="hidden" value="{{checkout.id}}" name="checkout_id">
-					<input type="hidden" value="{{payment.id}}" name="payment_id">
-					<button value="submit" class="deletepayment button button-rounded button-tiny" value="submit">Delete</button>	
-					</form>
-				</div>
-				{% endif %}
 			{% endfor %}
 			{% if not payment_methods %}
 				<p class="none-saved"> You do not currently have any saved payment methods </p>
@@ -136,24 +118,13 @@
 		<div class="checkoutcol newpaymentcol col-md-6 col-sm-6 col-xs-12">
 			<h4>Enter New Payment Method</h4>
 			<!-- <button class="populate">populate</button> -->
-			<button class="payment-button show-cc button button-rounded button-tiny button-primary">Pay by Credit Card</button>
-			<button class="payment-button show-check button button-rounded button-tiny">Pay by Check</button>
+			<button class="payment-button show-cc button button-rounded button-tiny button-primary">Pay by Card</button>
+			<button class="payment-button show-check button button-rounded button-tiny">Pay by Check / Direct Wire</button>
 			<div class="cc-container">
 				{% include 'account/cc_form.html' %}
 			</div>
 			<div class="check-container">
-				<p>To pay by check, we require you to mail a check addressed to:</p>
-				<ul>
-					<li>TheCove Inc.</li>
-					<li>10 Pacer Court</li>
-					<li>Colts Neck, NJ 07722</li>
-				</ul>
-				<p> Please include <strong>"Purchase Number {{checkout.id}}"</strong> in the note of the check. We will reserve your items
-				for up to three business days. </p>
-				<form method="POST" action="/checkout/addcheckpayment/{{checkout.id}}">
-					{% csrf_token %}
-					<button value="submit" name="submit" class="button button-rounded button-action">Continue to Order Review </a>
-				</form>
+				<p>We are currently experimenting with offering different types of payment methods. If you have a large purchase and you would rather pay by bank check or a direct wire transfer, please contact us at 732-598-6434 and we will guide you through the steps to complete your purchase.</p>
 			</div>
  		
 		</div>

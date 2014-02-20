@@ -108,9 +108,12 @@
 	background-image: -webkit-linear-gradient(top, #FFFFFF 0%, #EEEEEE 100%);
 	background-image: linear-gradient(to bottom, #FFFFFF 0%, #EEEEEE 100%);
 }
-.nolistings {
+.nolisting {
 	text-align: center;
-	padding: 50px 20px;
+	padding: 30px 0;
+}
+.nolistings {
+	padding: 20px 20px 10px 20px;
 	font-size: 18px;
 	color: #aaa;
 }

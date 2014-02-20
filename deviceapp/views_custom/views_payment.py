@@ -37,7 +37,7 @@ def addBalancedCard(request):
 			customer = balanced.Customer.find(bu.balanceduri)
 		# If not, create a Balanced Customer and update BU Profile
 		else:
-			customer = balanced.Customer(name=bu.name,email=bu.email,phone=bu.phonenumber).save()
+			customer = balanced.Customer(name=bu.name(),email=bu.email,phone=bu.phonenumber).save()
 			bu.balanceduri = customer.uri
 			bu.save()
 		# If card not already saved, add the card to the customer and add the card to the database
@@ -88,7 +88,7 @@ def addBalancedBankAccount(request):
 			customer = balanced.Customer.find(bu.balanceduri)
 		# If not, create a Balanced Customer and update BU Profile
 		else:
-			customer = balanced.Customer(name=bu.name,email=bu.email,phone=bu.phonenumber).save()
+			customer = balanced.Customer(name=bu.name(),email=bu.email,phone=bu.phonenumber).save()
 			bu.balanceduri = customer.uri
 			bu.save()
 		# Add bank account to the customer

@@ -41,6 +41,17 @@
 .cart-item .item-information .sellerinfo {
 	padding: 0;
 }
+.cart-item .item-information .seller-pickup {
+	background: #FFE8E8;
+	margin: 8px 0;
+	padding: 3px 10px;
+	font-weight: normal;
+	color: #C44B4B;
+	border:1px solid #C44B4B;
+	border-radius: 3px;
+	clear:both;
+	display:inline-block;
+}
 .cart-item .item-price {
 	margin-top: 15px;
 }
@@ -92,19 +103,7 @@
 	<h3> Thank you for your order!</h3>
 	<h5> For reference, your order number is {{checkout.id}}</h5>
 	<p>We have sent an email to {{user.basicuser.email}} confirming your purchase! 
-	{% if not checkout.payment.checkpayment %}
-	Your credit card has been charged {{checkout.total|dollars}}. The seller(s) of the item(s) you purchased have been contacted about your successful purchase, and will be in touch with you shortly about your item(s) being shipped.
-	{% else %}
-	You will have <strong> 3 business days</strong> to mail VetCove a check, at which time we will contact the seller to ship the items. If we do not receive your check in that time, we will relist your purchased items. If there are unique circumstances, please contact us immediately.
-	{% endif %}</p>
-	
-	<ul>
-		<li><strong>Payment Mailing Address for amount {{checkout.total|dollars}}</strong></li>
-		<li>VetCove</li>
-		<li>10 Pacer Court</li>
-		<li>Colts Neck, NJ 07722</li>
-	</ul>
-	<p>To see the status of your order at any time, you may visit your purchase history and click on the item you've purchase.  From your <a href='/account/buyhistory'>purchase history</a>, you may also leave the seller a note with shipping instructions or other special requests related to your order. page. </p>
+	Your credit card has been charged {{checkout.total|dollars}}. The seller(s) of the item(s) you purchased have been contacted about your successful purchase, and will be in touch with you shortly about your item(s) being shipped.</p>
 	<p class="disclaimer"> Note: If you do not hear from the seller and the item does not arrive within 2 weeks, please contact
 	us immediately. You have 48 hours from the time you receive the item to submit a complaint.</p>
 	<p>We require that sellers on VetCove respond to purchases quickly, but sometimes there are delays.  If you do not hear from a seller within 5 business days, please feel free to use their contact information to inquire about the timing of your order's shipment.  If a buyer continues to be unresponsive, please contact us or report a problem from your <a href='/account/buyhistory'>purchase history</a> portal. </p>
@@ -124,14 +123,18 @@
 				</div>
 				<div class="item-information col-md-7 col-sm-7 col-xs-12">
 					<h6><a href="/item/{{checkoutcartitem.item}}/details">{{checkoutcartitem.item.name}}</a></h6>
-					<p class="seller-header"> Seller </p>
-					<p class="sellerinfo">{{checkoutcartitem.item.user.email}}</p>
+					{% if not checkoutcartitem.item.shippingincluded %}
+					<p class="seller-pickup">You must organize a time with the seller to pick up this item</p>
+					{% endif %}
+					<p class="seller-header"> Seller Information </p>
+					<p class="sellerinfo">{{checkoutcartitem.item.user.firstname}}</p>
 					{% if checkoutcartitem.item.user.city %}
 						<p class="sellerinfo">{{checkoutcartitem.item.user.city}}, {{checkoutcartitem.item.user.state}}</p>
 					{% else %}
 						<p class="sellerinfo">{{checkoutcartitem.item.user.zipcode|zipcodify}}</p>
 					{% endif %}
-					<p class="sellerinfo">Phone: {{checkoutcartitem.item.user.phonenumber|phonenumber}}</p>
+					<p class="sellerinfo">{{checkoutcartitem.item.user.email}}</p>
+					<p class="sellerinfo">{{checkoutcartitem.item.user.phonenumber|phonenumber}}</p>
 				</div>
 				<div class="item-price col-md-2 col-sm-2 col-xs-12">
 					<p>{{checkoutcartitem.price|dollars}}</p>

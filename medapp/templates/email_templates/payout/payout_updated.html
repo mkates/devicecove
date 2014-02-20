@@ -1,27 +1,24 @@
+{% extends 'email_templates/email_foundation.html' %}
+
 {% load phonenumber %}{% load zipcodify %}
-<p>Dear {{email_name}},</p>
+{% block textblock %}
 <p>Your payout preferences on file for receiving payments have been updated in our system. No further action is required.</p>
-<h4>Current Payout Method: <strong>{% if payout_method == 'check' %}Check By Mail{% else %}Bank Account Direct Deposit{% endif %}</strong></h4>
+<hp>Current Payout Method: <strong style="font-weight:bold">{% if payout_method == 'check' %}Check By Mail{% else %}Bank Account Direct Deposit{% endif %}</strong></p>
 <p>Currently, we have the following set as your default payout option:</p>
 
 {% if payout.balancedbankaccount %}
-	<h5 class="thin">Bank Account</h5>
+	<p class="thin"><strong style="font-weight:bold">Bank Account</strong></p>
 	<p class="thin">{{payout.balancedbankaccount.name}}</p>
 	<p class="thin">{{payout.balancedbankaccount.bank_name}}</p>
 	<p class="thin">{{payout.balancedbankaccount.account_number}}</p>
 {% else %}
-	<h5 class="thin">Check Mailing Address</h5>
+	<p class="thin"><strong style="font-weight:bold">Check Mailing Address</strong></p>
 	<p class="thin">{{payout.checkaddress.address.name}}</p>
 	<p class="thin">{{payout.checkaddress.address.address_one}}</p>
 	{% if payout.checkaddress.address.address_two %}<p>{{payout.checkaddress.address.address_two}}</p>{% endif %}
 	<p class="thin">{{payout.checkaddress.address.city}}, {{payout.checkaddress.address.state}} {{payout.checkaddress.address.zipcode|zipcodify}}</p>
 	<p class="thin">{{payout.checkaddress.address.phonenumber|phonenumber}}</p>
-
 {% endif %}
+<br>
 <p>If you would like to review the changes or make further modifications, feel free to use the link below. If you believe this update was the result of unauthorized access to your account, please contact us immediately.</p>
-<p><span>
-	<a href="http://www.vetcove.com/account/payment">Update Payment and Payout Preferences</a>
-</span></p>
-<p>Thank you again for choosing VetCove!</p>
-<p>Warmest regards,</p>
-<p>Alex and The VetCove Team</p>
+{% endblock %}

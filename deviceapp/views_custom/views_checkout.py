@@ -31,7 +31,8 @@ def newuserform(request):
 		form = NewUserForm(request.POST)
 		if form.is_valid():		
 			# General user sign-up
-			name = form.cleaned_data['name']
+			firstname = form.cleaned_data['firstname']
+			lastname = form.cleaned_data['lastname']
 			email = form.cleaned_data['email']
 			email = email.lower()
 			zipcode = form.cleaned_data['zipcode']
@@ -46,7 +47,7 @@ def newuserform(request):
 			newuser.save()
 			
 			# Create the basic user
-			nbu = BasicUser(user=newuser,name=name,email=email,zipcode=zipcode)
+			nbu = BasicUser(user=newuser,firstname=firstname,lastname=lastname,email=email,zipcode=zipcode)
 			nbu.save()
 			
 			# Attempt to get the lat long and assign the city, state, and county
@@ -351,7 +352,7 @@ def checkoutPayment(request,checkoutid):
 		return HttpResponseRedirect('/checkout/verify/'+checkoutValid['error'])
 	elif checkout.shipping_address == None and checkout.shippingAddressRequired():
 		return HttpResponseRedirect('/checkout/shipping/'+str(checkoutid))
-	return render_to_response('checkout/checkout_payment.html',{'checkout':checkout,'payment_methods':payment_methods},context_instance=RequestContext(request))
+	return render_to_response('checkout/checkout_payment.html',{'checkout':checkout,'payment_methods':payment_methods,'paying':True},context_instance=RequestContext(request))
 
 @login_required
 def checkoutUsePayment(request,checkoutid,paymentid):
@@ -365,6 +366,7 @@ def checkoutUsePayment(request,checkoutid,paymentid):
 		if not payment.user == request.user.basicuser:
 			return HttpResponseRedirect('/checkout/verify/payment')	
 		checkout.payment = payment
+		checkout.state = 3
 		checkout.save()
 		return HttpResponseRedirect('/checkout/review/'+str(checkoutid))
 	return HttpResponseRedirect('/checkout/review/'+str(checkoutid))
@@ -397,37 +399,38 @@ def checkoutAddCard(request,checkoutid):
 	balancedCard = payment_view.addBalancedCard(request)
 	if balancedCard['status'] == 201:
 		checkout.payment = balancedCard['card']
+		checkout.state = 3
 		checkout.save()	
 	return HttpResponse(json.dumps({'status':balancedCard['status'],'error':balancedCard['error']}), content_type='application/json')
 
 ### Currently Not Used At This Point ###
-@login_required
-def checkoutAddBankAccount(request,checkoutid):
-	# Checkout Validation
-	checkout = Checkout.objects.get(id=checkoutid)
-	checkoutValid = checkoutValidCheck(checkout,request)
-	if checkoutValid['status'] != 201:
-		return HttpResponseRedirect('/checkout/verify/'+checkoutValid['error'])
-	# Add bank account to checkout
-	balancedBankAccount = payment_view.addBalancedBankAccount(request)
-	if balancedBankAccount['status'] == 201:
-		checkout.payment = balancedBankAccount['bank']
-		checkout.save()	
-	return HttpResponse(json.dumps({'status':balancedBankAccount['status'],'error':balancedBankAccount['error']}), content_type='application/json')
+# @login_required
+# def checkoutAddBankAccount(request,checkoutid):
+# 	# Checkout Validation
+# 	checkout = Checkout.objects.get(id=checkoutid)
+# 	checkoutValid = checkoutValidCheck(checkout,request)
+# 	if checkoutValid['status'] != 201:
+# 		return HttpResponseRedirect('/checkout/verify/'+checkoutValid['error'])
+# 	# Add bank account to checkout
+# 	balancedBankAccount = payment_view.addBalancedBankAccount(request)
+# 	if balancedBankAccount['status'] == 201:
+# 		checkout.payment = balancedBankAccount['bank']
+# 		checkout.save()	
+# 	return HttpResponse(json.dumps({'status':balancedBankAccount['status'],'error':balancedBankAccount['error']}), content_type='application/json')
 
-@login_required
-def checkoutAddCheckPayment(request,checkoutid):
-	# Checkout Validation
-	checkout = Checkout.objects.get(id=checkoutid)
-	checkoutValid = checkoutValidCheck(checkout,request)
-	if checkoutValid['status'] != 201:
-		return HttpResponseRedirect('/checkout/verify/'+checkoutValid['error'])
-	# Add bank account to checkout
-	checkPayment = CheckPayment(user=request.user.basicuser)
-	checkPayment.save()
-	checkout.payment = checkPayment;
-	checkout.save()	
-	return HttpResponseRedirect('/checkout/review/'+str(checkoutid))
+# @login_required
+# def checkoutAddCheckPayment(request,checkoutid):
+# 	# Checkout Validation
+# 	checkout = Checkout.objects.get(id=checkoutid)
+# 	checkoutValid = checkoutValidCheck(checkout,request)
+# 	if checkoutValid['status'] != 201:
+# 		return HttpResponseRedirect('/checkout/verify/'+checkoutValid['error'])
+# 	# Add bank account to checkout
+# 	checkPayment = CheckPayment(user=request.user.basicuser)
+# 	checkPayment.save()
+# 	checkout.payment = checkPayment;
+# 	checkout.save()	
+# 	return HttpResponseRedirect('/checkout/review/'+str(checkoutid))
 
 
 ###################################
@@ -450,6 +453,7 @@ def checkoutReview(request,checkoutid):
 	elif checkout.payment == None:
 		return HttpResponseRedirect('/checkout/payment/'+str(checkoutid))
 	error = allItemsAvailable(checkout)
+	checkout.save()
 	return render_to_response('checkout/checkout_review.html',{'checkout':checkout,'error':error},context_instance=RequestContext(request))
 
 @login_required

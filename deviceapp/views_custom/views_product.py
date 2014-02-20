@@ -12,6 +12,7 @@ from django.utils.html import escape
 from django.shortcuts import render
 from django.core.exceptions import ObjectDoesNotExist
 from django.conf import settings
+from django.db.models import Q
 import json, re, string, math, difflib, locale, time
 
 ###########################################
@@ -246,6 +247,9 @@ def savelogistics(request,itemid):
 				item.msrp_price = int(round(float(msrp_price.replace(",","").replace("$","0")),2)*100)
 			item.charity = True if request.POST.get('charity',False) else False
 			item.charity_name = Charity.objects.get(name=request.POST.get('charity_name','Any'))
+			if request.POST.get('promocode',''):
+				if PromoCode.objects.filter(code=request.POST.get('promocode'),active=True).exists():
+					item.promo_code = PromoCode.objects.get(code=request.POST.get('promocode'))
 			item.save()
 			return HttpResponse(submitcode)
 		return HttpResponse(500)
@@ -323,7 +327,7 @@ def itemdetails(request,itemid):
 			item.save()
 		if BuyAuthorization.objects.filter(seller=item.user,item=item,buyer=bu).exists():
 			authorized = True
-	related = Item.objects.filter(subcategory = item.subcategory).filter(liststatus='active').order_by('views')[:9]
+	related = Item.objects.filter(subcategory = item.subcategory).filter(liststatus='active').filter(~Q(id=itemid)).order_by('views')[:9]
 	dict = {'saved':saved,'item':item,'industry':industry,'related':related,'authorized':authorized}
 	#Is the item in their shopping cart?
 	isInShoppingCart = False

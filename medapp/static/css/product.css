@@ -213,6 +213,19 @@
 	font-size: 15px;
 	text-decoration: line-through;
 }
+.actionbox .action-information {
+	font-weight: bold;
+	margin: 0 20px 10px 20px;
+	background: #f6f6f6;
+	border:1px solid #ddd;
+	padding: 5px;
+	border-radius: 3px;
+}
+.actionbox .offline-explain {
+	line-height: 14px;
+	padding-top: 5px;
+	font-size: 11px;
+}
 
 /***************************/
 /* Main Product Box *******/
@@ -274,8 +287,14 @@
 .giveback_img {
 	display: inline-block;
 	width: 100%;
+	max-width: 60px;
 	padding-left: 5px;
 	margin-top: 10px;
+}
+@media (max-width: 767px) {	
+	#giveback {
+		text-align: center;
+	}
 }
 #giveback div {
 	padding: 5px;

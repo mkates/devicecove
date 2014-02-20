@@ -99,8 +99,6 @@ urlpatterns = patterns('',
     url(r'^deleteaddress','deviceapp.views_custom.deleteAddress'),
     # Payment Experience
     url(r'^checkout/addcard/(?P<checkoutid>\d+)','deviceapp.views_custom.checkoutAddCard'),
-    url(r'^checkout/addbankaccount/(?P<checkoutid>\d+)','deviceapp.views_custom.checkoutAddBankAccount'),
-    url(r'^checkout/addcheckpayment/(?P<checkoutid>\d+)','deviceapp.views_custom.checkoutAddCheckPayment'),
     url(r'^checkout/deletepayment/(?P<checkoutid>\d+)/(?P<paymentid>\d+)','deviceapp.views_custom.checkoutDeletePayment'),
     url(r'^checkout/usepayment/(?P<checkoutid>\d+)/(?P<paymentid>\d+)','deviceapp.views_custom.checkoutUsePayment'),
     

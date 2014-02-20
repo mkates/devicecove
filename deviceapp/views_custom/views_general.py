@@ -20,7 +20,7 @@ import time
 
 
 def testemail(request):
-	html_email = email_view.composeEmailWelcome(request,request.user.basicuser)
+	html_email = email_view.composeEmailAuthorizedBuyer(Item.objects.get(id=1),request.user.basicuser)
 	return render_to_response(html_email['template'],html_email['data'],context_instance=RequestContext(request))
 
 def index(request):
