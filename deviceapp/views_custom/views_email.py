@@ -33,7 +33,7 @@ def render_and_send_email(template_data,subject,receiver,email_path):
 		html_body = html_body.replace("<a %a_style% ",'style="color: #2ba6cb; text-decoration: none;" ').replace("<p %p_style%",'<p style="color: #222222; font-family: "Helvetica", "Arial", sans-serif; font-weight: normal; text-align: left; line-height: 19px; font-size: 14px; margin: 0 0 10px; padding: 0;"')
 		msg = EmailMultiAlternatives(subject, text_body, "The VetCove Team <info@vetcove.com>",[receiver])
 		msg.attach_alternative(html_body, "text/html")
-		#msg.send()
+		msg.send()
 		return {'template':"email_templates/"+email_path+".html",'data':template_data}
 	except Exception,e:
 		print e
