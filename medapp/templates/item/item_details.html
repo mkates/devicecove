@@ -182,13 +182,12 @@
 	});
 	var currentvalue = 0;
 	$(".qualitybox select").css("opacity",".4");
-	var q1 = "<span>Parts Only / Not Working</span><p>Items that are not functional as-is, and require manufacturer or third-party refurbishment before they can be used by another practitioner.  These items can be intended as fix-up items by the buyer, or may be used for parts toward other items of the same model.  Please describe the debilitating defect(s) in as much detail as possible for prospective buyers.</p>";
-	var q2 = "<span>Functional with Defects</span><p> A used item that has seen heavy use (for its age), or comes with moderate cosmetic or performance-related damage.  The item should be functional and fully able to perform its intended purpose, but may suffer from some (inaccuracy, software lag, decreased readability), or decrease in performance ( decrease in performance due to normal wear and tear).  The item must still be usable to other practitioners as is without the need for immediate repair or refurbishing.  Please describe all defects in detail. </p>";
-	var q3 = "<span>Used Fully Functional</span><p>A used item that has seen very light use. It should be fully functional and free of any defects whatsoever, and should show little-to-no cosmetic signs of wear and tear.  The item may be missing original packaging or accessories, but should function exactly the same as a brand new item.  Most Very Good items that see regular use are less than one year old.  About 20% of all used items fall into the Very Good category.</p>";
-	var q4 = "<span>Used Like New</span><p>A new, unused item with absolutely no signs of wear. The item may have the manufacturer's seal broken, or the packaging may show slight signs of wear, but the item itself should have never been used except in some cases for light testing (or demonstration)  purposes.  The item may be a factory second or a new, unused item with missing accessories or packaging. See the seller's listing for full details and description of any imperfections.</p>";
-	var q5 = "<span>Brand New</span><p>A brand-new, unused, unopened, undamaged item in its original manufacturer's packaging.  Packaging should be the same as it would be received directly from the manufacturer or supplier, and sealed by the original manufacturer without any signs of tampering.  If you are not the original manufacturer or a certified supplier, please be sure to describe your acquisition of the item.</p>";
+	var q1 = "<span>Functional With Defects</span> <p>A used item that has seen heavy use for its age, or comes with moderate cosmetic or performance-related damage.  The item should be functional and fully able to perform its intended purpose, but may suffer from some decrease in performance due to normal wear and tear including inaccuracy, software lag, decreased readability, or other decrease in performance. The item must still be usable in its core purpose to other practitioners as is without the need for immediate repair or refurbishing.  Please describe all defects in detail.  25% of used items fall into this category. </p>";
+	var q2 = "<span>Used Fully Functional</span> <p>A used item that has seen moderate or average use for its age.  It should be fully functional and free of any major defects that would prevent its core purpose from being performed flawlessly.  There may be some minor cosmetic damage, and it may be missing some non-essential accessories or documentation. Please be sure to describe via text or pictures any cosmetic damage, minor performance issues, or missing accessories or packaging.  About 45% of all used items fall into this category.</p>";
+	var q3 = "<span>Lightly Used</span> <p>A used item that has seen very light use in the field. It should be fully functional and free of any defects whatsoever, and should show little-to-no cosmetic signs of wear and tear.  The item may be missing original packaging or accessories, but should function exactly the same as a brand new item.  Most items in this category are less than two years old, or have seen active use for less than one year.  About 15% of all used items fall into this category.</p>";
+	var q4 = "<span>Like New</span> <p>A new, unused item with absolutely no signs of wear. The item may have the manufacturer's seal broken, or the packaging may show slight signs of wear, but the item itself should have never been used in the field except in some cases for light testing or demonstration purposes.  The item may be a factory second or a new, unused item with missing accessories or packaging. Full details of its use and descriptions of any imperfections should be included in text of the listing.  Less than 5% of all used items fall into this category.</p>";
 	$(".qualitydescription p").html(q4);
-	var qualitydict = {"1":q1,"2":q2,"3":q3,"4":q4,"5":q5};
+	var qualitydict = {"1":q1,"2":q2,"3":q3,"4":q4};
 	
 	$(".qualitynumber").click(function() {
 		qualityNumberClick($(this));
@@ -210,8 +209,8 @@
 			var margintomove = "";
 			if (value == 1) {margintomove = '12%';$('.quality1').addClass('quality-active-1')};
 			if (value == 2) {margintomove = '36%';$('.quality2').addClass('quality-active-2')};
-			if (value == 3) {margintomove = '60%';$('.quality3').addClass('quality-active-3')};
-			if (value == 4) {margintomove = '84%';$('.quality4').addClass('quality-active-4')};
+			if (value == 3) {margintomove = '61%';$('.quality3').addClass('quality-active-3')};
+			if (value == 4) {margintomove = '85%';$('.quality4').addClass('quality-active-4')};
 			$(".downarrow").animate({"margin-left":margintomove},400);
 			$(".qualitydescription p").fadeOut('fast',function() {
 				$(".qualitydescription p").html(qualitydict[value]);
@@ -234,10 +233,10 @@
 	<h5 id="qualitytitle">Choose Your Item Condition</h5>
 	<div class="qualitybox">
 		<div class="selectors row">
-			<div id="quality_1" class="qualitynumber noborder left-rounded quality1 col-md-3 col-sm-3 col-xs-12"><p>Parts Only / Not Working</p></div>
-			<div id="quality_2" class="qualitynumber quality2 col-md-3 col-sm-3 col-xs-12"><p>Functional with Defects</p></div>
-			<div id="quality_3" class="qualitynumber quality3 col-md-3 col-sm-3 col-xs-12"><p>Used Fully Functional</p></div>
-			<div id="quality_4" class="qualitynumber quality4 right-rounded col-md-3 col-sm-3 col-xs-12"><p>Used Like New</p></div>
+			<div id="quality_1" class="qualitynumber noborder left-rounded quality1 col-md-3 col-sm-3 col-xs-12"><p>Functional with Defects</p></div>
+			<div id="quality_2" class="qualitynumber quality2 col-md-3 col-sm-3 col-xs-12"><p>Used Fully Functional</p></div>
+			<div id="quality_3" class="qualitynumber quality3 col-md-3 col-sm-3 col-xs-12"><p>Lightly Used</p></div>
+			<div id="quality_4" class="qualitynumber quality4 right-rounded col-md-3 col-sm-3 col-xs-12"><p>Like New</p></div>
 		</div>
 		<div class='clear'></div>
 		<div class="downarrow"></div>

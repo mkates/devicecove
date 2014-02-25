@@ -78,5 +78,5 @@
 		<input type="hidden" value="true" name="payment">
 		{% endif %}
 	<button name="submit" class="button button-action button-rounded" value="submit">{% if payment %}Mail Checks to{% elif profile %}Add{% else %}Ship to {% endif %} this Address</button>	
-	{% if payment or profile %}<a class="button button-rounded address-cancel">Cancel</a>{% endif %}
+	{% if payment or profile %}<a class="button button-rounded payment-cancel">Cancel</a>{% endif %}
  </form>

@@ -1,0 +1,16 @@
+New Report Filed
+
+- - - - - - - -  - - - - 
+
+Item: {{report.purchased_item.item}}
+
+Purchased on {{report.purchased_item.purchase_date}}
+
+Seller: {{report.purchased_item.seller.name}}
+
+Buyer: {{report.purchased_item.buyer.name}}
+
+Reason: {{report.reason}}
+
+Details: {{report.details}}
+

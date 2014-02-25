@@ -115,16 +115,19 @@ label .floatright {
 			{% else %}
 				<a href="/productsearch/veterinary/{{category.name}}/all" class="subtree"> &lsaquo; {{category.displayname}} <span>({{category.totalunits}})</span></a>
 			{% endif%}
-			{% for subcat in category.subcategory_set.all %} 
-				{% if subcat == subcategory %}
-				<a class="subsubtree tree-active">{{subcat.displayname}} <span>({{subcat.totalunits}})</span></a>
-				{% else %}
-				<a href="/productsearch/veterinary/{% if not category %}{{subcat.maincategory.name}}{% else %}{{category.name}}{% endif %}/{{subcat.name}}" class="subsubtree">{{subcat.displayname}} <span>({{subcat.totalunits}})</span></a>
+			{% for subcat in category.subcategory_set.all|dictsort:"totalunits" reversed %} 
+				{% if subcat.totalunits > 0 %}
+					{% if subcat == subcategory %}
+					<a class="subsubtree tree-active">{{subcat.displayname}} <span>({{subcat.totalunits}})</span></a>
+					{% else %}
+					<a href="/productsearch/veterinary/{% if not category %}{{subcat.maincategory.name}}{% else %}{{category.name}}{% endif %}/{{subcat.name}}" class="subsubtree">{{subcat.displayname}} <span>({{subcat.totalunits}})</span></a>
+					{% endif %}
 				{% endif %}
 			{% endfor %}
 			<p class="seeall">Show All Categories</p>
 		</div>
 		{% endif %}
+		{% if items|length > 1 %}
 		<div id='pricecategory' class='filter-category'>
   			<h2>Price Range</h2>
   			<div id='price-slider-container'>
@@ -135,6 +138,7 @@ label .floatright {
   				<div id='price-range' class='light-gradient'></div>
   			</div>
   		</div>
+  		{% endif %}
   		<div class='filter-category'>
   			<h2>Condition</h2>
   			<div class='checkbox'>

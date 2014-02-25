@@ -1,0 +1,34 @@
+{% load zipcodify %}{% load phonenumber %}
+<div class="payment-method {% if payout_active %}payment-active{% endif %}">
+	<div class="row payment-description">
+		<div class="payment-type col-md-8 col-sm-8 col-xs-12">
+			<p><span>{% if payment.checkaddress %}Check By Mail{% elif payment.balancedbankaccount %}Bank Account{% else %}Credit Card{% endif %}</span><p>
+		</div>
+		<div class="payment-info col-md-4 col-sm-4 col-xs-12">
+			{% if payment.checkaddress %}
+			<p class="small">{{payment.checkaddress.address.name}}</p>
+			<p class="small">{{payment.checkaddress.address.address_one}}</p>
+			{% if payment.checkaddress.address.address_two %}<p>{{payment.checkaddress.address.address_two}}</p>{% endif %}
+			<p class="small">{{payment.checkaddress.address.city}}, {{payment.checkaddress.address.state}} {{payment.checkaddress.address.zipcode|zipcodify}}</p>
+			<p class="small">{{payment.checkaddress.address.phonenumber|phonenumber}}</p>
+			{% elif payment.balancedbankaccount %}
+			<p>{{payment.balancedbankaccount.name}} &sdot; <span>{{payment.balancedbankaccount.account_number}}</span></p>
+			{% elif payment.balancedcard %}
+			<p>********{{payment.balancedcard.last_four}} <span>(Expires {{payment.balancedcard.expiration_month}}/{{payment.balancedcard.expiration_year}})</span></p>
+			{% endif %}
+		</div>
+	</div>
+	<div class="row payment-actions">
+		{% if not user.basicuser.payout_method == payment and not payment.balancedcard %}	
+			<form action="/account/makedefaultpayout/{{payment.id}}" method="POST">
+				{% csrf_token %}
+				<button value="submit" name="submit" class="button button-rounded button-tiny">{% if payment.checkaddress %} Send payouts to this address{% elif payment.balancedbankaccount %}Send payouts to this bank account{% endif %}</button>
+			</form>
+		{% endif %}
+		</form>
+		<form action="/account/deletepayment/{{payment.id}}" method="POST">
+			{% csrf_token %}
+			<button value="submit" name="submit" class="button button-rounded button-tiny">Delete this {% if payment.checkaddress %} Address{% elif payment.balancedbankaccount %}Bank Account{% else %}Credit Card{% endif %}</button>
+		</form>
+	</div>
+</div>

@@ -203,7 +203,7 @@ def imageupload(request,itemid):
 				extension = extension.lower()
 				if not (extension == 'png' or extension == 'jpg'):
 					return HttpResponse(json.dumps('filetype'), content_type='application/json')
-				if file.size > 1048576:
+				if file.size > 4194304:
 					return HttpResponse(json.dumps('filesize'), content_type='application/json')
 				if item.image_set.count() > 10:
 					return HttpResponse(json.dumps('filecount'), content_type='application/json')
@@ -362,10 +362,6 @@ def deletequestion(request):
 		ques = Question.objects.get(id=questionid)
 		if ques.buyer == bu or ques.seller == bu:
 			ques.delete()
-		# Remove the notification if the question is deleted before it is answered
-		if ques.seller == bu:
-			notification = SellerQuestionNotification.objects.get(question=ques)
-			notification.delete()
 	if not page:
 		return HttpResponse(json.dumps(201), content_type='application/json')
 	else:

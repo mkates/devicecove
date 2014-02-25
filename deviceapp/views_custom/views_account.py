@@ -11,6 +11,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.conf import settings
 from django.utils.timezone import utc
 import views_payment as payment_view
+import views_email as email_view
 import json
 import math
 import difflib
@@ -91,6 +92,15 @@ def notifications(request):
 	return render_to_response('account/notifications.html',{'notification_set':notifications},context_instance=RequestContext(request))	
 
 @login_required
+def clearNotifications(request):
+	notifications = Notification.objects.filter(user=request.user.basicuser)
+	for notification in notifications:
+		if not notification.viewed:
+			notification.viewed = True
+			notification.save()
+	return HttpResponseRedirect('/account/notifications')
+
+@login_required
 def updateNotification(request):
 	if request.method == "POST":
 		notification = Notification.objects.get(id=request.POST.get('notification_id',''))
@@ -148,7 +158,12 @@ def updateSellerSettings(request):
 		bu.businesstype = request.POST.get('business','')
 		bu.website = request.POST.get('website','')
 		phonenumber = request.POST.get('phonenumber','')
-		bu.phonenumber = int(re.sub("[^0-9]", "", phonenumber))
+		phonenumber = re.sub("[^0-9]", "", phonenumber)
+		try:
+			phonenumber = int(phonenumber)
+			bu.phonenumber = phonenumber
+		except:
+			phonenumber = None
 		bu.save()
 		return HttpResponseRedirect('/account/profile?s=info')
 	else:
@@ -298,6 +313,8 @@ def answerquestion(request,questionid):
 			# Create notification for buyer
 			notification = BuyerQuestionNotification(user=question.buyer,question=question)
 			notification.save()
+			# Creat email for buyer
+			email_view.composeEmailQuestionAnswered(question)
 		return HttpResponseRedirect('/account/sellerquestions')
 	return HttpResponseRedirect('/')
 
@@ -339,9 +356,7 @@ def editListingInactive(request,itemid):
 		inactive_model = InactiveRequest(item=item,reason=request.POST['inactive-reason'])
 		inactive_model.save()
 		item.save()
-		#################################
-		##### Send email to VetCove here 
-		#################################
+		email_view.composeInactiveRequest(inactive_model)
 	return HttpResponseRedirect(request.POST['page'])
 
 @login_required

@@ -264,7 +264,7 @@ $(document).ready(function() {
 								{% endif %}
 								<button data-confirm-box="#makeinactive-confirmation-{{item.id}}" class="confirmation-show button button-rounded button-small">Make Inactive</button>
 							{% elif item.liststatus == 'incomplete' %}
-								<a href="/list/describe/{{item.id}}" class="button button-rounded button-small">Complete Listing</a>
+								<a href="/list/{% if item.liststage < 2 %}describe{% elif item.liststage < 3 %}details{% elif item.liststage < 4 %}photos{% elif item.liststage < 5 %}logistics{% else %}preview{% endif %}/{{item.id}}" class="button button-rounded button-small">Complete Listing</a>
 								<button data-confirm-box="#delete-confirmation-{{item.id}}" class="confirmation-show button button-rounded button-small">Delete Listing</button>
 							{% elif item.liststatus == 'unsold' %}
 								<a href="/item/{{item.id}}/details" class="button button-rounded button-small">View Listing</a>

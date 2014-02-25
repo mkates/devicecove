@@ -25,29 +25,29 @@ def commissionPercentage(total_price):
 		commission = .09
 	return commission
 
-######## Amount Saved in commission for a given item #############
-def commissionSavings(item):
-	start_commission = commissionPercentage(item.price)
-	end_commission = commission(item)
-	return abs(start_commission-end_commission)
-
 ######## Original Item Commission ########################
 def originalCommission(item):
-	return int(item.price*commissionPercentage(item.price))
+	return max(100,int(item.price*commissionPercentage(item.price)))
 
 ######## CC Fee for an Online Purchase ########################
 def ccFee(purchaseditem):
-	return (purchaseditem.total-purchaseditemCommission(purchaseditem))*.97
+	return int((purchaseditem.total-purchaseditemCommission(purchaseditem))*.97)
 	
-######## Get commission of an item ########################	
+######## Get commission of the item ########################	
 def commission(item):
 	if not item.promo_code:
-		return int(item.price*commissionPercentage(item.price))
+		return max(100,int(item.price*commissionPercentage(item.price)))
 	elif item.promo_code.promo_type == 'factor':
-		return int((item.price*commissionPercentage(item.price)*((item.promo_code.factor)/float(100))))
+		return max(100,int((item.price*commissionPercentage(item.price)*((item.promo_code.factor)/float(100)))))
 	elif item.promo_code.promo_type == 'discount':
-		return int(max(0,item.price*commissionPercentage(item.price)-item.promo_code.discount))
-	return int(item.price*commissionPercentage(item.price))
+		return max(100,int(max(0,item.price*commissionPercentage(item.price)-item.promo_code.discount)))
+	return max(100,int(item.price*commissionPercentage(item.price)))
+
+######## Amount Saved in commission for a given item #############
+def commissionSavings(item):
+	start_commission = max(100,int(commissionPercentage(item.price)*item.price))
+	end_commission = commission(item)
+	return abs(start_commission-end_commission)
 
 # I create an object because it is easier to only have one template for emails
 # and i want the no_payment_email to mimic the payment_sent_emails
@@ -58,21 +58,25 @@ class Payment(object):
 def getStatsFromPurchasedItems(pitem_list):	
 	subtotal = 0
 	comm = 0
+	total_charity = 0
 	for pi in pitem_list:
 		comm += purchaseditemCommission(pi)
-		subtotal += pi.total
+		subtotal += pi.total()
+		if pi.charity:
+			total_charity += int(pi.total()*0.01)
 	cc_fee = int((subtotal-comm)*.03)
 	payment = Payment()
-	payment.amount = subtotal-cc_fee-comm
+	payment.amount = subtotal-cc_fee-comm-total_charity
 	payment.cc_fee = cc_fee
 	payment.subtotal = subtotal
 	payment.total_commission = comm
+	payment.total_charity=total_charity
 	return payment
 
 ######## PurchasedItem Commission ########################
 # Need separate method in case price changes on the item, we need to use the purchased item price
 def purchaseditemCommission(pitem):
-	item = pitem.cartitem.item
+	item = pitem.item
 	quantity = pitem.quantity
 	if not item.promo_code:
 		return int(pitem.unit_price*commissionPercentage(pitem.unit_price))*quantity

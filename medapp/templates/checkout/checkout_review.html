@@ -87,6 +87,9 @@
 .disabled {
 	opacity: .4;
 }
+.buyer-message textarea {
+	min-height: 80px;
+}
 </style>
 {% endblock %}
 
@@ -123,117 +126,89 @@ $(document).ready(function() {
 {% load zipcodify %}
 <div class="checkout-container">
 	<h3>Review Purchase</h3>
-	<div class="checkoutcol">
-		{% if error %}
-		<div class="error-div">
-			<p class="error-format">{{error}}</p>
-		</div>
-		{% endif %}
-		<div class="review-block">
-			<h4>Item Details</h4>
-			{% if checkout.cartitem_set.all %}
-			{% for checkoutcartitem in checkout.cartitem_set.all %}
-				<div class="covebox cart-item {% if forloop.last %}last-cart-item{% endif %}" id="cart-item-{{cartitem.item.id}}">
-					<div class="row">
-						<div class="item-image col-md-3 col-sm-3 col-xs-12">
-							<img src="{% if checkoutcartitem.item.mainimage %}{{checkoutcartitem.item.mainimage.photo_medium.url}}{% else %}{{STATIC_URL}}img/noimage.jpg{% endif %}" alt="{{checkoutcartitem.item.name}}"/>		
-						</div>
-						<div class="item-information col-md-7 col-sm-7 col-xs-12">
-							<h6><a target="_blank" href="/item/{{checkoutcartitem.item.id}}/details">{{checkoutcartitem.item.name}}</a></h6>
-							<p>Sold by: {{checkoutcartitem.item.user.company}} </p>
-							<p class="item-quantity">Quantity: <span class="quantity">
-									{% load get_range %}
-									{% if checkoutcartitem.item.quantity > 1 %}
-										<form class="quantity-form" action="/checkoutchangequantity/{{checkout.id}}" method="POST">
-										{% csrf_token %}
-										<select name="item-quantity" class="item-quantity" data-checkoutitemid='{{checkoutcartitem.id}}'>
-										{% for i in checkoutcartitem.item.quantity|get_range %}
-											{% if i > 0 %}
-												<option value="{{i}}" {% if i == checkoutcartitem.quantity %}selected{% endif%}>{{i}}</option>
-											{% endif %}
-										{% endfor %}
-										</select>
-										<input type="hidden" value="{{checkoutcartitem.id}}" name="checkoutitemid">
-										</form>
-									{% else %}
-										1
-									{% endif %}
-
-							</span></p>
-							{% if checkoutcartitem.numbercarts %}<p class="otherbuyers">{{checkoutcartitem.numbercarts}} other {%if checkoutcartitem.numbercarts == 1 %}person has{% else %}people have{% endif %} this item in their cart</p>{% endif %}
-							<span class="item-actions">
-								<form action="/checkoutmovetosaved/{{checkout.id}}" method="POST">
-									{% csrf_token %}
-									<input type="hidden" value="{{checkoutcartitem.id}}" name="checkoutitemid">
-									<button value="submit" name="submit">Moved To Wish List</button> 
-								</form>
-								&sdot;
-								<form action="/checkoutdeleteitem/{{checkout.id}}" method="POST">
-									{% csrf_token %}
-									<input type="hidden" value="{{checkoutcartitem.id}}" name="checkoutitemid">
-									<button value="submit" name="submit">Delete</button> 
-								</form>
-							</span>
-						</div>
-						<div class="item-price col-md-2 col-sm-2 col-xs-12">
-							<p>{{checkoutcartitem.item.price|dollars}}</p>
+	<form id="checkoutpurchase" action="/checkoutpurchase/{{checkout.id}}" method="POST">{% csrf_token %}
+		<div class="checkoutcol">
+			{% if error %}
+			<div class="error-div">
+				<p class="error-format">{{error}}</p>
+			</div>
+			{% endif %}
+			<div class="review-block">
+				<h4>Item Details</h4>
+				{% if checkout.cartitem_set.all %}
+				{% for checkoutcartitem in checkout.cartitem_set.all %}
+					<div class="covebox cart-item {% if forloop.last %}last-cart-item{% endif %}" id="cart-item-{{cartitem.item.id}}">
+						<div class="row">
+							<div class="item-image col-md-3 col-sm-3 col-xs-12">
+								<img src="{% if checkoutcartitem.item.mainimage %}{{checkoutcartitem.item.mainimage.photo_medium.url}}{% else %}{{STATIC_URL}}img/noimage.jpg{% endif %}" alt="{{checkoutcartitem.item.name}}"/>		
+							</div>
+							<div class="item-information col-md-7 col-sm-7 col-xs-12">
+								<h6><a target="_blank" href="/item/{{checkoutcartitem.item.id}}/details">{{checkoutcartitem.item.name}}</a></h6>
+								<p>Sold by: {{checkoutcartitem.item.user.company}} </p>
+								<p class="item-quantity">Quantity: <span class="quantity">{{checkoutcartitem.quantity}}</span></p>
+								{% if checkoutcartitem.numbercarts %}<p class="otherbuyers">{{checkoutcartitem.numbercarts}} other {%if checkoutcartitem.numbercarts == 1 %}person has{% else %}people have{% endif %} this item in their cart</p>{% endif %}
+								<div class="buyer-message">
+									<p>Any additional shipping details or delivery instructions:</p>
+									<textarea class="form-control" name="shipping-message-{{checkoutcartitem.id}}"></textarea>
+								</div>
+							</div>
+							<div class="item-price col-md-2 col-sm-2 col-xs-12">
+								<p>{{checkoutcartitem.item.price|dollars}}</p>
+							</div>
 						</div>
 					</div>
+				{% endfor %}
+				{% else %}
+					<p class="incomplete-data">Your cart is empty. If you had items in your cart, they may no longer be
+					active or they may have been purchased by someone else. We apologize for the inconvenience.</p>		
+				{% endif %}
+			</div>
+			<div class="row">
+				{% if checkout.shippingAddressRequired %}
+				<div class="review-block review-block-shipping col-md-6 col-sm-6 col-xs-12">
+					<h4>Shipping Information<a href="/checkout/shipping/{{checkout.id}}" class="change">change</a></h4>
+					{% if checkout.shipping_address %}
+						<p>{{checkout.shipping_address.name}}</p>
+						<p>{{checkout.shipping_address.address_one}}</p>
+						{% if checkout.shipping_address.address_two %}<p>{{checkout.shipping_address.address_two}}</p>{% endif %}
+						<p>{{checkout.shipping_address.city}}, {{checkout.shipping_address.state}} {{checkout.shipping_address.zipcode|zipcodify}}</span>
+						<p>{{checkout.shipping_address.phonenumber|phonenumber}}</p>
+					{% else %}
+						<p class="incomplete-data">Shipping Address has not yet been added</p>
+					{% endif %}
 				</div>
-			{% endfor %}
-			{% else %}
-				<p class="incomplete-data">Your cart is empty. If you had items in your cart, they may no longer be
-				active or they may have been purchased by someone else. We apologize for the inconvenience.</p>		
-			{% endif %}
-		</div>
-		<div class="row">
-			{% if checkout.shippingAddressRequired %}
-			<div class="review-block review-block-shipping col-md-6 col-sm-6 col-xs-12">
-				<h4>Shipping Information<a href="/checkout/shipping/{{checkout.id}}" class="change">change</a></h4>
-				{% if checkout.shipping_address %}
-					<p>{{checkout.shipping_address.name}}</p>
-					<p>{{checkout.shipping_address.address_one}}</p>
-					{% if checkout.shipping_address.address_two %}<p>{{checkout.shipping_address.address_two}}</p>{% endif %}
-					<p>{{checkout.shipping_address.city}}, {{checkout.shipping_address.state}} {{checkout.shipping_address.zipcode|zipcodify}}</span>
-					<p>{{checkout.shipping_address.phonenumber|phonenumber}}</p>
-				{% else %}
-					<p class="incomplete-data">Shipping Address has not yet been added</p>
 				{% endif %}
+				<div class="review-block review-block-billing col-md-6 col-sm-6 col-xs-12">
+					<h4>Billing Information<a href="/checkout/payment/{{checkout.id}}" class="change">change</a></h4>
+					{% if checkout.payment.balancedcard %}
+					<p class="strong">Debit / Credit Card</p>
+					<p>{{checkout.payment.balancedcard.brand}}</p>
+					<p>********{{checkout.payment.balancedcard.last_four}}</p>
+					<p>Expires: {{checkout.payment.balancedcard.expiration_month}}/{{checkout.payment.balancedcard.expiration_year}}</p>
+					{% elif checkout.payment.balancedbankaccount %}
+					<p class="strong">Bank Account</p>
+					<p>{{checkout.payment.balancedbankaccount.name}}</p>
+					<p>{{checkout.payment.balancedbankaccount.bank_name}}</p>
+					<p>{{checkout.payment.balancedbankaccount.account_number}}</p>
+					{% elif checkout.payment.checkpayment %}
+					<p class="strong">Check By Mail</p>
+					<p>You will be mailing a check for the total to the following address:</p>
+					<br>
+					<p>10 Pacer Court</p>
+					<p>Colts Neck, NJ 07722</p>
+					<br>
+					<p>We give 3 days to receive payment before relisting purchased items as active</p>
+					{% else %}
+					<p class="incomplete-data">Payment Information has not yet been entered</p>
+					{% endif %}
+				</div>
+			</div>
+			{% if checkout.cartitem_set.all %}
+			<div class="purchase-block">
+				<button value="submit" name="submit" class="completepurchase button button-highlight button-rounded">Complete Purchase</button>
 			</div>
 			{% endif %}
-			<div class="review-block review-block-billing col-md-6 col-sm-6 col-xs-12">
-				<h4>Billing Information<a href="/checkout/payment/{{checkout.id}}" class="change">change</a></h4>
-				{% if checkout.payment.balancedcard %}
-				<p class="strong">Debit / Credit Card</p>
-				<p>{{checkout.payment.balancedcard.brand}}</p>
-				<p>********{{checkout.payment.balancedcard.last_four}}</p>
-				<p>Expires: {{checkout.payment.balancedcard.expiration_month}}/{{checkout.payment.balancedcard.expiration_year}}</p>
-				{% elif checkout.payment.balancedbankaccount %}
-				<p class="strong">Bank Account</p>
-				<p>{{checkout.payment.balancedbankaccount.name}}</p>
-				<p>{{checkout.payment.balancedbankaccount.bank_name}}</p>
-				<p>{{checkout.payment.balancedbankaccount.account_number}}</p>
-				{% elif checkout.payment.checkpayment %}
-				<p class="strong">Check By Mail</p>
-				<p>You will be mailing a check for the total to the following address:</p>
-				<br>
-				<p>10 Pacer Court</p>
-				<p>Colts Neck, NJ 07722</p>
-				<br>
-				<p>We give 3 days to receive payment before relisting purchased items as active</p>
-				{% else %}
-				<p class="incomplete-data">Payment Information has not yet been entered</p>
-				{% endif %}
-			</div>
 		</div>
-		{% if checkout.cartitem_set.all %}
-		<div class="purchase-block">
-			<form id="checkoutpurchase" action="/checkoutpurchase/{{checkout.id}}" method="POST">
-			{% csrf_token %}
-			<button value="submit" name="submit" class="completepurchase button button-highlight button-rounded">Complete Purchase</button>
-			</form>
-		</div>
-		{% endif %}
-	</div>
+	</form>
 </div>
 {% endblock %}

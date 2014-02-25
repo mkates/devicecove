@@ -1,28 +1,29 @@
+{% extends 'email_templates/email_foundation.html' %}
+
 {% load phonenumber %}{% load zipcodify %}
-<p>Dear {{email_name}},</p>
+{% block textblock %}
 <p>Thank you for selling on VetCove!  We hope you’re enjoying your experience with our service.</p>
 <p>
 {% if payout_obj.checkpayout %}
 We’re pleased to inform you that the check payout from your recent transaction(s) is on its way to you.
-{% else bank %}
-We’re pleased to inform you that we have successfully credited your bank account.  The details are attached below:
+{% else %}
+We’re pleased to inform you that we have successfully credited your bank account.
 {% endif %}
 The details are attached below:
 </p>
 {% if payout_obj.checkpayout %}
-<h5 class="thin">Check Mailing Address</h5>
+<p>Check Mailing Address</p>
 <p class="thin">{{payout.address.name}}</p>
 <p class="thin">{{payout.address_one}}</p>
 {% if payout.address.address_two %}<p>{{payout.address.address_two}}</p>{% endif %}
 <p class="thin">{{payout.address.city}}, {{payout.address.state}} {{payout.address.zipcode|zipcodify}}</p>
-<p class="thin">{{payout.address.phonenumber|phonenumber}}</p>
+<p>{{payout.address.phonenumber|phonenumber}}</p>
 <p>If you do receive the check by mail within 10 business days, please contact us so we can resolve this issue.</p>
 {% else %}
-<h5 class="thin">Bank Account Information</h5>
+<p>Bank Account Information</p>
 <p class="thin">{{payout.bank_account.name}}</p>
 <p class="thin">{{payout.bank_account.bank_name}}</p>
-<p class="thin">{{payout.bank_account.account_number}}</p>
-<p>If you do not see the deposit into your account within 3 business days, please contact us so we can resolve this issue.</p>
+<p>{{payout.bank_account.account_number}}</p>
+<p>If you do not see the deposit into your account within 3-5 business days, please contact us so we can resolve this issue.</p>
 {% endif %}
-<p>Warmest regards,</p>
-<p>Alex and The VetCove Team</p>
+{% endblock %}

@@ -533,59 +533,62 @@ def checkoutPurchase(request,checkoutid):
 		return render_to_response('checkout/checkout_review.html',{'checkout':checkout,'error':e},context_instance=RequestContext(request))
 	
 	# 4. Update Items in the system, delete cart-items create Purchased Objects
-	order = Order(buyer=bu,payment=checkout.payment,total=checkout.total(),shipping_address=checkout.shipping_address)
+	order = Order(buyer=bu,payment=checkout.payment,total=checkout.total(),shipping_address=checkout.shipping_address,transaction_number=cd.transaction_number)
 	order.save()
 	for cartitem in checkout.cartitem_set.all():
 		item = cartitem.item
+		# Update item quantity and status (if applicable)
 		if item.quantity == cartitem.quantity:
 			item.liststatus = 'sold'
 			item.quantity = 0
 		elif item.quantity > cartitem.quantity:
 			item.quantity -= cartitem.quantity
 		item.save()
+		# Create purchased item object
 		amount = cartitem.price * cartitem.quantity
 		commission_amount = 0 if cartitem.item.commission_paid else commission.commission(item)
+
 		pi = PurchasedItem(seller=item.user,
 						buyer=bu,
 						order=order,
 						item=item,
-						cartitem=cartitem,
 						unit_price=cartitem.price,
-						checkout=cartitem.checkout,
-						total=amount,
 						charity = item.charity,
 						charity_name = item.charity_name,
 						commission = commission_amount,
+						promo_code = item.promo_code,
 						shipping_included=item.shippingincluded,
 						item_name=cartitem.item.name,
-						quantity=cartitem.quantity
+						quantity=cartitem.quantity,
+						buyer_message=request.POST.get('shipping-message-'+str(cartitem.id),'')
 						)
 		pi.save()
+		#Create notification for seller
 		notification = SoldNotification(user=item.user,purchaseditem=pi)
 		notification.save()
 		cartitem.shoppingcart = None
 		cartitem.save()
 		# Email the seller of the item
 		email_view.composeEmailItemSold_Seller(request,bu,pi)
-
+		
 	# 5. Mark checkout object as purchased
 	checkout.purchased = True
 	checkout.purchased_time = datetime.utcnow().replace(tzinfo=utc)
 	checkout.save()
 	
 	# 6. Email confirmation
-	email_view.composeEmailItemPurchased_Buyer(request,bu,checkout)
+	email_view.composeEmailItemPurchased_Buyer(request,bu,order)
 	
-	return HttpResponseRedirect('/checkout/confirmation/'+str(checkout.id))
+	return HttpResponseRedirect('/checkout/confirmation/'+str(order.id))
 	
 ###################################
 ### Checkout Confirmation##########
 ###################################
 @login_required
-def checkoutConfirmation(request,checkoutid):
-	checkout = Checkout.objects.get(id=checkoutid)
-	if checkout.buyer == request.user.basicuser:
-		return render_to_response('checkout/checkout_confirmation.html',{'checkout':checkout},context_instance=RequestContext(request))
+def checkoutConfirmation(request,orderid):
+	order = Order.objects.get(id=orderid)
+	if order.buyer == request.user.basicuser:
+		return render_to_response('checkout/checkout_confirmation.html',{'order':order},context_instance=RequestContext(request))
 	else:
 		return HttpResponseRedirect('/cart')
 

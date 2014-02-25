@@ -1,6 +1,7 @@
 from django.shortcuts import render_to_response, redirect
 from django.template.loader import render_to_string
 from deviceapp.models import *
+from deviceapp.forms import *
 from django.template import RequestContext, Context, loader
 from django.contrib.admin.views.decorators import staff_member_required
 from django.http import HttpResponse, HttpResponseRedirect, Http404
@@ -20,7 +21,7 @@ import time
 
 
 def testemail(request):
-	html_email = email_view.composeEmailAuthorizedBuyer(Item.objects.get(id=1),request.user.basicuser)
+	html_email = email_view.composeEmailPayoutFailed(request.user.basicuser,BalancedBankAccount.objects.get(id=4),PurchasedItem.objects.all())
 	return render_to_response(html_email['template'],html_email['data'],context_instance=RequestContext(request))
 
 def index(request):
@@ -63,6 +64,25 @@ def my_500_view(request):
 	
 def buyerprotect(request):
 	return render_to_response('general/buyerprotect.html',{'buyerprotect':True,'PHONE_NUMBER':settings.CONTACT_PHONE_NUMBER},context_instance=RequestContext(request))
+
+def contact(request):
+	return render_to_response('general/contact.html',{'contact':True},context_instance=RequestContext(request))
+
+def contactform(request):
+	form = ContactForm(request.POST)
+	if form.is_valid():		
+		# General user sign-up
+		name = form.cleaned_data['name']
+		email = form.cleaned_data['email']
+		message = form.cleaned_data['message']
+		user = None
+		if request.user.is_authenticated():
+			user = request.user.basicuser
+		cf = Contact(user=user,name=name,email=email,message=message)
+		cf.save()
+		email_view.composeContactForm(cf)
+		return render_to_response('general/contact.html',{'contact':True,'success':True},context_instance=RequestContext(request))	
+	return render_to_response('general/contact.html',{'contact':True,'failure':True},context_instance=RequestContext(request))
 
 ### Anytime there is an error, send the user here ####
 def error(request,errorname):

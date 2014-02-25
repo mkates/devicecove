@@ -1,0 +1,11 @@
+Inactive Request
+
+- - - - - - - -  - - - - 
+
+Item: {{inactiverequest.item}}
+
+User: {{inactiverequest.item.user.name}}
+
+Reason: {{inactiverequest.reason}}
+
+

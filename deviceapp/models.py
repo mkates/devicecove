@@ -16,7 +16,7 @@ class Industry(models.Model):
 		return self.displayname
 
 class Manufacturer(models.Model):
-	name = models.CharField(max_length=100)
+	name = models.CharField(max_length=40)
 	displayname = models.CharField(max_length=50)
 	def __unicode__(self):
 		return self.displayname
@@ -39,10 +39,8 @@ class SubCategory(models.Model):
 	category = models.ManyToManyField(Category)
 	maincategory = models.ForeignKey(Category,related_name='maincategory')
 	totalunits = models.IntegerField(default=0) # Script updates this
-	
 	def __unicode__(self):
 		return self.displayname
-
 
 ############################################
 ####### Charities  #########################
@@ -65,6 +63,8 @@ class PromoCode(models.Model):
 	promo_type = models.CharField(max_length = 50,choices=PROMO_TYPE)
 	factor = models.IntegerField(max_length=100,null=True,blank=True) # % off commission / 100
 	discount = models.IntegerField(max_length = 10,null=True,blank=True) # straight discount
+	def __unicode__(self):
+		return self.code
 
 ############################################
 ####### User Class #########################
@@ -78,7 +78,7 @@ class BasicUser(models.Model):
 	email = models.EmailField(max_length=60) # Contact Email, login email stored in User class
 	zipcode = models.IntegerField(max_length=5)
 	
-	# These automatically populate from the zipcode (stored for speed purposes)
+	# These automatically populate from the zipcode (store for speed purposes)
 	city = models.CharField(max_length=100,blank=True)
 	county = models.CharField(max_length=100,blank=True)
 	state = models.CharField(max_length=100,blank=True)
@@ -89,7 +89,7 @@ class BasicUser(models.Model):
 	website = models.CharField(max_length=60,blank=True)
 	phonenumber = models.BigIntegerField(max_length=10,null=True,blank=True)
 	
-	# User's Rank - Used for specials, promotions, commission tiers, etc. 
+	# User's Rank (will be used for different commission classes, listing limits, etc.)
 	USER_RANK =  ((0, 0),(1, 1),(2, 2),(3, 3),(4, 4),(5, 5))
 	user_rank = models.IntegerField(max_length=2,choices=USER_RANK,default=0)
 	
@@ -101,30 +101,23 @@ class BasicUser(models.Model):
 	# Settings 
 	newsletter = models.BooleanField(default=True)
 
-	def __unicode__(self):
-		return self.name
-	
 	def name(self):
 		return self.firstname+" "+self.lastname
+
+	def __unicode__(self):
+		return self.firstname+" "+self.lastname
 		
-	#Get number of unanswered questions
+	# Get number of unanswered questions
 	def unansweredQuestionCount(self):
-		questions = Question.objects.filter(seller=self)
-		count = 0
-		for question in questions:
-			if not question.answer:
-				count += 1
-		return count
-	
-	#Number of asked questions
-	def askedQuestionCount(self):
-		questions = Question.objects.filter(buyer=self).count()
-		return questions
+		return Question.objects.filter(seller=self).filter(answer = "").count()
 		
-	#Number of items in wishlist
+	# Number of asked questions
+	def askedQuestionCount(self):
+		return Question.objects.filter(buyer=self).count()
+		
+	# Number of items in wishlist
 	def wishlist(self):
-		savedItems = SavedItem.objects.filter(user=self).count()
-		return savedItems
+		return SavedItem.objects.filter(user=self).count()
 	
 	#Get counts for each type of listing (used in profile page)
 	# 'all' and 'inactive' are cumulative counts
@@ -164,29 +157,19 @@ class Item(models.Model):
 	mainimage = models.ForeignKey('Image',related_name="mainitemimage",null=True,blank=True)
 	
 	### Warranty + Service Contracts ###
-	CONTRACT_OPTIONS =  (
-		('warranty', 'Warranty'),
-		('servicecontract', 'Service Contract'),
-		('none', 'None')
-	)
+	CONTRACT_OPTIONS =  (('warranty', 'Warranty'),('servicecontract', 'Service Contract'),('none', 'None'))
 	contract = models.CharField(max_length=40, choices=CONTRACT_OPTIONS,default="none")
 	contractdescription = models.TextField(blank=True)
 	
-	### Condition ###
-	TYPE_OPTIONS =  (
-		('new', 'New'),
-		('refurbished', 'Refurbished'),
-		('preowned', 'Pre-Owned')
-	)
+	### Condition Type ###
+	TYPE_OPTIONS =  (('new', 'New'),('refurbished', 'Refurbished'),('preowned', 'Pre-Owned'))
 	conditiontype = models.CharField(max_length=20, choices=TYPE_OPTIONS,default="preowned")
-	CONDITION_OPTIONS =  (
-		(1, 'Parts Only / Not Working'),
-		(2, 'Functional with Defects'),
-		(3, 'Used Fully Functional'),
-		(4, 'Used Like New'),
-		(5, 'Brand New')
-	)
+	
+	### Condition Quality ###
+	CONDITION_OPTIONS =  ((1, 'Functional with Defects'),(2, 'Used Fully Functional'),(3, 'Lightly Used'),(4, 'Like New'),(5, 'Brand New'))
 	conditionquality = models.IntegerField(max_length=10,choices=CONDITION_OPTIONS,default=3)
+	
+	### Descriptions ###
 	conditiondescription = models.TextField(blank=True)
 	productdescription = models.TextField(blank=True)
 	whatsincluded = models.TextField(blank=True)		
@@ -207,20 +190,14 @@ class Item(models.Model):
 	sold_online = models.BooleanField(default=False) # An offline viewable item was bought online
 	
 	### Miscellaneous ###
-	LISTSTATUS_OPTIONS =  (
-		('active', 'Active'),
-		('disabled', 'Disabled'),
-		('incomplete', 'Incomplete'),
-		('sold', 'Sold'),
-		('unsold', 'Not Sold')
-	)
-
+	LISTSTATUS_OPTIONS =  (('active', 'Active'),('disabled', 'Disabled'),('incomplete', 'Incomplete'),('sold', 'Sold'),('unsold', 'Not Sold'))
+	liststatus = models.CharField(max_length=30,choices=LISTSTATUS_OPTIONS,db_index=True,default='incomplete')
+	
 	### Charity ###
 	charity = models.BooleanField(default=False)
 	charity_name = models.ForeignKey(Charity,null=True,blank=True)
 
-	liststatus = models.CharField(max_length=30,choices=LISTSTATUS_OPTIONS,db_index=True,default='incomplete')
-	liststage = models.IntegerField(default=0)
+	liststage = models.IntegerField(default=0) # Used to track progress through listing an item
 	savedcount = models.IntegerField(default=0)
 	views = models.IntegerField(default=0) # Counts number of page requests
 	
@@ -229,7 +206,6 @@ class Item(models.Model):
 	
 	def msrp_discount(self):
 		return int((self.price-self.msrp_price)/float(self.price)*100)
-
 
 ############################################
 ####### Uploaded Images ####################
@@ -366,13 +342,9 @@ class Payment(models.Model):
 	user = models.ForeignKey(BasicUser,null=True,blank=True)
 	datecreated = models.DateTimeField(auto_now_add=True)
 	
-#### Mailing Payout ##################
+#### Payment/Payout by Check ##################
 class CheckAddress(Payment):
 	address = models.ForeignKey(Address)
-
-### Mailing Payment ##################
-class CheckPayment(Payment):
-	received = models.BooleanField(default=False)
 
 #### Balanced Credit Card ##################
 class BalancedCard(Payment):
@@ -391,7 +363,48 @@ class BalancedBankAccount(Payment):
 	bank_code = models.CharField(max_length=100)
 	name = models.CharField(max_length=100)
 	account_number = models.CharField(max_length=255)
+
+############################################
+### Payout Record Keeping ##################
+############################################
+
+class Payout(models.Model):
+	user = models.ForeignKey(BasicUser)
+	amount = models.BigIntegerField(max_length=20)
+	date = models.DateTimeField(auto_now_add = True)
+	total_commission = models.BigIntegerField(max_length=20)
+	total_charity = models.BigIntegerField(max_length=20)
+	cc_fee = models.BigIntegerField(max_length=20)
 	
+	def subtotal(self):
+		return self.amount+self.total_commission+self.cc_fee+self.total_charity
+	
+#### Record of the bank payout ##################
+class BankPayout(Payout):
+	bank_account = models.ForeignKey(BalancedBankAccount)
+	STATUS_OPTIONS =  (('failed', 'Failed'),('pending', 'Pending'),('paid', 'Paid'))
+	status = models.CharField(max_length=20,choices=STATUS_OPTIONS,default='pending')
+	transaction_number = models.CharField(max_length=30)
+	href = models.CharField(max_length=30)
+		
+#### Record of the check payout ##################
+class CheckPayout(Payout):
+	address = models.ForeignKey(CheckAddress)
+	sent = models.BooleanField(default=False)
+
+############################################
+####### Commission #########################
+############################################
+
+class Commission(models.Model):
+	item = models.OneToOneField(Item)
+	price = models.BigIntegerField(max_length=12)
+	amount = models.BigIntegerField(max_length=20)
+	payment = models.ForeignKey(Payment) # Can only be a card or bank account
+	date = models.DateTimeField(auto_now_add = True)
+	transcation_number = models.CharField(max_length=40)
+
+
 ############################################
 ####### Checkout Model  ####################
 ############################################
@@ -409,23 +422,15 @@ class Checkout(models.Model):
 	purchased = models.BooleanField(default=False)
 	purchased_time = models.DateTimeField(null=True,blank=True)
 	
-	#Get total amount due for this checkout
+	# Get total amount due for this checkout
 	def total(self):
-		total = 0
-		cartitems = self.cartitem_set.all()
-		for cartitem in cartitems:
-			total += cartitem.price*cartitem.quantity
-		return int(total)
+		return sum([cartitem.price*cartitem.quantity for cartitem in self.cartitem_set.all()])
 	
-	#Number of items in cart
+	# Number of items in cart
 	def numberitems(self):
-		count = 0
-		cartitems = self.cartitem_set.all()
-		for cartitem in cartitems:
-			count += cartitem.quantity
-		return count
+		return sum([cartitem.quantity for cartitem in self.cartitem_set.all()])
 
-	# Is shipping address required?
+	# Is shipping address required? Items can all be pick-up only
 	def shippingAddressRequired(self):
 		for cartitem in self.cartitem_set.all():
 			if cartitem.item.shippingincluded:
@@ -433,18 +438,16 @@ class Checkout(models.Model):
 		return False
 
 ############################################
-####### Shopping Cart and Cart Items########
+####### Shopping Cart and Cart Items #######
 ############################################	
+
 class ShoppingCart(models.Model):
 	user = models.OneToOneField(BasicUser,null=True,blank=True)
 	datecreated = models.DateTimeField(auto_now_add=True,null=True,blank=True)
-	#Get list of items
+	
+	# Get list of items
 	def cart_items(self):
-		cartitems = CartItem.objects.filter(shoppingcart=self)
-		items = []
-		for cartitem in cartitems:
-			items.append(cartitem.item)
-		return items
+		return [cartitem.item for cartitem in self.cartitem_set.all()]
 
 class CartItem(models.Model):
 	checkout = models.ForeignKey(Checkout,null=True,blank=True)
@@ -453,7 +456,8 @@ class CartItem(models.Model):
 	price = models.BigIntegerField() # In case price changes during checkout
 	shoppingcart = models.ForeignKey(ShoppingCart,null=True,blank=True)
 	quantity = models.IntegerField(default=1,max_length=4)
-	
+	message = models.TextField(blank=True)
+
 	# Finds the number of other shopping carts that have this item
 	def numbercarts(self):
 		return CartItem.objects.filter(~Q(shoppingcart = None)).filter(item=self.item).count()-1
@@ -461,43 +465,6 @@ class CartItem(models.Model):
 	def amount(self):
 		return self.item.price*self.quantity
 		
-############################################
-### Payout Record Keeping ##################
-############################################
-
-class Payout(models.Model):
-	user = models.ForeignKey(BasicUser)
-	amount = models.BigIntegerField(max_length=20)
-	date = models.DateTimeField(auto_now_add = True)
-	total_commission = models.BigIntegerField(max_length=20)
-	total_charity = models.BigIntegerField(max_length=20)
-	cc_fee = models.BigIntegerField(max_length=20)
-	def subtotal(self):
-		return self.amount+self.total_commission+self.cc_fee
-	
-#### Record of the bank payout ##################
-class BankPayout(Payout):
-	bank_account = models.ForeignKey(BalancedBankAccount)
-	def subtotal(self):
-		return self.amount+self.total_commission+self.cc_fee
-		
-#### Record of the check payout ##################
-class CheckPayout(Payout):
-	address = models.ForeignKey(Address)
-	sent = models.BooleanField(default=False)
-
-############################################
-### Offline Commission #####################
-############################################
-
-#### Commission ############################
-class Commission(models.Model):
-	item = models.OneToOneField(Item)
-	price = models.BigIntegerField(max_length=12)
-	amount = models.BigIntegerField(max_length=20)
-	payment = models.ForeignKey(Payment) # Can only be a card or bank account
-	date = models.DateTimeField(auto_now_add = True)
-	transcation_number = models.CharField(max_length=40)
 
 ############################################
 ### Purchased Items  #######################
@@ -509,6 +476,7 @@ class Order(models.Model):
 	purchase_date = models.DateTimeField(auto_now_add = True)
 	total = models.BigIntegerField(max_length=20)
 	shipping_address = models.ForeignKey(Address,null=True,blank=True) # Can be null if pick-up only item
+	transaction_number = models.CharField(max_length=40)
 
 class PurchasedItem(models.Model):
 	purchase_date = models.DateTimeField(auto_now_add = True)
@@ -521,19 +489,14 @@ class PurchasedItem(models.Model):
 	# Details
 	item = models.ForeignKey(Item)
 	quantity = models.IntegerField(max_length = 5)
-	total = models.BigIntegerField(max_length=20)
 	unit_price = models.BigIntegerField(max_length=20)
 	item_name = models.CharField(max_length=300)
-	
-	# Reference to cart item of the purchase and the checkout
-	cartitem = models.OneToOneField(CartItem)
-	checkout = models.ForeignKey(Checkout)
 	
 	# Deductions
 	charity = models.BooleanField(default=False)
 	charity_name = models.ForeignKey(Charity,null=True,blank=True)
+	promo_code = models.ForeignKey(PromoCode)
 	commission = models.BigIntegerField(max_length=14)
-
 	# Post Purchase
 	shipping_included = models.BooleanField(default=True)
 	item_sent = models.BooleanField(default=False)
@@ -545,6 +508,9 @@ class PurchasedItem(models.Model):
 	paid_date = models.DateTimeField(null=True,blank=True)
 	payout = models.ForeignKey(Payout,null=True,blank=True)
 	
+	def total(self):
+		return self.unit_price*self.quantity
+
 ############################################
 ### Item Reviews ###########################
 ############################################	
@@ -608,3 +574,24 @@ class PriceChange(models.Model):
 	date_changed = models.DateTimeField(auto_now_add = True)
 	original_price = models.BigIntegerField(max_length = 14)
 	new_price = models.BigIntegerField(max_length = 14)
+
+############################################
+### Contact Form ###########################
+############################################
+class Contact(models.Model):
+	user = models.ForeignKey(BasicUser,null=True,blank=True)
+	name = models.CharField(max_length = 50)
+	email = models.CharField(max_length = 50)
+	message = models.CharField(max_length = 50)
+
+
+
+
+
+
+
+
+
+
+
+

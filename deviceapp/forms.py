@@ -12,3 +12,8 @@ class LoginForm(forms.Form):
 	email = forms.EmailField(max_length=60)
 	password = forms.CharField(widget=forms.PasswordInput) 
 	rememberme = forms.BooleanField(required=False)
+
+class ContactForm(forms.Form):
+	name = forms.CharField(max_length = 50)
+	email = forms.CharField(max_length = 50)
+	message = forms.CharField(max_length = 50)

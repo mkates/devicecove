@@ -99,7 +99,7 @@ def addBalancedBankAccount(request):
 				#bu.payment_method = bankaccount
 			if not bu.payout_method:
 				bu.payout_method = bankaccount
-				#email_view.composeEmailPayoutUpdated(bu)
+				email_view.composeEmailPayoutUpdated(bu)
 			bu.save()
 			return {'status':201,'bank':bankaccount,'error':'None','balanceduri':bu.balanceduri}
 		except Exception,e:

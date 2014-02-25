@@ -44,6 +44,8 @@ $(document).ready(function() {
 			$(".payment-ba").css('display','block');
 		} else if ($(this).attr('id') == "newcreditcard-button") {
 			$(".payment-cc").css('display','block');
+		} else if ($(this).attr('id') == "newcheckaddress-button") {
+			$(".payment-ca").css('display','block');
 		} 
 	});
 	$(".payment-cancel").click(function() {
@@ -51,25 +53,10 @@ $(document).ready(function() {
 		$(".button-payment").removeClass('button-primary');
 		$(".payment-add").css('display','none');
 	});
-	$(".address-cancel").click(function() {
-		$(".payment-address-new-form").css('display','none');
-		$(".payment-address-div").css('display','block');
-		$(".payment-address-new-button").css('display','block');
-	});
 	$(".payment-address-new-button button").click(function() {
 		$(".payment-address-new-button").css('display','none');
 		$(".payment-address-div").css('display','none');
 		$(".payment-address-new-form").css('display','block');
-	});
-	
-	$('.mailchecks').prop('checked',{% if user.basicuser.payout_method.checkaddress %}true{%else%}false{% endif %});
-	$('.mailchecks').click(function() {
-		if ($(this).is(':checked')) {
-			$('#payment-address-container').css('display','block');
-			console.log('asol');
-		} else {
-			$('#payment-address-container').css('display','none');
-		}
 	});
 });
 </script>
@@ -106,7 +93,13 @@ $(document).ready(function() {
 	margin: 0;
 	font-size: 13px;
 }
+.paymentbox .payment-active {
+	background: #FBFFC4;
+}
 
+.paymentbox p.small {
+	font-size: 12px;
+}
 /* New payment buttons */
 .paymentbox .payment-new {
 	border-top: 1px solid #ddd;
@@ -135,7 +128,9 @@ $(document).ready(function() {
 .paymentbox .payment-add .payment-cancel:hover {
 	cursor: pointer;
 }
-
+ .addressform .payment-cancel {
+ 	margin-top: 13px;
+ }
 
 /* Supplementary cc form formatting */
 .cc_form .form-group {	
@@ -182,8 +177,8 @@ $(document).ready(function() {
 {% load phonenumber %}
 {% load zipcodify %}
 	<div class="covebox paymentbox-container">
-		<h4 class="maincontent-title">Paying Out and Receiving Payments<img class="balanced-image" src="{{STATIC_URL}}img/balanced-image.png"/></h4>
-		{% if user.basicuser.payout_method == 'none' %}
+		<h4 class="maincontent-title">Selling on VetCove: Receiving Payouts<img class="balanced-image" src="{{STATIC_URL}}img/balanced-image.png"/></h4>
+		{% if not user.basicuser.payout_method %}
 		<div class="alert alert-danger alert-nopayment">
 			<strong>No Payment Method Set</strong>
 			<p>In order to receive payments from items you sell on VetCove, you must set a payout method. You can either
@@ -193,10 +188,9 @@ $(document).ready(function() {
 		
 		<div class="paymentbox">
 			<div class="payment-current">
-				<h5>Payments on VetCove</h5>
-				<p>On VetCove, you can buy items with a credit card or a bank account. To receive payments as a seller,
-				you can receive a check by mail or we can make a direct deposit right into your bank account.</p>	
-				<h5>Receiving Payment Method: 
+				<h5>Receiving Payouts From Sales</h5>
+				<p>Once you sell an item on VetCove and ship the item (if applicable), we will process your payout 14 days after the sale is complete. For repeat sellers, we will significantly reduce the payout wait period. You can receive a check by mail or we can make a direct deposit right into your bank account.</p>	
+				<h5>Current Payout Method: 
 					<strong>
 					{% if user.basicuser.payout_method.checkaddress %}
 						Check By Mail
@@ -207,81 +201,26 @@ $(document).ready(function() {
 					{% endif %}
 					</strong>
 				</h5>
-				<div class="payment-address">	
-					<form class="address-toggle">
-						<div class="checkbox">
-							<label>
-								<input class="mailchecks" type="checkbox" {% if user.basicuser.payout_method.checkaddress %}checked="checked"{% endif %}> I'd rather receive payments from sales via check by mail
-							</label>
-						</div>
-					</form>	
-					<div id="payment-address-container" class="{% if not user.basicuser.payout_method.checkaddress %}hide-div{% endif %}">
-					
-						{% for payment in user.basicuser.payment_set.all %}
-							{% if payment.checkaddress %} 
-								<div class="payment-method">
-									<div class="row payment-description">
-										<div class="payment-type col-md-8 col-sm-8 col-xs-12">
-											<p><span>Check By Direct Mail</span><p>
-										</div>
-										<div class="payment-info col-md-4 col-sm-4 col-xs-12">
-											<p>{{payment.checkaddress.address.name}}
-											<p>{{payment.checkaddress.address.address_one}}</p>
-											{% if payment.checkaddress.address.address_two %}<p>{{payment.checkaddress.address.address_two}}</p>{% endif %}
-											<p>{{payment.checkaddress.address.city}}, {{payment.checkaddress.address.state}} {{payment.checkaddress.address.zipcode|zipcodify}}</p>
-											<p>{{payment.checkaddress.address.phonenumber|phonenumber}}</p>
-										</div>
-									</div>
-									{% if not gate %}
-									<div class="row payment-actions">
-										{% if user.basicuser.payout_method == payment %}	
-											<button class="button button-rounded button-tiny button-primary">Payouts will be sent to this address</button>
-										{% else %}
-											<form action="/account/makedefaultpayout/{{payment.id}}" method="POST">
-												{% csrf_token %}
-												<button value="submit" name="submit" class="button button-rounded button-tiny">Send payouts to this address</button>
-											</form>
-										{% endif %}
-										</form>
-										<form action="/account/deletepayment/{{payment.id}}" method="POST">
-											{% csrf_token %}
-											<button value="submit" name="submit" class="button button-rounded button-tiny">Delete this Address</button>
-										</form>
-									</div>
-									{% else %}
-										<form class="gateform" action="/gatepayment/bank/{{payment.balancedbankaccount.id}}/{{item.id}}" method="POST">
-											{% csrf_token %}
-											<button value="submit" name="submit" class="use-payment-button button button-rounded button-action button-tiny">Pay With This Bank Account</button>
-										</form>
-									{% endif %}
-								</div>
-							{% endif %}
-						{% endfor %}
-
-						<div class="row payment-address-new-button">
-							<div class="col-md-12 col-sm-12 col-xs-12">
-								<button class="button button-tiny button-rounded">{% if user.basicuser.address_set.all %}or {% endif %}Enter a New Mailing Address</button>
-							</div>
-						</div>
-						<div class="row payment-address-new-form">
-							<p class="address-description">Enter a new mailing address to receive checks from sales on VetCove</p>
-							{% include 'general/address.html' %}
-						</div>
-					</div>
+				{% if user.basicuser.payout_method %}
+					<div class="current-payout-method">
+					{% include 'account/payment_box.html' with payment=user.basicuser.payout_method payout_active=True %}
 				</div>
+				{% endif %}
 			</div>
 			<div class="payment-cards">
-				<h5>Choose a payment method for your refundable selling fees:</h5>
-				{% include 'account/payment_methods.html' %}
+				<h5>Select a New Payout Method:</h5>
+				{% for payments in user.basicuser.payment_set.all %}
+					{% if payments != user.basicuser.payout_method and not payments.balancedcard %}
+						{% include 'account/payment_box.html' with payment=payments %}
+					{% endif %}
+				{% endfor %}
 			</div>
 			<div class='payment-new'>
-				<button id="newcreditcard-button" class="button button-rounded button-payment button-cc-payment">Add a New Credit Card</button> 
-				<button id="newbankaccount-button" class="button button-rounded button-payment button-ba-payment">Add a New Bank Account</button> 
+				<button id="newbankaccount-button" class="button button-rounded button-payment button-check-payment">Enter New Bank Account</button> 
+				<button id="newcheckaddress-button" class="button button-rounded button-payment button-cc-payment">Enter New Address For Check</button> 
 			</div>
-			<div class="payment-add checkoutform-container payment-cc">
-				<p class="explain">Sellers getting paid through direct deposit to a bank account are paid every Monday at 5pm after a minimum 14 days after the sale.</p>
-				<button class="populate">Populate</button>
-				{% include 'account/cc_form.html' %}
+			<div class="payment-add checkoutform-container payment-ca">
+				{% include 'general/address.html' %}
 			</div>
 			<div class="payment-add checkoutform-container payment-ba">
 				<p class="explain">Please check your bank websites for the routing number used specifically for ACH or electronic deposits. Some large banks, particularly Bank Of America, may have different routing numbers for checks and direct deposits.
@@ -289,6 +228,33 @@ $(document).ready(function() {
 				Payments might be delayed by up to (3) three to (5) five business days if incorrect information is provided</p>
 				{% include 'account/ba_form.html' %}
 				
+			</div>
+		</div> <!-- end paymentbox -->
+	</div>
+
+	<div class="covebox paymentbox-container">
+		<h4 class="maincontent-title">Paying on VetCove: Buying Items and Paying Commission <img class="balanced-image" src="{{STATIC_URL}}img/balanced-image.png"/></h4>
+		
+		<div class="paymentbox">
+			<div class="payment-current">
+				<h5>Paying on VetCove</h5>
+				<p>To pay for items on VetCove and pay any commission fees (if you are selling items offline), VetCove requires a credit card. We are powered by Balanced, a PCI 1 compliant credit card and bank account processing company. </p>	
+				<br>
+				<div class="payment-address">	
+					{% for payment in user.basicuser.payment_set.all %}
+						{% if payment.balancedcard %} 
+							{% include 'account/payment_box.html' with payment=payment %}
+						{% endif %}
+					{% endfor %}
+				</div>
+			</div>
+			<div class='payment-new'>
+				<button id="newcreditcard-button" class="button button-rounded button-payment button-cc-payment">Add a New Credit Card</button> 
+			</div>
+			<div class="payment-add checkoutform-container payment-cc">
+				<p class="explain">Sellers getting paid through direct deposit to a bank account are paid every Monday at 5pm after a minimum 14 days after the sale.</p>
+				<button class="populate">Populate</button>
+				{% include 'account/cc_form.html' %}
 			</div>
 		</div> <!-- end paymentbox -->
 	</div>

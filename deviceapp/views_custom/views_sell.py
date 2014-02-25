@@ -252,6 +252,7 @@ def reportproblemform(request,purchaseditemid):
 		details = request.POST.get('details','')
 		report = Report(purchased_item=pi,reason=reason,details=details)
 		report.save()
+		email_view.composeFileReport(report)
 	return HttpResponseRedirect("/account/reportproblem/"+str(purchaseditemid))
 	
 #################################################

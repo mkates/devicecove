@@ -1,0 +1,7 @@
+{% extends 'email_templates/email_foundation.html' %}
+
+{% block textblock %}
+<p>The seller of {{question.item}} has answered the question you asked: {{question.question}}</p>
+<p><strong style="font-weight:bold">{{question.answer}}</strong></p>
+<p>To view more details or purchase this item, follow the link below: </p>
+{% endblock %}

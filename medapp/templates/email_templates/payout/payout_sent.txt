@@ -1,13 +1,14 @@
-{% load phonenumber %}{% load zipcodify %}
-Dear {{email_name}},
+{% extends 'email_templates/email_foundation.txt' %}
 
+{% load phonenumber %}{% load zipcodify %}
+{% block textblock %}
 Thank you for selling on VetCove! We hope you’re enjoying your
 experience with our service.
 
 {% if payout_obj.checkpayout %} We’re pleased to inform you that the check payout from
-your recent transaction(s) is on its way to you. {% else bank %} We’re
+your recent transaction(s) is on its way to you. {% else %} We’re
 pleased to inform you that we have successfully credited your bank
-account. The details are attached below: {% endif %} The details are
+account. {% endif %} The details are
 attached below:
 {% if payout_obj.checkpayout %}
 Ceck Mailing Address
@@ -28,7 +29,4 @@ Bank Account Information
 If you do not see the deposit into your account within 3 business days,
 please contact us so we can resolve this issue.
 {% endif %}
-
-Warmest regards,
-
-Alex and The VetCove Team
+{% endblock %}

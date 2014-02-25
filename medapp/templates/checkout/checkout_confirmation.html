@@ -5,7 +5,7 @@
 
 {% block paymentactive %}active{% endblock %}
 
-{% block checkout_nav %}<p class="topnav"><a class="returnbutton button button-tiny" href="/checkout/shipping/{{checkout.id}}">&#8592; Return To Shipping</a>{% if checkout.state >= 3 %}<a class="continuebutton button button-tiny" href="/checkout/review/{{checkout.id}}">Continue to Review &#8594;</a>{% endif %}</p>{% endblock %}
+{% block checkout_nav %}{% endblock %}
 
 {% block headercss %}
 <link href="{{STATIC_URL}}css/cartitem.css" rel="stylesheet" type="text/css" />
@@ -114,31 +114,32 @@
 	</span>
 </div>
 <div class="purchaseditems-container covebox">
-	<h3 class="purchaseditems-header">Purchased Items<span> Total: {{checkout.total|dollars}}</span></h3>
-	{% for checkoutcartitem in checkout.cartitem_set.all %}
+	<h3 class="purchaseditems-header">Purchased Items<span> Total: {{order.total|dollars}}</span></h3>
+	{% for purchaseditem in order.purchaseditem_set.all %}
 		<div class="covebox cart-item {% if forloop.last %}last-cart-item{% endif %}" id="cart-item-{{cartitem.item.id}}">
 			<div class="row">
 				<div class="item-image col-md-3 col-sm-3 col-xs-12">
-					<img src="{% if checkoutcartitem.item.mainimage %}{{checkoutcartitem.item.mainimage.photo_medium.url}}{% else %}{{STATIC_URL}}img/noimage.jpg{% endif %}" alt="{{cartitem.item.name}}"/>		
+					<img src="{% if purchaseditem.item.mainimage %}{{purchaseditem.item.mainimage.photo_medium.url}}{% else %}{{STATIC_URL}}img/noimage.jpg{% endif %}" alt="{{cartitem.item.name}}"/>		
 				</div>
 				<div class="item-information col-md-7 col-sm-7 col-xs-12">
-					<h6><a href="/item/{{checkoutcartitem.item}}/details">{{checkoutcartitem.item.name}}</a></h6>
-					{% if not checkoutcartitem.item.shippingincluded %}
+					<h6><a href="/item/{{purchaseditem.item.id}}/details">{{purchaseditem.item.name}}</a></h6>
+					{% if purchaseditem.buyer_message %}<p>Special Shipping Instructions: {{purchaseditem.buyer_message}}</p>{% endif %}
+					{% if not purchaseditem.item.shippingincluded %}
 					<p class="seller-pickup">You must organize a time with the seller to pick up this item</p>
 					{% endif %}
 					<p class="seller-header"> Seller Information </p>
-					<p class="sellerinfo">{{checkoutcartitem.item.user.firstname}}</p>
-					{% if checkoutcartitem.item.user.city %}
-						<p class="sellerinfo">{{checkoutcartitem.item.user.city}}, {{checkoutcartitem.item.user.state}}</p>
+					<p class="sellerinfo">{{purchaseditem.item.user.firstname}}</p>
+					{% if purchaseditem.item.user.city %}
+						<p class="sellerinfo">{{purchaseditem.item.user.city}}, {{purchaseditem.item.user.state}}</p>
 					{% else %}
-						<p class="sellerinfo">{{checkoutcartitem.item.user.zipcode|zipcodify}}</p>
+						<p class="sellerinfo">{{purchaseditem.item.user.zipcode|zipcodify}}</p>
 					{% endif %}
-					<p class="sellerinfo">{{checkoutcartitem.item.user.email}}</p>
-					<p class="sellerinfo">{{checkoutcartitem.item.user.phonenumber|phonenumber}}</p>
+					<p class="sellerinfo">{{purchaseditem.item.user.email}}</p>
+					<p class="sellerinfo">{{purchaseditem.item.user.phonenumber|phonenumber}}</p>
 				</div>
 				<div class="item-price col-md-2 col-sm-2 col-xs-12">
-					<p>{{checkoutcartitem.price|dollars}}</p>
-					<p class="quantity">(Quantity: {{checkoutcartitem.quantity}})</p>
+					<p>{{purchaseditem.total|dollars}}</p>
+					<p class="quantity">(Quantity: {{purchaseditem.quantity}})</p>
 				</div>
 			</div>
 		</div>

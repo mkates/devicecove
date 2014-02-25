@@ -999,7 +999,7 @@
                          <h6><a href="http://www.vetcove.com/account/buyhistory">{{pi.item_name}}</a></h6>
                          <p class="thin">Purchased {{pi.purchase_date}}</p>
                          {% if pi.quantity > 1 %}<p class="thin">Quantity: {{pi.quantity}}</p>{% endif %}
-
+                         {% if pi.buyer_message %}<p class="thin">Additional Information: {{pi.buyer_message}}</p>{% endif %}
                         </td>
                         <td class="expander"></td>
                       </tr>
@@ -1034,11 +1034,11 @@
                           {% if purchase_confirmation %}
                            <p class="align-right total"><strong style="font-weight:bold">Total:<span>{{order.total|dollars}}</span></strong></p>
                           {% elif payout %}
-                          <p class="align-right total">Payout Subtotal:<span>{{payment.subtotal}}</span></p>
-                          <p class="align-right total">Commission Fees:<span>$24.32</span></p>
-                          <p class="align-right total">1+1 Program:<span>$12345689.01</span></p>
-                          <p class="align-right total">Processing Fee (3%):<span>$1</span></p>
-                          <p class="align-right total strong">Total Payout:<span>$122348.21</span></p>
+                          <p class="align-right total">Payout Subtotal:<span>{{payout.subtotal|dollars}}</span></p>
+                          <p class="align-right total">Commission Fees:<span>-{{payout.total_commission|dollars}}</span></p>
+                          <p class="align-right total">1+1 Program:<span>-{{payout.oneplusone|dollars}}</span></p>
+                          <p class="align-right total">Processing Fee (3%):<span>-{{payout.cc_fee|dollars}}</span></p>
+                          <p class="align-right total strong">Total Payout:<span>{{payout.amount|dollars}}</span></p>
                           {% endif %}
                         </td>
                         

@@ -2,7 +2,7 @@
 {% block headertitle %}<title>VetCove | Notifications</title>{% endblock%}
 {% block accounthistory %}active{% endblock %}
 
-{% block maintitle %}Account History{% endblock %}
+{% block maintitle %}Notifications{% endblock %}
 {% block headersubcss %}
 <style>
 .notification {
@@ -29,6 +29,11 @@
 .unviewed:hover {
 	background: #eeefcb;
 }
+#clear-notifications {
+	float: right;
+	margin-right: 10px;
+	line-height: 40px;
+}
 </style>
 {% endblock %}
 
@@ -38,6 +43,13 @@ $(".notification-form").click(function() {
 	$(this).submit();
 });
 </script>
+{% endblock %}
+
+{% block rightitle %}
+	<form id="clear-notifications" action="/account/clearnotifications" method="POST">
+		{% csrf_token %}
+		<button class="button button-tiny button button-rounded primary">Clear all Notifications</button>
+	</form>
 {% endblock %}
 {% block maincontent %}
 	{% if notification_set %}

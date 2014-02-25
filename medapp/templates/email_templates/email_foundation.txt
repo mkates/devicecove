@@ -8,6 +8,15 @@ Dear {{email_name}},
 {% block col_b_title %}{% endblock %}
 {% block col_b_block %}{% endblock %}
 {% endif %}
+{% for pi in purchaseditems %}
+{{pi.item_name}}
+{{pi.purchase_date}}
+{% if pi.quantity > 1 %}Quantity: {{pi.quantity}}{% endif %}
+{% if pi.buyer_message %}Additional Information: {{pi.buyer_message}}{% endif %}
+Total: {{pi.total|dollars}}</p>
+- - - - - - - - - - - - - - - -  -
+
+{% endfor %}
 Warmest Regards,
 
 Alex and the VetCove Team

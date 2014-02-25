@@ -93,6 +93,21 @@ def composeEmailNewQuestion(request,basicuser,question):
 	email = render_and_send_email(template_data,subject,question.seller.email,'questions/questions')
 	return email	
 
+#### A seller has asked you a new question ######
+def composeEmailQuestionAnswered(question):
+	template_data = {
+		'STATIC_URL':settings.STATIC_URL,
+		'question':question,
+		'email_title':"Answered Question",
+		'email_name':question.buyer.firstname,
+		'actionbutton':True,
+		'actionbutton_link': 'http://www.vetcove.com/item/'+str(question.item.id)+"/details",
+		'actionbutton_text': 'View This Item',
+	}
+	subject = "Answer to "+question.question
+	email = render_and_send_email(template_data,subject,question.buyer.email,'questions/question_answered')
+	return email
+
 #### When someone fills out the contact message ######
 def composeEmailContactMessage_Seller(request,seller,contact_message):
 	template_data = {
@@ -157,7 +172,7 @@ def composeEmailItemSold_Seller(request,basicuser,purchased_item):
 		'email_title':"Your Item Sold",
 		'email_name':purchased_item.seller.firstname
 	}
-	subject = "Your VetCove item sold! "+purchased_item.cartitem.item.name
+	subject = "Your VetCove item sold! "+purchased_item.item.name
 	email = render_and_send_email(template_data,subject,purchased_item.seller.email,'item_sold/item_sold')
 	return email	
 
@@ -189,10 +204,10 @@ def composeEmailItemShipped_Buyer(request,basicuser,purchased_item):
 		'item_shipped_buyer':True,
 		'purchaseditem':purchased_item,
 		'email_title':"Item Shipped",
-		'email_name':basicuser.firstname
+		'email_name':purchased_item.buyer.firstname
 	}
 	subject = "Your VetCove purchase has shipped: "+purchased_item.item.name
-	email = render_and_send_email(template_data,subject,basicuser.email,'shipped/shipped')
+	email = render_and_send_email(template_data,subject,purchased_item.buyer.email,'shipped/shipped')
 	return email	
 
 # #### Confirmation Item Shipped to Seller ######
@@ -213,15 +228,16 @@ def composeEmailItemShipped_Buyer(request,basicuser,purchased_item):
 
 #### Confirmation check has been mailed ######
 def composeEmailPayoutSent(basicuser,payout_obj):
+	print 'Compose Email'
 	if hasattr(payout_obj,'bankpayout'):
 		payout = payout_obj.bankpayout
 	else:
 		payout = payout_obj.checkpayout
-	purchased_items = payout_obj.purchaseditem_set.all()
+	purchased_items = payout.purchaseditem_set.all()
 	template_data = {
 		'STATIC_URL':settings.STATIC_URL,
 		'payout_check_sent':True,
-		'purchased_items': purchased_items,
+		'purchaseditems': purchased_items,
 		'payout_obj':payout_obj,
 		'payout':payout,
 		'totals':True,
@@ -229,7 +245,7 @@ def composeEmailPayoutSent(basicuser,payout_obj):
 		'email_name':basicuser.firstname
 	}
 	subject = "Payment from VetCove is on its way to you"
-	email = render_and_send_email(template_data,subject,basicuser.email)
+	email = render_and_send_email(template_data,subject,basicuser.email,'payout/payout_sent')
 	return email	
 
 #### Alert the seller they have no payment method set ######
@@ -242,7 +258,7 @@ def composeEmailNoPayment(basicuser):
 		'totals':True,
 		'payout':True,
 		'secondtextblock':True,
-		'payment':payment,
+		'payout':payment,
 		'purchaseditems':unpaid_items,
 		'actionbutton':True,
 		'actionbutton_link': 'http://www.vetcove.com/account/payment',
@@ -262,7 +278,7 @@ def composeEmailPayoutFailed(basicuser,bank_account,eligibleitems):
 		'payout':True,
 		'bank_account':bank_account,
 		'secondtextblock':True,
-		'payment':payment,
+		'payout':payment,
 		'purchaseditems': eligibleitems,
 		'actionbutton':True,
 		'actionbutton_link': 'http://www.vetcove.com/account/payment',
@@ -312,6 +328,27 @@ def composeEmailAuthorizedBuyer(item,buyer):
 	return email
 
 	
+def composeFileReport(report):
+	plaintext_context = Context(autoescape=False) # HTML escaping not appropriate in plaintext
+	text_body = render_to_string("email_templates/internal/reportfiled.txt", {'report':report}, plaintext_context)
+	msg = EmailMultiAlternatives("VetCove Report Complaint", text_body, "The VetCove Team <info@vetcove.com>",[
+	"mitch@vetcove","alex@vetcove.com"])
+	msg.send()
+	return
 
+def composeInactiveRequest(inactiverequest):
+	plaintext_context = Context(autoescape=False) # HTML escaping not appropriate in plaintext
+	text_body = render_to_string("email_templates/internal/inactiverequest.txt", {'inactiverequest':inactiverequest}, plaintext_context)
+	msg = EmailMultiAlternatives("VetCove Inactive Request", text_body, "The VetCove Team <info@vetcove.com>",[
+	"mitch@vetcove","alex@vetcove.com"])
+	msg.send()
+	return
 
+def composeContactForm(contact):
+	plaintext_context = Context(autoescape=False) # HTML escaping not appropriate in plaintext
+	text_body = render_to_string("email_templates/internal/contact.txt", {'contact':contact}, plaintext_context)
+	msg = EmailMultiAlternatives("VetCove Contact Message", text_body, "The VetCove Team <info@vetcove.com>",[
+	"mitch@vetcove","alex@vetcove.com"])
+	msg.send()
+	return
 

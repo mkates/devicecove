@@ -1,0 +1,11 @@
+Contact Form
+
+- - - - - - - -  - - - - 
+
+Name: {{contact.name}}
+
+Email: {{contact.email}}
+
+Reason: {{contact.message}}
+
+

@@ -23,7 +23,7 @@ import timeit
 ###########################################	
 
 #If 0, means it shows cats and subcats with 0 listings, 
-showItems = 0
+showItems = 1
 #Number of results per page
 resultsPerPage = 8
 
@@ -113,9 +113,13 @@ def autosuggest(request):
 
 def customsearch(request):
 	if request.method == "GET":
-		searchword = request.GET['q']
+		searchword = request.GET['q'].lower()
 		if not searchword:
 			return HttpResponseRedirect("/shop")
+		if Category.objects.filter(name=searchword).exists():
+			return HttpResponseRedirect('/productsearch/veterinary/'+str(searchword)+"/all")
+		elif SubCategory.objects.filter(name=searchword).exists():
+			return HttpResponseRedirect('/productsearch/veterinary/all/'+str(searchword))
 		relatedItems = closeCategories(searchword)
 		allitems = Item.objects.all().filter(liststatus='active').order_by('price')
 		items = filterItemsByQuery(searchword,allitems)
@@ -123,11 +127,10 @@ def customsearch(request):
 		industry = Industry.objects.get(id=1)
 		searchquery = searchword.lower()
 		catlist = getCategoriesAndQuantity()
-		manufacturers = Manufacturer.objects.all()
 		distance = getDistances(request,items)
 		pricerange = getPriceRange(items)
 		more = True if len(items) > resultsPerPage else False
-		return render_to_response('search/search.html',{'custom':True,'zipcode':zipcode,'relatedItems':relatedItems,'resultcount':len(items),'searchquery':searchword,'more':more,'pricerange':pricerange,'searchquery':searchquery,'items':items[0:resultsPerPage],'categories':catlist,'ind':industry,'manufacturer':manufacturers},context_instance=RequestContext(request))
+		return render_to_response('search/search.html',{'custom':True,'zipcode':zipcode,'relatedItems':relatedItems,'resultcount':len(items),'searchquery':searchword,'more':more,'pricerange':pricerange,'searchquery':searchquery,'items':items[0:resultsPerPage],'categories':catlist,'ind':industry},context_instance=RequestContext(request))
 	
 def searchquery(request):
 	if request.method == "GET":
@@ -245,11 +248,11 @@ def getItems(categoryterm,subcategoryterm):
 
 def closeCategories(searchterm):
 	close = []
-	for sub in SubCategory.objects.all():
+	for sub in SubCategory.objects.filter(totalunits__gte = 1):
 		ratio = difflib.SequenceMatcher(None,searchterm,sub.displayname.lower()).ratio()
 		if ratio > .3:
 			close.append({'obj':sub,'type':'subcategory','match': ratio})
-	for cat in Category.objects.all():
+	for cat in Category.objects.filter(totalunits__gte = 1):
 		ratio = difflib.SequenceMatcher(None,searchterm,cat.displayname.lower()).ratio()
 		if ratio > .3:
 			close.append({'obj':cat,'type':'category','match': ratio})
@@ -259,14 +262,14 @@ def closeCategories(searchterm):
 #Takes in a category 
 def getSubcategories(cathandle):
 	related = []
-	for sub in cathandle.subcategory_set.all():
+	for sub in cathandle.subcategory_set.filter(totalunits__gte = 1):
 		related.append({'obj':sub,'type':'subcategory'})
 	return related
 
 #Takes in a subcategory
 def getOtherSubcategories(subcathandle):
 	related = []
-	for sub in subcathandle.maincategory.subcategory_set.all():
+	for sub in subcathandle.maincategory.subcategory_set.filter(totalunits__gte = 1):
 		related.append({'obj':sub,'type':'subcategory'})
 	return related
 

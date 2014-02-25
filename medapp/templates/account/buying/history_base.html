@@ -7,8 +7,7 @@
 			<div class="row shippingrow">
 				<form method="POST" action="/account/purchaseshippinginfo/{{pitem.id}}" id="shipping-form-{{pitem.id}}" class="shipping-form">
 					{% csrf_token %}
-					<p> Please describe shipping details, including shipping company and tracking number. If there was a problem,
-					please inform your seller and mark as not yet shipped</p>
+					<p> Please inform the buyer of shipment details.  The buyer will want to know the shipping company, tracking number, and estimated arrival date.</p>
 					<textarea name="shipping-details" class="buymessage form-control" placeholder="Shipping details i.e. shipping company and tracking number">{{pitem.seller_message}}</textarea> 
 					<button value="shipped" name="submit" class="button button-tiny button-action button-rounded" name="submit" value="submit">Submit and Mark Item as Shipped</button>
 					<button value="not_shipped" name="submit" class="button button-tiny button-caution button-rounded" name="submit" value="submit">Submit and Mark Item as Not Yet Shipped</button>
@@ -69,7 +68,7 @@
 			</div>
 			{% endif %}
 			<p class="order-price">Total Price: <span>{{pitem.total|dollars}}</span>
-			<p class="order-quantity">Quantity: <span>{{pitem.cartitem.quantity}} {% if pitem.cartitem.quantity > 1 %}(at {{pitem.cartitem.price|dollars}} each){% endif %}</span>
+			<p class="order-quantity">Quantity: <span>{{pitem.quantity}} {% if pitem.quantity > 1 %}(at {{pitem.unit_price|dollars}} each){% endif %}</span>
 			{% if sellhistory %}
 			<p class="order-number">Payout Status: 
 				<span>
@@ -133,10 +132,10 @@
 			{% endif %}
 			<div class="order-item row">
 				<div class="col-md-4 col-sm-4 col-xs-12 order-image">
-					<img src="{% if pitem.cartitem.item.mainimage %}{{pitem.cartitem.item.mainimage.photo_small.url}}{% else %}{{STATIC_URL}}img/noimage_300x400.jpg{% endif %}" alt="{{pitem.cartitem.item.name}}"/>
+					<img src="{% if pitem.item.mainimage %}{{pitem.item.mainimage.photo_small.url}}{% else %}{{STATIC_URL}}img/noimage_300x400.jpg{% endif %}" alt="{{pitem.item.name}}"/>
 				</div>
 				<div class="col-md-8 col-sm-8 col-xs-12 order-description">
-					<p class="order-name"><a href='/item/{{pitem.cartitem.item.id}}/details'>{{pitem.item_name}} (Condition: {{pitem.cartitem.item.get_conditionquality_display}})</a></p>
+					<p class="order-name"><a href='/item/{{pitem.item.id}}/details'>{{pitem.item_name}} (Condition: {{pitem.item.get_conditionquality_display}})</a></p>
 					<p class="order-seller">Seller Information</p>
 					<p class="order-seller-info">{{pitem.seller.name}}</p>
 					<p class="order-seller-info">{{pitem.seller.email}}</p>
@@ -162,7 +161,7 @@
 					<p class="order-seller-message">Buyer Message: <span>{% if pitem.buyer_message %}{{pitem.buyer_message}}{% else %}The buyer has not provided any additional shipping details{% endif %}</span></p>
 					{% endif %}
 				{% else %}
-					<p class="order-seller-message"> Pick up must me organized with the buyer. Please contact us if there are problems arranging a time for item pick up</p>
+					<p class="order-seller-message"> Pick up must be organized with the buyer. Please contact us if there are problems arranging a time for item to be pick up</p>
 				{% endif %}
 				{% if buyhistory %}
 				<form method="POST" action="/purchasesellermessage/{{pitem.id}}" id="seller-message-form-{{pitem.id}}" class="seller-message-form">
