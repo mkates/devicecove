@@ -562,10 +562,10 @@
         "code": "beta14", 
         "promo_type": "factor", 
         "discount": null, 
-        "details": "50% off", 
-        "factor": 50, 
+        "details": "75% off", 
+        "factor": 75, 
         "active": true, 
-        "promo_text": "Sweet! You are saving 50% on your commission"
+        "promo_text": "Sweet! We are taking 75% off your commission"
     }
 },
 {

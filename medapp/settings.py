@@ -90,21 +90,30 @@ STATICFILES_DIRS = (
     # Don't forget to use absolute paths, not relative paths.
 )
 
-#Caching 
-# os.environ['MEMCACHE_SERVERS'] = os.environ.get('MEMCACHIER_SERVERS', '').replace(',', ';')
-# os.environ['MEMCACHE_USERNAME'] = os.environ.get('MEMCACHIER_USERNAME', '')
-# os.environ['MEMCACHE_PASSWORD'] = os.environ.get('MEMCACHIER_PASSWORD', '')
-# CACHES = {
-#   'default': {
-#     'BACKEND': 'django_pylibmc.memcached.PyLibMCCache',
-#     'TIMEOUT': 500,
-#     'BINARY': True,
-#     'OPTIONS': {
-#         'tcp_nodelay': True,
-#         'remove_failed': 4
-#     }
-#   }
-# }
+#CACHE SETTINGS
+def get_cache():
+  import os
+  try:
+    os.environ['MEMCACHE_SERVERS'] = os.environ['MEMCACHIER_SERVERS'].replace(',', ';')
+    os.environ['MEMCACHE_USERNAME'] = os.environ['MEMCACHIER_USERNAME']
+    os.environ['MEMCACHE_PASSWORD'] = os.environ['MEMCACHIER_PASSWORD']
+    return {
+      'default': {
+        'BACKEND': 'django_pylibmc.memcached.PyLibMCCache',
+        'TIMEOUT': 500,
+        'BINARY': True,
+        'OPTIONS': { 'tcp_nodelay': True }
+      }
+    }
+  except:
+    return {
+      'default': {
+        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache'
+      }
+    }
+
+CACHES = get_cache()
+
 
 
 # List of finder classes that know how to find static files in
@@ -162,7 +171,7 @@ INSTALLED_APPS = (
     'django_extensions',
     'password_reset', # Password reset app
     'djrill', #Django-Mandrill App
-    'collectfast' #Used for quicker S3 Collectstatic (fixes modified_time bug in s3 uploads)
+    'collectfast' #Used for quicker S3 Collectstatic (also fixes modified_time bug in s3 uploads)
     # 'debug_toolbar'
 )
 

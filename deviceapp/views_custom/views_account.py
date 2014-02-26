@@ -251,7 +251,17 @@ def buyhistory(request):
 
 @login_required
 def payoutHistory(request):
-   	return render_to_response('account/selling/payouthistory.html',context_instance=RequestContext(request))
+	dict = {}
+	payout_set = request.user.basicuser.payout_set.all()
+	dict['total_payout'] = sum([payout.amount for payout in payout_set])
+	total_items = [payout.purchaseditem_set.all() for payout in payout_set]
+	total_item_count = 0
+	for order in total_items:
+		for pi in order:
+			total_item_count += pi.quantity
+	dict['total_items'] = total_item_count
+	dict['total_items_average'] = int(dict['total_payout']/total_item_count)
+   	return render_to_response('account/selling/payouthistory.html',dict,context_instance=RequestContext(request))
 
 @login_required
 def sellhistory(request):

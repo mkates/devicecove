@@ -92,6 +92,15 @@ table td p {
 				</tr>
 				
 			{% endfor %}
+				<tr class="success">
+					<td><p>Totals:</p></td>
+					<td></td>
+					<td><p>{{total_items}} items sold (average price {{total_items_average|dollars}})</p></td>
+					</td>
+					<td class="totals">
+						<p><strong>VetCove Earnings: <span>{{total_payout|dollars}}</span></strong></p>
+					</td>
+				</tr>
 		</tbody>
 	</table>
 	<p class="questions">Questions about your payouts? Send us <a href="/contact"> a message</a> and let us know</p>

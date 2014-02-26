@@ -36,12 +36,12 @@ def ccFee(purchaseditem):
 ######## Get commission of the item ########################	
 def commission(item):
 	if not item.promo_code:
-		return max(100,int(item.price*commissionPercentage(item.price)))
+		amount = int(item.price*commissionPercentage(item.price))
 	elif item.promo_code.promo_type == 'factor':
-		return max(100,int((item.price*commissionPercentage(item.price)*((item.promo_code.factor)/float(100)))))
+		amount = int((item.price*commissionPercentage(item.price)*((item.promo_code.factor)/float(100))))
 	elif item.promo_code.promo_type == 'discount':
-		return max(100,int(max(0,item.price*commissionPercentage(item.price)-item.promo_code.discount)))
-	return max(100,int(item.price*commissionPercentage(item.price)))
+		amount = int(max(0,item.price*commissionPercentage(item.price)-item.promo_code.discount))
+	return max(100,amount)
 
 ######## Amount Saved in commission for a given item #############
 def commissionSavings(item):
@@ -79,10 +79,12 @@ def purchaseditemCommission(pitem):
 	item = pitem.item
 	quantity = pitem.quantity
 	if not item.promo_code:
-		return int(pitem.unit_price*commissionPercentage(pitem.unit_price))*quantity
+		amount = int(pitem.unit_price*commissionPercentage(pitem.unit_price))*quantity
 	elif item.promo_code.promo_type == 'factor':
-		return int((pitem.unit_price*commissionPercentage(pitem.unit_price)*((item.promo_code.factor)/float(100))))*quantity
+		amount = int((pitem.unit_price*commissionPercentage(pitem.unit_price)*((item.promo_code.factor)/float(100))))*quantity
 	elif item.promo_code.promo_type == 'discount':
-		return int(max(0,pitem.unit_price*commissionPercentage(pitem.unit_price)-item.promo_code.discount))*quantity
-	return int(pitem.unit_price*commissionPercentage(pitem.unit_price))*quantity
+		amount = int(max(0,pitem.unit_price*commissionPercentage(pitem.unit_price)-item.promo_code.discount))*quantity
+	else:
+		amount = int(pitem.unit_price*commissionPercentage(pitem.unit_price))*quantity
+	return max(100,amount)
 	

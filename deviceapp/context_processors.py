@@ -1,33 +1,41 @@
 from deviceapp.models import *
-
+from django.core.cache import cache
 def basics(request):
 	
 	#################Cart Calculations ##################
 	ci = None
 	ci_count = 0
 	total = 0
-	try: # If accessing as admin there is no BU, so error is thrown
-		if request.user.is_authenticated():
-			bu = BasicUser.objects.get(user=request.user)
-			ci = bu.shoppingcart.cartitem_set.all()		
+	bu = None
+	if request.user.is_authenticated():
+		bu = request.user.basicuser
+		# Check cache first for cartitems before calling database
+		cached_ci = cache.get('cart_items_'+str(bu.id))
+		if cached_ci != None:
+			ci = cached_ci
 		else:
-			if 'shoppingcart' in request.session:
-				sc = ShoppingCart.objects.get(id=request.session['shoppingcart'])
-				ci = sc.cartitem_set.all()
-		if ci:
-			for itm in ci:
-				if itm.item.liststatus == 'active':
-					total += itm.item.price *itm.quantity
-					ci_count += itm.quantity
+			ci = bu.shoppingcart.cartitem_set.all()	
+			cache.set('cart_items_'+str(bu.id),ci)	
+	else:
+		if 'shoppingcart' in request.session:
+			sc = ShoppingCart.objects.get(id=request.session['shoppingcart'])
+			ci = sc.cartitem_set.all()
+	if ci:
+		for itm in ci:
+			if itm.item.liststatus == 'active':
+				total += itm.item.price *itm.quantity
+				ci_count += itm.quantity
 	################# General Notifications ######################
-		notifications = None
-		if request.user.is_authenticated():
-			bu = BasicUser.objects.get(user=request.user)
+	notifications = None
+	if request.user.is_authenticated():
+		# Check cache first for notifications
+		cached_notifications = cache.get('notifications_'+str(bu.id))
+		if cached_notifications != None:
+			notifications = cached_notifications
+		else:
 			notifications = bu.notification_set.filter(viewed=False)
-		return {'cart_items':ci,'cart_items_count':ci_count,'cart_total':total,'notifications':notifications}
-	except Exception,e:
-		print e
-		return {}
+			cache.set('notifications_'+str(bu.id),notifications)
+	return {'cart_items':ci,'cart_items_count':ci_count,'cart_total':total,'notifications':notifications}
 
 
 

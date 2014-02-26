@@ -239,6 +239,11 @@ class Notification(models.Model):
 	user = models.ForeignKey(BasicUser)
 	date = models.DateTimeField(auto_now_add=True)
 	viewed = models.BooleanField(default=False)
+	def save(self, *args, **kwargs):
+    	if not self.pk:
+        	self.set_coords()
+    	super(Post, self).save(*args, **kwargs)
+
 
 # When buyer messages the seller about an offline item
 class SellerMessageNotification(Notification):

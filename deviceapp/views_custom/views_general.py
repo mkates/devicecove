@@ -13,6 +13,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.conf import settings
 import views_email	as email_view
 import commission as commission
+from django.core.cache import cache
 import json
 import math
 import difflib

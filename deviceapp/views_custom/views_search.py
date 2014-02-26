@@ -42,7 +42,7 @@ def productsearch(request,industryterm,categoryterm,subcategoryterm):
 		category = Category.objects.get(name=categoryterm)
 		categoryname = category.displayname
 		subcategoryname = subcategoryterm
-		itemqs = Item.objects.filter(subcategory__in=category.subcategory_set.all()).filter(liststatus='active').order_by('price')
+		itemqs = Item.objects.filter(subcategory__in=category.subcategory_set.all()).filter(liststatus='active').order_by('creation_date').reverse()
 		relatedItems = getSubcategories(category)
 	### Case 3: If you have a subcategory
 	else:
@@ -121,7 +121,7 @@ def customsearch(request):
 		elif SubCategory.objects.filter(name=searchword).exists():
 			return HttpResponseRedirect('/productsearch/veterinary/all/'+str(searchword))
 		relatedItems = closeCategories(searchword)
-		allitems = Item.objects.all().filter(liststatus='active').order_by('price')
+		allitems = Item.objects.all().filter(liststatus='active').order_by('creation_date').reverse()
 		items = filterItemsByQuery(searchword,allitems)
 		zipcode = getDistances(request,items)
 		industry = Industry.objects.get(id=1)
@@ -277,7 +277,7 @@ def getOtherSubcategories(subcathandle):
 #### Zipcode + Distance Functions #########
 ###########################################	
 
-#Get distances given a use request
+# Get distances given a use request
 def getDistances(request,items):
 	zipcode = None
 	#First check is user is logged in
@@ -305,7 +305,7 @@ def getDistances(request,items):
 			item.distance = haversineDistance(zipcode,item.user.zipcode,latlongs)
 	return zipcode
 
-#Get distances given items and a custom zipcode
+# Get distances given items and a custom zipcode
 def getNewDistances(zipcode,items):
 	zips = []
 	for itm in items:
@@ -315,7 +315,7 @@ def getNewDistances(zipcode,items):
 		item.distance = haversineDistance(zipcode,item.user.zipcode,latlongs)
 	return zipcode
 
-#Given an item, zipcode, and distance, determine if the item and zip are within the distance
+# Given an item, zipcode, and distance, determine if the item and zip are within the distance
 def withinDistance(item,zipcode,distance,latlongs):
 	if int(distance) < 0:
 		return True
@@ -326,7 +326,7 @@ def withinDistance(item,zipcode,distance,latlongs):
 		else:
 			return False
 	
-#Get the user's zipcode if they are not logged in or have it saved as a cookie
+# Get the user's zipcode if they are not logged in or have it saved as a cookie
 def callZipcodeAPI(request):
 	try:
 	  remote_addr = request.META['REMOTE_ADDR']

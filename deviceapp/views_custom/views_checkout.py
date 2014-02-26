@@ -13,6 +13,7 @@ from django.conf import settings
 import views_payment as payment_view
 import commission as commission
 import views_email	as email_view
+from django.core.cache import cache
 import json
 import re
 from datetime import datetime
@@ -132,6 +133,9 @@ def addToCart(request,itemid):
 		# Only creates the cart object if it doesn't exist
 		newCartItem, created = CartItem.objects.get_or_create(shoppingcart=shoppingcart,item=item,price=item.price,quantity=1)
 		newCartItem.save()
+		# Set new cart cache
+		if request.user.is_authenticated():
+			cache.set('cart_items_'+str(bu.id),request.user.basicuser.shoppingcart.cartitem_set.all())
 		return HttpResponseRedirect('/cart')
 	return HttpResponseRedirect('/cart')
 	
