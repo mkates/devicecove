@@ -113,6 +113,7 @@ $(document).ready(function () {
 function Balanced_CC_Disable() {
 	balanced_cc_submitable = false;
 	$("#cc-submit span").text("Processing. . .");
+	$(".large-loader").css('display','block');
 	$("#cc-submit img").css('display','inline-block');
 	if (!($("#cc-submit").hasClass("disabled"))) {
 		$("#cc-submit").addClass("disabled");
@@ -122,6 +123,7 @@ function Balanced_CC_Enable() {
 	balanced_cc_submitable = true;
 	$("#cc-submit span").text(balanced_cc_button_text);
 	$("#cc-submit img").css('display','none');
+	$(".large-loader").css('display','none');
 	$("#cc-submit").removeClass("disabled");
 }
 function display_CC_Error(error) {

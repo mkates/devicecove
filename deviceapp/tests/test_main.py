@@ -3,7 +3,7 @@ from deviceapp.models import *
 from deviceapp.views_custom import payout as payout
 from django.conf import settings
 
-class BasicUserTest():
+class BasicUserTest(TestCase):
     def setUp(self):
     	# General Models Set Up
         settings.TESTING = True
@@ -25,16 +25,18 @@ class BasicUserTest():
         # User Bank Account
         self.bba_1 = BalancedBankAccount.objects.create(user=self.bu_3,uri='ABCDEF',fingerprint='12345',bank_name="Wells Fargo",bank_code="123",
         	name='Joe Smith',account_number='xxxxxxxx1234')
-        self.bu_3.payout_method = self.bba_1
+        self.address = Address.objects.create(name="Bob Jones",address_one='1 Main Street',city="Knoxville",state="TN",zipcode=12345,phonenumber=1234567890)
+        self.ca_1 = CheckAddress.objects.create(user=self.bu_3,address=self.address)
+        self.bu_3.payout_method = self.ca_1
         self.bu_3.save()
 
         # Create Some Items
-        self.item_1 = Item.objects.create(user=self.bu_1,name="Ultrasound 1",subcategory=self.subcat,msrp_price=14300,price=8200)
-        self.item_2 = Item.objects.create(user=self.bu_2,name="Ultrasound 2",subcategory=self.subcat,msrp_price=15300,price=9200)
-        self.item_3 = Item.objects.create(user=self.bu_3,name="Ultrasound 3",subcategory=self.subcat,msrp_price=16300,price=10200)
-        self.item_4 = Item.objects.create(user=self.bu_3,name="Ultrasound 4",subcategory=self.subcat,msrp_price=17300,price=11200)
-        self.item_5 = Item.objects.create(user=self.bu_3,name="Ultrasound 5",subcategory=self.subcat,msrp_price=18300,price=12200)
-        self.item_6 = Item.objects.create(user=self.bu_3,name="Ultrasound 6",subcategory=self.subcat,msrp_price=19300,price=13200)
+        self.item_1 = Item.objects.create(user=self.bu_1,name="Ultrasound 1",subcategory=self.subcat,msrp_price=14300,price=8200,max_price=8200)
+        self.item_2 = Item.objects.create(user=self.bu_2,name="Ultrasound 2",subcategory=self.subcat,msrp_price=15300,price=9200,max_price=8200)
+        self.item_3 = Item.objects.create(user=self.bu_3,name="Ultrasound 3",subcategory=self.subcat,msrp_price=16300,price=10200,max_price=8200)
+        self.item_4 = Item.objects.create(user=self.bu_3,name="Ultrasound 4",subcategory=self.subcat,msrp_price=17300,price=11200,max_price=8200)
+        self.item_5 = Item.objects.create(user=self.bu_3,name="Ultrasound 5",subcategory=self.subcat,msrp_price=18300,price=12200,max_price=8200)
+        self.item_6 = Item.objects.create(user=self.bu_3,name="Ultrasound 6",subcategory=self.subcat,msrp_price=19300,price=13200,max_price=8200)
 
         # Creae some Purchased Items
         self.order_1 = Order.objects.create(buyer=self.bu_1,total=23400)
@@ -43,9 +45,11 @@ class BasicUserTest():
         pi_2 = PurchasedItem.objects.create(seller=self.bu_3,buyer=self.bu_1,order=self.order_1,item=self.item_5,quantity=1,unit_price=self.item_5.price,
         	item_name=self.item_5.name,commission=2000,item_sent=True,charity=True)
 
-
     def test_generic_bank_payout(self):
-    	payout_stats = payout.creditSellerAccounts(False)
-    	amount = 23400-5000-int(.01*12200)
-    	amount_after_cc = int(amount*.97)
-        self.assertEqual(payout_stats['bank_payout_total'], amount_after_cc)
+    	payout_stats = payout.creditSellerAccounts()
+    	amount = 23400-5000-int(.01*12200) # Original - commission - charity
+    	amount_after_cc = int(amount*.97) # - processing_fee
+        self.assertEqual(payout_stats['check_payout_total'], amount_after_cc)
+
+
+        

@@ -44,16 +44,16 @@
 			{% if buyhistory %}
 			<div class="order-info">
 				<p class="order-info-header">Payment</p>
-				{% if pitem.payment.balancedcard %}
-				<p>{{pitem.payment.balancedcard.brand}}</p>
-				<p>* * * * * * * * {{pitem.payment.balancedcard.last_four}}</p>
-				<p>Expires: {{pitem.payment.balancedcard.expiration_month}}/{{pitem.payment.balancedcard.expiration_year}}</p>
-				{% elif pitem.payment.balancedbankaccount %}
-				<p>{{pitem.payment.balancedbankaccount.name}}</p>
-				<p>{{pitem.payment.balancedbankaccount.bank_name}}</p>
-				<p>{{pitem.payment.balancedbankaccount.account_number}}</p>
+				{% if pitem.order.payment.balancedcard %}
+				<p>{{pitem.order.payment.balancedcard.brand}}</p>
+				<p>* * * * * * * * {{pitem.order.payment.balancedcard.last_four}}</p>
+				<p>Expires: {{pitem.order.payment.balancedcard.expiration_month}}/{{pitem.order.payment.balancedcard.expiration_year}}</p>
+				{% elif pitem.order.payment.balancedbankaccount %}
+				<p>{{pitem.order.payment.balancedbankaccount.name}}</p>
+				<p>{{pitem.order.payment.balancedbankaccount.bank_name}}</p>
+				<p>{{pitem.order.payment.balancedbankaccount.account_number}}</p>
 				{% elif pitem.order.payment.checkpayment %}
-					{% if not pitem.payment.checkpayment.received %}
+					{% if not pitem.order.payment.checkpayment.received %}
 					<p>Payment by check to the following address:</p>
 					<ul>
 						<li>VetCove</li>

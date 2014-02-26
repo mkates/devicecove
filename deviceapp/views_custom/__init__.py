@@ -6,3 +6,4 @@ from views_search import *
 from views_sell import *
 from views_email import *
 from views_checkout import *
+from views_questions import *

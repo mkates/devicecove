@@ -131,7 +131,7 @@ def updateNotification(request):
 @login_required
 def updateGeneralSettings(request):
 	if request.user.is_authenticated() and request.method=="POST":
-		bu = BasicUser.objects.get(user=request.user)
+		bu = request.user.basicuser
 		bu.firstname = request.POST.get('firstname','')
 		bu.lastname = request.POST.get('lastname','')
 		bu.email = request.POST.get('email','')
@@ -153,7 +153,7 @@ def updateGeneralSettings(request):
 @login_required
 def updateSellerSettings(request):
 	if request.user.is_authenticated() and request.method=="POST":
-		bu = BasicUser.objects.get(user=request.user)
+		bu = request.user.basicuser
 		bu.company = request.POST.get('company','')
 		bu.businesstype = request.POST.get('business','')
 		bu.website = request.POST.get('website','')
@@ -172,7 +172,7 @@ def updateSellerSettings(request):
 @login_required
 def updatePassword(request):
 	if request.user.is_authenticated() and request.method=="POST":
-		bu = BasicUser.objects.get(user=request.user)
+		bu = request.user.basicuser
 		op = request.POST.get('oldpassword','')
 		np = request.POST.get('newpassword','')
 		if bu.user.check_password(op):
@@ -210,7 +210,7 @@ def deleteAccount(request):
 @login_required
 def wishlist(request):
 	if request.user.is_authenticated():
-		bu = BasicUser.objects.get(user=request.user)
+		bu = request.user.basicuser
 		saveditems = bu.saveditem_set.all()
 		items = []
         	for si in saveditems:
@@ -218,11 +218,20 @@ def wishlist(request):
 		return render_to_response('account/buying/wishlist.html',{"wishlist":True,"items":items},context_instance=RequestContext(request))
 	else:
    		return render_to_response('general/index.html', context_instance=RequestContext(request))
+   
+@login_required
+def contactMessages(request):
+	if request.user.is_authenticated():
+		bu = request.user.basicuser
+		contactmessages = SellerMessage.objects.filter(buyer=bu)
+		return render_to_response('account/buying/contactmessages.html',{"contactmessages":True,"contactmessages":contactmessages},context_instance=RequestContext(request))
+	else:
+   		return render_to_response('general/index.html', context_instance=RequestContext(request))
    		
 @login_required
 def listings(request,listingtype):
 	if request.user.is_authenticated():
-		bu = BasicUser.objects.get(user=request.user)
+		bu = request.user.basicuser
 		if listingtype == 'all':
 			listeditems = bu.item_set.all()
 		elif listingtype =='inactive':
@@ -261,7 +270,7 @@ def usersettings(request):
 @login_required
 def profile(request):
 	if request.user.is_authenticated():
-		bu = BasicUser.objects.get(user=request.user)
+		bu = request.user.basicuser
 		dict = {'basicuser':bu,'profile':True}
 		if request.method == "GET":
 			if request.GET.get('e',''):
@@ -275,48 +284,6 @@ def profile(request):
 @login_required
 def payment(request):
 	return render_to_response('account/payment.html',{'payment':True},context_instance=RequestContext(request))
-	
-@login_required
-def sellerquestions(request):
-	if request.user.is_authenticated():
-		bu = BasicUser.objects.get(user=request.user)	
-		questions = Question.objects.filter(seller=bu)
-		answered = []
-		unanswered = []
-		for question in questions:
-			if question.answer:
-				answered.append(question)
-			else:
-				unanswered.append(question)
-		return render_to_response('account/questions/sellerquestions.html',{'answered':answered,'unanswered':unanswered},context_instance=RequestContext(request))
-	else:
-   		return render_to_response('general/index.html',context_instance=RequestContext(request))
-
-@login_required
-def buyerquestions(request):
-	if request.user.is_authenticated():
-		bu = BasicUser.objects.get(user=request.user)	
-		questions = Question.objects.filter(buyer=bu)
-		return render_to_response('account/questions/buyerquestions.html',{'questions':questions},context_instance=RequestContext(request))
-	else:
-   		return render_to_response('general/index.html',context_instance=RequestContext(request))
- 
-@login_required
-def answerquestion(request,questionid):
-	if request.user.is_authenticated() and request.method == "POST":
-		bu = BasicUser.objects.get(user=request.user)
-		question = Question.objects.get(id=questionid)
-		if question.item.user.id == bu.id:
-			question.answer = request.POST.get('answer','')
-			question.dateanswered = datetime.utcnow().replace(tzinfo=utc)
-			question.save()
-			# Create notification for buyer
-			notification = BuyerQuestionNotification(user=question.buyer,question=question)
-			notification.save()
-			# Creat email for buyer
-			email_view.composeEmailQuestionAnswered(question)
-		return HttpResponseRedirect('/account/sellerquestions')
-	return HttpResponseRedirect('/')
 
 #################################################
 ### Updating Payment Information  ###############

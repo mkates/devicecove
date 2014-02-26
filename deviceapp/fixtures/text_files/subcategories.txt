@@ -2,6 +2,8 @@ ABAXIS In-House Diagnostics
 21
 Anvils
 18
+Arthroscopy Equipment
+40
 Aspirator Handles and Hoses
 4
 Aspirators
@@ -16,16 +18,16 @@ Cage Banks
 9
 Cage O2 Therapy Doors
 9,11
-Cage Options and accessories
+Cage Options and Accessories
 9
 Capnography
 25
-Casework cabinets
+Casework Cabinets
 10
 Casework Tables and Cabinets
 9,42
 Cast Cutters
-40,42
+40
 Cat Condos
 9
 Centrifuges
@@ -68,23 +70,23 @@ Emasculators
 16,22,40
 Endoscopes
 29
-Endoscopy accessories
+Endoscopy Accessories
 29
-Endoscopy light sources
+Endoscopy Light Sources
 29
 Equine Cryosurgery
 14, 16
-Equine Dental supplies
+Equine Dental Supplies
 12
 Equine Digital X-Ray Systems
 46
-Equine x-ray aids
+Equine X-Ray Aids
 16,18,46
 Exam Tables
 10,42
 Eye Wash Stations
 39
-Farrier tools
+Farrier Tools
 18
 Film ID Printers
 46
@@ -106,10 +108,8 @@ Handling Gloves
 30,34
 Head Lamps
 13
-Hot Water Bath for samples
+Hot Water Bath for Samples
 21
-ICU
-11
 IDEXX In-House Diagnostics
 21
 Incubators
@@ -134,7 +134,7 @@ Kennel Runs
 9
 Large Animal Anesthesia
 2
-Large animal reproduction equipment
+Large Animal Reproduction Equipment
 36
 Laryngoscope Handles and Blades
 13
@@ -146,9 +146,9 @@ Microscope Camera Systems
 21
 Microscopes
 21
-Miscellaneous equipment
+Miscellaneous Equipment
 24
-Miscellaneous supplies
+Miscellaneous Supplies
 24
 MRI Compatible
 26
@@ -158,47 +158,61 @@ MRI Compatible Monitors
 25,26
 MRI Compatible Syringe Pumps
 19
-MRI equipment
+MRI Equipment
 26
 Multi-Parameter Monitors
 25
 Narcotic Safes
-27
+27,33
 Nebulizers
 11
 Non-Invasive Blood Pressure
 25
-Nuclear Scintigraphy equipment
+Nuclear Scintigraphy Equipment
 16
 Ophthalmoscopes
 13
 Orthopedic
 13
-Other anesthesia equipment
+Other Anesthesia Equipment
 2
-Other boarding and holding supplies
+Other Noarding and Holding Supplies
 9
-Other critical care equipment
+Other Critical Care Equipment
 11,15
-Other electrosurgical equipment
+Other Dental Equipment
+12
+Other Diagnostic Equipment
+13
+Other Electrosurgical Equipment
 14
-Other equine equipment
+Other Equine Equipment
 16
-Other fluid and drug administration supplies
+Other Farrier Supplies
+18
+Other Fluid and Drug Administration Supplies
 19
-Other grooming equipment and supplies
+Other Grooming Equipment and Supplies
 20
-Other lab equipment
+Other Lab Equipment
 21
-Other monitors
+Other Large Animal Specialty Equipment
+22
+Other Lighting
+23
+Other Monitors
 25
-Other protective wear and apparel
+Other Protective Wear and Apparel
 34
-Other regenerative medicine supplies
+Other Regenerative Medicine Supplies
 16,35
-Other therapy and rehabilitation equimpment
+Other Scales
+37
+Other Surgical Equipment
+40
+Other Therapy and Rehabilitation Equimpment
 43
-Other x-ray equipment
+Other X-Ray Equipment
 46
 Oto/Ophthalmoscope Handles and Chargers
 13
@@ -216,11 +230,11 @@ Pill Counter
 33
 Platform Scales
 37
-Portable Handheld X-Ray generators
+Portable Handheld X-Ray Generators
 46
 Positioners
 2,12,42,46
-PRP systems
+PRP Systems
 16,35
 Pulse Oximetry
 25
@@ -238,7 +252,7 @@ Scalar/Polisher Units
 12
 Scavenging Systems
 2
-Seating and chairs
+Seating and Chairs
 38
 Semen Collection
 16,22,36
@@ -248,11 +262,11 @@ Sinks and Tubs
 10,39
 Small Animal Full Body X-ray
 46
-Small Animal Mobile anesthesia
+Small Animal Mobile Anesthesia
 2
-Small animal reproduction equipment
+Small Animal Reproduction Equipment
 36
-Small Animal Research/Lab anesthesia
+Small Animal Research/Lab Anesthesia
 2
 Small Animal Tabletop/Wall Mount Anesthesia
 2
@@ -261,25 +275,29 @@ Smoke Evacuation
 Spot Lights
 23
 Standing MRI
-26
-Standing MRI
-16
+16,26
 Stethoscopes
 13
 Stretchers and Gurneys
 30
 Surgery Tables
 42
-Surgical Lights
+Surgical insturments
+40
+Surgical lasers
+40
+Surgical lights
 23,40
-Surgical Packs
-22,40
+Surgical packs
+40
 Syringe Pumps
 19
 Tables and Stands - Other
 42
 Telemetry
 25
+Therapeutic lasers
+43
 Thermometers
 13
 Tonometer
@@ -288,6 +306,8 @@ Track Options
 23
 Transilluminators - Ocular
 13
+Transport and Handling supplies
+30
 Treadmill
 16,43
 Trimmers
@@ -314,15 +334,15 @@ Water Distillers
 5,21
 Water Supply
 12
-Wet/Prep and Casework
+Wet/Prep and Misc. Casework
 10,39
 Woods Lights
 23
-X-Ray apron and glove racks
+X-Ray Apron and Glove Racks
 46
-X-Ray casettes
+X-Ray Casettes
 46
-X-Ray illuminators and Lighting
+X-Ray Illuminators and Lighting
 46
-X-Ray Protective wear and apparel
+X-Ray Protective Wear and Apparel
 34,46

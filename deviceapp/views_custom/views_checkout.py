@@ -38,7 +38,7 @@ def newuserform(request):
 			zipcode = form.cleaned_data['zipcode']
 			password = form.cleaned_data['password']
 			checkout_signup = form.cleaned_data['checkout_signup']
-			#If user email is already used, serve an email error
+			# If user email is already used, serve an email error
 			if User.objects.filter(username=email).exists():
 				return render_to_response('account/login.html',{'error':'email'},context_instance=RequestContext(request))
 			
@@ -103,11 +103,16 @@ def newuserform(request):
 def cart(request):
 	# Retrieves the ShoppingCart
 	shoppingcart = getShoppingCart(request)
-	#Calculates price and counts from the ShoppingCart
+	# Calculates price and counts from the ShoppingCart
 	shoppingcart_totals = getShoppingCartTotals(shoppingcart)
 	# Create the variables dictionary
 	dict = shoppingcart_totals
 	dict['shoppingcart'] = shoppingcart
+	# Update cartitem price if the item's price changed
+	for cartitem in shoppingcart.cartitem_set.all():
+		if cartitem.price != cartitem.item.price:
+			cartitem.price = cartitem.item.price
+			cartitem.save()
 	return render_to_response('account/cart.html',dict,context_instance=RequestContext(request))
 
 ##### Add an item to the cart ######
@@ -543,11 +548,13 @@ def checkoutPurchase(request,checkoutid):
 			item.quantity = 0
 		elif item.quantity > cartitem.quantity:
 			item.quantity -= cartitem.quantity
+		# Offline items -> Mark as sold online
+		if item.offlineviewing:
+			item.sold_online = True
 		item.save()
 		# Create purchased item object
 		amount = cartitem.price * cartitem.quantity
 		commission_amount = 0 if cartitem.item.commission_paid else commission.commission(item)
-
 		pi = PurchasedItem(seller=item.user,
 						buyer=bu,
 						order=order,

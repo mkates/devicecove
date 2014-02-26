@@ -14,10 +14,18 @@ WAITING_DAYS = 0
 CC_PROCESSING_FEE = 0.03
 
 def creditSellerAccounts():
-		live = True if not settings.TESTING else False
+		if hasattr(settings,'TESTING'):
+			live = True if not settings.TESTING else False
+		else:
+			live = True
 		#Initialize balanced if live
 		if live:
 			balanced.configure(settings.BALANCED_API_KEY) # Configure Balanced API
+
+		# Finally, check all pending payouts and update accordingly 
+		if live:
+			checkPendingPayouts()
+			
     	# Counts for Internal Purposes
 		vetcove_check_count = 0
 		vetcove_checkpayout_total = 0
@@ -51,7 +59,7 @@ def creditSellerAccounts():
 				if hasattr(basicuser.payout_method,'checkaddress'):
 					amount = int(payout_total*(1-CC_PROCESSING_FEE))
 					cc_fee = payout_total-amount
-					check_obj = CheckPayout(user=basicuser,amount=amount,address=basicuser.payout_method.checkaddress.address,total_commission=commission_total,cc_fee=cc_fee,total_charity=charity_total)
+					check_obj = CheckPayout(user=basicuser,amount=amount,address=basicuser.payout_method.checkaddress,total_commission=commission_total,cc_fee=cc_fee,total_charity=charity_total)
 					check_obj.save()
 					for pi in eligiblePurchasedItems:
 						pi.paid_out = True
@@ -73,10 +81,10 @@ def creditSellerAccounts():
 							customer = balanced.Customer.find(basicuser.balanceduri)
 							credit = customer.credit(appears_on_statement_as="Vet Cove",description="Seller Credit",amount=amount,source_uri=source_uri)	
 							transaction_number = credit.transaction_number
-							href = credit.href	
+							events_uri = credit.events_uri
 						else: # Else is used for testing purposes
 							transaction_number = "ABC123"
-							href = "example.com"
+							events_uri = 'ABC1234'
 						bank_payout_obj = BankPayout(user=basicuser,
 											amount=amount,
 											bank_account=basicuser.payout_method.balancedbankaccount,
@@ -84,7 +92,7 @@ def creditSellerAccounts():
 											total_charity=charity_total,
 											cc_fee=cc_fee, 
 											transaction_number=transaction_number,
-											href=href
+											events_uri=credit.uri
 										)
 						bank_payout_obj.save()
 						if live:
@@ -109,10 +117,6 @@ def creditSellerAccounts():
 					email_view.composeEmailNoPayment(basicuser)
 					notification = PayoutNotification(user=basicuser,success=False)
 					notification.save()
-		
-		# Finally, check all pending payouts and update accordingly 
-		if live:
-			checkPendingPayouts()
 
 		return {'bank_payout_total':vetcove_payout_total,
 			'number_bank':vetcove_payout_count,
@@ -124,7 +128,7 @@ def creditSellerAccounts():
 ### Checks all pending payouts, updates successes and failures ###
 def checkPendingPayouts():
 	for payout in BankPayout.objects.filter(status="pending"):
-		credit = balanced.Credit.fetch(payout.href)
+		credit = balanced.Credit.find('/v1/customers/CU1HCy6qF3ZiHvAc3CrgsM3R/credits/CR1WlvZ6soiOdHlYDrqsPS7u')
 		if credit.status == 'failed':
 			payout.status = 'failed'
 			payout.save()
@@ -147,14 +151,9 @@ def purchasedItemEligibleForPayout(pitem):
 	if pitem.paid_out == True:
 		return False
 
-	#Second check if the item was paid for by a check and we haven't received the check yet
-	if hasattr(pitem.order.payment,'checkpayment'):
-		if not pitem.order.payment.checkpayment.received:
-			return False
-
-	# Third, See if the item has been sent (unsent items don't get paid out)
-	# Offline items are exempt from this requirementm, as well as items that are pick up only 
-	if not (pitem.item_sent == True or pitem.cartitem.item.offlineviewing or not pitem.shipping_included):
+	# Third, see if the item has been sent (unsent items don't get paid out)
+	# Offline items are exempt from this requirement, as well as items that are pick up only 
+	if not (pitem.item_sent == True or pitem.item.offlineviewing or not pitem.shipping_included):
 		return False
 
 	# Fourth, check if it is been enough time to pay the seller

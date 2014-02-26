@@ -16,27 +16,13 @@ import medapp.settings as settings
 import json
 import balanced
 
-@login_required
-def addPromoCode(request,itemid):
-	dict = {}
-	item = Item.objects.get(id=itemid)
-	if request.method == "POST" and item.user == request.user.basicuser: 
-		promocode = request.POST.get('promocode','')
-		promocode = promocode.lower()
-		try:
-			pc = PromoCode.objects.get(code=promocode.lower())
-			if pc.active:
-				item.promo_code = pc
-				item.save()
-				dict = {'status':201,'code':pc.code,'message':pc.promo_text}
-			else:
-				dict = {'status':400,'message':"You're too late! This code has expired. Sorry!"}
-		except:
-			dict = {'status':500,'message':'The code you entered is invalid'}
-	else:
-		dict = {'status':500,'message':'You are not the owner of the item'}
-	return HttpResponse(json.dumps(dict), content_type='application/json')
 
+############################################
+########## Selling #########################
+############################################
+
+
+### When a message is sent to the seller (offline item) ###
 @login_required
 def messageseller(request,itemid):
 	if request.user.is_authenticated() and request.method=="POST":
@@ -58,6 +44,7 @@ def messageseller(request,itemid):
 		status = 500
 	return HttpResponse(json.dumps(status), content_type='application/json')
 
+### When a seller wants to view all of their buyer messages ###
 @login_required
 def buyermessages(request,itemid):
 	item = Item.objects.get(id=itemid)
@@ -82,6 +69,34 @@ def buyermessages(request,itemid):
 				dict['error'] = request.GET.get('e')
 			return render_to_response('account/contact_gate.html',dict,context_instance=RequestContext(request))
 	return HttpResponseRedirect('/')
+
+#################################################
+### Contact Message Follow Up From Emaik ########
+#################################################
+def updateListingState(request,action,token):
+	dict = {}
+	try:
+		rt_obj = ReminderToken.objects.get(token=token)
+		item = rt_obj.contact_message.item
+	except:
+		rt_obj = None
+	if not rt_obj:
+		dict = {'status':500,'error':'does_not_exist'}
+	elif item.liststatus !='active':
+		dict = {'status':500,'error':'not_active','item':item}
+	elif action in ['sold','not_sold','different_sold']:
+		rt_obj.action = action
+		rt_obj.save()
+		if action == 'not_sold':
+			dict = {'status':201,'message':'not_sold','item':item}
+		else:
+			item.liststatus = 'sold'
+			item.save()
+			dict = {'status':201,'message':'sold','item':item}
+	else:
+		dict = {'status':500,'error':'does_not_exist'}
+		
+	return render_to_response('account/email_action_base.html',dict,context_instance=RequestContext(request))
 	
 	
 #################################################
@@ -91,10 +106,12 @@ def buyermessages(request,itemid):
 @login_required
 def newcard_chargecommission(request,itemid):
 	item = Item.objects.get(id=itemid)
+	# If commission already paid, skip to messages
 	if item.commission_paid == True:
 		return HttpResponse(json.dumps({'status':201}), content_type='application/json')
 	if request.user.basicuser == item.user and request.method == 'POST':
 		balanced_addCard = payment_view.addBalancedCard(request)
+		# If adding the card fails, serve an error message
 		if balanced_addCard['status'] != 201:
 			return HttpResponse(json.dumps({'status':balanced_addCard['status'],'error':balanced_addCard['error']}), content_type='application/json')	
 		try:
@@ -119,39 +136,9 @@ def newcard_chargecommission(request,itemid):
 			return HttpResponse(json.dumps({'status':501,'error':'Failed to charge your card.'}), content_type='application/json')
 	return HttpResponse(json.dumps({'status':501,'error':'Error passing security credentials'}), content_type='application/json')
 
-# New bank account, which adds the BA to the user and sets default credit card
+# Using an existing card to pay the commission fees
 @login_required
-def newbank_chargecommission(request,itemid):
-	item = Item.objects.get(id=itemid)
-	if item.commission_paid == True:
-		return HttpResponse(json.dumps({'status':201}), content_type='application/json')
-	if request.user.basicuser == item.user and request.method == 'POST':
-		balanced_addBankAccount = payment_view.addBalancedBankAccount(request)
-		if balanced_addBankAccount['status'] != 201:
-			return HttpResponse(json.dumps({'status':balanced_addBankAccount['status'],'error':balanced_addBankAccount['error']}), content_type='application/json')	
-		try:
-			bank = balanced_addBankAccount['bank']
-			bu = request.user.basicuser
-			bank_uri = bank.uri
-			balanced.configure(settings.BALANCED_API_KEY) # Configure Balanced API
-			customer = balanced.Customer.find(balanced_addBankAccount['balanceduri'])
-			amount = commission.commission(item)
-			debit = customer.debit(appears_on_statement_as="Vet Cove Fee",amount=amount,source_uri=bank_uri)
-			if not debit.status == "succeeded":
-				return HttpResponse(json.dumps({'status':501,'error':'Failed to charge your bank account.'}), content_type='application/json')
-			item.commission_paid = True
-			item.save()
-			commission_obj = Commission(item=item,price=item.price,amount=amount,payment=bank,transcation_number=debit.transaction_number)
-			commission_obj.save()
-			email_view.composeEmailCommissionCharged(request,bu,commission_obj)
-			return HttpResponse(json.dumps({'status':201}), content_type='application/json')
-		except Exception,e:	
-			print e
-			return HttpResponse(json.dumps({'status':501,'error':'Failed to charge your bank account.'}), content_type='application/json')
-	return HttpResponse(json.dumps({'status':501,'error':'Error passing security credentials'}), content_type='application/json')
-
-@login_required
-def gatePayment(request,paymenttype,paymentid,itemid):
+def gatePayment(request,paymentid,itemid):
 	item = Item.objects.get(id=itemid)
 	if item.commission_paid == True:
 		return HttpResponseRedirect('/account/messages/'+str(item.id))
@@ -255,39 +242,45 @@ def reportproblemform(request,purchaseditemid):
 		email_view.composeFileReport(report)
 	return HttpResponseRedirect("/account/reportproblem/"+str(purchaseditemid))
 	
-#################################################
-### Contact Message Follow Up  ##################
-#################################################
-def updateListingState(request,action,token):
-	dict = {}
-	try:
-		rt_obj = ReminderToken.objects.get(token=token)
-		item = rt_obj.contact_message.item
-	except:
-		rt_obj = None
-	if not rt_obj:
-		dict = {'status':500,'error':'does_not_exist'}
-	elif item.liststatus !='active':
-		dict = {'status':500,'error':'not_active','item':item}
-	elif action in ['sold','not_sold','different_sold']:
-		rt_obj.action = action
-		rt_obj.save()
-		if action == 'not_sold':
-			dict = {'status':201,'message':'not_sold','item':item}
-		else:
-			item.liststatus = 'sold'
+		
+
+
+
+
+
+################ Currently Unused Functions ##################
+
+
+# New bank account, which adds the BA to the user and sets default credit card
+@login_required
+def newbank_chargecommission(request,itemid):
+	item = Item.objects.get(id=itemid)
+	if item.commission_paid == True:
+		return HttpResponse(json.dumps({'status':201}), content_type='application/json')
+	if request.user.basicuser == item.user and request.method == 'POST':
+		balanced_addBankAccount = payment_view.addBalancedBankAccount(request)
+		if balanced_addBankAccount['status'] != 201:
+			return HttpResponse(json.dumps({'status':balanced_addBankAccount['status'],'error':balanced_addBankAccount['error']}), content_type='application/json')	
+		try:
+			bank = balanced_addBankAccount['bank']
+			bu = request.user.basicuser
+			bank_uri = bank.uri
+			balanced.configure(settings.BALANCED_API_KEY) # Configure Balanced API
+			customer = balanced.Customer.find(balanced_addBankAccount['balanceduri'])
+			amount = commission.commission(item)
+			debit = customer.debit(appears_on_statement_as="Vet Cove Fee",amount=amount,source_uri=bank_uri)
+			if not debit.status == "succeeded":
+				return HttpResponse(json.dumps({'status':501,'error':'Failed to charge your bank account.'}), content_type='application/json')
+			item.commission_paid = True
 			item.save()
-			dict = {'status':201,'message':'sold','item':item}
-	else:
-		dict = {'status':500,'error':'does_not_exist'}
-		
-	return render_to_response('account/email_action_base.html',dict,context_instance=RequestContext(request))
-	
-		
-
-
-
-
+			commission_obj = Commission(item=item,price=item.price,amount=amount,payment=bank,transcation_number=debit.transaction_number)
+			commission_obj.save()
+			email_view.composeEmailCommissionCharged(request,bu,commission_obj)
+			return HttpResponse(json.dumps({'status':201}), content_type='application/json')
+		except Exception,e:	
+			print e
+			return HttpResponse(json.dumps({'status':501,'error':'Failed to charge your bank account.'}), content_type='application/json')
+	return HttpResponse(json.dumps({'status':501,'error':'Error passing security credentials'}), content_type='application/json')
 
 
 

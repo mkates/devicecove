@@ -121,7 +121,8 @@ $(document).ready(function() {
 	});
 	$('.use-payment-button').click(function() {
 		$(this).text("Processing. . . ");
-		$(this).prop('disabled',true);
+		$(this).css("opacity",".4");
+		$(this).removeClass("button-action");
 	});
 });
 </script>

@@ -1,9 +1,14 @@
 from math import radians,cos,sin,asin,sqrt, atan2
 from deviceapp.models import LatLong
 
+##############################################################
+##### Calculates Haversine Distance Between Two Zipcodes #####
+##############################################################
+# Also takes in a list of latlongs so there only needs to be one
+# call to the DB for searching by distance 
 def haversineDistance(zipcode1,zipcode2,latlongs):
 	try:
-		#Check if the zipcode is in latlongs first
+		# Check if the zipcode is in latlongs first
 		zip1= None
 		zip2= None
 		for zips in latlongs:
@@ -11,7 +16,7 @@ def haversineDistance(zipcode1,zipcode2,latlongs):
 				zip1 = zips
 			if zips.zipcode == int(zipcode2):
 				zip2 =zips
-		#Otherwise, query the database directly
+		# Otherwise, query the database directly
 		if not zip1:
 			zip1 = LatLong.objects.get(zipcode = int(zipcode1))
 		if not zip2:

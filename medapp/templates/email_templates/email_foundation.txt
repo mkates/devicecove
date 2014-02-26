@@ -1,4 +1,4 @@
-Dear {{email_name}},
+{% load dollars %}Dear {{email_name}},
 
 {% block textblock %}{% endblock %}
 {% if two_col_row %}

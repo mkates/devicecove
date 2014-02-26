@@ -97,10 +97,10 @@ def autosuggest(request):
 	# 		dict = {'type':'product','name':itm.name,'category':itm.subcategory.displayname,'mainimage':checkMainImage(itm),'link':"/item/"+str(itm.id)+"/details"};
 	# 		results.append(dict);
 
-	# #Do a relative match if no results are found
+	# Do a relative match if no results are found
 	if len(results) == 0:
-		allcategories = Category.objects.all()
-		subcategories = SubCategory.objects.all()
+		allcategories = Category.objects.filter(totalunits__gte=showItems)
+		subcategories = SubCategory.objects.filter(totalunits__gte=showItems)
 		for cat in categories:
 			if difflib.SequenceMatcher(None,searchterm,cat.name.lower()).ratio() > .5:
 				_cat = {'type':'category','name':cat.displayname,'results':'','link':"/productsearch/"+industry.name+"/"+cat.name+"/all"}

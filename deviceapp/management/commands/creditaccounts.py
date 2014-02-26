@@ -12,20 +12,15 @@ from django.utils.timezone import utc
 
 class Command(BaseCommand):
     help = 'Credits all the sellers bank accounts'
-    args = '<type>'
 
     def handle(self, *args, **options):
-    	live = False
-    	for type in args:
-    		if type.lower() == 'live':
-    			live = True
-		results = payout_view.creditSellerAccounts(live)
+		results = payout_view.creditSellerAccounts()
 					
 		write(self,"Payouts Complete")
-		write(self,"Bank Payout Total: $"+str(results['bank_payout_total']))
-		write(self,"Number Bank Payouts: $"+str(results['number_bank']))
-		write(self,"Check Payout Total: $"+str(results['check_payout_total']))
-		write(self,"Number Check Payouts: $"+str(results['number_check']))
+		write(self,"Bank Payout Total: "+str(results['bank_payout_total']))
+		write(self,"Number Bank Payouts: "+str(results['number_bank']))
+		write(self,"Check Payout Total: "+str(results['check_payout_total']))
+		write(self,"Number Check Payouts: "+str(results['number_check']))
 
 				
 ########See if a purchased item is eligible for payout ############

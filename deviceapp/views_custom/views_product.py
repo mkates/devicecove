@@ -44,6 +44,7 @@ def listproduct(request,subcategory):
  						contract="none",
  						msrp_price = 0,
  						price = 0,
+ 						max_price = 0,
  						conditiontype = "preowned",
  						conditionquality = 3,
  						shippingincluded = True,
@@ -234,7 +235,7 @@ def savelogistics(request,itemid):
 			submitcode = 600 if int(request.POST['submitcode']) == 600 else 700
 			item = Item.objects.get(id=itemid)
 			item.shippingincluded = True if request.POST.get('shippingincluded','True') == 'True' else False
-			item.offlineviewing = True if request.POST.get('offlineviewing','True') == 'True' else False
+			item.offlineviewing = True if request.POST.get('offlineviewing',False) == 'True' else False
 			price = request.POST.get('inputlistprice','0')
 			if price:
 				new_price = int(round(float(price.replace(",","").replace("$","0")),2)*100)
@@ -242,6 +243,7 @@ def savelogistics(request,itemid):
 					pc = PriceChange(item=item,original_price=item.price,new_price=new_price)
 					pc.save()
 				item.price = new_price
+				item.max_price = max(item.max_price,item.price)
 			msrp_price = request.POST.get('inputmsrpprice','0')
 			if msrp_price:
 				item.msrp_price = int(round(float(msrp_price.replace(",","").replace("$","0")),2)*100)
@@ -256,7 +258,29 @@ def savelogistics(request,itemid):
 	except Exception,e:
 		print e
 		return HttpResponse(500)
-		
+
+
+@login_required
+def addPromoCode(request,itemid):
+	dict = {}
+	item = Item.objects.get(id=itemid)
+	if request.method == "POST" and item.user == request.user.basicuser: 
+		promocode = request.POST.get('promocode','')
+		promocode = promocode.lower()
+		try:
+			pc = PromoCode.objects.get(code=promocode.lower())
+			if pc.active:
+				item.promo_code = pc
+				item.save()
+				dict = {'status':201,'code':pc.code,'message':pc.promo_text}
+			else:
+				dict = {'status':400,'message':"You're too late! This code has expired. Sorry!"}
+		except:
+			dict = {'status':500,'message':'The code you entered is invalid'}
+	else:
+		dict = {'status':500,'message':'You are not the owner of the item'}
+	return HttpResponse(json.dumps(dict), content_type='application/json')
+			
 #Item Preview
 @login_required
 def listitempreview(request,itemid):
@@ -338,35 +362,6 @@ def itemdetails(request,itemid):
 	dict['isinshoppingcart'] = isInShoppingCart
 	return render_to_response('product/productdetails.html',dict,context_instance=RequestContext(request))
 
-@login_required
-def askquestion(request):
-	if request.method == "POST" and request.user.is_authenticated():
-		item = Item.objects.get(id=request.POST["itemid"])
-		user = BasicUser.objects.get(user=request.user)
-		redirect = request.POST["redirect"]
-		question = request.POST['question']
-		if len(question) > 3: # Make sure it is a legitimate question
-			questionobject = Question(question=question,item=item,buyer=user,seller=item.user,dateanswered=None,answer='')
-			questionobject.save() 
-			notification = SellerQuestionNotification(user=item.user,question=questionobject)
-			notification.save()
-			email_view.composeEmailNewQuestion(request,user,questionobject)
-		return HttpResponseRedirect(redirect)
-	return HttpResponseRedirect("/login?next="+redirect)
-
-def deletequestion(request):
-	if request.user.is_authenticated() and request.method=="POST":
-		bu = request.user.basicuser
-		questionid = request.POST['questionid']
-		page = request.POST.get('questionspage','')
-		ques = Question.objects.get(id=questionid)
-		if ques.buyer == bu or ques.seller == bu:
-			ques.delete()
-	if not page:
-		return HttpResponse(json.dumps(201), content_type='application/json')
-	else:
-		return HttpResponseRedirect("/account/sellerquestions")
-		
 ###########################################
 #### User Function Pages ##################
 ###########################################

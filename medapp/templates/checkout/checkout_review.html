@@ -90,6 +90,11 @@
 .buyer-message textarea {
 	min-height: 80px;
 }
+.cart-item .item-price .unit-price {
+	margin-top: 0px;
+	font-weight: 200;
+	font-size: 13px;
+}
 </style>
 {% endblock %}
 
@@ -103,6 +108,7 @@ $(document).ready(function() {
 	$('.completepurchase').click(function() {
 		$(".completepurchase").text("Processing. . .");
 		$(".completepurchase").addClass("disabled");
+		$(".large-loader").css('display','block');
 	});
 	var enabled = true;
 	$('#completepurchase').submit(function() {
@@ -153,7 +159,8 @@ $(document).ready(function() {
 								</div>
 							</div>
 							<div class="item-price col-md-2 col-sm-2 col-xs-12">
-								<p>{{checkoutcartitem.item.price|dollars}}</p>
+								<p>{{checkoutcartitem.amount|dollars}}</p>
+								{% if checkoutcartitem.quantity > 1 %}<p class="unit-price">at {{checkoutcartitem.price|dollars}} each</p>{% endif %}
 							</div>
 						</div>
 					</div>

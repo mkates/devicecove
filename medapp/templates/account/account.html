@@ -29,6 +29,7 @@
 				<a href="/account/buyerquestions"><li class="{% block buyquestions %}{% endblock %}"><h3>Questions I've Asked{% if user.basicuser.askedQuestionCount %} <span class="badge">{{ user.basicuser.askedQuestionCount }}</span>{% endif %}</h3></li></a>
 				<a href="/account/wishlist"><li class="{% block wishlist %}{% endblock %}"><h3>Wish List{% if user.basicuser.wishlist %} <span class="badge">{{ user.basicuser.wishlist }}</span>{% endif %}</h3></li></a>
 				<a href="/account/buyhistory"><li class="{% block buyhistory %}{% endblock %}"><h3>Purchase History {% if user.basicuser.buyhistory %} <span class="badge">{{ user.basicuser.buyhistory }}</span>{% endif %}</h3></li></a>
+				<a href="/account/contactmessages"><li class="{% block contactmessages %}{% endblock %}"><h3>Contact Seller Messages</h3></li></a>
 			</ul>
 		</div>
 		<div class="covebox admin-section">

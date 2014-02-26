@@ -26,7 +26,7 @@
 		</form>
 	</div>
 	{% else %}
-		<form class="gateform" action="/gatepayment/card/{{payment.balancedcard.id}}/{{item.id}}" method="POST">
+		<form class="gateform" action="/gatepayment/{{payment.balancedcard.id}}/{{item.id}}" method="POST">
 			{% csrf_token %}
 			<button value="submit" name="submit" class="use-payment-button button button-rounded button-action button-tiny">Pay With This Card</button>
 		</form>
@@ -62,7 +62,7 @@
 		</form>
 	</div>
 	{% else %}
-		<form class="gateform" action="/gatepayment/bank/{{payment.balancedbankaccount.id}}/{{item.id}}" method="POST">
+		<form class="gateform" action="/gatepayment/{{payment.balancedbankaccount.id}}/{{item.id}}" method="POST">
 			{% csrf_token %}
 			<button value="submit" name="submit" class="use-payment-button button button-rounded button-action button-tiny">Pay With This Bank Account</button>
 		</form>

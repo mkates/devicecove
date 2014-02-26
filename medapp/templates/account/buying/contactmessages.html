@@ -1,0 +1,79 @@
+{% extends 'account/account.html' %}
+{% block headertitle %}<title>VetCove | Contact Seller Messages</title>{% endblock%}
+{% block wishlist %}active{% endblock %}
+{% load dollars %}{% load phonenumber %}
+{% block jsblock %}
+<script>
+$(document).ready(function() {	
+	$('.popover-class').popover();
+});
+</script>
+{% endblock %}
+{% block maintitle %}Contact Seller Messages{% endblock %}
+{% block headersubcss %}
+<style>
+.popover-class {
+	outline: none;
+	background: #ccc;
+	color: #fff;
+	height: 20px;
+	border-radius: 10px;
+	font-size: 10px;
+	text-align: center;
+	width: 20px;
+	border:1px solid #ddd;
+}
+.popover-class:hover {
+	background: #aaa;
+}
+.contactmessage-table td {
+	min-width: 100px;
+}
+.contactmessage-table .authorizedbuyer {
+	min-width: 130px;
+	text-align: center;
+}
+.contactmessage-table a:hover{
+	text-decoration:underline;
+}
+</style>
+{% endblock %}
+{% block maincontent %}
+	{% if contactmessages %}
+	<div class="maincontent-container covebox">
+			<table class="table table-striped contactmessage-table">
+				<thead>
+					<th>Date</th>
+					<th>Item Details</th>
+					<th>Contact</th>
+					<th>Messages</th>
+					<th>Buy Online? <button type="button" class="popover-class" data-container="body" data-toggle="popover" data-placement="left" data-trigger="hover" data-content="If you reach an agreement with the seller to purchase the item, you can pay online through VetCove for convenience and to receive the VetCove Buyer Protection. A seller must authorize you to pay for an item that was viewable offline.">?</button></th>
+				</thead>
+				<tbody>
+					{% for contactmessage in contactmessages %}
+					<tr>
+						<td>{{contactmessage.date_sent|date:"M d, Y"}}</td>
+						<td>
+							<p><a href="/item/{{contactmessage.item.id}}/details">{{contactmessage.item}}</a></p>
+							<p>{{contactmessage.item.price|dollars}}</p>
+						</td>
+						<td>
+							<p>{{contactmessage.name}}</p>
+							<p>{{contactmessage.email}}</p>
+							<p>{{contactmessage.phone|phonenumber}}</p>
+						</td>
+						<td>{{contactmessage.message}}</td>
+						<td class="authorizedbuyer">{% if contactmessage.authorizedBuyer %}<a href="/item/{{contactmessage.item.id}}/details" class="button button-rounded button-action button-tiny">Buy This Item</button>{% else %}Not Authorized{% endif %}</td>
+					</tr>
+					{% endfor %}
+				</tbody>	
+
+			</table>
+	</div>
+	{% else %}
+	<div class="maincontent-container covebox">
+		<p class="nolistings" style="display:block">You have not yet contacted any sellers to view an item offline</p>
+	</div>
+	{% endif %}
+  		
+{% endblock %}

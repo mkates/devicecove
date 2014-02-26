@@ -10,6 +10,37 @@
 table td p {
 	margin: 0 3px;
 }
+.questions {
+	text-align: center;
+	font-weight: 200;
+	font-size: 12px;
+}
+.payouttable {
+	border-bottom:1px solid #ddd;
+	margin-bottom: 10px;
+}
+.payouttable p {
+	font-size: 12px;
+}
+.payouttable .totals {
+	text-align: right;
+	min-width: 200px;
+}
+.payouttable .totals span{
+	width: 70px;
+	display:inline-block;
+}
+.payouttable .item-details {
+	border-bottom:1px solid #ddd;
+	padding-bottom: 5px;
+	margin-bottom: 5px;
+}
+.payouttable .align-right {
+	text-align: right;
+}
+.payouttable th {
+	font-weight: bold;
+}
 </style>
 {% endblock %}
 {% block maincontent %}
@@ -18,34 +49,27 @@ table td p {
 {% load phonenumber %}
 {% if user.basicuser.payout_set.all %}
 <div class="covebox">
-	<table class="table table-striped">
+	<table class=" payouttable table table-striped">
 		<thead>
 			<tr>
-				<td>Payout Date</td>
-				<td>Type</td>
-				<td>Details</td>
-				<td>Items</td>
-				<td>Amount</td>
+				<th>Date</th>
+				<th>Details</th>
+				<th>Items</th>
+				<th class="align-right">Cost Breakdown</th>
 			</tr>
 		</thead>
 		<tbody>
-			{% for payout in user.basicuser.payout_set.all %}
+			{% for payout in user.basicuser.payout_set.all reversed %}
 				<tr>
-					<td>{{payout.date}}</td>
+					<td><p>{{payout.date|date:"M d, Y" }}</p></td>
 					<td>
+						<p><strong>{% if payout.checkpayout %}Check By Mail{% else %}Bank Account{% endif %}</strong></p>
 						{% if payout.checkpayout %}
-							Check
-						{% else %}
-							Bank Account
-						{% endif %}
-					</td>
-					<td>
-						{% if payout.checkpayout %}
-							<p>{{payout.checkpayout.address.name}}</p>
-							<p>{{payout.checkpayout.address.address_one}}</p>
-							{% if payout.checkpayout.address.address_two %}<p>{{payout.checkpayout.address.address_two}}</p>{% endif %}
-							<p>{{payout.checkpayout.address.city}}, {{payout.checkpayout.address.state}} {{payout.checkpayout.address.zipcode|zipcodify}}</p>
-							<p>{{payout.checkpayout.address.phonenumber|phonenumber}}</p>
+							<p>{{payout.checkpayout.address.address.name}}</p>
+							<p>{{payout.checkpayout.address.address.address_one}}</p>
+							{% if payout.checkpayout.address.address.address_two %}<p>{{payout.checkpayout.address.address.address_two}}</p>{% endif %}
+							<p>{{payout.checkpayout.address.address.city}}, {{payout.checkpayout.address.address.state}} {{payout.checkpayout.address.address.zipcode|zipcodify}}</p>
+							<p>{{payout.checkpayout.address.address.phonenumber|phonenumber}}</p>
 						{% else %}
 							<p>{{payout.bankpayout.bank_account.name}}</p>
 							<p>{{payout.bankpayout.bank_account.bank_name}}</p>
@@ -54,15 +78,23 @@ table td p {
 					</td>
 					<td>
 						{% for pi in  payout.purchaseditem_set.all %}
-							<p>{{pi.item_name}}{% if pi.quantity > 1 %} (Quantity {{pi.quantity}}){% endif %} - {{pi.total|dollars}}</p>
+							<p>{{pi.item_name}}<p>
+							<p {% if not forloop.last %}class="item-details"{% endif %}>{{pi.quantity}} at {{pi.unit_price|dollars}} each: <strong>{{pi.total|dollars}}</strong></p>
 						{% endfor %}
 					</td>
-					<td>{{payout.amount|dollars}}</td>
+					<td class="totals">
+						<p>Subtotal: <span>{{payout.subtotal|dollars}}</span></p>
+						<p>Commission: <span>-{{payout.total_commission|dollars}}</span></p>
+						{% if payout.total_charity %}<p>Charity: <span>-{{payout.total_charity|dollars}}</span></p>{% endif %}
+						<p>Processing Fee: <span>-{{payout.cc_fee|dollars}}</span></p>
+						<p><strong>Payout Total: <span>{{payout.amount|dollars}}</span></strong></p>
+					</td>
 				</tr>
 				
 			{% endfor %}
 		</tbody>
 	</table>
+	<p class="questions">Questions about your payouts? Send us <a href="/contact"> a message</a> and let us know</p>
 </div>
 {% else %}
 <div class="maincontent-container covebox">

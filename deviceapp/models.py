@@ -182,6 +182,7 @@ class Item(models.Model):
 	### Pricing ###
 	msrp_price = models.BigIntegerField(max_length=20)
 	price = models.BigIntegerField(max_length=20)
+	max_price = models.BigIntegerField(max_length=20)
 	quantity = models.IntegerField(default=1)
 	
 	### Payment ###
@@ -385,7 +386,7 @@ class BankPayout(Payout):
 	STATUS_OPTIONS =  (('failed', 'Failed'),('pending', 'Pending'),('paid', 'Paid'))
 	status = models.CharField(max_length=20,choices=STATUS_OPTIONS,default='pending')
 	transaction_number = models.CharField(max_length=30)
-	href = models.CharField(max_length=30)
+	events_uri = models.CharField(max_length=200)
 		
 #### Record of the check payout ##################
 class CheckPayout(Payout):
@@ -495,7 +496,7 @@ class PurchasedItem(models.Model):
 	# Deductions
 	charity = models.BooleanField(default=False)
 	charity_name = models.ForeignKey(Charity,null=True,blank=True)
-	promo_code = models.ForeignKey(PromoCode)
+	promo_code = models.ForeignKey(PromoCode,null=True,blank=True)
 	commission = models.BigIntegerField(max_length=14)
 	# Post Purchase
 	shipping_included = models.BooleanField(default=True)

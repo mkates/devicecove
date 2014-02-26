@@ -16,7 +16,7 @@ Diagnostic
 13
 Electrosurgery and Cryosurgery
 14
-Emergency equipment
+Emergency Equipment
 15
 Endoscopy
 29
@@ -24,7 +24,7 @@ Equine specialty
 16
 Farrier Supplies
 18
-Fluid and Drug administration
+Fluid and Drug Administration
 19
 Grooming
 20
@@ -34,7 +34,7 @@ Large Animal Specialty
 22
 Lighting
 23
-Miscellaneous equipment and supplies
+Miscellaneous Equipment and Supplies
 24
 Monitors
 25
@@ -50,9 +50,9 @@ Pharmaceuticals and Biologics
 32
 Pharmacy Supplies and Management
 33
-Protective wear
+Protective Wear
 34
-Regenerative medicine
+Regenerative Medicine
 35
 Reproduction
 36

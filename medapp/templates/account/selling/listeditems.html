@@ -197,7 +197,7 @@ $(document).ready(function() {
 						</div>
 						<div class="clear"></div>
 						<button name="submit" value="submit" class="button button-rounded button-small button-action">Relist and Activate Listing</button>
-						<a data-confirm-box="#sold-confirmation-{{item.id}}" class="confirmation-cancel button button-rounded button-small">Cancel</a>
+						<a data-confirm-box="#relist-confirmation-{{item.id}}" class="confirmation-cancel button button-rounded button-small">Cancel</a>
 					</form>
 				</div>
 				{% endif %}
@@ -247,7 +247,7 @@ $(document).ready(function() {
 								  </div>
 								</div>
 							{% elif item.liststatus == 'sold' %}
-								<p>If the item was sold online, make sure to send the buyer the relevant
+								<p>If you are shipping this item, make sure to send the buyer the relevant
 								shipping information, which can be found in the <a href="/account/sellhistory"> sell history</a>.
 								Your buyers will really appreciate it!</p>
 							{% endif %}
@@ -272,13 +272,7 @@ $(document).ready(function() {
 								<button data-confirm-box="#reactive-confirmation-{{item.id}}" class="confirmation-show button button-rounded button-small">Reactivate Listing</button>
 							{% elif item.liststatus == 'sold' %}
 								<a href="/item/{{item.id}}/details" class="button button-rounded button-small">View Listing</a>
-								{% if item.offlineviewing %}
-									{% if item.sold_online %}
-										<a href="/account/sellhistory" class="button button-rounded button-small">View Selling Details</a>
-									{% else %}
-										<p class="italics">This item was sold offline. If you marked this item as sold in error, please contact us so we can reactivate your listing.</p>
-									{% endif %}
-								{% else %}
+								{% if item.conditiontype == 'new' %}
 									<button data-confirm-box="#relist-confirmation-{{item.id}}" class="confirmation-show button button-rounded">Increase Quantity + Relist</button>
 								{% endif %}
 						

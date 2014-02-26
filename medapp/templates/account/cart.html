@@ -112,7 +112,7 @@
 			<a class="button-small button button-rounded" href="/productsearch/veterinary/all/all">Continue Shopping</a>
 		</div>
 		<h3>You have <span class="itemcount">{{cart_items_count}}</span> item{% if cart_items_count != 1 %}s{% endif %} in your shopping cart</h3>
-		<p class="welcome-message">{% if not user.basicuser %}Save your cart items for later by <a href="/login">Logging In</a>{% endif %}</p>
+		<p class="welcome-message">{% if not user.basicuser %}Save your cart items for later by <a href="/login">logging In</a>{% endif %}</p>
 	</div>
 	<div class="row">
 		<div class="item-summary col-md-9 col-sm-9 col-xs-12">
@@ -166,8 +166,9 @@
 						</span>
 					</div>
 					<div class="item-price col-md-2 col-sm-2 col-xs-12">
-						<p>{{cartitem.item.price|dollars}}</p>
-						<p class="msrp_price">{{cartitem.item.msrp_price|dollars}}</p>
+						<p>{{cartitem.amount|dollars}}</p>
+						<p class="quantity-unitprice">at {{cartitem.item.price|dollars}} each</p>
+						<p class="msrp_price">MSRP: {{cartitem.item.msrp_price|dollars}}</p>
 					</div>
 				</div>
 			</div>

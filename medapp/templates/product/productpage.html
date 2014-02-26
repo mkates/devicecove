@@ -8,7 +8,7 @@
 		<div class="buynowbox">
 			<div id="contactbox">
 				<h4>Contact Seller</h4>
-				<p>If you're ready to schedule an in-person viewing of the product or buy it online through VetCove, use this form to contact the seller to arrange for next steps.  To inquire for specific additional information from the seller, we suggest you <span class="underline">ask a question</span> instead</p>
+				<p>If you're ready to schedule an in-person viewing of the product or buy it online through VetCove, use this form to contact the seller to arrange for next steps.  To inquire for specific additional information from the seller, we suggest you <a class="underline closecontactseller">ask a question</a> instead</p>
 				<form action="/messageseller/{{item.id}}" method="POST" id="messageseller">
 					{% csrf_token %}
 					<div class="row">
@@ -153,7 +153,7 @@
 				<img class="giveback_img" src="{{STATIC_URL}}img/giveback_80x75.png"/>
 			</div>
 			<div class="col-md-10 col-sm-10 col-xs-12">
-				<p>2% of all proceeds go to the {{item.charity_name}} through our <a href="/giveback">1+1 program</a></p>
+				<p>2% of all proceeds go to the {{item.charity_name}} through our <a target="_blank" href="/giveback">1+1 program</a></p>
 			</div>
 		</div>
 		{% endif %}

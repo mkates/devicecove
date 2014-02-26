@@ -127,7 +127,7 @@ TEMPLATE_LOADERS = (
 
 
 MIDDLEWARE_CLASSES = (
-    'debug_toolbar.middleware.DebugToolbarMiddleware',
+    # 'debug_toolbar.middleware.DebugToolbarMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -162,8 +162,8 @@ INSTALLED_APPS = (
     'django_extensions',
     'password_reset', # Password reset app
     'djrill', #Django-Mandrill App
-    'collectfast', #Used for quicker S3 Collectstatic (fixes modified_time bug in s3 uploads)
-    'debug_toolbar'
+    'collectfast' #Used for quicker S3 Collectstatic (fixes modified_time bug in s3 uploads)
+    # 'debug_toolbar'
 )
 
 SESSION_SERIALIZER = 'django.contrib.sessions.serializers.JSONSerializer'

@@ -101,9 +101,9 @@
 {% block content %}
 <div class="confirmation-container covebox">
 	<h3> Thank you for your order!</h3>
-	<h5> For reference, your order number is {{checkout.id}}</h5>
+	<h5> For reference, your order number is 0000{{order.id}}</h5>
 	<p>We have sent an email to {{user.basicuser.email}} confirming your purchase! 
-	Your credit card has been charged {{checkout.total|dollars}}. The seller(s) of the item(s) you purchased have been contacted about your successful purchase, and will be in touch with you shortly about your item(s) being shipped.</p>
+	Your credit card has been charged {{order.total|dollars}}. The seller(s) of the item(s) you purchased have been contacted about your successful purchase, and will be in touch with you shortly about your item(s) being shipped.</p>
 	<p class="disclaimer"> Note: If you do not hear from the seller and the item does not arrive within 2 weeks, please contact
 	us immediately. You have 48 hours from the time you receive the item to submit a complaint.</p>
 	<p>We require that sellers on VetCove respond to purchases quickly, but sometimes there are delays.  If you do not hear from a seller within 5 business days, please feel free to use their contact information to inquire about the timing of your order's shipment.  If a buyer continues to be unresponsive, please contact us or report a problem from your <a href='/account/buyhistory'>purchase history</a> portal. </p>

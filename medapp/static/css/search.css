@@ -599,7 +599,7 @@ outline:none;
 
 .morediv {
 	clear: both;
-	margin-top: 20px;
+	margin-top: 10px;
 	height: 30px;
 }
 .morediv a {
@@ -621,6 +621,12 @@ outline:none;
 }
 .visible {
 	display: block;
+}
+.whitefade {
+	height: 30px;
+	margin-top: -33px;
+	position:relative;
+	background-image:url("../img/whitefade.png");
 }
 
 /**********************************/

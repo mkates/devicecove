@@ -83,6 +83,7 @@ function display_BA_Error(error) {
 function Balanced_BA_Disable() {
 	balanced_BA_submittable = false;
 	$("#ba-submit span").text("Processing. . .");
+	$(".large-loader").css('display','block');
 	$("#ba-submit img").css('display','inline-block');
 	if (!($("#ba-submit").hasClass("disabled"))) {
 		$("#ba-submit").addClass("disabled");
@@ -91,6 +92,7 @@ function Balanced_BA_Disable() {
 function Balanced_BA_Enable() {
 	balanced_BA_submittable = true;
 	$("#ba-submit span").text(balanced_ba_button_text);
+	$(".large-loader").css('display','none');
 	$("#ba-submit img").css('display','none');
 	$("#ba-submit").removeClass("disabled");
 }

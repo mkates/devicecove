@@ -3,7 +3,7 @@
 
 <head>
 
-{% block headertitle %}<title>VetCove</title>{% endblock%}
+{% block headertitle %}<title>VetCove - New, Pre-Owned, Rufurbished Veterinary Equipment</title>{% endblock%}
 <meta name="description" content="VetCove is the top equipment marketplace for veterinarians to buy and sell new, pre-owned, and refurbished equipment and supplies">
 <meta http-equiv="content-type" content="text/html;charset=UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -39,11 +39,40 @@
 	background-position: center;
 	cursor:pointer;
 }
+.large-loader {
+	position:fixed;
+	width: 100%;
+	height: 100%;
+	padding: 50px 30px 20px 30px;
+	top: 50%;
+	left: 50%;
+	border-radius: 4px;
+	margin-left: -250px;
+	margin-top: -115px;
+	max-width: 500px;
+	height: 230px;
+	background-image:url("{{STATIC_URL}}img/blacktransparency.png");
+	z-index: 9999;
+	text-align: center;
+	display:none;
+}
+.large-loader p {
+	color: #eee;
+	margin-top: 35px;
+	font-size: 18px;
+	font-weight: 200;
+}
 </style>
 </head>
 
 <body>
-{% block overlaydiv %}{% endblock %}
+{% block overlaydiv %}
+<div class="large-loader">
+	<img src='{{STATIC_URL}}img/ajax-loader2.gif'/>
+	<p>Hold a jiffy, we're processing your request. . . </p>
+</div>
+{% endblock %}
+
 {% block header %}
 {% load dollars %}
 <div class="navigation-container">
@@ -80,7 +109,7 @@
 				  				<img class="cart-image" src="{% if cart_item.item.mainimage %}{{cart_item.item.mainimage.photo.url}}{% else %}{{STATIC_URL}}img/noimage.jpg{% endif %}" alt="No Image"/>
 				  			</div>
 				  			<div class="cart-information col-md-10 col-sm-10 col-xs-10">
-				  				<p>{{cart_item.item.name}}</p>
+				  				<p>{{cart_item.item.name}}{{cart_item.item.name}}{{cart_item.item.name}}{{cart_item.item.name}}</p>
 				  				<p class="cart-price">
 				  					{% if cart_item.item.liststatus != 'active' %}
 				  						<span>Item no longer available</span>
@@ -93,7 +122,7 @@
 				  	</a>
 				  </li>
 				  {% endfor %}
-				  <li><a class="viewcart" href="/cart" alt="">View Cart ({{cart_items_count}}) &rarr;</a>
+				  <li><a class="viewcart button button-rounded button-primary" href="/cart" alt="">View Cart ({{cart_items_count}}) &rarr;</a>
 				</ul>
 			</li>
 			{% if user.is_authenticated %}

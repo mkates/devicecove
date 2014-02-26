@@ -125,7 +125,6 @@
 	padding: 2px 5px;
 }
 .popover-class:active {
-	border:1px solid red;
 	padding: 0;
 }
 .popover-content {

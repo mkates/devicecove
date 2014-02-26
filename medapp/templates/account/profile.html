@@ -115,7 +115,9 @@ $(document).ready(function() {
 	for (var i=0; i < states.length; i++) {
 		$("#state").append("<option value="+states[i]+">"+states[i]+"</option>");
 	}
-	$(".address-cancel").click(function() {
+	//New address cancel
+	$(".payment-cancel").click(function() {
+		console.log("here")
 		$(".payment-address-new-form").css('display','none');
 		$(".payment-address-div").css('display','block');
 		$(".payment-address-new-button").css('display','block');
