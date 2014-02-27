@@ -362,7 +362,7 @@ def checkoutPayment(request,checkoutid):
 		return HttpResponseRedirect('/checkout/verify/'+checkoutValid['error'])
 	elif checkout.shipping_address == None and checkout.shippingAddressRequired():
 		return HttpResponseRedirect('/checkout/shipping/'+str(checkoutid))
-	return render_to_response('checkout/checkout_payment.html',{'checkout':checkout,'payment_methods':payment_methods,'paying':True},context_instance=RequestContext(request))
+	return render_to_response('checkout/checkout_payment.html',{'checkout':checkout,'payment_methods':payment_methods,'paying':True,'BALANCED_MARKETPLACE_ID':settings.BALANCED_MARKETPLACE_ID},context_instance=RequestContext(request))
 
 @login_required
 def checkoutUsePayment(request,checkoutid,paymentid):

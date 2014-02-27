@@ -57,7 +57,7 @@
 {% block customjs %}
 <script type="text/javascript" src="{{STATIC_URL}}js/balanced.js"></script>
 <script type="text/javascript">
-	var marketplaceUri = '/v1/marketplaces/TEST-MP49EIrAntwbE1iYZDuZWtjo';
+	var marketplaceUri = '/v1/marketplaces/{{BALANCED_MARKETPLACE_ID}}';
 	//BALANCED_CC GLOBAL VARIABLES
 	var responseTarget_cc = "/checkout/addcard/{{checkout.id}}";
 	var success_redirect_cc = "/checkout/review/{{checkout.id}}";

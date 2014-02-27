@@ -296,7 +296,7 @@ def profile(request):
 
 @login_required
 def payment(request):
-	return render_to_response('account/payment.html',{'payment':True},context_instance=RequestContext(request))
+	return render_to_response('account/payment.html',{'payment':True,'BALANCED_MARKETPLACE_ID':settings.BALANCED_MARKETPLACE_ID},context_instance=RequestContext(request))
 
 #################################################
 ### Updating Payment Information  ###############
