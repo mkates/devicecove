@@ -200,10 +200,12 @@ ALLOWED_HOSTS = ['*']
 
 # Static asset configuration
 try: #In try block because local settings cant import dj_database_url
-    import dj_database_url
-    DATABASES['default'] =  dj_database_url.config()
     STATIC_URL = 'https://devicerock.s3.amazonaws.com/'
     HTTPS_SUPPORT = True
+    import dj_database_url
+    print 'import success'
+    DATABASES['default'] =  dj_database_url.config()
+    print DATABASES['default']
 except Exception,e:
     print e
     pass
