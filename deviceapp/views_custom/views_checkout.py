@@ -145,11 +145,12 @@ def addToCart(request,itemid):
 def updateCartWishlist(request,cartitemid):
 	cartitem = CartItem.objects.get(id=cartitemid)
 	if request.user.is_authenticated():
-		bu = BasicUser.objects.get(user=request.user)
+		bu = request.user.basicuser
 		cartitem.shoppingcart = None
 		cartitem.delete()
 		si, created = SavedItem.objects.get_or_create(item=cartitem.item,user=bu)
 		si.save()
+		cache.set('cart_items_'+str(bu.id),bu.shoppingcart.cartitem_set.all())
 		return HttpResponseRedirect('/cart')
 	else:
 		return HttpResponseRedirect('/login?next=/cart')
@@ -158,9 +159,13 @@ def updateCartWishlist(request,cartitemid):
 def updateCartDelete(request,cartitemid):
 	cartitem = CartItem.objects.get(id=cartitemid)
 	shoppingcart = getShoppingCart(request)
-	if cartitem.shoppingcart == shoppingcart: #Only if its the right shopping cart
+	if cartitem.shoppingcart == shoppingcart: # Only if its the right shopping cart
 		cartitem.shoppingcart = None
 		cartitem.delete()
+	# Set new cart cache
+	if request.user.is_authenticated():
+		bu = request.user.basicuser
+		cache.set('cart_items_'+str(bu.id),bu.shoppingcart.cartitem_set.all())
 	return HttpResponseRedirect('/cart')
 
 ##### Update Cart Quantity #########
@@ -170,6 +175,10 @@ def updateCartQuantity(request,cartitemid):
 	if cartitem.shoppingcart == shoppingcart:
 		cartitem.quantity = int(request.POST['quantity'])
 		cartitem.save()
+	# Set new cart cache
+	if request.user.is_authenticated():
+		bu = request.user.basicuser
+		cache.set('cart_items_'+str(bu.id),bu.shoppingcart.cartitem_set.all())
 	return HttpResponseRedirect('/cart')
 	
 ###################################
