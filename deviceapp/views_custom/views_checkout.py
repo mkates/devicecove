@@ -110,10 +110,11 @@ def cart(request):
 	dict = shoppingcart_totals
 	dict['shoppingcart'] = shoppingcart
 	# Update cartitem price if the item's price changed
-	for cartitem in shoppingcart.cartitem_set.all():
-		if cartitem.price != cartitem.item.price:
-			cartitem.price = cartitem.item.price
-			cartitem.save()
+	if shoppingcart:
+		for cartitem in shoppingcart.cartitem_set.all():
+			if cartitem.price != cartitem.item.price:
+				cartitem.price = cartitem.item.price
+				cartitem.save()
 	return render_to_response('account/cart.html',dict,context_instance=RequestContext(request))
 
 ##### Add an item to the cart ######
