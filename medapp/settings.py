@@ -205,6 +205,7 @@ try: #In try block because local settings cant import dj_database_url
     STATIC_URL = 'https://devicerock.s3.amazonaws.com/'
     HTTPS_SUPPORT = True
 except Exception,e:
+    print e
     pass
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
