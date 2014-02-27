@@ -28,6 +28,7 @@ def addBalancedCard(request):
 	expiration_year = request.POST.get('expiration_year','')
 	last_four = request.POST.get('last_four','')
 	try:
+		print 'Adding balanced card'
 		# Configure Balanced API
 		balanced.configure(settings.BALANCED_API_KEY)
 		# Either find or get the Balanced Customer
@@ -51,6 +52,7 @@ def addBalancedCard(request):
 			return {'status':201,'card':new_card,'error':'None','balanceduri':bu.balanceduri} # Success
 		return {'status':500,'error':'Card Already Saved'} # Card Already Saved
 	except Exception,e:
+		print 'Error Adding Card'
 		print e
 		return {'status':500,'error':e} # Failure
 

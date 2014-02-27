@@ -229,6 +229,7 @@ CONTACT_PHONE_NUMBER = 7325986434
 DEFAULT_FROM_EMAIL = 'info@vetcove.com'
 SERVER_EMAIL = 'info@vetcove.com'
 
+MANDRILL_API_KEY = "iSqtoSVWpB1aSTzA_YqaXg"
 EMAIL_BACKEND = "djrill.mail.backends.djrill.DjrillBackend"
 
 # Amazon File Storage
@@ -240,6 +241,10 @@ AWS_PRELOAD_METADATA = True
 # ImageKit File Storage
 AWS_BUCKET_ = NAME = AWS_STORAGE_BUCKET_NAME 
 IMAGEKIT_DEFAULT_FILE_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
+
+### App Specific Variables ###
+PAYOUT_WAIT_PERIOD = 14
+CC_PROCESSING_FEE = .03
 
 ### Import the local settings ###
 try:

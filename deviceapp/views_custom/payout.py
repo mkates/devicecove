@@ -10,8 +10,8 @@ from django.utils.timezone import utc
 ##### Credits all the Seller's Bank Accounts ############
 #########################################################
 
-WAITING_DAYS = 0
-CC_PROCESSING_FEE = 0.03
+WAITING_DAYS = settings.PAYOUT_WAIT_PERIOD
+CC_PROCESSING_FEE = settings.CC_PROCESSING_FEE
 
 def creditSellerAccounts():
 		if hasattr(settings,'TESTING'):
