@@ -58,6 +58,7 @@ class PromoCode(models.Model):
 	code = models.CharField(max_length=100,unique=True)
 	promo_text = models.CharField(max_length=255) # Fun description
 	active = models.BooleanField()
+	uses_left = models.IntegerField(max_length=5)
 	details = models.CharField(max_length=100) # Short description
 	PROMO_TYPE =  (('factor', 'Factor'),('discount', 'Discount'))
 	promo_type = models.CharField(max_length = 50,choices=PROMO_TYPE)
