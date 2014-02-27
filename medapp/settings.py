@@ -203,9 +203,9 @@ try: #In try block because local settings cant import dj_database_url
     STATIC_URL = 'https://devicerock.s3.amazonaws.com/'
     HTTPS_SUPPORT = True
     import dj_database_url
-    print 'import success'
-    DATABASES['default'] =  dj_database_url.config()
-    print DATABASES['default']
+    DATABASES = {
+        "default": dj_database_url.config()
+    }
 except Exception,e:
     print e
     pass
@@ -229,6 +229,7 @@ AWS_ACCESS_KEY_ID = 'AKIAIOR2LHBOQ2JESUYA'
 DEFAULT_FROM_EMAIL = 'info@vetcove.com'
 SERVER_EMAIL = 'info@vetcove.com'
 
+MANDRILL_API_KEY = "iSqtoSVWpB1aSTzA_YqaXg"
 EMAIL_BACKEND = "djrill.mail.backends.djrill.DjrillBackend"
 
 # Amazon File Storage
