@@ -72,8 +72,8 @@ def deletequestion(request):
 		ques = Question.objects.get(id=questionid)
 		if ques.buyer == bu or ques.seller == bu:
 			ques.delete()
-	if not page:
-		return HttpResponse(json.dumps(201), content_type='application/json')
+		if not page:
+			return HttpResponse(json.dumps(201), content_type='application/json')
 	else:
 		return HttpResponseRedirect("/account/sellerquestions")
 		

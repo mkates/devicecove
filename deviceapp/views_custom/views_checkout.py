@@ -136,7 +136,8 @@ def addToCart(request,itemid):
 		newCartItem.save()
 		# Set new cart cache
 		if request.user.is_authenticated():
-			cache.set('cart_items_'+str(bu.id),request.user.basicuser.shoppingcart.cartitem_set.all())
+			bu = request.user.basicuser
+			cache.set('cart_items_'+str(bu.id),bu.shoppingcart.cartitem_set.all())
 		return HttpResponseRedirect('/cart')
 	return HttpResponseRedirect('/cart')
 	

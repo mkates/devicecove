@@ -206,7 +206,7 @@ try: #In try block because local settings cant import dj_database_url
     DATABASES = {
         "default": dj_database_url.config()
     }
-    BALANCED_API_KEY = os.getenv("BALANCED_API_KEY")
+    BALANCED_API_KEY = os.getenv("BALANCED_API_KEY") #Retrieves key from config variables
 except Exception,e:
     print e
     pass
