@@ -140,12 +140,15 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
+    'deviceapp.middleware.SecureRequiredMiddleware.SecureRequiredMiddleware',
     'deviceapp.middleware.IEDetectionMiddleware.IEDetectionMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     # Uncomment the next line for simple clickjacking protection:
     # 'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
+
+
 
 ROOT_URLCONF = 'medapp.urls'
 
@@ -221,11 +224,12 @@ if os.path.abspath( __file__ ).split("/")[2] == 'alexanderkates':
     #INSTALLED_APPS = INSTALLED_APPS + ('fresh',)
     #MIDDLEWARE_CLASSES = MIDDLEWARE_CLASSES + ('fresh.middleware.FreshMiddleware',)
     SITE_ROOT = os.path.dirname(os.path.abspath(__file__))
+    HTTPS_SUPPORT = False
 else:
 	import dj_database_url
 	DATABASES['default'] =  dj_database_url.config()
 	STATIC_URL = 'https://devicerock.s3.amazonaws.com/'
-
+    HTTPS_SUPPORT = True
 	
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 STATIC_ROOT = 'staticfiles'
