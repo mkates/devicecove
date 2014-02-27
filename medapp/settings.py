@@ -223,14 +223,12 @@ TEMPLATE_DIRS = (
 CONTACT_PHONE_NUMBER = 7325986434
 
 #Amazon Credentials
-AWS_ACCESS_KEY_ID = 'AKIAIOR2LHBOQ2JESUYA'
-AWS_SECRET_ACCESS_KEY= '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'
+# These are set in the heroku:config file only on the server
 
 #Email Credentials
 DEFAULT_FROM_EMAIL = 'info@vetcove.com'
 SERVER_EMAIL = 'info@vetcove.com'
 
-MANDRILL_API_KEY = "iSqtoSVWpB1aSTzA_YqaXg"
 EMAIL_BACKEND = "djrill.mail.backends.djrill.DjrillBackend"
 
 # Amazon File Storage
