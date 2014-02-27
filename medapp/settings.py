@@ -1,38 +1,22 @@
-# Django settings for medapp project.
+###########################################################################
+#### Production Django Settings, local_settings overrides as neccesary ####
+###########################################################################
 
-DEBUG = True
+DEBUG = False
 TEMPLATE_DEBUG = DEBUG
-THUMBNAIL_DEBUG = True
 
 import os
+
+# General Admin
 PROJECT_ROOT = os.path.abspath(os.path.dirname(__file__))
 ADMINS = (
     ('Mitchell Kates', 'mhkates@gmail.com'),
+    ('Mitchell Kates', 'mitch@vetcove.com'),
 )
 MANAGERS = ADMINS
+
 LOGIN_URL = '/login'
 LOGOUT_URL ="/"
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': '/Users/alexanderkates/Dropbox/WebProjects/medbay/tmpdb.db', # Or path to database file if using sqlite3.
-        # The following settings are not used with sqlite3:
-        'USER': '',
-        'PASSWORD': '',
-        'HOST': '',                      # Empty for localhost through domain sockets or '127.0.0.1' for localhost through TCP.
-        'PORT': '',                      # Set to empty string for default.
-    }
-}
-# DATABASES = {
-#     "default": {
-#         "ENGINE": "django.db.backends.postgresql_psycopg2",
-#         "NAME": "vetcovedb",
-#         "USER": "",
-#         "PASSWORD": "",
-#         "HOST": "localhost",
-#         "PORT": "",
-#     }
-# }
 
 from django.conf import global_settings
 TEMPLATE_CONTEXT_PROCESSORS = global_settings.TEMPLATE_CONTEXT_PROCESSORS + (
@@ -40,7 +24,7 @@ TEMPLATE_CONTEXT_PROCESSORS = global_settings.TEMPLATE_CONTEXT_PROCESSORS + (
 )
 # Hosts/domain names that are valid for this site; required if DEBUG is False
 # See https://docs.djangoproject.com/en/1.5/ref/settings/#allowed-hosts
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['.vetcove.com']
 
 # Local time zone for this installation. Choices can be found here:
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
@@ -90,7 +74,7 @@ STATICFILES_DIRS = (
     # Don't forget to use absolute paths, not relative paths.
 )
 
-#CACHE SETTINGS
+### Memcachier Cache Settings ################
 def get_cache():
   import os
   try:
@@ -121,7 +105,7 @@ CACHES = get_cache()
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder'
-    #'django.contrib.staticfiles.finders.DefaultStorageFinder', ##I removed this to get debug toolbar to work, if causes problems re-add it
+    #'django.contrib.staticfiles.finders.DefaultStorageFinder', # I removed this to get debug toolbar to work, if causes problems re-add it
 )
 
 # Make this unique, and don't share it with anybody.
@@ -136,7 +120,6 @@ TEMPLATE_LOADERS = (
 
 
 MIDDLEWARE_CLASSES = (
-    # 'debug_toolbar.middleware.DebugToolbarMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -145,7 +128,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     # Uncomment the next line for simple clickjacking protection:
-    # 'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
 
 
@@ -166,16 +149,15 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     'django.contrib.admindocs',
     'django.contrib.humanize',
-    'boto', #For S3 File Storage
+    'boto', # For S3 File Storage
     'deviceapp', # Our sole app
-    #'south', #DB Migrations
+    'south', #DB Migrations
     'imagekit', #For resizing images before S3 Upload
     'storages', #For file storage, works with S3
     'django_extensions',
     'password_reset', # Password reset app
     'djrill', #Django-Mandrill App
     'collectfast' #Used for quicker S3 Collectstatic (also fixes modified_time bug in s3 uploads)
-    # 'debug_toolbar'
 )
 
 SESSION_SERIALIZER = 'django.contrib.sessions.serializers.JSONSerializer'
@@ -217,22 +199,16 @@ SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 ALLOWED_HOSTS = ['*']
 
 # Static asset configuration
-import os
-if os.path.abspath( __file__ ).split("/")[2] == 'alexanderkates':
-    LOCAL = True
-    STATIC_URL = '/static/'
-    #INSTALLED_APPS = INSTALLED_APPS + ('fresh',)
-    #MIDDLEWARE_CLASSES = MIDDLEWARE_CLASSES + ('fresh.middleware.FreshMiddleware',)
-    SITE_ROOT = os.path.dirname(os.path.abspath(__file__))
-    HTTPS_SUPPORT = False
-else:
-	import dj_database_url
-	DATABASES['default'] =  dj_database_url.config()
-	STATIC_URL = 'https://devicerock.s3.amazonaws.com/'
-	HTTPS_SUPPORT = True
+try: #In try block because local settings cant import dj_database_url
+    import dj_database_url
+    DATABASES['default'] =  dj_database_url.config()
+    STATIC_URL = 'https://devicerock.s3.amazonaws.com/'
+    HTTPS_SUPPORT = True
+except Exception,e:
+    pass
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-STATIC_ROOT = 'staticfiles'
+STATIC_ROOT = '/static'
 
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static'),
@@ -244,42 +220,28 @@ TEMPLATE_DIRS = (
 CONTACT_PHONE_NUMBER = 7325986434
 
 #Amazon Credentials
-AWS_ACCESS_KEY_ID = 'AKIAJOLZ5657Q7HHW2CA'
-AWS_SECRET_ACCESS_KEY = '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'
+AWS_ACCESS_KEY_ID = 'AKIAIOR2LHBOQ2JESUYA'
 
 #Email Credentials
-MANDRILL_API_KEY = "iSqtoSVWpB1aSTzA_YqaXg"
 DEFAULT_FROM_EMAIL = 'info@vetcove.com'
+SERVER_EMAIL = 'info@vetcove.com'
+
 EMAIL_BACKEND = "djrill.mail.backends.djrill.DjrillBackend"
 
-#Balanced API
-BALANCED_API_KEY = 'ak-test-2iiPtmDbNKZNUPEVNEcoPOTO0GMBMFsm3'
-
-#Amazon File Storage
+# Amazon File Storage
 DEFAULT_FILE_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
 STATICFILES_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
 AWS_STORAGE_BUCKET_NAME = 'devicerock'
 AWS_PRELOAD_METADATA = True
-#ImageKit File Storage
+
+# ImageKit File Storage
 AWS_BUCKET_ = NAME = AWS_STORAGE_BUCKET_NAME 
 IMAGEKIT_DEFAULT_FILE_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
 
-DEBUG_TOOLBAR_PATCH_SETTINGS = False
-INTERNAL_IPS=("127.0.0.1",)
-INTERCEPT_REDIRECTS = False
-DEBUG_TOOLBAR_PANELS = [
-    'debug_toolbar.panels.timer.TimerPanel',
-    #'debug_toolbar.panels.settings.SettingsPanel',
-    'debug_toolbar.panels.headers.HeadersPanel',
-    'debug_toolbar.panels.request.RequestPanel',
-    'debug_toolbar.panels.sql.SQLPanel',
-    'debug_toolbar.panels.staticfiles.StaticFilesPanel',
-    'debug_toolbar.panels.templates.TemplatesPanel',
-    'debug_toolbar.panels.cache.CachePanel',
-    'debug_toolbar.panels.signals.SignalsPanel',
-    'debug_toolbar.panels.logging.LoggingPanel',
-    'debug_toolbar.panels.redirects.RedirectsPanel',
-    #'debug_toolbar_autoreload.AutoreloadPanel'
-]
+### Import the local settings ###
+try:
+    from local_settings import *
+except ImportError:
+    pass
 
     

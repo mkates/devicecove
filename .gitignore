@@ -3,3 +3,6 @@ venv
 staticfiles
 medapp/static/psd
 deviceapp/fixtures/csv
+medapp/local_settings.py
+*.key
+

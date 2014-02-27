@@ -260,7 +260,10 @@ def payoutHistory(request):
 		for pi in order:
 			total_item_count += pi.quantity
 	dict['total_items'] = total_item_count
-	dict['total_items_average'] = int(dict['total_payout']/total_item_count)
+	if total_item_count > 0:
+		dict['total_items_average'] = int(dict['total_payout']/total_item_count)
+	else:
+		dict['total_items_average'] = 0
    	return render_to_response('account/selling/payouthistory.html',dict,context_instance=RequestContext(request))
 
 @login_required
