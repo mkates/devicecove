@@ -67,6 +67,7 @@ class Migration(SchemaMigration):
             ('code', self.gf('django.db.models.fields.CharField')(unique=True, max_length=100)),
             ('promo_text', self.gf('django.db.models.fields.CharField')(max_length=255)),
             ('active', self.gf('django.db.models.fields.BooleanField')()),
+            ('uses_left', self.gf('django.db.models.fields.IntegerField')(max_length=5)),
             ('details', self.gf('django.db.models.fields.CharField')(max_length=100)),
             ('promo_type', self.gf('django.db.models.fields.CharField')(max_length=50)),
             ('factor', self.gf('django.db.models.fields.IntegerField')(max_length=100, null=True, blank=True)),
@@ -349,7 +350,7 @@ class Migration(SchemaMigration):
             ('amount', self.gf('django.db.models.fields.BigIntegerField')(max_length=20)),
             ('payment', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['deviceapp.Payment'])),
             ('date', self.gf('django.db.models.fields.DateTimeField')(auto_now_add=True, blank=True)),
-            ('transcation_number', self.gf('django.db.models.fields.CharField')(max_length=40)),
+            ('transaction_number', self.gf('django.db.models.fields.CharField')(max_length=40)),
         ))
         db.send_create_signal(u'deviceapp', ['Commission'])
 
@@ -394,6 +395,7 @@ class Migration(SchemaMigration):
             ('payment', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['deviceapp.Payment'], null=True, blank=True)),
             ('purchase_date', self.gf('django.db.models.fields.DateTimeField')(auto_now_add=True, blank=True)),
             ('total', self.gf('django.db.models.fields.BigIntegerField')(max_length=20)),
+            ('tax', self.gf('django.db.models.fields.BigIntegerField')(default=0, max_length=13)),
             ('shipping_address', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['deviceapp.Address'], null=True, blank=True)),
             ('transaction_number', self.gf('django.db.models.fields.CharField')(max_length=40)),
         ))
@@ -813,7 +815,7 @@ class Migration(SchemaMigration):
             'item': ('django.db.models.fields.related.OneToOneField', [], {'to': u"orm['deviceapp.Item']", 'unique': 'True'}),
             'payment': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['deviceapp.Payment']"}),
             'price': ('django.db.models.fields.BigIntegerField', [], {'max_length': '12'}),
-            'transcation_number': ('django.db.models.fields.CharField', [], {'max_length': '40'})
+            'transaction_number': ('django.db.models.fields.CharField', [], {'max_length': '40'})
         },
         u'deviceapp.contact': {
             'Meta': {'object_name': 'Contact'},
@@ -920,6 +922,7 @@ class Migration(SchemaMigration):
             'payment': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['deviceapp.Payment']", 'null': 'True', 'blank': 'True'}),
             'purchase_date': ('django.db.models.fields.DateTimeField', [], {'auto_now_add': 'True', 'blank': 'True'}),
             'shipping_address': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['deviceapp.Address']", 'null': 'True', 'blank': 'True'}),
+            'tax': ('django.db.models.fields.BigIntegerField', [], {'default': '0', 'max_length': '13'}),
             'total': ('django.db.models.fields.BigIntegerField', [], {'max_length': '20'}),
             'transaction_number': ('django.db.models.fields.CharField', [], {'max_length': '40'})
         },
@@ -962,7 +965,8 @@ class Migration(SchemaMigration):
             'factor': ('django.db.models.fields.IntegerField', [], {'max_length': '100', 'null': 'True', 'blank': 'True'}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'promo_text': ('django.db.models.fields.CharField', [], {'max_length': '255'}),
-            'promo_type': ('django.db.models.fields.CharField', [], {'max_length': '50'})
+            'promo_type': ('django.db.models.fields.CharField', [], {'max_length': '50'}),
+            'uses_left': ('django.db.models.fields.IntegerField', [], {'max_length': '5'})
         },
         u'deviceapp.purchaseditem': {
             'Meta': {'object_name': 'PurchasedItem'},
