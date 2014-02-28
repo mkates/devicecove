@@ -75,7 +75,7 @@ def newuserform(request):
 					cartitem.save()	
 			
 			# Send welcome email 
-			email_view.composeEmailWelcome(request,nbu)
+			email_view.composeEmailWelcome(nbu)
 			
 			#Login, now that cart items from session are added to the user account
 			login(request,user)
@@ -591,7 +591,7 @@ def checkoutPurchase(request,checkoutid):
 		cartitem.shoppingcart = None
 		cartitem.save()
 		# Email the seller of the item
-		email_view.composeEmailItemSold_Seller(request,bu,pi)
+		email_view.composeEmailItemSold_Seller(bu,pi)
 		
 	# 5. Mark checkout object as purchased
 	checkout.purchased = True
@@ -599,7 +599,7 @@ def checkoutPurchase(request,checkoutid):
 	checkout.save()
 	
 	# 6. Email confirmation
-	email_view.composeEmailItemPurchased_Buyer(request,bu,order)
+	email_view.composeEmailItemPurchased_Buyer(bu,order)
 	
 	return HttpResponseRedirect('/checkout/confirmation/'+str(order.id))
 	

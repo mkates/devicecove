@@ -59,7 +59,7 @@ def askquestion(request):
 			questionobject.save() 
 			notification = SellerQuestionNotification(user=item.user,question=questionobject)
 			notification.save()
-			email_view.composeEmailNewQuestion(request,user,questionobject)
+			email_view.composeEmailNewQuestion(user,questionobject)
 		return HttpResponseRedirect(redirect)
 	return HttpResponseRedirect("/login?next="+redirect)
 

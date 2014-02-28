@@ -20,11 +20,6 @@ import difflib
 import locale
 import time
 
-
-def testemail(request):
-	html_email = email_view.composeEmailPayoutFailed(request.user.basicuser,BalancedBankAccount.objects.get(id=4),PurchasedItem.objects.all())
-	return render_to_response(html_email['template'],html_email['data'],context_instance=RequestContext(request))
-
 def index(request):
 	items = Item.objects.filter(liststatus='active').order_by('savedcount')[:9]
 	return render_to_response('general/index.html',{'featured':items},context_instance=RequestContext(request))

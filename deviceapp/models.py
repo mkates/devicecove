@@ -400,11 +400,11 @@ class CheckPayout(Payout):
 
 class Commission(models.Model):
 	item = models.OneToOneField(Item)
-	price = models.BigIntegerField(max_length=12)
-	amount = models.BigIntegerField(max_length=20)
+	price = models.BigIntegerField(max_length=12) #Price of the item
+	amount = models.BigIntegerField(max_length=20) #Commission amount
 	payment = models.ForeignKey(Payment) # Can only be a card or bank account
 	date = models.DateTimeField(auto_now_add = True)
-	transcation_number = models.CharField(max_length=40)
+	transaction_number = models.CharField(max_length=40)
 
 
 ############################################
@@ -477,6 +477,7 @@ class Order(models.Model):
 	payment = models.ForeignKey(Payment,null=True,blank=True)
 	purchase_date = models.DateTimeField(auto_now_add = True)
 	total = models.BigIntegerField(max_length=20)
+	tax = models.BigIntegerField(max_length=13,default=0)
 	shipping_address = models.ForeignKey(Address,null=True,blank=True) # Can be null if pick-up only item
 	transaction_number = models.CharField(max_length=40)
 
@@ -499,6 +500,7 @@ class PurchasedItem(models.Model):
 	charity_name = models.ForeignKey(Charity,null=True,blank=True)
 	promo_code = models.ForeignKey(PromoCode,null=True,blank=True)
 	commission = models.BigIntegerField(max_length=14)
+
 	# Post Purchase
 	shipping_included = models.BooleanField(default=True)
 	item_sent = models.BooleanField(default=False)

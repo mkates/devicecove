@@ -38,7 +38,7 @@ def messageseller(request,itemid):
 		sm.save()
 		notification = SellerMessageNotification(user=seller,sellermessage=sm)
 		notification.save()
-		email_view.composeEmailContactMessage_Seller(request,seller,sm)
+		email_view.composeEmailContactMessage_Seller(seller,sm)
 		status = 201
 	else:
 		status = 500
@@ -127,9 +127,9 @@ def newcard_chargecommission(request,itemid):
 				return HttpResponse(json.dumps({'status':501,'error':'Failed to charge your card.'}), content_type='application/json')
 			item.commission_paid = True
 			item.save()
-			commission_obj = Commission(item=item,price=item.price,amount=amount,payment=card,transcation_number=debit.transaction_number)
+			commission_obj = Commission(item=item,price=item.price,amount=amount,payment=card,transaction_number=debit.transaction_number)
 			commission_obj.save()
-			email_view.composeEmailCommissionCharged(request,bu,commission_obj)
+			email_view.composeEmailCommissionCharged(bu,commission_obj)
 			return HttpResponse(json.dumps({'status':201}), content_type='application/json')
 		except Exception,e:
 			print e
@@ -156,9 +156,9 @@ def gatePayment(request,paymentid,itemid):
 					return HttpResponseRedirect('/account/messages/'+str(item.id)+"?e=fail")
 				item.commission_paid = True
 				item.save()
-				commission_obj = Commission(item=item,price=item.price,amount=amount,payment=payment)
+				commission_obj = Commission(item=item,price=item.price,amount=amount,payment=payment,transaction_number=debit.transaction_number)
 				commission_obj.save()
-				email_view.composeEmailCommissionCharged(request,bu,commission_obj)
+				email_view.composeEmailCommissionCharged(bu,commission_obj)
 				return HttpResponseRedirect('/account/messages/'+str(item.id))
 		except Exception,e:
 			print e
@@ -188,7 +188,7 @@ def purchaseshippinginfo(request,purchaseditemid):
 	pi.seller_message = shipping_details
 	if request.POST['submit'] == 'shipped' and pi.item_sent == False:
 		pi.item_sent = True
-		email_view.composeEmailItemShipped_Buyer(request,request.user.basicuser,pi)
+		email_view.composeEmailItemShipped_Buyer(request.user.basicuser,pi)
 		notification = ShippedNotification(user=pi.buyer,purchaseditem=pi)
 		notification.save()
 	else:

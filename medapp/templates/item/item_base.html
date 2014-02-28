@@ -258,7 +258,6 @@ var addError = function addError(handle) {
 <div class="saved servermessage">&#x2713; Saved</div>
 <div class="errorsaving servermessage">&#x2717; Error Saving</div>
 <div class="listcontainer">
-	{{item.offlineviewing}}
 	{% if item.liststatus != 'incomplete' %}
 	<p class="topnav">{% block topnav %}<a class="tolisteditems button button-tiny" href="/account/listings/all">&#8592; Return To Listed Items</a><a class="returntolisting button button-tiny" href="/item/{{item.id}}/details">View Listing</a>{% endblock %}</p>
 	{% endif %}

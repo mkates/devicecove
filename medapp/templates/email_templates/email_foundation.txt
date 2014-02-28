@@ -17,6 +17,7 @@ Total: {{pi.total|dollars}}</p>
 - - - - - - - - - - - - - - - -  -
 
 {% endfor %}
+{% block secondtextblock %}{% endblock %}
 Warmest Regards,
 
 Alex and the VetCove Team

@@ -6,7 +6,7 @@
 {% block col_b_title %}Buyer Contact Information{% endblock %}
 
 {% block textblock %}
-<p>Congratulations! A VetCove member has purchased {% if purchased_item.quantity > 1 %}{{purchased_item.quantity}} of{% endif %} your item, {{purchased_item.item_name}}, and payment has been confirmed. {% if purchased_item.shipping_included %}You may now prepare to ship the item in accordance with the terms of your listing. The contact information and shipping address of the buyer is below:{% else %}You should arrange a time with the buyer to pick up this item.</p>
+<p>Congratulations! A VetCove member has purchased {% if purchased_item.quantity > 1 %}{{purchased_item.quantity}} of{% endif %} your item, {{purchased_item.item_name}}, and payment has been confirmed. {% if purchased_item.shipping_included %}You may now prepare to ship the item in accordance with the terms of your listing. The contact information and shipping address of the buyer is below:{% else %}You should arrange a time with the buyer to pick up this item.{% endif %}</p>
 {% endblock %}
 
 {% block col_a_block %}
@@ -18,6 +18,7 @@
 <p class="thin">{{purchased_item.order.shipping_address.phonenumber|phonenumber}}</p>
 {% else %}
 <p class="thin">This item is a local pick-up item, so no shipping address is required</p>
+{% endif %}
 {% endblock %}
 
 {% block col_b_block %}

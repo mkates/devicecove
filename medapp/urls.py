@@ -11,9 +11,7 @@ admin.autodiscover()
 #####################################################################
 urlpatterns = patterns('',
 
-    #Temporarily, please delete
-    url(r'^testemail/','deviceapp.views_custom.testemail'),
-	#Admin
+	#Admin and Staff URLS
 	url(r'^staff/overview/(?P<type>\w+)','deviceapp.views_custom.staffOverview'),
 	url(r'^staff/overview','deviceapp.views_custom.staffOverviewForward'),
     url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
@@ -21,7 +19,7 @@ urlpatterns = patterns('',
     url(r'^staff/markassent','deviceapp.views_custom.staffMarkAsSent'),
     url(r'^staff/markasreceived','deviceapp.views_custom.staffMarkAsReceived'),
     
-    #Password Reset
+    #Password Reset URLS
     url('',include('password_reset.urls')),
     
     #General Pages
@@ -38,17 +36,18 @@ urlpatterns = patterns('',
     url(r'^commission/','deviceapp.views_custom.commissionpage'),
     url(r'^pvp/','deviceapp.views_custom.pvp'),
     url(r'^buyerprotect/','deviceapp.views_custom.buyerprotect'),
-    url(r'^listintro','deviceapp.views_custom.listintro'),
-    url(r'^categories','deviceapp.views_custom.categories'),
+    url(r'^listintro/','deviceapp.views_custom.listintro'),
+    url(r'^categories/','deviceapp.views_custom.categories'),
     url(r'^buy/','deviceapp.views_custom.buy'),
+    
     #User Actions
-    url(r'^imageupload/(?P<itemid>\d+)','deviceapp.views_custom.imageupload'), 
-    url(r'^deleteimage','deviceapp.views_custom.deleteimage'),  
-    url(r'^setmainimage','deviceapp.views_custom.setmainimage'),   
+    url(r'^post/imageupload/(?P<itemid>\d+)','deviceapp.views_custom.imageupload'), 
+    url(r'^post/deleteimage','deviceapp.views_custom.deleteimage'),  
+    url(r'^post/setmainimage','deviceapp.views_custom.setmainimage'),   
     url(r'^saveitem','deviceapp.views_custom.saveitem'),
     url(r'^removeitem','deviceapp.views_custom.removeitem'),
     url(r'^listproduct/(?P<subcategory>\w+)','deviceapp.views_custom.listproduct'),
-    url(r'getsubcategories','deviceapp.views_custom.getsubcategories'),
+    url(r'^getsubcategories','deviceapp.views_custom.getsubcategories'),
     url(r'^existingproductcheck','deviceapp.views_custom.existingproductcheck'),
     url(r'^messageseller/(?P<itemid>\d+)','deviceapp.views_custom.messageseller'),
     url(r'^askquestion','deviceapp.views_custom.askquestion'),

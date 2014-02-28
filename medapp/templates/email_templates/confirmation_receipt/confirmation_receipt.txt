@@ -19,6 +19,7 @@ Order Number: #000{{order.id}}
 {{order.shipping_address.phonenumber|phonenumber}}
 {% else %}
 You must organize with the seller to pick up your recerntly purchased items.
+{% endif %}
 {% endblock %}
 
 {% block col_b_block %}

@@ -212,7 +212,7 @@
 		<p class="error">Error. Please reload the page and try again </p>
 		<span class="btn btn-success fileinput-button">
 			<span>Select pictures to upload...</span>
-			<form id="fileform" method="post" action="/imageupload/{{item.id}}">
+			<form id="fileform" method="post" action="/post/imageupload/{{item.id}}">
 				{% csrf_token %}
 				<input id="fileupload" type="file" name="files" multiple accept="image/*">
 			</form>
@@ -248,7 +248,7 @@ var pictureBinds = function pictureBinds() {
 		$.ajax({
             type : "POST",
             data : {'imageid':$(this).parent().attr('data-imageid')},
-            url : "/deleteimage",
+            url : "/post/deleteimage",
             success : function(data) {
             	handler.remove();
             	numberpics -= 1;
@@ -282,7 +282,7 @@ function setMainImage(imageid) {
 	$.ajax({
 		type : "POST",
 		data : {'mainimageid':imageid},
-		url : "/setmainimage",
+		url : "/post/setmainimage",
 		success : function(data) {
 			mainpicid = imageid;
 		}, 

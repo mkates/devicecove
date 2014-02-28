@@ -320,7 +320,7 @@ def tosListing(request,itemid):
 			item.liststatus = 'active'
 			item.tos = True
 			item.save()
-			email_view.composeEmailListingConfirmation(request,request.user.basicuser,item)
+			email_view.composeEmailListingConfirmation(request.user.basicuser,item)
 			return HttpResponseRedirect('/item/'+itemid+'/details')
 	return HttpResponseRedirect('/listintro')
 			

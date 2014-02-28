@@ -2,7 +2,7 @@
 
 {% load phonenumber %}{% load zipcodify %}
 {% block textblock %}
-Congratulations! A VetCove member has purchased  {% if purchased_item.quantity > 1 %}{{purchased_item.quantity}} of{% endif %} your item, {{purchased_item.item_name}} and payment has been confirmed. {% if purchased_item.shipping_included %}You may now prepare to ship the item in accordance with the terms of your listing. The contact information and shipping address of the buyer is below:{% else %}You should arrange a time with the buyer to pick up this item.</p>
+Congratulations! A VetCove member has purchased  {% if purchased_item.quantity > 1 %}{{purchased_item.quantity}} of{% endif %} your item, {{purchased_item.item_name}} and payment has been confirmed. {% if purchased_item.shipping_included %}You may now prepare to ship the item in accordance with the terms of your listing. The contact information and shipping address of the buyer is below:{% else %}You should arrange a time with the buyer to pick up this item.{% endif %}
 {% endblock %}
 
 {% if purchased_item.shipping_included %}
@@ -31,5 +31,6 @@ correspond directly with the buyer by e-mail if you wish.
 http://www.vetcove.com/account/sellhistory
 {% endif %}
 
+{% block secondtextblock %}
 Thank you again for choosing VetCove!
 {% endblock %}

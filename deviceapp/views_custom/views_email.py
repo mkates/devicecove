@@ -35,14 +35,15 @@ def render_and_send_email(template_data,subject,receiver,email_path):
 		html_body = html_body.replace("<a %a_style% ",'style="color: #2ba6cb; text-decoration: none;" ').replace("<p %p_style%",'<p style="color: #222222; font-family: "Helvetica", "Arial", sans-serif; font-weight: normal; text-align: left; line-height: 19px; font-size: 14px; margin: 0 0 10px; padding: 0;"')
 		msg = EmailMultiAlternatives(subject, text_body, "The VetCove Team <info@vetcove.com>",[receiver])
 		msg.attach_alternative(html_body, "text/html")
-		msg.send()
+		if not hasattr(settings,'TESTING'):
+			msg.send()
 		return {'template':"email_templates/"+email_path+".html",'data':template_data}
 	except Exception,e:
 		print e
 		return 500
 	
 #### Welcome Email ######
-def composeEmailWelcome(request,basicuser):
+def composeEmailWelcome(basicuser):
 	template_data = {
 		'STATIC_URL':settings.STATIC_URL,
 		'actionrow':True,
@@ -54,11 +55,7 @@ def composeEmailWelcome(request,basicuser):
 	return email
 	
 #### Partner Verification Program Confirmation #####
-def composeEmailPVP(request,basicuser):
-	textblocks = [
-		"",
-		"You now have full and unrestricted access to the website to buy and sell equipment. Below are some quick links to get you started:"
-	]
+def composeEmailPVP(basicuser):
 	template_data = {
 		'STATIC_URL':settings.STATIC_URL,
 		'actionrow': True,
@@ -70,7 +67,7 @@ def composeEmailPVP(request,basicuser):
 	return email
 	
 #### Confirm Listing Was Posted ######
-def composeEmailListingConfirmation(request,basicuser,item):
+def composeEmailListingConfirmation(basicuser,item):
 	template_data = {
 		'STATIC_URL':settings.STATIC_URL,
 		'item':item,
@@ -82,7 +79,7 @@ def composeEmailListingConfirmation(request,basicuser,item):
 	return email	
 
 #### A seller has asked you a new question ######
-def composeEmailNewQuestion(request,basicuser,question):
+def composeEmailNewQuestion(basicuser,question):
 	template_data = {
 		'STATIC_URL':settings.STATIC_URL,
 		'question':question,
@@ -109,7 +106,7 @@ def composeEmailQuestionAnswered(question):
 	return email
 
 #### When someone fills out the contact message ######
-def composeEmailContactMessage_Seller(request,seller,contact_message):
+def composeEmailContactMessage_Seller(seller,contact_message):
 	template_data = {
 		'STATIC_URL':settings.STATIC_URL,
 		'contact_message':contact_message,
@@ -141,7 +138,7 @@ def composeEmailContactMessage_Seller(request,seller,contact_message):
 # 	return
 	
 #### Receipt for commission charged on an item ######
-def composeEmailCommissionCharged(request,basicuser,commission_obj):
+def composeEmailCommissionCharged(basicuser,commission_obj):
 	template_data = {
 		'STATIC_URL':settings.STATIC_URL,
 		'commission_obj':commission_obj,
@@ -158,7 +155,7 @@ def composeEmailCommissionCharged(request,basicuser,commission_obj):
 
 	
 ###### Confirmation Item Sold to Seller ######
-def composeEmailItemSold_Seller(request,basicuser,purchased_item):
+def composeEmailItemSold_Seller(basicuser,purchased_item):
 	item =  purchased_item.item
 	actionbutton = True if purchased_item.shipping_included else False
 	template_data = {
@@ -172,14 +169,14 @@ def composeEmailItemSold_Seller(request,basicuser,purchased_item):
 		'email_title':"Your Item Sold",
 		'email_name':purchased_item.seller.firstname
 	}
-	subject = "Your VetCove item sold! "+purchased_item.item.name
+	subject = "Your VetCove item sold! "+purchased_item.item_name
 	email = render_and_send_email(template_data,subject,purchased_item.seller.email,'item_sold/item_sold')
 	return email	
 
 
 ##### Confirmation Item Purchased to Buyer ######
-def composeEmailItemPurchased_Buyer(request,basicuser,order):
-	bu = request.user.basicuser
+def composeEmailItemPurchased_Buyer(basicuser,order):
+	bu = basicuser
 	purchased_items = order.purchaseditem_set.all()
 	shipping_address = order.shipping_address
 	template_data = {
@@ -198,7 +195,7 @@ def composeEmailItemPurchased_Buyer(request,basicuser,order):
 	return email	
 
 #### Item has shipped - to Buyer ######
-def composeEmailItemShipped_Buyer(request,basicuser,purchased_item):
+def composeEmailItemShipped_Buyer(basicuser,purchased_item):
 	template_data = {
 		'STATIC_URL':settings.STATIC_URL,
 		'item_shipped_buyer':True,
@@ -228,7 +225,6 @@ def composeEmailItemShipped_Buyer(request,basicuser,purchased_item):
 
 #### Confirmation check has been mailed ######
 def composeEmailPayoutSent(basicuser,payout_obj):
-	print 'Compose Email'
 	if hasattr(payout_obj,'bankpayout'):
 		payout = payout_obj.bankpayout
 	else:
