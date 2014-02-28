@@ -73,6 +73,7 @@ class PromoCode(models.Model):
 # Generic User already includes email/password
 class BasicUser(models.Model):
 	# General
+	creation_date = models.DateField(auto_now_add=True)
 	user = models.OneToOneField(User)
 	firstname = models.CharField(max_length=60)
 	lastname = models.CharField(max_length=60)
