@@ -274,6 +274,7 @@
     "model": "deviceapp.basicuser", 
     "fields": {
     	"user": 1, 
+    	"creation_date": "2013-2-28T04:37:02.515Z",
         "firstname": "VetCove Admin",
         "email": "admin@vetcove.com", 
         "zipcode": 12345  
@@ -291,6 +292,7 @@
     "model": "deviceapp.basicuser", 
     "fields": {
     	"user": 2, 
+    	"creation_date": "2013-2-28T04:37:02.515Z",
         "firstname": "VetCove Staff",
         "email": "staff@vetcove.com", 
         "zipcode": 90012   
