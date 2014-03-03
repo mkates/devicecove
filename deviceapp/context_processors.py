@@ -37,5 +37,5 @@ def basics(request):
 				notifications = bu.notification_set.filter(viewed=False)
 				cache.set('notifications_'+str(bu.id),notifications)
 		return {'cart_items':ci,'cart_items_count':ci_count,'cart_total':total,'notifications':notifications}
-	return None
+	return {}
 			
