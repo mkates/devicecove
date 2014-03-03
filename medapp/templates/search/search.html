@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load zipcodify %}
 {% block headertitle %}<title>VetCove | {% if custom %}{% if searchquery %}{{searchquery}}{% else %}Search{% endif %}{% elif subcategoryname != 'all'%}{{ subcategoryname }}{% else %}{{ categoryname }}{% endif %}</title>{% endblock%}
 {% block searchvalue %}{% if custom %}{{searchquery}}{% elif subcategoryname != 'all'%}{{ subcategoryname }}{% else %}{{ categoryname }}{% endif %}{% endblock %}
 {% block headercss %}

@@ -173,7 +173,7 @@ def deleteimage(request):
 		itemimg = Image.objects.get(id=request.POST['imageid'])
 		item = itemimg.item
 		bu = request.user.basicuser
-		#Check if image belongs to the user
+		# Check if image belongs to the user
 		if item.user == bu:
 			if item.mainimage == itemimg:
 				item.mainimage = None
