@@ -12,10 +12,7 @@ class ItemAdmin(admin.ModelAdmin):
 admin.site.register(Item, ItemAdmin)
 
 admin.site.register(Category)
-admin.site.register(ShoppingCart)
-admin.site.register(CartItem)
 admin.site.register(Charity)
 admin.site.register(SavedItem)
 admin.site.register(BasicUser)
-admin.site.register(Question)
 admin.site.register(PromoCode)

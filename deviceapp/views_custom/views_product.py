@@ -1,8 +1,8 @@
 from django.shortcuts import render_to_response, redirect
 from django.template.loader import render_to_string
 from deviceapp.models import *
-import views_checkout as checkoutview
-import views_email as email_view
+import checkout.views as checkoutview
+import emails.views as email_view
 import commission as commission
 from django.template import RequestContext, Context, loader
 from django.http import HttpResponse, HttpResponseRedirect
