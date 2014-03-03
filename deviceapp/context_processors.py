@@ -7,7 +7,7 @@ def basics(request):
 	ci_count = 0
 	total = 0
 	bu = None
-	if request.user:
+	if hasattr(request,'user'):
 		if request.user.is_authenticated():
 			bu = request.user.basicuser
 			# Check cache first for cartitems before calling database
