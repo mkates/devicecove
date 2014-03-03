@@ -225,11 +225,21 @@
 		</div>
 		<div class='clear'></div>
 		<div id="imagepreview" class="itemview">
-			{% if item.image_set.all %}
-				{% for p in item.image_set.all %}
-					<div class='imagepreviewcontainer' data-imageid='{{p.id}}'>{% if item.mainimage.id == p.id %}<h6 class="main">Main Photo</h6>{% else %}<h6>Make Main Photo</h6>{% endif %}<div class='imagepreviewborder'><img class='imagepreview' src='{{p.photo.url}}'/></div><p class='delete'>Delete Photo</p></div>
-				{% endfor %}			
-			{% endif %}
+			<div id="images">
+				{% if item.image_set.all %}
+					{% for p in item.image_set.all %}
+						<div class='imagepreviewcontainer' data-imageid='{{p.id}}'>
+							{% if item.mainimage.id == p.id %}
+							<h6 data-imageid='{{p.id}}' class="main">Main Photo</h6>
+							{% else %}
+							<h6 data-imageid='{{p.id}}'>Make Main Photo</h6>{% endif %}
+							<div class='imagepreviewborder'>
+								<img class='imagepreview' src='{{p.photo.url}}'/>
+							</div>
+							<p data-imageid="{{p.id}}" class='delete image-delete'>Delete Photo</p></div>
+					{% endfor %}			
+				{% endif %}
+			</div>
 			<p id="noimages">Choose the Select Pictures to Upload button to add photos.  You can hold the control button (&#8984; Command on Macs) on your keyboard to select and upload several photos at once.  You may only choose PNG or JPEG images smaller than 2MB in size.</p>		
 		</div>
 	</div>
@@ -239,58 +249,81 @@
 {% block customjs %}
 
 <script>
-var numberpics = {{item.image_set.count }};
-var mainpicid = {% if item.mainimage %}{{item.mainimage.id}}{% else %}""{% endif %};
+
+var item_image_list = [];
+
+function item_image(id,image_url,main) {
+	this.id = id;
+	this.image_url = image_url;
+	this.main = main;
+}
+
+var draw_images = function draw_images(image_list) {
+	$("#images").empty();
+	// See if we should display no images text
+	image_list.length > 0 ? $("#noimages").css('display','none') : $("#noimages").css('display','block');
+	//Draw each of the images
+	for (var i=0; i < image_list.length; i++) {
+		//Create an object for recalling later 
+		handle = image_list[i];
+		var container = $("<div class='imagepreviewcontainer' data-imageid='"+handle.id+"'>");
+		if (handle.main) {
+			var h6 = $("<h6 data-imageid='"+handle.id+"' class='main'>Main Photo</h6>");
+		} else {
+			var h6 = $("<h6 data-imageid='"+handle.id+"'>Make Main Photo</h6>");
+		}
+		var img = $("<div class='imagepreviewborder'><img class='imagepreview' src='"+handle.url+"'/></div>");
+		var delete_p = $("<p data-imageid='"+handle.id+"' class='delete image-delete'>Delete Photo</p>");
+		container.append(h6);
+		container.append(img);
+		container.append(delete_p);
+		$("#images").append(container);
+	}
+	pictureBinds();
+}
+
 var pictureBinds = function pictureBinds() {
-	$(".imagepreviewcontainer .delete").click(function() {
-		var handler = $(this).parent();
-		handler.css('opacity','.2');
+	$(".image-delete").click(function() {
 		$.ajax({
             type : "POST",
-            data : {'imageid':$(this).parent().attr('data-imageid')},
+            dataType: "json",
+            data : {'imageid':$(this).attr('data-imageid')},
             url : "/post/deleteimage",
             success : function(data) {
-            	handler.remove();
-            	numberpics -= 1;
-            	if (handler.attr("data-imageid") == mainpicid && numberpics > 0) {
-					var newmain = $($(".imagepreviewcontainer ")[0]);
-					newmain.children('h6').text('Make Main Photo');
-					newmain.children('h6').addClass('main');
-					setMainImage(newmain.attr('data-imageid'));
-				}
-				if (numberpics == 0) {
-					$("#noimages").css('display','block');
-				}
+            	if (data['status'] == 201) {
+            		draw_images(data['data']);
+            	} else {
+            		$(".error").text("Error deleting photo");
+					$(".error").css("display","block");
+            	}
             }, 
             error : function(jqXHR, textStatus, errorThrown) {
-                handler.css('opacity','1');
                 $("#error").css("display","block");
             }
         });	
 	});
 	$(".imagepreviewcontainer h6").click(function() {
-		var imageid = $(this).parent().attr("data-imageid");
-		$(".imagepreviewcontainer h6").removeClass('main');
-		$(".imagepreviewcontainer h6").text('Make Main Photo');
-		$(this).addClass('main');
-		$(this).text('Main Photo');
-		setMainImage(imageid);
+		if (!($(this).hasClass('main'))) {
+			$.ajax({
+				type : "POST",
+				dataType: "json",
+				data : {'imageid':$(this).attr('data-imageid')},
+				url : "/post/setmainimage",
+				success : function(data) {
+					if (data['status'] == 201) {
+	            		draw_images(data['data']);
+	            	} else {
+	            		$(".error").text("Error making main photo");
+						$(".error").css("display","block");
+	            	}
+				}, 
+				error : function(jqXHR, textStatus, errorThrown) {
+					$(".error").css("display","block");
+				}
+			});	
+		};
 	});
 }
-
-function setMainImage(imageid) {
-	$.ajax({
-		type : "POST",
-		data : {'mainimageid':imageid},
-		url : "/post/setmainimage",
-		success : function(data) {
-			mainpicid = imageid;
-		}, 
-		error : function(jqXHR, textStatus, errorThrown) {
-			$(".error").css("display","block");
-		}
-	});	
-};
 
 $(document).ready(function() {
 	pictureBinds();
@@ -304,35 +337,23 @@ $(document).ready(function() {
 			$("#imageloadercontainer .progress").css("visibility","hidden");
 			$("#imageloadercontainer .progress-bar").animate({"width":"0%"},1);
 		});
-		 if (e=='error') {
-		 	$(".error").text("Error saving your image");
-		 	$(".error").css("display","block");
-		 } else if (e=="filetype") {
-		 	$(".error").text("We only accept JPEG or PNG pictures");
-		 	$(".error").css("display","block");
-		 } else if (e=="filesize") {
-		 	$(".error").text("Images can only be a maximum of 8MB");
-		 	$(".error").css("display","block");
-		 } else if (e=="filecount") {
-		 	$(".error").text("You can have a maximum of 8 images");
-		 	$(".error").css("display","block");
-		 } else {
+		if (e['status'] == 500) {
+			 if (e['error']=='error') {
+			 	$(".error").text("Error saving your image");
+			 	$(".error").css("display","block");
+			 } else if (e['error']=="filetype") {
+			 	$(".error").text("We only accept JPEG or PNG pictures");
+			 	$(".error").css("display","block");
+			 } else if (e['error']=="filesize") {
+			 	$(".error").text("Images can only be a maximum of 8MB");
+			 	$(".error").css("display","block");
+			 } else if (e['error']=="filecount") {
+			 	$(".error").text("You can have a maximum of 8 images");
+			 	$(".error").css("display","block");
+			 } 
+		} else {
 		 	$(".error").css("display","none");
-			 $.each(e,function(index,value) {
-				$("#noimages").css('display','none');
-				if (numberpics > 0) {
-					var main = '<h6>Make Main Photo</h6>';
-				}
-				else {
-					var main= "<h6 class='main'>Main Photo</h6>";
-					setMainImage(e[index][0]);
-				}
-				numberpics += 1;
-				$("#imagepreview").append("<div data-imageid='"+e[index][0]+"' class='imagepreviewcontainer'>"+main+"<div class='imagepreviewborder'><img class='imagepreview' src='"+e[index][1]+"'/></div><p class='delete'>Delete Photo</p></div>");
-			 });
-			 $(".imagepreviewcontainer .delete").unbind('click');
-			 $(".imagepreviewcontainer h6").unbind('click');
-			 pictureBinds();
+		 	draw_images(e['data']);
 		}
 	});
 });

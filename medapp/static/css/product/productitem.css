@@ -39,12 +39,11 @@
 .product-box .pricebox p {
 	line-height: 14px;
 	margin: 0;
-	display: inline-block;
 	padding: 0;
 }
 .product-box .pricebox .condition {
 	float: left;
-	padding: 10px;
+	padding: 10px 10px 5px 10px;
 	color: #555;
 	font-weight: normal;
 	font-size: 13px;
@@ -57,15 +56,18 @@
 	font-size: 20px;
 	color: #6BB3D6;
 }
-.product-box .pricebox .pricelabel {
-	font-size: 12px;
-	margin-top: 10px;
-	margin-right: 5px;
-	color: #888;
-	float: right;
-	font-weight: 200;
+.product-box .pricebox .creation-date {
+	text-align: left;
+	color: #555;
+	font-size: 13px;
+	font-weight: normal;
+	margin: 0 10px 10px 10px;
 }
-
+.product-box .pricebox .creation-date span {
+	font-size: 12px;
+	text-decoration: line-through;
+	float: right;
+}
 .product-box .itemimage {
 	height: 250px;
 	overflow: hidden;

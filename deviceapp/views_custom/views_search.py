@@ -31,39 +31,42 @@ def shop(request):
 	return render_to_response('search/shop.html',{},context_instance=RequestContext(request))
 
 def productsearch(request,industryterm,categoryterm,subcategoryterm):
-	industry = Industry.objects.get(name=industryterm)
-	category = None
-	subcategory = None
-	### Case 1: If you have no search criteria. redirect to the shop page
-	if categoryterm == 'all' and subcategoryterm == 'all':
-		return HttpResponseRedirect("/shop")
-	### Case 2: If you only have a category, ie subcategory is all
-	elif subcategoryterm == 'all':
-		category = Category.objects.get(name=categoryterm)
-		categoryname = category.displayname
-		subcategoryname = subcategoryterm
-		itemqs = Item.objects.filter(subcategory__in=category.subcategory_set.all()).filter(liststatus='active').order_by('creation_date').reverse()
-		relatedItems = getSubcategories(category)
-	### Case 3: If you have a subcategory
-	else:
-		subcategory = SubCategory.objects.get(name=subcategoryterm)
-		# Set category if not set
-		if categoryterm == 'all':
-			category = subcategory.maincategory
-		else:
+	try:
+		industry = Industry.objects.get(name=industryterm)
+		category = None
+		subcategory = None
+		### Case 1: If you have no search criteria. redirect to the shop page
+		if categoryterm == 'all' and subcategoryterm == 'all':
+			return HttpResponseRedirect("/shop")
+		### Case 2: If you only have a category, ie subcategory is all
+		elif subcategoryterm == 'all':
 			category = Category.objects.get(name=categoryterm)
-		categoryname = category.displayname
-		subcategoryname = subcategory.displayname
-		itemqs = Item.objects.filter(subcategory=subcategory).filter(liststatus='active').order_by('price')
-		relatedItems = getOtherSubcategories(subcategory)
-	# Get price range, more boolean, and zipcodes
-	pricerange = getPriceRange(itemqs)
-	more = True if len(itemqs) > resultsPerPage else False
-	zipcode = getDistances(request,itemqs[0:resultsPerPage])
-	dict = {'zipcode':zipcode,'relatedItems':relatedItems,'resultcount':len(itemqs),'more':more,'pricerange':pricerange,'items':itemqs[0:resultsPerPage],'categoryname':categoryname,'subcategoryname':subcategoryname,'ind':industry,'category':category,'subcategory':subcategory}
-	response = render_to_response('search/search.html',dict,context_instance=RequestContext(request))
-	request.session['zipcode'] = zipcode
-	return response
+			categoryname = category.displayname
+			subcategoryname = subcategoryterm
+			itemqs = Item.objects.filter(subcategory__in=category.subcategory_set.all()).filter(liststatus='active').order_by('creation_date').reverse()
+			relatedItems = getSubcategories(category)
+		### Case 3: If you have a subcategory
+		else:
+			subcategory = SubCategory.objects.get(name=subcategoryterm)
+			# Set category if not set
+			if categoryterm == 'all':
+				category = subcategory.maincategory
+			else:
+				category = Category.objects.get(name=categoryterm)
+			categoryname = category.displayname
+			subcategoryname = subcategory.displayname
+			itemqs = Item.objects.filter(subcategory=subcategory).filter(liststatus='active').order_by('price')
+			relatedItems = getOtherSubcategories(subcategory)
+		# Get price range, more boolean, and zipcodes
+		pricerange = getPriceRange(itemqs)
+		more = True if len(itemqs) > resultsPerPage else False
+		zipcode = getDistances(request,itemqs[0:resultsPerPage])
+		dict = {'zipcode':zipcode,'relatedItems':relatedItems,'resultcount':len(itemqs),'more':more,'pricerange':pricerange,'items':itemqs[0:resultsPerPage],'categoryname':categoryname,'subcategoryname':subcategoryname,'ind':industry,'category':category,'subcategory':subcategory}
+		response = render_to_response('search/search.html',dict,context_instance=RequestContext(request))
+		request.session['zipcode'] = zipcode
+		return response
+	except:
+		return HttpResponseRedirect('/shop')
 
 def autosuggest(request):
 	results=[]
@@ -187,7 +190,7 @@ def sortItems(itemspassed,sortmethod):
 	if sortmethod == 'price-high':
 		itemspassed.sort(key=lambda x: x.price, reverse=True)
 	if sortmethod == 'msrp-discount':
-		itemspassed.sort(key=lambda x: x.msrp_discount(), reverse=True)
+		itemspassed.sort(key=lambda x: x.msrp_discount(), reverse=False)
 	return itemspassed
 	
 ###########################################

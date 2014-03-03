@@ -13,6 +13,8 @@ from django.shortcuts import render
 from django.core.exceptions import ObjectDoesNotExist
 from django.conf import settings
 from django.db.models import Q
+from datetime import datetime
+from django.utils.timezone import utc
 import json, re, string, math, difflib, locale, time
 
 ###########################################
@@ -163,34 +165,42 @@ def listitemphotos(request,itemid):
 		return render_to_response('item/item_photos.html',dict,context_instance=RequestContext(request))
 	return HttpResponseRedirect('/listintro')
 	
-#Delete an image by dereferencing it from an item
-#The image still remains in the databse
+# Delete an image by dereferencing it from an item
+# The image still remains in the databse
 @login_required
 def deleteimage(request):
 	if request.method == "POST":
-		imageid = request.POST['imageid']
-		itemimg = Image.objects.get(id=imageid)
-		bu = BasicUser.objects.get(user = request.user)
-		if itemimg.item.user == bu:
-			if itemimg.item.mainimage.id == itemimg.id:
-				itemimg.item.mainimage = None
-				itemimg.item.save()
+		itemimg = Image.objects.get(id=request.POST['imageid'])
+		item = itemimg.item
+		bu = request.user.basicuser
+		#Check if image belongs to the user
+		if item.user == bu:
+			if item.mainimage == itemimg:
+				item.mainimage = None
+				item.save()
 			itemimg.delete()
-		return HttpResponse(700)
-	return HttpResponse(500)
+			if item.mainimage == None:
+				if item.image_set.exists():
+					item.mainimage = item.image_set.all()[0]
+					item.save()
+		dict = {'status':201,'data':generateImageList(item)}
+		return HttpResponse(json.dumps(dict), content_type='application/json')
+	return HttpResponseRedirect('/list/photos/'+str(item.id))
 
 #The request contains the image id of the new main image
 @login_required
 def setmainimage(request):
 	if request.method == "POST":
-		imageid = request.POST['mainimageid']
-		img = Image.objects.get(id=imageid)
-		bu = BasicUser.objects.get(user = request.user)
-		if img.item.user == bu:
-			img.item.mainimage = img
-			img.item.save()
-		return HttpResponse(700)
-	return HttpResponse(500)
+		itemimg = Image.objects.get(id=request.POST['imageid'])
+		item = itemimg.item
+		bu = request.user.basicuser
+		#Check if image belongs to the user
+		if item.user == bu:
+			item.mainimage = itemimg
+			item.save()
+		dict = {'status':201,'data':generateImageList(item)}
+		return HttpResponse(json.dumps(dict), content_type='application/json')
+	return HttpResponseRedirect('/list/photos/'+str(item.id))
 	
 # Save an uploaded image and send back the image icon for display
 @login_required
@@ -198,23 +208,37 @@ def imageupload(request,itemid):
 	try:
 		if itemOwner(request,itemid):
 			item = Item.objects.get(id=itemid)
-			imagehandlers = []
 			for file in request.FILES.getlist('files'):
 				extension = file.name.split('.')[1]
 				extension = extension.lower()
 				if not (extension == 'png' or extension == 'jpg'):
-					return HttpResponse(json.dumps('filetype'), content_type='application/json')
+					return HttpResponse(json.dumps({'status':500,'error':'filetype'}), content_type='application/json')
 				if file.size > 4194304:
-					return HttpResponse(json.dumps('filesize'), content_type='application/json')
+					return HttpResponse(json.dumps({'status':500,'error':'filesize'}), content_type='application/json')
 				if item.image_set.count() > 10:
-					return HttpResponse(json.dumps('filecount'), content_type='application/json')
+					return HttpResponse(json.dumps({'status':500,'error':'filecount'}), content_type='application/json')
 				ui = Image(item=item,photo=file,photo_small=file,photo_medium=file)
 				ui.save()
-				imagehandlers.append([ui.id,ui.photo_medium.url])
-			return HttpResponse(json.dumps(imagehandlers), content_type='application/json')
-	except:
-		return HttpResponse(json.dumps('error'), content_type='application/json')
-	
+				# Make it the main image if there is no main image
+				if item.mainimage == None:
+					item.mainimage = ui
+					item.save()
+			dict = {'status':201,'data':generateImageList(item)}
+			return HttpResponse(json.dumps(dict), content_type='application/json')
+	except Exception,e:
+		print e
+		return HttpResponse(json.dumps({'status':500,'error':'error'}), content_type='application/json')
+
+
+### Generates a list of the item's images and their relevant information ###
+def generateImageList(item):
+	image_list = []
+	images = item.image_set.all()
+	for image in images:
+		main = True if item.mainimage == image else False
+		image_list.append({'id':image.id,'url':image.photo_medium.url,'main':main})
+	return image_list
+
 #Item Logistics
 @login_required
 def listitemlogistics(request,itemid):
@@ -318,6 +342,7 @@ def tosListing(request,itemid):
 	if request.method == "POST" and itemOwner(request,itemid):
 		if request.POST.get('tos',''):
 			item.liststatus = 'active'
+			item.creation_date = datetime.now()
 			item.tos = True
 			item.save()
 			email_view.composeEmailListingConfirmation(request.user.basicuser,item)

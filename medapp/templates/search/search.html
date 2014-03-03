@@ -172,7 +172,7 @@ label .floatright {
   				<option value="25">25 Miles</option>
   			</select>
   			<p>from</p>
-  			<input id="zipcode-input" onkeyup="this.value=this.value.replace(/[^\d]/,'')" class='form-control' placeholder='Zipcode' type='number' maxlength='5' value="{% if zipcode %}{{zipcode}}{% endif %}"/>
+  			<input id="zipcode-input" onkeyup="this.value=this.value.replace(/[^\d]/,'')" class='form-control' placeholder='Zipcode' type='text' maxlength='5' value="{% if zipcode %}{{zipcode|zipcodify}}{% endif %}"/>
   		</div>		
   	</div>
   </div>

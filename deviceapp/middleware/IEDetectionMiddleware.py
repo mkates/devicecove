@@ -13,7 +13,7 @@ class IEDetectionMiddleware(object):
             user_agent = request.META['HTTP_USER_AGENT']
          
         # Test IE 1-7
-        pattern = "msie [1-9]\."
+        pattern = "msie [1-8]\."
         prog = re.compile(pattern, re.IGNORECASE)
         match = prog.search(user_agent)
          

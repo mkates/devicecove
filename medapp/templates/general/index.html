@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% load dollars %}
+{% load dollars %}{% load dates %}
 {% block headercss %}
 <link href="{{STATIC_URL}}css/base.css" rel="stylesheet" type="text/css" />
 <link href="{{STATIC_URL}}css/product/productitem.css" rel="stylesheet" type="text/css" />
@@ -60,10 +60,14 @@
 				</div>
 				<div class="price">
 					<div class="pricebox">
-						<p class="condition">{{item.get_conditionquality_display}}</p>
-						<p class="price">{{item.price|dollars}}</p>
-						<p class="pricelabel">{{item.msrp_price|dollars}}</p>
-						<div class="clear"></div>
+						<div class="row">
+							<p class="condition">{{item.get_conditionquality_display}}</p>
+							<p class="price">{{item.price|dollars}}</p>
+						</div>
+						<div class="row">
+							<p class="creation-date">Listed {{item.creation_date|days_since}} days ago<span>{{item.msrp_price|dollars}}</span></p>
+							
+						</div>
 					</div>
 				</div>
 			</div></a>
