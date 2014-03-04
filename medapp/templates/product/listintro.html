@@ -67,7 +67,6 @@
 .addbox {
 	border:2px solid #29B0D9;
 	margin: 40px 60px;
-	padding-top: 15px;
 	background: white;
 	text-align: center;
 }
@@ -177,7 +176,15 @@
 		margin-top: 45px;
 		padding-left: 15px;
 	}
-
+}
+.listing-types {
+	margin: 40px 47px 10px 47px;
+}
+.listing-types div div{
+	background: url("{{STATIC_URL}}img/whitetransparency.png");
+	padding: 20px 10px;
+	border:1px solid #2397BA;
+	text-align: center;
 }
 </style>
 {% endblock %}
@@ -265,8 +272,25 @@ var retrieveCategories = function(cat) {
 <div class="addcontainer">
 	<div class="addbg">
 		<h2> What are you selling? </h2>
-		<h3>VetCove is the safest and most secure way to sell veterinary equipment</h3>
-		<form id="addform" action="/listproduct" method="POST">
+		<h3>VetCove is the safest and most secure way to sell veterinary supplies</h3>
+		<div class="row listing-types">
+			<div class="col-md-4 col-sm-4 col-xs-12">
+				<div>
+					<a class="button button-rounded button-royal" href="/newlisting/newequipment">New Equipment</a>
+				</div>
+			</div>
+			<div class="col-md-4 col-sm-4 col-xs-12">
+				<div>
+					<a class="button button-rounded button-primary" href="/newlisting/newequipment">Pre-Owned Equipment</a>
+				</div>
+			</div>
+			<div class="col-md-4 col-sm-4 col-xs-12">
+				<div>
+					<a class="button button-rounded button-action" href="/newlisting/newequipment">Pharmaceuticals / Drugs</a>
+				</div>
+			</div>
+		</div>
+		<!-- <form id="addform" action="/listproduct" method="POST">
 			  {% csrf_token %}
 			  <div class="row">
 					<div class="col-input col-md-4 col-sm-4 col-xs-12">
@@ -287,9 +311,9 @@ var retrieveCategories = function(cat) {
 					</div>
 				</div>
 				<div class="clear"></div>
-		</form>
+		</form> -->
 		<div class="addbox">
-			<h4>Here's How It Works</h4>
+		<!-- 	<h4>Here's How It Works</h4> -->
 			<div class="row stepsrow">
 				<div class="col-md-4 col-sm-4">
 					<p>1</p>

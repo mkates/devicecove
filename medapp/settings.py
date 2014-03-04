@@ -150,10 +150,20 @@ INSTALLED_APPS = (
     'django.contrib.admindocs',
     'django.contrib.humanize',
     'boto', # For S3 File Storage
-    'deviceapp', # Our sole app
-    'questions',
-    'emails',
+    ## All the VetCove Apps ###
+    'account',
     'checkout',
+    'deviceapp',
+    'emails',
+    'general',
+    'listing',
+    'notifications',
+    'payment',
+    'purchase',
+    'questions',
+    'search',
+    'selling',
+    'staffportal',
     #'south', #DB Migrations
     'imagekit', #For resizing images before S3 Upload
     'storages', #For file storage, works with S3
@@ -238,7 +248,7 @@ EMAIL_BACKEND = "djrill.mail.backends.djrill.DjrillBackend"
 BALANCED_MARKETPLACE_ID = 'MP3D5qjr7obzojCvs5rfyK2Q'
 # Amazon File Storage
 DEFAULT_FILE_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
-STATICFILES_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
+#STATICFILES_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
 AWS_STORAGE_BUCKET_NAME = 'devicerock'
 AWS_PRELOAD_METADATA = True
 

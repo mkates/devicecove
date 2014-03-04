@@ -1,15 +1,15 @@
 from django.db import models
 from django.db.models import Q
 
-###########################################
+############################################
 ####### Checkout Model  ####################
 ############################################
 #### Made up of cart items #################
 class Checkout(models.Model):	
-	buyer = models.ForeignKey('deviceapp.BasicUser')
-	shipping_address = models.ForeignKey('deviceapp.Address',null=True,blank=True)
+	buyer = models.ForeignKey('account.BasicUser')
+	shipping_address = models.ForeignKey('account.Address',null=True,blank=True)
 	start_time = models.DateTimeField(auto_now_add = True,blank=True)
-	payment = models.ForeignKey('deviceapp.Payment',null=True,blank=True)
+	payment = models.ForeignKey('payment.Payment',null=True,blank=True)
 	
 	STATE_OPTIONS =  ((0, 'login'),(1, 'shipping'),(2, 'payment'),(3, 'review'),(4, 'failed_submit'),(5, 'purchased'))
 	state = models.IntegerField(max_length=1, choices=STATE_OPTIONS)
@@ -38,7 +38,7 @@ class Checkout(models.Model):
 ############################################	
 
 class ShoppingCart(models.Model):
-	user = models.OneToOneField('deviceapp.BasicUser',null=True,blank=True)
+	user = models.OneToOneField('account.BasicUser',null=True,blank=True)
 	datecreated = models.DateTimeField(auto_now_add=True,null=True,blank=True)
 	
 	# Get list of items
@@ -48,7 +48,7 @@ class ShoppingCart(models.Model):
 class CartItem(models.Model):
 	checkout = models.ForeignKey(Checkout,null=True,blank=True)
 	dateadded = models.DateTimeField(auto_now_add = True)
-	item = models.ForeignKey('deviceapp.Item')
+	item = models.ForeignKey('listing.Item')
 	price = models.BigIntegerField() # In case price changes during checkout
 	shoppingcart = models.ForeignKey(ShoppingCart,null=True,blank=True)
 	quantity = models.IntegerField(default=1,max_length=4)

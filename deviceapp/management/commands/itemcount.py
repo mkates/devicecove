@@ -1,6 +1,5 @@
 from django.core.management.base import BaseCommand, CommandError
-from deviceapp.models import *
-from deviceapp.views_custom import views_email as email_view
+from helper.model_imports import *
 from django.conf import settings
 import datetime as datetime
 from django.utils.timezone import utc

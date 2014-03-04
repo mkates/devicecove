@@ -1,7 +1,5 @@
 from django.shortcuts import render_to_response, redirect
 from django.template.loader import render_to_string
-from deviceapp.models import *
-from deviceapp.forms import *
 from django.template import RequestContext, Context, loader
 from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.contrib.auth import authenticate, login, logout
@@ -10,15 +8,14 @@ from django.utils.html import escape
 from django.shortcuts import render
 from django.core.exceptions import ObjectDoesNotExist
 from django.conf import settings
-from deviceapp.views_custom import *
-from helper.commission import *
-import emails.views	as email_view
 from django.core.cache import cache
 import json, re
 from datetime import datetime
 from django.utils.timezone import utc
 import balanced
-
+import helper.commission as commission
+import emails.views	as email_view
+from helper.model_imports import *
 
 ###################################
 ### Sign Up Form ##################

@@ -1,5 +1,5 @@
 from math import radians,cos,sin,asin,sqrt, atan2
-from deviceapp.models import LatLong
+from general.models import LatLong
 
 ##############################################################
 ##### Calculates Haversine Distance Between Two Zipcodes #####

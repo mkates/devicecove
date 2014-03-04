@@ -1,0 +1,91 @@
+{% extends 'base.html' %}
+{% block headertitle %}<title>VetCove | Categories</title>{% endblock%}
+{% block headercss %}
+
+<style>
+
+.maincontainer {
+	background: #fff;
+	border:1px solid #ddd;
+	border-radius: 3px;
+	box-shadow: 0 0 4px #ccc;
+	max-width: 1000px;
+	margin: 30px auto
+}
+.maincontainer h3 {
+	display: block;
+	border-bottom: 1px solid #eee;
+	padding-left: 20px;
+	font-weight: 200;
+	line-height: 35px;
+	margin-bottom: 0px;
+	padding-bottom: 10px;
+}
+.maincontainer h3 a {
+	float:right;
+	margin-right: 15px;
+}
+.category-container {
+	padding: 20px;
+}
+.category-container h5 {
+	margin:40px 0 20px 0;
+	padding-bottom: 10px;
+	border-bottom:1px solid #eee;
+}
+
+.category-container .sublink {
+	color: #555;
+	display: block;
+}
+.category-container .sublink:hover {
+	text-decoration: underline;
+}
+@media (max-width: 768px) {	
+	.category-container {
+		padding: 10px;
+	}
+	.category-container a {
+		font-size: 17px;
+		padding: 5px 0;
+	}
+	.category-container h5 a {
+		font-size: 20px;
+	}
+}
+
+</style>
+{% endblock%}
+
+
+{% block content %}
+<div class="maincontainer">
+	<h3>Pharmacuetical Category Directory<a href="/equipmentcategories" class="button button-rounded button-active">View Equipment Categories</a></h3>
+	<div class="category-container row">
+		{% for cat in categories %}
+		<div class="col-md-4 col-sm-4 col-xs-12">
+			<h5><a href="/productsearch/veterinary/{{cat.name}}/all">{{cat.displayname}} ({{cat.totalunits}})</a></h5>
+			{% for sub in cat.orderedSubcategories %}
+				<a class="sublink" href="/productsearch/veterinary/{{cat.name}}/{{sub.name}}">{{sub}} ({{sub.totalunits}})</a>
+				
+			{% endfor %}
+		</div>
+		{% if forloop.counter|divisibleby:"3" %}
+		<div class="clear"></div>
+		{% endif %}
+		{% endfor %}
+	</div>
+
+	
+	
+</div>
+
+
+{% endblock %}
+
+{% block jsblock %}
+<script>
+$(document).ready(function() {
+});
+</script>
+{% endblock %}

@@ -1,10 +1,6 @@
-{% load dollars %}
-{% load humanize %}
-{% load dates %}
-{% load zipcodify %}
+{% load dollars %}{% load humanize %}{% load dates %}{% load zipcodify %}
 <div id="resultcontainer">
 {% for item in items %}
-
 <div class="resultitem covebox">
 	<div class="row">
 			<div class='col-md-2 col-sm-2 col-xs-12 pricediv'>
@@ -37,7 +33,11 @@
 				</h6>
 				{% load multiply %}
 				<h4>Percent off MSRP<span><strong>{{ item.price|dividepercent:item.msrp_price }}</strong></span></h4>
+				{% if item.equipment.usedequipment %}
 				<h4>Condition<span>{{item.get_conditionquality_display}}</span></h4>
+				{% else %}
+				<h4>Condition<span>Brand New</span></h4>
+				{% endif %}
 				<h4>Location<span>{% if item.user.city %}{{item.user.city}}, {{item.user.state}}{% else %}Zipcode: {{item.user.zipcode|zipcodify}}{%endif %}{% if item.distance or item.distance == 0%}{% if item.distance != -1 %} ( ~{{item.distance |intcomma}} miles away ){% endif %}{% endif %}</span></h4>
 				<div class='buttondiv'>
 					<button class='btn-custom-gray infobutton detailsbutton' data-ref="#moredetails_{{item.id}}">Details</button>
