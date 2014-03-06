@@ -40,3 +40,8 @@ class ShippedNotification(Notification):
 class PayoutNotification(Notification):
 	payout = models.ForeignKey('payment.Payout',null=True,blank=True)
 	success = models.BooleanField(default=True)
+
+class ReferralNotification(Notification):
+	REFERRAL_ACTION = (('buy','buy'),('sell','sell'))
+	action = models.CharField(choices=REFERRAL_ACTION,max_length=10)
+	referral = models.ForeignKey('account.BasicUser',related_name="notificationreferrer")

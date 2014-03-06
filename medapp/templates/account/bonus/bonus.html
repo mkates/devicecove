@@ -1,0 +1,117 @@
+{% extends 'account/account.html' %}
+{% block headertitle %}<title>VetCove | Bonuses</title>{% endblock%}
+{% block bonus %}active{% endblock %}
+
+{% block jsblock %}
+{% endblock %}
+{% block maintitle %}VetCove Bonuses{% endblock %}
+{% block headersubcss %}
+<style>
+.bonus-container {
+	padding: 40px 20px;
+}
+.bonus-title {
+	margin: 0px 10px 25px 10px;
+	padding-bottom: 25px;
+	text-align: center;
+}
+.bonus-title a:hover {
+	text-decoration: underline;
+}
+.bonus-title h4 {
+	font-size: 30px;
+	font-weight: 200;
+}
+.bonus-option {
+	margin: 0 40px;
+	padding: 20px 0;
+	border-bottom:1px solid #ddd;
+	transition: background .2s;
+}
+.bonus-option:hover {
+	background: #F4F8FC;
+}
+.bonus-option:hover h5 {
+	text-decoration: underline;
+}
+.bonus-option h5 {
+	font-size: 20px;
+	margin: 0;
+	margin-bottom: 10px;
+}
+.bonus-option p {
+	color: #555;
+}
+.bonus-option h6 {
+	font-size: 30px;
+	color: #555;
+	padding-bottom: 5px;
+	margin: 0;
+}
+.bonus-option .discount {
+	font-size: 12px;
+	color: #777;
+	text-align: center;
+}
+.disclaimer p {
+	font-size: 12px;
+	color: #777;
+	padding: 40px 40px 0 40px;
+	text-align: center;
+}
+</style>
+{% endblock %}
+{% block maincontent %}
+	<div class="maincontent-container covebox bonus-container">
+		<div class="bonus-title">
+			<h4>There's no limit to how much you can save!</h4>
+			<p>You currently receive <strong>2%</strong> off every purchase and commission fee on VetCove.</p>
+			<a href="/account/bonushistory">View Current Savings</a>
+		</div>
+		<a href="/account/referral"><div class="bonus-option row">
+			<div class="col-md-9 col-sm-9 col-xs-8">
+				<h5>Refer Friends to VetCove</h5>
+				<p>Let your friends and colleagues start off with a .5% sitewide discount</p>
+				<p class="referral">Use referral link: <strong>www.vetcove.com/join/NSfsio232ionofs</strong></p>
+			</div>
+			<div class="col-md-3 col-sm-3 col-xs-4 discount">
+				<h6>+3%</h6>
+				<p>.25% per friend</p>
+			</div>
+		</div></a>
+		<a href="/listintro"><div class="bonus-option row">
+			<div class="col-md-9 col-sm-9 col-xs-8">
+				<h5>Sell an Item on VetCove</h5>
+				<p>Once you sell an item, take .25% off every future purchase </p>
+			</div>
+			<div class="col-md-3 col-sm-3 col-xs-4 discount">
+				<h6>+3%</h6>
+				<p>.25% per item sold</p>
+			</div>
+		</div></a>
+		<a href="/shop"><div class="bonus-option row">
+			<div class="col-md-9 col-sm-9 col-xs-8">
+				<h5>Purchase an Item on VetCove</h5>
+				<p>The more you purchase, the more you save</p>
+			</div>
+			<div class="col-md-3 col-sm-3 col-xs-4 discount">
+				<h6>+3%</h6>
+				<p>.1% per $50 spent</p>
+			</div>
+		</div></a>
+		<a href="/contact"><div class="bonus-option row">
+			<div class="col-md-9 col-sm-9 col-xs-8">
+				<h5>Send us Some Feedback</h5>
+				<p>We love to hear how we can improve VetCove</p>
+			</div>
+			<div class="col-md-3 col-sm-3 col-xs-4 discount">
+				<h6>+.25%</h6>
+			</div>
+		</div></a>
+		<div class="disclaimer">
+			<p>All VetCove bonuses expire 1 year after they take effect, except for selling and buying items on VetCove, which expire after 1 month. For friend referrals, the friend
+			 must sign up and either sell or buy an item on VetCove.</p>
+		</div>
+	</div>
+  		
+{% endblock %}

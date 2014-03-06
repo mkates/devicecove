@@ -14,6 +14,7 @@ from datetime import datetime
 from django.utils.timezone import utc
 import balanced
 import helper.commission as commission
+import helper.bonus as bonus
 import emails.views	as email_view
 from helper.model_imports import *
 
@@ -581,11 +582,14 @@ def checkoutPurchase(request,checkoutid):
 						buyer_message=request.POST.get('shipping-message-'+str(cartitem.id),'')
 						)
 		pi.save()
-		#Create notification for seller
+		# Create notification for seller
 		notification = SoldNotification(user=item.user,purchaseditem=pi)
 		notification.save()
 		cartitem.shoppingcart = None
 		cartitem.save()
+		# Update bonuses for buyer and seller
+		bonus.updateBonus(pi.buyer)
+		bonus.updateBonus(pi.seller)
 		# Email the seller of the item
 		email_view.composeEmailItemSold_Seller(bu,pi)
 		

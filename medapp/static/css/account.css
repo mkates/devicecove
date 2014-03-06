@@ -79,6 +79,10 @@
 	background: #ffdddd;
 	color: #a03e3e;
 }
+.sidecontent .greenbadge {
+	background: #E9F7E9;
+	color: #339E28;
+}
 .maincontent .title {
 	margin: 0;
 	padding: 0;

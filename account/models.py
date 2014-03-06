@@ -1,9 +1,7 @@
 from django.db import models
 from django.db.models import Q
 from django.contrib.auth.models import User
-from questions.models import Question
-from purchase.models import PurchasedItem
-from listing.models import Item
+
 ############################################
 ####### User Class #########################
 ############################################	
@@ -11,7 +9,9 @@ from listing.models import Item
 class BasicUser(models.Model):
 	# General
 	user = models.OneToOneField(User)
+	referral = models.ForeignKey('self',null=True,blank=True) # Tracks the referral user
 	creation_date = models.DateField(auto_now_add=True)
+	
 	firstname = models.CharField(max_length=60)
 	lastname = models.CharField(max_length=60)
 	email = models.EmailField(max_length=60) # Contact Email, login email stored in User class
@@ -31,7 +31,8 @@ class BasicUser(models.Model):
 	# User's Rank (will be used for different commission classes, listing limits, etc.)
 	USER_RANK =  ((0, 0),(1, 1),(2, 2),(3, 3),(4, 4),(5, 5))
 	user_rank = models.IntegerField(max_length=2,choices=USER_RANK,default=0)
-	
+	bonus = models.IntegerField(max_length=4,default=0)
+
 	# Payments
 	balanceduri = models.CharField(max_length=255,blank=True)
 	payment_method = models.ForeignKey('payment.Payment',related_name="paymentmethod",null=True,blank=True)
@@ -48,15 +49,15 @@ class BasicUser(models.Model):
 		
 	# Get number of unanswered questions
 	def unansweredQuestionCount(self):
-		return Question.objects.filter(seller=self).filter(answer = "").count()
+		return self.questionseller_set.filter(answer = "").count()
 		
 	# Number of asked questions
 	def askedQuestionCount(self):
-		return Question.objects.filter(buyer=self).count()
+		return self.questionbuyer_set.count()
 		
 	# Number of items in wishlist
 	def wishlist(self):
-		return SavedItem.objects.filter(user=self).count()
+		return self.saveditem_set.count()
 	
 	#Get counts for each type of listing (used in profile page)
 	# 'all' and 'inactive' are cumulative counts
@@ -72,11 +73,11 @@ class BasicUser(models.Model):
 	
 	# Number of Purchases
 	def buyhistory(self):
-		return PurchasedItem.objects.filter(buyer=self).count()
+		return self.purchaseditembuyer_set.count()
 	
 	# Number of Sales
 	def sellhistory(self):
-		return PurchasedItem.objects.filter(seller=self).count()
+		return self.purchaseditemseller_set.count()
 
 ############################################
 ####### Wishlist Items #####################

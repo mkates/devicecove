@@ -212,7 +212,31 @@ def wishlist(request):
 		return render_to_response('account/buying/wishlist.html',{"wishlist":True,"items":items},context_instance=RequestContext(request))
 	else:
    		return render_to_response('general/index.html', context_instance=RequestContext(request))
+  
+@login_required
+def bonus(request):
+	if request.user.is_authenticated():
+		bu = request.user.basicuser
+		return render_to_response('account/bonus/bonus.html',{"bonus":True},context_instance=RequestContext(request))
+	else:
+   		return render_to_response('general/index.html', context_instance=RequestContext(request))
+ 
+@login_required
+def referral(request):
+	if request.user.is_authenticated():
+		bu = request.user.basicuser
+		return render_to_response('account/bonus/referral.html',{"bonus":True},context_instance=RequestContext(request))
+	else:
+   		return render_to_response('general/index.html', context_instance=RequestContext(request))
    
+@login_required
+def bonusHistory(request):
+	if request.user.is_authenticated():
+		bu = request.user.basicuser
+		return render_to_response('account/bonus/bonushistory.html',{"bonus":True},context_instance=RequestContext(request))
+	else:
+   		return render_to_response('general/index.html', context_instance=RequestContext(request))
+
 @login_required
 def contactMessages(request):
 	if request.user.is_authenticated():

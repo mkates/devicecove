@@ -1,0 +1,101 @@
+{% extends 'account/account.html' %}
+{% block headertitle %}<title>VetCove | Bonus History</title>{% endblock%}
+{% block bonus %}active{% endblock %}
+
+{% block jsblock %}
+{% endblock %}
+{% block maintitle %}Bonus History{% endblock %}
+{% block headersubcss %}
+<style>
+.bonus-container {
+	padding: 20px 20px;
+}
+.bonus-row {
+	margin-bottom: 30px;
+}
+.bonus-row table {
+	width: 100%;
+}
+.bonus-row table td {
+	padding: 7px 5px;
+}
+.bonus-row .expiration {
+	font-size: 11px;
+	font-weight: 200;
+	color: #777;
+	vertical-align: bottom;
+	text-align: right;
+}
+.bonus-row .discount {
+	font-weight: 800;
+	font-size: 15px;
+	vertical-align: bottom;
+}
+.bonus-row .total {
+	background: #DFF0D8;
+	font-weight: 800;
+}
+.bonus-row h5 {
+	font-size: 18px;
+	border-bottom: 1px solid #eee;
+	padding-bottom: 10px;
+}
+.disclaimer p {
+	font-size: 12px;
+	color: #777;
+	padding: 40px 40px 0 40px;
+	text-align: center;
+}
+</style>
+{% endblock %}
+{% block maincontent %}
+	<div class="maincontent-container covebox bonus-container">
+		<div class="bonus-row">
+			<h5>Current Bonuses</h5>
+			<table>
+				<tr>
+					<td class="type">Friend Referral - Dr. John Bolhman</td>
+					<td class="discount">.25%</td>
+					<td class="expiration">Expires 2/1/2015</td>
+				</tr>
+				<tr>
+					<td class="type">Friend Referrals (6 active)</td>
+					<td class="discount">2%</td>
+					<td class="expiration">Expires 2/1/2015</td>
+				</tr>
+				<tr>
+					<td class="type">Friend Referrals (6 active)</td>
+					<td class="discount">2%</td>
+					<td class="expiration">Expires 2/1/2015</td>
+				</tr>
+				<tr class="total">
+					<td class="type">Total Discounts:</td>
+					<td class="discount">2.5%</td>
+					<td class="expiration"></td>
+				</tr>
+			</table>
+		</div>
+		<div class="bonus-row">
+			<h5>Expired Bonuses</h5>
+			<table>
+				<tr>
+					<td>Friend Referrals (6 active)</td>
+					<td>2%</td>
+				</tr>
+				<tr>
+					<td>Selling an Item</td>
+					<td>.75%</td>
+				</tr>
+				<tr>
+					<td>VetCove Feedback</td>
+					<td>.25%</td>
+				</tr>
+			</table>
+		</div>
+		<div class="disclaimer">
+			<p>All VetCove bonuses expire 1 year after they take effect, except for selling and buying items on VetCove, which expire after 1 month. For friend referrals, the friend
+			 must sign up and either sell or buy an item on VetCove.</p>
+		</div>
+	</div>
+  		
+{% endblock %}

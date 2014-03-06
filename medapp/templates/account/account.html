@@ -18,8 +18,9 @@
 	{% endblock %}
 	<div class="sidecontent col-md-3 col-sm-3">
 		<div class="covebox admin-section">
-			<h4 class="sidecontent-title">Notifications</h4>
+			<h4 class="sidecontent-title">General</h4>
 			<ul>
+				<a href="/account/bonus"><li class="{% block bonus %}{% endblock %}"><h3>Save More<span class="badge greenbadge">2% Bonus</span></h3></li></a>
 				<a href="/account/notifications"><li class="{% block notifications %}{% endblock %}"><h3>Notifications{% if notifications %} <span class="badge redbadge">{{ notifications.count }}</span>{% endif %}</h3></li></a>
 			</ul>
 		</div>
