@@ -6,15 +6,16 @@
 		<div class="entry">
 			<h5>Category</h5>
 			<select id="inputcategory" class="form-control smallinput">
+			<option value="0">Select a Category. . . </option>
 			{% for cat in categories %}
 				<option {%if cat.name == item.subcategory.maincategory.name %}selected="selected" {% endif %} value="{{cat.name}}">{{cat.displayname}}</option>
 			{% endfor %}
 			</select>
 		</div>
 		<div class="entry">
-		<h5>Item</h5>
-			<select id="inputsubcategory" name="subcategory" class="form-control smallinput">
-			<option value="0">Select an Item. . . </option>
+		<h5>Item Type</h5>
+			<select id="inputsubcategory" name="subcategory" class="form-control smallinput" {% if not item.subcategory %}disabled{% endif %}>
+			<option value="0">Select an Item Type. . . </option>
 			{% for subcat in item.subcategory.maincategory.subcategory_set.all %}
 				<option {%if subcat.name == item.subcategory.name %}selected {% endif %} value="{{subcat.name}}">{{subcat.displayname}}</option>
 			{% endfor %}
@@ -24,66 +25,58 @@
 			<h5>Manufacturer</h5>
 			<input id="inputmanufacturer" name="manufacturer" type="text" class="form-control" placeholder="eg. Siemens" value="{{item.manufacturer}}"/>
 		</div>
+		{% if item.item_type == 'usedequipment' %}
 		<div class="entry">
-			<h5>Item Name <span>(This will be your listing title)</h5>
-			<input id="inputname" type="text" name="name" class="form-control " value="{{item.name}}" placeholder="eg. Siemens-Acuson P300 Veterinary Ultrasound"/>
+			<h5>
+				Listing Type 
+				<button type="button" class="conditionquality-class question-mark" data-container="body" data-toggle="popover" data-placement="right" data-trigger="hover" data-content="<h6>Pre-Owned vs. Refurbished</h6><p>Refurbished items have been used, but the original manufacturer or a certified refurbisher restored the item to like-new condition</p>">?</button>
+			</h5>
+			<label class="radio-inline">
+			  <input type="radio" name="conditiontype" id="producttype_preowned" value="preowned" {% if item.item_handle.conditiontype == 'preowned' %}checked{% endif %}> Pre-Owned
+			</label>
+			<label class="radio-inline">
+			  <input type="radio" name="conditiontype" id="producttype_refurbished" value="refurbished" {% if item.item_handle.conditiontype == 'refurbished' %}checked{% endif %}> Refurbished
+			</label>
 		</div>
+		{% endif %}
 	</div>
 	<div class="formcolumn col-md-6 col-sm-6">
 		<div class="entry">
-			<h5>Serial Number <span>(*optional & hidden to sellers)</span></h5>
-			<input id="inputserialnumber" name="serialnumber" type="text" class="form-control " value="{% if item.serialno != None %}{{item.serialno}}{% endif %}" placeholder="eg. 1298493292"/>
+			<h5>Item Name <span>(This will be your listing title)</h5>
+			<input id="inputname" type="text" name="name" class="form-control " value="{{item.name}}" placeholder="eg. Siemens-Acuson P300 Veterinary Ultrasound"/>
 		</div>
 		<div class="entry">
 			<h5>Model Year <span>( *optional )</span></h5>
 			<select id="inputyear" name="modelyear" class="form-control smallinput">
 				<option value="0" class="pre-text">Select Model Year. . .</option>
 					{% for i in range %}
-					<option {%if item.modelyear == i %}selected {% endif %} value='{{i}}'>{{i}}</option>
+					<option {%if item.item_handle.modelyear == i %}selected {% endif %} value='{{i}}'>{{i}}</option>
 				{% endfor %}
 			</select>
 		</div>
+		{% if item.item_type == 'usedequipment' %}
 		<div class="entry">
-			<h5>
-				Listing Type 
-				<button type="button" class="conditionquality-class question-mark" data-container="body" data-toggle="popover" data-placement="right" data-trigger="hover" data-content="<h6>Pre-Owned vs. Refurbished</h6><p>Refurbished items have been used, but the original manufacturer or a certified refurbisher restored the item to like-new condition</p>">?</button>
-			</h5>
-			{% if item.liststatus != 'incomplete' %}
-				{% if item.conditiontype == 'new' %}
-					<p class="helper-text">This item was listed as <strong>new</strong>. To sell pre-owned items, you can create a new listing</p>
-				{% else %}
-					<label class="radio-inline">
-					  <input type="radio" name="conditiontype" id="producttype_preowned" value="preowned" {% if item.conditiontype == 'preowned' %}checked{% endif %}> Pre-Owned
-					</label>
-					<label class="radio-inline">
-					  <input type="radio" name="conditiontype" id="producttype_refurbished" value="refurbished" {% if item.conditiontype == 'refurbished' %}checked{% endif %}> Refurbished
-					</label>
-				{% endif %}
-			{% else %}
-			<label class="radio-inline">
-			  <input type="radio" name="conditiontype" id="producttype_new" value="new" {% if item.conditiontype == 'new' %}checked{% endif %}> New
-			</label>
-			<label class="radio-inline">
-			  <input type="radio" name="conditiontype" id="producttype_preowned" value="preowned" {% if item.conditiontype == 'preowned' %}checked{% endif %}> Pre-Owned
-			</label>
-			<label class="radio-inline">
-			  <input type="radio" name="conditiontype" id="producttype_refurbished" value="refurbished" {% if item.conditiontype == 'refurbished' %}checked{% endif %}> Refurbished
-			</label>
-			{% endif %}
+			<h5>Serial Number <span>(*optional & hidden to sellers)</span></h5>
+			<input id="inputserialnumber" name="serialnumber" type="text" class="form-control " value="{% if item.serialno != None %}{{item.item_handle.serialno}}{% endif %}" placeholder="eg. 1298493292"/>
 		</div>
+		{% endif %}
+		{% if item.item_type == 'newequipment' %}
 		<div class="entry quantity-entry">
 			<h5>Quantity</h5>
-			<input id="inputquantity" style="width:80px" type="number" name="quantity" class="form-control" value="{{item.quantity}}" {% if item.conditiontype != 'new' %}disabled{% endif %}>
+			<input id="inputquantity" style="width:80px" type="number" name="quantity" class="form-control" value="{{item.item_handle.quantity}}">
 		</div>
+		{% endif %}
+		{% if item.item_type == 'usedequipment' %}
 		<div class="entry">
 			<h5>Are you the original owner of the item?</h5>
 			<label class="radio-inline">
-			  <input type="radio" name="originalowner" id="producttype_preowned" value="True" {%if item.originalowner %}checked{% endif %}> Yes
+			  <input type="radio" name="originalowner" id="producttype_preowned" value="True" {%if item.item_handle.originalowner %}checked{% endif %}> Yes
 			</label>
 			<label class="radio-inline">
-			  <input type="radio" name="originalowner" id="producttype_refurbished" value="False" {%if not item.originalowner %}checked{% endif %}> No
+			  <input type="radio" name="originalowner" id="producttype_refurbished" value="False" {%if not item..item_handle.originalowner %}checked{% endif %}> No
 			</label>
 		</div>
+		{% endif %}
 	</div>
 </div>
 
@@ -92,32 +85,11 @@
 {% block customjs %}
 <script src="{{STATIC_URL}}js/bootstrap-datepicker.js"></script> 
 <script>
-$(document).ready(function() {
-	$('.conditionquality-class').popover({html:true});
-	$("#inputcategory").change(function() {
-		retrieveCategories($("#inputcategory").val());
-	});
-	$("input[name=conditiontype]:radio").change(function() {
-		if ($(this).attr('value') != 'new') {
-			$("#inputquantity").val(1);
-			$("#inputquantity").prop('disabled',true);
-			$(".quantity-entry").css('display','none');
-		} else {
-			$("#inputquantity").prop('disabled',false);
-			$(".quantity-entry").css('display','block');
-		}
-	});
-	//Insures quantity of at least 1
-	$("#inputquantity").blur(function() {
-		if (!(parseInt($("#inputquantity").val()) > 0)) {
-			$("#inputquantity").val(1);
-		}
-	});
-});
 
 var submittable = false;
 var validateInputs = function validateInputs() {
 	submittable = true;
+	$("#inputcategory").val() != 0 ? removeError($("#inputcategory")) : addError($("#inputcategory"));
  	$("#inputsubcategory").val() != 0 ? removeError($("#inputsubcategory")) : addError($("#inputsubcategory"));
 	$("#inputmanufacturer").val().length > 2 ? removeError($("#inputmanufacturer")) : addError($("#inputmanufacturer"));
 	$("#inputname").val().length > 2 ? removeError($("#inputname")) : addError($("#inputname"));
@@ -125,7 +97,7 @@ var validateInputs = function validateInputs() {
 };
 
 var retrieveCategories = function(cat) {
-	if (cat != 'Null') {
+	if (cat != 0) {
 		$.ajax({
 			url: '/getsubcategories',
 			type: 'GET',
@@ -133,6 +105,7 @@ var retrieveCategories = function(cat) {
 			cache: true,
 			dataType: 'json',
 			success: function(response){	
+				$("#inputsubcategory").prop("disabled",false);
 				$("#inputsubcategory").empty();
 				$("#inputsubcategory").append("<option value='0'>Choose an item . . .</option>");
 				$.each(response,function(index,value) {
@@ -140,17 +113,22 @@ var retrieveCategories = function(cat) {
 				});
 			}
 		});
+	} else {
+		$("#inputsubcategory").prop("disabled",true);
+		$("#inputsubcategory").empty();
+		$("#inputsubcategory").append("<option value='0'>Choose an item . . .</option>");
 	}
 }
+$(document).ready(function() {
+	$("#inputcategory").change(function() {
+		retrieveCategories($("#inputcategory").val());
+	})
+	$('.conditionquality-class').popover({html:true});
+})
 </script>
 {% endblock %}
 {% block customcss %}
 <style>
-{% if item.conditiontype != 'new' %}
-.quantity-entry {
-	display: none;
-}
-{% endif %}
 </style>
 {% endblock %}
 {% block hidebackbutton%}{% endblock %}

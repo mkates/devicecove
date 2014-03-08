@@ -18,10 +18,16 @@ class Checkout(models.Model):
 	purchased = models.BooleanField(default=False)
 	purchased_time = models.DateTimeField(null=True,blank=True)
 	
-	# Get total amount due for this checkout
-	def total(self):
+	def subtotal(self):
 		return sum([cartitem.price*cartitem.quantity for cartitem in self.cartitem_set.all()])
 	
+	# Get total amount due for this checkout
+	def total(self):
+		return int(self.subtotal() * (1-self.buyer.bonus/float(10000)))
+	
+	def bonus_discount(self):
+		return self.subtotal()-self.total()
+		
 	# Number of items in cart
 	def numberitems(self):
 		return sum([cartitem.quantity for cartitem in self.cartitem_set.all()])
@@ -29,7 +35,10 @@ class Checkout(models.Model):
 	# Is shipping address required? Items can all be pick-up only
 	def shippingAddressRequired(self):
 		for cartitem in self.cartitem_set.all():
-			if cartitem.item.shippingincluded:
+			print cartitem.item.item_type
+			if cartitem.item.item_type == 'PharmaItem':
+				return True
+			elif not cartitem.item.equipment.shippingincluded:
 				return True
 		return False
 

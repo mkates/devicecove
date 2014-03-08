@@ -40,6 +40,7 @@ def render_and_send_email(template_data,subject,receiver,email_path):
 	except Exception,e:
 		print e
 		return 500
+
 	
 #### Welcome Email ######
 def composeEmailWelcome(basicuser):
@@ -322,6 +323,21 @@ def composeEmailAuthorizedBuyer(item,buyer):
 	email = render_and_send_email(template_data,subject,buyer.email,'authorized_buyer/authorized_buyer')
 	return email
 
+#### Referral Email ######
+def composeReferral(basicuser,email_list):
+	template_data = {
+		'STATIC_URL':settings.STATIC_URL,
+		'referrer':basicuser,
+		'referral_code':basicuser.referral_id,
+		'email_title':str(basicuser.firstname)+" has invited you to the VetCove community",
+		'actionbutton':True,
+		'actionbutton_link': 'http://www.vetcove.com/referral/'+str(basicuser.referral_id),
+		'actionbutton_text': 'Accept Invite'
+	}
+	subject = "Come explore the VetCove Community"
+	for emails in email_list:
+		email = render_and_send_email(template_data,subject,emails,'referral/referral')
+	return email
 	
 def composeFileReport(report):
 	plaintext_context = Context(autoescape=False) # HTML escaping not appropriate in plaintext

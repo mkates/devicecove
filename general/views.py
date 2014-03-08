@@ -65,6 +65,10 @@ def buyerprotect(request):
 def contact(request):
 	return render_to_response('general/contact.html',{'contact':True},context_instance=RequestContext(request))
 
+def newReferral(request,referral_id):
+	request.session['referral_id'] = referral_id
+	return render_to_response('general/referral.html',{},context_instance=RequestContext(request))
+
 #Intro Page
 def listintro(request):
 	category = Category.objects.all().extra(order_by = ['displayname'])

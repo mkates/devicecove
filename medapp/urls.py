@@ -41,6 +41,7 @@ urlpatterns = patterns('',
     url(r'^buy/','general.views.shop'),
     url(r'^contact/','general.views.contact'),
     url(r'^contactform','general.views.contactform'),
+    url(r'^referral/(?P<referral_id>\w+)/','general.views.newReferral'),
     
     ########## Questions App ################
     #########################################
@@ -80,8 +81,8 @@ urlpatterns = patterns('',
 
     ########## Listing App ##################
     #########################################
-     url(r'^getsubcategories','listing.views.getsubcategories'),
-    url(r'^listproduct/(?P<subcategory>\w+)','listing.views.listproduct'),
+    url(r'^getsubcategories','listing.views.getsubcategories'),
+    url(r'^newlisting/(?P<listingtype>\w+)','listing.views.newlisting'),
     url(r'^list/business/(?P<itemid>\d+)','listing.views.listbusiness'),
     url(r'^savebusiness/(?P<itemid>\d+)','listing.views.savebusiness'),
     url(r'^list/describe/(?P<itemid>\d+)','listing.views.listitemdescribe'),
@@ -110,6 +111,12 @@ urlpatterns = patterns('',
     url(r'^account/notifications','account.views.notifications'),
     url(r'^account/clearnotifications','account.views.clearNotifications'),
     url(r'^account/bonus/','account.views.bonus'),
+    url(r'^account/feedback/','account.views.feedback'),
+    url(r'^account/feedbackform','account.views.feedbackForm'),
+    url(r'^account/feedbackthanks','account.views.feedbackThanks'),
+    url(r'^account/referral/','account.views.referral'),
+    url(r'^account/referralform','account.views.referralForm'),
+    url(r'^account/referralthanks','account.views.referralThanks'),
     url(r'^account/bonushistory','account.views.bonusHistory'),
     url(r'^account/updategeneral','account.views.updateGeneralSettings'),
     url(r'^account/updateseller','account.views.updateSellerSettings'),

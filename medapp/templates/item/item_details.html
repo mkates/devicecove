@@ -177,8 +177,9 @@
 
 {% block customjs %}
 <script>
+{% if item.item_type == 'usedequipment' %}
 	$(document).ready(function() {
-		qualityNumberClick($("#quality_{{item.conditionquality}}"));
+		qualityNumberClick($("#quality_{{item.item_handle.conditionquality}}"));
 	});
 	var currentvalue = 0;
 	$(".qualitybox select").css("opacity",".4");
@@ -201,7 +202,7 @@
 		$(".qualitynumber").removeClass('quality-active-3');
 		$(".qualitynumber").removeClass('quality-active-4');
 		handle.addClass("quality-active");
-		var value = $(handle).attr('id').split("_")[1];
+		var value = $(handle).attr('data-id')
 		if (currentvalue != value) {
 			currentvalue = value;
 			$("#conditionquality").val(currentvalue);
@@ -218,25 +219,27 @@
 			});
 		}	
 	}
-	var submittable = false;
-	var validateInputs = function validateInputs() {
-		submittable = true;
-		return submittable;
-	};
+{% endif %}
+
+var submittable = false;
+var validateInputs = function validateInputs() {
+	submittable = true;
+	return submittable;
+};
 
 </script>
 {% endblock %}
 {% block formcontent %}
 <div class="formcontent row">
 	<input id="conditionquality" type="hidden" name="conditionquality" value="{{item.conditionquality}}">
-	{% if not item.conditiontype == 'new' %}
+	{% if item.item_type == 'usedequipment' %}
 	<h5 id="qualitytitle">Choose Your Item Condition</h5>
 	<div class="qualitybox">
 		<div class="selectors row">
-			<div id="quality_1" class="qualitynumber noborder left-rounded quality1 col-md-3 col-sm-3 col-xs-12"><p>Functional with Defects</p></div>
-			<div id="quality_2" class="qualitynumber quality2 col-md-3 col-sm-3 col-xs-12"><p>Used Fully Functional</p></div>
-			<div id="quality_3" class="qualitynumber quality3 col-md-3 col-sm-3 col-xs-12"><p>Lightly Used</p></div>
-			<div id="quality_4" class="qualitynumber quality4 right-rounded col-md-3 col-sm-3 col-xs-12"><p>Like New</p></div>
+			<div id="quality_1" data-id="1" class="qualitynumber noborder left-rounded quality1 col-md-3 col-sm-3 col-xs-12"><p>Functional with Defects</p></div>
+			<div id="quality_2" data-id="2" class="qualitynumber quality2 col-md-3 col-sm-3 col-xs-12"><p>Used Fully Functional</p></div>
+			<div id="quality_3" data-id="3" class="qualitynumber quality3 col-md-3 col-sm-3 col-xs-12"><p>Lightly Used</p></div>
+			<div id="quality_4" data-id="4" class="qualitynumber quality4 right-rounded col-md-3 col-sm-3 col-xs-12"><p>Like New</p></div>
 		</div>
 		<div class='clear'></div>
 		<div class="downarrow"></div>
@@ -246,41 +249,41 @@
 	</div>
 	<div class="entry conditionentry">
 		<h5>Describe Item Condition and Item History <span>Include any defects, imperfections, cosmetic blemishes, missing accessories, etc.</span></h5>
-		<textarea id="inputconditiondescription" name="conditiondescription" type="text" class="form-control" placeholder="">{{item.conditiondescription}}</textarea>
+		<textarea id="inputconditiondescription" name="conditiondescription" type="text" class="form-control" placeholder="">{{item.item_handle.conditiondescription}}</textarea>
 	</div>
 	{% endif %}
 	<div class="entry">
 		<h5>Model Features and Specifications <span>Please describe the item/model you’re selling.  Feel free to copy and paste information provided by the manufacturer.</span></h5>
-		<textarea id="inputproductdescription" name="productdescription" type="text" class="form-control" placeholder="">{{item.productdescription}}</textarea>
+		<textarea id="inputproductdescription" name="productdescription" type="text" class="form-control" placeholder="">{{item.item_handle.productdescription}}</textarea>
 	</div>
 	<div class="entry">
 		<h5>Service Contract / Warranty</h5>
 		<div class="radio">
 		  <label>
-			<input type="radio" name="contract" class="contract" value="warranty" {% if item.contract == 'transferwarranty' %}checked{% endif %}>
+			<input type="radio" name="contract" class="contract" value="warranty" {% if item.item_handle.contract == 'transferwarranty' %}checked{% endif %}>
 			This item includes a transferrable warranty
 		  </label>
 		</div>
 		<div class="radio">
 		  <label>
-			<input type="radio" name="contract" class="contract" value="servicecontract" {% if item.contract == 'transferservicecontract' %}checked{% endif %}>
+			<input type="radio" name="contract" class="contract" value="servicecontract" {% if item.item_handle.contract == 'transferservicecontract' %}checked{% endif %}>
 			This item includes a transferrable service contract
 		  </label>
 		</div>
 		<div class="radio">
 		  <label>
-			<input type="radio" name="contract" class="contract" value="none" {% if item.contract == 'none' %}checked{% endif %}>
+			<input type="radio" name="contract" class="contract" value="none" {% if item.item_handle.contract == 'none' %}checked{% endif %}>
 			There is no service contract or warranty associated with this product
 		  </label>
 		</div>
 		<div class="contractdescription-container">
 			<p>If applicable, please describe detailed terms, end dates, requirements for transfer, and/or costs the buyer may incur.</p>
-			<textarea id="inputcontractdescription" name="contractdescription" type="text" class="form-control" placeholder="">{{item.contractdescription}}</textarea>
+			<textarea id="inputcontractdescription" name="contractdescription" type="text" class="form-control" placeholder="">{{item.item_handle.contractdescription}}</textarea>
 		</div>
 	</div>
 	<div class="entry">
 		<h5>What's Included? <span>Please describe what items are included in your sale, such as accessories, spare parts, manuals/documentation, packaging, etc.</span></h5>
-		<textarea id="inputwhatsincluded" name="whatsincluded" type="text" class="form-control" placeholder="">{{item.whatsincluded}}</textarea>
+		<textarea id="inputwhatsincluded" name="whatsincluded" type="text" class="form-control" placeholder="">{{item.item_handle.whatsincluded}}</textarea>
 	</div>
 	
 </div>

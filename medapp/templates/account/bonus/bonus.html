@@ -62,16 +62,17 @@
 </style>
 {% endblock %}
 {% block maincontent %}
+{% load dollars %}
 	<div class="maincontent-container covebox bonus-container">
 		<div class="bonus-title">
 			<h4>There's no limit to how much you can save!</h4>
-			<p>You currently receive <strong>2%</strong> off every purchase and commission fee on VetCove.</p>
+			<p>You currently receive <strong>{{user.basicuser.bonus|percent}}%</strong> off every purchase on VetCove</p>
 			<a href="/account/bonushistory">View Current Savings</a>
 		</div>
 		<a href="/account/referral"><div class="bonus-option row">
 			<div class="col-md-9 col-sm-9 col-xs-8">
 				<h5>Refer Friends to VetCove</h5>
-				<p>Let your friends and colleagues start off with a .5% sitewide discount</p>
+				<p>Let your friends and colleagues start off with a 1% sitewide discount</p>
 				<p class="referral">Use referral link: <strong>www.vetcove.com/join/NSfsio232ionofs</strong></p>
 			</div>
 			<div class="col-md-3 col-sm-3 col-xs-4 discount">
@@ -96,10 +97,10 @@
 			</div>
 			<div class="col-md-3 col-sm-3 col-xs-4 discount">
 				<h6>+3%</h6>
-				<p>.1% per $50 spent</p>
+				<p>.25% per purchase</p>
 			</div>
 		</div></a>
-		<a href="/contact"><div class="bonus-option row">
+		<a href="/account/feedback"><div class="bonus-option row">
 			<div class="col-md-9 col-sm-9 col-xs-8">
 				<h5>Send us Some Feedback</h5>
 				<p>We love to hear how we can improve VetCove</p>
@@ -109,8 +110,7 @@
 			</div>
 		</div></a>
 		<div class="disclaimer">
-			<p>All VetCove bonuses expire 1 year after they take effect, except for selling and buying items on VetCove, which expire after 1 month. For friend referrals, the friend
-			 must sign up and either sell or buy an item on VetCove.</p>
+			<p>All VetCove bonuses expire 1 year after they take effect, except for selling and buying items on VetCove, which expire 90 days after purchase or sale. For friend referrals, the friend must sign up and either sell or buy an item on VetCove.</p>
 		</div>
 	</div>
   		

@@ -23,13 +23,13 @@
 {% load dollars %}
 <div class="preview row">
 	<div class="preview-text col-md-8 col-sm-8 col-xs-12">
-		<h4> Description<a href="/list/describe/{{item.id}}">edit</a></h4>
+		<h4> Description<a href="/list/describe/{{item.item_handle.id}}">edit</a></h4>
 		<div class="row">
 			<div class="col-md-3 col-sm-3 col-xs-12 info_header">
 				<p>Category</p>
 			</div>
 			<div class="col-md-9 col-sm-9 col-xs-12">
-				<p>{{item.subcategory}}</p>
+				<p>{{item.item_handle.subcategory}}</p>
 			</div>
 		</div>
 		<div class="row">
@@ -37,7 +37,7 @@
 				<p>Manufacturer</p>
 			</div>
 			<div class="col-md-9 col-sm-9 col-xs-12">
-				<p>{{item.manufacturer}}</p>
+				<p>{{item.item_handle.manufacturer}}</p>
 			</div>
 		</div>
 		<div class="row">
@@ -45,7 +45,7 @@
 				<p>Model Name</p>
 			</div>
 			<div class="col-md-9 col-sm-9 col-xs-12">
-				<p>{{item.name}}</p>
+				<p>{{item.item_handle.name}}</p>
 			</div>
 		</div>
 		<div class="row">
@@ -53,34 +53,37 @@
 				<p>Model Year</p>
 			</div>
 			<div class="col-md-9 col-sm-9 col-xs-12">
-				<p>{% if item.modelyear %}{{item.modelyear}}{% else %}N/A{% endif %}</p>
+				<p>{% if item.modelyear %}{{item.item_handle.modelyear}}{% else %}N/A{% endif %}</p>
 			</div>
 		</div>
-		{% if item.conditiontype == 'new' %}
+		{% if item.item_type != 'usedequipment' %}
 		<div class="row">
 			<div class="col-md-3 col-sm-3 col-xs-12 info_header">
 				<p>Quantity</p>
 			</div>
 			<div class="col-md-9 col-sm-9 col-xs-12">
-				<p>{{item.quantity}}</p>
+				<p>{{item.item_handle.quantity}}</p>
 			</div>
 		</div>
 		{% endif %}
+		{% if item.item_type == 'newequipment' %}
 		<div class="row">
 			<div class="col-md-3 col-sm-3 col-xs-12 info_header">
 				<p>Type</p>
 			</div>
 			<div class="col-md-9 col-sm-9 col-xs-12">
-				<p>{{item.get_conditiontype_display}}</p>
+				<p>{{item.item_handle.get_conditiontype_display}}</p>
 			</div>
 		</div>
-		<h4>Details<a href="/list/details/{{item.id}}">edit</a></h4>
+		{% endif %}
+		<h4>Details<a href="/list/details/{{item.item_handle.id}}">edit</a></h4>
+		{% if item.item_type == 'newequipment' %}
 		<div class="row">
 			<div class="col-md-3 col-sm-3 col-xs-12 info_header">
 				<p>Quality</p>
 			</div>
 			<div class="col-md-9 col-sm-9 col-xs-12">
-				<p>{{item.get_conditionquality_display}}</p>
+				<p>{{item.item_handle.get_conditionquality_display}}</p>
 			</div>
 		</div>
 		<div class="row">
@@ -88,15 +91,16 @@
 				<p>Condition</p>
 			</div>
 			<div class="col-md-9 col-sm-9 col-xs-12">
-				<p>{{item.conditiondescription}}</p>
+				<p>{{item.item_handle.conditiondescription}}</p>
 			</div>
 		</div>
+		{% endif %}
 		<div class="row">
 			<div class="col-md-3 col-sm-3 col-xs-12 info_header">
 				<p>Features</p>
 			</div>
 			<div class="col-md-9 col-sm-9 col-xs-12">
-				<p>{{item.productdescription}}</p>
+				<p>{{item.item_handle.productdescription}}</p>
 			</div>
 		</div>
 		<div class="row">
@@ -104,7 +108,7 @@
 				<p>What's Included</p>
 			</div>
 			<div class="col-md-9 col-sm-9 col-xs-12">
-				<p>{{item.whatsincluded}}</p>
+				<p>{{item.item_handle.whatsincluded}}</p>
 			</div>
 		</div>
 		<div class="row">
@@ -112,7 +116,7 @@
 				<p>Contract</p>
 			</div>
 			<div class="col-md-9 col-sm-9 col-xs-12">
-				<p>{{item.get_contract_display}}</p>
+				<p>{{item.item_handle.get_contract_display}}</p>
 			</div>
 		</div>
 		<div class="row">
@@ -120,10 +124,11 @@
 				<p>Contract Description</p>
 			</div>
 			<div class="col-md-9 col-sm-9 col-xs-12">
-				<p>{{item.contractdescription}}</p>
+				<p>{{item.item_handle.contractdescription}}</p>
 			</div>
 		</div>
-		<h4> Logistics<a href="/list/logistics/{{item.id}}">edit</a></h4>
+		<h4> Logistics<a href="/list/logistics/{{item.item_handle.id}}">edit</a></h4>
+		{% if item.item_type == 'newequipment' %}
 		<div class="row">
 			<div class="col-md-3 col-sm-3 col-xs-12 info_header">
 				<p>Viewing</p>
@@ -132,6 +137,7 @@
 				<p>{% if item.offlineviewing %}Offline Allowed{% else %}Online Only{% endif %}</p>
 			</div>
 		</div>
+		{% endif %}
 		<div class="row">
 			<div class="col-md-3 col-sm-3 col-xs-12 info_header">
 				<p>Shipping</p>
@@ -145,7 +151,7 @@
 				<p>MSRP Price</p>
 			</div>
 			<div class="col-md-9 col-sm-9 col-xs-12">
-				<p>{{item.msrp_price|dollars}}</p>
+				<p>{{item.item_handle.msrp_price|dollars}}</p>
 			</div>
 		</div>
 		<div class="row">
@@ -153,7 +159,7 @@
 				<p>List Price</p>
 			</div>
 			<div class="col-md-9 col-sm-9 col-xs-12">
-				<p>{{item.price|dollars}}</p>
+				<p>{{item.item_handle.price|dollars}}</p>
 			</div>
 		</div>
 		{% if item.promo_code %}
@@ -162,7 +168,7 @@
 				<p>Promotional Code</p>
 			</div>
 			<div class="col-md-9 col-sm-9 col-xs-12">
-				<p>{{item.promo_code.code}} ({{item.promo_code.details}})</p>
+				<p>{{item.item_handle.promo_code.code}} ({{item.item_handle.promo_code.details}})</p>
 			</div>
 		</div>
 		{% endif %}
@@ -172,16 +178,16 @@
 				<p>1+1 Program Charity</p>
 			</div>
 			<div class="col-md-9 col-sm-9 col-xs-12">
-				<p>{{item.charity_name}}</p>
+				<p>{{item.item_handle.charity_name}}</p>
 			</div>
 		</div>
 		{% endif %}
 	</div>
 	<div class="preview-image col-md-4 col-sm-4 col-xs-12">
-		<h4> Photos<a href="/list/photos/{{item.id}}">edit</a></h4>
+		<h4> Photos<a href="/list/photos/{{item.item_handle.id}}">edit</a></h4>
 		<div class="img-container">
 		{% if item.mainimage %}
-			<img class="preview-mainimage"src="{{item.mainimage.photo_medium.url}}" alt="{{img.item}}"/>
+			<img class="preview-mainimage"src="{{item.item_handle.mainimage.photo_medium.url}}" alt="{{img.item}}"/>
 		{% endif %}
 		{% for img in item.image_set.all %}
 			{% if item.mainimage.id != img.id %}
@@ -360,11 +366,11 @@ $(document).ready(function() {
 </style>
 {% endblock %}
 
-{% block nextpage %}/item/{{item.id}}/details{% endblock%}
+{% block nextpage %}/item/{{item.item_handle.id}}/details{% endblock%}
 
 {% block previewactive %}active{% endblock%}
 
-{% block previouspage %}/list/logistics/{{item.id}}{% endblock%}
+{% block previouspage %}/list/logistics/{{item.item_handle.id}}{% endblock%}
 
 {% block formaction %}/savepreview{% endblock%}
 
@@ -375,7 +381,7 @@ $(document).ready(function() {
 {% block continuebutton %}
 {% if item.liststatus != 'sold' and item.liststatus != 'disabled' and item.liststatus != 'deleted' %}
 <div class="listnav no-margin">
-	<form action="/list/activate/{{item.id}}" method="POST">
+	<form action="/list/activate/{{item.item_handle.id}}" method="POST">
 		<button class="saveandcontinue button button-rounded button-highlight">
 			{% csrf_token%}
 			{% if item.liststatus == 'active' %}

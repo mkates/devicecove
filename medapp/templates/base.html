@@ -97,7 +97,7 @@
 			{% if user.is_staff %}
 			<li><a class="" href="/staff/overview">Staff Portal</a></li>
 			{% endif %}
-			<li><a class="visible-xs" href="/categories">Browse by Category</a></li>
+			<li><a class="visible-xs" href="/equipmentcategories">Browse by Category</a></li>
 			<li class="dropdown cart-dropdown">
 				<a href="/cart" {% if cart_items %}class="dropdown-toggle" data-toggle="dropdown"{% endif %}>Cart <span class="shoppingcart-image"><img src="{{STATIC_URL}}img/shoppingcart.png"/></span>{% if cart_items %}<span class="sc-count">{{cart_items_count}}</span><b class="caret"></b>{% endif %}</a>
 				<ul class="navigation-options dropdown-menu pull-left">
@@ -133,7 +133,7 @@
 			<li class="dropdown">
 				<a href="#" class="dropdown-toggle" data-toggle="dropdown">Hi, {{user.basicuser.firstname}} <b class="caret"></b></a>
 				<ul class="navigation-options dropdown-menu pull-left">
-				  <li><a href="/account/bonus">Bonuses ({{user.basicuser.bonus}}%)</a></li>
+				  <li><a href="/account/bonus">Get More Bonuses ({{user.basicuser.bonus|percent}}%)</a></li>
 				  <li><a href="/account/notifications">Notifications</a></li>
 				  <li class="divider"></li>
 				  <li><a href="/account/buyerquestions">Questions I’ve Asked</a></li>
@@ -261,7 +261,7 @@
 						</div>
 					</div>
 					<div class="row category-footer">
-						<a class="seeall" href="/categories">See All Categories &#8594;</a>
+						<a class="seeall" href="/equipmentcategories">See All Categories &#8594;</a>
 					</div>
 				</div>
 			</div>	

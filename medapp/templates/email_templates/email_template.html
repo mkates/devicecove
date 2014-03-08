@@ -873,7 +873,7 @@
                     <table class="twelve columns">
                       <tr>
                         <td>
-                          <p>Dear {{email_name}},</p>
+                          {% block intro %}<p>Dear {{email_name}},</p>{% endblock %}
                           {% block textblock %}
                           {% endblock %}
                         </td>

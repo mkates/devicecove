@@ -287,7 +287,7 @@ var pictureBinds = function pictureBinds() {
 		$.ajax({
             type : "POST",
             dataType: "json",
-            data : {'imageid':$(this).attr('data-imageid')},
+            data : {'imageid':$(this).attr('data-imageid'),'itemid':'{{item.id}}'},
             url : "/post/deleteimage",
             success : function(data) {
             	if (data['status'] == 201) {
@@ -307,7 +307,7 @@ var pictureBinds = function pictureBinds() {
 			$.ajax({
 				type : "POST",
 				dataType: "json",
-				data : {'imageid':$(this).attr('data-imageid')},
+				data : {'imageid':$(this).attr('data-imageid'),'itemid':'{{item.id}}'},
 				url : "/post/setmainimage",
 				success : function(data) {
 					if (data['status'] == 201) {

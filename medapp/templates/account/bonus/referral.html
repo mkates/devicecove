@@ -3,52 +3,66 @@
 {% block bonus %}active{% endblock %}
 
 {% block jsblock %}
+<script src="{{STATIC_URL}}js/bootstrap-tagsinput.js" type="text/javascript" ></script>
+<script type="text/javascript">
+//Used to make every space a new tag
+$(document).ready(function () {
+	$('.bootstrap-tagsinput').on('input', function() {
+    	redrawContacts(false);
+	});
+	$('#referral-form').submit(function() {
+    	redrawContacts(true);
+    	return true;
+	});
+});
+
+var redrawContacts = function(combined) {
+	var value = String($("#emails").tagsinput("items"));
+	if (combined) {
+		var value = String($("#emails").tagsinput("items"))+","+$('.bootstrap-tagsinput input').val();
+		$('.bootstrap-tagsinput input').val("");
+		console.log("col");
+	}
+	var value = value.split(/,| /);
+	$('#emails').tagsinput('removeAll');
+	for (var itm=0;itm<value.length;itm++) {
+		$("#emails").tagsinput('add', value[itm]);
+	}
+}
+</script>
 {% endblock %}
 {% block maintitle %}Refer Friends{% endblock %}
 {% block headersubcss %}
+<link href="{{STATIC_URL}}css/bootstrap-tagsinput.css" rel="stylesheet" type="text/css" />
 <style>
 .bonus-container {
 	padding: 40px 20px;
 }
 .bonus-title {
-	margin: 0px 10px 25px 10px;
+	margin: 0px 30px 25px 30px;
 	padding-bottom: 25px;
 	text-align: center;
-}
-.bonus-title a:hover {
-	text-decoration: underline;
 }
 .bonus-title h4 {
 	font-size: 30px;
 	font-weight: 200;
+	line-height: 40px;
 }
-.bonus-option {
-	margin: 0 40px;
-	padding: 20px 0;
-	border-bottom:1px solid #ddd;
-	transition: background .2s;
+.bootstrap-tagsinput {
+	width: 100%;
+	min-height: 100px;
 }
-.bonus-option:hover {
-	background: #F4F8FC;
+.bootstrap-tagsinput .tag {
+	font-size: 13px;
+	line-height: 25px;
 }
-.bonus-option h5 {
-	font-size: 20px;
-	margin: 0;
-	margin-bottom: 10px;
+.bootstrap-tagsinput input {
+	min-width: 150px;
 }
-.bonus-option p {
-	color: #555;
-}
-.bonus-option h6 {
-	font-size: 30px;
-	color: #555;
-	padding-bottom: 5px;
-	margin: 0;
-}
-.bonus-option .discount {
-	font-size: 12px;
-	color: #777;
-	text-align: center;
+.referral-link {
+	border-top:1px solid #eee;
+	margin-top: 35px;
+	padding-top: 20px;
 }
 .disclaimer p {
 	font-size: 12px;
@@ -63,48 +77,26 @@
 		<div class="bonus-title">
 			<h4>Save up to 3% off <strong> every purchase</strong> by inviting your friends and colleagues</h4>
 		</div>
-		<a href="/referral"><div class="bonus-option row">
-			<div class="col-md-9 col-sm-9 col-xs-8">
-				<h5>Refer Friends to VetCove</h5>
-				<p>Let your friends and colleagues start off with a .25% sitwide discount</p>
-			</div>
-			<div class="col-md-3 col-sm-3 col-xs-4 discount">
-				<h6>+3%</h6>
-				<p>.25% per friend</p>
-			</div>
-		</div></a>
-		<a href="/referral"><div class="bonus-option row">
-			<div class="col-md-9 col-sm-9 col-xs-8">
-				<h5>Sell an Item on VetCove</h5>
-				<p>Once you sell an item, take .25% off every future purchase </p>
-			</div>
-			<div class="col-md-3 col-sm-3 col-xs-4 discount">
-				<h6>+3%</h6>
-				<p>.25% per item sold</p>
-			</div>
-		</div></a>
-		<a href="/referral"><div class="bonus-option row">
-			<div class="col-md-9 col-sm-9 col-xs-8">
-				<h5>Purchase Items on VetCove</h5>
-				<p>The more you purchase, the more you save</p>
-			</div>
-			<div class="col-md-3 col-sm-3 col-xs-4 discount">
-				<h6>+3%</h6>
-				<p>.1% per $50 spent</p>
-			</div>
-		</div></a>
-		<a href="/referral"><div class="bonus-option row">
-			<div class="col-md-9 col-sm-9 col-xs-8">
-				<h5>Send us Some Feedback</h5>
-				<p>We love to hear how we can improve VetCove</p>
-			</div>
-			<div class="col-md-3 col-sm-3 col-xs-4 discount">
-				<h6>+.25%</h6>
-			</div>
-		</div></a>
+		{% if not success %}
+		<div class="referral-option row">
+			<form id="referral-form" method="POST" action="/account/referralform">{% csrf_token %}
+				<p>For every friend that sells or buys on VetCove, you earn an additional .25% off every purchase (limit 3%)</p>
+    			<input id="emails" type="text" value="" name="emails" data-role="tagsinput" placeholder="Add Email Addresses" />
+				<button class="button button-rounded button-action">Send Email</button>
+			</form>
+		</div>
+		{% else %}
+		<div class="referral-option row">
+			<h5>We have sent the invites.</h5>
+			<p>For every referral that signs up and makes a purchase or a sale, you earn an additional .25% off <strong>every</strong> purchase, up to 3% total!</p>
+		</div>
+		{% endif %}
+		<div class="referral-option referral-link row">
+			<p>More ways to share:</p>
+			<p>Referral Link: <strong>www.vetcove.com/referral/{{user.basicuser.referral_id}}</strong></p>
+		</div>
 		<div class="disclaimer">
-			<p>All VetCove bonuses expire 1 year after they take effect, except for selling and buying items on VetCove, which expire after 1 month. For friend referrals, the friend
-			 must sign up and either sell or buy an item on VetCove.</p>
+			<p>You can see which friends have made purchased or sold items on VetCove in your <a href="/account/bonushistory">current bonuses</a></p>
 		</div>
 	</div>
   		

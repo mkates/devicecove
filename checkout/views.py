@@ -9,14 +9,17 @@ from django.shortcuts import render
 from django.core.exceptions import ObjectDoesNotExist
 from django.conf import settings
 from django.core.cache import cache
-import json, re
+import json, re, random, string
 from datetime import datetime
 from django.utils.timezone import utc
 import balanced
 import helper.commission as commission
 import helper.bonus as bonus
 import emails.views	as email_view
+import payment.views as payment_view
 from helper.model_imports import *
+from checkout.forms import *
+from account.forms import *
 
 ###################################
 ### Sign Up Form ##################
@@ -45,7 +48,13 @@ def newuserform(request):
 			newuser.save()
 			
 			# Create the basic user
-			nbu = BasicUser(user=newuser,firstname=firstname,lastname=lastname,email=email,zipcode=zipcode)
+
+			# Check if there is a referral object
+			try:
+				referrer = BasicUser.objects.get(referral_id=request.session['referral_id'])
+			except:
+				referrer = None
+			nbu = BasicUser(user=newuser,referrer=referrer,referral_id=generateToken(),firstname=firstname,lastname=lastname,email=email,zipcode=zipcode)
 			nbu.save()
 			
 			# Attempt to get the lat long and assign the city, state, and county
@@ -125,7 +134,7 @@ def addToCart(request,itemid):
 			request.session['shoppingcart'] = shoppingcart.id
 		item = Item.objects.get(id=itemid)
 		# Make sure if item is offline the user can add the item to their cart
-		if item.offlineviewing:
+		if item.item_type == 'UsedEquipment':
 			if not BuyAuthorization.objects.filter(buyer=request.user.basicuser,item=item).exists():
 				return HttpResponseRedirect('/item/'+itemid+"/details")
 		# Only creates the cart object if it doesn't exist
@@ -228,7 +237,7 @@ def checkoutlogin(request):
 					if request.user.is_authenticated():
 						# If a user is already logged in, login must match
 						if user == request.user:
-							bu = BasicUser.objects.get(user=request.user)
+							bu = request.user.basicuser
 							checkoutid = createCheckout(bu)
 							return HttpResponseRedirect('/checkout/shipping/'+str(checkoutid))
 						else:
@@ -495,7 +504,7 @@ def checkoutMoveToSaved(request,checkoutid):
 	cartitemid = request.POST['checkoutitemid']
 	cartitem = CartItem.objects.get(id=cartitemid)
 	#Add to Saved Items
-	bu = BasicUser.objects.get(user=request.user)
+	bu = request.user.basicuser
 	si, created = SavedItem.objects.get_or_create(item=cartitem.item,user=bu)
 	si.save()
 	#Delete the CartItem
@@ -521,6 +530,8 @@ def checkoutChangeQuantity(request,checkoutid):
 ###################################
 @login_required
 def checkoutPurchase(request,checkoutid):
+	bu = request.user.basicuser
+	
 	# 1. Checkout Validation
 	checkout = Checkout.objects.get(id=checkoutid)
 	checkoutValid = checkoutValidCheck(checkout,request)
@@ -534,7 +545,6 @@ def checkoutPurchase(request,checkoutid):
 	
 	# 3. Make purchase
 	try:
-		bu = BasicUser.objects.get(user=request.user)
 		if not hasattr(checkout.payment,'checkpayment'): # Only charge if its a bank account or cc
 			if hasattr(checkout.payment,'balancedcard'):
 				uri = checkout.payment.balancedcard.uri
@@ -554,19 +564,25 @@ def checkoutPurchase(request,checkoutid):
 	order.save()
 	for cartitem in checkout.cartitem_set.all():
 		item = cartitem.item
+		item_handle = item.item_handle()
 		# Update item quantity and status (if applicable)
-		if item.quantity == cartitem.quantity:
-			item.liststatus = 'sold'
-			item.quantity = 0
-		elif item.quantity > cartitem.quantity:
-			item.quantity -= cartitem.quantity
-		# Offline items -> Mark as sold online
-		if item.offlineviewing:
-			item.sold_online = True
+		if item.item_type() != 'usedequipment':
+			if item_handle.quantity == cartitem.quantity:
+				item.liststatus = 'sold'
+				item_handle.quantity = 0
+			elif item_handle.quantity > cartitem.quantity:
+				item_handle.quantity -= cartitem.quantity
+			item_handle.save()
+		else:
+			item_handle.liststatus = 'sold'
+			item_handle.sold_online = True
 		item.save()
 		# Create purchased item object
 		amount = cartitem.price * cartitem.quantity
-		commission_amount = 0 if cartitem.item.commission_paid else commission.commission(item)
+		if item.item_type() == 'usedequipment':
+			commission_amount = 0 if item_handle.commission_paid else commission.commission(item)
+		else:
+			commission_amount = commission.commission(item)
 		pi = PurchasedItem(seller=item.user,
 						buyer=bu,
 						order=order,
@@ -576,7 +592,7 @@ def checkoutPurchase(request,checkoutid):
 						charity_name = item.charity_name,
 						commission = commission_amount,
 						promo_code = item.promo_code,
-						shipping_included=item.shippingincluded,
+						shipping_included=item_handle.shippingincluded,
 						item_name=cartitem.item.name,
 						quantity=cartitem.quantity,
 						buyer_message=request.POST.get('shipping-message-'+str(cartitem.id),'')
@@ -623,7 +639,7 @@ def checkoutConfirmation(request,orderid):
 def getShoppingCart(request):
 	shoppingcart = None
 	if request.user.is_authenticated():
-		bu = BasicUser.objects.get(user=request.user)
+		bu = request.user.basicuser
 		shoppingcart = ShoppingCart.objects.get(user=bu)
 	else:
 		if 'shoppingcart' in request.session:
@@ -648,9 +664,11 @@ def allItemsAvailable(checkout):
 			cartitem.checkout = None
 			cartitem.save()
 			changed = True
-		elif cartitem.item.quantity < cartitem.item.quantity:
-			checkout.cartitem.quantity = cartitem.item.quantity
-			changed = True
+		if cartitem.item.item_type() != 'usedequipment':
+			if cartitem.item.item_handle().quantity < cartitem.quantity:
+				checkout.cartitem.quantity = cartitem.item.item_handle().quantity
+				checkout.cartitem.save()
+				changed = True
 	if changed:
 		return 'Some items in your cart are no longer available or the quantity changed. Your cart has been updated'
 	else:
@@ -676,7 +694,7 @@ def checkoutValidCheck(checkout,request):
 	
 	# See if it is the right user
 	if request.user.is_authenticated():
-		bu = BasicUser.objects.get(user=request.user)
+		bu = request.user.basicuser
 		if checkout.buyer != bu:
 			dict = {'status':100,'error':'different_user'} # Incorrect user
 	else:
@@ -697,3 +715,6 @@ def checkoutValidCheck(checkout,request):
 		dict = {'status':201} #Checkout is VALID!!!
 	
 	return dict
+
+def generateToken():
+	return ''.join(random.choice(string.ascii_uppercase + string.digits) for x in range(20))

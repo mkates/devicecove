@@ -86,3 +86,56 @@
 .signupbutton {
 	margin-bottom: 40px;
 }
+.signupform .form-group label {
+	color: #aaa;
+	font-weight: 200;
+	width: 100%;
+	margin: 0;
+	padding: 0;
+
+}
+.signupform .form-group img {
+	display: inline;
+	width: 20px;
+	height:20px;
+	margin-left: 10px;
+}
+.signupform .form-group p {
+	text-align: left;
+}
+.signupform .form-group .form-img {
+	text-align: left;
+}
+.signupform table {	
+}
+.signupform .form-input {
+	min-width: 250px;
+	max-width: 100%;
+}
+.signupform .form-input input {
+	width: 250px;
+}
+#passwordtext, #formemailtext, #confirmpasswordtext {
+	margin-left: 5px;
+	margin-top: 2px;
+	color: #D90000;
+	font-size: 12px;
+}
+.has-error {
+	border:1px solid red;
+}
+.sup_text {
+	height: 0px;
+	overflow:visible;
+}
+#signuperror {
+	display: inline-block;
+	color: red;
+	font-size: 200;
+	padding: 5px 12px;
+	margin-top: 20px;
+	background: #FFF2F2;
+	font-weight: 200;
+	border:1px solid red;
+	border-radius: 4px;
+}

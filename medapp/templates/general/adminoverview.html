@@ -91,7 +91,6 @@ header img {
 	<a class="button button-rounded button-primary" href="/staff/overview/bankpayout">Bank Payouts</a>
 	<a class="button button-rounded button-primary" href="/staff/overview/commission">Offline Commissions</a>
 	<a class="button button-rounded button-primary" href="/staff/overview/checkpayout">Check Payouts</a>
-	<a class="button button-rounded button-primary" href="/staff/overview/checkpayment">Check Payment</a>
 </div>
 
 {% if dashboard %}
@@ -319,48 +318,7 @@ header img {
 	</div>
 	{% endif %}
 
-	{% if checkpayment %}
-	<div class="admin-log covebox">
-		<h3>Check Payment History</h3>
-		<table class="admin-table">
-			<thead>
-				<tr>
-					<td>Purchase Date</td>
-					<td>Name</td>
-					<td>Items</td>
-					<td>Order ID</td>
-					<td>Total</td>
-					<td>Payment Received</td>
-					<td>Mark as Valid</td>
-				</tr>
-			</thead>
-			<tbody>
-				{% for order in checkpayment reversed %}
-					<tr>
-						<td>{{order.purchase_date}}</td>
-						<td>{{order.buyer}}</td>
-						<td>{% for pi in order.purchaseditem_set.all %}
-							{{pi.item_name}} ({{pi.quantity}})
-							{% if not forloop.last %}, {% endif %}
-						{% endfor %}</td>
-						<td>{{order.id}}</td>
-						<td>{{order.total|dollars}}</td>
-						<td>{{order.payment.checkpayment.received}}</td>
-						<td class="received-action">
-							{% if order.payment.checkpayment.received %}
-							<button data-val="unreceived" data-reid="{{order.id}}" class="button-tiny button button-rounded">Mark as Unreceived</button>
-							{% else %}
-							<button data-val="received" data-reid="{{order.id}}" class="button-tiny button button-rounded button-action">Mark as Received</button>
-							{% endif %}
-						
-						</td>
-					</tr>
-					
-				{% endfor %}
-			</tbody>
-		</table>
-	</div>
-	{% endif %}
+	
 
 </div>
 {% endblock %}
@@ -394,32 +352,6 @@ $(document).ready(function() {
 						$(handle).text('Mark as Sent');
 					}
 					$(handle).parent().prev().text(data['sent']);
-				}		
-			},
-			dataType: 'json'
-		});
-	});
-	$(".received-action button").click(function() {
-		var handle = $(this);
-		handle.prop('disabled',true);
-		$.ajax({
-			type: "POST",
-			url: "/staff/markasreceived",
-			data: {'re_id':$(this).attr('data-reid'),'re_val':$(this).attr('data-val')},
-			success: function(data) {
-				$(handle).prop('disabled',false);
-				if (data['status'] == 201) {
-					console.log(data['received']);
-					if (data['received']) {
-						$(handle).attr('data-val','unreceived');
-						$(handle).removeClass('button-action');
-						$(handle).text('Mark as Unreceived');
-					} else {
-						$(handle).attr('data-val','received');
-						$(handle).addClass('button-action');
-						$(handle).text('Mark as Received');
-					}
-					$(handle).parent().prev().text(data['received']);
 				}		
 			},
 			dataType: 'json'

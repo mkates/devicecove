@@ -347,10 +347,12 @@ var addError = function addError(handle) {
 							<div class="item-summary">
 								<p>{{checkoutcartitem.item.name}}</p>
 								<p><span>Sold by: </span>{{checkoutcartitem.item.user.company}}</p>
-								<p><span>Quantity: </span>{{checkoutcartitem.quantity}}</p>
-								<p><span>Price: </span>{{checkoutcartitem.price|dollars}}</p>
+								<p><span>Quantity: </span>{{checkoutcartitem.quantity}}<span class="price">{{checkoutcartitem.price|dollars}}</span></p>
 							</div>
 						{% endfor %}
+						<h5>Savings</h5>
+						<p>Subtotal:<span>{{checkout.subtotal|dollars}}</span></p>
+						<p>VetCove Bonus ({{user.basicuser.bonus|percent}}%)<span>-{{checkout.bonus_discount|dollars}}</span></p>
 						<h6 class="checkout-total">Total:<span>{{checkout.total|dollars}}</span></h6>
 					</div>
 					{% if checkout.shippingAddressRequired %}

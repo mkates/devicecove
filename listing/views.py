@@ -31,29 +31,20 @@ def getsubcategories(request):
 	return HttpResponse(json.dumps(dict), content_type='application/json')
 
 @login_required
-def listproduct(request,subcategory):
+def newlisting(request,listingtype):
 	if request.user.is_authenticated:
 		bu = request.user.basicuser
-		subcategory = SubCategory.objects.get(name=subcategory)
- 		newitem = Item(user=bu,
- 						subcategory=subcategory,
- 						originalowner=True,
- 						offlineviewing=False,
- 						contract="none",
- 						msrp_price = 0,
- 						price = 0,
- 						max_price = 0,
- 						conditiontype = "preowned",
- 						conditionquality = 3,
- 						shippingincluded = True,
- 						liststatus = 'incomplete',
- 						liststage = 0,
- 						savedcount = 0)
- 		newitem.save()
- 		if not (bu.businesstype and bu.phonenumber and bu.company):
- 			return HttpResponseRedirect('/list/business/'+str(newitem.id))
-		return HttpResponseRedirect('/list/describe/'+str(newitem.id))
-	return HttpResponse(request.method)
+		if listingtype == 'newequipment':
+			item = NewEquipment(user=bu)
+		if listingtype == 'usedequipment':
+			item = UsedEquipment(user=bu)
+		if listingtype == 'pharmaitem':
+			item = PharmaItem(user=bu)
+		item.save()
+		if not (bu.businesstype and bu.phonenumber and bu.company):
+ 			return HttpResponseRedirect('/list/business/'+str(item.id))
+		return HttpResponseRedirect('/list/describe/'+str(item.id))
+
 
 #Business Description
 @login_required
@@ -93,25 +84,21 @@ def savedescribe(request,itemid):
 		if request.method == "POST" and itemOwner(request,itemid):
 			submitcode = 600 if int(request.POST['submitcode']) == 600 else 700
 			item = Item.objects.get(id=itemid)
+			item_handle = item.item_handle()
+			item_type = item.item_type()
 			subcategory = request.POST.get('subcategory','0')
 			if subcategory != '0':
-				item.subcategory = SubCategory.objects.get(name=request.POST.get('subcategory',''))
-			item.manufacturer = request.POST.get('manufacturer','')
-			item.name = request.POST.get('name','')
-			item.serialno = request.POST.get('serialnumber','None')
-			item.modelyear = request.POST.get('modelyear',2014)
-			item.conditiontype = request.POST.get('conditiontype','preowned')
-			item.quantity = request.POST.get('quantity',1)
-			# New items can't be viewed offline
-			if item.conditiontype == 'new':
-				item.offlineviewing = False
-				item.conditionquality = 5
-			else:
-				item.quantity = 1
-				if item.conditionquality == 5:
-					item.conditionquality = 3
-			item.originalowner = True if request.POST.get('originalowner','True')=='True' else False
-			item.save()
+				item_handle.subcategory = SubCategory.objects.get(name=subcategory)
+			item_handle.manufacturer = request.POST.get('manufacturer','')
+			item_handle.name = request.POST.get('name','')
+			item_handle.modelyear = request.POST.get('modelyear',2014)
+			if item_type == 'usedequipment':
+				item_handle.conditiontype = request.POST.get('conditiontype','preowned')
+				item_handle.serialno = request.POST.get('serialnumber',None)
+				item.originalowner = True if request.POST.get('originalowner','True')=='True' else False
+			elif item_type == 'newequipment':
+				item_handle.quantity = request.POST.get('quantity',1)
+			item_handle.save()
 			return HttpResponse(submitcode)
 		return HttpResponse(500)
 	except Exception, e:
@@ -126,7 +113,6 @@ def listitemdetails(request,itemid):
 		item.liststage = max(2,item.liststage)
 		item.save()
 		dict = {'item':item}
-		categories = Category.objects.all()
 		return render_to_response('item/item_details.html',dict,context_instance=RequestContext(request))
 	return HttpResponseRedirect('/listintro')
 
@@ -137,13 +123,16 @@ def savedetails(request,itemid):
 		if request.method == "POST" and itemOwner(request,itemid):
 			submitcode = 600 if int(request.POST['submitcode']) == 600 else 700
 			item = Item.objects.get(id=itemid)
-			item.whatsincluded = request.POST.get('whatsincluded','')
-			item.conditionquality = request.POST.get('conditionquality',3)
-			item.conditiondescription = request.POST.get('conditiondescription','')
-			item.productdescription = request.POST.get('productdescription','')
-			item.contract = request.POST.get('contract','')
-			item.contractdescription = request.POST.get('contractdescription','')
-			item.save()
+			item_handle = item.item_handle()
+			item_type = item.item_type()
+			item_handle.whatsincluded = request.POST.get('whatsincluded','')
+			item_handle.productdescription = request.POST.get('productdescription','')
+			item_handle.contract = request.POST.get('contract','')
+			item_handle.contractdescription = request.POST.get('contractdescription','')
+			if item_type == 'usedequipment':
+				item_handle.conditionquality = request.POST.get('conditionquality',3)
+				item_handle.conditiondescription = request.POST.get('conditiondescription','')
+			item_handle.save()
 			return HttpResponse(submitcode)
 		return HttpResponse(500)
 	except:
@@ -157,7 +146,6 @@ def listitemphotos(request,itemid):
 		item.liststage = max(3,item.liststage)
 		item.save()
 		dict = {'item':item}
-		categories = Category.objects.all()
 		return render_to_response('item/item_photos.html',dict,context_instance=RequestContext(request))
 	return HttpResponseRedirect('/listintro')
 	
@@ -167,14 +155,14 @@ def listitemphotos(request,itemid):
 def deleteimage(request):
 	if request.method == "POST":
 		itemimg = Image.objects.get(id=request.POST['imageid'])
-		item = itemimg.item
+		item = Item.objects.get(id=request.POST['itemid'])
 		bu = request.user.basicuser
 		# Check if image belongs to the user
 		if item.user == bu:
 			if item.mainimage == itemimg:
 				item.mainimage = None
 				item.save()
-			itemimg.delete()
+			itemimg.item.remove(item)
 			if item.mainimage == None:
 				if item.image_set.exists():
 					item.mainimage = item.image_set.all()[0]
@@ -188,7 +176,7 @@ def deleteimage(request):
 def setmainimage(request):
 	if request.method == "POST":
 		itemimg = Image.objects.get(id=request.POST['imageid'])
-		item = itemimg.item
+		item = Item.objects.get(id=request.POST['itemid'])
 		bu = request.user.basicuser
 		#Check if image belongs to the user
 		if item.user == bu:
@@ -213,7 +201,9 @@ def imageupload(request,itemid):
 					return HttpResponse(json.dumps({'status':500,'error':'filesize'}), content_type='application/json')
 				if item.image_set.count() > 10:
 					return HttpResponse(json.dumps({'status':500,'error':'filecount'}), content_type='application/json')
-				ui = Image(item=item,photo=file,photo_small=file,photo_medium=file)
+				ui = Image(photo=file,photo_small=file,photo_medium=file)
+				ui.save()
+				ui.item.add(item)
 				ui.save()
 				# Make it the main image if there is no main image
 				if item.mainimage == None:
@@ -254,25 +244,28 @@ def savelogistics(request,itemid):
 		if request.method == "POST" and itemOwner(request,itemid):
 			submitcode = 600 if int(request.POST['submitcode']) == 600 else 700
 			item = Item.objects.get(id=itemid)
-			item.shippingincluded = True if request.POST.get('shippingincluded','True') == 'True' else False
-			item.offlineviewing = True if request.POST.get('offlineviewing',False) == 'True' else False
+			item_handle = item.item_handle()
+			item_type = item.item_type()
+			item_handle.shippingincluded = True if request.POST.get('shippingincluded','True') == 'True' else False
 			price = request.POST.get('inputlistprice','0')
 			if price:
 				new_price = int(round(float(price.replace(",","").replace("$","0")),2)*100)
 				if item.price and item.price != new_price and item.liststatus == "active":
 					pc = PriceChange(item=item,original_price=item.price,new_price=new_price)
 					pc.save()
-				item.price = new_price
-				item.max_price = max(item.max_price,item.price)
+				item_handle.price = new_price
+			if item_type == 'usedequipment':
+				item_handle.offlineviewing = True if request.POST.get('offlineviewing',False) else False
+				item_handle.max_price = max(item_handle.max_price,item.price)
 			msrp_price = request.POST.get('inputmsrpprice','0')
 			if msrp_price:
-				item.msrp_price = int(round(float(msrp_price.replace(",","").replace("$","0")),2)*100)
-			item.charity = True if request.POST.get('charity',False) else False
-			item.charity_name = Charity.objects.get(name=request.POST.get('charity_name','Any'))
+				item_handle.msrp_price = int(round(float(msrp_price.replace(",","").replace("$","0")),2)*100)
+			item_handle.charity = True if request.POST.get('charity',False) else False
+			item_handle.charity_name = Charity.objects.get(name=request.POST.get('charity_name','Any'))
 			if request.POST.get('promocode',''):
 				if PromoCode.objects.filter(code=request.POST.get('promocode'),active=True).exists():
-					item.promo_code = PromoCode.objects.get(code=request.POST.get('promocode'))
-			item.save()
+					item_handle.promo_code = PromoCode.objects.get(code=request.POST.get('promocode'))
+			item_handle.save()
 			return HttpResponse(submitcode)
 		return HttpResponse(500)
 	except Exception,e:

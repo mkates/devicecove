@@ -13,7 +13,7 @@ import emails.views	as email_view
 import helper.commission as commission
 from django.core.cache import cache
 import json, math, difflib, locale, time
-
+from helper.model_imports import *
 # Create your views here.
 @login_required
 def staffOverviewForward(request):
@@ -74,12 +74,6 @@ def staffOverview(request,type):
 			dict['checkpayout'] = CheckPayout.objects.all()
 		elif type == 'commission':
 			dict['commission'] = Commission.objects.all()
-		elif type == 'checkpayment':
-			checkpayment = []
-			for order in Order.objects.all():
-				if hasattr(order.payment,'checkpayment'):
-					checkpayment.append(order)
-			dict['checkpayment'] = checkpayment
 		return render_to_response('general/adminoverview.html',dict,context_instance=RequestContext(request))
 	return HttpResponseRedirect("/")
 

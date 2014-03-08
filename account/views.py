@@ -16,6 +16,8 @@ import balanced
 from helper.model_imports import *
 import payment.views as payment_view
 import emails.views as email_view
+from account.forms import *
+from helper.bonus import *
 
 ###########################################
 #### Logins and new users #################
@@ -193,12 +195,12 @@ def updatesettingsnewsletter(request):
 @login_required
 def deleteAccount(request):
 	if request.user.is_authenticated() and request.method=="POST":
-		request.user.is_active = False
-		request.user.save()
-		logout(request)
 		for item in request.user.basicuser.item_set.all():
 			item.liststatus = 'disabled'
 			item.save()
+		request.user.is_active = False
+		request.user.save()
+		logout(request)
 		return HttpResponseRedirect('/')
 
 @login_required
@@ -228,12 +230,58 @@ def referral(request):
 		return render_to_response('account/bonus/referral.html',{"bonus":True},context_instance=RequestContext(request))
 	else:
    		return render_to_response('general/index.html', context_instance=RequestContext(request))
-   
+
+@login_required
+def feedback(request):
+	if request.user.is_authenticated():
+		bu = request.user.basicuser
+		return render_to_response('account/bonus/feedback.html',{"bonus":True},context_instance=RequestContext(request))
+	else:
+   		return render_to_response('general/index.html', context_instance=RequestContext(request))
+  
+@login_required
+def feedbackForm(request):
+	if request.method == 'POST':
+		form = FeedbackForm(request.POST)
+		if form.is_valid():		
+			love = form.cleaned_data['love']
+			change = form.cleaned_data['change']
+			feedback = Feedback(user=request.user.basicuser,love=love,change=change)
+			feedback.save()
+			updateBonus(request.user.basicuser)
+		return HttpResponseRedirect('/account/feedbackthanks')
+	else:
+   		return render_to_response('general/index.html', context_instance=RequestContext(request))
+
+@login_required
+def feedbackThanks(request):
+	return render_to_response('account/bonus/feedback.html',{"bonus":True,"success":True},context_instance=RequestContext(request))
+
+@login_required
+def referralForm(request):
+	if request.method == 'POST':
+		form = ReferralForm(request.POST)
+		if form.is_valid():		
+			emails = form.cleaned_data['emails']
+			emails = str(emails.replace("[","",).replace("]","",).replace(" ","",).replace("'","",))
+			emails = emails.split(",")
+			email_view.composeReferral(request.user.basicuser,emails)
+			return HttpResponseRedirect('/account/referralthanks')
+		else:
+			return HttpResponseRedirect('/account/referral')
+	else:
+   		return render_to_response('general/index.html', context_instance=RequestContext(request))
+
+@login_required
+def referralThanks(request):
+	return render_to_response('account/bonus/referral.html',{"bonus":True,"success":True},context_instance=RequestContext(request))
+	
 @login_required
 def bonusHistory(request):
 	if request.user.is_authenticated():
 		bu = request.user.basicuser
-		return render_to_response('account/bonus/bonushistory.html',{"bonus":True},context_instance=RequestContext(request))
+		bonuses = updateBonus(bu)
+		return render_to_response('account/bonus/bonushistory.html',{"bonus":True,'bonuses':bonuses},context_instance=RequestContext(request))
 	else:
    		return render_to_response('general/index.html', context_instance=RequestContext(request))
 

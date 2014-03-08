@@ -1,7 +1,7 @@
 {% extends 'account/account.html' %}
 {% block headertitle %}<title>VetCove | Bonus History</title>{% endblock%}
 {% block bonus %}active{% endblock %}
-
+{% load dollars %}
 {% block jsblock %}
 {% endblock %}
 {% block maintitle %}Bonus History{% endblock %}
@@ -29,6 +29,7 @@
 .bonus-row .discount {
 	font-weight: 800;
 	font-size: 15px;
+	text-align: center;
 	vertical-align: bottom;
 }
 .bonus-row .total {
@@ -46,55 +47,98 @@
 	padding: 40px 40px 0 40px;
 	text-align: center;
 }
+.align-right {
+	text-align: right;
+}
+.align-center {
+	text-align: center;
+}
+.nobonus {
+	text-align: center;
+	padding: 40px;
+	font-weight: 200;
+}
 </style>
 {% endblock %}
 {% block maincontent %}
 	<div class="maincontent-container covebox bonus-container">
 		<div class="bonus-row">
 			<h5>Current Bonuses</h5>
+			{% if bonuses.active_bonus %}
 			<table>
-				<tr>
-					<td class="type">Friend Referral - Dr. John Bolhman</td>
-					<td class="discount">.25%</td>
-					<td class="expiration">Expires 2/1/2015</td>
-				</tr>
-				<tr>
-					<td class="type">Friend Referrals (6 active)</td>
-					<td class="discount">2%</td>
-					<td class="expiration">Expires 2/1/2015</td>
-				</tr>
-				<tr>
-					<td class="type">Friend Referrals (6 active)</td>
-					<td class="discount">2%</td>
-					<td class="expiration">Expires 2/1/2015</td>
-				</tr>
-				<tr class="total">
-					<td class="type">Total Discounts:</td>
-					<td class="discount">2.5%</td>
-					<td class="expiration"></td>
-				</tr>
+				<thead>
+					<th>Type</th>
+					<th class="align-center">Bonus</th>
+					<th class="align-right">Expiration</th>
+				</thead>
+				<tbody>
+					{% for ab in bonuses.active_bonus %}
+					<tr>
+						<td class="type">
+							{% if ab.0 == 'referral' %}
+								Referral - {{ab.1.name}}
+							{% elif ab.0 == 'buy' %}
+								Purchase - {{ab.1.item_name}} ({{ab.1.quantity}})
+							{% elif ab.0 == 'sold' %}
+								Sold - {{ab.1.item_name}} ({{ab.1.quantity}})
+							{% elif ab.0 == 'feedback' %}
+								Feedback
+							{% elif ab.0 == 'welcome' %}
+								Joined through Referral - {{ab.1.name}}
+							{% endif %}
+						</td>
+						<td class="discount">.25%</td>
+						<td class="expiration">Expires {{ab.3|date:"F jS, Y"}}</td>
+					</tr>
+					{% endfor %}
+					<tr class="total">
+						<td class="type">Total Discounts:</td>
+						<td class="discount">{{bonuses.total_bonus|percent}}%</td>
+						<td class="expiration"></td>
+					</tr>
+				</tbody>
 			</table>
+			{% else %}
+			<p class="nobonus">You do not currently have any active bonuses</p>
+			{% endif %}
 		</div>
 		<div class="bonus-row">
 			<h5>Expired Bonuses</h5>
+			{% if bonuses.inactive_bonus %}
 			<table>
-				<tr>
-					<td>Friend Referrals (6 active)</td>
-					<td>2%</td>
-				</tr>
-				<tr>
-					<td>Selling an Item</td>
-					<td>.75%</td>
-				</tr>
-				<tr>
-					<td>VetCove Feedback</td>
-					<td>.25%</td>
-				</tr>
+				<thead>
+					<th>Type</th>
+					<th>Bonus</th>
+					<th class="align-right">Expiration</th>
+				</thead>
+				<tbody>
+					{% for ab in bonuses.inactive_bonus %}
+					<tr>
+						<td class="type">
+							{% if ab.0 == 'referral' %}
+								Referral - {{ab.1.name}}
+							{% elif ab.0 == 'buy' %}
+								Purchase - {{ab.1.item_name}} ({{ab.1.quantity}})
+							{% elif ab.0 == 'sold' %}
+								Sold - {{ab.1.item_name}} ({{ab.1.quantity}})
+							{% elif ab.0 == 'feedback' %}
+								Feedback
+							{% elif ab.0 == 'welcome' %}
+								Joined through Referral
+							{% endif %}
+						</td>
+						<td class="discount">.25%</td>
+						<td class="expiration">Expires {{ab.3|date:"F jS, Y"}}</td>
+					</tr>
+					{% endfor %}
+				</tbody>
 			</table>
+			{% else %}
+			<p class="nobonus">You do not currently have any expired bonuses</p>
+			{% endif %}
 		</div>
 		<div class="disclaimer">
-			<p>All VetCove bonuses expire 1 year after they take effect, except for selling and buying items on VetCove, which expire after 1 month. For friend referrals, the friend
-			 must sign up and either sell or buy an item on VetCove.</p>
+			<p>All VetCove bonuses expire 1 year after they take effect, except for selling and buying items on VetCove, which expire after 90 days. Also, there is a maximum bonus of referrals, purchased items, and sold items of 3% each. For friend referrals, the friend must sign up and either sell or buy an item on VetCove.</p>
 		</div>
 	</div>
   		

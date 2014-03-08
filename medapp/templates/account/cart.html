@@ -98,7 +98,6 @@
 	font-weight: 800;
 	color: red;
 }
-
 </style>
 {% endblock%}
 
@@ -180,8 +179,8 @@
 		</div>
 		<div class="covebox cart-summary col-md-3 col-sm-3 col-xs-12">
 			<h6> Order Summary</h6>
-			<p>Items (<span id="itemcount" class="itemcount">{{cart_items_count}}</span>)<span class="totalprice">{{cart_total|dollars}}</span></p>
-			<p>Shipping <span>FREE</span></p>
+			<p>Items (<span id="itemcount" class="itemcount">{{cart_items_count}}</span>)<span class="totalprice">{{cart_subtotal|dollars}}</span></p>
+			{% if user.basicuser %}<p>VetCove Bonus ({{user.basicuser.bonus|percent}}%)<span>-{{cart_bonus_discount|dollars}}</span></p>{% endif %}
 			<p class="total">Total:<span class="totalprice">{{cart_total|dollars}}</span></p>
 			{% if cart_items_count %}
 			<a class="button-small button button-rounded button-action proceedtocheckout" href="/checkout/verify">Proceed To Checkout</a>

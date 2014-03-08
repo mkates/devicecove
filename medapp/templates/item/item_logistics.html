@@ -180,36 +180,34 @@ var validateInputs = function validateInputs() {
 		<h5>Shipping Options</h5>
 		<div class="radio">
 		  <label>
-			<input type="radio" name="shippingincluded" class="shippingncluded" value="True" {% if item.shippingincluded %}checked{% endif %}>
+			<input type="radio" name="shippingincluded" class="shippingncluded" value="True" {% if item.item_handle.shippingincluded %}checked{% endif %}>
 			I will arrange and pay for shipping to anywhere in the continental United States <span>( * recommended )</span>
 		  </label>
 		</div>
 		<div class="radio">
 		  <label>
-			<input type="radio" name="shippingincluded" class="shippingincluded" value="False" {% if not item.shippingincluded %}checked{% endif %}>
+			<input type="radio" name="shippingincluded" class="shippingincluded" value="False" {% if not item.item_handle.shippingincluded %}checked{% endif %}>
 			This item is only available for pick-up at {% if item.user.city %}{{item.user.city}}, {{item.user.state}}{% else %}{{item.user.zipcode|zipcodify}}{% endif %}
 		  </label>
 		</div>
 	</div>
+	{% if item.item_type == 'usedequipment' %}
 	<div class="entry offline-viewing">
 		<h5>Sale Type: Offline or Online</h5>
 		<div class="radio">
-		  {% if item.conditiontype == 'new' %}
-		  	<p>Sorry, offline viewing is only available for used and refurbished items</p>
-		  {% else %}
 		  <label>
-			<input type="radio" name="offlineviewing" name="offlineviewing" class="offlineviewing" value="False" {% if not item.offlineviewing %}checked{% endif %}>
+			<input type="radio" name="offlineviewing" name="offlineviewing" class="offlineviewing" value="False" {% if not item.item_handle.offlineviewing %}checked{% endif %}>
 			Online: Item can only be purchased online directly through Vetcove <span>*Recommended for items $499 or less.  Buyers can “buy now” instantly through the VetCove website.  Buyers cannot view your contact information and are not permitted to contact you directly or view the item in person.</span>
 		  </label>
 		</div>
 		<div class="radio">
 		  <label>
-			<input type="radio" name="offlineviewing" name="offlineviewing" class="offlineviewing" value="True" {% if item.offlineviewing %}checked{% endif %}>
+			<input type="radio" name="offlineviewing" name="offlineviewing" class="offlineviewing" value="True" {% if item.item_handle.offlineviewing %}checked{% endif %}>
 			Offline: Buyers can contact me to view and/or purchase the item in person<span>*Recommended for items $500 or more.  Buyers can contact you directly to arrange for viewing and/or purchase.  Sales can be made online through VetCove or outside of VetCove.  Instant “buy now” through VetCove website is not available when choosing this option.</span>
 		  </label>
 		</div>
-		{% endif %}
 	</div>
+	{% endif %}
 	
 	{%load dollars %}
 	<div class="entry">

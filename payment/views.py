@@ -10,6 +10,7 @@ import datetime
 from django.utils.timezone import utc
 import balanced
 import emails.views as email_view
+from helper.model_imports import *
 from payment.models import *
 
 ##########################################################

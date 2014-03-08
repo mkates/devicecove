@@ -1,0 +1,10 @@
+{% extends 'email_templates/email_foundation.html' %}
+
+{% block intro %}Hi, {% endblock %}
+{% block textblock %}
+<p>Your friend, {{referrer.name}}, has invited you to try VetCove!
+VetCove is a community to sell and buy new, pre-owned, and refurbished 
+medical equipment. VetCove also offer a great way to save thousands
+on veterinary medications.</p>
+<p>Since you know {{referrer.firstname}}, we'll start you off with an extra .25% off every purchase on VetCove</p>
+{% endblock %}

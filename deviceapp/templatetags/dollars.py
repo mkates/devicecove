@@ -18,3 +18,11 @@ def dollars(value):
 	if not dollars:
 		dollars = '0'
 	return "$"+dollars+'.'+value[-2:]
+
+@register.filter
+def percent(value):
+	percent = value/float(100)
+	if value%100 == 0:
+		return int(percent)
+	else:
+		return percent

@@ -9,7 +9,7 @@
 			<div id="contactbox">
 				<h4>Contact Seller</h4>
 				<p>If you're ready to schedule an in-person viewing of the product or buy it online through VetCove, use this form to contact the seller to arrange for next steps.  To inquire for specific additional information from the seller, we suggest you <a class="underline closecontactseller">ask a question</a> instead</p>
-				<form action="/messageseller/{{item.id}}" method="POST" id="messageseller">
+				<form action="/messageseller/{{item.item_handle.id}}" method="POST" id="messageseller">
 					{% csrf_token %}
 					<div class="row">
 						<div class="col-md-6 col-sm-6 col-xs-12">
@@ -46,7 +46,7 @@
 							<textarea required class="form-control" name="contact-message"></textarea>
 						</div>
 					</div>
-					<input type="hidden" value="{{item.user.id}}" name="seller">
+					<input type="hidden" value="{{item.item_handle.user.id}}" name="seller">
 					<button value="submit" class="button button-rounded button-primary">Contact Seller</button>
 					<a class="button button-rounded closecontactseller">Cancel</a>
 				</form>
@@ -71,8 +71,8 @@
 		<div class="topbar covebox">
 			{% if not preview %}
 			<div class="topnavigation row">
-				<p class="col-md-4 col-sm-4 col-xs-12 backbutton-container"><a class="backbutton">&#8592; View all {{item.subcategory.displayname}}</a></p>
-				<p class="col-md-8 col-sm-8 col-xs-12 breadcrumbs"><a href="/">Home</a> / <a href="/productsearch/{{industry.name}}/{{item.subcategory.maincategory.name}}/all">{{item.subcategory.maincategory.displayname}}</a> / <a href="/productsearch/{{industry.name}}/{{item.subcategory.maincategory.name}}/{{item.subcategory.name}}">{{item.subcategory.displayname}}</a> / {{item.name}}</p>
+				<p class="col-md-4 col-sm-4 col-xs-12 backbutton-container"><a class="backbutton">&#8592; View all {{item.item_handle.subcategory.displayname}}</a></p>
+				<p class="col-md-8 col-sm-8 col-xs-12 breadcrumbs"><a href="/">Home</a> / <a href="/productsearch/{{industry.name}}/{{item.item_handle.subcategory.maincategory.name}}/all">{{item.item_handle.subcategory.maincategory.displayname}}</a> / <a href="/productsearch/{{industry.name}}/{{item.item_handle.subcategory.maincategory.name}}/{{item.item_handle.subcategory.name}}">{{item.item_handle.subcategory.displayname}}</a> / {{item.item_handle.name}}</p>
 				<div class="clear"></div>
 			</div>
 			{% endif %}
@@ -81,7 +81,7 @@
 					<h2>{% if item.name %}{{ item.name }}{% else %}VetCove Item{% endif %}</h2>
 				</div>
 				<div class="listdate col-md-5 col-sm-5 col-xs-12">
-					<p>This item was listed on <span>{{item.creation_date}}</span></p>
+					<p>This item was listed on <span>{{item.item_handle.creation_date}}</span></p>
 				</div>
 			</div>
 		</div>
@@ -90,18 +90,18 @@
 	<div class="col-xs-12 col-sm-4 col-md-4 col-md-push-8 col-sm-push-8 sideproductcontainer">
 		<div class="sideproduct actionbox">
 			<h2>Buy This Item</h2>  
-			<h3>{{item.price|dollars}}</h3>
-			<p class="original-price">{{item.msrp_price|dollars}}</p>
-			<p> Quantity Available: {{item.quantity}}</p>
+			<h3>{{item.item_handle.price|dollars}}</h3>
+			<p class="original-price">{{item.item_handle.msrp_price|dollars}}</p>
+			<p> Quantity Available: {{item.item_handle.quantity}}</p>
 			{% if item.shippingincluded %}
 			<p class="action-information">This item includes FREE domestic shipping</p>
 			{% else %}
 			<p class="action-information">This item is available for local pick-up only. Please make sure you are
 				willing to travel to
 				{% if item.user.city and item.user.state %}
-					{{item.user.city}}, {{item.user.state}}
+					{{item.item_handle.user.city}}, {{item.item_handle.user.state}}
 				{% else %}
-					{{item.user.zipcode|zipcodify}} 
+					{{item.item_handle.user.zipcode|zipcodify}} 
 				{% endif %}
 				to pick up this item.</p>
 			{% endif %}
@@ -114,7 +114,7 @@
 						{% if isinshoppingcart %}
 							<a href="/cart" class="button button-rounded">Edit Cart (Already In Cart)</a>
 						{% else %}
-							<form action="/addtocart/{{item.id}}" method="POST">
+							<form action="/addtocart/{{item.item_handle.id}}" method="POST">
 								{% csrf_token %}
 								<button name="submit" value="submit" id="buynow" class="button button-rounded button-action">Add To Cart</button>
 							</form>
@@ -129,7 +129,7 @@
 					{% if item.liststatus == 'active' %}
 						<div class="savebutton">
 							{% if user.basicuser == item.user %}
-								<a href="/list/describe/{{item.id}}" class="editaction button button-rounded button-highlight">Edit Listing</a>
+								<a href="/list/describe/{{item.item_handle.id}}" class="editaction button button-rounded button-highlight">Edit Listing</a>
 							{% else %}
 								<img id="saveloader" src="{{STATIC_URL}}img/ajax-loader.gif"/>
 								{% if saved %}
@@ -143,8 +143,10 @@
 				</div>
 			</div>
 			{% endif %}
-			{% if item.offlineviewing %}
+			{% if item.item_type == 'usedequipment' %}
+			{% if item.item_handle.offlineviewing %}
 			<p class="offline-explain">* This item is available to be viewed offline. You must contact the seller to organize a time to view this item.</p>
+			{% endif %}
 			{% endif %}
 		</div>
 		{% if item.charity %}
@@ -153,7 +155,7 @@
 				<img class="giveback_img" src="{{STATIC_URL}}img/giveback_80x75.png"/>
 			</div>
 			<div class="col-md-10 col-sm-10 col-xs-12">
-				<p>2% of all proceeds go to the {{item.charity_name}} through our <a target="_blank" href="/giveback">1+1 program</a></p>
+				<p>2% of all proceeds go to the {{item.item_handle.charity_name}} through our <a target="_blank" href="/giveback">1+1 program</a></p>
 			</div>
 		</div>
 		{% endif %}
@@ -166,18 +168,18 @@
 		</div>
 		<div class="sideproduct" id="productspecs">
 			<h2>Seller Information</h2>
-			<p><span>Type</span>{% if item.user.businesstype %}{{item.user.businesstype | title}}{% else %}None Specified{% endif %}</p>
-			<p><span>Location</span>{% if item.user.city %}{{item.user.city}}, {{item.user.state}}{% else %}Zipcode: {{item.user.zipcode|zipcodify}}{%endif %}</p>
+			<p><span>Type</span>{% if item.user.businesstype %}{{item.item_handle.user.businesstype | title}}{% else %}None Specified{% endif %}</p>
+			<p><span>Location</span>{% if item.user.city %}{{item.item_handle.user.city}}, {{item.item_handle.user.state}}{% else %}Zipcode: {{item.item_handle.user.zipcode|zipcodify}}{%endif %}</p>
 		</div>
 		<div class="sideproduct" id="productspecs">
 			<h2>Product Information</h2>
-			<p><span>Device Category</span>{{item.subcategory}}</p>
-			<p><span>Manufacturer</span>{{item.manufacturer}}</p>	
-			<p><span>Original Owner</span>{{item.originalowner|yesno:"Yes,No"}}</p>
-			<p><span>Service Contract</span>{{item.get_contract_display}}</p>
-			{% if item.modelyear %}<p><span>Model Year</span>{{item.modelyear}}</p>{% endif %}
-			<p><span>Shipping Included</span>{{item.shippingincluded|yesno:"Included,Not Included"}}</p>
-			<p><span>Condition</span>{{item.get_conditionquality_display}}</p>	
+			<p><span>Device Category</span>{{item.item_handle.subcategory}}</p>
+			<p><span>Manufacturer</span>{{item.item_handle.manufacturer}}</p>	
+			<p><span>Original Owner</span>{{item.item_handle.originalowner|yesno:"Yes,No"}}</p>
+			<p><span>Service Contract</span>{{item.item_handle.get_contract_display}}</p>
+			{% if item.modelyear %}<p><span>Model Year</span>{{item.item_handle.modelyear}}</p>{% endif %}
+			<p><span>Shipping Included</span>{{item.item_handle.shippingincluded|yesno:"Included,Not Included"}}</p>
+			<p><span>Condition</span>{{item.item_handle.get_conditionquality_display}}</p>	
 		</div>
 	  </div>
 	<div class="col-xs-12 col-sm-8 col-md-8 col-md-pull-4 col-sm-pull-4 mainproductcontainer">
@@ -185,7 +187,7 @@
 		<div class="mainproduct imageproduct">
 			<div class="mainproduct-header">
 				<div id="zoomcontainer">
-					<div class='mainimage-div' id="ex1" style="background-image:url('{{item.mainimage.photo.url}}')">
+					<div class='mainimage-div' id="ex1" style="background-image:url('{{item.item_handle.mainimage.photo.url}}')">
 					</div>
 					<div class="thumbnails">
 						{% for img in item.image_set.all %}
@@ -200,32 +202,32 @@
 		<div class="mainproduct productdetails">
 			<h2> Product Description</h2>
 			{% if item.productdescription %}
-			<p> {{item.productdescription}}</p>
+			<p> {{item.item_handle.productdescription}}</p>
 			{% else %}
 			<p> There currently is no description for this item</p>
 			{% endif %}
 		</div>
 		<div class="mainproduct productdetails" id="features">
 			<h2> Product Condition</h2>
-			<p class="condition-quality">{{item.get_conditionquality_display}}</p>
+			<p class="condition-quality">{{item.item_handle.get_conditionquality_display}}</p>
 			{% if not preview %}
-			<button type="button" class="popover-class" data-container="body" data-toggle="popover" data-placement="right" data-trigger="hover" data-content="{{item.conditionquality|condition_quality}}">
+			<button type="button" class="popover-class" data-container="body" data-toggle="popover" data-placement="right" data-trigger="hover" data-content="{{item.item_handle.conditionquality|condition_quality}}">
 			  ?
 			</button>
 			{% endif %}
-			<p id="productfeatures">{{item.conditiondescription}}</p>
+			<p id="productfeatures">{{item.item_handle.conditiondescription}}</p>
 		</div>
 		{% if item.whatsincluded %}
 		<div class="mainproduct productdetails" id="features">
 			<h2>What's Included</h2>
-			<p id="productfeatures">{{item.whatsincluded}}</p>
+			<p id="productfeatures">{{item.item_handle.whatsincluded}}</p>
 		</div>
 		{% endif %}
 		{% if item.contract != 'none' or item.contractdescription %}
 		<div class="mainproduct productdetails" id="features">
 			<h2>Warranty / Service Contract Details</h2>
-			<p id="productfeatures"><strong>{{item.get_contract_display}}</strong></p>
-			<p id="productfeatures">{{item.contractdescription}}</p>
+			<p id="productfeatures"><strong>{{item.item_handle.get_contract_display}}</strong></p>
+			<p id="productfeatures">{{item.item_handle.contractdescription}}</p>
 		</div>
 		{% endif %}
 		<div class="mainproduct productdetails questionbox" id="features">
@@ -239,8 +241,8 @@
 				<form id="newquestion" method="post" action="/askquestion">
 					{% csrf_token %}
 					<textarea name="question" class="form-control" placeholder="We will contact the seller when a question is asked. Please do not put any peronsably indentifiable information in the question, per our terms of service."></textarea>
-					<input type="hidden" name="itemid" value="{{item.id}}">
-					<input type="hidden" name="redirect" value="/item/{{item.id}}/details">
+					<input type="hidden" name="itemid" value="{{item.item_handle.id}}">
+					<input type="hidden" name="redirect" value="/item/{{item.item_handle.id}}/details">
 					<button class="button button-rounded button-tiny button-primary">Submit Question</button>
 					<a class="button button-rounded button-tiny askquestioncancel">Cancel</a>
 				</form>
@@ -269,7 +271,7 @@
 					<a href='/item/{{itm.id}}/details'>
 						<div class="related-container">
 							<h3>{{itm.name}}</h3>
-							<img src="{%if itm.mainimage %}{{itm.mainimage.photo_medium.url}}{% else %}{{STATIC_URL}}img/noimage.jpg{% endif %}" alt="{{item.name}}"/>
+							<img src="{%if itm.mainimage %}{{itm.mainimage.photo_medium.url}}{% else %}{{STATIC_URL}}img/noimage.jpg{% endif %}" alt="{{item.item_handle.name}}"/>
 							<p>{{itm.price|dollars}} <span>({{itm.msrp_price|dollars}})</span></p>
 						</div>
 					</a>

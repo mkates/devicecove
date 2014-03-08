@@ -43,7 +43,7 @@ class SubCategory(models.Model):
 	def __unicode__(self):
 		return self.displayname
 
-### Used to supplement the medical listings ###
+### Used to supplement the medical listings ### (BETA)
 class PharmaBase(models.Model):
 	name = models.CharField(max_length=100,unique=True)
 	mainimage = models.ForeignKey('Image',related_name="medicalitemimage",null=True,blank=True)
@@ -59,7 +59,7 @@ class PromoCode(models.Model):
 	code = models.CharField(max_length=100,unique=True)
 	promo_text = models.CharField(max_length=255) # Fun description
 	active = models.BooleanField()
-	uses_left = models.IntegerField(max_length=5)
+	uses_left = models.IntegerField(max_length=5,default=10000)
 	details = models.CharField(max_length=100) # Short description
 	PROMO_TYPE =  (('factor', 'Factor'),('discount', 'Discount'))
 	promo_type = models.CharField(max_length = 50,choices=PROMO_TYPE)
@@ -77,21 +77,25 @@ class Item(models.Model):
 	creation_date = models.DateField(auto_now_add=True)
 
 	### Pricing ###
-	msrp_price = models.BigIntegerField(max_length=20)
-	price = models.BigIntegerField(max_length=20)
+	msrp_price = models.BigIntegerField(max_length=20,null=True,blank=True)
+	price = models.BigIntegerField(max_length=20,null=True,blank=True)
 
-	### License Required? ###
+	### Is License Required? ###
 	vet_license = models.BooleanField(default=False)
 	
 	### General Product Information ###
 	name = models.CharField(max_length=200)
-	subcategory = models.ForeignKey(SubCategory)
+	subcategory = models.ForeignKey(SubCategory,null=True,blank=True)
 	manufacturer = models.TextField(blank=True)
 
 	### Promotions ###
 	promo_code = models.ForeignKey(PromoCode,blank=True,null=True)
 
-	### Miscallaneous ###
+	### Image ###
+	mainimage = models.ForeignKey('Image',related_name="mainitemimage",null=True,blank=True)
+
+	### Counts ###
+	tos = models.BooleanField(default=False)
 	liststage = models.IntegerField(default=0) # Used to track progress through listing an item
 	savedcount = models.IntegerField(default=0)
 	views = models.IntegerField(default=0) # Counts number of page requests
@@ -110,6 +114,24 @@ class Item(models.Model):
 	def msrp_discount(self):
 		return int((self.price-self.msrp_price)/float(self.price)*100)
 
+	def item_type(self):
+		if hasattr(self,'equipment'):
+			if hasattr(self.equipment,'usedequipment'):
+				return 'usedequipment'
+			else:
+				return 'newequipment'
+		else:
+			return 'pharmaitem'
+
+	def item_handle(self):
+		if hasattr(self,'equipment'):
+			if hasattr(self.equipment,'usedequipment'):
+				return self.equipment.usedequipment
+			else:
+				return self.equipment.newequipment
+		else:
+			return self.pharmaitem
+
 ### An individual item for sale associated with a product and a user ###
 class Equipment(Item):
 	
@@ -117,9 +139,6 @@ class Equipment(Item):
 	serialno = models.CharField(max_length=30,null=True,blank=True)
 	modelyear = models.IntegerField(max_length=4,null=True,blank=True)
 	originalowner = models.BooleanField(default=False)
-	
-	### Image ###
-	mainimage = models.ForeignKey('Image',related_name="mainitemimage",null=True,blank=True)
 
 	### Warranty + Service Contracts ###
 	CONTRACT_OPTIONS =  (('warranty', 'Warranty'),('servicecontract', 'Service Contract'),('none', 'None'))
@@ -132,7 +151,6 @@ class Equipment(Item):
 	
 	### Logistics ###
 	shippingincluded = models.BooleanField(default=True)
-	tos = models.BooleanField(default=False)
 
 	### Commission Structure ###
 	COMMISSION_TYPE = (('buy_online','buy_online'),('cpc','cpc'))
@@ -141,20 +159,20 @@ class Equipment(Item):
 class UsedEquipment(Equipment):
 
 	### Store the highest price ###
-	max_price = models.BigIntegerField(max_length=20,default=100)
+	max_price = models.BigIntegerField(max_length=20,default=0)
 
 	### Condition Type ###
 	TYPE_OPTIONS =  (('refurbished', 'Refurbished'),('preowned', 'Pre-Owned'))
 	conditiontype = models.CharField(max_length=20, choices=TYPE_OPTIONS,default="preowned")
 	
-	### Condition Quality ### (Only applicable for used items)
+	### Condition Quality ###
 	CONDITION_OPTIONS =  ((1, 'Functional with Defects'),(2, 'Used Fully Functional'),(3, 'Lightly Used'),(4, 'Like New'),(5, 'Brand New'))
 	conditionquality = models.IntegerField(max_length=10,choices=CONDITION_OPTIONS,default=3)
 	conditiondescription = models.TextField(blank=True)
 
-	### Payment ###
+	### Commission Object ###
 	commission_paid = models.BooleanField(default=False)	
-	sold_online = models.BooleanField(default=False) # An offline viewable item was bought online
+	sold_online = models.BooleanField(default=False) # Was it purchased online?
 
 	### Offline viewing ###
 	offlineviewing = models.BooleanField(default=False)
@@ -163,9 +181,8 @@ class NewEquipment(Equipment):
 	quantity = models.IntegerField(max_length=5,default=1)
 
 class PharmaItem(Item):
-	pharma_base = models.ForeignKey(PharmaBase)
-	quantity = models.IntegerField(max_length=5)
-	### TO BE FINISHED ###
+	pharma_base = models.ForeignKey(PharmaBase,blank=True,null=True) #Link to generic pharma information
+	quantity = models.IntegerField(max_length=5,default=1)
 
 ############################################
 ####### Uploaded Images ####################
@@ -185,7 +202,7 @@ def get_file_path_medium(instance, filename):
 	return os.path.join('userimages', filenamemedium)
 		
 class Image(models.Model):
-	item = models.ForeignKey(Item)
+	item = models.ManyToManyField(Item)
 	photo = ProcessedImageField(upload_to=get_file_path_original,processors=[ResizeToFit(1300, 1000)],format='JPEG',options={'quality': 60})
 	photo_small = ProcessedImageField(upload_to=get_file_path_small, processors=[ResizeToFit(100, 100)],format='JPEG',options={'quality': 60})
 	photo_medium = ProcessedImageField(upload_to=get_file_path_medium, processors=[ResizeToFit(500, 500)],format='JPEG',options={'quality': 60})

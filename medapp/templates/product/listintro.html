@@ -190,81 +190,7 @@
 {% endblock %}
 
 {% block jsblock %}
-<script src="{{STATIC_URL}}js/chosen.jquery.min.js" type="text/javascript" ></script>
-<script src="{{STATIC_URL}}js/typeahead.min.js" type="text/javascript" ></script>
-<script>
-$(document).ready(function() {
-	$("#addform").submit(function() {
-		subcategory = $("#subcategory-select").val();
-   		$(this).attr('action', '/listproduct/'+subcategory);
-		submit = true;
-		if ($("#category-select").val() == "Null") {
-			submit = false;
-			if (!($("#category-select").hasClass('error'))) {
-				$("#category-select").addClass("error");
-			}
-		} else {
-			$("#category-select").removeClass("error");
-		}
-		if ($("#subcategory-select").val() == "Null") {
-			submit = false;
-			if (!($("#subcategory-select").hasClass('error'))) {
-				$("#subcategory-select").addClass("error");
-			}
-		} else {
-			$("#subcategory-select").removeClass("error");
-		}
-		if (submit) {
-			return true;
-		} else {
-			return false;
-		}
-	});
-	$("#category-select").change(function() {
-		retrieveCategories($("#category-select").val());
-	});
-	$("#category-select").blur(function() {
-		if ($("#category-select").val() == "Null") {
-			if (!($("#category-select").hasClass('error'))) {
-				$("#category-select").addClass("error");
-			}
-		} else {
-			$("#category-select").removeClass("error");
-		}
-	});
-	$("#subcategory-select").blur(function() {
-		if ($("#subcategory-select").val() == "Null") {
-			if (!($("#subcategory-select").hasClass('error'))) {
-				$("#subcategory-select").addClass("error");
-			}
-		} else {
-			$("#subcategory-select").removeClass("error");
-		}
-	});
-});
 
-
-var retrieveCategories = function(cat) {
-	if (cat != 'Null') {
-		$.ajax({
-			url: '/getsubcategories',
-			type: 'GET',
-			data: {'category':cat},
-			cache: true,
-			dataType: 'json',
-			success: function(response){	
-				$("#subcategory-select").empty();
-				$("#subcategory-select").append("<option value='Null'>Item. . .");
-				$.each(response,function(index,value) {
-					$("#subcategory-select").append("<option value='"+index+"'>"+value);
-				});
-			}
-		});
-	}
-}
-
-
-</script>
 {% endblock %}
 
 {% block content %}
@@ -272,7 +198,7 @@ var retrieveCategories = function(cat) {
 <div class="addcontainer">
 	<div class="addbg">
 		<h2> What are you selling? </h2>
-		<h3>VetCove is the safest and most secure way to sell veterinary supplies</h3>
+		<h3>The average listing on VetCove is sold in less than 14 days</h3>
 		<div class="row listing-types">
 			<div class="col-md-4 col-sm-4 col-xs-12">
 				<div>
@@ -281,12 +207,12 @@ var retrieveCategories = function(cat) {
 			</div>
 			<div class="col-md-4 col-sm-4 col-xs-12">
 				<div>
-					<a class="button button-rounded button-primary" href="/newlisting/newequipment">Pre-Owned Equipment</a>
+					<a class="button button-rounded button-primary" href="/newlisting/usedequipment">Pre-Owned Equipment</a>
 				</div>
 			</div>
 			<div class="col-md-4 col-sm-4 col-xs-12">
 				<div>
-					<a class="button button-rounded button-action" href="/newlisting/newequipment">Pharmaceuticals / Drugs</a>
+					<a class="button button-rounded button-action">Medication (Coming soon...)</a>
 				</div>
 			</div>
 		</div>
