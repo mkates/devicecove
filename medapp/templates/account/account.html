@@ -20,12 +20,12 @@
 		<div class="covebox admin-section">
 			<h4 class="sidecontent-title">General</h4>
 			<ul>
-				<a href="/account/bonus"><li class="{% block bonus %}{% endblock %}"><h3>Save More<span class="badge greenbadge">{{user.basicuser.bonus|percent}}% Bonus</span></h3></li></a>
+				<a href="/account/bonus"><li class="{% block bonus %}{% endblock %}"><h3>Earn More Credits<span class="badge greenbadge">{{user.basicuser.credits|dollars}}</span></h3></li></a>
 				<a href="/account/notifications"><li class="{% block notifications %}{% endblock %}"><h3>Notifications{% if notifications %} <span class="badge redbadge">{{ notifications.count }}</span>{% endif %}</h3></li></a>
 			</ul>
 		</div>
 		<div class="covebox admin-section">
-			<h4 class="sidecontent-title"> Buying Equipment</h4>
+			<h4 class="sidecontent-title">Buying</h4>
 			<ul>
 				<a href="/account/buyerquestions"><li class="{% block buyquestions %}{% endblock %}"><h3>Questions I've Asked{% if user.basicuser.askedQuestionCount %} <span class="badge">{{ user.basicuser.askedQuestionCount }}</span>{% endif %}</h3></li></a>
 				<a href="/account/wishlist"><li class="{% block wishlist %}{% endblock %}"><h3>Wish List{% if user.basicuser.wishlist %} <span class="badge">{{ user.basicuser.wishlist }}</span>{% endif %}</h3></li></a>
@@ -34,7 +34,7 @@
 			</ul>
 		</div>
 		<div class="covebox admin-section">
-			<h4 class="sidecontent-title"> Selling Equipment</h4>
+			<h4 class="sidecontent-title">Selling</h4>
 			<ul>
 				<a href="/account/sellerquestions"><li class="{% block sellquestions %}{% endblock %}"><h3>Questions To Answer {% if user.basicuser.unansweredQuestionCount %} <span class="badge red-badge">{{user.basicuser.unansweredQuestionCount}}</span>{% endif %}</h3></li></a>
 				<a href="/account/listings/all"><li class="{% if listingtype == 'all' %}active{% endif %}"><h3>All Listings{% if user.basicuser.listedItemCount.all %} ({{ user.basicuser.listedItemCount.all }}){% endif %}</h3></li></a>

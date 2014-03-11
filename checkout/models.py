@@ -23,10 +23,10 @@ class Checkout(models.Model):
 	
 	# Get total amount due for this checkout
 	def total(self):
-		return int(self.subtotal() * (1-self.buyer.bonus/float(10000)))
+		return self.subtotal()-self.credit_discount()
 	
-	def bonus_discount(self):
-		return self.subtotal()-self.total()
+	def credit_discount(self):
+		return min(self.subtotal(),self.buyer.credits)
 		
 	# Number of items in cart
 	def numberitems(self):
@@ -53,6 +53,11 @@ class ShoppingCart(models.Model):
 	# Get list of items
 	def cart_items(self):
 		return [cartitem.item for cartitem in self.cartitem_set.all()]
+
+	def summary(self):
+		subtotal = sum([cartitem.amount() for cartitem in self.cartitem_set.all()])
+		credits = min(subtotal,self.user.credits)
+		return {'subtotal':subtotal,'credits':credits,'total':subtotal-credits}
 
 class CartItem(models.Model):
 	checkout = models.ForeignKey(Checkout,null=True,blank=True)

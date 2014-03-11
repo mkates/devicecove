@@ -1,22 +1,30 @@
 {% extends 'account/account.html' %}
-{% block headertitle %}<title>VetCove | Bonuses</title>{% endblock%}
+{% block headertitle %}<title>VetCove | Credits</title>
+{% endblock%}
 {% block bonus %}active{% endblock %}
 
 {% block jsblock %}
+
 {% endblock %}
-{% block maintitle %}VetCove Bonuses{% endblock %}
+{% block maintitle %}VetCove Credits{% endblock %}
 {% block headersubcss %}
 <style>
 .bonus-container {
 	padding: 40px 20px;
+}
+.bonus-title a:hover {
+	text-decoration: underline;
 }
 .bonus-title {
 	margin: 0px 10px 25px 10px;
 	padding-bottom: 25px;
 	text-align: center;
 }
-.bonus-title a:hover {
+.highlight .bonus-title a:hover {
 	text-decoration: underline;
+}
+.bonus-title .facebook-share:hover {
+	text-decoration: none;
 }
 .bonus-title h4 {
 	font-size: 30px;
@@ -28,16 +36,17 @@
 	border-bottom:1px solid #ddd;
 	transition: background .2s;
 }
-.bonus-option:hover {
+.highlight .bonus-option:hover {
 	background: #F4F8FC;
 }
-.bonus-option:hover h5 {
+.highlight .bonus-option:hover h5 {
 	text-decoration: underline;
 }
 .bonus-option h5 {
 	font-size: 20px;
 	margin: 0;
 	margin-bottom: 10px;
+	color: #428BCA;
 }
 .bonus-option p {
 	color: #555;
@@ -62,55 +71,77 @@
 </style>
 {% endblock %}
 {% block maincontent %}
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=220149978181828";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
 {% load dollars %}
 	<div class="maincontent-container covebox bonus-container">
 		<div class="bonus-title">
 			<h4>There's no limit to how much you can save!</h4>
-			<p>You currently receive <strong>{{user.basicuser.bonus|percent}}%</strong> off every purchase on VetCove</p>
-			<a href="/account/bonushistory">View Current Savings</a>
+			{% if user.basicuser.credits %}<p>You currently have {{user.basicuser.credits|dollars}} to use on any purchase</p>{% endif %}
+			<a href="/account/bonushistory">View Earned Credits</a>
 		</div>
-		<a href="/account/referral"><div class="bonus-option row">
+		<a class="highlight" href="/account/referral"><div class="bonus-option row">
 			<div class="col-md-9 col-sm-9 col-xs-8">
-				<h5>Refer Friends to VetCove</h5>
-				<p>Let your friends and colleagues start off with a 1% sitewide discount</p>
-				<p class="referral">Use referral link: <strong>www.vetcove.com/join/NSfsio232ionofs</strong></p>
+				<h5>Email Your Friends a $10 Discount</h5>
+				<p>Give your friends a $10 discount on their first VetCove purchase, and you earn $10!</p>
 			</div>
 			<div class="col-md-3 col-sm-3 col-xs-4 discount">
-				<h6>+3%</h6>
-				<p>.25% per friend</p>
+				<h6>$10</h6>
+				<p>per referral</p>
 			</div>
 		</div></a>
-		<a href="/listintro"><div class="bonus-option row">
+		<div class="bonus-option row">
+			<div class="col-md-9 col-sm-9 col-xs-8">
+				<h5>Share on Facebook</h5>
+				<p>Click the share button below to send out a $10 discount to your Facebook friends.</p>
+				<div class="fb-share-button" data-href="http://www.vetcove.com/referral/{{user.basicuser.referral_id" data-width="600" data-type="button"></div>
+			</div>
+			<div class="col-md-3 col-sm-3 col-xs-4 discount">
+				<h6>$10</h6>
+				<p>per referral</p>
+			</div>
+		</div>
+		<div class="bonus-option row">
+			<div class="col-md-9 col-sm-9 col-xs-8">
+				<h5>Share on Twitter</h5>
+				<p>Click the tweet button below to tweet out a $10 discount to your Twitter followers.</p>
+				<a href="https://twitter.com/share"  data-count="none" data-text="If you're looking to buy veterinary equipment, I have a code to take $10 off your first VetCove purchase:" data-url="https://www.vetcove.com/referral/{{user.basicuser.referral_id}}" class="twitter-share-button" data-lang="en">Tweet</a>
+			    <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="https://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+			</div>
+			<div class="col-md-3 col-sm-3 col-xs-4 discount">
+				<h6>$10</h6>
+				<p>per referral</p>
+			</div>
+		</div>
+		<a class="highlight" href="/listintro"><div class="bonus-option row">
 			<div class="col-md-9 col-sm-9 col-xs-8">
 				<h5>Sell an Item on VetCove</h5>
-				<p>Once you sell an item, take .25% off every future purchase </p>
+				<p>Once you sell an item, you will receive 20% of the commission fee back as credit towards your next purchase. </p>
 			</div>
 			<div class="col-md-3 col-sm-3 col-xs-4 discount">
-				<h6>+3%</h6>
-				<p>.25% per item sold</p>
+				<h6>20%</h6>
+				<p>of commission fee</p>
 			</div>
 		</div></a>
-		<a href="/shop"><div class="bonus-option row">
-			<div class="col-md-9 col-sm-9 col-xs-8">
-				<h5>Purchase an Item on VetCove</h5>
-				<p>The more you purchase, the more you save</p>
-			</div>
-			<div class="col-md-3 col-sm-3 col-xs-4 discount">
-				<h6>+3%</h6>
-				<p>.25% per purchase</p>
-			</div>
-		</div></a>
-		<a href="/account/feedback"><div class="bonus-option row">
+		{% if not feedback %}
+		<a class="highlight" href="/account/feedback"><div class="bonus-option row">
 			<div class="col-md-9 col-sm-9 col-xs-8">
 				<h5>Send us Some Feedback</h5>
-				<p>We love to hear how we can improve VetCove</p>
+				<p>Share your thoughts. We love to hear how we can improve VetCove.</p>
 			</div>
 			<div class="col-md-3 col-sm-3 col-xs-4 discount">
-				<h6>+.25%</h6>
+				<h6>$1</h6>
 			</div>
 		</div></a>
+		{% endif %}
 		<div class="disclaimer">
-			<p>All VetCove bonuses expire 1 year after they take effect, except for selling and buying items on VetCove, which expire 90 days after purchase or sale. For friend referrals, the friend must sign up and either sell or buy an item on VetCove.</p>
+			<p>VetCove reserves the right to remove credits after <strong>one year</strong> of inactivity.</p>
 		</div>
 	</div>
   		

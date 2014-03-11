@@ -15,7 +15,7 @@ from general.forms import *
 from helper import commission as commission
 
 def index(request):
-	items = Item.objects.filter(liststatus='active').order_by('savedcount')[:9]
+	items = Item.objects.filter(liststatus='active').filter(subcategory__category__type='equipment').order_by('savedcount')[:24]
 	return render_to_response('general/index.html',{'featured':items},context_instance=RequestContext(request))
 
 def buy(request):

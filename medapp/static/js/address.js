@@ -1,4 +1,4 @@
-var formelements = {'address_name':false,'address_one':false,'address_two':true,'address_zipcode':false,'address_city':false,'address_state':true,'address_phonenumber':false};
+var formelements = {'address_name':false,'address_one':false,'address_two':true,'address_zipcode':false,'address_city':false,'address_state':true,'address_phonenumber':true};
 var states = ['AK',"AL","AR","AS","AZ","CA","CO","CT","DC","DE","FL","GA","GU","HI","IA","ID","IL","IN","KS","KY","LA","MA","MD","ME","MH","MI","MN","MO","MS","MT","NC","ND","NE","NH","NJ","NM","NV","NY","OH","OK","OR","PA","PR","PW","RI","SC","SD","TN","TX","UT","VA","VI","VT","WA","WI","WV","WY"];
 
 //On an address edit click, pre-populate new address fields
@@ -86,7 +86,7 @@ var validateinput = function validateinput(handler,submiting) {
 		updateformcss($("#address_state"));
 	}
 	if ($(handler).attr('id') =='address_zipcode' || submiting) {
-		var validated = ($("#address_zipcode").val().length == 5) ? true : false;
+		var validated = ($("#address_zipcode").val().length > 3) ? true : false;
 		formelements['address_zipcode'] = validated;
 		updateformcss($("#address_zipcode"));
 	}

@@ -8,6 +8,9 @@
 <meta http-equiv="content-type" content="text/html;charset=UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta property="og:title" content="VetCove" />
+<meta property="og:description" content="Buy and Sell Veterinary Equipment at up to 90% off" />
+<meta property="og:image" content="{{STATIC_URL}}img/dog_walk.png" />
 <link rel="icon" type="image/png" href="{{STATIC_URL}}img/favicon32.png">
 <!--CSS-->
 <link href="{{STATIC_URL}}css/bootstrap.min.css" rel="stylesheet" type="text/css" />
@@ -127,13 +130,12 @@
 			</li>
 			{% if user.is_authenticated %}
 			{% if notifications %}<li class="nav-notifications"><a href="/account/notifications">Notifications<span class="sc-count notification-count">{{notifications.count}}</span></a></li>{% endif %}
-			
-			
+			<li><a href="/account/bonus">Credits: {{user.basicuser.credits|dollars}}</a></li>
 			<li><a href="/listintro">Become a Seller</a></li>
 			<li class="dropdown">
 				<a href="#" class="dropdown-toggle" data-toggle="dropdown">Hi, {{user.basicuser.firstname}} <b class="caret"></b></a>
 				<ul class="navigation-options dropdown-menu pull-left">
-				  <li><a href="/account/bonus">Get More Bonuses ({{user.basicuser.bonus|percent}}%)</a></li>
+				  <li><a href="/account/bonus">Earn More Credits ({{user.basicuser.credits|dollars}})</a></li>
 				  <li><a href="/account/notifications">Notifications</a></li>
 				  <li class="divider"></li>
 				  <li><a href="/account/buyerquestions">Questions I’ve Asked</a></li>

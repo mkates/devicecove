@@ -38,7 +38,7 @@
 	<div class="seller-block">
 		<p> In order to sell on VetCove, we need to collect some information about your business. This information
 		can be updated at any time in your profile</p>
-		<form id="business-form" role="form" action="/savebusiness/{{item.id}}" method="POST">
+		<form id="business-form" role="form" action="/savebusiness/{{item.id}}" method="POST" enctype="multipart/form-data">
 		{% csrf_token %}
 		  <div class="form-group">
 			<label for="exampleInputEmail1">Business Type</label>
@@ -67,6 +67,10 @@
 		   <div class="form-group">
 			<label for="exampleInputPassword1">Phone Number</label>
 			<input required type="text" name="phonenumber" id="phonenumber" class="form-control" placeholder="i.e. (732) 431-1231" value="{% if item.user.phonenumber %}{{item.user.phonenumber|phonenumber}}{% endif %}">
+		  </div>
+		  <div class="form-group">
+			<label for="companylogo">Company Logo</label>
+			<input type="file" name="companyimage" accept="image/*">
 		  </div>
 		  <button type="submit" class="button button-rounded button-action">Continue to Listing</button>
 		</form>

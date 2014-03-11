@@ -72,10 +72,6 @@ urlpatterns = patterns('',
     url(r'^checkout/addcard/(?P<checkoutid>\d+)','checkout.views.checkoutAddCard'),
     url(r'^checkout/deletepayment/(?P<checkoutid>\d+)/(?P<paymentid>\d+)','checkout.views.checkoutDeletePayment'),
     url(r'^checkout/usepayment/(?P<checkoutid>\d+)/(?P<paymentid>\d+)','checkout.views.checkoutUsePayment'),
-    #### Review Experience
-    url(r'^checkoutmovetosaved/(?P<checkoutid>\d+)','checkout.views.checkoutMoveToSaved'),
-    url(r'^checkoutdeleteitem/(?P<checkoutid>\d+)','checkout.views.checkoutDeleteItem'),
-    url(r'^checkoutchangequantity/(?P<checkoutid>\d+)','checkout.views.checkoutChangeQuantity'),
     #### Complete Checkout  
     url(r'^checkoutpurchase/(?P<checkoutid>\d+)','checkout.views.checkoutPurchase'), 
 
@@ -126,6 +122,7 @@ urlpatterns = patterns('',
     url(r'^account/updatesettings/delete','account.views.deleteAccount'),
     url(r'^account/payouthistory','account.views.payoutHistory'),
     url(r'^account/usersettings','account.views.usersettings'),
+    url(r'^account/updateproviders','account.views.updateProviders'),
     url(r'^account/listings/(?P<listingtype>\w+)','account.views.listings'),
     url(r'^account/wishlist','account.views.wishlist'),
     url(r'^account/contactmessages','account.views.contactMessages'),

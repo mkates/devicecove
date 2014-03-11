@@ -14,7 +14,7 @@ from datetime import datetime
 from django.utils.timezone import utc
 import balanced
 import helper.commission as commission
-import helper.bonus as bonus
+import helper.credits as credits
 import emails.views	as email_view
 import payment.views as payment_view
 from helper.model_imports import *
@@ -56,6 +56,7 @@ def newuserform(request):
 				referrer = None
 			nbu = BasicUser(user=newuser,referrer=referrer,referral_id=generateToken(),firstname=firstname,lastname=lastname,email=email,zipcode=zipcode)
 			nbu.save()
+			credits.updateCredits(nbu)
 			
 			# Attempt to get the lat long and assign the city, state, and county
 			try:
@@ -121,6 +122,8 @@ def cart(request):
 			if cartitem.price != cartitem.item.price:
 				cartitem.price = cartitem.item.price
 				cartitem.save()
+	# Calculate totals
+	
 	return render_to_response('account/cart.html',dict,context_instance=RequestContext(request))
 
 ##### Add an item to the cart ######
@@ -494,37 +497,6 @@ def checkoutDeleteItem(request,checkoutid):
 	cartitem.delete()
 	return HttpResponseRedirect('/checkout/review/'+str(checkoutid))
 
-@login_required
-def checkoutMoveToSaved(request,checkoutid):
-	# Checkout Validation
-	checkout = Checkout.objects.get(id=checkoutid)
-	checkoutValid = checkoutValidCheck(checkout,request)
-	if checkoutValid['status'] != 201:
-		return HttpResponseRedirect('/checkout/verify/'+checkoutValid['error'])
-	cartitemid = request.POST['checkoutitemid']
-	cartitem = CartItem.objects.get(id=cartitemid)
-	#Add to Saved Items
-	bu = request.user.basicuser
-	si, created = SavedItem.objects.get_or_create(item=cartitem.item,user=bu)
-	si.save()
-	#Delete the CartItem
-	cartitem.delete()
-	return HttpResponseRedirect('/checkout/review/'+str(checkoutid))
-
-@login_required
-def checkoutChangeQuantity(request,checkoutid):
-	# Checkout Validation
-	checkout = Checkout.objects.get(id=checkoutid)
-	checkoutValid = checkoutValidCheck(checkout,request)
-	if checkoutValid['status'] != 201:
-		return HttpResponseRedirect('/checkout/verify/'+checkoutValid['error'])
-	cartitemid = request.POST['checkoutitemid']
-	cartitem = CartItem.objects.get(id=cartitemid)
-	#Update Quantity
-	cartitem.quantity = int(request.POST['item-quantity'])
-	cartitem.save()
-	return HttpResponseRedirect('/checkout/review/'+str(checkoutid))
-
 ###################################
 ### Checkout Purchase #############
 ###################################
@@ -555,12 +527,12 @@ def checkoutPurchase(request,checkoutid):
 			amount = checkout.total()
 			cd = customer.debit(appears_on_statement_as="Vet Cove",amount=amount,source_uri=uri)
 			if not cd.status == "succeeded":
-				raise Exception("Failed to Complete Transcation")
+				raise Exception("Failed to Complete Transaction")
 	except Exception,e:
 		return render_to_response('checkout/checkout_review.html',{'checkout':checkout,'error':e},context_instance=RequestContext(request))
 	
 	# 4. Update Items in the system, delete cart-items create Purchased Objects
-	order = Order(buyer=bu,payment=checkout.payment,total=checkout.total(),shipping_address=checkout.shipping_address,transaction_number=cd.transaction_number)
+	order = Order(buyer=bu,payment=checkout.payment,item_total=checkout.subtotal(),credits=checkout.credit_discount(),shipping_address=checkout.shipping_address,transaction_number=cd.transaction_number)
 	order.save()
 	for cartitem in checkout.cartitem_set.all():
 		item = cartitem.item
@@ -568,7 +540,7 @@ def checkoutPurchase(request,checkoutid):
 		# Update item quantity and status (if applicable)
 		if item.item_type() != 'usedequipment':
 			if item_handle.quantity == cartitem.quantity:
-				item.liststatus = 'sold'
+				item_handle.liststatus = 'sold'
 				item_handle.quantity = 0
 			elif item_handle.quantity > cartitem.quantity:
 				item_handle.quantity -= cartitem.quantity
@@ -576,7 +548,7 @@ def checkoutPurchase(request,checkoutid):
 		else:
 			item_handle.liststatus = 'sold'
 			item_handle.sold_online = True
-		item.save()
+		item_handle.save()
 		# Create purchased item object
 		amount = cartitem.price * cartitem.quantity
 		if item.item_type() == 'usedequipment':
@@ -603,9 +575,11 @@ def checkoutPurchase(request,checkoutid):
 		notification.save()
 		cartitem.shoppingcart = None
 		cartitem.save()
-		# Update bonuses for buyer and seller
-		bonus.updateBonus(pi.buyer)
-		bonus.updateBonus(pi.seller)
+		# Update bonuses for buyer and seller, and referrer of buyer
+		credits.updateCredits(bu)
+		credits.updateCredits(item.user)
+		if bu.referrer:
+			credits.updateCredits(bu.referrer)
 		# Email the seller of the item
 		email_view.composeEmailItemSold_Seller(bu,pi)
 		

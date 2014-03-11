@@ -75,20 +75,21 @@ var redrawContacts = function(combined) {
 {% block maincontent %}
 	<div class="maincontent-container covebox bonus-container">
 		<div class="bonus-title">
-			<h4>Save up to 3% off <strong> every purchase</strong> by inviting your friends and colleagues</h4>
+			<h4>Send your friends a free <strong>$10</strong> discount</h4>
+			<p>(If they make a purchase, you earn $10 too!)</p>
 		</div>
 		{% if not success %}
 		<div class="referral-option row">
 			<form id="referral-form" method="POST" action="/account/referralform">{% csrf_token %}
-				<p>For every friend that sells or buys on VetCove, you earn an additional .25% off every purchase (limit 3%)</p>
+				<p>Type or paste the names of any friends or colleagues who would benefit from VetCove:</p>
     			<input id="emails" type="text" value="" name="emails" data-role="tagsinput" placeholder="Add Email Addresses" />
-				<button class="button button-rounded button-action">Send Email</button>
+				<button class="button button-rounded button-action">Send Discounts</button>
 			</form>
 		</div>
 		{% else %}
 		<div class="referral-option row">
-			<h5>We have sent the invites.</h5>
-			<p>For every referral that signs up and makes a purchase or a sale, you earn an additional .25% off <strong>every</strong> purchase, up to 3% total!</p>
+			<h5>We have sent the discounts.</h5>
+			<p>For every friend that signs up and makes a purchase, we will credit $10 to your account, which will automatically be applied at checkout.</p>
 		</div>
 		{% endif %}
 		<div class="referral-option referral-link row">
@@ -96,7 +97,7 @@ var redrawContacts = function(combined) {
 			<p>Referral Link: <strong>www.vetcove.com/referral/{{user.basicuser.referral_id}}</strong></p>
 		</div>
 		<div class="disclaimer">
-			<p>You can see which friends have made purchased or sold items on VetCove in your <a href="/account/bonushistory">current bonuses</a></p>
+			<p>You can see which friends have made purchases in your <a href="/account/bonushistory">pending referrals</a></p>
 		</div>
 	</div>
   		

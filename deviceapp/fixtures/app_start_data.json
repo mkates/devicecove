@@ -263,13 +263,50 @@
     }
 },
 {
+    "pk": 3, 
+    "model": "auth.user", 
+    "fields": {
+        "username": "bob@vetcove.com", 
+        "first_name": "", 
+        "last_name": "", 
+        "is_active": true, 
+        "is_superuser": false, 
+        "is_staff": false, 
+        "last_login": "2013-10-28T04:37:02.515Z", 
+        "groups": [], 
+        "user_permissions": [], 
+        "password": "pbkdf2_sha256$10000$baG2jbKu2fmr$GQMak8dwaoerfKjoVBxom27VVhAlm5IAOlcE5wW1fQw=", 
+        "email": "admin@vetcove.com", 
+        "date_joined": "2013-10-28T04:36:12.295Z"
+    }
+},
+{
+    "pk": 4, 
+    "model": "auth.user", 
+    "fields": {
+        "username": "mike@vetcove.com", 
+        "first_name": "", 
+        "last_name": "", 
+        "is_active": true, 
+        "is_superuser": false, 
+        "is_staff": false, 
+        "last_login": "2013-10-28T04:37:02.515Z", 
+        "groups": [], 
+        "user_permissions": [], 
+        "password": "pbkdf2_sha256$10000$baG2jbKu2fmr$GQMak8dwaoerfKjoVBxom27VVhAlm5IAOlcE5wW1fQw=",
+        "email": "staff@vetcove.com", 
+        "date_joined": "2013-10-28T04:36:12.295Z"
+    }
+},
+{
     "pk": 1, 
     "model": "account.basicuser", 
     "fields": {
     	"user": 1, 
-    	"referral_id":"nsa020n93029n902b0b",
+    	"referral_id":"nsa02fdsfs0n93029n902b0b",
     	"creation_date": "2014-02-26",
-        "firstname": "VetCove Admin",
+        "firstname": "Admin",
+        "lastname":"VetCove",
         "email": "admin@vetcove.com", 
         "zipcode": 12345  
     }
@@ -279,10 +316,39 @@
     "model": "account.basicuser", 
     "fields": {
     	"user": 2, 
-    	"referral_id":"ANOdn929nf89n89!92n9f2",
+    	"referrer":3,
+    	"referral_id":"Asaafdasffdn929nf89n89!92n9f2",
     	"creation_date": "2014-02-26",
-        "firstname": "VetCove Staff",
+        "firstname": "Staff",
+        "lastname":"VetCove",
         "email": "staff@vetcove.com", 
+        "zipcode": 90012   
+    }
+},
+{
+    "pk": 3, 
+    "model": "account.basicuser", 
+    "fields": {
+    	"user": 3, 
+    	"referral_id":"nsa020n93029n902b0b",
+    	"creation_date": "2014-02-26",
+        "firstname": "Bob",
+        "lastname":"Jones",
+        "email": "bob@vetcove.com", 
+        "zipcode": 12345  
+    }
+},
+{
+    "pk": 4, 
+    "model": "account.basicuser", 
+    "fields": {
+    	"user": 4, 
+    	"referrer":3,
+    	"referral_id":"Asafdn929nf89n89!92n9f2",
+    	"creation_date": "2014-02-26",
+        "firstname": "Mike",
+        "lastname":"Williams",
+        "email": "mike@vetcove.com", 
         "zipcode": 90012   
     }
 },
@@ -301,86 +367,127 @@
     }
 },
 {
-		"pk": 1,
-		"model": "listing.item",
-		"fields": {
-			"user":1,
-			"subcategory":1,
-			"creation_date": "2014-3-1",
-			"msrp_price" : 24321,
-			"price" : 18981,
-			"manufacturer": 1,
-			"name":"New XT Ultrasound Plus",
-			"liststatus":"active"
-		}
-	},
-	{
-		"pk": 1,
-		"model": "listing.equipment",
-		"fields": {}
-	},
-	{
-		"pk": 1,
-		"model": "listing.newequipment",
-		"fields": {
-			"quantity":2
-		}
-	},
-	{
-		"pk": 2,
-		"model": "listing.item",
-		"fields": {
-			"user":1,
-			"subcategory":1,
-			"creation_date": "2014-3-1",
-			"msrp_price" : 24321,
-			"price" : 18981,
-			"manufacturer": 1,
-			"name":"Used XT Ultrasound Plus",
-			"liststatus":"active"
-		}
-	},
-	{
-		"pk": 2,
-		"model": "listing.equipment",
-		"fields": {}
-	},
-	{
-		"pk": 2,
-		"model": "listing.usedequipment",
-		"fields": {
-			"max_price":18981
-		}
-	},
-	{
-		"pk": 1,
-		"model": "listing.pharmabase",
-		"fields": {
-			"name": "Rimadyl",
-			"uses": "Iritable bowels~!Sore legs",
-			"description": "This drug is powerful"
-		}
-	},
-	{
-		"pk": 3,
-		"model": "listing.item",
-		"fields": {
-			"user":1,
-			"subcategory":69,
-			"creation_date": "2014-3-1",
-			"msrp_price" : 24321,
-			"price" : 18981,
-			"manufacturer": 1,
-			"name":"Rimadyl Plus",
-			"liststatus":"active"
-		}
-	},
-	{
-		"pk": 3,
-		"model": "listing.pharmaitem",
-		"fields": {
-			"pharma_base": 1,
-			"quantity": 3
-		}
+    "pk": 3, 
+    "model": "checkout.shoppingcart", 
+    "fields": {
+    	"user": 3
+    }
+},
+{
+    "pk": 4, 
+    "model": "checkout.shoppingcart", 
+    "fields": {
+    	"user": 4
+    }
+},
+{
+	"pk": 1,
+	"model": "listing.item",
+	"fields": {
+		"user":3,
+		"subcategory":1,
+		"creation_date": "2014-3-1",
+		"msrp_price" : 24321,
+		"price" : 18981,
+		"manufacturer": 1,
+		"name":"New XT Ultrasound Plus",
+		"liststatus":"active"
 	}
+},
+{
+	"pk": 1,
+	"model": "listing.equipment",
+	"fields": {}
+},
+{
+	"pk": 1,
+	"model": "listing.newequipment",
+	"fields": {
+		"quantity":2
+	}
+},
+{
+	"pk": 2,
+	"model": "listing.item",
+	"fields": {
+		"user":3,
+		"subcategory":1,
+		"creation_date": "2014-3-1",
+		"msrp_price" : 24321,
+		"price" : 18981,
+		"manufacturer": 1,
+		"name":"Used XT Ultrasound Plus",
+		"liststatus":"active"
+	}
+},
+{
+	"pk": 2,
+	"model": "listing.equipment",
+	"fields": {}
+},
+{
+	"pk": 2,
+	"model": "listing.usedequipment",
+	"fields": {
+		"max_price":18981
+	}
+},
+{
+	"pk": 1,
+	"model": "listing.pharmabase",
+	"fields": {
+		"name": "Rimadyl",
+		"uses": "Iritable bowels~!Sore legs",
+		"description": "This drug is powerful"
+	}
+},
+{
+	"pk": 3,
+	"model": "listing.item",
+	"fields": {
+		"user":3,
+		"subcategory":69,
+		"creation_date": "2014-3-1",
+		"msrp_price" : 24321,
+		"price" : 18981,
+		"manufacturer": 1,
+		"name":"Rimadyl Plus",
+		"liststatus":"active"
+	}
+},
+{
+	"pk": 3,
+	"model": "listing.pharmaitem",
+	"fields": {
+		"pharma_base": 1,
+		"quantity": 3
+	}
+},
+{
+	"pk": 1,
+	"model": "purchase.order",
+	"fields": {
+		"buyer": 4,
+		"purchase_date": "2014-3-1",
+		"item_total": 18981,
+		"credits":500,
+		"transaction_number":"12345"
+	}
+},
+{
+	"pk": 1,
+	"model": "purchase.purchaseditem",
+	"fields": {
+		"buyer": 4,
+		"seller": 3,
+		"purchase_date": "2014-3-1",
+		"order":1,
+		"item":3,
+		"quantity":1,
+		"unit_price":18981,
+		"item_name": "New Pharma Drug",
+		"commission":2500
+	}
+}
+
 ]

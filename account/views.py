@@ -17,7 +17,7 @@ from helper.model_imports import *
 import payment.views as payment_view
 import emails.views as email_view
 from account.forms import *
-from helper.bonus import *
+from helper.credits import *
 
 ###########################################
 #### Logins and new users #################
@@ -131,16 +131,9 @@ def updateGeneralSettings(request):
 		bu.firstname = request.POST.get('firstname','')
 		bu.lastname = request.POST.get('lastname','')
 		bu.email = request.POST.get('email','')
-		zipcode = request.POST.get('zipcode','')
-		if bu.zipcode != int(zipcode):
-			bu.zipcode = zipcode
-			try:
-				latlong_obj = LatLong.objects.get(zipcode=int(zipcode))
-				bu.city = latlong_obj.city
-				bu.county = latlong_obj.county
-				bu.state = latlong_obj.state
-			except:
-				latlong_obj = None
+		bu.zipcode = request.POST.get('zipcode','')
+		bu.city = request.POST.get('city','')
+		bu.state = request.POST.get('state','')
 		bu.save()
 		return HttpResponseRedirect('/account/profile?s=info')
 	else:
@@ -155,11 +148,14 @@ def updateSellerSettings(request):
 		bu.website = request.POST.get('website','')
 		phonenumber = request.POST.get('phonenumber','')
 		phonenumber = re.sub("[^0-9]", "", phonenumber)
+		mainimage = request.FILES.get("mainimage",'')
 		try:
 			phonenumber = int(phonenumber)
 			bu.phonenumber = phonenumber
 		except:
 			phonenumber = None
+		if mainimage:
+			bu.mainimage = mainimage
 		bu.save()
 		return HttpResponseRedirect('/account/profile?s=info')
 	else:
@@ -219,7 +215,8 @@ def wishlist(request):
 def bonus(request):
 	if request.user.is_authenticated():
 		bu = request.user.basicuser
-		return render_to_response('account/bonus/bonus.html',{"bonus":True},context_instance=RequestContext(request))
+		feedback = True if bu.feedback_set.exists() else False
+		return render_to_response('account/bonus/bonus.html',{"bonus":True,'feedback':feedback},context_instance=RequestContext(request))
 	else:
    		return render_to_response('general/index.html', context_instance=RequestContext(request))
  
@@ -248,7 +245,7 @@ def feedbackForm(request):
 			change = form.cleaned_data['change']
 			feedback = Feedback(user=request.user.basicuser,love=love,change=change)
 			feedback.save()
-			updateBonus(request.user.basicuser)
+			updateCredits(request.user.basicuser)
 		return HttpResponseRedirect('/account/feedbackthanks')
 	else:
    		return render_to_response('general/index.html', context_instance=RequestContext(request))
@@ -280,8 +277,8 @@ def referralThanks(request):
 def bonusHistory(request):
 	if request.user.is_authenticated():
 		bu = request.user.basicuser
-		bonuses = updateBonus(bu)
-		return render_to_response('account/bonus/bonushistory.html',{"bonus":True,'bonuses':bonuses},context_instance=RequestContext(request))
+		credits = updateCredits(bu)
+		return render_to_response('account/bonus/bonushistory.html',{"bonus":True,'credits':credits},context_instance=RequestContext(request))
 	else:
    		return render_to_response('general/index.html', context_instance=RequestContext(request))
 
@@ -341,10 +338,31 @@ def sellhistory(request):
 
 @login_required
 def usersettings(request):
+	basicuser = request.user.basicuser
+	providers = BasicUser.objects.all()
+	unapproved_vendors = basicuser.unapprovedvendoruser.all()
+	unapproved_vendors = [uv.vendor for uv in unapproved_vendors]
 	if request.user.is_authenticated():
-		return render_to_response('account/settings.html',{},context_instance=RequestContext(request))
+		return render_to_response('account/settings.html',{'providers':providers,'unapprovedvendors':unapproved_vendors},context_instance=RequestContext(request))
 	else:
    		return render_to_response('general/index.html',context_instance=RequestContext(request))
+
+@login_required
+def updateProviders(request):
+	if request.method == 'POST' and request.user.is_authenticated():
+		provider_id = request.POST.get('provider-id','')
+		provider_value = request.POST.get('provider-value','')
+		vendor = BasicUser.objects.get(id=provider_id)
+		if provider_value == 'true':
+			if UnapprovedVendor.objects.filter(user=request.user.basicuser,vendor=vendor).exists():
+				provider = UnapprovedVendor.objects.get(user=request.user.basicuser,vendor=vendor)
+				provider.delete()
+		else:
+			obj, created = UnapprovedVendor.objects.get_or_create(user=request.user.basicuser,vendor=vendor)
+			obj.save()
+		return HttpResponse(json.dumps({'status':201}), content_type='application/json')
+	return HttpResponse(json.dumps({'status':500}), content_type='application/json')
+
 
 @login_required
 def profile(request):
@@ -433,13 +451,13 @@ def saveitem(request):
 	item = Item.objects.get(id=request.POST['id'])
 	if request.method == "POST" and request.user.is_authenticated():
 		if (request.POST['action'] == "save"):
-			if not SavedItem.objects.filter(user = BasicUser.objects.get(user=request.user),item=item).exists():
-				si = SavedItem(user = BasicUser.objects.get(user=request.user),item=item)
+			if not SavedItem.objects.filter(user = request.user.basicuser,item=item).exists():
+				si = SavedItem(user = request.user.basicuser,item=item)
 				item.savedcount += 1
 				si.save()
 		else:
-			if SavedItem.objects.filter(user = BasicUser.objects.get(user=request.user),item=item).exists():
-				si = SavedItem.objects.get(user = BasicUser.objects.get(user=request.user),item=item)
+			if SavedItem.objects.filter(user = request.user.basicuser,item=item).exists():
+				si = SavedItem.objects.get(user = request.user.basicuser,item=item)
 				si.delete()
 				item.savedcount -= 1
 		return HttpResponse(json.dumps({'status':"100"}), content_type='application/json')
@@ -451,7 +469,7 @@ def saveitem(request):
 def removeitem(request):
 	if request.method == "POST" and request.user.is_authenticated():
 		item = Item.objects.get(id=int(request.POST['itemid']))
-		si = SavedItem.objects.get(user = BasicUser.objects.get(user=request.user),item=item)
+		si = SavedItem.objects.get(user = request.user.basicuser,item=item)
 		si.delete()
 		return HttpResponseRedirect("/account/wishlist")
 	return render_to_response('general/index.html',context_instance=RequestContext(request))

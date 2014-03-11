@@ -1,23 +1,31 @@
 {% extends 'account/account.html' %}
-{% block headertitle %}<title>VetCove | Bonus History</title>{% endblock%}
+{% block headertitle %}<title>VetCove | Credits Earned</title>{% endblock%}
 {% block bonus %}active{% endblock %}
 {% load dollars %}
 {% block jsblock %}
 {% endblock %}
-{% block maintitle %}Bonus History{% endblock %}
+{% block maintitle %}Credits Available: {{user.basicuser.credits|dollars}}{% endblock %}
 {% block headersubcss %}
 <style>
 .bonus-container {
-	padding: 20px 20px;
+	padding: 0px;
+	margin-bottom: 20px;
+}
+.bonus-container h4 {
+	padding-bottom: 10px;
 }
 .bonus-row {
-	margin-bottom: 30px;
+	padding: 20px;
 }
 .bonus-row table {
 	width: 100%;
+	font-weight: 200;
 }
 .bonus-row table td {
-	padding: 7px 5px;
+	padding: 7px 0px;
+}
+.bonus-row tr {
+	font-size: 13px;
 }
 .bonus-row .expiration {
 	font-size: 11px;
@@ -29,7 +37,7 @@
 .bonus-row .discount {
 	font-weight: 800;
 	font-size: 15px;
-	text-align: center;
+	text-align: right;
 	vertical-align: bottom;
 }
 .bonus-row .total {
@@ -44,7 +52,7 @@
 .disclaimer p {
 	font-size: 12px;
 	color: #777;
-	padding: 40px 40px 0 40px;
+	padding: 10px 40px 0 40px;
 	text-align: center;
 }
 .align-right {
@@ -61,85 +69,110 @@
 </style>
 {% endblock %}
 {% block maincontent %}
-	<div class="maincontent-container covebox bonus-container">
+	<div class="covebox bonus-container">
+		<h4 class="maincontent-title">Credits Earned: {{credits.credits_earned|dollars}}</h4>
 		<div class="bonus-row">
-			<h5>Current Bonuses</h5>
-			{% if bonuses.active_bonus %}
-			<table>
+			{% if credits.credit_list %}
+			<table class="table table-striped">
 				<thead>
 					<th>Type</th>
-					<th class="align-center">Bonus</th>
-					<th class="align-right">Expiration</th>
+					<th>Description</th>
+					<th>Date</th>
+					<th class="align-right">Amount</th>
 				</thead>
 				<tbody>
-					{% for ab in bonuses.active_bonus %}
+					{% for ab in credits.credit_list %}
 					<tr>
 						<td class="type">
 							{% if ab.0 == 'referral' %}
-								Referral - {{ab.1.name}}
-							{% elif ab.0 == 'buy' %}
-								Purchase - {{ab.1.item_name}} ({{ab.1.quantity}})
+								Referral
 							{% elif ab.0 == 'sold' %}
-								Sold - {{ab.1.item_name}} ({{ab.1.quantity}})
+								Sale 
 							{% elif ab.0 == 'feedback' %}
 								Feedback
 							{% elif ab.0 == 'welcome' %}
-								Joined through Referral - {{ab.1.name}}
+								Friend Welcome Credit
 							{% endif %}
 						</td>
-						<td class="discount">.25%</td>
-						<td class="expiration">Expires {{ab.3|date:"F jS, Y"}}</td>
-					</tr>
-					{% endfor %}
-					<tr class="total">
-						<td class="type">Total Discounts:</td>
-						<td class="discount">{{bonuses.total_bonus|percent}}%</td>
-						<td class="expiration"></td>
-					</tr>
-				</tbody>
-			</table>
-			{% else %}
-			<p class="nobonus">You do not currently have any active bonuses</p>
-			{% endif %}
-		</div>
-		<div class="bonus-row">
-			<h5>Expired Bonuses</h5>
-			{% if bonuses.inactive_bonus %}
-			<table>
-				<thead>
-					<th>Type</th>
-					<th>Bonus</th>
-					<th class="align-right">Expiration</th>
-				</thead>
-				<tbody>
-					{% for ab in bonuses.inactive_bonus %}
-					<tr>
-						<td class="type">
+						<td>
 							{% if ab.0 == 'referral' %}
-								Referral - {{ab.1.name}}
-							{% elif ab.0 == 'buy' %}
-								Purchase - {{ab.1.item_name}} ({{ab.1.quantity}})
+								{{ab.1.name}}
 							{% elif ab.0 == 'sold' %}
-								Sold - {{ab.1.item_name}} ({{ab.1.quantity}})
-							{% elif ab.0 == 'feedback' %}
-								Feedback
+								{{ab.1.item_name}} ({{ab.1.quantity}})
 							{% elif ab.0 == 'welcome' %}
-								Joined through Referral
+								Referred by {{ab.1.name}}
 							{% endif %}
 						</td>
-						<td class="discount">.25%</td>
-						<td class="expiration">Expires {{ab.3|date:"F jS, Y"}}</td>
+						<td>{{ab.3|date:"F jS, Y"}}</td>
+						<td class="discount">{{ab.2|dollars}}</td>
 					</tr>
 					{% endfor %}
 				</tbody>
 			</table>
 			{% else %}
-			<p class="nobonus">You do not currently have any expired bonuses</p>
+			<p class="nobonus">You do not currently have any credits</p>
 			{% endif %}
-		</div>
-		<div class="disclaimer">
-			<p>All VetCove bonuses expire 1 year after they take effect, except for selling and buying items on VetCove, which expire after 90 days. Also, there is a maximum bonus of referrals, purchased items, and sold items of 3% each. For friend referrals, the friend must sign up and either sell or buy an item on VetCove.</p>
+			<div class="disclaimer">
+				<p>VetCove reserves the right to remove credits after <strong>one year</strong> of inactivity.</p>
+			</div>
 		</div>
 	</div>
+	<div class="covebox bonus-container">
+		<h4 class="maincontent-title">Credits Used: {{credits.credits_used|dollars}}</h4>
+		<div class="bonus-row">
+			{% if credits.used_credit_list %}
+			<table class="table table-striped">
+				<thead>
+					<th>Order</th>
+					<th>Items</th>
+					<th>Date</th>
+					<th class="align-right">Credits Used</th>
+				</thead>
+				<tbody>
+					{% for order in credits.used_credit_list %}
+					<tr>
+						<td><a href="/account/buyhistory">#000{{order.id}}</a></td>
+						<td>
+							{% for pi in order.purchaseditem_set.all %}
+								{{pi.item_name}} ({{pi.quantity}}){% if not forloop.last %},{% endif %}
+							{% endfor %}
+						</td>
+						<td>{{order.purchase_date|date:"F jS, Y"}}</td>
+						<td class="discount align-right">{{order.credits|dollars}}</td>
+					</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+			{% else %}
+			<p class="nobonus">You have not used credits on any purchases</p>
+			{% endif %}
+		</div>
+	</div>
+	<div class="covebox bonus-container">
+		<h4 class="maincontent-title">Pending Referrals</h4>
+		<div class="bonus-row">
+			{% if credits.pending_credit_list %}
+			<table class="table table-striped">
+				<thead>
+					<th>Name</th>
+					<th>Email</th>
+					<th>Status</th>
+				</thead>
+				<tbody>
+					{% for ab in credits.pending_credit_list %}
+					<tr>
+						<td>{{ab.1.name}}</td>
+						<td>{{ab.1.email}}</td>
+						<td>Signed Up</td>
+					</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+			{% else %}
+			<p class="nobonus">You do not currently have any pending referral invites</p>
+			{% endif %}
+		</div>
+	</div>
+
   		
 {% endblock %}

@@ -6,8 +6,6 @@ def basics(request):
 	ci = None
 	ci_count = 0
 	subtotal = 0
-	bonus = 0
-	bonus_discount = 0
 	bu = None
 	try:
 		if hasattr(request,'user'):
@@ -20,7 +18,6 @@ def basics(request):
 				else:
 					ci = bu.shoppingcart.cartitem_set.all()	
 					cache.set('cart_items_'+str(bu.id),ci)
-				bonus = bu.bonus	
 			else:
 				if 'shoppingcart' in request.session:
 					sc = ShoppingCart.objects.get(id=request.session['shoppingcart'])
@@ -30,8 +27,6 @@ def basics(request):
 					if itm.item.liststatus == 'active':
 						subtotal += itm.item.price *itm.quantity
 						ci_count += itm.quantity
-
-			bonus_discount = subtotal*(bonus/float(10000))
 			################# General Notifications ######################
 			notifications = None
 			if request.user.is_authenticated():
@@ -42,7 +37,7 @@ def basics(request):
 				else:
 					notifications = bu.notification_set.filter(viewed=False)
 					cache.set('notifications_'+str(bu.id),notifications)
-			return {'cart_items':ci,'cart_items_count':ci_count,'cart_subtotal':subtotal,'cart_total':subtotal-bonus_discount,'cart_bonus_discount':bonus_discount,'notifications':notifications}
+			return {'cart_items':ci,'cart_items_count':ci_count,'notifications':notifications}
 		return {}
 	except Exception,e:
 		print e

@@ -1,6 +1,14 @@
 from django.db import models
 from django.db.models import Q
 from django.contrib.auth.models import User
+import uuid, os
+from imagekit.processors import ResizeToFill, ResizeToFit
+from imagekit.models import ProcessedImageField
+
+def create_basic_user_image_path(instance, filename):
+	ext = filename.split('.')[-1]
+	filename = "%s.%s" % (str(uuid.uuid4()), ext)
+	return os.path.join('profileimages', filename)
 
 ############################################
 ####### User Class #########################
@@ -10,14 +18,14 @@ class BasicUser(models.Model):
 	# General
 	user = models.OneToOneField(User)
 	referrer = models.ForeignKey('self',null=True,blank=True) # Tracks the user who referred them
-	referral_id = models.CharField(max_length=100)
+	referral_id = models.CharField(max_length=100) # The user's referral ID
 	creation_date = models.DateTimeField(auto_now_add=True)
 	
 	firstname = models.CharField(max_length=60)
 	lastname = models.CharField(max_length=60)
 	email = models.EmailField(max_length=60) # Contact Email, login email stored in User class
-	zipcode = models.IntegerField(max_length=5)
-	
+	zipcode = models.CharField(max_length=20)
+
 	# These automatically populate from the zipcode (store for speed purposes)
 	city = models.CharField(max_length=100,blank=True)
 	county = models.CharField(max_length=100,blank=True)
@@ -28,13 +36,14 @@ class BasicUser(models.Model):
 	company = models.CharField(max_length=60,blank=True)
 	website = models.CharField(max_length=60,blank=True)
 	phonenumber = models.BigIntegerField(max_length=10,null=True,blank=True)
-	
-	# User's Rank (will be used for different commission classes, listing limits, etc.)
-	USER_RANK =  ((0, 0),(1, 1),(2, 2),(3, 3),(4, 4),(5, 5))
-	user_rank = models.IntegerField(max_length=2,choices=USER_RANK,default=0)
+	mainimage = ProcessedImageField(upload_to=create_basic_user_image_path, processors=[ResizeToFit(300, 150)],format='JPEG',options={'quality': 60},null=True,blank=True) 
 
-	# Bonus is cumulative bonuses they have
-	bonus = models.IntegerField(max_length=4,default=0)
+	# User's Rank (will be used for different commission classes, listing limits, etc.)
+	USER_TYPE =  (('basic', 'basic'),('preferred','preferred'),('pharma', 'pharma'))
+	user_type = models.CharField(max_length=2,choices=USER_TYPE,default='basic')
+
+	# Current credit balance
+	credits = models.BigIntegerField(max_length=10,default=0) # Stored for speed purposes
 
 	# Payments
 	balanceduri = models.CharField(max_length=255,blank=True)
@@ -82,6 +91,35 @@ class BasicUser(models.Model):
 	def sellhistory(self):
 		return self.purchaseditemseller.count()
 
+	# IDs of the approved vendors
+	def approvedVendors(self):
+		vendor_ids = [vendor.id for vendor in BasicUser.objects.filter(user_type="basic")]
+		for vendor in self.unapprovedvendoruser.all():
+			vendor_ids.pop(vendor_ids.index(vendor.id))
+		return vendor_ids
+
+############################################
+####### Approved Providers #################
+############################################
+class UnapprovedVendor(models.Model):
+	user = models.ForeignKey(BasicUser,related_name="unapprovedvendoruser")
+	vendor = models.ForeignKey(BasicUser,related_name="unapprovedvendorvendor")
+
+############################################
+####### Credits ############################
+############################################
+class Credit(models.Model):
+	user = models.ForeignKey(BasicUser,related_name="credituser")
+	amount = models.IntegerField(max_length=6)
+	expires = models.DateTimeField()
+	CREDIT_TYPES = (('referral','Friend Referral'),('signup','New Customer'),('sale','Sale'))
+	credittype = models.CharField(max_length=2,choices=CREDIT_TYPES,default=0)
+	referree = models.ForeignKey(BasicUser,related_name="creditreferree",null=True,blank=True)
+	purchaseditem = models.ForeignKey('purchase.PurchasedItem',null=True,blank=True)
+
+	def __unicode__(self):
+		return self.credittype+ "Credit"
+
 ############################################
 ####### Wishlist Items #####################
 ############################################
@@ -99,9 +137,9 @@ class Address(models.Model):
 	address_two = models.CharField(max_length=100,blank=True) #apartment, suite, unit, building,floor,etc.
 	city = models.CharField(max_length=100)
 	state = models.CharField(max_length=100) #Can be state/province/or region
-	country = models.CharField(max_length=100, default="United States")
-	zipcode = models.IntegerField(max_length=100) # Can be zipcode or postal code
-	phonenumber = models.CharField(max_length=100) 
+	country = models.CharField(max_length=50, default="United States")
+	zipcode = models.CharField(max_length=20) # Can be zipcode or postal code
+	phonenumber = models.CharField(max_length=20) 
 
 ############################################
 ### Feedback ###############################

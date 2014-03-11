@@ -8,10 +8,14 @@ class Order(models.Model):
 	buyer = models.ForeignKey('account.BasicUser')
 	payment = models.ForeignKey('payment.Payment',null=True,blank=True)
 	purchase_date = models.DateTimeField(auto_now_add = True)
-	total = models.BigIntegerField(max_length=20)
-	tax = models.BigIntegerField(max_length=13,default=0)
+	item_total = models.BigIntegerField(max_length=20) # The raw order total + tax
+	credits = models.BigIntegerField(max_length=10,default=0)
+	shipping = models.BigIntegerField(max_length=13,default=0)
 	shipping_address = models.ForeignKey('account.Address',null=True,blank=True) # Can be null if pick-up only item
 	transaction_number = models.CharField(max_length=40)
+
+	def total(self):
+		return self.item_total+self.shipping-self.credits
 
 class PurchasedItem(models.Model):
 	purchase_date = models.DateTimeField(auto_now_add = True)
@@ -27,7 +31,7 @@ class PurchasedItem(models.Model):
 	unit_price = models.BigIntegerField(max_length=20)
 	item_name = models.CharField(max_length=300)
 	
-	# Deductions
+	# Seller Deductions / Add-ons
 	charity = models.BooleanField(default=False)
 	charity_name = models.ForeignKey('general.Charity',null=True,blank=True)
 	promo_code = models.ForeignKey('listing.PromoCode',null=True,blank=True)
@@ -44,5 +48,8 @@ class PurchasedItem(models.Model):
 	paid_date = models.DateTimeField(null=True,blank=True)
 	payout = models.ForeignKey('payment.Payout',null=True,blank=True)
 	
-	def total(self):
+	def subtotal(self):
 		return self.unit_price*self.quantity
+
+	def total(self):
+		return (self.unit_price*self.quantity)

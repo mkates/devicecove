@@ -336,7 +336,8 @@ def composeReferral(basicuser,email_list):
 	}
 	subject = "Come explore the VetCove Community"
 	for emails in email_list:
-		email = render_and_send_email(template_data,subject,emails,'referral/referral')
+		if not BasicUser.objects.filter(email=emails).exists():
+			email = render_and_send_email(template_data,subject,emails,'referral/referral')
 	return email
 	
 def composeFileReport(report):

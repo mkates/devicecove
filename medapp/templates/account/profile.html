@@ -55,6 +55,7 @@
 }
 .maincontent-title span {
 	float: right;
+	margin-top: 4px;
 	margin-right: 15px;
 	font-size: 13px;
 }
@@ -87,6 +88,10 @@
 .alert {
 	box-shadow: 0 0 2px #aaa;
 }
+.thin {
+	font-weight: 200;
+	color: #aaa;
+}
 </style>
 {% endblock %}
 {% block jsblock %}
@@ -117,7 +122,6 @@ $(document).ready(function() {
 	}
 	//New address cancel
 	$(".payment-cancel").click(function() {
-		console.log("here")
 		$(".payment-address-new-form").css('display','none');
 		$(".payment-address-div").css('display','block');
 		$(".payment-address-new-button").css('display','block');
@@ -143,9 +147,6 @@ $(document).ready(function() {
 		$(grouping+" .editable").css("display","block");
 		$(grouping+" a").css("display","none");
 	});
-	$("#gi-zipcode").keyup(function() {
-		$(this).val($(this).val().replace(/\D/g,''));
-	});
 	$("#gi-form").submit(function() {
 		submittable = true;
 		if ($("#gi-firstname").val().length < 3) {
@@ -160,7 +161,7 @@ $(document).ready(function() {
 			addError($("#gi-email"));
 			submittable = false;
 		}
-		if ($("#gi-zipcode").val().length != 5) {
+		if ($("#gi-zipcode").val().length < 3) {
 			addError($("#gi-zipcode"));
 			submittable = false;
 		}
@@ -275,14 +276,34 @@ function addError(handle) {
 						<h6>Not A Valid Email Address</h6>
 					</div>
 				</div>
-				<div class="row noborder">
+				<div class="row">
 					<div class="col-md-3 col-sm-3 col-xs-3 category-label">
 						Zipcode
 					</div>
 					<div class="col-md-9 col-sm-9 col-xs-9 category-input">
 						<p class="editable">{{basicuser.zipcode|zipcodify}}</p>
-						<input id="gi-zipcode" length="5" type="text" name="zipcode" class="form-control" value="{{basicuser.zipcode|zipcodify}}">
+						<input id="gi-zipcode" type="text" name="zipcode" class="form-control" value="{{basicuser.zipcode|zipcodify}}">
 						<h6>Zipcode must be a 5 digits</h6>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-3 col-sm-3 col-xs-3 category-label">
+						City
+					</div>
+					<div class="col-md-9 col-sm-9 col-xs-9 category-input">
+						<p class="editable">{{basicuser.city}}</p>
+						<input id="gi-city" type="text" name="city" class="form-control" value="{{basicuser.city}}">
+						<h6>City cannot be empty</h6>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-3 col-sm-3 col-xs-3 category-label">
+						State/Province/Region
+					</div>
+					<div class="col-md-9 col-sm-9 col-xs-9 category-input">
+						<p class="editable">{{basicuser.state}}</p>
+						<input id="gi-state" type="text" name="state" class="form-control" value="{{basicuser.state}}" required>
+						<h6>State/Province/Region cannot be empty</h6>
 					</div>
 				</div>
 				<div class="row noborder">
@@ -335,7 +356,7 @@ function addError(handle) {
 	<div class="profile-info covebox">
 		<h4 class="maincontent-title">Additional Information (for Sellers) <span data-block=".seller-information" class="form-edit button button-small button-rounded button-primary">Edit</span></h4>
 		<div class="profileitem seller-information">
-			<form id="si-form" action="/account/updateseller" method="POST">
+			<form id="si-form" action="/account/updateseller" method="POST" enctype="multipart/form-data">
 				{% csrf_token %}
 				<div class="row">
 					<div class="col-md-3 col-sm-3 col-xs-3 category-label">
@@ -387,12 +408,23 @@ function addError(handle) {
 						<h6>Zipcode must be a 5 digits</h6>
 					</div>
 				</div>
+				<div class="row">
+					<div class="col-md-3 col-sm-3 col-xs-3 category-label">
+						Company Logo
+					</div>
+					<div class="col-md-9 col-sm-9 col-xs-9 category-input">
+						<p class="editable thin">{% if basicuser.mainimage %}<img height="100" src="{{basicuser.mainimage.url}}"/>{% else %}
+						No Image{% endif %}</p>
+						<input type="file" name="mainimage" accept="image/*">
+						<h6>Not A Valid Image Format</h6>
+					</div>
+				</div>
 				<div class="row noborder">
 					<div class="col-md-3 col-sm-3 col-xs-3 category-label">
 						VetCove Verified
 					</div>
 					<div class="col-md-9 col-sm-9 col-xs-9 category-input">
-						<p>{% if basicuser.verified %}Yes{% else %}Not Yet. Please call us at 732-598-6434 to become verified{% endif %}</p>
+						{% if basicuser.verified %}<p>Yes</p>{% else %}<p class="thin">Not Yet. Please call us at 732-598-6434 to become verified</p>{% endif %}
 					</div>
 				</div>
 				<div class="row noborder">

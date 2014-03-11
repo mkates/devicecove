@@ -127,11 +127,11 @@
 						{% if cartitem.item.liststatus == "active" %}
 						<p class="item-quantity">Quantity: <span class="quantity">
 								{% load get_range %}
-								{% if cartitem.item.quantity > 1 %}
+								{% if cartitem.item.item_handle.quantity > 1 %}
 								<form class="quantity-form" action="/updatecart/quantity/{{cartitem.id}}" method="POST">
 									{% csrf_token %}
 									<select name="quantity" class="item-quantity" data-itemid='{{cartitem.item.id}}' data-item-handle='#cart-item-{{cartitem.item.id}}'>
-									{% for i in cartitem.item.quantity|get_range %}
+									{% for i in cartitem.item.item_handle.quantity|get_range %}
 										{% if i > 0 %}
 											<option value="{{i}}" {% if i == cartitem.quantity %}selected{% endif%}>{{i}}</option>
 										{% endif %}
@@ -141,14 +141,15 @@
 								{% else %}
 									1
 								{% endif %}
-						</span></p>
-						{% if cartitem.numbercarts %}<p class="otherbuyers">{{cartitem.numbercarts}} other {%if cartitem.numbercarts == 1 %}person has{% else %}people have{% endif %} this item in their shopping cart</p>{% endif %}					
+						</span></p>				
 						{% endif %}
 						{% if cartitem.item.liststatus != "active" %}
-						<p class="not-available"> This item is no longer available. This item has been taken down or been purchased.</p>
-						{% endif %}
-						{% if not cartitem.item.shippingincluded %}
-						<p class="not-available">Note: You must pick up this item from {% if item.user.city and item.user.state %}{{item.user.city}}, {{item.user.state}}{% else %}zipcode {{item.user.zipcode|zipcodify}}{% endif %}</p>
+							<p class="not-available"> This item is no longer available. This item has been taken down or been purchased.</p>
+						{% else %}
+							{% if cartitem.numbercarts %}<p class="otherbuyers">{{cartitem.numbercarts}} other {%if cartitem.numbercarts == 1 %}person has{% else %}people have{% endif %} this item in their shopping cart</p>{% endif %}	
+							{% if not cartitem.item.shippingincluded %}
+							<p class="not-available">Note: You must pick up this item from {% if item.user.city and item.user.state %}{{item.user.city}}, {{item.user.state}}{% else %}zipcode {{item.user.zipcode|zipcodify}}{% endif %}</p>
+							{% endif %}
 						{% endif %}
 						<span class="item-actions">
 							{% if cartitem.item.liststatus == "active" %}
@@ -179,9 +180,9 @@
 		</div>
 		<div class="covebox cart-summary col-md-3 col-sm-3 col-xs-12">
 			<h6> Order Summary</h6>
-			<p>Items (<span id="itemcount" class="itemcount">{{cart_items_count}}</span>)<span class="totalprice">{{cart_subtotal|dollars}}</span></p>
-			{% if user.basicuser %}<p>VetCove Bonus ({{user.basicuser.bonus|percent}}%)<span>-{{cart_bonus_discount|dollars}}</span></p>{% endif %}
-			<p class="total">Total:<span class="totalprice">{{cart_total|dollars}}</span></p>
+			<p>Items (<span id="itemcount" class="itemcount">{{cart_items_count}}</span>):<span class="totalprice">{{shoppingcart.summary.subtotal|dollars}}</span></p>
+			{% if user.basicuser %}<p>VetCove Credit: <span>-{{shoppingcart.summary.credits|dollars}}</span></p>{% endif %}
+			<p class="total">Total:<span class="totalprice">{{shoppingcart.summary.total|dollars}}</span></p>
 			{% if cart_items_count %}
 			<a class="button-small button button-rounded button-action proceedtocheckout" href="/checkout/verify">Proceed To Checkout</a>
 			{% endif %}

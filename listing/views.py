@@ -62,6 +62,8 @@ def savebusiness(request,itemid):
 		bu.phonenumber = int(re.sub("[^0-9]", "",request.POST.get("phonenumber","")))
 		bu.businesstype = request.POST.get('business','')
 		bu.website = request.POST.get('website','')
+		companyimage = request.FILES.get("companyimage",'')
+		bu.mainimage = companyimage if companyimage else None
 		bu.save()
 		return HttpResponseRedirect('/list/describe/'+str(itemid))
 	return HttpResponseRedirect('/listintro')

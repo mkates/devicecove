@@ -61,7 +61,13 @@
 				<div class="price">
 					<div class="pricebox">
 						<div class="row">
-							<p class="condition">{{item.get_conditionquality_display}}</p>
+							<p class="condition">
+								{% if item.item_type == 'usedequipment' %}
+								{{item.item_handle.get_conditionquality_display}}
+								{% else %}
+								Brand New
+								{% endif %}
+							</p>
 							<p class="price">{{item.price|dollars}}</p>
 						</div>
 						<div class="row">

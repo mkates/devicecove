@@ -92,7 +92,7 @@
 			<h2>Buy This Item</h2>  
 			<h3>{{item.item_handle.price|dollars}}</h3>
 			<p class="original-price">{{item.item_handle.msrp_price|dollars}}</p>
-			<p> Quantity Available: {{item.item_handle.quantity}}</p>
+			{% if item.item_type != 'usedequipment' %}<p> Quantity Available: {{item.item_handle.quantity}}</p>{% endif %}
 			{% if item.shippingincluded %}
 			<p class="action-information">This item includes FREE domestic shipping</p>
 			{% else %}
@@ -144,9 +144,9 @@
 			</div>
 			{% endif %}
 			{% if item.item_type == 'usedequipment' %}
-			{% if item.item_handle.offlineviewing %}
-			<p class="offline-explain">* This item is available to be viewed offline. You must contact the seller to organize a time to view this item.</p>
-			{% endif %}
+				{% if item.item_handle.offlineviewing %}
+				<p class="offline-explain">* This item is available to be viewed offline. You must contact the seller to organize a time to view this item.</p>
+				{% endif %}
 			{% endif %}
 		</div>
 		{% if item.charity %}
@@ -207,6 +207,7 @@
 			<p> There currently is no description for this item</p>
 			{% endif %}
 		</div>
+		{% if item.item_type == 'usedequipment' %}
 		<div class="mainproduct productdetails" id="features">
 			<h2> Product Condition</h2>
 			<p class="condition-quality">{{item.item_handle.get_conditionquality_display}}</p>
@@ -217,13 +218,14 @@
 			{% endif %}
 			<p id="productfeatures">{{item.item_handle.conditiondescription}}</p>
 		</div>
-		{% if item.whatsincluded %}
+		{% endif %}
+		{% if item.item_handle.whatsincluded %}
 		<div class="mainproduct productdetails" id="features">
 			<h2>What's Included</h2>
 			<p id="productfeatures">{{item.item_handle.whatsincluded}}</p>
 		</div>
 		{% endif %}
-		{% if item.contract != 'none' or item.contractdescription %}
+		{% if item.item_handle.contract != 'none' or item.contractdescription %}
 		<div class="mainproduct productdetails" id="features">
 			<h2>Warranty / Service Contract Details</h2>
 			<p id="productfeatures"><strong>{{item.item_handle.get_contract_display}}</strong></p>

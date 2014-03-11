@@ -1,11 +1,11 @@
 from django.test import TestCase
-from deviceapp.models import *
-from deviceapp.views_custom import views_email as email
-from deviceapp.views_custom import payout as payout
+import emails.views as email
 from django.conf import settings
+from helper.model_imports import *
 
 class BasicUserTest(TestCase):
     def setUp(self):
+
     	# General Models Set Up
         settings.TESTING = True
     	self.ind = Industry.objects.create(name='veterinary',displayname='Veterinary')
@@ -31,20 +31,21 @@ class BasicUserTest(TestCase):
         self.bu_3.save()
 
         # Create Some Items
-        self.item_1 = Item.objects.create(user=self.bu_1,name="Ultrasound 1",subcategory=self.subcat,msrp_price=14300,price=8200,max_price=8200)
-        self.item_2 = Item.objects.create(user=self.bu_2,name="Ultrasound 2",subcategory=self.subcat,msrp_price=15300,price=9200,max_price=8200)
-        self.item_3 = Item.objects.create(user=self.bu_3,name="Ultrasound 3",subcategory=self.subcat,msrp_price=16300,price=10200,max_price=8200)
-        self.item_4 = Item.objects.create(user=self.bu_3,name="Ultrasound 4",subcategory=self.subcat,msrp_price=17300,price=11200,max_price=8200)
-        self.item_5 = Item.objects.create(user=self.bu_3,name="Ultrasound 5",subcategory=self.subcat,msrp_price=18300,price=12200,max_price=8200)
-        self.item_6 = Item.objects.create(user=self.bu_3,name="Ultrasound 6",subcategory=self.subcat,msrp_price=19300,price=13200,max_price=8200)
+        self.item_1 = NewEquipment.objects.create(user=self.bu_1,name="Ultrasound 1",subcategory=self.subcat,msrp_price=14300,price=8200)
+        self.item_2 = UsedEquipment.objects.create(user=self.bu_2,name="Ultrasound 2",subcategory=self.subcat,msrp_price=15300,price=9200)
+        self.item_3 = NewEquipment.objects.create(user=self.bu_3,name="Ultrasound 3",subcategory=self.subcat,msrp_price=16300,price=10200)
+        self.item_4 = NewEquipment.objects.create(user=self.bu_3,name="Ultrasound 4",subcategory=self.subcat,msrp_price=17300,price=11200)
+        self.item_5 = NewEquipment.objects.create(user=self.bu_3,name="Ultrasound 5",subcategory=self.subcat,msrp_price=18300,price=12200)
+        self.item_6 = NewEquipment.objects.create(user=self.bu_3,name="Ultrasound 6",subcategory=self.subcat,msrp_price=19300,price=13200)
 
         # Question
         self.question_1 = Question.objects.create(buyer=self.bu_1,seller=self.bu_2,item=self.item_1,question="Is the item still available?")
 
         self.sellermessage_1 = SellerMessage.objects.create(buyer=self.bu_1,item=self.item_1,name="John Doe",email="johndoe@aim.com",phone=1234567890,message="New Contact Message",reason='Offline Visit')
         self.comm_obj = Commission.objects.create(item=self.item_1,price=12345,amount=1234,payment=self.bba_1,transaction_number='12345')
-        # Creae some Purchased Items
-        self.order_1 = Order.objects.create(buyer=self.bu_1,total=23400)
+        
+        # Create some Purchased Items
+        self.order_1 = Order.objects.create(buyer=self.bu_1,item_total=23400,credits=1000,transaction_number="123454")
         self.pi_1 = PurchasedItem.objects.create(seller=self.bu_3,buyer=self.bu_1,order=self.order_1,item=self.item_4,quantity=1,unit_price=self.item_4.price,
         	item_name=self.item_4.name,commission=3000,item_sent=True)
         self.pi_2 = PurchasedItem.objects.create(seller=self.bu_3,buyer=self.bu_1,order=self.order_1,item=self.item_5,quantity=1,unit_price=self.item_5.price,
@@ -54,7 +55,7 @@ class BasicUserTest(TestCase):
         self.payout_1 = CheckPayout.objects.create(user = self.bu_3,amount=20123,total_commission =8254,total_charity = 1124,cc_fee = 3122,address=self.ca_1)
    
     def test_generic_bank_payout(self):
-    	payout_stats = payout.creditSellerAccounts()
+    	payout_stats = creditSellerAccounts()
     	amount = 23400-5000-int(.01*12200) # Original - commission - charity
     	amount_after_cc = int(amount*.97) # - processing_fee
         self.assertEqual(payout_stats['check_payout_total'], amount_after_cc)

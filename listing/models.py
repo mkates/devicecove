@@ -181,7 +181,7 @@ class NewEquipment(Equipment):
 	quantity = models.IntegerField(max_length=5,default=1)
 
 class PharmaItem(Item):
-	pharma_base = models.ForeignKey(PharmaBase,blank=True,null=True) #Link to generic pharma information
+	pharma_base = models.ForeignKey(PharmaBase,blank=True,null=True) # Link to generic pharma information
 	quantity = models.IntegerField(max_length=5,default=1)
 
 ############################################

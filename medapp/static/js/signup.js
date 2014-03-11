@@ -65,7 +65,7 @@ var validateinput = function validateinput(handler,submiting) {
 		checkEmail();
 	}
 	if ($(handler).attr('id') =='zipcode' || submiting) {
-		var validated = ($("#zipcode").val().length == 5) ? true : false;
+		var validated = ($("#zipcode").val().length > 3) ? true : false;
 		formelements['zipcode'] = validated;
 		updateformcss($("#zipcode"));
 	}

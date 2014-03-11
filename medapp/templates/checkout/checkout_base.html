@@ -200,9 +200,16 @@ margin: 0;
 		padding-bottom: 20px;
 	}
 }
+
  .item-summary {
  	padding: 7px 0;
  }	
+ .item-summary .item-name {
+ 	padding-right: 40px;
+ }
+ .summary-block .price {
+ 	float: right;
+ }
 .incomplete-data {
 	font-weight: 200;
 	color: #999;
@@ -222,6 +229,11 @@ margin: 0;
 .summary-block .checkout-total span {
 	float: right;
 	font-weight: bold;
+}
+.summary-block .subtotal {
+	padding-top: 5px;
+	margin-top: 5px;
+	border-top:1px solid #eee;
 }
 .error-div {
 	text-align: center;
@@ -342,18 +354,16 @@ var addError = function addError(handle) {
 				<div class="covebox col-md-3 col-sm-3 col-xs-12 summary">
 					<h3>Overview</h3>
 					<div class="summary-block">
-						<h5>Items ({{checkout.numberitems}})</h5>
 						{% for checkoutcartitem in checkout.cartitem_set.all %}
 							<div class="item-summary">
-								<p>{{checkoutcartitem.item.name}}</p>
-								<p><span>Sold by: </span>{{checkoutcartitem.item.user.company}}</p>
-								<p><span>Quantity: </span>{{checkoutcartitem.quantity}}<span class="price">{{checkoutcartitem.price|dollars}}</span></p>
+								<p class="item-name">{{checkoutcartitem.item.name}}</p>
+								<p>Quantity: {{checkoutcartitem.quantity}}<span class="price">{{checkoutcartitem.price|dollars}}</span></p>
 							</div>
 						{% endfor %}
-						<h5>Savings</h5>
-						<p>Subtotal:<span>{{checkout.subtotal|dollars}}</span></p>
-						<p>VetCove Bonus ({{user.basicuser.bonus|percent}}%)<span>-{{checkout.bonus_discount|dollars}}</span></p>
-						<h6 class="checkout-total">Total:<span>{{checkout.total|dollars}}</span></h6>
+						<p class="subtotal">Subtotal:<span class="price">{{checkout.subtotal|dollars}}</span></p>
+						<p class="subtotal">Shipping:<span class="price">{{0|dollars}}</span></p>
+						<p>VetCove Credits: <span class="price">-{{checkout.credit_discount|dollars}}</span></p>
+						<h6 class="checkout-total">Total:<span class="price">{{checkout.total|dollars}}</span></h6>
 					</div>
 					{% if checkout.shippingAddressRequired %}
 					<div class="summary-block">
