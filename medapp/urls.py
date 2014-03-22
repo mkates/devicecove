@@ -25,6 +25,10 @@ urlpatterns = patterns('',
     ########## General Pages ###############
     #########################################
     url(r'^$','general.views.index'),
+    url(r'^portal/analytics','general.views.portal_analytics'),
+    url(r'^portal/account','general.views.portal_account'),
+    url(r'^portal/solditems','general.views.portal_solditems'),
+    url(r'^portal/listing','general.views.portal_listing'),
     url(r'^error/(?P<errorname>\w+)','general.views.error'),
     url(r'^faq/','general.views.faq'),
     url(r'^privacypolicy/','general.views.privacypolicy'),

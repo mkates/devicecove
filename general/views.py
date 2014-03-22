@@ -18,6 +18,21 @@ def index(request):
 	items = Item.objects.filter(liststatus='active').filter(subcategory__category__type='equipment').order_by('savedcount')[:24]
 	return render_to_response('general/index.html',{'featured':items},context_instance=RequestContext(request))
 
+def portal(request):
+	return render_to_response('portal/base.html',{},context_instance=RequestContext(request))
+
+def portal_analytics(request):
+	return render_to_response('portal/analytics.html',{'analytics':True},context_instance=RequestContext(request))
+
+def portal_listing(request):
+	return render_to_response('portal/listing.html',{'listing':True},context_instance=RequestContext(request))
+
+def portal_solditems(request):
+	return render_to_response('portal/solditems.html',{'solditems':True},context_instance=RequestContext(request))
+
+def portal_account(request):
+	return render_to_response('portal/account.html',{'account':True},context_instance=RequestContext(request))
+
 def buy(request):
 	return HttpResponseRedirect('/productsearch/veterinary/all/all')
 

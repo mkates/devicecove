@@ -38,9 +38,9 @@ def staffOverview(request,type):
 			for p in pi:
 				total_amount_charged += p.quantity*p.unit_price
 				number_items_sold += p.quantity
-				if not p.cartitem.item.commission_paid:
-					online_commission_revenue += commission.purchaseditemCommission(p)
-
+				if p.item.item_type() == 'usedequipment':
+						if p.item.item_handle().commission_paid:
+							online_commission_revenue += commission.purchaseditemCommission(p)
 			offline_commission_revenue = 0
 			total_paidout = 0
 			total_charity = 0

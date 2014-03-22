@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+{% block headertitle %}<title>VetCove - The ultimate source for veterinary pharamaceutical, drugs, and vaccines</title>{% endblock%}
+<meta name="description" content="VetCove is the top equipment marketplace for veterinarians to buy and sell new, pre-owned, and refurbished equipment and supplies and save on discounted pharmacueticals, vaccines, and drugs">
+<meta http-equiv="content-type" content="text/html;charset=UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta property="og:title" content="VetCove" />
+<meta property="og:description" content="Buy and Sell Veterinary Equipment at up to 90% off" />
+<meta property="og:image" content="{{STATIC_URL}}img/dog_walk.png" />
+<link rel="icon" type="image/png" href="{{STATIC_URL}}img/favicon32.png">
+<!--CSS-->
+<link href="{{STATIC_URL}}css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+<link href="{{STATIC_URL}}css/buttons.css" rel="stylesheet" type="text/css" />
+{% block headercss %}{% endblock %}
+
+<style>
+body {
+	background: #eee;
+}
+.body-container {
+	max-width: 1400px;
+	margin: 0 auto;
+	box-shadow: 0 0px 8px #333;
+	position: relative;
+	overflow: auto;
+
+}
+.bar {
+}
+.header {
+	height: 60px;
+	background: #626970;
+	position: fixed;
+	max-width: 1400px;
+	width: 100%;
+	margin: 0 auto;
+	z-index: 99;
+}
+.header .topcolor {
+}
+.header .logo {
+	width: 95px;
+	height: 60px;
+	background: #303338;
+	text-align: center;
+	padding: 10px;
+	color: #B2BAC2;
+	font-size: 22px;
+	font-weight: 800;
+	display:inline-block;
+}
+.header .logo img {
+	max-width: 50%;
+}
+.header .navigation {
+	display:inline-block;
+}
+.header .navigation ul {
+	list-style-type: none;
+	padding-left: 0px;
+}
+.header .navigation ul li {
+	display: inline;
+}
+.header .navigation ul li a{
+	color: #B2BAC2;
+	padding: 10px;
+	display: inline-block;
+	font-weight: 200;
+	letter-spacing: .2px;
+}
+.header .right-navigation {
+	float: right;
+	margin-top: 10px;
+	margin-right: 10px;
+}
+.header .right-navigation .dropdown-menu {
+	float: right;
+	left: auto;
+	margin-top: 20px;
+	right: 0;
+}
+.sidenav {
+	width: 95px;
+	position:fixed;
+	overflow: scroll;
+	margin-top: 60px;
+	background: #92c46d;
+}
+.sidenav-element {
+	text-align: center;
+	padding: 8px 10px;
+	border:1px solid transparent;
+	font-weight: 200;
+	color: #eee;
+	font-size: 13px;
+	display: block;
+}
+.sidenav-element:hover {
+	text-decoration: none;
+}
+.sidenav-element div img {
+	display: block;
+	margin: 0 auto;
+}
+.sidenav-element.active {
+	background: #eee;
+	border:1px solid #aaa;
+	border-right:1px solid transparent;
+	margin: 3px 0px 3px 3px;
+	border-top-left-radius: 3px;
+	border-bottom-left-radius: 3px;
+	z-index: 999;
+	position: relative;
+}
+.sidenav-element.active {
+	color: #858B91;
+}
+.searchbar input {
+	width: 400px;
+	display:inline-block;
+	margin-left: 18px;
+	background: #E9ECF0;
+}
+.searchbar button {
+	opacity: .8;
+}
+.autosuggest {
+	position: relative;
+	margin-left: 20px;
+	z-index: 99;
+}
+.content {
+	width: 100%;
+	min-height: 500px;
+	margin-top: 60px;
+}
+.content .content-row {
+	padding: 0px;
+	margin: 0px;
+	margin-top: 60px;
+	margin-left: 105px;
+}
+
+.vetbox {
+	border:1px solid #ccc;
+	min-height: 100px;
+	margin: 20px 0;
+	background: white;
+	box-shadow: 0 0 3px #ccc;
+}
+.vetbox-header {
+	background: #626970;
+	font-weight: 200;
+	border-bottom: 1px solid #c6c6c6;
+	background-image: -ms-linear-gradient(top, #FBFBFB 0%, #DDDDDD 100%);
+	background-image: -moz-linear-gradient(top, #FBFBFB 0%, #DDDDDD 100%);
+	background-image: -o-linear-gradient(top, #FBFBFB 0%, #DDDDDD 100%);
+	background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #FBFBFB), color-stop(1, #DDDDDD));
+	background-image: -webkit-linear-gradient(top, #FBFBFB 0%, #DDDDDD 100%);
+	background-image: linear-gradient(to bottom, #FBFBFB 0%, #DDDDDD 100%);
+	color: #888;
+	padding-left: 10px;
+	line-height: 30px;
+}
+.vetbox-header p {
+	display:inline-block;
+	margin: 0;
+}
+.vetbox-header-right {
+	float: right;
+	margin-right: 5px;
+}
+.vetbox-header-right select {
+	display: inline-block;
+}
+.vetbox-content {
+	padding: 20px;
+}
+.metric-div {
+	font-weight: 200;
+	text-align: center;
+	color: #555;
+}
+.metric-div p {
+	padding-top: 5px;
+}
+.sales_chart {
+    width: 100% !important;
+    max-width: 100%;
+    height: auto !important;
+}
+.chart-option {
+	height: 25px;
+	margin-top: 2px;
+	padding: 2px;
+}
+.sale {
+	margin-bottom: 20px;
+}
+.sale p {
+	margin: 0;
+}
+.sale .item-date {
+	font-size: 12px;
+	color: #999;
+}
+.sale .item-description {
+	font-size: 12px;
+}
+.sale .item-description span {
+	color: #999;
+}
+.footer-container {
+	margin-left: 115px;
+	margin-right: 20px;
+	margin-top: 40px;
+	border-top:1px solid #ccc;
+}
+.footer {
+	border-top:1px solid #fff;
+	padding: 20px 0;
+	text-align: center;
+	color: #777;
+}
+.blend {
+	height: 30px;
+	background-image: -ms-linear-gradient(top, #92C46D 0%, #EEEEEE 100%);
+
+/* Mozilla Firefox */ 
+background-image: -moz-linear-gradient(top, #92C46D 0%, #EEEEEE 100%);
+
+/* Opera */ 
+background-image: -o-linear-gradient(top, #92C46D 0%, #EEEEEE 100%);
+
+/* Webkit (Safari/Chrome 10) */ 
+background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #92C46D), color-stop(1, #EEEEEE));
+
+/* Webkit (Chrome 11+) */ 
+background-image: -webkit-linear-gradient(top, #92C46D 0%, #EEEEEE 100%);
+
+/* W3C Markup, IE10 Release Preview */ 
+background-image: linear-gradient(to bottom, #92C46D 0%, #EEEEEE 100%);
+}
+</style>
+</head>
+
+<body>
+
+<div class="body-container">
+	<header class="header">
+		<div class="bar">
+			<div class="logo">V</div>
+			<div class="navigation left-navigation">
+				<div class="searchbar">
+					<input placeholder="Search for supplies and pharmaceuticals. . ." type="text" class="form-control">
+					<button class="submit button button-rounded">Search</button>
+				</div>
+				<div class="autosuggest">
+
+				</div>
+			</div>
+			<div class="navigation right-navigation">
+				<ul>
+					<li><a>Listings</a></li>
+					<li><a>Cart</a></li>
+					<li><a>Logout</a></li>
+					<li class="dropdown">
+					<a href="#" class="dropdown-toggle" data-toggle="dropdown">Hi, {{user.basicuser.firstname}} <b class="caret"></b></a>
+						<ul class="navigation-options dropdown-menu">
+						  <li><a href="/account/notifications">Notifications</a></li>
+						  <li class="divider"></li>
+						  <li><a href="/account/buyerquestions">Questions I’ve Asked</a></li>
+						  <li><a href="/account/wishlist">Wish List</a></li>
+						  <li><a href="/account/buyhistory">Purchase History</a></li>
+						  <li><a href="/account/contactmessages">Contact Seller Messages</a></li>
+						  <li class="divider"></li>
+						  <li><a href="/account/sellerquestions">Questions to Answer</a></li>
+						  <li><a href="/account/listings/all">My Seller Listings</a></li>
+						  <li><a href="/account/sellhistory">Selling History</a></li>
+						  <li><a href="/account/sellhistory">Payout History</a></li>
+						  <li class="divider"></li>
+						  <li><a href="/account/payment">Payment Information</a></li>
+						  <li><a href="/account/profile">Profile</a></li>
+						  <li><a href="/account/usersettings">Settings</a></li>
+						  <li class="divider"></li>
+						  <li><a href="/logout">Logout</a></li>
+						</ul>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</header>
+
+	<div class="sidenav">
+		<a class="sidenav-element {% if analytics %}active{% endif %}" href='/portal/analytics'>
+			<div>
+				<img src="{{STATIC_URL}}img/checkmark.png"/>
+				Analytics
+			</div>
+		</a>
+		<a class="sidenav-element {% if account %}active{% endif %}" href='/portal/account'>
+			<div>
+				<img src="{{STATIC_URL}}img/checkmark.png"/>
+				Account
+			</div>
+		</a>
+		<a class="sidenav-element {% if listing %}active{% endif %}" href='/portal/listing'>
+			<div>
+				<img src="{{STATIC_URL}}img/checkmark.png"/>
+				Listings
+			</div>
+		</a>
+		<a class="sidenav-element {% if solditems %}active{% endif %}" href='/portal/solditems'>
+			<div>
+				<img src="{{STATIC_URL}}img/checkmark.png"/>
+				Sold Items
+			</div>
+		</a>
+		<a class="sidenav-element" href='#'>
+			<div>
+				<img src="{{STATIC_URL}}img/checkmark.png"/>
+				Add Items
+			</div>
+		</a>
+		<div class="blend"></div>
+	</div>
+
+	<div class="content">
+		<div class="content-row row">
+			{% block content %}
+			{% endblock %}
+		</div>
+		<div class="footer-container">
+			<div class="footer">
+				Copyright 2014, VetCove.
+			</div>
+		</div>
+	</div>
+</div>
+
+
+
+
+
+
+	<!--Javascript-->
+	<script src="{{STATIC_URL}}js/jquery-1.10.2.min.js" type="text/javascript" ></script>
+    <script src="{{STATIC_URL}}js/bootstrap.min.js" type="text/javascript" ></script>
+    <script src="{{STATIC_URL}}js/csrf_alternate.js" type="text/javascript" ></script>
+    <script src="{{STATIC_URL}}js/jquery.knob.js" type="text/javascript" ></script>
+     <script src="{{STATIC_URL}}js/chart.js" type="text/javascript" ></script>
+     <script>
+    	var noImageURL = '{{STATIC_URL}}img/noimage.jpg';
+
+    	//Knobs  
+    	$(".percent_dial").knob({
+	      'draw' : function () { 
+	        $(this.i).val(this.cv + '%')
+	      },
+	    });
+	    $(".time_dial").knob({
+	      'draw' : function () { 
+	        $(this.i).val(this.cv + 'hrs')
+	      },
+	    });
+	    $(".dial").knob({});
+	     //Charts
+	     var data = {
+			labels : ["January","February","March","April","May","June","July"],
+			datasets : [
+				{
+					fillColor : "rgba(151,187,205,0.5)",
+					strokeColor : "rgba(151,187,205,1)",
+					pointColor : "rgba(151,187,205,1)",
+					pointStrokeColor : "#fff",
+					data : [28,48,40,19,96,27,100]
+				},
+				{
+					fillColor : "rgba(211,127,125,0.5)",
+					strokeColor : "rgba(151,187,205,1)",
+					pointColor : "rgba(151,187,205,1)",
+					pointStrokeColor : "#fff",
+					data : [39,14,82,109,43,12,36]
+				}
+			]
+		}
+		$(document).ready(function() {
+	     	var ctx = $("#sales_chart").get(0).getContext("2d");
+		 	var myNewChart = new Chart(ctx).Line(data,{});
+		 	var ctx2 = $("#revenue_chart").get(0).getContext("2d");
+		 	var revenueChart = new Chart(ctx2).Line(data,{});
+		 });
+    </script>
+{% block js %}
+    <script src="{{STATIC_URL}}js/autosuggest2.js" type="text/javascript" ></script>
+{% endblock %}
+{% block jsblock %}{% endblock %}
+   
+</body>
+</html>
