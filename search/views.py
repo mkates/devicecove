@@ -84,16 +84,17 @@ def autosuggest(request):
 		results = results[0:10]
 		
 	# Find all items that match the search term
-	# item = Item.objects.filter(subcategory__name__icontains=searchterm).filter(liststatus='active')
-	# for itm in item:
-	# 	dict = {'type':'product','name':itm.name,'category':itm.subcategory.displayname,'mainimage':checkMainImage(itm),'link':"/item/"+str(itm.id)+"/details"};
-	# 	results.append(dict);
+	item = Item.objects.filter(subcategory__name__icontains=searchterm).filter(liststatus='active')
+	for itm in item:
+		dict = {'type':'product','name':itm.name,'category':itm.subcategory.displayname,'mainimage':checkMainImage(itm),'link':"/item/"+str(itm.id)+"/details"};
+		print dict
+		results.append(dict);
 	
-	# if len(results) == 0:
-	# 	items = closeCategories(searchterm)
-	# 	for itm in items:
-	# 		dict = {'type':'product','name':itm.name,'category':itm.subcategory.displayname,'mainimage':checkMainImage(itm),'link':"/item/"+str(itm.id)+"/details"};
-	# 		results.append(dict);
+	if len(results) == 0:
+		items = closeCategories(searchterm)
+		for itm in items:
+			dict = {'type':'product','name':itm.name,'category':itm.subcategory.displayname,'mainimage':checkMainImage(itm),'link':"/item/"+str(itm.id)+"/details"};
+			results.append(dict);
 
 	# Do a relative match if no results are found
 	if len(results) == 0:

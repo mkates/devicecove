@@ -1,0 +1,148 @@
+
+{% extends 'portal/base.html' %}
+{% block css %}
+<style>
+.content {
+	margin: 0;
+}
+.hero {
+	min-height: 400px;
+	background: #555;
+	background-image: url("{{STATIC_URL}}img/dog_walk.jpg");
+	overflow: auto;
+	text-align: center;
+	border-bottom:1px solid #fff;
+}
+.hero h1 {
+	color: #fff;
+	font-size: 50px;
+	font-weight: 200;
+	text-shadow: 0 0 2px #333;
+	margin-top: 100px;
+	padding-bottom: 10px;
+	letter-spacing: .25px;
+} 
+.hero h2 {
+	color: #eee;
+	text-shadow: 0 0 2px #333;
+	letter-spacing: .5px;
+	font-weight: 600;
+	font-size: 19px;
+	margin-bottom: 45px;
+}
+.hero a {
+	font-size: 18px;
+	padding: 10px 40px;
+	height: auto;
+	margin: 0 5px;
+}
+.explainer {
+	padding: 50px 0 70px 0;
+}
+.explainer div h3 {
+	font-size: 15px;
+	font-weight: bold;
+	border-bottom:3px solid #333;
+	padding-bottom: 20px;
+}
+.explainer div div {
+	padding: 10px;
+}
+.testimonial-container {
+	border-top:1px solid #ddd;
+	margin: 0 20px;
+}
+.testimonial {
+	border-top:1px solid white;
+	padding: 60px 0;
+}
+.testimonial img {
+	width: 130px;
+	margin: 0 auto;
+	display:inline-block;
+}
+.testimonial div {
+	margin-bottom: 20px;
+}
+.testimonial div table td {
+	vertical-align: top;
+}
+.testimonial div table h4 {
+	margin: 10px 10px 10px 10px;
+	font-size: 14px;
+	font-weight: 600;
+}
+.testimonial div table p {
+	font-weight: 200;
+	margin: 0 10px;
+	font-style: italic;
+}
+</style>
+{% endblock %}
+
+
+{% block js %}
+
+{% endblock %}
+
+
+
+{% block content %}
+<div class="hero">
+	<h1>When suppliers compete, you win</h1>
+	<h2>Use VetCove's easy online portal to save up to 90% on top veterinary pharmaceuticals and equipment</h2>
+	<a class="button button-flat-primary button-rounded" href="/shop">Start Shopping</a>
+	<a class="button button-flat button-rounded" href="/login">Join (It's Free)</a>
+</div>
+
+<div class="explainer row">
+	<div class="col-md-3 col-sm-3 col-xs-12">
+		<div>
+			<h3>Trusted Suppliers</h3>
+			<p>Our certified distributors and manufacturers provide the highest level of customer satifisfaction and product quality</p>
+		</div>
+	</div>
+	<div class="col-md-3 col-sm-3 col-xs-12">
+		<div>
+			<h3>VetCove HotRate</h3>
+			<p>Buy anonymously for even better savings from suppliers who can't associate the lower prices with their products</p>
+		</div>
+	</div>
+	<div class="col-md-3 col-sm-3 col-xs-12">
+		<div>
+			<h3>Trending Products</h3>
+			<p>View drugs that are being used more frequently, and read popular questions from other veterinarians.</p>
+		</div>
+	</div>
+	<div class="col-md-3 col-sm-3 col-xs-12">
+		<div>
+			<h3>All-In-One</h3>
+			<p>Use VetCove to complete all your supply purchases to simplify ordering and billing</p>
+		</div>
+	</div>
+</div>
+
+<div class="testimonial-container">
+	<div class="testimonial row">
+		<div class="col-md-6 col-sm-6 col-xs-12">
+			<table><tr>
+				<td><img src="http://www.bookkeepingfl.com/wp-content/uploads/2014/02/customer2.png"/></td>
+				<td>
+					<h4>President, VSG</h4>
+					<p>"In the life of a busy vet, there is no better resource to buy used equipment and pharamaceuticals. It saves veterinarians time, money, and aggravation."</p>
+				</td>
+			</tr></table>
+		</div>
+		<div class="col-md-6 col-sm-6 col-xs-12">
+			<table><tr>
+				<td><img src="http://www.bookkeepingfl.com/wp-content/uploads/2014/02/customer2.png"/></td>
+				<td>
+					<h4>Owner, Colts Neck Equine</h4>
+					<p>"Our practive used to make dozens of phone calls a week to price shop and check availability. We can now make our daily orders in under 60 seconds!"</p>
+				</td>
+			</tr></table>
+		</div>
+	</div>
+
+</div>
+{% endblock %}

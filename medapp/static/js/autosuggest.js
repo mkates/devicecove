@@ -5,48 +5,57 @@ var autosuggest = true;
 var displayresults = [];
 var activeid = -1;
 var resultshandle = [];
-var searchtext = '';						
-var autosuggestcall = function autosuggestcall() {
+var searchtext = '';
+
+var autosuggestcall = function autosuggestcall(bar) {
+	var data = (bar == 'desktop' ) ? $("#searchinput").val() : $("#mobile-searchbar input").val();
 	$.ajax({
 		url: '/autosuggest',
 		type: 'GET',
-		data: {"searchterm":$("#searchinput").val()},
+		data: {"searchterm":data},
 		cache:true,
 		dataType: 'json',
 		success: function(response){
-			console.log(response.length);
 			if (response.length == 0) {
 				$("#autosuggest").css('display','none');
 			} else {
-				resultshandle = [];
-				activeid = -1;
-				displayresults = response;
-				$("#categoriessection").empty();
-				$("#productssection").empty();
-				$(".categoriesheader").css('display','none');
-				$(".productsheader").css('display','none');
-				$.each(displayresults, function( key, value ) {
-					if (!(value['mainimage'])) {
-						value['mainimage'] = noImageURL;
-					}
-					if (value['type'] == 'category') {
-						var so = $("<a class='searchoption' href='"+value['link']+"'><div class='textitem'><p class='displaytext'>"+value['name']+"</p></div></a>");
-						$("#categoriessection").append(so);
-						$(".categoriesheader").css('display','block');
-						resultshandle.push(so);
-					} else if (value['type'] == 'subcategory') {
-						var so = $("<a class='searchoption' href='"+value['link']+"'><div class='textitem'><p class='displaytext'>"+value['name']+"</p></div></a>");
-						$("#categoriessection").append(so);
-						$(".categoriesheader").css('display','block');
-						resultshandle.push(so);
-					} else if (value['type'] == 'product'){
-						var so = $("<a class='searchoption' href='"+value['link']+"'><div class='productitem'><img src='"+value['mainimage']+"'/><div class='producttext'><p class='displaytext' class='productname'>"+value['name']+"</p><p class='productsubtext'>in "+value['category']+"</p></div><div class='clear'></div></div></a></div>");
-						$("#productssection").append(so);
-						resultshandle.push(so);
-						$(".productsheader").css('display','block');
-					}
-				});
-				$("#autosuggest").css('display','block');
+				if (bar=='desktop') {
+					resultshandle = [];
+					activeid = -1;
+					displayresults = response;
+					$("#categoriessection").empty();
+					$("#productssection").empty();
+					$(".categoriesheader").css('display','none');
+					$(".productsheader").css('display','none');
+					$.each(displayresults, function( key, value ) {
+						if (!(value['mainimage'])) {
+							value['mainimage'] = noImageURL;
+						}
+						if (value['type'] == 'category') {
+							var so = $("<a class='searchoption' href='"+value['link']+"'><div class='textitem'><p class='displaytext'>"+value['name']+"</p></div></a>");
+							$("#categoriessection").append(so);
+							$(".categoriesheader").css('display','block');
+							resultshandle.push(so);
+						} else if (value['type'] == 'subcategory') {
+							var so = $("<a class='searchoption' href='"+value['link']+"'><div class='textitem'><p class='displaytext'>"+value['name']+"</p></div></a>");
+							$("#categoriessection").append(so);
+							$(".categoriesheader").css('display','block');
+							resultshandle.push(so);
+						} else if (value['type'] == 'product'){
+							var so = $("<a class='searchoption' href='"+value['link']+"'><div class='productitem'><img src='"+value['mainimage']+"'/><div class='producttext'><p class='displaytext' class='productname'>"+value['name']+"</p><p class='productsubtext'>in "+value['category']+"</p></div><div class='clear'></div></div></a></div>");
+							$("#productssection").append(so);
+							resultshandle.push(so);
+							$(".productsheader").css('display','block');
+						}
+					});
+					$("#autosuggest").css('display','block');
+				} else {
+					$("#sidr-searchresults").empty();
+					console.log(response);
+					$.each(response, function( key, value ) {
+						$("#sidr-searchresults").append("<a href='"+value['link']+"'>"+value['name']+"</a>");
+					});
+				}
 			} 
 		}
 	});
@@ -55,34 +64,34 @@ var autosuggestcall = function autosuggestcall() {
 
 
 $(document).ready(function() {
+	//Show the X if their is a value in the search
 	if ($("#searchinput").val().length > 0) {
 		$("#search-exit").css("display","block");
 	}
-	$(".customsearchbar input").focus(function() {
-		$(".customsearchbar button").addClass("blueborder");
-	});
-	$(".customsearchbar input").blur(function() {
-		$(".customsearchbar button").removeClass("blueborder");
-	});
+	//On X click, clear search results
 	$("#search-exit").click(function() {
 		$("#searchinput").val("");
 		$("#searchinput").focus();
 		$("#search-exit").css("display","none");
 	});
+
+	//On focus back to searchbar
 	$("#searchinput").focus(function() {
 		if ($("#searchinput").val().length > 0) {
 			//autosuggestcall();
-			$("#autosuggest").css("display","block");
+			//$("#autosuggest").css("display","block");
 			autosuggest = true;
 		} else {
-			//autosuggest = false;
+			autosuggest = false;
 		}
 	});
+
+	//On key enter for searching on desktop
 	$("#searchinput").keyup(function(e) {
 		if ($("#searchinput").val().length > 0) {
 			$("#search-exit").css("display","block");
 			if ($(e.target).attr("id") == "searchinput" && e.keyCode != 40 && e.keyCode !=38)  {
-				autosuggestcall();
+				autosuggestcall('desktop');
 			}
 			autosuggest = true;
 		} else {
@@ -94,10 +103,20 @@ $(document).ready(function() {
 			searchtext =  $("#searchinput").val();
 		}
 	});
+
+	//On key up searching with mobile
+	$("#mobile-searchbar input").keyup(function(e) {
+		if ($("#mobile-searchbar input").val().length > 0) {
+			autosuggestcall('mobile');
+		} else {
+			$("#sidr-searchresults").empty();
+		}
+	});
+
+	//If click outside of search bar or autosuggest, hide it
 	$(document).click(function (e)
 	{
 		var container = $("#desktopsearchbar");
-
 		if (!container.is(e.target) // if the target of the click isn't the container...
 			&& container.has(e.target).length === 0) // ... nor a descendant of the container
 		{

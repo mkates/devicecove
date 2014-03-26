@@ -1,0 +1,63 @@
+/* Waterfall */
+#waterfall {
+	text-align: center;
+	margin: 40px auto;
+}
+.waterfall-item-container {
+	width: 320px;
+	padding: 10px;
+}
+.waterfall-item-container a {
+	display:block;
+}
+.waterfall-item-container a:hover {
+	box-shadow: 0 0 4px #aaa;
+}
+.waterfall-item {
+	background-image: url("../../img/whitetransparency.png");
+	border:1px solid #bbb;
+	box-shadow: 0 0 2px #ddd;
+	border-radius: 2px;
+	position: relative;
+}
+.waterfall-item img {
+	max-width: 100%;
+	margin-bottom: 20px;
+}
+.waterfall-item .information {
+	background-image: url("../../img/bwgradient.png");
+	width: 100%;
+	height: 60px;
+	padding: 16px 5px 4px 5px;
+	position:absolute;
+	bottom: 0;
+}
+.waterfall-item .information h5 {
+	margin: 0;
+	line-height: 20px;
+	color: white;
+	text-align: left;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+.waterfall-item .information p {
+	color: #ddd;
+	font-weight: 200;
+	font-size: 13px;
+	text-align: left;
+}
+.waterfall-item .information p span {
+	float: right;
+	margin-left: 8px;
+}
+.waterfall-item .information p .listprice {
+	font-weight: 800;
+	color: white;
+}
+.waterfall-item .information p .msrpprice {
+	text-decoration: line-through;
+}
+#fit-width .masonry {
+  margin: 0 auto;
+}
