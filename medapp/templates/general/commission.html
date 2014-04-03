@@ -1,19 +1,23 @@
 {% extends 'general/info_base.html' %}
 {% block headertitle %}<title>VetCove | Fees</title>{% endblock%}
-{% block infocss %}
+{% block css_block %}
 <style>
-.centered {
-	text-align: center;
+.mainbar .infobox {
+	padding: 20px;
 }
+.mainbar .question {
+	margin: 20px 0 40px 0;
+}
+
 </style>
 {% endblock %}
 
 
-{% block info_block %}
-<div class="section-container covebox faq-header">
-	<h3>Fees and Selling</h3>
+{% block info_content %}
+<div class="vetbox headerbox">
+	<h3>Fees and Pricing</h3>
 </div>
-<div class="section-container covebox">
+<div class="vetbox infobox">
 	<div class="question">
 		<p>When your item sells online or a potential buyer requests to view the item offline, VetCove collects the amount 
 		paid by the buyer minus the selling and commission fees. The commission fee for items sold online is assessed

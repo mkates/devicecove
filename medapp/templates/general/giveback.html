@@ -1,22 +1,28 @@
 {% extends 'general/info_base.html' %}
 {% block headertitle %}<title>VetCove | 1+1 Program</title>{% endblock%}
-{% block infocss %}
+{% block css_block %}
 <style>
-.section-container h3 img {
+.headerbox h3 img {
 	float: right;
 	width: 47px;
 	margin-top: -7px;
+}
+.mainbar .infobox {
+	padding: 20px;
+}
+.mainbar .question {
+	margin: 20px 0 40px 0;
 }
 </style>
 {% endblock %}
 
 
-{% block info_block %}
+{% block info_content %}
 {% load phonenumber %}
-<div class="section-container covebox">
+<div class="vetbox headerbox">
 	<h3>Giving Back With The 1 + 1 Program <img src="{{STATIC_URL}}img/giveback_80x75.png"/></h3>
 </div>
-<div class="section-container covebox">
+<div class="vetbox infobox">
 	<div class="question">
 		<h4>How does the 1+1 Program Work?</h4>
 		<p>Every seller has the option to donate 1% of the sale of each item to one of our charities. We, in turn, also donate 1% of the sale price to the charity. A $5,000 sale results in the selected charity receiving $100! Together sellers and VetCove can make a difference in the veterinary community.</p>

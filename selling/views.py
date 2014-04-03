@@ -15,6 +15,22 @@ from deviceapp.models import *
 import payment.views as payment_view
 import emails.views as email_view
 import helper.commission as commission
+############################################
+########## Selling Portal ##################
+############################################
+def sellerHome(request):
+	return render_to_response('sellerportal/home.html',{},context_instance=RequestContext(request))
+
+
+
+
+
+
+
+
+
+
+
 
 ############################################
 ########## Selling #########################

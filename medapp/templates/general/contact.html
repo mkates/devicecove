@@ -1,7 +1,10 @@
 {% extends 'general/info_base.html' %}
 {% block headertitle %}<title>VetCove | Contact Us</title>{% endblock%}
-{% block infocss %}
+{% block css_block %}
 <style>
+.mainbar .infobox {
+	padding: 20px;
+}
 .contact-container {
 	padding: 20px;
 }
@@ -32,12 +35,12 @@
 {% endblock %}
 
 
-{% block info_block %}
+{% block info_content %}
 {% load phonenumber %}
-<div class="section-container covebox">
+<div class="vetbox headerbox">
 	<h3>Contact Us</h3>
 </div>
-<div class="section-container covebox contact-container">
+<div class="infobox vetbox">
 	{% if success %}
 	<div class="success-message">
 		<img src='{{STATIC_URL}}img/checkmark.png'/>

@@ -25,11 +25,6 @@ urlpatterns = patterns('',
     ########## General Pages ###############
     #########################################
     url(r'^$','general.views.index'),
-    url(r'^portal/sell','general.views.portalSeller'),
-    url(r'^portal/buy','general.views.portalBuyer'),
-    url(r'^portal/login','general.views.portalLogin'),
-    url(r'^portal/solditems','general.views.portal_solditems'),
-    url(r'^portal/listing','general.views.portal_listing'),
     url(r'^error/(?P<errorname>\w+)','general.views.error'),
     url(r'^faq/','general.views.faq'),
     url(r'^privacypolicy/','general.views.privacypolicy'),
@@ -49,6 +44,13 @@ urlpatterns = patterns('',
     url(r'^contactform','general.views.contactform'),
     url(r'^referral/(?P<referral_id>\w+)/','general.views.newReferral'),
     
+    ########## Seller Portal ################
+    #########################################
+    url(r'^seller/','selling.views.sellerHome'),
+
+
+
+
     ########## Questions App ################
     #########################################
     url(r'^account/buyerquestions','questions.views.buyerquestions'),

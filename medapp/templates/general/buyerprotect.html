@@ -1,16 +1,22 @@
 {% extends 'general/info_base.html' %}
 {% block headertitle %}<title>VetCove | Buyer Protection</title>{% endblock%}
-{% block infocss %}
 
+{% block css_block %}
+<style>
+	.mainbar .infobox {
+		padding: 20px;
+	}
+	.infobox .question {
+		margin: 20px 0px 40px 0;
+	}
+</style>
 {% endblock %}
-
-
-{% block info_block %}
+{% block info_content %}
 {% load phonenumber %}
-<div class="section-container covebox">
+<div class="vetbox headerbox">
 	<h3>Buyer Protection Program</h3>
 </div>
-<div class="section-container covebox">
+<div class="vetbox infobox">
 	<div class="question">
 		<p>VetCove is committed to ensuring that every transaction that takes place through our site goes smoothly.  We strive to create mutually beneficial transactions between trusted partners that result in getting quality equipment into the hands of those who need it.  Try as we may, sometimes items do not arrive as a buyer expects.  For those situations, we’ve created the Buyer Protection Program to ensure that buyers find total satisfaction when using VetCove.</p>
 	</div> 

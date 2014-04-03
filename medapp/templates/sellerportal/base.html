@@ -1,0 +1,60 @@
+{% extends 'base/base.html' %}
+{% block headertitle %}VetCove | Seller Portal{% endblock %}
+{% block css %}
+<link href="{{STATIC_URL}}css/seller/sidenav.css" rel="stylesheet" type="text/css" />
+
+{% endblock %}
+{% block content %}
+<div class="sidenav">
+		<a href='#' class="sidenav-element">
+			<div>
+				<p class="glyph"><span class="glyphicon glyphicon-dashboard"></span></p>
+				<p>Dashboard</p>
+			</div>
+		</a>
+		<a href='#' class="sidenav-element">
+			<div>
+				<p class="glyph"><span class="glyphicon glyphicon-question-sign"></span><span class="label label-danger">9</label></p>
+				<p>Questions</p>
+			</div>
+		</a>
+		<a href='#' class="sidenav-element">
+			<div>
+				<p class="glyph"><span class="glyphicon glyphicon-tags"></span></p>
+				<p>Listings</p>
+			</div>
+		</a>
+		<a href='#' class="sidenav-element active">
+			<div>
+				<p class="glyph"><span class="glyphicon glyphicon-usd"></span><span class="label label-danger">1</label></p>
+				<p>Sold Items</p>
+			</div>
+		</a>
+		<a href='#' class="sidenav-element">
+			<div>
+				<p class="glyph"><span class="glyphicon glyphicon-envelope"></span></p>
+				<p>Messages</p>
+			</div>
+		</a>
+		<a href='#' class="sidenav-element">
+			<div>
+				<p class="glyph"><span class="glyphicon glyphicon-stats"></span></p>
+				<p>Analytics</p>
+			</div>
+		</a>
+		<a href='#' class="sidenav-element">
+			<div>
+				<p class="glyph"><span class="glyphicon glyphicon-cog"></span></p>
+				<p>Settings</p>
+			</div>
+		</a>
+</div>
+<div class="seller-content">
+
+</div>
+
+
+
+
+{% endblock %}
+

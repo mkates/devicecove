@@ -8,10 +8,11 @@ class IEDetectionMiddleware(object):
     """
     def process_request(self, request):
         is_ie = False
-         
+
+        user_agent = '' # If no user agent, just render the page 
+
         if request.META.has_key('HTTP_USER_AGENT'):
             user_agent = request.META['HTTP_USER_AGENT']
-         
         # Test IE 1-7
         pattern = "msie [1-8]\."
         prog = re.compile(pattern, re.IGNORECASE)

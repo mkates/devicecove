@@ -1,0 +1,85 @@
+{% extends 'portal/base.html' %}
+{% block content %}
+<div class="col-md-9 col-sm-10 col-xs-12">
+	<div class="vetbox">
+		<div class="vetbox-header">
+			Performance Metrics
+		</div>
+		<div class="vetbox-content">
+			<div class="row">
+				<div class="col-md-3 col-sm-6 col-xs-12 metric-div">
+					<input data-width="130" data-height="130" type="text" value="62" data-thickness=".4" data-readOnly=true class="percent_dial dial">
+					<p>Percentage of Bids Won</p>
+				</div>
+				<div class="col-md-3 col-sm-6 col-xs-12 metric-div">
+					<input data-width="130" data-fgColor="#D7AEEF" data-height="130" type="text" value="91" data-thickness=".4" data-readOnly=true class="percent_dial dial">
+					<p>Satisfaction Rating</p>
+				</div>
+				<div class="col-md-3 col-sm-6 col-xs-12 metric-div">
+					<input data-width="130" data-fgColor="#B8E0B1" data-height="130" type="text" value="60" data-thickness=".4" data-readOnly=true class="dial">
+					<p>Sales / Week</p>
+				</div>
+				<div class="col-md-3 col-sm-6 col-xs-12 metric-div">
+					<input data-width="130" data-fgColor="#DBA87B" data-height="130" type="text" value="9" data-thickness=".4" data-readOnly=true class="time_dial dial">
+					<p>Average Shipping Time</p>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="vetbox">
+		<div class="vetbox-header">
+			Quantity Sold
+			<div class="vetbox-header-right">
+				<select class="chart-option form-control">
+					<option>Past Month</option>
+					<option>3 Months</option>
+					<option>6 Months</option>
+					<option>One Year</option>
+				</select>
+			</div>
+			<div class="clear"></div>
+		</div>
+		<div class="vetbox-content">
+			<canvas id="sales_chart" class="sales_chart" width="800" height="250"></canvas>
+		</div>
+	</div>
+	<div class="vetbox">
+		<div class="vetbox-header">
+			Revenue
+			<div class="vetbox-header-right">
+				<select class="chart-option form-control">
+					<option>Past Month</option>
+					<option>3 Months</option>
+					<option>6 Months</option>
+					<option>One Year</option>
+				</select>
+			</div>
+			<div class="clear"></div>
+		</div>
+		<div class="vetbox-content">
+			<canvas id="revenue_chart" class="sales_chart" width="800" height="250"></canvas>
+		</div>
+	</div>
+</div>
+<div class="col-md-3 col-sm-2 col-xs-12">
+	<div class="vetbox">
+		<div class="vetbox-header">
+			Recent Sales
+		</div>
+		<div class="vetbox-content">
+			<div class="sale">
+				<a href='#' class="item-name">Rimadyl Plus (Quantity 2)</a>
+				<p class="item-description"><span>ordered by</span> equine veterinarian<span> in </span> Colts Neck, NJ</p>
+				<p class="item-date">March 16, 2014 (use naturaldate)</p>
+				<p class="label label-success">Shipped</p>
+			</div>
+			<div class="sale">
+				<a href='#' class="item-name">Robaxul Powder 56mg (Quantity 2)</a>
+				<p class="item-description"><span>ordered by</span> small animal veterinarian<span> in </span> Wayne, NJ</p>
+				<p class="label label-danger">Not Shipped</p>
+			</div>
+			<a href="#">View All Sales &rarr;</a>
+		</div>
+	</div>
+</div>
+{% endblock %}

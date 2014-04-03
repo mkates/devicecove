@@ -1,13 +1,12 @@
-{% extends 'base.html' %}
+{% extends 'base/base.html' %}
 {% block headertitle %}<title>VetCove | Error</title>{% endblock%}
-{% block headercss %}
+{% block css %}
 
 <style>
 .maincontainer-padding {
 	padding: 0 20px;
 }
 .maincontainer {
-	background: #fff;
 	min-height: 200px;
 	max-width: 1000px;
 	margin: 30px auto;
@@ -50,10 +49,10 @@
 	<div class="maincontainer covebox">
 		{% if errormessage %}<h5 class="error-format">{{errormessage}}</h5>{% endif %}
 		<h4>It looks like we are experiencing some technical hiccups. We have our best developers on the case</h4>
-		<img src="{{STATIC_URL}}img/dogoncomputer.jpg" alt=""/>
+		<img src="{{STATIC_URL}}img/dogoncomputer.png" alt=""/>
 		<span>
-		<a href="/productsearh/veterinary/all/all">Buy Equipment</a>&sdot;
-		<a href="/listintro">Sell Equipment</a>&sdot;
+		<a href="/shop">Buy Equipment</a>&sdot;
+		<a href="/sell">Sell Equipment</a>&sdot;
 		<a href="/faq">FAQ</a></span>
 	</div>
 </div>

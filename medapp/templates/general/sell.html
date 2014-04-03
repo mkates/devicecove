@@ -1,0 +1,291 @@
+
+{% extends 'base/base.html' %}
+{% block css %}
+<style>
+.content {
+	margin: 0;
+}
+.sell-container {
+	min-height: 600px;
+	background-image: url("{{STATIC_URL}}img/worldmap.png");
+	background-position: top center;
+	background-repeat: no-repeat;
+	overflow: auto;
+}
+.hero {
+	text-align: center;
+	margin-bottom: 10px;
+}
+.hero h1 {
+	color: #333;
+	font-size: 50px;
+	font-weight: 200;
+	text-shadow: 0 0 6px #fff;
+	margin-top: 120px;
+	padding-bottom: 10px;
+	letter-spacing: .25px;
+} 
+.hero h2 {
+	color: #555;
+	text-shadow: 0 0 6px #fff;
+	letter-spacing: .5px;
+	font-weight: 600;
+	font-size: 19px;
+	margin-bottom: 45px;
+}
+.hero a {
+	font-size: 18px;
+	padding: 10px 40px;
+	height: auto;
+	margin: 0 5px;
+}
+.feature-container {
+	max-width: 1100px;
+	margin: 30px auto 60px auto;
+}
+
+.feature-container .firstrow {
+	padding-top: 50px;
+}
+.feature-item {
+	margin: 40px 10px;
+}
+.feature h3 {
+	font-size: 18px;
+	line-height: 50px;
+	margin-top: 0px;
+	margin-bottom: 0px;
+	font-weight: 600;
+}
+.feature p {
+	line-height: 20px;
+}
+.feature table td {
+	vertical-align: top;
+}
+.feature .feature-description {
+	padding: 20px 10px 20px 10px;
+}
+.feature-image-td {
+	width: 50px;
+}
+.feature .feature-image {
+	background-image:url("{{STATIC_URL}}img/silhouttes.png");
+	width: 50px;
+	height: 50px;
+	opacity: .9;
+}
+.feature-one {
+	background-position: 0 0;
+}
+.feature-two {
+	background-position: -50px 0;
+}
+.feature-three {
+	background-position: -100px 0;
+}
+.feature-four {
+	background-position: 0px -50px;
+}
+.feature-five {
+	background-position: -50px -50px;
+}
+.feature-six {
+	background-position: -100px -50px;
+}
+
+.howitworks-container {
+	background-image:url("{{STATIC_URL}}img/whitetransparency2.png");
+	border:1px solid #ddd;
+	padding: 30px 20px;
+}
+.howitworks {
+	max-width: 800px;
+	margin: 30px auto 60px auto;
+}
+.howitworks h2 {
+	font-weight: 800;
+	color: #aaa;
+	text-align: center;
+	margin-bottom: 60px;
+}
+.hiw-item-container {
+	border:1px solid #bbb;
+	border-radius: 2px;
+	padding: 10px;
+	box-shadow: 0 0 2px #ddd;
+	background-image:url("{{STATIC_URL}}img/contentbg_dark.png");
+}
+.hiw-item {
+	background: #fafafa;
+	overflow: auto;
+	border:1px solid #ddd;
+	border-radius:2px;
+	padding: 15px;
+	text-align: center;
+}
+.hiw-item h3 {
+	font-size: 18px;
+	font-weight: 600;
+	margin-top: 0px;
+}
+.hiw-item .badge {
+	font-size: 100%;
+	background: #2C9AD1;
+	margin-right: 10px;
+}
+.breaker {
+	background-image:url("{{STATIC_URL}}img/contentbg_dark.png");
+	width: 15px;
+	height: 40px;
+	border-left:1px solid #bbb;
+	border-right:1px solid #bbb;
+	margin: -1px auto;
+	position:relative;
+	z-index: 1;
+
+}
+</style>
+{% endblock %}
+
+
+{% block js %}
+
+{% endblock %}
+
+
+
+{% block content %}
+<div class="sell-container">
+	<div class="hero">
+		<h1>Sell More with VetCove</h1>
+		<h2>Use VetCove's online purchasing platform to reach more customers where they buy</h2>
+		<a class="button button-flat-royal button-rounded" href="#">Check It Out</a>
+		<a class="button button-flat button-rounded" href="#">Request More Information</a>
+	</div>
+
+	<div class="feature-container">
+		<div class="row firstrow">
+			<div class="feature col-md-4 col-sm-4 col-xs-12">
+				<div class="feature-item">
+					<table>
+						<tr>
+							<td class="feature-image-td"><div class="feature-image feature-one"></div></td>
+							<td>
+								<h3>Short Date Inventory</h3>
+								<p>Use VetCove deals to clear items with short shelf lives</p>
+							</td>
+						</tr>
+					</table>
+				</div>
+			</div>
+			<div class="feature col-md-4 col-sm-4 col-xs-12">
+				<div class="feature-item">
+					<table>
+						<tr>
+							<td class="feature-image-td"><div class="feature-image feature-two"></div></td>
+							<td>
+								<h3>Customer Segmentation</h3>
+								<p>Use VetCove's <a href="#">HotRate</a> to keep high margin for your loyal customers while selling more to those without any brand loyalty.</p>
+							</td>
+						</tr>
+					</table>
+				</div>
+			</div>
+			<div class="feature col-md-4 col-sm-4 col-xs-12">
+				<div class="feature-item">
+					<table>
+						<tr>
+							<td class="feature-image-td"><div class="feature-image feature-three"></div></td>
+							<td>
+								<h3>Price Surging</h3>
+								<p>Distributors can take advantage of back ordered items to price surge inventory that is no longer being produced.</p>
+							</td>
+						</tr>
+					</table>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="feature col-md-4 col-sm-4 col-xs-12">
+				<div class="feature-item">
+					<table>
+						<tr>
+							<td class="feature-image-td"><div class="feature-image feature-four"></div></td>
+							<td>
+								<h3>Purchase Analytics</h3>
+								<p>Our free analytics suite helps you track purchase habits, industry trends, and price changes to optimize your sales.</p>
+							</td>
+						</tr>
+					</table>
+				</div>
+			</div>
+			<div class="feature col-md-4 col-sm-4 col-xs-12">
+				<div class="feature-item">
+					<table>
+						<tr>
+							<td class="feature-image-td"><div class="feature-image feature-five"></div></td>
+							<td>
+								<h3>No Unpaid Accounts</h3>
+								<p>VetCove collects payment by credit card or bank account at the time of the purchase, which eliminates unpaid bills.</p>
+							</td>
+						</tr>
+					</table>
+				</div>
+			</div>
+			<div class="feature col-md-4 col-sm-4 col-xs-12">
+				<div class="feature-item">
+					<table>
+						<tr>
+							<td class="feature-image-td"><div class="feature-image feature-six"></div></td>
+							<td>
+								<h3>License Collection</h3>
+								<p>We collect and store every veterinarian's license, which can easily be accessed when they use VetCove to make a purchase from you.</p>
+							</td>
+						</tr>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="howitworks-container">
+		<div class="howitworks">
+			<h2>How Selling on VetCove Works</h2>
+			<div class="hiw-item-container">
+				<div class="hiw-item">
+					<h3><span class="badge">1</span>Upload your listings</h3>
+					<p>Add your items to the VetCove catalog using spreadsheets, our online interace, or even through a custom API</p>
+				</div>
+			</div>
+			<div class="breaker"></div>
+			<div class="hiw-item-container">
+				<div class="hiw-item">
+					<h3><span class="badge">2</span>Set your prices</h3>
+					<p>Choose the prices for an anonymous buyer and a loyal buyer. Also, enter associated GPO prices of items exclusive to members of that organization</p>
+				</div>
+			</div>
+			<div class="breaker"></div>
+			<div class="hiw-item-container">
+				<div class="hiw-item">
+					<h3><span class="badge">3</span>Customers can see your products</h3>
+					<p>Your products will be visible to our veterinary community</p>
+				</div>
+			</div>
+			<div class="breaker"></div>
+			<div class="hiw-item-container">
+				<div class="hiw-item">
+					<h3><span class="badge">4</span>Ship products to customers</h3>
+					<p>Once you receive an order, we will pass along all the relevant shipping information (and provide a shipping label if needed)</p>
+				</div>
+			</div>
+			<div class="breaker"></div>
+			<div class="hiw-item-container">
+				<div class="hiw-item">
+					<h3><span class="badge">5</span>VetCove transfers payments to you</h3>
+					<p>VetCove will wire you money or send you a check from all of your sales</p>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}

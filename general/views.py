@@ -15,50 +15,28 @@ from general.forms import *
 from helper import commission as commission
 
 def index(request):
-	items = Item.objects.filter(liststatus='active').filter(subcategory__category__type='equipment').order_by('savedcount')[:24]
-	return render_to_response('responsive/general/index.html',{'featured':items},context_instance=RequestContext(request))
+	return render_to_response('general/index.html',{},context_instance=RequestContext(request))
 
 def sell(request):
-	return render_to_response('responsive/general/sell.html',{},context_instance=RequestContext(request))
-
-def portalSeller(request):
-	return render_to_response('portal/base.html',{'seller_portal':True},context_instance=RequestContext(request))
-
-def portalBuyer(request):
-	return render_to_response('responsive/genereal/buy.html',{'buyer_portal':True},context_instance=RequestContext(request))
-
-def portalLogin(request):
-	return render_to_response('portal/login.html',{},context_instance=RequestContext(request))
-
-def portal_analytics(request):
-	return render_to_response('portal/analytics.html',{'analytics':True},context_instance=RequestContext(request))
-
-def portal_listing(request):
-	return render_to_response('portal/listing.html',{'listing':True},context_instance=RequestContext(request))
-
-def portal_solditems(request):
-	return render_to_response('portal/solditems.html',{'solditems':True},context_instance=RequestContext(request))
-
-def portal_account(request):
-	return render_to_response('portal/account.html',{'account':True},context_instance=RequestContext(request))
+	return render_to_response('general/sell.html',{},context_instance=RequestContext(request))
 
 def buy(request):
-	return render_to_response('responsive/general/buy.html',{},context_instance=RequestContext(request))
+	return render_to_response('general/buy.html',{},context_instance=RequestContext(request))
 
 def shop(request):
 	return render_to_response('search/shop.html',{},context_instance=RequestContext(request))
 
 def tos(request):
-	return render_to_response('responsive/general/tos.html',{'tos':True},context_instance=RequestContext(request))
+	return render_to_response('general/tos.html',{'tos':True},context_instance=RequestContext(request))
 
 def giveback(request):
-	return render_to_response('responsive/general/giveback.html',{'giveback':True},context_instance=RequestContext(request))
+	return render_to_response('general/giveback.html',{'giveback':True},context_instance=RequestContext(request))
 
 def commissionpage(request):
-	return render_to_response('responsive/general/commission.html',{'commission':True},context_instance=RequestContext(request))
+	return render_to_response('general/commission.html',{'commission':True},context_instance=RequestContext(request))
 
 def privacypolicy(request):
-	return render_to_response('responsive/general/privacypolicy.html',{'privacypolicy':True},context_instance=RequestContext(request))
+	return render_to_response('general/privacypolicy.html',{'privacypolicy':True},context_instance=RequestContext(request))
 
 def equipmentcategories(request):
 	categories = Category.objects.all().filter(type='equipment').order_by('name')
@@ -69,13 +47,13 @@ def pharmacategories(request):
 	return render_to_response('general/pharmacategories.html',{'categories':categories},context_instance=RequestContext(request))
 
 def faq(request):
-	return render_to_response('responsive/info/faq.html',{'faq':True},context_instance=RequestContext(request))
+	return render_to_response('general/faqs.html',{'faq':True},context_instance=RequestContext(request))
 
 def pvp(request):
-	return render_to_response('responsive/general/pvp.html',{'pvp':True},context_instance=RequestContext(request))
+	return render_to_response('general/pvp.html',{'pvp':True},context_instance=RequestContext(request))
 
 def about(request):
-	return render_to_response('responsive/general/about.html',{'about':True},context_instance=RequestContext(request))
+	return render_to_response('general/about.html',{'about':True},context_instance=RequestContext(request))
 
 def my_404_view(request):
 	return render_to_response('404.html',context_instance=RequestContext(request))

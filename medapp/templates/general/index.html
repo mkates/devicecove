@@ -1,113 +1,148 @@
-{% extends 'base.html' %}
-{% load dollars %}{% load dates %}
-{% block headercss %}
-<link href="{{STATIC_URL}}css/base.css" rel="stylesheet" type="text/css" />
-<link href="{{STATIC_URL}}css/product/productitem.css" rel="stylesheet" type="text/css" />
-<link href="{{STATIC_URL}}css/product/top-product.css" rel="stylesheet" type="text/css" />
-<link href="{{STATIC_URL}}css/index.css" rel="stylesheet" type="text/css" />
+{% extends 'base/base.html' %}
 
-{% endblock%}
+{% block css %}
+<style>
+.content {
+	margin: 0;
+}
+.hero {
+	min-height: 400px;
+	background: #555;
+	background-image: url("{{STATIC_URL}}img/dog_walk.jpg");
+	overflow: auto;
+	text-align: center;
+	border-bottom:1px solid #fff;
+}
+.hero h1 {
+	color: #fff;
+	font-size: 50px;
+	font-weight: 200;
+	text-shadow: 0 0 2px #333;
+	margin-top: 100px;
+	padding-bottom: 10px;
+	letter-spacing: .25px;
+} 
+.hero h2 {
+	color: #eee;
+	text-shadow: 0 0 2px #333;
+	letter-spacing: .5px;
+	font-weight: 600;
+	font-size: 19px;
+	margin-bottom: 45px;
+}
+.hero a {
+	font-size: 18px;
+	padding: 10px 40px;
+	height: auto;
+	margin: 0 5px;
+}
+.explainer {
+	padding: 50px 0 70px 0;
+}
+.explainer div h3 {
+	font-size: 15px;
+	font-weight: bold;
+	border-bottom:3px solid #333;
+	padding-bottom: 20px;
+}
+.explainer div div {
+	padding: 10px;
+}
+.testimonial-container {
+	border-top:1px solid #ddd;
+	margin: 0 20px;
+}
+.testimonial {
+	border-top:1px solid white;
+	padding: 60px 0;
+}
+.testimonial img {
+	width: 130px;
+	margin: 0 auto;
+	display:inline-block;
+}
+.testimonial div {
+	margin-bottom: 20px;
+}
+.testimonial div table td {
+	vertical-align: top;
+}
+.testimonial div table h4 {
+	margin: 10px 10px 10px 10px;
+	font-size: 14px;
+	font-weight: 600;
+}
+.testimonial div table p {
+	font-weight: 200;
+	margin: 0 10px;
+	font-style: italic;
+}
+</style>
+{% endblock %}
+
+
+{% block js %}
+
+{% endblock %}
+
 
 
 {% block content %}
-<div class="hero-background">
-	<div class="herobg">
-		<div class="intro-container">
-			<div class="new_intro">
-				<div class="row new_intro_pic">
-					<div class="col-md-7 col-sm-7 col-xs-12">
-						<h1>You strive to keep your patients healthy and their families happy</h1>
-						<h1>We deliver the tools that make it possible</h1>
-					</div>
-				</div>
-				<div class="bg-row">
-				</div>
-				<div class="row">
-					<a href='/shop'><div class="col-md-6 col-sm-6 col-xs-12 new_intro_explain explain_buy">
-						<h2>Find Equipment</h2>
-						<p>A large selection of new, refurbished and preowned equipment</p>
-						<img src="{{STATIC_URL}}img/arrow_circle.png" alt=""/>
-					</div></a>
-					<a href='/listintro'><div class="col-md-6 col-sm-6 col-xs-12 new_intro_explain explain_sell">
-						<h2>Find Pharmacueticals</h2> 
-						<p>Simplify and save thousands ordering pharamceuticals direct</p> 
-						<img src="{{STATIC_URL}}img/arrow_circle.png" alt=""/>
-					</div></a>
-				</div>
-				
-			</div>
+<div class="hero">
+	<h1>When suppliers compete, you win</h1>
+	<h2>Use VetCove's easy online portal to save up to 90% on top veterinary pharmaceuticals and equipment</h2>
+	<a class="button button-flat-primary button-rounded" href="/shop">Start Shopping</a>
+	<a class="button button-flat button-rounded" href="/login">Join (It's Free)</a>
+</div>
+
+<div class="explainer row">
+	<div class="col-md-3 col-sm-3 col-xs-12">
+		<div>
+			<h3>Trusted Suppliers</h3>
+			<p>Our certified distributors and manufacturers provide the highest level of customer satifisfaction and product quality</p>
+		</div>
+	</div>
+	<div class="col-md-3 col-sm-3 col-xs-12">
+		<div>
+			<h3>VetCove HotRate</h3>
+			<p>Buy anonymously for even better savings from suppliers who can't associate the lower prices with their products</p>
+		</div>
+	</div>
+	<div class="col-md-3 col-sm-3 col-xs-12">
+		<div>
+			<h3>Trending Products</h3>
+			<p>View drugs that are being used more frequently, and read popular questions from other veterinarians.</p>
+		</div>
+	</div>
+	<div class="col-md-3 col-sm-3 col-xs-12">
+		<div>
+			<h3>All-In-One</h3>
+			<p>Use VetCove to complete all your supply purchases to simplify ordering and billing</p>
 		</div>
 	</div>
 </div>
 
-{% include 'product/top-product.html' %}
-
-<div class="featuredcontainer">
-	<div class="row featured">
-	  <h2> Featured Equipment For Sale</h2>
-	  	{%for item in featured %}
-	    <div class="col-sm-6 col-md-4 col-xs-12 product-box">
-			<a href="/item/{{item.id}}/details"><div class="item">
-				<div class="itemname">
-					<div class="vertical-align">
-						<p>{{item.name}}</p>
-					</div>
-				</div>
-				<div class="itemimage">
-					<div class="verticalaligner">
-						<img src="{%if item.mainimage %}{{item.mainimage.photo_medium.url}}{% else %}{{STATIC_URL}}img/noimage.jpg{% endif %}" alt="{{item.name}}"/>		
-					</div>
-				</div>
-				<div class="price">
-					<div class="pricebox">
-						<div class="row">
-							<p class="condition">
-								{% if item.item_type == 'usedequipment' %}
-								{{item.item_handle.get_conditionquality_display}}
-								{% else %}
-								Brand New
-								{% endif %}
-							</p>
-							<p class="price">{{item.price|dollars}}</p>
-						</div>
-						<div class="row">
-							<p class="creation-date">Listed {{item.creation_date|days_since}} days ago<span>{{item.msrp_price|dollars}}</span></p>
-							
-						</div>
-					</div>
-				</div>
-			</div></a>
-	  	</div>	
-	  	{% endfor %}
+<div class="testimonial-container">
+	<div class="testimonial row">
+		<div class="col-md-6 col-sm-6 col-xs-12">
+			<table><tr>
+				<td><img src=""/></td>
+				<td>
+					<h4>President, VSG</h4>
+					<p>"In the life of a busy vet, there is no better resource to buy used equipment and pharamaceuticals. It saves veterinarians time, money, and aggravation."</p>
+				</td>
+			</tr></table>
+		</div>
+		<div class="col-md-6 col-sm-6 col-xs-12">
+			<table><tr>
+				<td><img src=""/></td>
+				<td>
+					<h4>Owner, Colts Neck Equine</h4>
+					<p>"Our practive used to make dozens of phone calls a week to price shop and check availability. We can now make our daily orders in under 60 seconds!"</p>
+				</td>
+			</tr></table>
+		</div>
 	</div>
+
 </div>
-
-{% endblock %}
-
-{% block jsblock %}
-<script>
-$(document).ready(function() {
-	$(".intro").animate({
-		paddingLeft: '10px',
-		opacity: 1
-		}, 1000, function() {
-	});
-	$(".buybutton").click(function() {
-		if (!($(this).hasClass("bbactive"))) {
-			$(this).addClass("bbactive");
-		}
-		$(".categories").fadeIn();
-	});
-	$(".new_intro_explain").hover(function() {
-		$($(this).children('img')).attr('src',"{{STATIC_URL}}img/arrow_circle_filled.png");
-	},function() {
-		$($(this).children('img')).attr('src',"{{STATIC_URL}}img/arrow_circle.png");
-	});
-	$("#closecategories").click(function() {
-		$(".buybutton").removeClass("bbactive");
-		$(".categories").css("display","none");
-	});
-
-});
-</script>
 {% endblock %}

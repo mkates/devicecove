@@ -1,124 +1,91 @@
-{% extends 'base.html' %}
-{% block headertitle %}<title>VetCove | Information</title>{% endblock%}
-{% block headercss %}
-
+{% extends 'base/base.html' %}
+{% block css %}
 <style>
-.maincontainer-container {
-	max-width: 1060px;
-	margin: 0 auto;
-}
-.maincontainer {
-	margin: 30px;
-	box-shadow: none;
-}
-.section-container {	
-	margin-bottom: 20px;
-}
-.section-container h3 {
-	font-weight: 200;
-	padding: 15px 20px;
-	margin: 0;
-}
-.section-container h5 {
-	line-height: 30px;
-	font-size: 20px;
-	font-weight: 500;
-	padding: 10px 20px;
-	color: #444;
-}
-/* Questions */
-.question {
-	margin: 40px 20px;
-}
-.question h4 {
-	font-weight: bold;
-	font-size: 15px;
-	color: #333;
-}
-.question p {
-	font-weight: normal;
-	font-size 12px;
-	line-height: 22px;
-	margin-top: 10px;
-}
-.sub-question {
-	margin-left: 15px;
-	margin-top: 15px;
-}
-.sub-question h4 {
-	font-size: 15px;
-	font-weight: bold;
-	color: #333;
-}
-
-/*Navigation */
-.navigation-row {
-	padding-left: 0px;
-	padding-right: 0px;
-}
-.content-row {
-	padding-right: 0px;
-}
-.navigation-row a {
+.sidebar a {
 	display:block;
-	font-size: 13px;
-	line-height: 20px;
-	padding: 8px 10px;
-	background: #f6f6f6;
+	line-height: 25px;
+	padding: 5px;
 	border-top:1px solid #fff;
 	border-bottom:1px solid #ddd;
-	color: #555;
+	color: #333;
 }
-.navigation-row a:hover {
-	background: #eee;
+.sidebar div a.active {
+	border-top:1px solid #333;
+	color: #eee;
+	background-image: -moz-linear-gradient(bottom, #444444 0%, #777777 100%);	
 }
-.navigation-row .top-nav {
-	border-top: 1px solid transparent;
+.sidebar a:hover {
+	text-decoration: none;
+	background: #E9EEF0;
 }
-.navigation-row .active, .navigation-row .active:hover {
-	background: #00B5E5;
-	background-image: -ms-linear-gradient(top, #00B5E5 0%, #008DB2 100%);
-	background-image: -moz-linear-gradient(top, #00B5E5 0%, #008DB2 100%);
-	background-image: -o-linear-gradient(top, #00B5E5 0%, #008DB2 100%);
-	background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #00B5E5), color-stop(1, #008DB2));
-	background-image: -webkit-linear-gradient(top, #00B5E5 0%, #008DB2 100%);
-	background-image: linear-gradient(to bottom, #00B5E5 0%, #008DB2 100%);
-	color: white;
+.sidebar a span {
+	margin-top: -3px;
+	float:right;
+	font-size: 25px;
+	display:none;
+	color: #eee;
 }
+.sidebar a.active span {
+	display:inline-block;
+}
+.sidebar .vetbox {
+	margin: 30px 0px 30px 15px;
+}
+.mainbar .headerbox {
+	margin: 30px 10px 10px 0px;
+	background-image: -moz-linear-gradient(top, #57C0E6 0%, #509AB5 100%);
+	color: #fff;
+	text-shadow: 0 0 1px #666;
+}
+.mainbar .infobox {
+	margin: 15px 10px 15px 0px;
+}
+.mainbar .vetbox h3 {
+	margin: 0 0 0px 0;
+	padding: 10px 20px;
+	font-size: 24px;
+	letter-spacing: 1px;
+}
+.mainbar .vetbox .content-title {
+	background-image: -moz-linear-gradient(top, #FFFFFF 0%, #EEEEEE 50%, #DDDDDD 100%);
+	margin: 0;
+	font-size: 16px;
+	padding: 10px 20px;
+	margin-bottom: 10px;
+	color: #444;
+}
+
 </style>
-{% block infocss %}{% endblock %}
-{% endblock%}
+{% block css_block %}{% endblock %}
+{% endblock %}
+
+
+{% block js %}
+
+{% block js_block %}{% endblock %}
+{% endblock %}
+
 
 
 {% block content %}
-<div class="maincontainer-container">
-	<div class="maincontainer row">
-		<div class="col-md-2 col-sm-2 col-xs-12 navigation-row">
-			<div class="covebox">
-				<a class="{% if about %}active{% endif%} top-nav" href="/about">About</a>
-				<a class="{% if faq %}active{% endif%}" href="/faq">FAQ</a>
-				<a class="{% if commission %}active{% endif%}" href="/commission">Fees and Pricing</a>
-				<a class="{% if pvp %}active{% endif%}" href="/pvp">Verification Program</a>
-				<a class="{% if buyerprotect %}active{% endif%}" href="/buyerprotect">Buyer Protection</a>
-				<a class="{% if tos %}active{% endif%}" href="/tos">Terms of Service</a>
-				<a class="{% if giveback %}active{% endif%}" href="/giveback">Give Back 1+1 Program</a>
-				<a class="{% if privacypolicy %}active{% endif%}" href="/privacypolicy">Privacy Policy</a>
-				<a href="/equipmentcategories">Item Directory</a>
-				<a class="{% if contact %}active{% endif%}" href="/contact">Contact Us</a>
-			</div>
-		</div>
-		<div class="col-md-10 col-sm-10 col-xs-12 content-row">
-			{% block info_block %}
-			
-			{% endblock %}
+<div class="row">
+	<div class="col-md-3 col-sm-3 col-xs-12 sidebar">
+		<div class="vetbox">
+			<a class="{% if about %}active{% endif%}" href="/about">About<span class="">&rsaquo;</span></a>
+			<a class="{% if faq %}active{% endif%}" href="/faq">FAQ<span class="">&rsaquo;</span></a>
+			<a class="{% if commission %}active{% endif%}" href="/commission">Fees and Pricing<span class="">&rsaquo;</span></a>
+			<a class="{% if pvp %}active{% endif%}" href="/pvp">Verification Program<span class="">&rsaquo;</span></a>
+			<a class="{% if buyerprotect %}active{% endif%}" href="/buyerprotect">Buyer Protection<span class="">&rsaquo;</span></a>
+			<a class="{% if tos %}active{% endif%}" href="/tos">Terms of Service<span class="">&rsaquo;</span></a>
+			<a class="{% if giveback %}active{% endif%}" href="/giveback">Give Back 1+1 Program<span class="">&rsaquo;</span></a>
+			<a class="{% if privacypolicy %}active{% endif%}" href="/privacypolicy">Privacy Policy<span class="">&rsaquo;</span></a>
+			<a href="/equipmentcategories">Item Directory<span class="">&rsaquo;</span></a>
+			<a class="{% if contact %}active{% endif%}" href="/contact">Contact Us<span class="">&rsaquo;</span></a>
 		</div>
 	</div>
+	<div class="col-md-9 col-sm-9 col-xs-12 mainbar">
+			{% block info_content %}
+			{% endblock %}
+	</div>
 </div>
-{% endblock %}
-
-{% block jsblock %}
-<script>
-$(document).ready(function() {
-});
-</script>
 {% endblock %}

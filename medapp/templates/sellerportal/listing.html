@@ -1,0 +1,129 @@
+{% extends 'portal/base.html' %}
+{% block headercss %}
+<style>
+.edit {
+	width: 50px;
+}
+.edit:hover {
+	cursor:pointer;
+}
+.sort {
+	float: right;
+	margin-right: 10px;
+}
+.sort button {
+	float: left;
+}
+.sort p {
+	display:inline-block;
+	font-weight: 200;
+	transition: background .2s;
+}
+.sort p.active {
+	background: #92c46d;
+}
+.sort .badge:hover {
+	background: #92c46d;
+	cursor: pointer;
+}
+.sort select {
+	display:inline-block;
+	max-width: 130px;
+}
+table {
+	font-weight: 200;
+}
+</style>
+{% endblock %}
+{% block content %}
+<div class="col-md-12 col-sm-12 col-xs-12">
+	<div class="vetbox">
+		<div class="vetbox-header">
+			<p>Listings</p>
+			<div class="sort">
+				<p>Sort by:</p>
+				<p class="badge">Price</p>
+				<p class="badge">Item Name</p>
+				<p class="badge">Quantity</p>
+				<p class="badge active">List Date</p>
+			</div>
+		</div>
+		<div class="vetbox-content">
+			<table class="table table-striped">
+				<thead>
+					<th>Item Name</th>
+					<th>Item Quantity</th>
+					<th>Type</th>
+					<th>Strength</th>
+					<th>Quantity</th>
+					<th>List Price</th>
+					<th>Anonymous Price</th>
+					<th></th>
+				</thead>
+				<tbody>
+					<tr>
+						<td>Rimadyl Plus 56mg Extreme</td>
+						<td>50</td>
+						<td>Pill</td>
+						<td>50mg</td>
+						<td>120 Capsules</td>
+						<td>$24.53</td>
+						<td>$21.23</td>
+						<td class="edit"><a>edit</a></td>
+					</tr>
+					<tr>
+						<td>Rimadyl Plus 56mg Extreme</td>
+						<td>50</td>
+						<td>Pill</td>
+						<td>50mg</td>
+						<td>120 Capsules</td>
+						<td>$24.53</td>
+						<td>$21.23</td>
+						<td class="edit"><a>edit</a></td>
+					</tr>
+					<tr>
+						<td>Rimadyl Plus 56mg Extreme</td>
+						<td>50</td>
+						<td>Pill</td>
+						<td>50mg</td>
+						<td>120 Capsules</td>
+						<td>$24.53</td>
+						<td>$21.23</td>
+						<td class="edit"><a>edit</a></td>
+					</tr>
+					<tr>
+						<td>Rimadyl Plus 56mg Extreme</td>
+						<td>50</td>
+						<td>Pill</td>
+						<td>50mg</td>
+						<td>120 Capsules</td>
+						<td>$24.53</td>
+						<td>$21.23</td>
+						<td class="edit"><a>edit</a></td>
+					</tr>
+					<tr>
+						<td>Rimadyl Plus 56mg Extreme</td>
+						<td>50</td>
+						<td>Pill</td>
+						<td>50mg</td>
+						<td>120 Capsules</td>
+						<td>$24.53</td>
+						<td>$21.23</td>
+						<td class="edit"><a>edit</a></td>
+					</tr>
+					<tr>
+						<td>Rimadyl Plus 56mg Extreme</td>
+						<td>50</td>
+						<td>Pill</td>
+						<td>50mg</td>
+						<td>120 Capsules</td>
+						<td>$24.53</td>
+						<td>$21.23</td>
+						<td class="edit"><a>edit</a></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>
+{% endblock %}

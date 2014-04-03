@@ -1,0 +1,78 @@
+{% extends 'portal/base.html' %}
+{% block headercss %}
+<style>
+.edit {
+	width: 50px;
+}
+.edit:hover {
+	cursor:pointer;
+}
+.sort {
+	float: right;
+	margin-right: 10px;
+}
+.sort button {
+	float: left;
+}
+.sort p {
+	display:inline-block;
+	font-weight: 200;
+	transition: background .2s;
+}
+.sort .badge:hover {
+	background: #92c46d;
+	cursor: pointer;
+}
+.sort select {
+	display:inline-block;
+	max-width: 130px;
+}
+table {
+	font-weight: 200;
+	font-size: 13px;
+}
+table p {
+	margin: 0;
+}
+</style>
+{% endblock %}
+{% block content %}
+<div class="col-md-12 col-sm-12 col-xs-12">
+	<div class="vetbox">
+		<div class="vetbox-header">
+			<p>Sold Items</p>
+			<div class="sort">
+				<p>Sort by:</p>
+				<p class="badge">Date Purchased</p>
+				<p class="badge">Not Shipped</p>
+				<p class="badge">Location</p>
+			</div>
+		</div>
+		<div class="vetbox-content">
+			<table class="table table-striped">
+				<thead>
+					<th>Purchase Date</th>
+					<th>Items</th>
+					<th>Shipping Address</th>
+					<th>Shipped?</th>
+					<th>Shipping Label</th>
+				</thead>
+				<tbody>
+					<tr>
+						<td>March 14th. 2014 8:45PM</td>
+						<td>Rimadyl Plus, 50 mg Tablets (Quantity 2)</td>
+						<td>
+							<p>Eric Kates</p>
+							<p>10 Pacer Court</p>
+							<p>Colts Neck, NJ 07722</p>
+						</td>
+						<td><p class="label label-success">Shipped</p></td>
+						<td><a class="button button-rounded button-royal button-tiny">Print Label</a></td>
+					</tr>
+
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>
+{% endblock %}

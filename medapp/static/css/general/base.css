@@ -9,8 +9,11 @@ body {
 	background: #eee;
 	font-family: "helvetica neue",arial,helvetica,freesans,"liberation sans","numbus sans l",sans-serif;
 }
-a,a:hover, a:focus,a:active {
+a,a:hover, a:focus,a:active,a:after, a:visited{
 	outline: none;
+}
+a:visited,a:active,a:after {
+	text-decoration:none;
 }
 input::-moz-focus-inner { 
   border: 0; 
@@ -25,6 +28,9 @@ input::-moz-focus-inner {
 }
 .content {
 	margin: 20px 0 40px 0;
+}
+.centered {
+	text-align: center;
 }
 .col-12-10 {
 	width: 10%;
@@ -106,7 +112,7 @@ input::-moz-focus-inner {
 	text-transform: uppercase;
 	margin-right: 10px;
 }
-.header .mainheader .right-header a {
+.header .mainheader .right-header a:not(.button) {
 	letter-spacing: .25px;
 	font-weight: 600;
 	font-size: 12px;
@@ -115,7 +121,7 @@ input::-moz-focus-inner {
 	border:1px solid transparent;
 	transition: background .2s, color .2s;
 }
-.header .mainheader .right-header a:hover {
+.header .mainheader .right-header a:not(.button):hover {
 	text-decoration: none;
 	color: #000;
 }
@@ -134,7 +140,7 @@ input::-moz-focus-inner {
 	padding: 4px 5px;
 	text-transform: none;
 }
-.header .mainheader .right-header .dropdown-menu li a:hover {
+.header .mainheader .right-header .dropdown-menu li a:not(.button):hover {
 	background: #eee;
 }
 .header .mainheader .right-header .caret {
@@ -152,6 +158,77 @@ input::-moz-focus-inner {
     font-size: 11px;
 }
 
+/* Cart Styling */
+
+.shoppingcart-image img {
+	width: 20px;
+	margin-left: -7px;
+	display:inline-block;
+}
+
+.header .cart-image-container {
+padding: 0;
+}
+.header .cart-image {
+	width: 100%;
+	padding: 0;
+}
+.header .cart-price {
+	color: #888;
+	font-weight: 200;
+}
+.header .cart-price span {
+	font-weight: 400;
+}
+.header .viewcart {
+	margin: 5px;
+	color: white;
+}
+.header .dropdown-menu .cart-dropdown-item {
+	padding: 10px;
+	width: 400px;
+	border-bottom:1px solid #ddd;
+}
+.header  .dropdown-menu > li > .cart-dropdown-item:not(.button):hover {
+	background: #fafafa;
+	color: #333;
+}
+.header .dropdown-menu > li > .viewcart:hover {
+}
+.header .navbar-nav > .cart-dropdown > .dropdown-menu {
+	padding: 0;
+}
+.header .cart-information p {
+	margin: 0;
+	text-overflow: ellipsis;
+	overflow: hidden;
+}
+.header .dropdown-menu .cart-dropdown .row div {
+	padding: 5px;
+}
+
+/*Notification Count */
+.header .mainheader .right-header .notification-count {
+	background: none repeat scroll 0 0 #00A0C9;
+	border-radius: 8px;
+	margin-left: -10px;
+	margin-top: -5px;
+	box-shadow: 0 0 2px #FFFFFF;
+	color: #FFFFFF;
+	display: inline-block;
+	line-height: 15px;
+	font-size: 10px;
+	font-weight: 800;
+	height: 16px;
+	text-align: center;
+	vertical-align: top;
+	width: 16px;
+	padding: 0;
+}
+.header .mainheader .right-header .purple-count {
+	background: #801FEF;
+	margin-left: 0px;
+}
 /* Subheader */
 .header .subheader {
 	margin: 0 0px;
