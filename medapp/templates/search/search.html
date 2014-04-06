@@ -103,7 +103,7 @@ label .floatright {
 <div class='row searchcontainer'>
   <!--Filter Container -->
   <div class='col-xs-12 col-sm-3 filtercontainer'>
-	<div class='filterbox covebox'>
+	<div class='filterbox vetbox'>
 		<h4 class="sidecontent-title">Filters <span class="sortbyfilters"> Sort By Filters<b class="caret"></b></span></h4>
 		{% if not custom %}
 		<div class='filter-category notopborder'>
@@ -179,14 +179,14 @@ label .floatright {
   </div>
   
   <!--Results Container -->
-  <div class='col-xs-12 col-sm-9 resultscontainer'>
+  <div class='col-xs-12 col-sm-9'>
   	<div id='loadingoverlay'>
   		<div id='loaderdiv'>
   			<h3> Updating Search Results. . .</h3>
   			<img src='{{STATIC_URL}}img/ajax-loader2.gif' alt="Loading. . . "/>
   		</div>
   	</div>
-  	<div class='resultsbox resultsnav covebox'>
+  	<div class='resultsbox vetbox'>
   		<div id='sortby'>
   			<p> Sort By: </p>
   			<select id="sortby-select" class='form-control'>

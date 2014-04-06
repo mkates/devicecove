@@ -2,37 +2,9 @@
 /******Page Layout ****************/
 /**********************************/
 
-.searchcontainer {
-	max-width: 1000px;
-	margin: 0 auto;
-	margin-top: 30px;
-	margin-bottom: 30px;	
-}
-.resultscontainer {
-	padding: 0 3px;
-}
-#resultcontainer {
-	background: none;
-}
-#resultsbody {	
-	background: none;
-}
 #noresults {
-	background: white;
-}
-.filterbox {
-	margin: 0;
-	padding: 0;
-	background: #fff;
-	background: #fafafa;
-	margin-bottom: 10px;
-	border-radius: 2px;
-}
-
-.resultsbox {
-	border-radius: 3px;
-	margin-bottom: 6px;
-	padding: 0;
+	background-image:url("{{STATIC_URL}}img/whitetransparency.png");
+	text-align:center;
 }
 
 /**********************************/
@@ -59,11 +31,12 @@
 	font-weight: 200;
 }
 #sortby select {
-	width: 150px;
+	width: 180px;
 	height: 30px;
 	margin: 5px 15px 0 0;
 	float: left;
-	line-height: 30px;
+	font-size: 13px;
+	line-height: 28px;
 	padding: 4px;
 	background: #f4f4f4;
 }
@@ -75,6 +48,12 @@
 	font-weight: bold;
 	border-right:1px solid #efefef;
 	display: inline-block;
+}
+#searchquery {
+	display:inline-block;
+	font-weight: 200;
+	margin-left: 10px;
+	font-size: 12px;
 }
 #related-results {
 	margin: 5px 15px;
@@ -92,16 +71,6 @@
 #related-results a span {
 	color: #aaa;
 	font-size: 12px;
-}
-
-#resultsparameter {
-	border-bottom: 1px solid #eee;
-	padding:5px 10px;
-	margin: 0 5px 5px 5px;
-	line-height:20px;
-}
-#resultsparameter {
-	font-weight: 200;
 }
 
 /**********************************/
@@ -153,11 +122,12 @@
 	padding: 0;
 	margin: 0;
 	padding-bottom: 5px;
-	font-size: 13px;
+	font-size: 14px;
 	color: #008DB2;
 	text-shadow: 0 0 2px #fff;
 	font-weight: bold;
 }
+
 .catlink {
 	clear: both;
 	color: #444;
@@ -235,9 +205,9 @@ label:before {
 input[type=radio]:checked + label:before {
     content: "\2022";
     color: #555;
-    font-size: 30px;
+    font-size: 25px;
     text-align: center;
-    line-height: 18px;
+    line-height: 14px;
 }
 
 input[type=checkbox]:checked + label:before {
@@ -251,7 +221,28 @@ input[type=checkbox]:checked + label:before {
 
 /*****End of checkbox formatting ******/
 
+/* Category Filtering */
 
+.filter-category .main-category {
+	font-size: 13px;
+	font-weight: bold;
+	margin: 0 0 0 8px;
+	color: #444;
+	display:block;
+}
+.filter-category .sub-category {
+	font-size: 13px;
+	margin: 0 0 0 16px;
+	color: #444;
+	display:block;
+}
+.filter-category a:hover{
+	text-decoration: underline;
+}
+.filter-departments span {
+	color: #aaa;
+	font-weight: 200;
+}
 /*******Distance Filter *********/
 
 #milecategory h2 {	
@@ -353,24 +344,6 @@ outline:none;
 -moz-outline-style:none;
 }
 
-/*******Navigation Tree *********/
-
-#treeflow {
-	font-size: 12px;
-	padding: 0px 0 10px 15px;
-}
-#treeflow a {
-	display: block;
-}
-#treeflow #industrytree {
-	margin-left: 15px;
-}
-#treeflow #devicecategorytree {
-	margin-left: 30px;
-}
-#treeflow #deviceitemstree {
-	margin-left: 45px;
-}
 
 
 /**********************************/

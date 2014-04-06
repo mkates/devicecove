@@ -1,0 +1,327 @@
+{% extends 'base/base.html' %}
+{% load dollars %}{% load zipcodify %}
+{% block css %}
+<style>
+.content {
+	margin: 30px 20px;
+}
+.vetbox {
+	background: #fff;
+}
+.product-box {
+	margin-top: 10px;
+	padding: 20px;
+}
+.product-box h3 {
+	font-size: 18px;
+	color: #333;
+	margin:0px;
+}
+/*********************/
+/****** TopBar *******/
+/*********************/
+.topbar {
+	padding: 5px 10px;
+}
+.topbar div {
+	display:inline-block;
+	margin: 0;
+	font-weight: 200;
+	font-size: 13px;
+}
+.topbar .breadcrumbs {
+	float:right;
+}
+/*********************/
+/**** Container ******/
+/*********************/
+.product-container.row .subrow {
+	padding: 0;
+}
+.product-container .leftrow .vetbox {
+	margin-right: 10px;
+}
+.product-header {
+	padding-bottom: 10px;
+	border-bottom:1px solid #eee;
+}
+.product-header p {
+	font-size: 14px;
+	font-weight: 200;
+	margin: 0px;
+}
+.product-header #review-count {
+	font-size: 12px;
+	font-weight: normal;
+}
+.product-header h5 {
+	margin: 0;
+	font-size: 23px;
+}
+.product-header span {
+	float:right;
+	vertical-align: bottom;
+}
+.product-header .topstar {
+	margin-top: 3px;
+}
+.product-overview {
+	margin: 20px 0px 10px 0px;
+	padding:;
+}
+.product-overview img {
+	max-width: 100%;
+	border-radius: 2px;
+	border:2px solid #ddd;
+}
+.product-overview .product-overview-div {
+	padding: 0;
+}
+.product-overview-details {
+	margin-left: 10px;
+}
+.product-overview-details  h4 {
+	font-size: 14px;
+	font-weight: bold;
+	margin-bottom: 2px;
+}
+.product-overview-details p {
+	font-size: 13px;
+}
+.product-overview-details .option-container .option {
+	display:inline-block;
+	padding: 5px 10px;
+	background: #eee;
+	border:1px solid #ccc;
+	opacity: .5;
+	margin-bottom: 3px;
+}
+.product-overview-details .option-container .option:hover {
+	cursor:pointer;
+	opacity: 1;
+}
+.product-overview-details .option-container .option.active {
+	background: #d5e8f6;
+	border:1px solid #9abed7;
+	opacity: 1;
+}
+.product-overview-details .option-container .option.nostock {
+	background: #d5e8f6;
+	border:1px solid red;
+	opacity: 1;
+}
+.product-description {
+	margin: 20px 0px 0 0;
+	padding-top: 10px;
+	border-top:1px solid #eee;
+	font-size: 13px;
+}
+.quantity-box {
+	display: inline-block;
+	margin-bottom: 15px;
+}
+.shipping-box {
+	float:right;
+	display:inline-block;
+}
+.buy-option {
+	border-radius: 2px;
+	background: #f3f3f3;
+	border:1px solid #ddd;
+	margin-bottom: 10px;
+	padding: 10px;
+}
+.buy-option.saverate {
+	background: #e8f7ec;
+	border:1px solid #a8d3b1;
+	margin-bottom: 20px;
+}
+.buy-option table{
+	width: 100%;
+	font-weight: 200;
+	font-size: 13px;
+}
+.buy-option .button-td {
+	text-align: right;
+}
+.buy-option .logo-td {
+	text-align: left;
+}
+.buy-option .price-td {
+	width: 80px;
+	font-weight: bold;
+}
+#original-price {
+	font-style:line-through;
+	font-size: 20px;
+}
+.sales_chart {
+	padding: 20px 0;
+}
+.sales_chart p {
+	text-align: center;
+	font-weight: 200;
+}
+</style>
+{% endblock %}
+
+
+{% block js %}
+<script src="{{STATIC_URL}}js/chart.js" type="text/javascript" ></script>
+<script>
+$(document).ready(function(){
+	drawChart();
+});
+var counter;
+$(window).resize(function() {
+    clearTimeout(counter);
+    counter = setTimeout(drawChart, 500);
+    
+});
+function drawChart() {
+	console.log("here")
+	var parent = $("#sales_chart_parent");
+	parent.empty();
+	parent.append('<canvas id="sales_chart" height="220px"></canvas>');
+	var width = $("#sales_chart").parent().width();
+	$("#sales_chart").attr("width",width+"px");
+	var ctx = $("#sales_chart").get(0).getContext("2d");
+	var data = {
+		labels : ["Apr","May","Jun","Jul","Aug","Sep","Oct"],
+		datasets : [
+			{
+				fillColor : "rgba(151,187,205,0.5)",
+				strokeColor : "rgba(151,187,205,1)",
+				data : [2,0,0,6,1,0,3]
+			}
+		]
+	}
+	var myNewChart = new Chart(ctx).Bar(data,{
+		animation:false
+		// scaleOverlay:true,	
+		// scaleOverride : true,
+		// scaleSteps : 10,
+		// scaleStepWidth : 1,
+		// scaleStartValue : -4,
+	});
+}
+</script>
+{% endblock %}
+
+
+{% block content %}
+<div class="topbar vetbox">
+	<div><a href='#'>&larr; View all Dog Food</a></div>
+	<div class="breadcrumbs"><a href='#'>Food and Supplies</a> / <a href='#'>Dog Food</a> / <a href='#'>Purina</a></div>
+</div>
+<div class="product-container row">
+	<div class="leftrow subrow col-md-8">
+		<div class="vetbox product-box">
+			<div class="product-header">
+				<p>Zoetis<span id="review-count">0 Reviews | <a href='#'>Write a Review</a> | <a href='#'>Read All Reviews</a></span></p>
+				<h5>Salix Solution 95% Pure (w/ Phenyallinine)<span><div class="topstar star star4"></div></span></h5>
+			</div>
+
+			<div class="product-overview row">
+				<div class="col-md-5 product-overview-div">
+					<img src="{{STATIC_URL}}img/noimage.jpg">
+				</div>
+				<div class="col-md-7 product-overview-div">
+					<div class="product-overview-details">
+						<div>
+							<h4>Original Price</h4>
+							<p id="original-price">$241.32</p>
+						</div>
+						<div>
+							<h4>Item Size: <span>100ml Vial</span></h4>
+							<div class="option-container">
+								<div class="option active">100ml Vial Brand Label</div>
+								<div class="option">200ml Vial Brand Label</div>
+								<div class="option">200ml Vial Generic</div>
+							</div>
+						</div>
+						<div>
+							<h4>Item ID</h4>
+							<p>SKU: 48384391, Manufacturer ID: #33293CDE</p>
+						</div>
+						<div>
+							<h4>Main Ingredient</h4>
+							<p>100% Flucatrasine</p>
+						</div>
+
+					</div>
+				</div>
+			</div>
+			<div class="product-description">
+				<p>FufroJect (Furosemide) Injection is an effective diuretic-saluretic for use in the treatment of acute noninflammatory tissue edema in dogs and horses, and for use in the treatment of edema (pulmonary congestion, ascites) associated with cardiac insufficiency in the dog. In cases of edema involving cardiac insufficiency, the continued use of heart stimulants such as digitalis or its glycosides is indicated.</p>
+			</div>
+		</div>
+
+		<div class="vetbox product-box">
+			<h3>Veterinarians Also Liked These Items</h3>
+			<p>Cool</p>
+		</div>
+		<div class="vetbox product-box">
+			<h3>Questions</h3>
+			<p>Cool</p>
+		</div>
+		<div class="vetbox product-box">
+			<h3>Reviews</h3>
+			<p>Cool</p>
+		</div>
+
+	</div>
+	<div class="rightrow subrow col-md-4">
+		<div class="vetbox product-box">
+			<div class="quantity-box">
+				<span>Quantity:
+					<select>
+						<option>1</option>
+					</select>
+				</span>
+			</div>
+			<div class="shipping-box">
+					<span>Shipping:
+						<select>
+							<option>2 Day Shipping</option>
+							<option>Next Day Shipping</option>
+						</select>
+					</span>
+				</div>
+			<div class="buy-option saverate">
+				<table>
+					<tr>
+						<td class="price-td">$124.23</td>
+						<td class="logo-td">VetCove SaveRate</td>
+						<td class="button-td"><button class="button button-tiny button-action button-rounded">Add to Cart</button></td>
+					</tr>
+				</table>
+			</div>
+			<div class="buy-option">
+				<table>
+					<tr>
+						<td class="price-td">$124.23</td>
+						<td class="logo-td">Henry Schein</td>
+						<td class="button-td"><button class="button button-tiny button-action button-rounded">Add to Cart</button></td>
+					</tr>
+				</table>
+			</div>
+			<div class="buy-option">
+				<table>
+					<tr>
+						<td class="price-td">$124.23</td>
+						<td class="logo-td">Penn Vet</td>
+						<td class="button-td"><button class="button button-tiny button-action button-rounded">Add to Cart</button></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+		<div class="vetbox product-box sales_chart">
+			<p>Order History</p>
+			<div id="sales_chart_parent">
+			</div>
+		</div>
+	</div>
+
+</div>
+{% endblock %}

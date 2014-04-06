@@ -14,6 +14,9 @@ from listing.models import Item, Category
 from general.forms import *
 from helper import commission as commission
 
+def product(request,itemid):
+	return render_to_response('product/product2.html',{},context_instance=RequestContext(request))
+
 def index(request):
 	return render_to_response('general/index.html',{},context_instance=RequestContext(request))
 

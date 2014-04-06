@@ -99,6 +99,70 @@
 			</div>
 		</div>
 		<div class="subheader row">
+			<div class="col-12-10 category-div">
+				<a class="categories subheader-option">
+					<p>Browse by</p>
+					<p>Category <b class="caret"></b></p>
+				</a>
+				<div class="category-box">
+					<div class="category-menu">
+						<a data-name="dentistry" class="category-menu-item">Dentistry<span> &rsaquo; </span></a>
+						<a data-name="diagnosticexams" class="category-menu-item">Diagnostic Exam<span> &rsaquo; </span></a>
+						<a data-name="diagnostics" class="category-menu-item">Diagnostics<span> &rsaquo; </span></a>
+						<a class="category-menu-item">Equine<span> &rsaquo; </span></a>
+						<a class="category-menu-item">Equipment<span> &rsaquo; </span></a>
+						<a class="category-menu-item">Fluid Administration<span> &rsaquo; </span></a>
+						<a class="category-menu-item">Foods<span> &rsaquo; </span></a>
+						<a class="category-menu-item">Hospital Supplies<span> &rsaquo; </span></a>
+						<a class="category-menu-item">Laboratory<span> &rsaquo; </span></a>
+						<a class="category-menu-item">Large Animal<span> &rsaquo; </span></a>
+						<a class="category-menu-item">Pharmacy<span> &rsaquo; </span></a>
+						<a class="category-menu-item">Surgery<span> &rsaquo; </span></a>
+						<a class="category-menu-item">X-Ray and Imaging<span> &rsaquo; </span></a>
+						<a href='#' class="full-directory">See Full Directory</a>
+					</div>
+					<div class="category-content">
+						<div id="menu-dentistry" class="category-info">
+							<h1>Dentistry</h1>
+							<div class="category-info-box">
+								<ul class="reformat">
+								  <li><a href='#'>Aloe</a></li>
+								  <li>Bergamot</li>
+								  <li>Calendula</li>
+								  <li>Damiana</li>
+								  <li>Elderflower</li>
+								  <li>Feverfew</li>
+								  <li>Ginger</li>
+								  <li>Hops</li>
+								  <li>Iris</li>
+								  <li>Juniper</li>
+								  <li>Kava kava</li>
+								  <li>Lavender</li>
+								  <li>Marjoram</li>
+								  <li>Nutmeg</li>
+								  <li>Oregano</li>
+								  <li>Pennyroyal</li>
+								  <li>Marjoram</li>
+								  <li>Nutmeg</li>
+								  <li>Oregano</li>
+								  <li>Pennyroyal</li>
+								  <li>Marjoram</li>
+								  <li>Nutmeg</li>
+								  <li>Oregano</li>
+								</ul>
+							</div>
+						</div>
+						<div id="menu-diagnosticexams" class="category-info">
+							<h1>Diagnostic Exams</h1>
+						</div>
+						<div id="menu-diagnostics" class="category-info">
+							<h1>Diagnostics</h1>
+						</div>
+
+
+					</div>
+				</div>
+			</div>
 			<div class="searchbar">
 				<form id="searchform">
 				<table>
@@ -125,27 +189,22 @@
 				</div>
 			</div>
 			<div class="col-12-10">
-				<a href="/portal/sell" class="">
-					<p>Categories</p>
-				</a>
-			</div>
-			<div class="col-12-10">
-				<a href="/portal/sell" class="">
+				<a href="/portal/sell" class="subheader-option">
 					<p>Specials</p>
 				</a>
 			</div>
 			<div class="col-12-10">
-				<a href="/portal/sell" class="">
-					<p>Popular</p>
+				<a href="/portal/sell" class="subheader-option">
+					<p>Trending</p>
 				</a>
 			</div>
 			<div class="col-12-10">
-				<a href="/portal/sell">
+				<a href="/portal/sell" class="subheader-option">
 					<p>New Items</p>
 				</a>
 			</div>
 			<div class="col-12-10">
-				<a href="/portal/sell">
+				<a href="/portal/sell" class="subheader-option">
 					<p>Recent Orders</p>
 				</a>
 			</div>
@@ -272,7 +331,7 @@
 		<div class="col-md-2 col-sm-4 col-xs-6">
 			<h3>Selling</h3>
 			<ul>
-				<li><a href='/sell'>Become a Seller</a></li>
+				<li><a href='/sell'>Sell on VetCove</a></li>
 				<li><a href='#'>Fees and Pricing</a></li>
 				<li><a href='#'>Selling History</a></li>
 				<li><a href='#'>Analytics</a></li>
@@ -405,14 +464,37 @@
 				$("#sidr-searchresults").css('display','none');
 				$("#mobile-searchbar input").val('');
 			})
-			$(".subheader .category").click(function(){
-				$(".subheader .browse-categories").fadeIn();
+			$(".subheader .categories").click(function(){
+				if ($(".header .category-box").is(":visible")) {
+					console.log("here");
+					$(".header .category-box").css('display','none')
+					$(".header .categories").removeClass("active");
+				} else {
+					$(".header .category-box").css('display','block')
+					$(".header .categories").addClass("active");
+				}
 			});
-			$(".subheader .category").hover(function(){
+			$(".subheader .category-div").hover(function(){
 			},function() {
-				$(".subheader .browse-categories").stop();
-				$(".subheader .browse-categories").fadeOut();
+				$(".header .category-box").css('display','none')
+				$(".header .categories").removeClass("active");
+				$(".subheader .category-box .category-menu-item").removeClass('active');
 			});
+
+			//Displays the subcategories on the category select
+			$(".subheader .category-box .category-menu-item").click(function(){
+				// Display appropriate subcategory
+				var data_name = $(this).attr("data-name");
+				$(".category-info").css('display','none');
+				$("#menu-"+data_name).css('display','block');
+				// Add active to category-menu-item
+				$(".subheader .category-box .category-menu-item").removeClass('active');
+				$(this).addClass("active");
+			});
+
+
+
+
 			// var $waterfall = $('#waterfall');
 			// // initialize
 			// $waterfall.masonry({

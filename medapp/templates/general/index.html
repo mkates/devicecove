@@ -36,21 +36,45 @@
 	height: auto;
 	margin: 0 5px;
 }
+.hero .button-container {
+	background-image: url("{{STATIC_URL}}img/blacktransparency_2.png");
+	padding: 5px 0px;
+	margin: 0 5px;
+	display:inline-block;
+	border-radius: 4px;
+}
 .explainer {
 	padding: 50px 0 70px 0;
+	max-width: 1000px;
+	margin: 0 auto;
 }
+.explainer .textcol {
+	padding: 30px;
+}
+.explainer .row {
+	border-bottom:1px solid #dadada;
+	border-top:1px solid #fff;
+	padding-top: 20px;
+	padding-bottom: 20px;
+}
+.explainer .row.noborder-top {border-top:none;}
+.explainer .row.noborder-bottom {border-bottom:none;}
+
 .explainer div h3 {
-	font-size: 15px;
+	font-size: 16px;
 	font-weight: bold;
 	border-bottom:3px solid #333;
 	padding-bottom: 20px;
+}
+.explainer img {
+	max-width: 100%;
 }
 .explainer div div {
 	padding: 10px;
 }
 .testimonial-container {
 	border-top:1px solid #ddd;
-	margin: 0 20px;
+	background-image:url("{{STATIC_URL}}img/whitetransparency2.png");
 }
 .testimonial {
 	border-top:1px solid white;
@@ -91,33 +115,100 @@
 <div class="hero">
 	<h1>When suppliers compete, you win</h1>
 	<h2>Use VetCove's easy online portal to save up to 90% on top veterinary pharmaceuticals and equipment</h2>
-	<a class="button button-flat-primary button-rounded" href="/shop">Start Shopping</a>
-	<a class="button button-flat button-rounded" href="/login">Join (It's Free)</a>
+	<div class="button-container"><a class="button button-flat-primary button-rounded" href="/shop">What is VetCove?</a></div>
+	<div class="button-container"><a class="button button-flat button-rounded" href="/login">Join (It's Free)</a></div>
 </div>
 
-<div class="explainer row">
-	<div class="col-md-3 col-sm-3 col-xs-12">
-		<div>
-			<h3>Trusted Suppliers</h3>
-			<p>Our certified distributors and manufacturers provide the highest level of customer satifisfaction and product quality</p>
+<div class="explainer">
+	<div class="row noborder-top">
+		<div class="col-md-4 col-sm-6 textcol">
+			<div>
+				<h3><strong>*NEW*</strong> VetCove SaveRates</h3>
+				<p>SaveRates are especially low prices that VetCove negotiates directly with the suppliers. The supplier will be shown after you complete the purchase. By allowing our partners to maintain their anonymity, VetCove can get you discounts that are significantly below published prices.</p>
+			</div>
+		</div>
+		<div class="col-md-6 col-sm-6">
+			<div>
+				<img src='{{STATIC_URL}}test/pagerip.png'/>
+			</div>
 		</div>
 	</div>
-	<div class="col-md-3 col-sm-3 col-xs-12">
-		<div>
-			<h3>VetCove HotRate</h3>
-			<p>Buy anonymously for even better savings from suppliers who can't associate the lower prices with their products</p>
+	<div class="row">
+		<div class="col-md-6 col-md-push-6 textcol">
+			<div>
+				<h3>Dead Simple Ordering</h3>
+				<p>Lightning fast search across all our suppliers, one click reordering, and product suggestions based on order history. Even place an order directly from your phone through our mobile website.</p>
+			</div>
+		</div>
+		<div class="col-md-6 col-md-pull-6 col-sm-6">
+			<div>
+				<img src='{{STATIC_URL}}test/pagerip.png'/>
+			</div>
 		</div>
 	</div>
-	<div class="col-md-3 col-sm-3 col-xs-12">
-		<div>
-			<h3>Trending Products</h3>
-			<p>View drugs that are being used more frequently, and read popular questions from other veterinarians.</p>
+	<div class="row">
+		<div class="col-md-6 col-sm-6 textcol">
+			<div>
+				<h3>Overstock Specials</h3>
+				<p>We let you take advantage of supplier's excess inventory and short date items to save up to 90% off the item's retail price.</p>
+			</div>
+		</div>
+		<div class="col-md-6 col-sm-6">
+			<div>
+				<img src='{{STATIC_URL}}test/pagerip.png'/>
+			</div>
 		</div>
 	</div>
-	<div class="col-md-3 col-sm-3 col-xs-12">
-		<div>
-			<h3>All-In-One</h3>
-			<p>Use VetCove to complete all your supply purchases to simplify ordering and billing</p>
+	<div class="row">
+		<div class="col-md-6 col-md-push-6 textcol">
+			<div>
+				<h3>Product Questions</h3>
+				<p>Manufacturer and distributor reps are available on our system to answer any product usage questions. View commonly asked questions and how other partner veterinarians are using these items. </p>
+			</div>
+		</div>
+		<div class="col-md-6 col-md-pull-6">
+			<div>
+				<img src='{{STATIC_URL}}test/pagerip.png'/>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-6 col-sm-6 textcol">
+			<div>
+				<h3>Market Trends</h3>
+				<p>Discover what other veterinarians are ordering and using. See which products are gaining or losing popularity, and what alternatives veterinarians are using for each product.</p>
+			</div>
+		</div>
+		<div class="col-md-6 col-sm-6">
+			<div>
+				<img src='{{STATIC_URL}}test/pagerip.png'/>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-6 col-md-push-6 textcol">
+			<div>
+				<h3>Product Questions</h3>
+				<p>Manufacturer and distributor reps are available on our system to answer any product usage questions. View commonly asked questions and how other partner veterinarians are using these items. </p>
+			</div>
+		</div>
+		<div class="col-md-6 col-md-pull-6">
+			<div>
+				<img src='{{STATIC_URL}}test/pagerip.png'/>
+			</div>
+		</div>
+	</div>
+	<div class="row noborder-bottom">
+		<div class="col-md-6 textcol">
+			<div>
+				<h3>Streamline Order Management</h3>
+				<p>We automatically charge your preferred payment method, and provide an invoice across all our suppliers. No more managing invoices or payments.</p>
+			</div>
+		</div>
+		<div class="col-md-6">
+			<div>
+				<img src='{{STATIC_URL}}test/pagerip.png'/>
+			</div>
 		</div>
 	</div>
 </div>

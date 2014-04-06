@@ -1,0 +1,194 @@
+{% extends 'base/base.html' %}
+{% load dollars %}{% load zipcodify %}
+{% block css %}
+<link href='{{STATIC_URL}}css/search.css' rel='stylesheet' type='text/css' />
+<style>
+.vetbox {
+	background: #fff;
+}
+.star {
+	display:inline-block;
+	margin-bottom: 2px;
+	vertical-align: middle;
+}
+</style>
+{% endblock %}
+
+
+{% block js %}
+
+{% endblock %}
+
+
+
+{% block content %}
+<div class='row'>
+  <!--Filter Container -->
+  <div class='col-xs-12 col-sm-3 col-md-3'>
+	<div class='filterbox vetbox'>
+
+		<!-- Category Filter -->
+		<div class='filter-departments filter-category notopborder'>
+			<h2>Departments</h2>
+			<a class='main-category' href='#'>Dog Food <span>(62)</span></a>
+			<a href="/shop" class='sub-category'>Wet Food <span>(12)</span></a>
+			<a href="/shop" class='sub-category'>Designer Food <span>(6)</span></a>
+			<a href="/shop" class='sub-category'>Dog Snacks <span>(4)</span></a>
+			<a href="/shop" class='sub-category'>Dog Treats <span>(2)</span></a>
+		</div>
+
+		<!-- Discount Filter -->
+  		<div class='filter-category'>
+  			<h2>Discount</h2>
+  			<div class='checkbox'>
+	  			<input id="male" type="radio" value="male" name="gender" checked><label for="male">No Discount Filters<span>2</span></label>
+				<input id="female" type="radio" value="female" name="gender"><label for="female">10% or more<span>2</span></label>
+				<input id="female" type="radio" value="female" name="gender"><label for="female">25% or more<span>2</span></label>
+				<input id="female" type="radio" value="female" name="gender"><label for="female">50% or more<span>2</span></label>
+			</div>
+  		</div>
+
+		<!-- Condition Filter -->
+  		<div class='filter-category'>
+  			<h2>Average Vet Rating</h2>
+  			<div class='checkbox'>
+				<input class="checkboxitem" data-category="conditiontype" data-value="new" id='new' type='checkbox' name='check' value='new' checked='checked'>
+				<label for='new'><div class="star star5"></div><span>2</span></label>
+				<input class="checkboxitem" data-category="conditiontype" data-value="new" id='new' type='checkbox' name='check' value='new' checked='checked'>
+				<label for='new'><div class="star star4"></div><span>2</span></label>
+				<input class="checkboxitem" data-category="conditiontype" data-value="new" id='new' type='checkbox' name='check' value='new' checked='checked'>
+				<label for='new'><div class="star star3"></div><span>2</span></label>
+				<input class="checkboxitem" data-category="conditiontype" data-value="new" id='new' type='checkbox' name='check' value='new' checked='checked'>
+				<label for='new'><div class="star star2"></div><span>2</span></label>
+				<input class="checkboxitem" data-category="conditiontype" data-value="new" id='new' type='checkbox' name='check' value='new' checked='checked'>
+				<label for='new'><div class="star star1"></div><span>2</span></label>
+			</div>
+  		</div>
+		
+		<!-- Price Filter -->
+		{% if items|length > 1 %}
+		<div id='pricecategory' class='filter-category'>
+  			<h2>Price Range</h2>
+  			<div id='price-slider-container'>
+  				{% load humanize %}
+  				<p id='lowprice'><span>{{pricerange.0 | dollars}}</span></p>
+  				<p id='highprice'><span>{{pricerange.1 | dollars}}</span></p>
+  				<div class='clear'></div>
+  				<div id='price-range' class='light-gradient'></div>
+  			</div>
+  		</div>
+  		{% endif %}
+
+  		<!-- Condition Filter -->
+  		<!-- <div class='filter-category'>
+  			<h2>Condition</h2>
+  			<div class='checkbox'>
+				<input class="checkboxitem" data-category="conditiontype" data-value="new" id='new' type='checkbox' name='check' value='new' checked='checked'>
+				<label for='new'>New<span>0</span></label>
+				<input class="checkboxitem" data-category="conditiontype" data-value="refurbished" id='refurbished' type='checkbox' name='check' value='refurbished' checked='checked'>
+				<label for='refurbished'>Refurbished<span>0</span></label>
+				<input class="checkboxitem" data-category="conditiontype" data-value="preowned"  id='preowned' type='checkbox' name='check' value='preowned' checked='checked'>
+				<label for='preowned'>Pre-Owned<span>0</span></label>
+			</div>
+  		</div> -->
+
+  		<!-- Manufacturer Filter -->
+  		<div class='filter-category'>
+  			<h2>Manufacturer</h2>
+  			<div class='checkbox'>
+				<input class="checkboxitem" data-category="conditiontype" data-value="new" id='new' type='checkbox' name='check' value='new' checked='checked'>
+				<label for='new'>Zoetis<span>0</span></label>
+				<input class="checkboxitem" data-category="conditiontype" data-value="refurbished" id='refurbished' type='checkbox' name='check' value='refurbished' checked='checked'>
+				<label for='refurbished'>Bayer<span>0</span></label>
+				<input class="checkboxitem" data-category="conditiontype" data-value="preowned"  id='preowned' type='checkbox' name='check' value='preowned' checked='checked'>
+				<label for='preowned'>Henry Schein<span>0</span></label>
+			</div>
+  		</div>
+
+  		<!-- Warranty Filter -->
+  		<!-- <div class='filter-category'>
+  			<h2>Service Contract & Warranty</h2>
+  			<div class='checkbox'>
+				<input class="checkboxitem" id='warranty' data-category="contract" data-value="warranty" type='checkbox' value='new' checked='checked'>
+				<label for='warranty'>Warranty<span>0</span></label>
+				<input class="checkboxitem" id='servicecontract' data-category="contract" data-value="servicecontract" type='checkbox' value='refurbished' checked='checked'>
+				<label for='servicecontract'>Service Contract<span>0</span></label>
+				<input class="checkboxitem" id='none' data-category="contract" data-value="none" type='checkbox' value='preowned' checked='checked'>
+				<label for='none'>None<span>0</span></label>
+			</div>
+  		</div> -->
+
+  		<!-- Distance Filter -->
+  		<!-- <div id='milecategory' class='filter-category'>
+  			<h2>Distance</h2>
+  			<select class='form-control' id="distance-select">
+  				<option value="-1">Any Distance</option>
+  				<option value="500">500 Miles</option>
+  				<option value="250">250 Miles</option>
+  				<option value="100">100 Miles</option>
+  				<option value="50">50 Miles</option>
+  				<option value="25">25 Miles</option>
+  			</select>
+  			<p>from</p>
+  			<input id="zipcode-input" onkeyup="this.value=this.value.replace(/[^\d]/,'')" class='form-control' placeholder='Zipcode' type='text' maxlength='5' value="{% if zipcode %}{{zipcode|zipcodify}}{% endif %}"/>
+  		</div>		 -->
+  	</div>
+  </div>
+  
+  <!--Results Container -->
+  <div class='col-xs-12 col-sm-9'>
+  	<div class='resultsbox vetbox'>
+  		<!-- Loading Overlay-->
+  		<div id='loadingoverlay'>
+	  		<div id='loaderdiv'>
+	  			<h3> Updating Search Results. . .</h3>
+	  			<img src='{{STATIC_URL}}img/ajax-loader2.gif' alt="Loading. . . "/>
+	  		</div>
+	  	</div>
+
+  		<div id='sortby'>
+  			<p> Sort By: </p>
+  			<select id="sortby-select" class='form-control'>
+  				<option value="relevance"> Relevance</option>
+  				<option value="price-high"> Price: Highest First</option>
+  				<option value="price-low">Price: Lowest First</option>
+  				<option value="distance">Distance: Nearest First</option>
+  				<option value="mostrecent">Time: Newly Listed First</option>
+  				<option value="leastrecent">Time: Oldest Listed First</option>
+  				<option value="msrp-discount">Percent off MSRP: Highest First</option>
+  			</select>
+  		</div>
+  		<div id='numberofresults'>{{ resultcount }} Results</div>
+  		<p id="searchquery">Searching for dog food</p>
+  		<div class='clear'></div>
+  		{% if relatedItems %}
+  		<div id="related-results">
+  		<span>Related results: </span>
+			{% for relateditem in relatedItems %}
+				{% if relateditem.type == 'category' %}
+					<a href="/productsearch/{{ind.name}}/{{relateditem.obj.name}}/all">{{relateditem.obj.displayname}} ({{relateditem.obj.totalunits}})</a>
+				{% else %}
+					<a href="/productsearch/{{ind.name}}/all/{{relateditem.obj.name}}">{{relateditem.obj.displayname}} ({{relateditem.obj.totalunits}})</a>
+				{% endif %}
+				{% if not forloop.last %},{% endif %}
+			{% endfor %}
+  		</div>
+  		{% endif %}
+  	</div>
+  	
+  	<div class='resultsbox vetbox' id='resultsbody'>
+  		{% include 'search/productsearchitem.html' %}
+		<div id="noresults" class="resultitem vetbox">
+			<p class="noluck">Sorry, we can't find anything that matches your search</p>
+			<img class="noresults" src="{{STATIC_URL}}img/saddog.jpg" alt=""/>
+			<p>Try changing your filters, or call us with what you want and we will let you know when one becomes available!</p>
+		</div>
+		<div class='showmorebutton resultsbox vetbox'>
+			<p>Show More Results</p>
+			<img src='{{STATIC_URL}}img/ajax-loader.gif' alt="Loading. . ."/>
+		</div>
+  	</div>
+  </div>
+  	
+</div>
+{% endblock %}

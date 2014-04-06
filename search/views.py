@@ -56,7 +56,7 @@ def productsearch(request,industryterm,categoryterm,subcategoryterm):
 		more = True if len(itemqs) > resultsPerPage else False
 		zipcode = getDistances(request,itemqs[0:resultsPerPage])
 		dict = {'zipcode':zipcode,'relatedItems':relatedItems,'resultcount':len(itemqs),'more':more,'pricerange':pricerange,'items':itemqs[0:resultsPerPage],'categoryname':categoryname,'subcategoryname':subcategoryname,'ind':industry,'category':category,'subcategory':subcategory}
-		response = render_to_response('search/search.html',dict,context_instance=RequestContext(request))
+		response = render_to_response('search/search2.html',dict,context_instance=RequestContext(request))
 		request.session['zipcode'] = zipcode
 		return response
 	except Exception,e:

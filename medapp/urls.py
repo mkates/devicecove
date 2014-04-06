@@ -107,7 +107,7 @@ urlpatterns = patterns('',
     url(r'^post/deleteimage','listing.views.deleteimage'),  
     url(r'^post/setmainimage','listing.views.setmainimage'), 
     ### Item
-    url(r'^item/(?P<itemid>\d+)/details','listing.views.itemdetails'),
+    url(r'^item/(?P<itemid>\d+)','general.views.product'),
 
     ########## Account App ##################
     #########################################
