@@ -1,9 +1,10 @@
 {% extends 'base/base.html' %}
-{% block headertitle %}<title>VetCove | About</title>{% endblock%}
+{% block headertitle %}VetCove | About{% endblock%}
 {% block css %}
 <style>
 .content {
-	margin-top: 0;
+	margin: 0;
+	background: #fff;
 }
 .company-intro {
 	background: url("{{STATIC_URL}}img/companypic.png") no-repeat;
@@ -16,7 +17,7 @@
 	border-bottom:1px solid #ddd;
 }
 .company-intro h1 {
-	text-shadow: 0 0 2px #fff;
+	text-shadow: 0 0 3px #fff;
 	font-weight: 200;
 	font-size: 50px;
 	padding: 30px 70px 10px 70px;

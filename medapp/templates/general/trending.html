@@ -1,0 +1,339 @@
+{% extends 'base/base.html' %}
+{% block headertitle %}Trending Items on VetCove{% endblock%}
+{% block css %}
+
+<link href="{{STATIC_URL}}css/general/waterfall.css" rel="stylesheet" type="text/css" />
+<style>
+.back-to-top {
+	position: fixed;
+	bottom: 2em;
+	right: 0px;
+	text-decoration: none;
+	color: #fff;
+	background-image:url("{{STATIC_URL}}img/blacktransparency.png");
+	font-size: 12px;
+	border-bottom-left-radius: 3px;
+	border-top-left-radius: 3px;
+	padding: 1em;
+	display: none;
+}
+#trending-header {
+	margin: 10px 20px;
+	padding: 0;
+}
+.back-to-top:hover {	
+	background-color: #333;
+}	
+.waterfall-more {
+
+}
+</style>
+{% endblock%}
+
+
+{% block content %}
+<div id="trending-header" class="row vetbox">
+	<div class="col-md-3">
+		Used Equipment
+	</div>
+	<div class="col-md-3">
+		Used Equipment
+	</div>
+	<div class="col-md-3">
+		Recently Added Items
+	</div>
+	<div class="col-md-3">
+		Trending Items
+	</div>
+</div>
+<div id="waterfall">
+	<div class="waterfall-item-container">
+		<div class="waterfall-item">
+			<img src='{{STATIC_URL}}img/noimage.jpg'>
+			<div class="information">
+				<h5>XT Power Ultrasound with all the goodies</h5>
+				<p>$12,4000<span>$8,400</span></p>
+			</div>
+		</div>
+	</div>
+	<div class="waterfall-item-container">
+		<div class="waterfall-item">
+			<img src='{{STATIC_URL}}img/dog_walk.jpg'>
+			<div class="information">
+				<h5>XT Power Ultrasound with all the goodies</h5>
+				<p>$12,4000<span>$8,400</span></p>
+			</div>
+		</div>
+	</div>
+	<div class="waterfall-item-container">
+		<div class="waterfall-item">
+			<img src='{{STATIC_URL}}img/companypic.png'>
+			<div class="information">
+				<h5>XT Power Ultrasound with all the goodies</h5>
+				<p>$12,4000<span>$8,400</span></p>
+			</div>
+		</div>
+	</div>
+	<div class="waterfall-item-container">
+		<div class="waterfall-item">
+			<img src='{{STATIC_URL}}img/dog_walk.jpg'>
+			<div class="information">
+				<h5>XT Power Ultrasound with all the goodies</h5>
+				<p>$12,4000<span>$8,400</span></p>
+			</div>
+		</div>
+	</div>
+	<div class="waterfall-item-container">
+		<div class="waterfall-item">
+			<img src='{{STATIC_URL}}img/companypic.png'>
+			<div class="information">
+				<h5>XT Power Ultrasound with all the goodies</h5>
+				<p>$12,4000<span>$8,400</span></p>
+			</div>
+		</div>
+	</div>
+	<div class="waterfall-item-container">
+		<div class="waterfall-item">
+			<img src='{{STATIC_URL}}img/dog_walk.jpg'>
+			<div class="information">
+				<h5>XT Power Ultrasound with all the goodies</h5>
+				<p>$12,4000<span>$8,400</span></p>
+			</div>
+		</div>
+	</div>
+	<div class="waterfall-item-container">
+		<div class="waterfall-item">
+			<img src='{{STATIC_URL}}img/companypic.png'>
+			<div class="information">
+				<h5>XT Power Ultrasound with all the goodies</h5>
+				<p>$12,4000<span>$8,400</span></p>
+			</div>
+		</div>
+	</div>
+	<div class="waterfall-item-container">
+		<div class="waterfall-item">
+			<img src='{{STATIC_URL}}img/noimage.jpg'>
+			<div class="information">
+				<h5>XT Power Ultrasound with all the goodies</h5>
+				<p>$12,4000<span>$8,400</span></p>
+			</div>
+		</div>
+	</div>
+	<div class="waterfall-item-container">
+		<div class="waterfall-item">
+			<img src='{{STATIC_URL}}img/dog_walk.jpg'>
+			<div class="information">
+				<h5>XT Power Ultrasound with all the goodies</h5>
+				<p>$12,4000<span>$8,400</span></p>
+			</div>
+		</div>
+	</div>
+	<div class="waterfall-item-container">
+		<div class="waterfall-item">
+			<img src='{{STATIC_URL}}img/companypic.png'>
+			<div class="information">
+				<h5>XT Power Ultrasound with all the goodies</h5>
+				<p>$12,4000<span>$8,400</span></p>
+			</div>
+		</div>
+	</div>
+	<div class="waterfall-item-container">
+		<div class="waterfall-item">
+			<img src='{{STATIC_URL}}img/dog_walk.jpg'>
+			<div class="information">
+				<h5>XT Power Ultrasound with all the goodies</h5>
+				<p>$12,4000<span>$8,400</span></p>
+			</div>
+		</div>
+	</div>
+	<div class="waterfall-item-container">
+		<div class="waterfall-item">
+			<img src='{{STATIC_URL}}img/companypic.png'>
+			<div class="information">
+				<h5>XT Power Ultrasound with all the goodies</h5>
+				<p>$12,4000<span>$8,400</span></p>
+			</div>
+		</div>
+	</div>
+	<div class="waterfall-item-container">
+		<div class="waterfall-item">
+			<img src='{{STATIC_URL}}img/dog_walk.jpg'>
+			<div class="information">
+				<h5>XT Power Ultrasound with all the goodies</h5>
+				<p>$12,4000<span>$8,400</span></p>
+			</div>
+		</div>
+	</div>
+	<div class="waterfall-item-container">
+		<div class="waterfall-item">
+			<img src='{{STATIC_URL}}img/companypic.png'>
+			<div class="information">
+				<h5>XT Power Ultrasound with all the goodies</h5>
+				<p>$12,4000<span>$8,400</span></p>
+			</div>
+		</div>
+	</div>
+	<div class="waterfall-item-container">
+		<div class="waterfall-item">
+			<img src='{{STATIC_URL}}img/noimage.jpg'>
+			<div class="information">
+				<h5>XT Power Ultrasound with all the goodies</h5>
+				<p>$12,4000<span>$8,400</span></p>
+			</div>
+		</div>
+	</div>
+	<div class="waterfall-item-container">
+		<div class="waterfall-item">
+			<img src='{{STATIC_URL}}img/dog_walk.jpg'>
+			<div class="information">
+				<h5>XT Power Ultrasound with all the goodies</h5>
+				<p>$12,4000<span>$8,400</span></p>
+			</div>
+		</div>
+	</div>
+	<div class="waterfall-item-container">
+		<div class="waterfall-item">
+			<img src='{{STATIC_URL}}img/companypic.png'>
+			<div class="information">
+				<h5>XT Power Ultrasound with all the goodies</h5>
+				<p>$12,4000<span>$8,400</span></p>
+			</div>
+		</div>
+	</div>
+	<div class="waterfall-item-container">
+		<div class="waterfall-item">
+			<img src='{{STATIC_URL}}img/dog_walk.jpg'>
+			<div class="information">
+				<h5>XT Power Ultrasound with all the goodies</h5>
+				<p>$12,4000<span>$8,400</span></p>
+			</div>
+		</div>
+	</div>
+	<div class="waterfall-item-container">
+		<div class="waterfall-item">
+			<img src='{{STATIC_URL}}img/companypic.png'>
+			<div class="information">
+				<h5>XT Power Ultrasound with all the goodies</h5>
+				<p>$12,4000<span>$8,400</span></p>
+			</div>
+		</div>
+	</div>
+	<div class="waterfall-item-container">
+		<div class="waterfall-item">
+			<img src='{{STATIC_URL}}img/dog_walk.jpg'>
+			<div class="information">
+				<h5>XT Power Ultrasound with all the goodies</h5>
+				<p>$12,4000<span>$8,400</span></p>
+			</div>
+		</div>
+	</div>
+	<div class="waterfall-item-container">
+		<div class="waterfall-item">
+			<img src='{{STATIC_URL}}img/companypic.png'>
+			<div class="information">
+				<h5>XT Power Ultrasound with all the goodies</h5>
+				<p>$12,4000<span>$8,400</span></p>
+			</div>
+		</div>
+	</div>
+	<div class="waterfall-item-container">
+		<div class="waterfall-item">
+			<img src='{{STATIC_URL}}img/noimage.jpg'>
+			<div class="information">
+				<h5>XT Power Ultrasound with all the goodies</h5>
+				<p>$12,4000<span>$8,400</span></p>
+			</div>
+		</div>
+	</div>
+	<div class="waterfall-item-container">
+		<div class="waterfall-item">
+			<img src='{{STATIC_URL}}img/dog_walk.jpg'>
+			<div class="information">
+				<h5>XT Power Ultrasound with all the goodies</h5>
+				<p>$12,4000<span>$8,400</span></p>
+			</div>
+		</div>
+	</div>
+	<div class="waterfall-item-container">
+		<div class="waterfall-item">
+			<img src='{{STATIC_URL}}img/companypic.png'>
+			<div class="information">
+				<h5>XT Power Ultrasound with all the goodies</h5>
+				<p>$12,4000<span>$8,400</span></p>
+			</div>
+		</div>
+	</div>
+	<div class="waterfall-item-container">
+		<div class="waterfall-item">
+			<img src='{{STATIC_URL}}img/dog_walk.jpg'>
+			<div class="information">
+				<h5>XT Power Ultrasound with all the goodies</h5>
+				<p>$12,4000<span>$8,400</span></p>
+			</div>
+		</div>
+	</div>
+	<div class="waterfall-item-container">
+		<div class="waterfall-item">
+			<img src='{{STATIC_URL}}img/companypic.png'>
+			<div class="information">
+				<h5>XT Power Ultrasound with all the goodies</h5>
+				<p>$12,4000<span>$8,400</span></p>
+			</div>
+		</div>
+	</div>
+	<div class="waterfall-item-container">
+		<div class="waterfall-item">
+			<img src='{{STATIC_URL}}img/dog_walk.jpg'>
+			<div class="information">
+				<h5>XT Power Ultrasound with all the goodies</h5>
+				<p>$12,4000<span>$8,400</span></p>
+			</div>
+		</div>
+	</div>
+	<div class="waterfall-item-container">
+		<div class="waterfall-item">
+			<img src='{{STATIC_URL}}img/companypic.png'>
+			<div class="information">
+				<h5>XT Power Ultrasound with all the goodies</h5>
+				<p>$12,4000<span>$8,400</span></p>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="waterfall-more">
+	Show More
+</div>
+<a href="#" class="back-to-top">Back to Top</a>
+{% endblock %}
+
+{% block js %}
+<script src="{{STATIC_URL}}js/masonry.min.js" type="text/javascript" ></script>
+<script>
+$(document).ready(function() {
+	var $waterfall = $('#waterfall');
+	// initialize
+	$waterfall.masonry({
+	  columnWidth: 320,
+	  itemSelector: '.waterfall-item-container',
+	  isFitWidth: true
+	});
+});
+$(document).ready(function() {
+    var offset = 220;
+    var duration = 500;
+    $(window).scroll(function() {
+        if ($(this).scrollTop() > offset) {
+            $('.back-to-top').fadeIn(duration);
+        } else {
+            $('.back-to-top').fadeOut(duration);
+        }
+    });
+    
+    $('.back-to-top').click(function(event) {
+        event.preventDefault();
+        $('html, body').animate({scrollTop: 0}, duration);
+        return false;
+    })
+});
+</script>
+{% endblock %}

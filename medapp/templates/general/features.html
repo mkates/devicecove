@@ -1,0 +1,251 @@
+{% extends 'base/base.html' %}
+{% block css %}
+<style>
+.content {
+	margin: 0;
+	padding: 0;
+}
+.vetbox {
+	background: #fff;
+}
+.hero {
+	padding-top: 40px;
+	background-image: url("{{STATIC_URL}}img/whitetransparency2.png");
+	border-bottom:1px solid #ddd;
+}
+.hero h1 {
+	margin: 0;
+	padding: 10px 50px;
+	color: #333;
+	text-shadow: 0 0 2px #fff;
+	font-weight: 200;
+	text-align: center;
+}
+.hero .last-header {
+	margin-bottom: 120px;
+}
+.circlerow {
+	padding-bottom: 75px;
+	background: white;
+}
+.circlerow p {
+	padding: 0 50px;
+	text-align: center;
+	color: #333;
+}
+.circlerow h2 {
+	text-align: center;
+	font-weight: 700;
+	font-size: 20px;
+}
+.circle {
+	background:#fff;
+	border:1px solid #ddd;
+	border-bottom:none;
+	width: 150px;
+	height: 75px;
+	border-radius: 75px;
+	border-bottom-left-radius: 0px;
+	border-bottom-right-radius: 0px;
+	margin: 0 auto;
+	margin-top: -75px;
+	text-align:center;
+}
+.circle span {
+	line-height: 100px;
+	font-size: 50px;
+}
+.circle1 {
+	color: #009BE3;
+}
+.circle2 {
+	color: #00BF7F;
+}
+.glyphicon-wrench {
+	color: #00BF7F;
+}
+.circle3 {
+	color: #6B34D9;
+}
+.feature {
+	background: #fff;
+	border-top:1px solid #ddd;
+	padding: 60px 30px;
+}
+.feature img {
+	max-width: 100%;
+}
+.feature1 {
+	background: #f0f0f0;
+}
+.feature2 {
+	background: #fff;
+}
+.feature3 {
+	background: #f0f0f0;
+}
+.feature4 {
+	text-align: center;
+	padding-top: 20px;
+}
+.feature .feature-text {
+	padding: 30px;
+	margin-top: 30px;
+	font-family: proxima-nova,sans-serif;
+}
+.feature .feature-text h3 {
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    line-height: 14px;
+    color: #00A3EF;
+    text-transform: uppercase;
+}
+.feature .feature-text h4 {
+    font-size: 24px;
+    font-weight: 200;
+    letter-spacing: 1px;
+    margin-bottom: 20px;
+}
+.feature .feature-text p {
+	color: #555;
+	font-size: 15px;
+	line-height: 22px;
+}
+.calltoaction-container {
+	padding: 70px 60px 70px 60px;
+	background: #F0F0F0;
+	border-top:1px solid #eee;
+}
+.calltoaction {
+	border:6px solid #aaa;
+	height: 100px;
+	padding: 0px 60px;
+	background: #fff;
+	text-align: center;
+}
+.calltoaction .button {
+	width: 250px;
+	margin-top: 20px;
+	height: 50px;
+	line-height: 50px;
+}
+.calltoaction h4 {
+	font-weight: 200;
+	font-size: 25px;
+	color: #444;
+}
+.calltoaction h5 {
+	font-size: 15px;
+	color: #444;
+}
+.notopborder {
+	border-top: none;
+}
+.nobottomborder {
+	border-bottom: none;
+}
+#community-image {
+	text-align: center;
+}
+#rebate-image {
+	padding-top:60px;
+}
+</style>
+{% endblock %}
+
+
+{% block js %}
+<script>
+$(document).ready(function(){
+});
+</script>
+{% endblock %}
+
+
+{% block content %}
+<div class="hero">
+	<h1>VetCove is the all-in-one solution</h1>
+	<h1>that brings together suppliers so you can </h1>
+	<h1 class="last-header">save <strong>time</strong>, save <strong>money</strong>, and get back to <strong>helping</strong> your patients</h1>
+</div>
+<div class="circlerow row"> 
+	<div class="col-md-4 circle1">
+		<div class="circle">
+			<span class="glyphicon glyphicon-globe"></span> 
+		</div>
+		<h2>Distributors</h2>
+		<p>When distributors nationwide compete for your business, waive goodbye forever to unfair pricing and out-of-stock items</p>
+	</div>
+	<div class="col-md-4 circle2">
+		<div class="circle">
+			<span class="glyphicon glyphicon-flash"></span> 
+		</div>
+		<h2>Manufacturers</h2>
+		<p>For manufacturers with direct-ship capabilities, eliminate markups and effortlessly buy cheaper directly from the source</p>
+	</div>
+	<div class="col-md-4 circle3">
+		<div class="circle">
+			<span class="glyphicon glyphicon-filter"></span> 
+		</div>
+		<h2>Compounders</h2>
+		<p>Obtain cost-effective generics or made-to-order items directly from compounding pharmacies</p>
+	</div>
+</div>
+<div class="feature feature1 row">
+	<div class="col-md-5">
+		<div class="feature-text">
+			<h3>Trustworthy Community</h3>
+			<h4>Discover the Top-Rated Products</h4>
+			<p>Find the best products for your needs using trusted reviews submitted by your veterinary peers. Many manufacturers' representatives are also available on VetCove to answer your questions, helping you make informed decisions.</p>
+		</div>
+	</div>
+	<div class="col-md-7" id="community-image">
+		<img src='{{STATIC_URL}}img/community.png'/>
+	</div>
+</div>
+<div class="feature feature2 row">
+	<div class="col-md-5 col-md-push-7">
+		<div class="feature-text">
+			<h3>Guaranteed Best Prices</h3>
+			<h4>Transparency Means You're in Control</h4>
+			<p>With multiple suppliers competing for your business, you can order from the cheapest source effortlessly.  You can also order via SaveRate to automatically get rock-bottom pricing at rates so good, suppliers can't even advertise them!</p>
+		</div>
+	</div>
+	<div class="col-md-7 col-md-pull-5" id="supplier-image">
+		<img src='{{STATIC_URL}}img/suppliers.png'/>
+	</div>
+</div>
+<div class="feature feature3 row">
+	<div class="col-md-5">
+		<div class="feature-text">
+			<h3>Rewards Made Simple</h3>
+			<h4>Track Rewards and Rebates Effortlessly</h4>
+			<p>Managing specials, rebates, and reward programs is a logistics nightmare.  VetCove simplifies the process to automatically inform you of promotions and specials.  We'll also track reward progress with each order, and will notify you when you've reached a milestone. </p>
+		</div>
+	</div>
+	<div class="col-md-7">
+		<img id="rebate-image" src='{{STATIC_URL}}img/progressbars.png'/>
+	</div>
+</div>
+<div class="feature feature4 row nobottomborder">
+	<div class="col-md-12">
+		<div class="feature-text">
+			<h3>Streamlined Ordering</h3>
+			<h4>Your Single Source for Everything</h4>
+			<p>One portal for all of your supply, pharmaceutical, and equipment orders.  One invoice at the end of the month.  One source to handle payments, returns, and customer service.  One click to order at the best products at the best prices.</p>
+		</div>
+	</div>
+</div>
+<div class="calltoaction-container">
+	<div class="calltoaction row">
+		<div class="col-md-12">
+			<h5>We believe you deserve the same level of brilliance from your business ordering platform as you do from your favorite eCommerce portal. </h5>
+			<h4>Join VetCove and experience the difference.</h4>
+		</div>
+		<!-- <div class="col-md-4">
+			<button class="button button-flat button-large button-rounded button-flat-primary">Join for Free</button>
+		</div> -->
+	</div>
+</div>
+{% endblock %}

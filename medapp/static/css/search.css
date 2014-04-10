@@ -5,8 +5,22 @@
 #noresults {
 	background-image:url("{{STATIC_URL}}img/whitetransparency.png");
 	text-align:center;
+	padding: 20px;
 }
-
+#noresults img {
+	width: 250px;
+}
+.noluck {
+	font-weight: 200;
+	font-size: 23px;
+}
+.filter-row {
+	width: 20%;
+}
+.result-row {
+	padding: 0 15px 0 0;
+	width: 80%;
+}
 /**********************************/
 /******Results Nav Bar ************/
 /**********************************/
@@ -46,7 +60,7 @@
 	margin-top: 5px;
 	padding: 0 15px;
 	font-weight: bold;
-	border-right:1px solid #efefef;
+	border-right:1px solid #ddd;
 	display: inline-block;
 }
 #searchquery {
@@ -71,6 +85,37 @@
 #related-results a span {
 	color: #aaa;
 	font-size: 12px;
+}
+.viewtype {
+	display:inline-block;
+	padding: 0 4px 0 0px;
+	border-right: 1px solid #ddd;
+}
+.viewtype-item {
+	display:inline-block;
+	padding: 6px 7px 6px 7px;
+	margin: 0 5px;
+	font-weight: 200;
+	font-size: 13px;
+	border-radius: 2px;
+	border:1px solid transparent;
+}
+.viewtype-item span {
+	font-size: 16px;
+	vertical-align: top;
+}
+.viewtype-item-2 {
+	border-left: none;
+
+}
+.viewtype-item.active {
+	background: #eee;
+	border:1px solid #ccc;
+}
+.viewtype-item:not(.active):hover{
+	background: #f2f2f2;
+	cursor:pointer;
+	border:1px solid #ddd;
 }
 
 /**********************************/
@@ -610,16 +655,15 @@ outline:none;
 	position:absolute;
 	z-index: 9998;
 	display: none;
-	width: 99%;
-	margin-right: 5px;
-	height: 100%;
+	width: 98.5%;
+	height: 98%;
 	background-image: url("../img/whitetransparency.png");
 }
 #loaderdiv {
 	width: 350px;
 	height: 160px;
-	margin-left: 200px;
-	position: fixed;
+	margin: 0 auto;
+	padding-top: 10px;
 	z-index: 9999;
 	margin-top: 170px;
 	background-image: url("../img/blacktransparency.png");

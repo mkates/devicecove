@@ -3,7 +3,8 @@
 {% block css %}
 <style>
 .content {
-	margin: 30px 20px;
+	margin: 0;
+	padding: 30px 20px;
 }
 .vetbox {
 	background: #fff;
@@ -16,6 +17,7 @@
 	font-size: 18px;
 	color: #333;
 	margin:0px;
+	margin-bottom: 15px;
 }
 /*********************/
 /****** TopBar *******/
@@ -78,10 +80,14 @@
 	padding: 0;
 }
 .product-overview-details {
-	margin-left: 10px;
+	margin-left: 20px;
+}
+.product-overview-details div {
+	margin-bottom: 10px;
 }
 .product-overview-details  h4 {
 	font-size: 14px;
+	margin-top: 0;
 	font-weight: bold;
 	margin-bottom: 2px;
 }
@@ -162,15 +168,105 @@
 	text-align: center;
 	font-weight: 200;
 }
+
+.carousel .related-item-container {
+	width: 33%;
+	display:inline-block;
+	white-space-collapsing:discard;
+}
+.carousel .related-item-container .related-item {
+	margin: 10px;
+	background: #fff;
+	height: 160px;
+	position:relative;
+	border:1px solid #ddd;
+}
+.carousel .related-item .image {
+	width: 100%;
+	max-height: 100%;
+	position:absolute;
+	z-index: 1;
+}
+.carousel .related-item-info {
+	position:absolute;
+	bottom: 0;
+	z-index: 2;
+	width: 100%;
+	background-image: url("{{STATIC_URL}}img/bwgradient.png");
+	background-size: auto 100%;
+	text-align: left;
+}
+.carousel .related-item-info p {
+	padding: 20px 5px 0 5px;
+	margin: 0;
+	font-size: 12px;
+	line-height: 18px;
+	color: white;
+	text-shadow: 0 0 2px #000;
+
+}
+.carousel .related-item-info .secondrow {
+	text-align: left;
+}
+.carousel .related-item-info div div {
+	text-align: left;
+	margin-left: 3px;
+	display:inline-block;
+}
+.carousel .related-item-info div .price {
+	float:right;
+	margin-right: 3px;
+	color: #fff;
+	font-weight: bold;
+	text-shadow: 0 0 1px #000;
+}
+.carousel-inner .item {
+	padding: 20px 30px 10px 30px;
+}
+.carousel-control {
+	width: 30px;
+}
+.carousel-control .glyphicon-chevron-left, .carousel-control .glyphicon-chevron-right {
+	color: #333;
+	top: 43%;
+}
+.carousel-control.left, .carousel-control.right {
+	background-image: none;
+}
+.carousel-control.left span {
+	left: 0;
+}
+.carousel-control.right span {
+	right: 0;
+}
+
 </style>
 {% endblock %}
 
 
 {% block js %}
 <script src="{{STATIC_URL}}js/chart.js" type="text/javascript" ></script>
+<script src="{{STATIC_URL}}js/raty/jquery.raty.js" type="text/javascript" ></script>
 <script>
 $(document).ready(function(){
+	$('#raty').raty({
+	    size      : 24,
+	    starOff   : 'star-off.png',
+	    starOn    : 'star-on.png',
+	    starHalf      : 'star-half.png',
+	    target : '#raty-score',
+	    hints: ['I hate it', "I don't like it", "It's okay", 'I like it', 'I love it'],
+	    path: '{{ STATIC_URL }}js/raty',
+	    click: function(score, evt) {
+		    alert('ID: ' + $(this).attr('id') + "\nscore: " + score + "\nevent: " + evt);
+		  }
+	});
+	//$('#raty').raty('score', 0); 
 	drawChart();
+	$('.carousel').carousel({
+		interval:false,
+	});
+
 });
 var counter;
 $(window).resize(function() {
@@ -211,14 +307,15 @@ function drawChart() {
 
 {% block content %}
 <div class="topbar vetbox">
-	<div><a href='#'>&larr; View all Dog Food</a></div>
-	<div class="breadcrumbs"><a href='#'>Food and Supplies</a> / <a href='#'>Dog Food</a> / <a href='#'>Purina</a></div>
+	<div><a href='#'>&larr; Return to Anti-Inflammatory Search</a></div>
+	<div class="breadcrumbs"><a href='#ratings'>Food and Supplies</a> / <a href='#'>Dog Food</a> / <a href='#'>Purina</a></div>
 </div>
+
 <div class="product-container row">
 	<div class="leftrow subrow col-md-8">
 		<div class="vetbox product-box">
 			<div class="product-header">
-				<p>Zoetis<span id="review-count">0 Reviews | <a href='#'>Write a Review</a> | <a href='#'>Read All Reviews</a></span></p>
+				<p>Zoetis<span id="review-count">0 Reviews | <a href='#'>Write a Review</a></span></p>
 				<h5>Salix Solution 95% Pure (w/ Phenyallinine)<span><div class="topstar star star4"></div></span></h5>
 			</div>
 
@@ -259,20 +356,100 @@ function drawChart() {
 
 		<div class="vetbox product-box">
 			<h3>Veterinarians Also Liked These Items</h3>
-			<p>Cool</p>
+			<div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
+			  <!-- Wrapper for slides -->
+			  <div class="carousel-inner">
+			    <div class="item active">
+			      <div class="related-item-container">
+			      		<a href='#'>
+				      		<div class="related-item">
+				      			<img class="image" src='{{STATIC_URL}}img/noimage.jpg'>
+				      			<div class="related-item-info">
+				      				<p class="title">Apple Flavored Aspirin Powder with all the essential ingredients(1lb)</p>
+				      				<div class="secondrow"><div class="star goldstar star1"></div><div class="price">$14.22</div></div>
+				      			</div>
+				      		</div>
+				      	</a>
+			      </div><div class="related-item-container">
+			      		<a href='#'>
+				      		<div class="related-item">
+				      			<img class="image" src='{{STATIC_URL}}img/noimage.jpg'>
+				      			<div class="related-item-info">
+				      				<p class="title">Apple Flavored Aspirin Powder</p>
+				      				<div class="secondrow"><div class="star goldstar star1"></div><div class="price">$14.22</div></div>
+				      			</div>
+				      		</div>
+				      	</a>
+			      </div><div class="related-item-container">
+			      		<a href='#'>
+				      		<div class="related-item">
+				      			<img class="image" src='{{STATIC_URL}}img/noimage.jpg'>
+				      			<div class="related-item-info">
+				      				<div class="star goldstar star3"></div>
+				      				<p class="title">Salin Solution Branded with albuterol paste</p>
+				      			</div>
+				      		</div>
+				      	</a>
+			      </div>
+			    </div>
+			    <div class="item">
+			      <div class="related-item-container">
+			      		<div class="related-item">
+			      		</div>
+			      </div><div class="related-item-container">
+			      		<div class="related-item">
+			      		</div>
+			      </div><div class="related-item-container">
+			      		<div class="related-item">
+			      		</div>
+			      </div><div class="related-item-container">
+			      		<div class="related-item">
+			      		</div>
+			      </div>
+			    </div>
+			    <div class="item">
+			      <div class="related-item-container">
+			      		<div class="related-item">
+			      		</div>
+			      </div><div class="related-item-container">
+			      		<div class="related-item">
+			      		</div>
+			      </div><div class="related-item-container">
+			      		<div class="related-item">
+			      		</div>
+			      </div><div class="related-item-container">
+			      		<div class="related-item">
+			      		</div>
+			      </div>
+			    </div>
+			  </div>
+
+			  <!-- Controls -->
+			  <a class="left carousel-control" href="#carousel-example-generic" data-slide="prev">
+			    <span class="glyphicon glyphicon-chevron-left"></span>
+			  </a>
+			  <a class="right carousel-control" href="#carousel-example-generic" data-slide="next">
+			    <span class="glyphicon glyphicon-chevron-right"></span>
+			  </a>
+			</div>
+
 		</div>
 		<div class="vetbox product-box">
 			<h3>Questions</h3>
 			<p>Cool</p>
 		</div>
-		<div class="vetbox product-box">
+		<div class="vetbox product-box" id="ratings">
 			<h3>Reviews</h3>
-			<p>Cool</p>
+			<div class="rating">
+				<div id="raty"></div>
+				<div id="raty-score"></div>
+			</div>
 		</div>
 
 	</div>
 	<div class="rightrow subrow col-md-4">
 		<div class="vetbox product-box">
+			<h3>Buying Options</h3>
 			<div class="quantity-box">
 				<span>Quantity:
 					<select>
@@ -316,11 +493,11 @@ function drawChart() {
 				</table>
 			</div>
 		</div>
-		<div class="vetbox product-box sales_chart">
-			<p>Order History</p>
+		<!-- <div class="vetbox product-box sales_chart">
+			<h3>Order History</h3>
 			<div id="sales_chart_parent">
 			</div>
-		</div>
+		</div> -->
 	</div>
 
 </div>

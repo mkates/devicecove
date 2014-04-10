@@ -38,7 +38,7 @@
 	        		<span class="sr-only">Menu</span>
 	        	</a>
 				<div class="header-logo">
-					<a href='/'><img src="{{STATIC_URL}}img/logo_new.png" alt="VetCove"/></a>
+					<a href='/'><img id="main-logo" src="{{STATIC_URL}}img/paw_logo.png" alt="VetCove"/></a>
 				</div>
 			</div>
 			<div class="right-header mainheader-div">
@@ -47,7 +47,7 @@
 					<li><a class="" href="/staff/overview">Staff Portal</a></li>
 					{% endif %}
 
-					<li class="dropdown cart-dropdown">
+					<!-- <li class="dropdown cart-dropdown">
 						<a href="/cart" {% if cart_items %}class="dropdown-toggle" data-toggle="dropdown"{% endif %}>Cart <span class="shoppingcart-image"><img src="{{STATIC_URL}}img/shoppingcart.png"/></span>{% if cart_items %}<span class="notification-count">{{cart_items_count}}</span><b class="caret"></b>{% endif %}</a>
 						<ul class="navigation-options dropdown-menu pull-left">
 						  {% for cart_item in cart_items %}
@@ -74,7 +74,7 @@
 						  <li><a class="viewcart button button-rounded button-primary" href="/cart" alt="">View Cart ({{cart_items_count}}) &rarr;</a>
 						</ul>
 					</li>
-
+ -->
 					{% if user.is_authenticated %}
 					{% if not notifications %}<li class="nav-notifications"><a href="/account/notifications">Notifications<span class="notification-count purple-count">2</span></a></li>{% endif %}
 					<li><a href='/faq'>Seller Portal</a></li>
@@ -90,10 +90,11 @@
 			          </ul>
 			        </li>
 			        {% else %}
-					<li><a href='/sell'>Sell</a></li>
-					<li><a href='/faq'>FAQ</a></li>
-					<li><a href='/login'>Login</a></li>
-					<li><a href='/signup'>Join</a></li>
+					<li><a href='/features'>Veterinarians</a></li>
+					<li><a href='/sell'>Suppliers</a></li>
+					<li><a href='/features'>Today's Deals</a></li>
+					<li><a href='/sell'>FAQ</a></li>
+					<li><a href='/contact'>Contact</a></li>
 			        {% endif %}
 				</ul>
 			</div>
@@ -119,6 +120,8 @@
 						<a class="category-menu-item">Pharmacy<span> &rsaquo; </span></a>
 						<a class="category-menu-item">Surgery<span> &rsaquo; </span></a>
 						<a class="category-menu-item">X-Ray and Imaging<span> &rsaquo; </span></a>
+						<a data-name="dentistry" class="category-menu-item">Dentistry<span> &rsaquo; </span></a>
+						<a data-name="diagnosticexams" class="category-menu-item">Diagnostic Exam<span> &rsaquo; </span></a>
 						<a href='#' class="full-directory">See Full Directory</a>
 					</div>
 					<div class="category-content">
@@ -190,23 +193,55 @@
 			</div>
 			<div class="col-12-10">
 				<a href="/portal/sell" class="subheader-option">
-					<p>Specials</p>
+					<p>Account</p>
+				</a>
+			</div>
+			<div class="col-12-10">
+				<a href="/trending" class="subheader-option">
+					<p>Wishlist</p>
 				</a>
 			</div>
 			<div class="col-12-10">
 				<a href="/portal/sell" class="subheader-option">
-					<p>Trending</p>
-				</a>
-			</div>
-			<div class="col-12-10">
-				<a href="/portal/sell" class="subheader-option">
-					<p>New Items</p>
+					<p>Cart</p>
 				</a>
 			</div>
 			<div class="col-12-10">
 				<a href="/portal/sell" class="subheader-option">
 					<p>Recent Orders</p>
 				</a>
+			</div>
+		</div>
+		<div class="thirdheader row">
+			<div class="col-12-10 main">
+				Dentistry:
+			</div>
+			<div class="col-12-10">
+				<a href='#' class="noleftborder">Alarms</a>
+			</div>
+			<div class="col-12-10">
+				<a href='#'>Absorbents</a>
+			</div>
+			<div class="col-12-10">
+				<a href='#'>Vaccines</a>
+			</div>
+			<div class="col-12-10">
+				<a href='#'>Endoscopy</a>
+			</div>
+			<div class="col-12-10">
+				<a href='#'>Suture Needles</a>
+			</div>
+			<div class="col-12-10">
+				<a href='#'>Staplers</a>
+			</div>
+			<div class="col-12-10">
+				<a href='#'>Ultrasounds</a>
+			</div>
+			<div class="col-12-10">
+				<a href='#'>Syringes</a>
+			</div>
+			<div class="col-12-10">
+				<a href='#'  class="norightborder">Cotton Swabs</a>
 			</div>
 		</div>
 		<div id="sidr">
@@ -242,75 +277,6 @@
 	</header>
 	<div class="content">
 		{% block content %}
-		<div class="vetbox">
-
-		</div>
-		<!-- <div id="waterfall">
-			<div class="waterfall-item-container">
-				<div class="waterfall-item">
-					<img src='{{STATIC_URL}}img/noimage.jpg'>
-					<div class="information">
-						<h5>XT Power Ultrasound with all the goodies</h5>
-						<p>$12,4000<span>$8,400</span></p>
-					</div>
-				</div>
-			</div>
-			<div class="waterfall-item-container">
-				<div class="waterfall-item">
-					<img src='{{STATIC_URL}}img/dog_walk.jpg'>
-					<div class="information">
-						<h5>XT Power Ultrasound with all the goodies</h5>
-						<p>$12,4000<span>$8,400</span></p>
-					</div>
-				</div>
-			</div>
-			<div class="waterfall-item-container">
-				<div class="waterfall-item">
-					<img src='{{STATIC_URL}}img/companypic.png'>
-					<div class="information">
-						<h5>XT Power Ultrasound with all the goodies</h5>
-						<p>$12,4000<span>$8,400</span></p>
-					</div>
-				</div>
-			</div>
-			<div class="waterfall-item-container">
-				<div class="waterfall-item">
-					<img src='{{STATIC_URL}}img/dog_walk.jpg'>
-					<div class="information">
-						<h5>XT Power Ultrasound with all the goodies</h5>
-						<p>$12,4000<span>$8,400</span></p>
-					</div>
-				</div>
-			</div>
-			<div class="waterfall-item-container">
-				<div class="waterfall-item">
-					<img src='{{STATIC_URL}}img/companypic.png'>
-					<div class="information">
-						<h5>XT Power Ultrasound with all the goodies</h5>
-						<p>$12,4000<span>$8,400</span></p>
-					</div>
-				</div>
-			</div>
-			<div class="waterfall-item-container">
-				<div class="waterfall-item">
-					<img src='{{STATIC_URL}}img/dog_walk.jpg'>
-					<div class="information">
-						<h5>XT Power Ultrasound with all the goodies</h5>
-						<p>$12,4000<span>$8,400</span></p>
-					</div>
-				</div>
-			</div>
-			<div class="waterfall-item-container">
-				<div class="waterfall-item">
-					<img src='{{STATIC_URL}}img/companypic.png'>
-					<div class="information">
-						<h5>XT Power Ultrasound with all the goodies</h5>
-						<p>$12,4000<span>$8,400</span></p>
-					</div>
-				</div>
-			</div>
-
-		</div> -->
 		{% endblock %}
 	</div>
 
@@ -395,6 +361,10 @@
 
 
 	<!--Javascript-->
+	<script type="text/javascript">  
+	    $.project = {} // namespace
+	    $.project.STATIC_URL = '{{ STATIC_URL }}';
+	</script>
 	<script src="{{STATIC_URL}}js/jquery-1.10.2.min.js" type="text/javascript" ></script>
     <script src="{{STATIC_URL}}js/bootstrap.min.js" type="text/javascript" ></script>
     <script src="{{STATIC_URL}}js/csrf_alternate.js" type="text/javascript" ></script>

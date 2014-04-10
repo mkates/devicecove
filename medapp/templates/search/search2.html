@@ -24,7 +24,7 @@
 {% block content %}
 <div class='row'>
   <!--Filter Container -->
-  <div class='col-xs-12 col-sm-3 col-md-3'>
+  <div class='col-xs-12 col-sm-3 col-md-3 filter-row'>
 	<div class='filterbox vetbox'>
 
 		<!-- Category Filter -->
@@ -136,7 +136,7 @@
   </div>
   
   <!--Results Container -->
-  <div class='col-xs-12 col-sm-9'>
+  <div class='col-xs-12 col-sm-9 result-row'>
   	<div class='resultsbox vetbox'>
   		<!-- Loading Overlay-->
   		<div id='loadingoverlay'>
@@ -159,6 +159,14 @@
   			</select>
   		</div>
   		<div id='numberofresults'>{{ resultcount }} Results</div>
+       <div class="viewtype">
+        <div class="viewtype-item">
+          <span class="glyphicon glyphicon-th"></span> Grid View
+        </div>
+        <div class="viewtype-item viewtype-item-2 active">
+          <span class="glyphicon glyphicon-th-list"></span> List View
+        </div>
+      </div>
   		<p id="searchquery">Searching for dog food</p>
   		<div class='clear'></div>
   		{% if relatedItems %}
@@ -181,7 +189,7 @@
 		<div id="noresults" class="resultitem vetbox">
 			<p class="noluck">Sorry, we can't find anything that matches your search</p>
 			<img class="noresults" src="{{STATIC_URL}}img/saddog.jpg" alt=""/>
-			<p>Try changing your filters, or call us with what you want and we will let you know when one becomes available!</p>
+			<p>Try changing your filters, or let us know what you want and we will let you know when it is available!</p>
 		</div>
 		<div class='showmorebutton resultsbox vetbox'>
 			<p>Show More Results</p>
