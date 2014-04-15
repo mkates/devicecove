@@ -26,7 +26,7 @@
 {% endblock %}
 </head>
 <body>
-
+{% block body_content %}
 <div class="body-container">
 	<header class="header">
 		<div class="mainheader">
@@ -38,7 +38,7 @@
 	        		<span class="sr-only">Menu</span>
 	        	</a>
 				<div class="header-logo">
-					<a href='/'><img id="main-logo" src="{{STATIC_URL}}img/paw_logo.png" alt="VetCove"/></a>
+					<a href='/'><img id="main-logo" src="{{STATIC_URL}}img/paw_logo_beta.png" alt="VetCove"/></a>
 				</div>
 			</div>
 			<div class="right-header mainheader-div">
@@ -92,20 +92,21 @@
 			        {% else %}
 					<li><a href='/features'>Veterinarians</a></li>
 					<li><a href='/sell'>Suppliers</a></li>
-					<li><a href='/features'>Today's Deals</a></li>
-					<li><a href='/sell'>FAQ</a></li>
-					<li><a href='/contact'>Contact</a></li>
+					<li><a href='/manufacturer'>Manufacturers</a></li>
+					<li><a href='/faq'>FAQ</a></li>
+					<li><a href='/signup'>Sign up</a></li>
+					<li><a href='/login'>Login</a></li>
 			        {% endif %}
 				</ul>
 			</div>
 		</div>
 		<div class="subheader row">
-			<div class="col-12-10 category-div">
-				<a class="categories subheader-option">
+			<div class="col-12-10 custom-dropdown category-div">
+				<a class="categories subheader-option two-rows">
 					<p>Browse by</p>
 					<p>Category <b class="caret"></b></p>
 				</a>
-				<div class="category-box">
+				<div class="category-box dropdown-box">
 					<div class="category-menu">
 						<a data-name="dentistry" class="category-menu-item">Dentistry<span> &rsaquo; </span></a>
 						<a data-name="diagnosticexams" class="category-menu-item">Diagnostic Exam<span> &rsaquo; </span></a>
@@ -122,7 +123,7 @@
 						<a class="category-menu-item">X-Ray and Imaging<span> &rsaquo; </span></a>
 						<a data-name="dentistry" class="category-menu-item">Dentistry<span> &rsaquo; </span></a>
 						<a data-name="diagnosticexams" class="category-menu-item">Diagnostic Exam<span> &rsaquo; </span></a>
-						<a href='#' class="full-directory">See Full Directory</a>
+						<a href='/categories' class="full-directory">See Full Directory</a>
 					</div>
 					<div class="category-content">
 						<div id="menu-dentistry" class="category-info">
@@ -191,23 +192,93 @@
 					</div>
 				</div>
 			</div>
-			<div class="col-12-10">
-				<a href="/portal/sell" class="subheader-option">
-					<p>Account</p>
+			<div class="col-12-10 custom-dropdown">
+				<a class="subheader-option two-rows account">
+					<p>Hello, Joe</p>
+					<p>Your Account <b class="caret"></b></p>
 				</a>
+				<div class="dropdown-box account-dropdown">
+					<a class="" href="#">Your Account</a>
+					<a class="" href="#">Your Subscriptions</a>
+					<a class="" href="#">Your Orders</a>
+					<a class="" href="#">Your Wishlist</a>
+					<a class="" href="#">Your Rebate Programs</a>
+					<div class="divider"></div>
+					<a class="" href="#">Your Questions</a>
+					<a class="" href="#">Your Reviews</a>
+					<div class="divider"></div>
+					<a class="" href="#">Not Joe? Sign Out</a>
+				</div>
+			</div>
+			<div class="col-12-10 custom-dropdown">
+				<a class="subheader-option">
+					<p>Wishlist<span class="notification-count red-count">2</span><b class="caret"></b></p>
+				</a>
+				<div class="dropdown-box product-dropdown">
+					<div class="product-item">
+						<div class="product-item-image product-item-div">
+							<img src='{{STATIC_URL}}/img/noimage_75x100.jpg'>
+						</div>
+						<div class="product-item-info product-item-div">
+							<p class="product-item-name">Salix Solution 5% Injectable with salin compund and </p>
+							<p class="product-item-details">Quantity: 2</p>
+							<p class="product-item-details">$12.23 ( at $12.13 each)</p>
+						</div>
+					</div>
+					<div class="product-item">
+						<div class="product-item-image product-item-div">
+							<img src='{{STATIC_URL}}/img/noimage_75x100.jpg'>
+						</div>
+						<div class="product-item-info product-item-div">
+							<p class="product-item-name">Salix  </p>
+							<p class="product-item-details">$12.23</p>
+						</div>
+					</div>
+					<div class="cart-button">
+						<a href="/cart" class="button button-rounded button-action">View Wishlist (2) <span class="glyphicon glyphicon-arrow-right"></span></a>
+					</div>
+				</div>
+			</div>
+			<div class="col-12-10 custom-dropdown">
+				<a class="subheader-option">
+					<p>Cart<span class="glyphicon glyphicon-shopping-cart"></span><span class="notification-count green-count">2</span><b class="caret"></b></p>
+				</a>
+				<div class="dropdown-box product-dropdown">
+					<div class="product-item">
+						<div class="product-item-image product-item-div">
+							<img src='{{STATIC_URL}}/img/noimage_75x100.jpg'>
+						</div>
+						<div class="product-item-info product-item-div">
+							<p class="product-item-name">Salix Solution 5% Injectable with salin compund and </p>
+							<p class="product-item-details">Quantity: 2</p>
+							<p class="product-item-details">$12.23 ( at $12.13 each)</p>
+						</div>
+					</div>
+					<div class="product-item">
+						<div class="product-item-image product-item-div">
+							<img src='{{STATIC_URL}}/img/noimage_75x100.jpg'>
+						</div>
+						<div class="product-item-info product-item-div">
+							<p class="product-item-name">Salix  </p>
+							<p class="product-item-details">$12.23</p>
+						</div>
+					</div>
+					<div class="product-item">
+						<div class="product-item-image product-item-div">
+							<img src='{{STATIC_URL}}/img/noimage_75x100.jpg'>
+						</div>
+						<div class="product-item-info product-item-div">
+							<p class="product-item-name">Salix Solution 5% Injectable with salin compund and </p>
+							<p class="product-item-details">$12.23 (4x at $12.13 each)</p>
+						</div>
+					</div>
+					<div class="cart-button">
+						<a href="/cart" class="button button-rounded button-primary">View Cart (2) <span class="glyphicon glyphicon-arrow-right"></span></a>
+					</div>
+				</div>
 			</div>
 			<div class="col-12-10">
-				<a href="/trending" class="subheader-option">
-					<p>Wishlist</p>
-				</a>
-			</div>
-			<div class="col-12-10">
-				<a href="/portal/sell" class="subheader-option">
-					<p>Cart</p>
-				</a>
-			</div>
-			<div class="col-12-10">
-				<a href="/portal/sell" class="subheader-option">
+				<a class="subheader-option">
 					<p>Recent Orders</p>
 				</a>
 			</div>
@@ -297,11 +368,9 @@
 		<div class="col-md-2 col-sm-4 col-xs-6">
 			<h3>Selling</h3>
 			<ul>
-				<li><a href='/sell'>Sell on VetCove</a></li>
-				<li><a href='#'>Fees and Pricing</a></li>
-				<li><a href='#'>Selling History</a></li>
-				<li><a href='#'>Analytics</a></li>
-				<li><a href='#'>Questions to Answer</a></li>
+				<li><a href='/sell'>Suppliers</a></li>
+				<li><a href='/manufacturer'>Manufacturers</a></li>
+				<li><a href='/pricing'>Fees and Pricing</a></li>
 			</ul>
 		</div>
 		<div class="visible-xs clear"></div>
@@ -353,6 +422,8 @@
 		<p> Copyright 2014. All rights reserved</p>
 	</div>
 </footer>
+<a href="#" class="back-to-top">Back to Top</a>
+
 </div>
 
 
@@ -362,8 +433,9 @@
 
 	<!--Javascript-->
 	<script type="text/javascript">  
-	    $.project = {} // namespace
-	    $.project.STATIC_URL = '{{ STATIC_URL }}';
+	    // $.project = {} // namespace
+	    // $.project.STATIC_URL = '{{ STATIC_URL }}';
+	    var noImageURL = '{{STATIC_URL}}img/noimage.jpg';
 	</script>
 	<script src="{{STATIC_URL}}js/jquery-1.10.2.min.js" type="text/javascript" ></script>
     <script src="{{STATIC_URL}}js/bootstrap.min.js" type="text/javascript" ></script>
@@ -375,52 +447,17 @@
     // <script src="{{STATIC_URL}}js/jquery.knob.js" type="text/javascript" ></script> -->
 
      <script>
-    	var noImageURL = '{{STATIC_URL}}img/noimage.jpg';
-
-    	// //Knobs  
-    	// $(".percent_dial").knob({
-	    //   'draw' : function () { 
-	    //     $(this.i).val(this.cv + '%')
-	    //   },
-	    // });
-	    // $(".time_dial").knob({
-	    //   'draw' : function () { 
-	    //     $(this.i).val(this.cv + 'hrs')
-	    //   },
-	    // });
-	    // $(".dial").knob({});
-	     //Charts
-	     var data = {
-			labels : ["January","February","March","April","May","June","July"],
-			datasets : [
-				{
-					fillColor : "rgba(151,187,205,0.5)",
-					strokeColor : "rgba(151,187,205,1)",
-					pointColor : "rgba(151,187,205,1)",
-					pointStrokeColor : "#fff",
-					data : [28,48,40,19,96,27,100]
-				},
-				{
-					fillColor : "rgba(211,127,125,0.5)",
-					strokeColor : "rgba(151,187,205,1)",
-					pointColor : "rgba(151,187,205,1)",
-					pointStrokeColor : "#fff",
-					data : [39,14,82,109,43,12,36]
-				}
-			]
-		}
 		$(document).ready(function() {
-	   //   	var ctx = $("#sales_chart").get(0).getContext("2d");
-		 	// var myNewChart = new Chart(ctx).Line(data,{});
-		 	// var ctx2 = $("#revenue_chart").get(0).getContext("2d");
-		 	// var revenueChart = new Chart(ctx2).Line(data,{});
 
+			//Side Menu
 			$('#simple-menu').sidr();
 			$(window).resize(function(handler) {
 				if ($(this).width() > 767) {
 					$.sidr('close', 'sidr');
 				}
 			});
+
+			//Mobile Search Bar Functionality
 			$("#mobile-searchbar input").focus(function() {
 				$("#sidr").css('width','100%');
 				$(".sidr-menu").css('display','none');
@@ -434,22 +471,33 @@
 				$("#sidr-searchresults").css('display','none');
 				$("#mobile-searchbar input").val('');
 			})
-			$(".subheader .categories").click(function(){
-				if ($(".header .category-box").is(":visible")) {
-					console.log("here");
-					$(".header .category-box").css('display','none')
-					$(".header .categories").removeClass("active");
+
+			//*************************************************
+			//************** Categories ***********************
+			//*************************************************
+
+			$(".custom-dropdown .subheader-option").click(function(){
+				box = $(this).parent().children(".dropdown-box");
+				link = $(this);
+				if ($(box).is(":visible")) {
+					$(box).css('display','none');
+					$(link).removeClass("active");
 				} else {
-					$(".header .category-box").css('display','block')
-					$(".header .categories").addClass("active");
+					$(box).css('display','block');
+					$(link).addClass("active");
 				}
 			});
-			$(".subheader .category-div").hover(function(){
+
+
+			$(".custom-dropdown").hover(function(){
 			},function() {
-				$(".header .category-box").css('display','none')
-				$(".header .categories").removeClass("active");
+				box = $(this).children(".dropdown-box");
+				link = $(this).children(".subheader-option");
+				$(box).css('display','none');
+				$(link).removeClass("active");
 				$(".subheader .category-box .category-menu-item").removeClass('active');
 			});
+
 
 			//Displays the subcategories on the category select
 			$(".subheader .category-box .category-menu-item").click(function(){
@@ -457,24 +505,36 @@
 				var data_name = $(this).attr("data-name");
 				$(".category-info").css('display','none');
 				$("#menu-"+data_name).css('display','block');
+				
 				// Add active to category-menu-item
 				$(".subheader .category-box .category-menu-item").removeClass('active');
 				$(this).addClass("active");
 			});
-
-
-
-
-			// var $waterfall = $('#waterfall');
-			// // initialize
-			// $waterfall.masonry({
-			//   columnWidth: 320,
-			//   itemSelector: '.waterfall-item-container',
-			//   isFitWidth: true
-			// });
 		 });
-    </script>
 
+
+	//*************************************************
+	//********** Scroll to Top ************************
+	//*************************************************
+	$(document).ready(function() {
+	    var offset = 220;
+	    var duration = 500;
+	    $(window).scroll(function() {
+	        if ($(this).scrollTop() > offset) {
+	            $('.back-to-top').fadeIn(duration);
+	        } else {
+	            $('.back-to-top').fadeOut(duration);
+	        }
+	    });
+	    
+	    $('.back-to-top').click(function(event) {
+	        event.preventDefault();
+	        $('html, body').animate({scrollTop: 0}, duration);
+	        return false;
+	    })
+	});
+</script>
+{% endblock %}
 {% block js %}
 {% endblock %}
    

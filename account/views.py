@@ -28,7 +28,14 @@ def loginview(request):
 	action = request.GET.get('action',None)
 	if request.user.is_authenticated():
 		return HttpResponseRedirect("/account/profile")
-	return render_to_response('account/login.html',{'next':next,'action':action},context_instance=RequestContext(request))
+	return render_to_response('account/signin.html',{'next':next,'action':action,'login':True},context_instance=RequestContext(request))
+
+def signupview(request):
+	next = request.GET.get('next',None)
+	action = request.GET.get('action',None)
+	if request.user.is_authenticated():
+		return HttpResponseRedirect("/account/profile")
+	return render_to_response('account/signin.html',{'next':next,'action':action,'signup':True},context_instance=RequestContext(request))
 
 def lgnrequest(request):
 	username = request.POST['email']

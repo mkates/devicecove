@@ -9,7 +9,7 @@
 }
 .sidenav {
 	padding: 5px 0 0 0;
-	background: #00a3c3;
+	background: #5ecadf;
 	text-align: center;
 }
 
@@ -26,7 +26,7 @@
 	position:relative;
 }
 .sidenav-element:not(.active):hover {
-	color: #ddd;
+	color: #333;
 }
 .sidenav-element:hover {
 	text-decoration: none;
@@ -58,7 +58,7 @@
 	margin: 3px 3px 0px 3px;
 	border-top-left-radius: 3px;
 	border-top-right-radius: 3px;
-	z-index: 999;
+	z-index: 1;
 	position: relative;
 }
 .sidenav-element.active {

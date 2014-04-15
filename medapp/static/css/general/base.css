@@ -195,26 +195,27 @@ padding: 0;
 }
 
 /*Notification Styling */
-.header .mainheader .right-header .notification-count {
+.notification-count {
 	background: none repeat scroll 0 0 #00A0C9;
 	border-radius: 8px;
-	margin-left: -10px;
-	margin-top: -5px;
-	box-shadow: 0 0 2px #FFFFFF;
+	border:1px solid #aaa;
 	color: #FFFFFF;
 	display: inline-block;
 	line-height: 15px;
 	font-size: 10px;
 	font-weight: 800;
-	height: 16px;
+	height: 17px;
 	text-align: center;
 	vertical-align: top;
-	width: 16px;
-	padding: 0;
+	min-width: 17px;
+	padding: 0 3px;
+	margin-top: 5px;
 }
-.header .mainheader .right-header .purple-count {
-	background: #801FEF;
-	margin-left: 0px;
+.notification-count.red-count {
+	background: #c14970;
+}
+.notification-count.green-count {
+	background: #56a251;
 }
 
 /*************/
@@ -260,8 +261,8 @@ padding: 0;
 
 /*General Subheader */
 .header .subheader {
-	margin: 0 0px;
-	padding: 5px 5px 0px 5px;
+	margin: 0px;
+	padding: 5px 5px 0 5px;
 	text-align: center;
 	border-top:1px solid #ddd;
 	background-image: -moz-linear-gradient(top, #777777 0%, #444444 100%);
@@ -271,24 +272,14 @@ padding: 0;
 	color: #eee;
 	border:1px solid transparent;
 	border-radius: 2px;
-	line-height: 40px;
+	line-height: 42px;
 	height: 42px;
-	margin: 0 3px;
+	margin: 0 1px 5px 1px;
+	overflow: hidden;
 }
-.header .subheader .subheader-option:not(.categories) {
-	transition: background .4s, color .2s;
-}
-.header .subheader .subheader-option:not(.categories) {
-	margin-bottom: 5px;
-}
-.header .subheader .subheader-option.active {
-	color: #333;
-	background: #F1F5F7;
-	border:1px solid #ddd;
-}
-.header .subheader .subheader-option:hover {
-	text-decoration: none;
+.header .subheader div .subheader-option:hover {
 	cursor:pointer;
+	text-decoration: none;
 }
 .header .subheader div .subheader-option:not(.active):not(.categories):hover {
 	background: #777;
@@ -302,50 +293,136 @@ padding: 0;
 	letter-spacing: .8px;
 }
 
+
+/* General Dropdown Functionality */
+.custom-dropdown {
+	position: relative;
+}
+.custom-dropdown .dropdown-box {
+	padding: 3px 0;
+	position:absolute;
+	background: #fff;
+	z-index: 99;
+	width: auto;
+	min-width: 200px;
+	max-width: 900px;
+	display:none;
+	right: 0;
+	border:1px solid #bbb;
+	border-top: none;
+}
+.header .subheader .custom-dropdown .subheader-option.active {
+	background: white;
+	height: 47px;
+	color: #333;
+	margin-bottom: 0px;
+	border-bottom-left-radius: 0px;
+	border-bottom-right-radius: 0px;
+	border-top-left-radius: 2px;
+	border-top-right-radius: 2px;
+	text-decoration:none;
+	border:none;
+}
+
+/*Dropdowns */
+.custom-dropdown .dropdown-box .divider {
+	border-top:1px solid #ddd;
+	margin-top: 3px;
+	margin-bottom: 3px;
+}
+.custom-dropdown .dropdown-box a:not(.button) {
+	display:block;
+	font-size: 13px;
+	color: #333;
+	padding: 5px 10px;
+	text-align: left;
+}
+.custom-dropdown .dropdown-box a:not(.button):hover {
+	background: #eee;
+	color: #000;
+}
+.custom-dropdown .dropdown-box .button {
+	display:block;
+	margin: 7px;
+}
+
+/*Cart and Wishlist Dropdown */
+.custom-dropdown .product-dropdown {
+	width: 310px;
+	text-align: left;
+}
+.product-item {
+	padding: 5px;
+}
+.product-item:hover {
+	background: #eee;
+}
+.product-item-image {
+	width: 80px;
+}
+.product-item-image img {
+	max-width: 100%;
+}
+.product-item-name {
+	font-weight: 200;
+	font-size: 13px;
+	color: #333;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	padding-left: 5px;
+	margin: 0 0 3px 0;
+}
+.product-item-details {
+	margin: 0;
+	color: #666;
+	padding-left: 5px;
+	font-weight: 200;
+	font-size: 11px;
+}
+.product-item-info {
+	width: 210px;
+}
+.product-item-div {
+	display:inline-block;
+	vertical-align: top;
+}
+
 /*Categories div */
 .header .subheader .category-div {
 	margin-bottom: 0px;
 }
-.header .subheader .categories {
-	height: 42px;
+.header .subheader .subheader-option.two-rows {
 	padding-top: 2px;
 	line-height: 17px;
 	margin-bottom: 5px;
-	border:1px solid #666;
-	background-image: -moz-linear-gradient(top, #555555 0%, #222222 100%);
+	padding-left: 5px;
+	padding-right: 5px;
 }
 .header .subheader .categories {
-	border-bottom-left-radius: 0px;
-	border-bottom-right-radius: 0px;
+	border-radius: 0px;
+	border:1px solid #666;
+	background: #444;
+	background-image: -moz-linear-gradient(top, #555555 0%, #222222 100%);
 }
-.header .subheader div .categories.active {
-	background: #f6f6f6;
-	height: 47px;
-	margin-bottom: 0px;
-	color: #333;
-	border:1px solid transparent;
+.header .subheader .subheader-option.account {
+	text-align: left;
+	padding-left: 13px;
 }
-
-.header .subheader .categories .caret {
+.header .subheader-option .caret {
 	border-color: #ffffff rgba(0, 0, 0, 0) -moz-use-text-color;
 }
-.header .subheader .categories.active .caret {
+.header .subheader-option.active .caret {
 	border-color: #333 rgba(0, 0, 0, 0) -moz-use-text-color;
 }
 
 /*Categories */
 
-.category-box {
-	position:absolute;
-	z-index: 99;
-	background: #f6f6f6;
-	width: auto;
-	max-width: 900px;
-	display:none;
-	left: 7px;
+
+.custom-dropdown .category-box {
+	left: 0px;
 	right: 7px;
-	border:1px solid #bbb;
-	border-top: none;
+	width: 700px;
 }
 .category-box .category-menu {
 	width: 20%;
@@ -443,10 +520,11 @@ padding: 0;
 	padding: 3px 0;
 	font-size:12px;
 	color: #333;
+	text-shadow: 0 0 1px #fff;
 	font-weight: 200;
 	display:block;
 	font-weight: 200;
-	letter-spacing: .5px;
+	letter-spacing: 1px;
 }
 .thirdheader a:hover {
 	color: #000;
@@ -655,6 +733,9 @@ padding: 0;
 	font-weight: 200;
 	letter-spacing: .5px;
 }
+.footer .row ul li a:hover {
+	text-decoration: underline
+}
 .footer .copyright-row {
 	color: #ddd;
 	text-align: center;
@@ -760,3 +841,24 @@ padding: 0;
 .star1 {
 	background-position: -68px 0;
 }
+
+/**********************************/
+/******  Back to Top **************/
+/**********************************/
+.back-to-top {
+	position: fixed;
+	bottom: 2em;
+	right: 0px;
+	text-decoration: none;
+	color: #fff;
+	background-image:url("../../img/blacktransparency.png");
+	font-size: 12px;
+	border-bottom-left-radius: 3px;
+	border-top-left-radius: 3px;
+	padding: 1em;
+	display: none;
+}
+
+.back-to-top:hover {	
+	background-color: #333;
+}	

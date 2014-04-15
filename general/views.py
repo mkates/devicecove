@@ -7,10 +7,10 @@ from django.contrib.auth.decorators import login_required
 from django.utils.html import escape
 from django.shortcuts import render
 from django.conf import settings
-import json, math, difflib, locale, time
+import json, math, difflib, locale, time, string
 from django.core.cache import cache
 from general.models import *
-from listing.models import Item, Category
+from listing.models import Item, Category, SubCategory
 from general.forms import *
 from helper import commission as commission
 
@@ -19,6 +19,9 @@ def product(request,itemid):
 
 def features(request):
 	return render_to_response('general/features.html',{},context_instance=RequestContext(request))
+
+def manufacturer(request):
+	return render_to_response('general/manufacturer.html',{},context_instance=RequestContext(request))
 
 def trending(request):
 	return render_to_response('general/trending.html',{},context_instance=RequestContext(request))
@@ -41,19 +44,23 @@ def tos(request):
 def giveback(request):
 	return render_to_response('general/giveback.html',{'giveback':True},context_instance=RequestContext(request))
 
-def commissionpage(request):
-	return render_to_response('general/commission.html',{'commission':True},context_instance=RequestContext(request))
+def pricing(request):
+	return render_to_response('general/pricing.html',{'pricing':True},context_instance=RequestContext(request))
 
 def privacypolicy(request):
 	return render_to_response('general/privacypolicy.html',{'privacypolicy':True},context_instance=RequestContext(request))
 
-def equipmentcategories(request):
-	categories = Category.objects.all().filter(type='equipment').order_by('name')
-	return render_to_response('general/equipmentcategories.html',{'categories':categories},context_instance=RequestContext(request))
-
-def pharmacategories(request):
-	categories = Category.objects.all().filter(type='pharma').order_by('name')
-	return render_to_response('general/pharmacategories.html',{'categories':categories},context_instance=RequestContext(request))
+def categories(request):
+	categories = Category.objects.all().prefetch_related('subcategory_set')
+	for cat in categories:
+		subcategories = cat.subcategory_set.all().order_by('displayname')
+		length = math.ceil(len(subcategories)/3.0)
+		cat_array = [[],[],[]]
+		for i in range(len(subcategories)):
+			row = int(math.floor((i)/length))
+			cat_array[row].append(subcategories[i])
+		cat.subcat = cat_array
+	return render_to_response('general/categories.html',{'categories':categories},context_instance=RequestContext(request))
 
 def faq(request):
 	return render_to_response('general/faqs.html',{'faq':True},context_instance=RequestContext(request))

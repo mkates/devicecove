@@ -25,7 +25,7 @@ class Category(models.Model):
 	type = models.CharField(max_length=30,choices=CATEGORY_TYPE, db_index=True,default='equipment')
 	displayname = models.CharField(max_length=50)
 	industry = models.ForeignKey(Industry)
-	totalunits = models.IntegerField(default=0) # Script updates this
+	totalunits = models.IntegerField(default=0) #Script updates this
 	
 	def __unicode__(self):
 		return self.displayname
