@@ -1,65 +1,70 @@
-{% extends 'base.html' %}
-
-{% block headercss %}
+{% extends 'base/base.html' %}
+{% block main_js %}{% endblock %}
+{% block main_css %}{% endblock %}
+{% block css %}
 <style>
-	.header {
-		text-align: center;
-		margin: 0 auto;
-		margin-top: 40px;
-		padding-bottom: 20px;
-		max-width: 1000px;
-		border-bottom:1px solid #ddd;
-	}
-	.header img {
-		max-width: 200px;
-	}
-	.content {
-		max-width: 1000px;
-		margin: 0 auto;
-		padding: 20px 0;
-		text-align: center;
-		border-top: 1px solid #fff;
-	}
-	.content h4 {
-		color: #555;
-		text-align: center;
-		line-height: 26px;
-	}
-	.browser-table {
-		margin: 30px auto;
-	}
-	.browser-table td div {
-		width: 100px;
-		background: url('{{STATIC_URL}}img/browsers.png');
-		height: 100px;
-		display: block;
-		margin: 0 30px;
-	}
-	.browser-table p{
-		margin: 0;
-		color: #333;
-		font-size: 14px;
-		font-weight: 400;
-	}
-	.browser-table td .safari {
-		background-position: 100px 0;
-	}
-	.browser-table td .firefox {
-		background-position: 400px 0;
-	}
-	.browser-table .safari {
-		background-position: 0 300px;
-	}
-	.browser-table .internetexplorer {
-		background-position: 300px 0;
-	}
+body {
+	margin: 0;
+	padding: 0;
+	background: #eee;
+	background-attachment: fixed;
+	background-image: -ms-linear-gradient(left, #E8F4FC 0%, #F5F2FF 50%, #F2FAF0 100%);
+	background-image: -moz-linear-gradient(left, #E8F4FC 0%, #F5F2FF 50%, #F2FAF0 100%);
+	background-image: -o-linear-gradient(left, #E8F4FC 0%, #F5F2FF 50%, #F2FAF0 100%);
+	background-image: -webkit-gradient(linear, left top, right top, color-stop(0, #E8F4FC), color-stop(0.5, #F5F2FF), color-stop(1, #F2FAF0));
+	background-image: -webkit-linear-gradient(left, #E8F4FC 0%, #F5F2FF 50%, #F2FAF0 100%);
+	background-image: linear-gradient(to right, #E8F4FC 0%, #F5F2FF 50%, #F2FAF0 100%);
+}
+.header {
+	margin-top: 50px;
+	text-align: center;
+}
+.header img {
+	max-width: 300px;
+}
+.content {
+	text-align: center;
+}
+.content h4 {
+	color: #555;
+	text-align: center;
+	line-height: 26px;
+}
+.browser-table {
+	margin: 30px auto;
+}
+.browser-table td div {
+	width: 100px;
+	background: url('{{STATIC_URL}}img/browsers.png');
+	height: 100px;
+	display: block;
+	margin: 0 30px;
+}
+.browser-table p{
+	margin: 0;
+	color: #333;
+	font-size: 14px;
+	font-weight: 400;
+}
+.browser-table td .safari {
+	background-position: 100px 0;
+}
+.browser-table td .firefox {
+	background-position: 400px 0;
+}
+.browser-table .safari {
+	background-position: 0 300px;
+}
+.browser-table .internetexplorer {
+	background-position: 300px 0;
+}
 
 </style>
 {% endblock %}
 
-{% block header %}
+{% block body_content %}
 <div class="header">
-	<img src="{{STATIC_URL}}img/logo_new.png" alt="VetCove"/></a>
+	<a href='/'><img src="{{STATIC_URL}}img/paw_logo.png" alt='VetCove'></a>
 </div>
 <div class="content">
 	<h4> Welcome to VetCove! Unfortunately, we do not support Interent Explorer 8 and below. For security and user experience reasons, please open VetCove in a supported browser (we support the latest versions of Chrome, Firefox, Internet Explorer 10 or higher, and Safari), or upgrade your browser to one of the recommended browsers below.</h4>
@@ -93,7 +98,4 @@
 	</table>
 	<p>We apologize for any inconvenience this may have cause. If you would like to reach us directly, please shoot us an email at &#105;&#110;&#102;&#111;&#064;&#118;&#101;&#116;&#099;&#111;&#118;&#101;&#046;&#099;&#111;&#109;</p>
 </div>
-{% endblock %}
-
-{% block footer %}
 {% endblock %}

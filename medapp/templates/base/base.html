@@ -1,29 +1,26 @@
 {% load dollars %}
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
 <title>{% block headertitle %}VetCove | Deals on used veterinary medical equipment and pharmaceuticals{% endblock%}</title>
 
 <!-- Meta Information -->
-<meta name="description" content="VetCove is the top equipment marketplace for veterinarians to buy and sell new, pre-owned, and refurbished equipment and supplies and save on discounted pharmacueticals, vaccines, and drugs">
 <meta http-equiv="content-type" content="text/html;charset=UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta property="og:title" content="VetCove" />
-<meta property="og:description" content="Deals on used veterinary medical equipment and pharmaceuticals" />
+<meta property="og:description" content="Deals on used veterinary pharmaceuticals, vaccines, compounders, and medical equipment" />
 <meta property="og:image" content="{{STATIC_URL}}img/dog_walk.png" />
 
 <!--CSS-->
 <link rel="icon" type="image/png" href="{{STATIC_URL}}img/favicon32.png">
-<link href="{{STATIC_URL}}css/bootstrap.min.css" rel="stylesheet" type="text/css" />
-<link href="{{STATIC_URL}}css/buttons.css" rel="stylesheet" type="text/css" />
+<link href="{{STATIC_URL}}css/plugins/bootstrap.min.css" rel="stylesheet" type="text/css" />
+{% block main_css %}
+<link href="{{STATIC_URL}}css/plugins/buttons.css" rel="stylesheet" type="text/css" />
 <link href="{{STATIC_URL}}css/general/base.css" rel="stylesheet" type="text/css" />
-<link href="{{STATIC_URL}}css/jquery.sidr.dark.css" rel="stylesheet" type="text/css" />
-
-{% block css %}
-
+<link href="{{STATIC_URL}}css/plugins/jquery.sidr.dark.css" rel="stylesheet" type="text/css" />
 {% endblock %}
+{% block css %}{% endblock %}
 </head>
 <body>
 {% block body_content %}
@@ -38,7 +35,7 @@
 	        		<span class="sr-only">Menu</span>
 	        	</a>
 				<div class="header-logo">
-					<a href='/'><img id="main-logo" src="{{STATIC_URL}}img/paw_logo_beta.png" alt="VetCove"/></a>
+					<a href='/'><img id="main-logo" src="{{STATIC_URL}}img/logo/paw_logo_beta.png" alt="VetCove"/></a>
 				</div>
 			</div>
 			<div class="right-header mainheader-div">
@@ -47,59 +44,18 @@
 					<li><a class="" href="/staff/overview">Staff Portal</a></li>
 					{% endif %}
 
-					<!-- <li class="dropdown cart-dropdown">
-						<a href="/cart" {% if cart_items %}class="dropdown-toggle" data-toggle="dropdown"{% endif %}>Cart <span class="shoppingcart-image"><img src="{{STATIC_URL}}img/shoppingcart.png"/></span>{% if cart_items %}<span class="notification-count">{{cart_items_count}}</span><b class="caret"></b>{% endif %}</a>
-						<ul class="navigation-options dropdown-menu pull-left">
-						  {% for cart_item in cart_items %}
-						  <li>
-						  	<a class="cart-dropdown-item" href="/item/{{cart_item.item.id}}/details">
-						  		<div class="row">
-						  			<div class="cart-image-container col-md-2 col-sm-2 col-xs-2">
-						  				<img class="cart-image" src="{% if cart_item.item.mainimage %}{{cart_item.item.mainimage.photo.url}}{% else %}{{STATIC_URL}}img/noimage.jpg{% endif %}" alt="No Image"/>
-						  			</div>
-						  			<div class="cart-information col-md-10 col-sm-10 col-xs-10">
-						  				<p>{{cart_item.item.name}}</p>
-						  				<p class="cart-price">
-						  					{% if cart_item.item.liststatus != 'active' %}
-						  						<span>Item no longer available</span>
-						  					{% else %}
-						  						{{cart_item.item.price|dollars}} {% if cart_item.quantity > 1 %}(Quantity: {{cart_item.quantity}}){% endif %}
-						  					{% endif %}
-						  				</p>
-						  			</div>
-						  		</div>
-						  	</a>
-						  </li>
-						  {% endfor %}
-						  <li><a class="viewcart button button-rounded button-primary" href="/cart" alt="">View Cart ({{cart_items_count}}) &rarr;</a>
-						</ul>
-					</li>
- -->
+					<li><a href='/login'>Today's Deal</a></li>
+					<li><a href='/sell'>New Items</a></li>
+					<li><a href='/sell'>Sell</a></li>
+					<li><a href='/faq'>Help</a></li>
+
 					{% if user.is_authenticated %}
-					{% if not notifications %}<li class="nav-notifications"><a href="/account/notifications">Notifications<span class="notification-count purple-count">2</span></a></li>{% endif %}
-					<li><a href='/faq'>Seller Portal</a></li>
-					<li><a href='/faq'>Credits<span class="label label-success">{{user.basicuser.credits|dollars}}</span></a></li>
-					<li class="dropdown">
-			          <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{user.basicuser.firstname}} <b class="caret"></b></a>
-			          <ul class="dropdown-menu">
-			            <li><a href="#">Profile</a></li>
-			            <li><a href="#">Settings</a></li>
-			            <li><a href="#">Payment</a></li>
-			            <li class="divider"></li>
-			            <li><a href="/logout">Logout</a></li>
-			          </ul>
-			        </li>
-			        {% else %}
-					<li><a href='/features'>Veterinarians</a></li>
-					<li><a href='/sell'>Suppliers</a></li>
-					<li><a href='/manufacturer'>Manufacturers</a></li>
-					<li><a href='/faq'>FAQ</a></li>
-					<li><a href='/signup'>Sign up</a></li>
-					<li><a href='/login'>Login</a></li>
+						<li><a href='/account/credits'>Credits<span class="label label-success">{{user.basicuser.credits|dollars}}</span></a></li>
 			        {% endif %}
 				</ul>
 			</div>
 		</div>
+		{% block secondheader %}
 		<div class="subheader row">
 			<div class="col-12-10 custom-dropdown category-div">
 				<a class="categories subheader-option two-rows">
@@ -108,22 +64,18 @@
 				</a>
 				<div class="category-box dropdown-box">
 					<div class="category-menu">
-						<a data-name="dentistry" class="category-menu-item">Dentistry<span> &rsaquo; </span></a>
-						<a data-name="diagnosticexams" class="category-menu-item">Diagnostic Exam<span> &rsaquo; </span></a>
-						<a data-name="diagnostics" class="category-menu-item">Diagnostics<span> &rsaquo; </span></a>
-						<a class="category-menu-item">Equine<span> &rsaquo; </span></a>
-						<a class="category-menu-item">Equipment<span> &rsaquo; </span></a>
-						<a class="category-menu-item">Fluid Administration<span> &rsaquo; </span></a>
-						<a class="category-menu-item">Foods<span> &rsaquo; </span></a>
-						<a class="category-menu-item">Hospital Supplies<span> &rsaquo; </span></a>
-						<a class="category-menu-item">Laboratory<span> &rsaquo; </span></a>
-						<a class="category-menu-item">Large Animal<span> &rsaquo; </span></a>
-						<a class="category-menu-item">Pharmacy<span> &rsaquo; </span></a>
-						<a class="category-menu-item">Surgery<span> &rsaquo; </span></a>
-						<a class="category-menu-item">X-Ray and Imaging<span> &rsaquo; </span></a>
-						<a data-name="dentistry" class="category-menu-item">Dentistry<span> &rsaquo; </span></a>
-						<a data-name="diagnosticexams" class="category-menu-item">Diagnostic Exam<span> &rsaquo; </span></a>
-						<a href='/categories' class="full-directory">See Full Directory</a>
+						<ul id="category-menu-ul">
+							<li><a data-name="dentistry" class="category-menu-item">Dentistry<span> &rsaquo; </span></a></li>
+							<li><a data-name="diagnosticexams" class="category-menu-item">Diagnostic Exam<span> &rsaquo; </span></a></li>
+							<li><a data-name="diagnostics" class="category-menu-item">Diagnostics<span> &rsaquo; </span></a></li>
+							<li><a data-name="dentistry" class="category-menu-item">Dentistry<span> &rsaquo; </span></a></li>
+							<li><a data-name="diagnosticexams" class="category-menu-item">Diagnostic Exam<span> &rsaquo; </span></a></li>
+							<li><a data-name="diagnostics" class="category-menu-item">Diagnostics<span> &rsaquo; </span></a></li>
+							<li><a data-name="dentistry" class="category-menu-item">Dentistry<span> &rsaquo; </span></a></li>
+							<li><a data-name="diagnosticexams" class="category-menu-item">Diagnostic Exam<span> &rsaquo; </span></a></li>
+							<li><a data-name="diagnostics" class="category-menu-item">Diagnostics<span> &rsaquo; </span></a></li>
+							<li><a href='/categories' class="full-directory">See Full Directory</a></li>
+						</ul>
 					</div>
 					<div class="category-content">
 						<div id="menu-dentistry" class="category-info">
@@ -138,21 +90,6 @@
 								  <li>Feverfew</li>
 								  <li>Ginger</li>
 								  <li>Hops</li>
-								  <li>Iris</li>
-								  <li>Juniper</li>
-								  <li>Kava kava</li>
-								  <li>Lavender</li>
-								  <li>Marjoram</li>
-								  <li>Nutmeg</li>
-								  <li>Oregano</li>
-								  <li>Pennyroyal</li>
-								  <li>Marjoram</li>
-								  <li>Nutmeg</li>
-								  <li>Oregano</li>
-								  <li>Pennyroyal</li>
-								  <li>Marjoram</li>
-								  <li>Nutmeg</li>
-								  <li>Oregano</li>
 								</ul>
 							</div>
 						</div>
@@ -162,22 +99,22 @@
 						<div id="menu-diagnostics" class="category-info">
 							<h1>Diagnostics</h1>
 						</div>
-
-
 					</div>
 				</div>
 			</div>
 			<div class="searchbar">
 				<form id="searchform">
-				<table>
-					<td class="searchinput-td">
-						<input type="text" id="searchinput" autocomplete="off" placeholder="Search Equipment and Supplies. . ." class="form-control">
-						<span id="search-exit">&#10006;</span>
-					</td>
-					<td class="searchbutton-td">
-						<button class="button">Go</button>
-					</td>
-				</table>
+					<table>
+						<tr>
+							<td class="searchinput-td">
+								<input type="text" id="searchinput" autocomplete="off" placeholder="Search Equipment and Supplies. . ." class="form-control">
+								<span id="search-exit">&#10006;</span>
+							</td>
+							<td class="searchbutton-td">
+								<button class="button">Go</button>
+							</td>
+						</tr>
+					</table>
 				</form>
 				<div id="autosuggest" >
 					<div class="section categoriesheader">
@@ -193,10 +130,11 @@
 				</div>
 			</div>
 			<div class="col-12-10 custom-dropdown">
-				<a class="subheader-option two-rows account">
-					<p>Hello, Joe</p>
+				<a href='#' class="subheader-option two-rows account">
+					<p>Hello. {% if not user.is_authenticated %}Sign in{% endif %}</p>
 					<p>Your Account <b class="caret"></b></p>
 				</a>
+				{% if user.is_authenticated %}
 				<div class="dropdown-box account-dropdown">
 					<a class="" href="#">Your Account</a>
 					<a class="" href="#">Your Subscriptions</a>
@@ -205,14 +143,20 @@
 					<a class="" href="#">Your Rebate Programs</a>
 					<div class="divider"></div>
 					<a class="" href="#">Your Questions</a>
-					<a class="" href="#">Your Reviews</a>
+					<a class="" href="/account/reviews">Your Reviews</a>
 					<div class="divider"></div>
 					<a class="" href="#">Not Joe? Sign Out</a>
 				</div>
+				{% else %}
+				<div class="dropdown-box account-dropdown">
+					<a href='/signin' class="button button-rounded button-primary">Sign In</a>
+					<p class="newcustomer">New Customer? <a href='/signup'>Sign Up Here</a></p>
+				</div>
+				{% endif %}
 			</div>
 			<div class="col-12-10 custom-dropdown">
-				<a class="subheader-option">
-					<p>Wishlist<span class="notification-count red-count">2</span><b class="caret"></b></p>
+				<a href='#' class="subheader-option">
+					<p>Saved<span class="notification-count red-count">2</span><b class="caret"></b></p>
 				</a>
 				<div class="dropdown-box product-dropdown">
 					<div class="product-item">
@@ -235,13 +179,13 @@
 						</div>
 					</div>
 					<div class="cart-button">
-						<a href="/cart" class="button button-rounded button-action">View Wishlist (2) <span class="glyphicon glyphicon-arrow-right"></span></a>
+						<a href="/cart" class="button button-rounded button-action">View All Saved (2) <span class="glyphicon glyphicon-arrow-right"></span></a>
 					</div>
 				</div>
 			</div>
 			<div class="col-12-10 custom-dropdown">
-				<a class="subheader-option">
-					<p>Cart<span class="glyphicon glyphicon-shopping-cart"></span><span class="notification-count green-count">2</span><b class="caret"></b></p>
+				<a  href='#' class="subheader-option">
+					<p>Cart <span class="glyphicon glyphicon-shopping-cart"></span><span class="notification-count green-count">2</span><b class="caret"></b></p>
 				</a>
 				<div class="dropdown-box product-dropdown">
 					<div class="product-item">
@@ -277,15 +221,26 @@
 					</div>
 				</div>
 			</div>
-			<div class="col-12-10">
-				<a class="subheader-option">
-					<p>Recent Orders</p>
+			<div class="col-12-10 custom-dropdown">
+				<a href='#' class="subheader-option">
+					<p>Easy Reorder <b class="caret"></b></p>
 				</a>
+				<div class="dropdown-box account-dropdown">
+					<a class="" href="#">Recently Ordered Items</a>
+					<a class="" href="#">Recently Viewed Items</a>
+					<a class="" href="#">QuickLists</a>
+					<a class="" href="#">Subscriptions</a>
+				</div>
 			</div>
 		</div>
+		{% endblock %}
+		{% block thirdheader %}
 		<div class="thirdheader row">
-			<div class="col-12-10 main">
+			<!-- <div class="col-12-10 main">
 				Dentistry:
+			</div> -->
+			<div class="col-12-10">
+				<a href='#' class="noleftborder">Alarms</a>
 			</div>
 			<div class="col-12-10">
 				<a href='#' class="noleftborder">Alarms</a>
@@ -315,6 +270,7 @@
 				<a href='#'  class="norightborder">Cotton Swabs</a>
 			</div>
 		</div>
+		{% endblock %}
 		<div id="sidr">
 			<div id="mobile-searchbar">
 				<form class="form form-inline">
@@ -351,167 +307,164 @@
 		{% endblock %}
 	</div>
 
-<footer class="footer">
-	<img id="footer-shadow" src="{{STATIC_URL}}img/shadow.png"/>
-	<div class="row">
-		<div class="col-md-2 col-sm-4 col-xs-6">
-			<h3>Buying</h3>
-			<ul>
-				<li><a href='#'>Browse Categories</a></li>
-				<li><a href='#'>Specials</a></li>
-				<li><a href='#'>Reccommended</a></li>
-				<li><a href='#'>Wishlist</a></li>
-				<li><a href='#'>Buying History</a></li>
-				<li><a href='#'>Your Questions</a></li>
-			</ul>
+	<footer class="footer">
+		<img id="footer-shadow" src="{{STATIC_URL}}img/misc/shadow.png"/>
+		<div class="row">
+			<div class="col-md-2 col-sm-4 col-xs-6">
+				<h3>Buying</h3>
+				<ul>
+					<li><a href='#'>Browse Categories</a></li>
+					<li><a href='#'>Specials</a></li>
+					<li><a href='#'>Reccommended</a></li>
+					<li><a href='#'>Wishlist</a></li>
+					<li><a href='#'>Buying History</a></li>
+					<li><a href='#'>Your Questions</a></li>
+				</ul>
+			</div>
+			<div class="col-md-2 col-sm-4 col-xs-6">
+				<h3>Selling</h3>
+				<ul>
+					<li><a href='/sell'>Suppliers</a></li>
+					<li><a href='/manufacturer'>Manufacturers</a></li>
+					<li><a href='/pricing'>Fees and Pricing</a></li>
+				</ul>
+			</div>
+			<div class="visible-xs clear"></div>
+			<div class="col-md-2 col-sm-4 col-xs-6">
+				<h3>Account</h3>
+				<ul>
+					<li><a href='#'>Notifications</a></li>
+					<li><a href='#'>Profile</a></li>
+					<li><a href='#'>Settings</a></li>
+					<li><a href='#'>Payments</a></li>
+				</ul>
+			</div>
+			<div class="visible-sm clear"></div>
+			<div class="col-md-2 col-sm-4 col-xs-6">
+				<h3>General</h3>
+				<ul>
+					<li><a href='/faq'>FAQ</a></li>
+					<li><a href='/tos'>Terms of Service</a></li>
+					<li><a href='/privacypolicy'>Privacy Policy</a></li>
+				</ul>
+			</div>
+			<div class="visible-xs clear"></div>
+			<div class="col-md-2 col-sm-4 col-xs-6">
+				<h3>Programs</h3>
+				<ul>
+					<li><a href='/pvp'>Verification Program</a></li>
+					<li><a href='/sellerprotect'>Seller Protection</a></li>
+					<li><a href='/buyerprotect'>Buyer Protection</a></li>
+					<li><a href='/giveback'>Give Back 1+1 Program</a></li>
+				</ul>
+			</div>
+			<div class="col-md-2 col-sm-4 col-xs-6">
+				<h3>Company</h3>
+				<ul>
+					<li><a href='#'>Blog</a></li>
+					<li><a href='#'>Contact Us</a></li>
+					<li><a href='/about'>Team</a></li>
+				</ul>
+			</div>
 		</div>
-		<div class="col-md-2 col-sm-4 col-xs-6">
-			<h3>Selling</h3>
-			<ul>
-				<li><a href='/sell'>Suppliers</a></li>
-				<li><a href='/manufacturer'>Manufacturers</a></li>
-				<li><a href='/pricing'>Fees and Pricing</a></li>
-			</ul>
-		</div>
-		<div class="visible-xs clear"></div>
-		<div class="col-md-2 col-sm-4 col-xs-6">
-			<h3>Account</h3>
-			<ul>
-				<li><a href='#'>Notifications</a></li>
-				<li><a href='#'>Profile</a></li>
-				<li><a href='#'>Settings</a></li>
-				<li><a href='#'>Payments</a></li>
-			</ul>
-		</div>
-		<div class="visible-sm clear"></div>
-		<div class="col-md-2 col-sm-4 col-xs-6">
-			<h3>General</h3>
-			<ul>
-				<li><a href='/faq'>FAQ</a></li>
-				<li><a href='/tos'>Terms of Service</a></li>
-				<li><a href='/privacypolicy'>Privacy Policy</a></li>
-			</ul>
-		</div>
-		<div class="visible-xs clear"></div>
-		<div class="col-md-2 col-sm-4 col-xs-6">
-			<h3>Programs</h3>
-			<ul>
-				<li><a href='/pvp'>Verification Program</a></li>
-				<li><a href='/sellerprotect'>Seller Protection</a></li>
-				<li><a href='/buyerprotect'>Buyer Protection</a></li>
-				<li><a href='/giveback'>Give Back 1+1 Program</a></li>
-			</ul>
-		</div>
-		<div class="col-md-2 col-sm-4 col-xs-6">
-			<h3>Company</h3>
-			<ul>
-				<li><a href='#'>Blog</a></li>
-				<li><a href='#'>Contact Us</a></li>
-				<li><a href='/about'>Team</a></li>
-			</ul>
-		</div>
-	</div>
-	<div class="row copyright-row">
-		<div class='socialcontainer'>
-			<a href='https://twitter.com/vetcove'><div class="twitter-hover social-slide"></div></a>
-			<a href='https://www.facebook.com/vetcove'><div class="facebook-hover social-slide"></div></a>
-			<a href='http://www.linkedin.com'><div class="linkedin-hover social-slide"></div></a>
-			<a href='https://angel.co'><div class="angellist-hover social-slide"></div></a>
-		</div>
+		<div class="row copyright-row">
+			<div class='socialcontainer'>
+				<a href='https://twitter.com/vetcove'><div class="twitter-hover social-slide"></div></a>
+				<a href='https://www.facebook.com/vetcove'><div class="facebook-hover social-slide"></div></a>
+				<a href='http://www.linkedin.com'><div class="linkedin-hover social-slide"></div></a>
+				<a href='https://angel.co'><div class="angellist-hover social-slide"></div></a>
+			</div>
 
-		<p> Copyright 2014. All rights reserved</p>
-	</div>
-</footer>
-<a href="#" class="back-to-top">Back to Top</a>
+			<p> Copyright 2014. All rights reserved</p>
+		</div>
+	</footer>
+	<a href="#" class="back-to-top">Back to Top</a>
 
 </div>
+{% endblock %}<!-- End of block-content -->
 
 
+<!--Javascript-->
+<script type="text/javascript">  
+var noImageURL = '{{STATIC_URL}}img/noimage.jpg';
+</script>
+<script src="{{STATIC_URL}}js/plugins/jquery-1.10.2.min.js" type="text/javascript" ></script>
+<script src="{{STATIC_URL}}js/bootstrap/bootstrap.min.js" type="text/javascript" ></script>
+{% block main_js %}
+<script src="{{STATIC_URL}}js/plugins/jquery.menu-aim.js" type="text/javascript" ></script>
+<script src="{{STATIC_URL}}js/django/csrf_alternate.js" type="text/javascript" ></script>
+<script src="{{STATIC_URL}}js/plugins/jquery.sidr.min.js" type="text/javascript" ></script>
+<script src="{{STATIC_URL}}js/plugins/hoverIntent.js" type="text/javascript" ></script>
+<script src="{{STATIC_URL}}js/basic/autosuggest.js" type="text/javascript" ></script>
 
+<script>
+	//*************************************************
+	//************** Side Menu ************************
+	//*************************************************
+	$(document).ready(function() {
+		$('#simple-menu').sidr();
+		$(window).resize(function(handler) {
+			if ($(this).width() > 767) {
+				$.sidr('close', 'sidr');
+			}
+		});
+	});
 
+	//*************************************************
+	//************ Mobile Search Bar ******************
+	//*************************************************
+	$(document).ready(function() {
+		$("#mobile-searchbar input").focus(function() {
+			$("#sidr").css('width','100%');
+			$(".sidr-menu").css('display','none');
+			$("#mobile-searchbar .search-cancel").css('display','block');
+			$("#sidr-searchresults").css('display','block');
+		});
+		$("#mobile-searchbar .search-cancel").click(function() {
+			$("#sidr").css('width','260px');
+			$(".sidr-menu").css('display','block');
+			$("#mobile-searchbar .search-cancel").css('display','none');
+			$("#sidr-searchresults").css('display','none');
+			$("#mobile-searchbar input").val('');
+		});
+	});
 
+	//*************************************************
+	//************** Categories ***********************
+	//*************************************************
+	$(document).ready(function() {
+		$(".custom-dropdown .subheader-option").click(function(){
+			activatingDropdown($(this));
+		});
 
-	<!--Javascript-->
-	<script type="text/javascript">  
-	    // $.project = {} // namespace
-	    // $.project.STATIC_URL = '{{ STATIC_URL }}';
-	    var noImageURL = '{{STATIC_URL}}img/noimage.jpg';
-	</script>
-	<script src="{{STATIC_URL}}js/jquery-1.10.2.min.js" type="text/javascript" ></script>
-    <script src="{{STATIC_URL}}js/bootstrap.min.js" type="text/javascript" ></script>
-    <script src="{{STATIC_URL}}js/csrf_alternate.js" type="text/javascript" ></script>
-    <script src="{{STATIC_URL}}js/jquery.sidr.min.js" type="text/javascript" ></script>
-    <script src="{{STATIC_URL}}js/autosuggest.js" type="text/javascript" ></script>
-<!--     // <script src="{{STATIC_URL}}js/masonry.min.js" type="text/javascript" ></script>
-    // <script src="{{STATIC_URL}}js/chart.js" type="text/javascript" ></script>
-    // <script src="{{STATIC_URL}}js/jquery.knob.js" type="text/javascript" ></script> -->
+		$(".custom-dropdown").hoverIntent(function(){
+			activatingDropdown($(this).children(".subheader-option"));
+		},function() {
+			box = $(this).children(".dropdown-box");
+			link = $(this).children(".subheader-option");
+			$(box).css('display','none');
+			$(link).removeClass("active");
+			$(".subheader .category-box .category-menu-item").removeClass('active');
+		});
+		//Displays the subcategories on the category select
+		$(".subheader .category-box .category-menu-item").click(function(){
+			// Display appropriate subcategory
+			var data_name = $(this).attr("data-name");
+			$(".category-info").css('display','none');
+			$("#menu-"+data_name).css('display','block');
+			
+			// Add active to category-menu-item
+			$(".subheader .category-box .category-menu-item").removeClass('active');
+			$(this).addClass("active");
+		});
+	 });
 
-     <script>
-		$(document).ready(function() {
-
-			//Side Menu
-			$('#simple-menu').sidr();
-			$(window).resize(function(handler) {
-				if ($(this).width() > 767) {
-					$.sidr('close', 'sidr');
-				}
-			});
-
-			//Mobile Search Bar Functionality
-			$("#mobile-searchbar input").focus(function() {
-				$("#sidr").css('width','100%');
-				$(".sidr-menu").css('display','none');
-				$("#mobile-searchbar .search-cancel").css('display','block');
-				$("#sidr-searchresults").css('display','block');
-			});
-			$("#mobile-searchbar .search-cancel").click(function() {
-				$("#sidr").css('width','260px');
-				$(".sidr-menu").css('display','block');
-				$("#mobile-searchbar .search-cancel").css('display','none');
-				$("#sidr-searchresults").css('display','none');
-				$("#mobile-searchbar input").val('');
-			})
-
-			//*************************************************
-			//************** Categories ***********************
-			//*************************************************
-
-			$(".custom-dropdown .subheader-option").click(function(){
-				box = $(this).parent().children(".dropdown-box");
-				link = $(this);
-				if ($(box).is(":visible")) {
-					$(box).css('display','none');
-					$(link).removeClass("active");
-				} else {
-					$(box).css('display','block');
-					$(link).addClass("active");
-				}
-			});
-
-
-			$(".custom-dropdown").hover(function(){
-			},function() {
-				box = $(this).children(".dropdown-box");
-				link = $(this).children(".subheader-option");
-				$(box).css('display','none');
-				$(link).removeClass("active");
-				$(".subheader .category-box .category-menu-item").removeClass('active');
-			});
-
-
-			//Displays the subcategories on the category select
-			$(".subheader .category-box .category-menu-item").click(function(){
-				// Display appropriate subcategory
-				var data_name = $(this).attr("data-name");
-				$(".category-info").css('display','none');
-				$("#menu-"+data_name).css('display','block');
-				
-				// Add active to category-menu-item
-				$(".subheader .category-box .category-menu-item").removeClass('active');
-				$(this).addClass("active");
-			});
-		 });
-
+	function activatingDropdown(handle) {
+		box = $(handle).parent().children(".dropdown-box");
+		link = $(handle);
+		$(box).css('display','block');
+		$(link).addClass("active");
+	}
 
 	//*************************************************
 	//********** Scroll to Top ************************
@@ -531,12 +484,45 @@
 	        event.preventDefault();
 	        $('html, body').animate({scrollTop: 0}, duration);
 	        return false;
-	    })
+	    });
+	});
+
+	// *************************************************
+	// ********** Menu-Aim *****************************
+	//*************************************************
+	$(document).ready(function(){
+		$(function(){
+			$("#category-menu-ul").menuAim({
+				activate: function(handle){
+					// Display appropriate subcategory
+					var data_name = $(handle).children('a').attr("data-name");
+					$(".category-info").css('display','none');
+					$("#menu-"+data_name).css('display','block');
+					// Add active to category-menu-item
+					$(".subheader .category-box .category-menu-item").removeClass('activate');
+					$(handle).children('a').addClass("activate");
+				},  // fired on row activation
+				deactivate: function(handle){
+					//DEACTIVATE FUNCTION
+				}  // fired on row deactivation
+			});
+		});
 	});
 </script>
 {% endblock %}
-{% block js %}
-{% endblock %}
+
+
+ <script>
+// 	   //Google Analytics Code
+// 	  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+// 	  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+// 	  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+// 	  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+// 	  ga('create', 'UA-45863765-1', 'vetcove.com');
+// 	  ga('send', 'pageview');
+ </script>
+{% block js %}{% endblock %}
    
 </body>
 </html>

@@ -1,0 +1,203 @@
+/****************************************************/
+/** Formatting for Account -> Buy and Sell History **/
+/****************************************************/
+.history-item {
+	position:relative;
+}
+
+.history-item .order-overview {
+	padding:20px;
+}
+.history-item .order-details-container {
+	border-right: 1px solid #ddd;
+}
+.history-item .order-overview .order-details {
+	font-size: 12px;
+	margin: 0;
+	text-transform:uppercase;
+	font-weight: 200;
+	letter-spacing: .4px;
+}
+.history-item .order-date {
+	font-size: 18px;
+	font-weight: bold;
+}
+.history-item .order-number {
+	font-weight: 200;
+}
+.history-item .order-number span {
+	font-weight: bold;
+}
+.history-item .order-info p {
+	margin: 2px 0;
+	font-weight: 200;
+	font-size: 12px;
+}
+.history-item .order-info ul {
+	list-style-type: none;
+	padding-left: 10px;
+}
+.history-item .order-info ul li {
+	font-weight: 200;
+	font-size: 12px;
+	margin-left: 0;
+}
+.history-item .order-info .order-info-header {
+	font-weight: bold;
+	margin-top: 15px;
+	margin-bottom: 3px;
+}
+.history-item .order-price {
+	margin-top: 15px;
+	padding-top: 10px;
+	font-weight: 200;
+	font-size: 15px;
+	margin-bottom: 0px;
+}
+.history-item .order-price span {
+	font-weight: bold;
+}
+.history-item .order-status {
+	font-size: 18px;
+	font-weight: 200;
+	line-height: 18px;
+	margin-bottom: 2px;
+}
+.history-item .shipping-button {
+	margin: 15px 0;
+}
+
+.history-item .order-status span {
+	font-weight: bold;
+	color: #E47911;
+}
+.history-item .order-next {
+	font-weight: 200;
+	font-size: 12px;
+}
+.history-item .order-item {
+	border-bottom: 1px solid #ddd;
+	padding-bottom: 15px;
+	padding-top: 10px;
+}
+.history-item .order-quantity {
+	font-weight: 200;
+	font-size: 12px;
+	padding-bottom: 20px;
+}
+.history-item .order-item .order-image {
+	padding: 0;
+}
+.history-item .order-image img{
+	width: 100%;
+	border:2px solid #eee;
+}
+.history-item .order-name {
+	margin-bottom: 5px;
+	color: #008DB2;
+}
+.history-item .order-name:hover {
+	text-decoration: underline;
+}
+.history-item .order-seller {
+	font-weight: bold;
+	margin: 0;
+	font-size: 12px;
+}
+.history-item .order-seller-info {
+	font-weight: 200;
+	margin: 0;
+	font-size: 12px;
+}
+.history-item .order-seller-message {
+	font-size: 13px;
+	font-weight: bold;
+	margin-top: 15px;
+}
+.history-item .order-seller-message a {
+	font-size: 12px;
+	font-weight: 200;
+	margin-left: 8px;
+}
+.history-item .order-seller-message a:hover {
+	text-decoration: underline;
+}
+.history-item .order-seller-message span{
+	font-weight: 200;
+}
+.history-item .seller-message-form {
+	display: none;
+	padding: 10px;
+	border:1px solid #ddd;
+	background: #f6f6f6;
+	border-radius: 3px;
+}
+.history-item .shipping-form {
+	display: block;
+}
+.history-item .edit-message {
+	margin-left: 5px;
+	color: #428BCA;
+}
+.history-item .edit-message:hover {
+	color: #2a6496;
+	text-decoration: underline;
+	cursor: pointer;
+}
+.history-item .seller-message-form textarea {
+	margin-bottom: 10px;
+	resize:vertical;
+	min-height: 80px;
+}
+.history-item .seller-message-form p {
+	margin-bottom: 3px;
+	font-weight: 500;
+}
+.history-item .seller-message-form .seller-message-cancel:hover {
+	cursor: pointer;
+}
+.history-item .seller-message-form p span {
+	font-weight: 200;
+	font-size:12px;
+}
+.history-item .order-actions {
+	text-align: left;
+	border-top: 1px solid #ddd;
+	padding: 20px 30px;
+}
+.history-item .order-actions a {
+	margin-bottom: 10px;
+	margin-right: 10px;
+}
+.history-item .order-actions a:hover{
+	cursor:pointer;
+}
+.history-item .shippingrow {
+	padding: 20px;
+	margin-top: 30px;
+}
+.history-item .shipping-form p {
+	color: white;
+}
+.history-item .shipping-form button, .history-item .shipping-form a {
+	margin-top: 15px;
+	margin-right: 5px;
+}
+.history-item .shipping-form textarea {
+	min-height: 100px;
+	resize:vertical;
+}
+.button-rounded:hover {
+	cursor: pointer;
+}
+.shipping-overlay {
+	position:absolute;
+	display: none;
+	width: 100%;
+	border-radius: 2px;
+	height: 100%;
+	background: #333;
+	z-index: 9999;
+	background: url("../img/blacktransparency.png");
+}
+

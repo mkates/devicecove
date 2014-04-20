@@ -7,9 +7,5 @@ class IndustryAdmin(admin.ModelAdmin):
     list_display = ['id', 'name', 'displayname'] 
 admin.site.register(Industry)
 
+admin.site.register(Product)
 admin.site.register(Item)
-admin.site.register(Equipment)
-admin.site.register(NewEquipment)
-admin.site.register(UsedEquipment)
-admin.site.register(PharmaBase)
-admin.site.register(PharmaItem)

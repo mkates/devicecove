@@ -1,0 +1,141 @@
+.logincontainer {
+	padding: 10px 0;
+	max-width: 1000px;
+	margin: 0 auto;
+	text-align: center;
+}
+.login {
+	max-width: 1000px;
+	background: #fff;
+	border-radius: 3px;
+	border:1px solid #eee;
+	box-shadow: 0 0 4px #ccc;
+	margin: 40px 0px;
+}
+.login h1 {
+	font-weight: 200;
+	font-size: 30px;
+	color: #333;
+	margin-top: 30px;
+}
+.login h2 {
+	font-weight: 200;
+	font-size: 13px;
+	line-height: 16px;
+	padding-bottom: 10px;
+	margin: 0;
+	padding-top: 10px;
+}
+.login .signup-message {
+	font-size: 15px;
+	font-weight: 200;
+	letter-spacing: .3px;
+	padding: 20px 40px;
+	margin-top: 20px;
+	line-height: 22px;
+	color: #333;
+}
+.login p {
+	color: #aaa;
+
+}
+.loginheader {
+	max-width: 400px;
+	margin: 0 auto;
+	border-bottom: 1px solid #ccc;
+}
+.loginform {
+	width: 300px;
+	text-align: left;
+	margin: 20px auto 0px auto;
+}
+.loginform p {
+	margin-top: 20px;
+	color #777;
+	font-weight: 200;
+	line-height: 12px;
+}
+.loginform button {
+	margin-top: 5px;
+	float: left;
+	margin-bottom: 40px;
+}
+.loginform .forgotpassword {
+	display:inline-block;
+}
+.forgotpassword {
+	float: right;
+	display: block;
+	opacity: .8;
+	margin-top: 12px;
+	font-size: 12px;
+	margin-left: 20px;
+	font-weight: 200;
+}
+.login .errormessage {
+	color: red;
+	font-weight: 500;
+	padding: 5px 12px;
+	margin-top: 15px;
+	background: #FFF2F2;
+	display:inline-block;
+	border-radius: 4px;
+	border:1px solid red;
+	
+}
+.signupbutton {
+	margin-bottom: 40px;
+}
+.signupform .form-group label {
+	color: #aaa;
+	font-weight: 200;
+	width: 100%;
+	margin: 0;
+	padding: 0;
+
+}
+.signupform .form-group img {
+	display: inline;
+	width: 20px;
+	height:20px;
+	margin-left: 10px;
+}
+.signupform .form-group p {
+	text-align: left;
+}
+.signupform .form-group .form-img {
+	text-align: left;
+}
+.signupform table {	
+}
+.signupform .form-input {
+	min-width: 250px;
+	max-width: 100%;
+}
+.signupform .form-input input {
+	width: 250px;
+}
+#passwordtext, #formemailtext, #confirmpasswordtext {
+	margin-left: 5px;
+	margin-top: 2px;
+	color: #D90000;
+	font-size: 12px;
+}
+.has-error {
+	border:1px solid red;
+}
+.sup_text {
+	height: 0px;
+	overflow:visible;
+}
+#signuperror {
+	display: inline-block;
+	color: red;
+	font-size: 200;
+	padding: 5px 12px;
+	margin-top: 20px;
+	background: #FFF2F2;
+	font-weight: 200;
+	border:1px solid red;
+	border-radius: 4px;
+}

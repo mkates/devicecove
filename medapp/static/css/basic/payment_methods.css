@@ -1,0 +1,40 @@
+/*Payment Methods formatting */
+.paymentbox .payment-cards{
+}
+.paymentbox .payment-method {
+	border:1px solid #ccc;
+	background: #f9f9f9;
+	padding: 10px 10px;
+	border-radius: 3px;
+	margin-bottom: 20px;
+}
+.paymentbox .payment-method span {
+	font-size: 12px;
+	font-weight: 200;
+}
+.paymentbox .payment-method p {
+	margin: 0;
+}
+.paymentbox .payment-action {
+	text-align: right;
+	margin-top: 8px;
+}
+.paymentbox .payment-action form {
+	display: inline-block;
+}
+.paymentbox .payment-type span {
+	background: white;
+	padding: 4px 8px;
+	border:1px solid #ddd;
+	border-radius: 4px;
+	font-weight: bold;
+	margin-right: 10px;
+}
+.paymentbox .payment-info {
+	text-align: right;
+}
+.paymentbox .payment-description {
+	border-bottom:1px solid #ddd;
+	padding-bottom: 10px;
+	margin-bottom: 10px;
+}

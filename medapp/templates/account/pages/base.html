@@ -1,0 +1,160 @@
+{% extends 'base/base.html' %}
+{% block headertitle %}VetCove Reviews{% endblock %}
+{% block css %}
+<style>
+.account-container {
+	margin: 20px;
+}
+.side-container {
+	display:inline-block;
+	width: 13%;
+	margin-right: -1px;
+	position:relative;
+	z-index: 1;
+	vertical-align: top;
+}
+.side-container h3 {
+	font-size: 16px;
+	margin: 10px 10px 0px 0px;
+	padding-bottom: 5px;
+	font-weight: bold;
+}
+.side-container-item {
+	display:block;
+	font-size: 14px;
+	color: #333;
+	padding: 4px 10px;
+	border-radius: 3px;
+	border-top-right-radius: 0px;
+	border-bottom-right-radius: 0px;
+	border:1px solid transparent;
+}
+.side-container-item:hover {
+	text-decoration: none;
+	cursor:pointer;
+	border-right:none;
+}
+.side-container-item:not(.active):hover {
+	background-image: url("{{STATIC_URL}}img/transparency/whitetransparency2.png");
+	border-color: #ddd;
+}
+.side-container-item.active {
+	background:white;
+	border:1px solid #ddd;
+	border-right: none;
+
+}
+.main-container {
+	display:inline-block;
+	position:relative;
+	z-index: 0;
+	width: 87%;
+	vertical-align: top;
+	background: #fff;
+	border:1px solid #ddd;
+	min-height: 600px;
+	padding-bottom:30px;
+}
+.main-container .title {
+	border-bottom:1px solid #eee;
+	padding: 10px;
+	margin: 0 10px 30px 10px;
+	font-weight:100;
+	letter-spacing: 1.5px;
+}
+.sidebox {
+	background: #f6fbfc;
+	padding: 10px;
+	border:1px solid #e2e3e7;
+}
+
+/* Tab Formatting */
+.account-tabs-navigation {
+	padding: 0;
+	position:relative;
+	z-index: 1;
+	border-bottom:1px solid #ccc;
+}
+.account-tab {
+	background: #f6f6f6;
+	color: #333;
+	margin-bottom: -1px;
+	font-weight: 400;
+	font-size: 14px;
+	padding: 5px 5px;
+	text-align: center;
+	border:1px solid #ccc;
+}
+.account-tab.active {
+	background: #fff;
+	border:1px solid #ccc;
+	border-bottom: 1px solid transparent;
+}
+.account-tab:not(.active):hover {
+	cursor:pointer;
+	background: #e6e6e6;
+	border:1px solid #dfdfdf;
+	border-bottom:1px solid #ddd;
+}
+.account-tab-content {
+	position:relative;
+	z-index:0;
+	margin-top: 0px;
+	padding: 10px;
+}
+.account-tab-div {
+	display:none;
+}
+.account-tab-div.first {
+	display:block;
+}
+
+</style>
+{% block account_css %}{% endblock %}
+{% endblock %}
+{% block js %}
+<script>
+$(document).ready(function(){
+	$('.account-tab').click(function() {
+		href = $(this).attr("data-href");
+		$(".account-tab-div").css('display','none');
+		$(href).css('display','block');
+		$('.account-tab').removeClass('active');
+		$(this).addClass('active');
+	})
+
+
+});
+</script>
+{% block account_js %}{% endblock %}
+{% endblock %}
+{% block thirdheader %}{% endblock %}
+{% block content %}
+<div class="account-container">
+	<div class="side-container">
+		<h3>Buying</h3>
+		<a href='/account/orders' class="side-container-item{% if account_orders %} active {% endif %}">Order History</a>
+		<!-- <a class="side-container-item ">Templates</a> -->
+		<a href='/account/returns' class="side-container-item{% if account_returns %} active {% endif %}">Returns</a>
+		<a href='/account/analytics' class="side-container-item{% if account_analytics %} active {% endif %}">Analytics</a>
+		<h3>Community</h3>
+		<a href='/account/questions' class="side-container-item{% if account_questions %} active {% endif %}">Questions <span class="badge">2</span></a>
+		<a href='/account/reviews' class="side-container-item{% if account_reviews %} active {% endif %}">Reviews</a>
+		<h3>Selling</h3>
+		<a href='/account/sell' class="side-container-item{% if account_sell %} active {% endif %}">Sell on VetCove</a>
+		<!-- <a class="side-container-item">Listings</a>
+		<a class="side-container-item">Seller Questions</a> -->
+		<h3>Account</h3>
+		<a href='/account/payments' class="side-container-item{% if account_payments %} active {% endif %}">Payments</a>
+		<a href='/account/settings' class="side-container-item{% if account_settings %} active {% endif %}">Settings</a>
+	</div><div class="main-container">
+		<h2 class="title">{% block account_title %} Your Account {% endblock %}</h2>
+		{% block account_content %}{% endblock %}
+	</div>
+
+</div>
+
+
+
+{% endblock %}
+

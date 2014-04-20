@@ -1,4 +1,5 @@
 User-agent: *
 Disallow: /post/
 Disallow: /staff/
+Disallow: /account/
 Disallow: /admin/

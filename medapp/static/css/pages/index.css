@@ -1,0 +1,116 @@
+/**********************************/
+/******* Landing Page *************/
+/**********************************/
+.navbar {
+	box-shadow: none;
+}
+.hero-background {
+	background-image: url("../img/fabric_plaid.png");
+}
+.herobg {
+	width: 100%;
+	opacity: 1;
+	overflow: auto;
+}
+
+
+/**********************************/
+/******* Introduction *************/
+/**********************************/
+.new_intro {
+	margin-top: 40px;
+	border-radius: 2px;
+	background: #333;
+	max-width: 1000px;
+	margin: 40px auto 0 auto;
+	background: url("../img/dog_walk.png");
+	background-size:cover;
+	font-weight: 200;
+}
+.new_intro_pic {
+	border:1px solid white;
+	padding-bottom: 60px;
+	padding-top: 35px;
+}
+.new_intro h1 {
+	color: white;
+	font-weight: 200;
+	line-height: 45px;
+	font-size: 36px;
+	padding-left: 20px;
+	margin-top: 30px;
+	text-shadow: 0 0 2px #000;
+}
+.new_intro_explain {
+	background:  url("../img/blacktransparency_2.png");
+	color: white;
+	text-align: center;
+	border:1px solid white;
+	padding-bottom: 20px;
+}
+.new_intro_explain:hover {
+	background:  url("../img/blacktransparency.png");
+}
+.new_intro_explain h2 {
+	font-weight: 200;
+	text-shadow: 0 0 2px #000;
+	letter-spacing: .5px;
+	padding: 20px 20px 10px 20px;
+	margin: 0;
+	font-size: 20px;
+}
+.new_intro_explain p {
+	font-weight: bold;
+	letter-spacing: .5px;
+}
+.new_intro .bg-row {
+	height: 5px;
+	background-image: url("../img/fabric_plaid.png");
+}
+.new_intro .explain_buy {
+	border: 10px solid none;
+}
+
+/**********************************/
+/****** Featured Products *********/
+/**********************************/
+
+.featuredcontainer {
+	padding: 10px 0 60px 0;
+	background:  url("../img/blacktransparency_2.png");
+	margin: 0 auto;
+	border-radius: 2px;
+}
+.featured {	
+	min-height: 400px;
+	text-align: left;
+	max-width: 1030px;
+	margin: 0 auto;
+	margin-top: 20px;
+}
+.featured h2 {
+	margin-left: 20px;
+	color: #ddd;
+	text-shadow: 0 0 1px #ddd;
+	text-align: left;
+}
+.pricelabel {
+	text-decoration:line-through;
+}
+
+@media (max-width: 1000px) {
+	.new_intro {
+		margin-left: 10px;
+		margin-right: 10px;
+	}
+}
+@media (max-width: 768px) {	
+	.top-products {
+	
+	}
+	.top-products .product-right, .top-products .product-middle, .top-products .product-left {
+		padding-right: 5px;
+		padding-left: 5px;
+	}
+	
+}

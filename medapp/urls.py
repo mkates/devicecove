@@ -18,7 +18,9 @@ urlpatterns = patterns('',
 
     url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
     url(r'^admin/', include(admin.site.urls)),
-    
+
+    # Browser Incompatibilities
+    url(r'^browser-upgrade','general.views.browserUpgrade'),
     # Password Reset URLS
     url('',include('password_reset.urls')),
     
@@ -26,29 +28,44 @@ urlpatterns = patterns('',
     #########################################
     url(r'^$','general.views.index'),
     url(r'^error/(?P<errorname>\w+)','general.views.error'),
-    url(r'^faq/','general.views.faq'),
+    url(r'^categories/','general.views.categories'),
+    ### Corporate ###
     url(r'^features/','general.views.features'),
+    url(r'^supplier/','general.views.supplier'),
+    url(r'^manufacturer/','general.views.manufacturer'),
+    url(r'^referral/(?P<referral_id>\w+)/','general.views.newReferral'),
+    ### Information ###
+    url(r'^about/','general.views.about'),
+    url(r'^pricing/','general.views.pricing'),
+    url(r'^rewards/','general.views.rewards'),
+    url(r'^faq/','general.views.faq'),
+    url(r'^buyerprotect/','general.views.buyerprotect'),
     url(r'^privacypolicy/','general.views.privacypolicy'),
     url(r'^giveback/','general.views.giveback'),
     url(r'^tos/','general.views.tos'),
-    url(r'^about/','general.views.about'),
-    url(r'^sell/','general.views.sell'),
-    url(r'^manufacturer/','general.views.manufacturer'),
-    url(r'^pricing/','general.views.pricing'),
-    url(r'^pvp/','general.views.pvp'),
-    url(r'^buyerprotect/','general.views.buyerprotect'),
-    url(r'^listintro/','general.views.listintro'),
-    url(r'^categories/','general.views.categories'),
-    url(r'^shop/','general.views.shop'),
-    url(r'^buy/','general.views.shop'),
     url(r'^contact/','general.views.contact'),
-    url(r'^trending/','general.views.trending'),
     url(r'^contactform','general.views.contactform'),
-    url(r'^referral/(?P<referral_id>\w+)/','general.views.newReferral'),
-    
-    ########## Seller Portal ################
+
+    ########## User Portal ##################
     #########################################
-    url(r'^seller/','selling.views.sellerHome'),
+    url(r'^dashboard','account.views.dashboard'),
+    url(r'^wishlist','account.views.wishlist'),
+    url(r'^cart','account.views.cart'),
+    url(r'^account/orders','account.views.orders'),
+    url(r'^account/returns','account.views.returns'),
+    url(r'^account/analytics','account.views.analytics'),
+    url(r'^account/questions','account.views.questions'),
+    url(r'^account/reviews','account.views.reviews'),
+    url(r'^account/sell','account.views.sell'),
+    url(r'^account/payments','account.views.payments'),
+    url(r'^account/settings','account.views.settings'),
+
+    url(r'^item/1','account.views.product'),
+
+    ########## Login ########################
+    #########################################
+    url(r'^signin','account.views.signin'),
+    url(r'^signup','account.views.signup'),
 
 
 
@@ -108,8 +125,7 @@ urlpatterns = patterns('',
     url(r'^post/imageupload/(?P<itemid>\d+)','listing.views.imageupload'), 
     url(r'^post/deleteimage','listing.views.deleteimage'),  
     url(r'^post/setmainimage','listing.views.setmainimage'), 
-    ### Item
-    url(r'^item/(?P<itemid>\d+)','general.views.product'),
+
 
     ########## Account App ##################
     #########################################

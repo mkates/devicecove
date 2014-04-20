@@ -1,0 +1,428 @@
+{% extends 'base/base.html' %}
+{% block headertitle %}VetCove{% endblock %}
+{% block css %}
+<link href="{{STATIC_URL}}css/basic/productpreview.css" rel="stylesheet" type="text/css" />
+<style>
+.content {
+	margin: 0;
+	padding-bottom: 70px;
+	background: #f6f6f6;
+}
+.sidecol {
+	padding-left: 30px;
+}
+.product-row {
+	margin-top: 30px;
+}
+.product-row .row-title {
+	font-size: 22px;
+	color: #333;
+	border-bottom:1px solid #eee;
+	margin: 10px 5px;
+	padding-bottom: 5px;
+}
+.products {
+	margin-bottom: 10px;
+}
+.product-row .morelink {
+	padding: 15px 5px;
+}
+.product-row .morelink a {
+	color: #009cc3;
+	display:inline-block;
+}
+.product-row .morelink a:hover {
+	text-decoration: underline;
+}
+
+/* Deal Box */
+.introrow {
+	margin: 20px;
+}
+.dealbox a:hover {
+	text-decoration: underline;
+}
+.dealbox-col {
+	padding: 0
+}
+.dealbox {
+	border:1px solid #eee;
+	background: white;
+	margin: 25px 5px 15px 5px;
+	position: relative;
+}
+.dealbox .deal-title h3 {
+	font-weight: 100;
+	letter-spacing: 1.2px;
+	text-shadow: 0 0 2px #aaa;
+	font-size: 53px;
+	margin: 15px 20px 10px 20px;
+	color: #fff;
+}
+.dealbox .deal-title h4 {
+	font-weight: 200;
+	color: #eee;
+	font-size: 16px;
+	margin: 0 20px 20px 20px;
+}
+.dealbox .dog {
+	position:absolute;
+	bottom: -15px;
+	right: 0;
+	width: 180px;
+}
+.dealbox .deal-title {
+	background-image:url("{{STATIC_URL}}img/large_background/horse_dark.png");
+	background-position:center center;
+	background-size:cover;
+	height: 260px;
+	width: 50%;
+	float:left;
+	overflow:hidden;
+}
+.dealbox .pill-bg {
+	background-image:url("{{STATIC_URL}}img/large_background/pill_dark.png");
+}
+.dealbox .equipment-bg {
+	background-image:url("{{STATIC_URL}}img/large_background/equipmentbg.png");
+}
+.dealbox .deals {
+	width: 50%;
+	float: left;
+	padding: 15px;
+}
+.dealbox .deals .deal-image {
+	width: 25%;
+	height: 80px;
+	border:1px solid #eee;
+	background-position:center center;
+	background-size:cover;
+	display:inline-block;
+	vertical-align: top;
+
+}
+.dealbox .deals .deal {
+	margin-bottom: 20px;
+}
+.dealbox .deals .deal-info {
+	width: 75%;
+	display:inline-block;
+	vertical-align: top;
+	padding-left: 10px;
+}
+.dealbox .deals .deal-info h4 {
+	font-weight: 200;
+	font-size: 15px;
+	color: #333;
+	letter-spacing: .25px;
+	margin: 0;
+	white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.dealbox .deals .deal-info h5 {
+	margin: 5px 0 0 0;
+}
+.dealbox .deals .deal-info h5 .original{
+	font-size: 15px;
+	color: #999;
+	font-weight: 200;
+	letter-spacing: .25px;
+	text-decoration: line-through;
+	margin: 0;
+	font-size: 14px;
+}
+.dealbox .deals .deal-info h5 .newprice {
+	color: green;
+	font-weight: bold;
+	margin-left: 5px;
+	font-size: 16px;
+}
+.dealbox .deals .deal-info p {
+	color: #777;
+	margin-top: 5px;
+	font-size: 12px;
+}
+.dealbox .deals .deal-info .star {
+	display:inline-block;
+	margin-top: 3px;
+	vertical-align: middle;
+}
+.dealbox .deals .deal-info .rating span {
+	vertical-align: middle;
+	margin-left: 5px;
+	color: #999;
+	padding-top: 2px;
+}
+.dealbox .morelink {
+	float: right;
+	margin-top: 10px;
+	position:absolute;
+	bottom:10px;
+	right: 10px;
+}
+
+.homebox {
+	margin-top: 25px;
+	background:#fff;
+	border:1px solid #eee;
+}
+.homebox h4 {
+	margin: 0 10px;
+	font-size: 15px;
+	padding: 10px 0;
+	font-weight: normal;
+	border-bottom:1px solid #e6e6e6;
+}
+.homebox h4 a {
+	font-size: 12px;
+	margin-top: 5px;
+	float: right;
+	font-weight: 200;
+}
+.backorder {
+	padding:10px 10px 5px 10px;
+	margin-bottom: 5px;
+}
+.homebox a:not(.button):hover {
+	text-decoration: underline;
+}
+.backorder .drug-name {
+	font-weight: 200;
+	letter-spacing: .3px;
+	font-size: 13px;
+}
+.backorder p {
+	margin: 0 0 0px 0;
+}
+.backorder a {
+	font-size: 12px;
+}
+.backorder .date{
+	color: #999;
+	margin-left: 10px;
+	font-size: 11px;
+	font-weight: 200;
+}
+.referral {
+	background-image:url("{{STATIC_URL}}img/misc/referral.png");
+	background-position:center center;
+	background-size:cover;
+	text-align: center;
+	padding-bottom: 20px;
+}
+.referral h3 {
+	color: #f6f6f6;
+	font-size: 30px;
+}
+.referral p {
+	font-size: 13px;
+	color: #fff;
+	text-shadow: 0 0 1px #000;
+}
+.usedequipment {
+	background-image:url("{{STATIC_URL}}img/large_background/ultrasound.png");
+	background-position:center center;
+	background-size:cover;
+	text-align: center;
+	padding: 10px 10px 20px 10px;
+}
+.usedequipment p {
+	text-shadow: 0 0 2px #fff;
+}
+.analytics {
+	background-image:url("{{STATIC_URL}}img/large_background/graph_bg.png");
+	background-position:center center;
+	background-size:cover;
+	text-align: center;
+	padding: 10px 10px 20px 10px;
+}
+</style>
+{% block account_css %}{% endblock %}
+{% endblock %}
+{% block js %}
+<script>
+$(document).ready(function() {
+	//Auto Focus on the search bar when page loads
+	$("#searchinput").focus();
+});
+</script>
+{% endblock %}
+{% block content %}
+<div class="row introrow">
+	<div class="col-md-9 dealbox-col">
+
+		<div class="dealbox">
+			<div class="deal-title">
+				<h3>Our Most</h3>
+				<h3>Unbelievable</h3>
+				<h3>Deals Yet</h3>
+			</div>
+			<div class="deals">
+				<div class="deal">
+					<div class="deal-image" style="background-image:url('{{STATIC_URL}}img/large_background/horse_dark.png')"></div><div class="deal-info">
+						<h4><a href='#'>Salix Solution in Aerial Bubbles</a></h4>
+						<h5><span class="original">$121.23</span><span class="newprice">$23.29</span></h5>
+						<div class="rating"><div class="star blackstar star{{rating}}"></div><span>(3)</span></div>
+						<p>* Personalized Deal. <a href="#">Learn More</a></p>
+					</div>
+				</div>
+				<div class="deal">
+					<div class="deal-image" style="background-image:url('{{STATIC_URL}}img/large_background/horse_dark.png')"></div><div class="deal-info">
+						<h4><a href='#'>Salix Solution in Aerial Bubbles</a></h4>
+						<h5><span class="original">$121.23</span><span class="newprice">$23.29</span></h5>
+						<div class="rating"><div class="star blackstar star{{rating}}"></div><span>(3)</span></div>
+						<p>* Personalized Deal. <a href="#">Learn More</a></p>
+					</div>
+				</div>
+				<a href='#' class="morelink">View all Personalized Deals &rarr;</a>
+			</div>
+			<div class="clear"></div>
+		</div>
+		<div class="product-row">
+			<h3 class="row-title">Inspired by Your Shopping Trends</h3>
+			<div class="products">
+				{% for name in names %}
+					{% include 'product/productpreview.html' with name=name rating=4 %}
+				{% endfor %}
+			</div>
+			<div class="clear"></div>
+			<div class="morelink">
+				<a href='#'>View more item inspired by your shopping trends &rarr;</a>
+			</div>
+		</div>
+		<div class="product-row">
+			<h3 class="row-title">Best Selling Products</h3>
+			<div class="products">
+				{% for name in names %}
+					{% include 'product/productpreview.html' with name=name %}
+				{% endfor %}
+			</div>
+			<div class="clear"></div>
+			<div class="morelink">
+				<a href='#'>View all best selling items &rarr;</a>
+			</div>
+		</div>
+		<div class="dealbox">
+			<div class="deal-title pill-bg">
+				<h3>Jaw Dropping</h3>
+				<h3>Out of this World</h3>
+				<h3>Pharma Specials</h3>
+			</div>
+			<div class="deals">
+				<div class="deal">
+					<div class="deal-image" style="background-image:url('{{STATIC_URL}}img/large_background/horse_dark.png')"></div><div class="deal-info">
+						<h4><a href='#'>Salix Solution in Aerial Bubbles</a></h4>
+						<h5><span class="original">$121.23</span><span class="newprice">$23.29</span></h5>
+						<div class="rating"><div class="star blackstar star{{rating}}"></div><span>(3)</span></div>
+					</div>
+				</div>
+				<div class="deal">
+					<div class="deal-image" style="background-image:url('{{STATIC_URL}}img/large_background/horse_dark.png')"></div><div class="deal-info">
+						<h4><a href='#'>Salix Solution in Aerial Bubbles</a></h4>
+						<h5><span class="original">$121.23</span><span class="newprice">$23.29</span></h5>
+						<div class="rating"><div class="star blackstar star{{rating}}"></div><span>(3)</span></div>
+					</div>
+				</div>
+				<a href='#' class="morelink">View all Weekly Specials &rarr;</a>
+			</div>
+			<div class="clear"></div>
+		</div>
+		<div class="product-row">
+			<h3 class="row-title">Recently Reduced In Price</h3>
+			<div class="products">
+				{% for name in names %}
+					{% include 'product/productpreview.html' with name=name %}
+				{% endfor %}
+			</div>
+			<div class="clear"></div>
+			<div class="morelink">
+				<a href='#'>View all items that dropped in price &rarr;</a>
+			</div>
+		</div>
+		<div class="product-row">
+			<h3 class="row-title">Top Rated Products</h3>
+			<div class="products">
+				{% for name in names %}
+					{% include 'product/productpreview.html' with name=name %}
+				{% endfor %}
+			</div>
+			<div class="clear"></div>
+			<div class="morelink">
+				<a href='#'>View all top rated products &rarr;</a>
+			</div>
+		</div>
+		<div class="dealbox">
+			<div class="deal-title equipment-bg">
+				<h3>Equipment</h3>
+				<h3>Up To 90% Off</h3>
+				<h3>Retail Price</h3>
+			</div>
+			<div class="deals">
+				<div class="deal">
+					<div class="deal-image" style="background-image:url('{{STATIC_URL}}img/large_background/horse_dark.png')"></div><div class="deal-info">
+						<h4><a href='#'>Salix Solution in Aerial Bubbles</a></h4>
+						<h5><span class="original">$121.23</span><span class="newprice">$23.29</span></h5>
+						<p>Sold by Colts Neck Equine</p>
+					</div>
+				</div>
+				<div class="deal">
+					<div class="deal-image" style="background-image:url('{{STATIC_URL}}img/large_background/horse_dark.png')"></div><div class="deal-info">
+						<h4><a href='#'>Salix Solution in Aerial Bubbles</a></h4>
+						<h5><span class="original">$121.23</span><span class="newprice">$23.29</span></h5>
+						<p>Sold by Everwood Equine Practice</p>
+					</div>
+				</div>
+				<a href='#' class="morelink">View all Equipment &rarr;</a>
+			</div>
+			<div class="clear"></div>
+		</div>
+	</div>
+	<div class="col-md-3 sidecol">
+		<div class="homebox referral">
+			<h3>Give $20, Get $20</h3>
+			<p>Send a $20 discount to another clinic, and receive $20 instant credits!</p>
+			<a href='#' class='button button-flat button-rounded button-flat-royal'>Learn More</a>
+		</div>
+		<div class="homebox">
+			<h4>Back Order Tracker <a href="#">View All</a></h4>
+			<div class="backorder">
+				<p class="drug-name">Lidacayne Methosol 2mg</p>
+				<p><span class="label label-danger">On Backorder</span><span class="date">as of Dec 14, 2014</span></p>
+				<a href='#'>See alternatives and compounds &rarr;</a>
+			</div>
+			<div class="backorder">
+				<p class="drug-name">Lidacayne Methosol 2mg</p>
+				<p><span class="label label-warning">Under Inspection</span><span class="date">as of Dec 14, 2014</span></p>
+				<a href='#'>See alternatives and compounds &rarr;</a>
+			</div>
+			<div class="backorder">
+				<p class="drug-name">Lidacayne Methosol 2mg</p>
+				<p><span class="label label-warning">Under Inspection</span><span class="date">as of Dec 14, 2014</span></p>
+				<a href='#'>See alternatives and compounds &rarr;</a>
+			</div>
+			<div class="backorder">
+				<p class="drug-name">Lidacayne Methosol 2mg</p>
+				<p><span class="label label-danger">On Backorder</span><span class="date">as of Dec 14, 2014</span></p>
+				<a href='#'>See alternatives and compounds &rarr;</a>
+			</div>
+			<div class="backorder">
+				<p class="drug-name">Lidacayne Methosol 2mg</p>
+				<p><span class="label label-danger">On Backorder</span><span class="date">as of Dec 14, 2014</span></p>
+				<a href='#'>See alternatives and compounds &rarr;</a>
+			</div>
+		</div>
+		<div class="homebox usedequipment">
+			<h3>Sell Used Equipment</h3>
+			<p>List a used piece of equipment on VetCove, and receive <strong>100% of the sale</strong> as credits towards future VetCove purchases</p>
+			<a href='#' class='button button-flat button-rounded button-flat-primary'>List Equipment</a>
+		</div>
+		<div class="homebox analytics">
+			<h3>Show off Your Savings</h3>
+			<p>Show your practice how much you saved with our advanced, printable analytics reports</p>
+			<a href='#' class='button button-flat button-rounded button-flat-action'>View Reports</a>
+		</div>
+	</div>
+</div>
+{% endblock %}
+

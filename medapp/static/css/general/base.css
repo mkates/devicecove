@@ -23,8 +23,10 @@ input::-moz-focus-inner {
 	position: relative;
 	margin: 0 auto;
 	box-shadow: 0 0px 8px #333;
-	background-image: -moz-linear-gradient(left, #E3F3FC 0%, #F2FFF5 50%, #FCFCED 75%, #FDF5FF 100%);
+	background: #eee;
+	/*background-image: -moz-linear-gradient(left, #E3F3FC 0%, #F2FFF5 100%, #FCFCED 75%, #FDF5FF 100%);*/
 	/*background-image: -moz-linear-gradient(left, #E8F4FC 0%, #F5F2FF 50%, #F2FAF0 100%);*/
+	background-image: -moz-linear-gradient(left, #E3F3FC 0%, #F2FFF5 100%);
 }
 .content {
 	margin: 20px 0 40px 0;
@@ -39,7 +41,10 @@ input::-moz-focus-inner {
 .vetbox {
 	border:1px solid #d6d6d6;
 	box-shadow: 0 0 2px #ccc;
-	background-image: url("../../img/whitetransparency2.png");
+	background-image: url("../../img/transparency/whitetransparency2.png");
+}
+.whitebox {
+	background: #fff;
 }
 .row {
 	margin: 0;
@@ -240,6 +245,8 @@ padding: 0;
 }
 .header .searchbar {
 	width:50%;
+	position:relative;
+	padding: 0 5px;
 	float: left;
 }
 .header .searchbar table {
@@ -265,6 +272,7 @@ padding: 0;
 	padding: 5px 5px 0 5px;
 	text-align: center;
 	border-top:1px solid #ddd;
+	background: #555;
 	background-image: -moz-linear-gradient(top, #777777 0%, #444444 100%);
 }
 .header .subheader .subheader-option {
@@ -282,7 +290,6 @@ padding: 0;
 	text-decoration: none;
 }
 .header .subheader div .subheader-option:not(.active):not(.categories):hover {
-	background: #777;
 	color: #fff;
 }
 .header .subheader .subheader-option p {
@@ -387,7 +394,20 @@ padding: 0;
 	display:inline-block;
 	vertical-align: top;
 }
-
+.newcustomer {
+	font-size: 12px;
+}
+.custom-dropdown .dropdown-box .newcustomer a {
+	display:inline-block;
+	font-size: 12px;
+	padding: 0;
+	color: #009cc3;
+}
+.custom-dropdown .dropdown-box .newcustomer a:hover {
+	background: none;
+	text-decoration: underline;
+	color: #007b9a;
+}
 /*Categories div */
 .header .subheader .category-div {
 	margin-bottom: 0px;
@@ -443,6 +463,11 @@ padding: 0;
 	border-top:1px solid #ddd;
 	font-weight: 600;
 }
+.header .subheader .category-box .category-menu ul {
+	list-style-type: none;
+	padding: 0;
+	margin: 0;
+}
 .header .subheader .category-box .category-menu a span {
 	float: right;
 	font-size: 20px;
@@ -451,7 +476,7 @@ padding: 0;
 .header .subheader .category-box .category-menu a:hover span {
 	color: #009cc3;
 }
-.header .subheader .category-box .category-menu a.active span {
+.header .subheader .category-box .category-menu a.activate span {
 	color: #009cc3;
 }
 .header .subheader div .category-box .category-menu a:hover{
@@ -460,7 +485,7 @@ padding: 0;
 	text-decoration: none;
 	cursor:pointer;
 }
-.header .subheader .category-box .category-menu .category-menu-item.active {
+.header .subheader .category-box .category-menu .category-menu-item.activate {
 	color: #009cc3;
 }
 .category-box .category-content {
@@ -514,7 +539,7 @@ padding: 0;
 	padding: 3px 0;
 	border-bottom: 1px solid #aaa;
 	text-align: center;
-	background-image: url("../../img/blacktransparency_3.png");
+	background-image: url("../../img/transparency/blacktransparency_3.png");
 }
 .thirdheader a {
 	padding: 3px 0;
@@ -591,8 +616,9 @@ padding: 0;
 #autosuggest {
 	position: absolute;
 	background: white;
-	z-index: 99;
-	width: 40%;
+	z-index: 90;
+	width: 96%;
+	left: 7px;
 	box-shadow: 0 3px 7px #bbb;
 	text-align: left;
 
@@ -699,7 +725,7 @@ padding: 0;
 
 /* Footer */
 .footer {
-	background: #9DA6AE;
+	background: #444;
 	background-image: -moz-linear-gradient(top, #666666 0%, #333333 100%);
 	padding-bottom: 20px;
 	border-top:1px solid #eee;
@@ -823,10 +849,10 @@ padding: 0;
 	height: 16px;
 	width: 85px;
 	overflow: hidden;
-	background-image: url("../../img/blackstars.png");
+	background-image: url("../../img/misc/blackstars.png");
 }
 .goldstar {
-	background-image: url("../../img/goldstars.png");
+	background-image: url("../../img/misc/goldstars.png");
 }
 
 .star4 {
@@ -851,7 +877,7 @@ padding: 0;
 	right: 0px;
 	text-decoration: none;
 	color: #fff;
-	background-image:url("../../img/blacktransparency.png");
+	background-image:url("../../img/transparency/blacktransparency.png");
 	font-size: 12px;
 	border-bottom-left-radius: 3px;
 	border-top-left-radius: 3px;

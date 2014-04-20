@@ -1,6 +1,5 @@
 from django.shortcuts import render_to_response, redirect
 from django.template.loader import render_to_string
-from deviceapp.models import *
 from django.template import RequestContext, Context, loader
 from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth import authenticate, login, logout
@@ -10,14 +9,125 @@ from django.shortcuts import render
 from django.core.exceptions import ObjectDoesNotExist
 from django.conf import settings
 from django.utils.timezone import utc
-import json, math, difflib, locale, time, re, string
+import json, math, difflib, locale, time, re, string, balanced
 from datetime import datetime
-import balanced
+from account.forms import *
 from helper.model_imports import *
 import payment.views as payment_view
 import emails.views as email_view
-from account.forms import *
-from helper.credits import *
+
+
+
+###########################################
+#### Portal Pages #########################
+###########################################
+def product(request):
+	return render_to_response('product/product2.html',context_instance=RequestContext(request))
+
+### Main dashboard ###
+@login_required
+def dashboard(request):
+	return HttpResponseRedirect('/')
+	
+### Orders ###
+@login_required
+def orders(request):
+	return render_to_response('account/pages/orders.html',{'account_orders':True},context_instance=RequestContext(request))
+
+### Returns ###
+@login_required
+def returns(request):
+	return render_to_response('account/pages/returns.html',{'account_returns':True},context_instance=RequestContext(request))
+
+### Analytics ###
+@login_required
+def analytics(request):
+	return render_to_response('account/pages/analytics.html',{'account_analytics':True},context_instance=RequestContext(request))
+
+### Questions ###
+@login_required
+def questions(request):
+	return render_to_response('account/pages/questions.html',{'account_questions':True},context_instance=RequestContext(request))
+
+### Reviews ###
+@login_required
+def reviews(request):
+	return render_to_response('account/pages/reviews.html',{'account_reviews':True},context_instance=RequestContext(request))
+
+### Sell ###
+@login_required
+def sell(request):
+	return render_to_response('account/pages/sell.html',{'account_sell':True},context_instance=RequestContext(request))
+
+### Payments ###
+@login_required
+def payments(request):
+	return render_to_response('account/pages/payments.html',{'account_payments':True},context_instance=RequestContext(request))
+
+### Settings ###
+@login_required
+def settings(request):
+	return render_to_response('account/pages/settings.html',{'account_settings':True},context_instance=RequestContext(request))
+
+
+###########################################
+#### Cart and Wishlist ####################
+###########################################
+
+
+### Cart ###
+def cart(request):
+	return render_to_response('account/pages/cart.html',context_instance=RequestContext(request))
+
+### Wishlist ###
+@login_required
+def wishlist(request):
+	return render_to_response('account/pages/wishlist.html',context_instance=RequestContext(request))
+
+
+###########################################
+#### Login and Sign Up ####################
+###########################################
+def signin(request):
+	next = request.GET.get('next',None)
+	action = request.GET.get('action',None)
+	if request.user.is_authenticated():
+		return HttpResponseRedirect("/account/profile")
+	return render_to_response('account/signin.html',{'next':next,'action':action,'login':True},context_instance=RequestContext(request))
+
+def signup(request):
+	next = request.GET.get('next',None)
+	action = request.GET.get('action',None)
+	if request.user.is_authenticated():
+		return HttpResponseRedirect("/account/profile")
+	return render_to_response('account/signin.html',{'next':next,'action':action,'signup':True},context_instance=RequestContext(request))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 ###########################################
 #### Logins and new users #################

@@ -1,0 +1,83 @@
+{% extends 'general/info_base.html' %}
+{% block headertitle %}VetCove | Contact Us{% endblock%}
+{% block css_block %}
+<style>
+.mainbar .infobox {
+	padding: 20px;
+}
+.contact-container {
+	padding: 20px;
+}
+.section-container h3 img {
+	float: right;
+	width: 47px;
+	margin-top: -7px;
+}
+.contactform {
+	padding-top: 10px;
+}
+.contactform input {
+	max-width: 400px;
+}
+.contactform textarea {
+	resize:vertical;
+	min-height: 100px;
+}
+.success-message {
+	text-align: center;
+	padding: 20px 0;
+}
+.success-message p {
+	font-weight: 200;
+	padding: 25px;
+}
+</style>
+{% endblock %}
+
+
+{% block info_content %}
+{% load phonenumber %}
+<div class="vetbox headerbox">
+	<h3>Contact Us</h3>
+</div>
+<div class="infobox vetbox">
+	{% if success %}
+	<div class="success-message">
+		<img src='{{STATIC_URL}}img/checkmark.png'/>
+		<p>Thank you for your message. We appreciate any and all feedback. If you asked a question in particular,
+			we will be in touch very soon!</p>
+		<a href="/contact" class="button button-rounded">Send Another Message</a>
+	</div>
+	{% endif %}
+	{% if failure %}
+	<div class="alert alert-danger">
+		We were unable to process your message. We are sorry for the inconvenience, please try again or email us directly at
+		&#105;&#110;&#102;&#111;&#064;&#118;&#101;&#116;&#099;&#111;&#118;&#101;&#046;&#099;&#111;&#109;
+	</div>
+	{% endif %}
+	{% if not success %}
+	<p> We'd love to help you in any way you can, and we always appreciate feedback. You can also drop us a line at &#105;&#110;&#102;&#111;&#064;&#118;&#101;&#116;&#099;&#111;&#118;&#101;&#046;&#099;&#111;&#109; or give us a call at (732) 598-6434. </p>
+	<form method="POST" action="/contactform" class="contactform">
+		{% csrf_token %}
+		<div class="form-group">
+			<label for="name">Name</label>
+			<input type="text" name="name" class="form-control" id="contact-name" placeholder="Name" required value='{{user.basicuser.name}}'>
+		</div>
+		<div class="form-group">
+			<label for="name">Email</label>
+			<input type="email" name="email" class="form-control" id="contact-email" placeholder="Email" required value='{{user.basicuser.email}}'>
+		</div>
+		<div class="form-group">
+			<label for="name">Message</label>
+			<textarea name="message" class="form-control" id="contact-message" placeholder="Message" required></textarea>
+		</div>
+		<button type="submit" class="button button-rounded button-action">Send Message</button>
+	</form>
+	{% endif %}
+
+</div>
+{% endblock %}
+
+{% block jsblock %}
+
+{% endblock %}

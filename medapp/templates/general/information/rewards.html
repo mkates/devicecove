@@ -1,0 +1,38 @@
+{% extends 'general/info_base.html' %}
+{% block headertitle %}VetCove | Reward Programs{% endblock%}
+{% block css_block %}
+<style>
+.mainbar .infobox {
+	padding: 20px;
+	background: #fff;
+}
+.mainbar .question {
+	margin: 20px 0 40px 0;
+}
+
+</style>
+{% endblock %}
+
+
+{% block info_content %}
+<div class="vetbox headerbox">
+	<h3>VetCove Rewards</h3>
+</div>
+<div class="vetbox infobox">
+	<div class="question">
+		<h4>Give $20, Get $20 Referral</h4>
+		<p>They are many ways to help fellow veterinarian clinic's save money. Exclusive to current clinics and hospitals on our system, we offer a $20 discount to share with your friends and colleagues. You have the option to share the discount through email, facebook, twitter, and more. If they make a purchase, you will also receive $20 credit to your account!</p>
+		<a href="/refer" class="button button-primary button-rounded">Send a Referral</a>
+	</div>
+	<div class="question">
+		<h4>Review UpVote Bonuses</h4>
+		<p>Product reviews help make our system trustworthy and robust. Every review you write will have an upvote button where other users on the system can upvote your reviews if they find your review helpful. For every 100 upvotes on your reviews, we will credit your account with an additional $10. Help other practices make better decisions and help your practice save! Check our your</p>
+		<a href="/account/review" class="button button-primary button-rounded">View My Reviews</a>
+	</div>
+	
+
+{% endblock %}
+
+{% block jsblock %}
+
+{% endblock %}

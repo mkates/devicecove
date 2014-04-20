@@ -1,0 +1,82 @@
+<form class="addressform" action="{% if payment or profile %}/account/addmailingaddress{% else %}/newaddress/{{checkout.id}}{% endif %}" method="post">
+		{% csrf_token %}
+		<div class="form-group">
+			<label for="companyname">Name</label>
+			<table>
+				<tr>
+					<td class="form-input"><input type="text" class="form-control" id="address_name" name="name" placeholder="First and Last Name" /></td>
+					<td class="form-img"><img src="{{STATIC_URL}}img/blank.png"/></td>
+				</tr>
+			</table>
+		</div>
+		<div class="form-group">
+			<label for="companyname">Street 1</label>
+			<table>
+				<tr>
+					<td class="form-input"><input type="text" class="form-control" id="address_one" name="address_one" placeholder="Street Address, P.O. Box, Company Name, c/o" ></td>
+					<td class="form-img"><img src="{{STATIC_URL}}img/blank.png"/></td>
+				</tr>
+			</table>
+		</div>
+		<div class="form-group">
+			<label for="companyname">Street 2</label>
+			<table>
+				<tr>
+					<td class="form-input"><input type="text" class="form-control" id="address_two" name="address_two" placeholder="Apartment, Suite, Unit, Building, Floor, etc." /></td>
+					<td class="form-img"><img src="{{STATIC_URL}}img/blank.png"/></td>
+				</tr>
+			</table>
+		</div>
+		<div class="form-group">
+			<label for="companyname">City</label>
+			<table>
+				<tr>
+					<td class="form-input"><input type="text" class="form-control" id="address_city" name="city" placeholder="City"></td>
+					<td class="form-img"><img src="{{STATIC_URL}}img/blank.png"/></td>
+				</tr>
+			</table>
+		</div>
+		<div class="form-group">
+			<label for="companyname">State</label>
+			<table>
+				<tr>
+					<td class="form-input"><select id="address_state" name="state" class="form-control"></select></td>
+					<td class="form-img"><img src="{{STATIC_URL}}img/blank.png"/></td>
+				</tr>
+			</table>
+		</div>
+	
+		<div class="form-group">
+			<label for="companyname">Zipcode</label>
+			<table>
+				<tr>
+					<td class="form-input"><input maxlength="5" length='5' type="text" class="form-control" id="address_zipcode" name="zipcode" placeholder="5 Digit Zipcode"></td>
+					<td class="form-img"><img src="{{STATIC_URL}}img/blank.png"/></td>
+				</tr>
+			</table>
+		</div>
+	
+		<div class="form-group">
+			<label for="companyname">Country</label>
+			<table>
+				<tr>
+					<td class="form-input"><input disabled type="text" class="form-control" name="country" value="United States"></td>
+					<td class="form-img"><img src="{{STATIC_URL}}img/blank.png"/></td>
+				</tr>
+			</table>
+		</div>
+		<div class="form-group">
+			<label for="companyname">Phone Number</label>
+			<table>
+				<tr>
+					<td class="form-input"><input type="text" class="form-control" id="address_phonenumber" name="phonenumber" placeholder="Phone Number (Including Area Code)"></td>
+					<td class="form-img"><img src="{{STATIC_URL}}img/blank.png"/></td>
+				</tr>
+			</table>
+		</div>
+		{% if payment %}
+		<input type="hidden" value="true" name="payment">
+		{% endif %}
+	<button name="submit" class="button button-action button-rounded" value="submit">{% if payment %}Mail Checks to{% elif profile %}Add{% else %}Ship to {% endif %} this Address</button>	
+	{% if payment or profile %}<a class="button button-rounded payment-cancel">Cancel</a>{% endif %}
+ </form>

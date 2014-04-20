@@ -1,0 +1,216 @@
+/*****************************************/
+/** General Page Formatting **************/
+/*****************************************/	
+.pagecontainer {
+	margin: 30px auto;
+	max-width: 1000px;
+}
+.maincontent {
+	min-height: 250px;
+	background: none;
+	box-shadow: none;
+	padding: 0;
+}
+.maincontent {
+	background: none;
+	box-shadow: none;
+}
+.maincontent-container {
+	margin: 20px 0;
+}
+.sidecontent-title {
+	font-size: 12px;
+}
+.admin-section {
+	margin-bottom: 15px;
+}
+.sidecontent {
+	padding-left: 0px;
+}
+.sidecontent ul {
+	padding: 0;
+	margin: 0;
+	background: white;
+	border:1px solid #ddd;
+}
+.sidecontent ul li {
+	list-style-type: none;
+	height: 30px;
+	padding: 0;
+	margin: 0;
+	padding-left: 10px;
+	color: #444;
+}
+.sidecontent ul a li:hover {
+	color: black;
+	cursor: pointer;
+	background: #f2f2f2;
+	text-decoration: none;
+}
+.sidecontent ul a li.active span {	
+	background: white;
+	color: #555;
+	margin-left: 3px;
+}
+
+.sidecontent ul a li.active {
+	background: #00B5E5;
+	background-image: -ms-linear-gradient(top, #00B5E5 0%, #008DB2 100%);
+	background-image: -moz-linear-gradient(top, #00B5E5 0%, #008DB2 100%);
+	background-image: -o-linear-gradient(top, #00B5E5 0%, #008DB2 100%);
+	background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #00B5E5), color-stop(1, #008DB2));
+	background-image: -webkit-linear-gradient(top, #00B5E5 0%, #008DB2 100%);
+	background-image: linear-gradient(to bottom, #00B5E5 0%, #008DB2 100%);
+	font-weight:bold;
+	color: #fff;
+	box-shadow: 0 0 6px #ccc;
+}
+.sidecontent ul li h3 {
+	font-size: 13px;
+	line-height: 30px; 
+	margin: 0;
+	padding: 0;
+}
+.sidecontent ul a .suboption h3{
+	padding-left: 20px;
+	font-size: 12px;
+}
+.sidecontent .redbadge {
+	background: #ffdddd;
+	color: #a03e3e;
+}
+.sidecontent .greenbadge {
+	background: #E9F7E9;
+	color: #339E28;
+}
+.maincontent .title {
+	margin: 0;
+	padding: 0;
+	font-size: 20px;
+	padding-left: 20px;
+	background: white;
+	margin-bottom: 10px;
+	line-height: 45px;
+	border-bottom:1px solid #ddd;
+	text-align: left;
+}
+
+.maincontent-title {
+	color: #888;
+	letter-spacing: .5px;
+	font-weight: bold;
+	background: #f2f2f2;
+	border-bottom:1px solid #ddd;
+	margin: 0;
+	line-height: 32px;
+	padding: 5px 0px 5px 20px;
+	margin-bottom: 0px;
+	background-image: -ms-linear-gradient(top, #FFFFFF 0%, #EEEEEE 100%);
+	background-image: -moz-linear-gradient(top, #FFFFFF 0%, #EEEEEE 100%);
+	background-image: -o-linear-gradient(top, #FFFFFF 0%, #EEEEEE 100%);
+	background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #FFFFFF), color-stop(1, #EEEEEE));
+	background-image: -webkit-linear-gradient(top, #FFFFFF 0%, #EEEEEE 100%);
+	background-image: linear-gradient(to bottom, #FFFFFF 0%, #EEEEEE 100%);
+}
+.nolisting {
+	text-align: center;
+	padding: 30px 0;
+}
+.nolistings {
+	padding: 20px 20px 10px 20px;
+	font-size: 18px;
+	color: #aaa;
+	text-align: center;
+}
+#listbutton {
+	margin: 0px auto;
+}
+.listaction {
+	width: 100%;
+	margin-top: 0px;
+}
+.red-badge {
+	background: #DB0909;
+}
+.indented {
+	padding-left: 40px;
+}
+.badge {
+	background: #f4f4f4;
+	border:1px solid #ccc;
+	color: #000;
+	font-weight: bold;
+	border-radius: 3px;
+	float: right;
+	margin: 5px 10px;
+}
+
+/*Payment Address formatting*/
+
+.paymentbox .payment-address {
+}
+.paymentbox .payment-address .address-toggle {
+	margin: 10px 0;
+	margin-left: 20px;
+}
+.paymentbox .payment-address .checkbox label {
+	font-weight: 200;
+	font-size: 13px;
+}
+.paymentbox .payment-address-div div {
+	padding: 15px 3px;
+}
+.paymentbox .address-box {
+	padding: 10px 0 20px 0;
+	border:1px solid #ddd;
+	border-radius: 3px;
+	background: #f6f6f6;
+	text-align: center;	
+}
+.paymentbox .address-box form {
+	display: inline-block;
+}
+
+.paymentbox .address-box button {
+	margin-top: 15px;
+}
+.paymentbox .address-box p {
+	margin: 0;
+	font-size: 13px;
+	text-align: center;
+	font-weight: 500;
+	padding: 0;
+}
+.payment-address-new-button {
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+.payment-address-new-button div {
+	padding: 0;
+	padding-left: 3px;
+}
+.payment-address-new-form {
+	border:1px solid #ddd;
+	border-radius: 4px;
+	padding: 20px;
+	background: #f6f6f6;
+	display: none;
+}
+.paymentbox .payment-address-new-form .address-description {
+	padding: 0 20px;
+	margin-bottom: 20px;
+}
+.payment-address-new-form .addressform {
+	padding: 0 20px;
+}
+.payment-address-new-form .addressform table{
+	width: 100%;
+	max-width: 400px;
+}
+.payment-address-new-form .addressform .form-img {
+	width: 50px;
+}
+.payment-address-new-form .addressform .form-img img{
+	max-width: 20px;
+	margin-left: 10px;
+}

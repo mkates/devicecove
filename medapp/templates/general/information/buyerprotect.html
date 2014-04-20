@@ -1,0 +1,45 @@
+{% extends 'general/info_base.html' %}
+{% block headertitle %}VetCove | Buyer Protection{% endblock%}
+
+{% block css_block %}
+<style>
+	.mainbar .infobox {
+		padding: 20px;
+	}
+	.infobox .question {
+		margin: 20px 0px 40px 0;
+	}
+</style>
+{% endblock %}
+{% block info_content %}
+{% load phonenumber %}
+<div class="vetbox headerbox">
+	<h3>Buyer Protection Program</h3>
+</div>
+<div class="vetbox infobox">
+	<div class="question">
+		<p>VetCove is committed to ensuring that every transaction that takes place through our site goes smoothly.  We strive to create mutually beneficial transactions between trusted partners that result in getting quality equipment into the hands of those who need it.  Try as we may, sometimes items do not arrive as a buyer expects.  For those situations, we’ve created the Buyer Protection Program to ensure that buyers find total satisfaction when using VetCove.</p>
+	</div> 
+	<div class="question">
+		<h4>What are my rights as a VetCove buyer?</h4>
+		<p>Under the VetCove Total Buyer Protection Guarantee, we ensure you receive the item you paid for without any compromises, and that you are happy with your purchase.  You have five full business days to use the unit you purchased without any risk.  If you are not completely satisfied with your purchase, you may return it to the seller for any reason by initiating a return within five business days.</p>
+	</div>
+	<div class="question">
+		<h4>How do I initiate a return?</h4>
+		<p>We strongly encourage that you contact the seller directly to try and resolve any issues with the transaction with them directly.  If you would like to return your item for a refund, you have a right to return any product within the five business day return period at your expense.  All equipment must be repackaged, along with all accessories received, exactly as it was received from the seller to ensure no damage during return shipping.  Any damage during return shipping will be at the expense and liability of the buyer, so for sensitive or expensive equipment we recommend taking photos of the received item to document its condition prior to shipping.  Please note that except in cases where an item arrives materially different than described in appearance or function, return shipping is at the buyer’s expense.</p>
+	</div>
+	<div class="question">
+		<h4>How do I resolve a dispute with a seller when an item was not as described?</h4>
+		<p>When an item arrives materially different than it was described on the site, such that it materially affects the value and/or functionality of the unit, we will facilitate a resolution for you to return the item at the seller’s expense for a full refund.  We require that buyers try to resolve a dispute directly with a seller first. The contact information of the seller should be in an e-mail from VetCove, and can also be found by going to your purchase history and clicking on “report a problem”.  If you are still unable to resolve the disagreement after five business days, you may submit a dispute to the VetCove Resolution team. To submit a request for resolution, please do the follow:</p>
+		<p><strong>A:</strong> For website purchases: To initiate a return, go to your purchase history page within your account settings on the website.  Click on the “report a problem” button at the bottom of the listing that you purchased.  Choose the reason for your report, and add text to describe the problem in detail along with the history for your attempt at resolution with the seller.  VetCove will try to contact the seller, respond within five business days with a resolution or request for additional information.</p>
+		<p><strong>B:</strong> For offline purchases: If you completed a transaction in person without submitting payment through VetCove, please e-mail us at buyerprotection@vetcove.com.  In cases where an item was inspected in person, there are more limited options for resolution, but the VetCove team will do everything it can to facilitate a return and refund in cases where an item does not perform or operate as described.</p>
+	</div>
+	<div class="question">
+		<p>If you have any questions about the VetCove Buyer Protection Guarantee or the resolution process, you may e-mail us at buyerprotection@vetcove.com or call {{PHONE_NUMBER|phonenumber}}.</p>
+	</div>
+</div>
+{% endblock %}
+
+{% block jsblock %}
+
+{% endblock %}
