@@ -75,11 +75,11 @@ class Supplier(models.Model):
 	members = models.ManyToManyField(BasicUser)
 	name = models.CharField(max_length=60)
 	description = models.TextField()
-	website = models.CharField(max_length=60,blank=True)
+	website = models.CharField(max_length=60,blank=True,null=True)
 	mainimage = ProcessedImageField(upload_to=create_company_image_path, processors=[ResizeToFit(300, 150)],format='JPEG',options={'quality': 60},null=True,blank=True) 
 
 	# Payment and Payout Methods
-	balanceduri = models.CharField(max_length=255,blank=True)
+	balanceduri = models.CharField(max_length=255,blank=True,null=True)
 	payout_method = models.ForeignKey('payment.Payment',null=True,blank=True)
 
 

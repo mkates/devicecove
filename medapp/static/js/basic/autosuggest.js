@@ -10,7 +10,7 @@ var searchtext = '';
 var autosuggestcall = function autosuggestcall(bar) {
 	var data = (bar == 'desktop' ) ? $("#searchinput").val() : $("#mobile-searchbar input").val();
 	$.ajax({
-		url: '/autosuggest',
+		url: '/method/autosuggest',
 		type: 'GET',
 		data: {"searchterm":data},
 		cache:true,
@@ -23,26 +23,25 @@ var autosuggestcall = function autosuggestcall(bar) {
 					resultshandle = [];
 					activeid = -1;
 					displayresults = response;
-					$("#categoriessection").empty();
-					$("#productssection").empty();
-					$(".categoriesheader").css('display','none');
-					$(".productsheader").css('display','none');
+					$("#autosuggest .section-content").empty();
+					$("#autosuggest .section").css('display','none');
 					$.each(displayresults, function( key, value ) {
 						if (!(value['mainimage'])) {
 							value['mainimage'] = noImageURL;
 						}
 						if (value['type'] == 'category') {
-							var so = $("<a class='searchoption' href='"+value['link']+"'><div class='textitem'><p class='displaytext'>"+value['name']+"</p></div></a>");
+							var so = $("<a class='searchoption' href='/category/"+value['link']+"'><div class='textitem'><p class='displaytext'>"+value['name']+"</p></div></a>");
 							$("#categoriessection").append(so);
 							$(".categoriesheader").css('display','block');
 							resultshandle.push(so);
-						} else if (value['type'] == 'subcategory') {
-							var so = $("<a class='searchoption' href='"+value['link']+"'><div class='textitem'><p class='displaytext'>"+value['name']+"</p></div></a>");
-							$("#categoriessection").append(so);
-							$(".categoriesheader").css('display','block');
+						} else if (value['type'] == 'manufacturer') {
+							var so = $("<a class='searchoption' href='/manufacturer/"+value['link']+"'><div class='textitem'><p class='displaytext'>"+value['name']+"</p></div></a>");
+							$("#manufacturerssection").append(so);
+							$(".manufacturerheader").css('display','block');
 							resultshandle.push(so);
 						} else if (value['type'] == 'product'){
-							var so = $("<a class='searchoption' href='"+value['link']+"'><div class='productitem'><img src='"+value['mainimage']+"'/><div class='producttext'><p class='displaytext' class='productname'>"+value['name']+"</p><p class='productsubtext'>in "+value['category']+"</p></div><div class='clear'></div></div></a></div>");
+							console.log(value);
+							var so = $("<a class='searchoption' href='/product/"+value['link']+"'><div class='productitem'><img src='"+value['mainimage']+"'/><div class='producttext'><p class='displaytext' class='productname'>"+value['name']+"</p><p class='productsubtext'>in "+value['category']+"</p></div><div class='clear'></div></div></a></div>");
 							$("#productssection").append(so);
 							resultshandle.push(so);
 							$(".productsheader").css('display','block');
@@ -51,7 +50,6 @@ var autosuggestcall = function autosuggestcall(bar) {
 					$("#autosuggest").css('display','block');
 				} else {
 					$("#sidr-searchresults").empty();
-					console.log(response);
 					$.each(response, function( key, value ) {
 						$("#sidr-searchresults").append("<a href='"+value['link']+"'>"+value['name']+"</a>");
 					});

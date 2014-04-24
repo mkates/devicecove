@@ -33,16 +33,13 @@ def index(request):
 
 ### Category Directory ###
 def categories(request):
-	categories = Category.objects.all().prefetch_related('subcategory_set')
-	for cat in categories:
-		subcategories = cat.subcategory_set.all().order_by('displayname')
-		length = math.ceil(len(subcategories)/3.0)
-		cat_array = [[],[],[]]
-		for i in range(len(subcategories)):
-			row = int(math.floor((i)/length))
-			cat_array[row].append(subcategories[i])
-		cat.subcat = cat_array
-	return render_to_response('general/categories.html',{'categories':categories},context_instance=RequestContext(request))
+	categories = Category.objects.all()
+	maincategories = categories.filter(category_type='maincategory').order_by('displayname')
+	#Format the subcategories into alphabetical rows of 3
+	for cat in maincategories:
+		subcategories = cat.parents.filter(category_type='secondcategory').order_by('displayname')
+		cat.subcat = subcategories
+	return render_to_response('general/categories.html',{'categories':maincategories},context_instance=RequestContext(request))
 
 ### Referral Landing Page ###
 def newReferral(request,referral_id):

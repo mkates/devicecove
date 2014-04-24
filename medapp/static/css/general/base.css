@@ -9,6 +9,9 @@ body {
 	background: #ddd;
 	font-family: "helvetica neue",arial,helvetica,freesans,"liberation sans","numbus sans l",sans-serif;
 }
+a {
+	color: #009cc3;
+}
 a,a:hover, a:focus,a:active,a:after, a:visited{
 	outline: none;
 }
@@ -646,7 +649,7 @@ padding: 0;
 	font-weight: 700;
 	color: #444;
 	border-bottom:1px solid #ddd;
-	background: #eee;
+	background: #f6f6f6;
 }
 #autosuggest .textitem {
 	height: 30px;
@@ -855,17 +858,40 @@ padding: 0;
 	background-image: url("../../img/misc/goldstars.png");
 }
 
-.star4 {
+.star45 {
+	background-image: url("../../img/misc/blackstars_half.png");
 	background-position: -17px 0;
 }
-.star3 {
+.star35 {
+	background-image: url("../../img/misc/blackstars_half.png");
 	background-position: -34px 0;
 }
-.star2 {
+.star25 {
+	background-image: url("../../img/misc/blackstars_half.png");
 	background-position: -51px 0;
 }
-.star1 {
+.star15 {
+	background-image: url("../../img/misc/blackstars_half.png");
 	background-position: -68px 0;
+}
+.star5 {
+	background-image: url("../../img/misc/blackstars_half.png");
+	background-position: -85px 0;
+}
+.star40 {
+	background-position: -17px 0;
+}
+.star30 {
+	background-position: -34px 0;
+}
+.star20 {
+	background-position: -51px 0;
+}
+.star10 {
+	background-position: -68px 0;
+}
+.star0 {
+	background-position: -85px 0;
 }
 
 /**********************************/

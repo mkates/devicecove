@@ -65,7 +65,14 @@
 .sidebox {
 	background: #f6fbfc;
 	padding: 10px;
+	margin-bottom: 20px;
 	border:1px solid #e2e3e7;
+}
+.sidebox h3 {
+	font-size: 15px;
+	text-align: center;
+	margin: 0 0 15px 0;
+}
 }
 
 /* Tab Formatting */
@@ -73,17 +80,18 @@
 	padding: 0;
 	position:relative;
 	z-index: 1;
-	border-bottom:1px solid #ccc;
 }
 .account-tab {
 	background: #f6f6f6;
 	color: #333;
-	margin-bottom: -1px;
+	z-index: 1;
+	position:relative;
 	font-weight: 400;
 	font-size: 14px;
 	padding: 5px 5px;
 	text-align: center;
 	border:1px solid #ccc;
+	margin-bottom: -1px;
 }
 .account-tab.active {
 	background: #fff;
@@ -101,9 +109,15 @@
 	z-index:0;
 	margin-top: 0px;
 	padding: 10px;
+	border-top:1px solid #ccc;
 }
 .account-tab-div {
 	display:none;
+}
+.account-tab-div h3 {
+	border-bottom:1px solid #eee;
+	padding-bottom: 5px;
+	margin-bottom: 15px;
 }
 .account-tab-div.first {
 	display:block;
@@ -133,6 +147,7 @@ $(document).ready(function(){
 <div class="account-container">
 	<div class="side-container">
 		<h3>Buying</h3>
+		<a href='/account/credits' class="side-container-item{% if account_credits %} active {% endif %}">Credits</a>
 		<a href='/account/orders' class="side-container-item{% if account_orders %} active {% endif %}">Order History</a>
 		<!-- <a class="side-container-item ">Templates</a> -->
 		<a href='/account/returns' class="side-container-item{% if account_returns %} active {% endif %}">Returns</a>
@@ -140,6 +155,7 @@ $(document).ready(function(){
 		<h3>Community</h3>
 		<a href='/account/questions' class="side-container-item{% if account_questions %} active {% endif %}">Questions <span class="badge">2</span></a>
 		<a href='/account/reviews' class="side-container-item{% if account_reviews %} active {% endif %}">Reviews</a>
+		<a href='/account/referrals' class="side-container-item{% if account_referrals %} active {% endif %}">Referrals</a>
 		<h3>Selling</h3>
 		<a href='/account/sell' class="side-container-item{% if account_sell %} active {% endif %}">Sell on VetCove</a>
 		<!-- <a class="side-container-item">Listings</a>
@@ -147,6 +163,7 @@ $(document).ready(function(){
 		<h3>Account</h3>
 		<a href='/account/payments' class="side-container-item{% if account_payments %} active {% endif %}">Payments</a>
 		<a href='/account/settings' class="side-container-item{% if account_settings %} active {% endif %}">Settings</a>
+		<a href='/account/profile' class="side-container-item{% if account_profile %} active {% endif %}">Profile</a>
 	</div><div class="main-container">
 		<h2 class="title">{% block account_title %} Your Account {% endblock %}</h2>
 		{% block account_content %}{% endblock %}

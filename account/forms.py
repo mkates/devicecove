@@ -1,10 +1,17 @@
 from django import forms
 
-class LoginForm(forms.Form):
-	email = forms.EmailField(max_length=60)
+class SignUpForm(forms.Form):
+	firstname = forms.CharField()
+	lastname = forms.CharField()
+	username = forms.EmailField(max_length=60)
 	password = forms.CharField(widget=forms.PasswordInput) 
+	reenterpassword = forms.CharField(widget=forms.PasswordInput) 
 	referrer_id = forms.CharField(required=False)
 	rememberme = forms.BooleanField(required=False)
+
+class LoginForm(forms.Form):
+	username = forms.EmailField(max_length=60)
+	password = forms.CharField(widget=forms.PasswordInput) 
 
 class FeedbackForm(forms.Form):
 	love = forms.CharField(widget = forms.Textarea)

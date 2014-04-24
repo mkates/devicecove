@@ -7,7 +7,7 @@ from imagekit.models import ProcessedImageField
 ####### Product Database Models ############
 ############################################
 
-# Industries in our case can be small animal, bovine, equine #
+# Industries in our case can be small animal, bovine, and equine #
 class Industry(models.Model):
 	name = models.CharField(max_length=40)
 	displayname = models.CharField(max_length=50)
@@ -26,21 +26,15 @@ class Manufacturer(models.Model):
 ############ Categories ####################
 
 class Category(models.Model):
-	name = models.CharField(max_length=60)
+	name = models.CharField(max_length=60,unique=True)
 	displayname = models.CharField(max_length=50)
 	totalunits = models.IntegerField(default=0) # Script updates this
-	def __unicode__(self):
-		return self.displayname
- 
-class MainCategory(Category):
+	parents = models.ManyToManyField('self')
 	industry = models.ManyToManyField(Industry)
-
-class SecondCategory(Category):
-	category = models.ManyToManyField(MainCategory)
-	maincategory = models.ForeignKey(Category,related_name='second_maincategory') # Need a main category for breadcrumbs
-
-class ThirdCategory(models.Model):
-	secondcategory = models.ForeignKey(SecondCategory)
+	CATEGORY_TYPES = (('maincategory','maincategory'),('secondcategory','secondcategory'),('thirdcategory','thirdcategory'))
+	category_type = models.CharField(max_length=20,choices=CATEGORY_TYPES)
+	def __unicode__(self):
+		return self.category_type+": "+self.displayname
 
 ############################################
 ############ Catalog #######################
@@ -49,9 +43,15 @@ class ThirdCategory(models.Model):
 ### Product Listing (what search is based around) ###
 class Product(models.Model):
 	name = models.CharField(max_length=200, unique=True)
+	displayname = models.CharField(max_length=200)
+	manufacturer = models.ForeignKey(Manufacturer)
 	category = models.ForeignKey(Category)
 	description = models.TextField()
 	mainimage = models.ForeignKey('Image',null=True,blank=True)
+	averagerating = models.IntegerField(max_length=2,default=0) # Multiplied by 10, so 50 is the highest rating
+	def __unicode__(self):
+		return self.displayname
+
 
 class Pharma(Product):
 	rx = models.BooleanField(default=True)
@@ -83,18 +83,16 @@ class Device(Product): # Large devices
 ### Item's are products with multiple types, i.e. 50mg and 100mg versions
 class Item(models.Model):
 	product = models.ForeignKey(Product)
-	manufacturer = models.TextField(blank=True)
 	manufacturer_no = models.CharField(max_length=25,null=True,blank=True)
-	size = models.CharField(max_length=50,null=True,blank=True) # ie. .5kg, 60ml
-	unit = models.CharField(max_length=50,null=True,blank=True) # ie. jar, bottle, paste
+	description = models.TextField()
 	itemimage = models.ForeignKey('Image',related_name="itemimage",null=True,blank=True) # if size specific image is available
+	msrp_price = models.BigIntegerField(max_length=13)
 
-### What a distributor/manufacturer uploads (their inventory) ###
-class Listing(models.Model): 
+### When a distributor/manufacturer uploads (their inventory) ###
+class Inventory(models.Model): 
+	supplier = models.ForeignKey('account.Supplier')
 	sku = models.CharField(max_length=25,null=True,blank=True) # The uploader's SKU for this product
 	item = models.ForeignKey(Item)
-	supplier = models.ForeignKey('account.Supplier')
-	unit_quantity = models.IntegerField(max_length=8) # ie. a case of 12 or a pallet of 144
 	quantity_available = models.IntegerField(max_length=8) # Quantity of this amount available
 	price = models.BigIntegerField(max_length=13) # in cents
 

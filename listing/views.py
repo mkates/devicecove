@@ -12,23 +12,153 @@ from django.db.models import Q
 from datetime import datetime
 from django.utils.timezone import utc
 import json, re, string, math, difflib, locale, time
+from fuzzywuzzy import fuzz, process
 from listing.models import *
 import checkout.views as checkoutview
 import emails.views as email_view
 import helper.commission as commission
 from helper.model_imports import *
+from django.db.models import Q
 
 ###########################################
 #### Listing Pages  #######################
 ###########################################
 
-def getsubcategories(request):
-	category = Category.objects.get(name=request.GET['category'])
-	subcategories = SubCategory.objects.filter(category=category)
-	dict = {}
-	for sub in subcategories:
-		dict[sub.name] = sub.displayname
+# Search by a category
+def category(request,category):
+	# Determine the category type
+	category = Category.objects.get(name=category)
+	child_categories = allCategoriesInTree(category)
+	products = Product.objects.filter(category__in=child_categories)
+	dictionary = {'child_categories':child_categories,'category':category}
+	details = getDetailsFromSearch(products)
+	return render_to_response('search/search2.html',dict(dictionary.items()+details.items()),context_instance=RequestContext(request))
+
+def manufacturer(request,category):
+	pass
+
+def ingredient(request,ingredient):
+	pass
+
+def autosuggest(request):
+	searchterm = request.GET.get('searchterm','')
+	bestmatches = relatedProductsFromSearchWord(searchterm,10)
+	dict = []
+	for items in bestmatches:
+		#Item format ('equipose','90','product')
+		if items[2] == 'category':
+			category = Category.objects.get(name=items[0])
+			dict.append({'type':'category','name':category.displayname,'link':category.name})
+		elif items[2] == 'manufacturer':
+			manufacturer = Manufacturer.objects.get(name=items[0])
+			dict.append({'type':'manufacturer','name':manufacturer.displayname,'link':manufacturer.name})
+		elif items[2] == 'item':
+			item = Item.objects.get(manufacturer_no=items[0])
+			dict.append({'type':'item','name':item.displayname + item.manufacturer_no,'link':item.name})
+		elif items[2] == 'product':
+			product = Product.objects.get(name=items[0])
+			dict.append({'type':'product','name':product.displayname,'link':product.name,'mainimage':product.mainimage,'category':product.category.displayname})
 	return HttpResponse(json.dumps(dict), content_type='application/json')
+
+
+# Finds all descendants of a category
+def allCategoriesInTree(category):
+	categories = [category]
+	category_type = category.category_type
+	if category_type == 'maincategory':
+		for secondcategory in category.parents.filter(category_type='secondcategory'):
+			categories.append(secondcategory)
+			for thirdcategory in secondcategory.parents.filter(category_type='thirdcategory'):
+				categories.append(thirdcategory)
+	elif category_type == 'secondcategory':
+		for secondcategory in category.parents.filter(category_type='thirdcategory'):
+			categories.append(secondcategory)
+	return categories
+
+# Returns the eligible items based on the category and the filters
+def filterSearch(category,filters):
+	category = Category.objects.get(name=category)
+	child_categories = allCategoriesInTree(category)
+	products = Product.objects.filter(category__in=child_categories)
+	eligibleItems = []
+	for product in products:
+		items = product.item_set.all()
+		if product.averagerating < int(filters['stars']-1)*10: #Product Rating
+			continue
+		if filters['manufacturers']: # Manufacturer
+			if product.manufacturer not in filters['manufacturers']:
+				continue
+		eligibleItems.append(product)
+	return eligibleItems
+
+# Find related products with a custom search
+def relatedProductsFromSearchWord(searchword,GOAL_AMOUNT):
+	results = []
+
+	# Categories
+	categories = Category.objects.values_list('name',flat=True)
+	results = results + getTopMatches(results,searchword,categories,'category',10)
+	# Product
+	products = Product.objects.values_list('name',flat=True)
+	results= results+ getTopMatches(results,searchword,products,'product',20)
+	# Item
+	items = Item.objects.values_list('manufacturer_no',flat=True)
+	results= results+ getTopMatches(results,searchword,items,'item',3)
+	# Manufacturer
+	manufacturers = Manufacturer.objects.values_list('name',flat=True)
+	results= results+ getTopMatches(results,searchword,manufacturers,'manufacturer',10)
+	# Ingredients
+	ingredients = Ingredient.objects.values_list('name',flat=True)
+
+	#Sort and limit results
+	results= results+ getTopMatches(results,searchword,items,'ingredients',5)
+	sorted_results = sorted(results, key=lambda tup: tup[1], reverse=True)[0:GOAL_AMOUNT]
+	return sorted_results
+
+### Given a list of strings and a word, find the n best matches ###
+def getTopMatches(results,searchword,flat_objs,name,limit):
+	top_ten = process.extract(searchword,flat_objs,limit=limit)
+	list = [((tt[0],tt[1],name) if int(tt[1])>60 else None) for tt in top_ten] 
+	return filter(None,list)
+
+### Get Details from a search ####
+def getDetailsFromSearch(products):
+	manufacturers = []
+	lowprice, highprice = None, None
+	for product in products:
+		if product.manufacturer not in manufacturers:
+			manufacturers.append(product.manufacturer)
+		details = getItemDetailsFromAProduct(product)
+		if not lowprice or details['lowprice'] < lowprice:
+			lowprice = details['lowprice']
+		if not highprice or details['highprice'] > highprice:
+			highprice = details['highprice']
+		product.details = details
+	return {'manufacturers':manufacturers,'lowprice':lowprice,'highprice':highprice,'products':products}
+
+### Given a product, get details from all the item's listings ####
+def getItemDetailsFromAProduct(product):
+	items = product.item_set.all()
+	lowprice,highprice = None, None
+	msrp_lowprice,msrp_highprice = None,None
+	suppliers = []
+	quantity = 0
+	for item in items:
+		if not msrp_lowprice or item.msrp_price < msrp_lowprice:
+			msrp_lowprice = item.msrp_price
+		if not msrp_highprice or item.msrp_price > msrp_highprice:
+			msrp_highprice = item.msrp_price 
+		inventories = item.inventory_set.all()
+		for inventory in inventories:
+			if inventory.supplier not in suppliers:
+				suppliers.append(inventory.supplier)
+			quantity += inventory.quantity_available
+			if not lowprice or inventory.price < lowprice:
+				lowprice = inventory.price
+			if not highprice or inventory.price > highprice:
+				highprice = inventory.price
+	return {'lowprice':lowprice,'highprice':highprice,'msrp_lowprice':msrp_lowprice,'msrp_highprice':msrp_highprice,'quantity':quantity,'suppliers':suppliers}
+
 
 @login_required
 def newlisting(request,listingtype):

@@ -51,21 +51,38 @@ urlpatterns = patterns('',
     url(r'^dashboard','account.views.dashboard'),
     url(r'^wishlist','account.views.wishlist'),
     url(r'^cart','account.views.cart'),
+    url(r'^account/credits','account.views.credits'),
     url(r'^account/orders','account.views.orders'),
     url(r'^account/returns','account.views.returns'),
     url(r'^account/analytics','account.views.analytics'),
     url(r'^account/questions','account.views.questions'),
     url(r'^account/reviews','account.views.reviews'),
+    url(r'^account/referrals','account.views.referrals'),
     url(r'^account/sell','account.views.sell'),
     url(r'^account/payments','account.views.payments'),
     url(r'^account/settings','account.views.settings'),
+    url(r'^account/profile','account.views.profile'),
 
     url(r'^item/1','account.views.product'),
 
     ########## Login ########################
     #########################################
-    url(r'^signin','account.views.signin'),
-    url(r'^signup','account.views.signup'),
+    url(r'^loginform','account.views.loginform'),
+    url(r'^signupform','account.views.signupform'),
+    url(r'^signin/','account.views.signin'),
+    url(r'^signup/','account.views.signup'),
+
+    ########## Listing ######################
+    #########################################
+    url(r'^method/autosuggest/','listing.views.autosuggest'),
+    url(r'^category/(?P<category>\w+)','listing.views.category'),
+    url(r'^manufacturer/(?P<manufacturer>\w+)','listing.views.manufacturer'),
+    url(r'^ingredient/(?P<ingredient>\w+)','listing.views.ingredient'),
+
+
+
+
+
 
 
 
@@ -104,7 +121,6 @@ urlpatterns = patterns('',
 
     ########## Listing App ##################
     #########################################
-    url(r'^getsubcategories','listing.views.getsubcategories'),
     url(r'^newlisting/(?P<listingtype>\w+)','listing.views.newlisting'),
     url(r'^list/business/(?P<itemid>\d+)','listing.views.listbusiness'),
     url(r'^savebusiness/(?P<itemid>\d+)','listing.views.savebusiness'),
@@ -129,7 +145,6 @@ urlpatterns = patterns('',
 
     ########## Account App ##################
     #########################################
-    url(r'^account/profile','account.views.profile'),
     url(r'^account/notifications','account.views.notifications'),
     url(r'^account/clearnotifications','account.views.clearNotifications'),
     url(r'^account/bonus/','account.views.bonus'),

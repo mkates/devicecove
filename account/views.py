@@ -3,6 +3,7 @@ from django.template.loader import render_to_string
 from django.template import RequestContext, Context, loader
 from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.utils.html import escape
 from django.shortcuts import render
@@ -28,7 +29,12 @@ def product(request):
 @login_required
 def dashboard(request):
 	return HttpResponseRedirect('/')
-	
+
+### Credits ###
+@login_required
+def credits(request):
+	return render_to_response('account/pages/credits.html',{'account_credits':True},context_instance=RequestContext(request))
+
 ### Orders ###
 @login_required
 def orders(request):
@@ -54,6 +60,11 @@ def questions(request):
 def reviews(request):
 	return render_to_response('account/pages/reviews.html',{'account_reviews':True},context_instance=RequestContext(request))
 
+### Referrals ###
+@login_required
+def referrals(request):
+	return render_to_response('account/pages/referrals.html',{'account_referrals':True},context_instance=RequestContext(request))
+
 ### Sell ###
 @login_required
 def sell(request):
@@ -68,6 +79,12 @@ def payments(request):
 @login_required
 def settings(request):
 	return render_to_response('account/pages/settings.html',{'account_settings':True},context_instance=RequestContext(request))
+
+### Profile ###
+@login_required
+def profile(request):
+	return render_to_response('account/pages/profile.html',{'account_profile':True},context_instance=RequestContext(request))
+
 
 
 ###########################################
@@ -102,7 +119,51 @@ def signup(request):
 		return HttpResponseRedirect("/account/profile")
 	return render_to_response('account/signin.html',{'next':next,'action':action,'signup':True},context_instance=RequestContext(request))
 
+def loginform(request):
+	action = request.POST.get('action','')
+	rememberme = request.POST.get('rememberme','')
+	username = request.POST['username']
+	username = username.lower()
+	password = request.POST['password']
+	user = authenticate(username=username,password=password)
+	if user is not None:
+		if user.is_active:
+			login(request,user)
+			if rememberme:
+				request.session.set_expiry(500000)
+			else:
+				request.session.set_expiry(0)
+			if request.POST.get('next',''):
+				return HttpResponseRedirect(request.GET['next'])
+			else:
+				return HttpResponseRedirect("/")
+		else:
+			return render_to_response('account/signin.html',{'login':True,'login_outcome':'This account no longer exists'},context_instance=RequestContext(request))
+	else:
+		return render_to_response('account/signin.html',{'login':True,'login_outcome':'Your email and/or password was incorrect'},context_instance=RequestContext(request))
+	return HttpResponseRedirect("/")
 
+def signupform(request):
+	action = request.POST.get('action','')
+	rememberme = request.POST.get('rememberme','')
+	firstname = request.POST.get('firstname')
+	lastname = request.POST.get('lastname')
+	username = request.POST.get('username')
+	password = request.POST['password']
+	reenterpassword = request.POST['reenterpassword']
+	if password != reenterpassword:
+		return render_to_response('account/signin.html',{'signup':True,'signup_outcome':'Passwords do not match'},context_instance=RequestContext(request))
+	user = User.objects.create_user(username,username,password)
+	user.save()
+	basicuser = BasicUser(user=user,firstname=firstname,lastname=lastname)
+	basicuser.save()
+	user = authenticate(username=user,password=password)
+	login(request,user)
+	if request.POST.get('next',''):
+		return HttpResponseRedirect(request.GET['next'])
+	else:
+		return HttpResponseRedirect("/")
+	return HttpResponseRedirect("/")
 
 
 
@@ -481,19 +542,19 @@ def updateProviders(request):
 	return HttpResponse(json.dumps({'status':500}), content_type='application/json')
 
 
-@login_required
-def profile(request):
-	if request.user.is_authenticated():
-		bu = request.user.basicuser
-		dict = {'basicuser':bu,'profile':True}
-		if request.method == "GET":
-			if request.GET.get('e',''):
-				dict['error']= request.GET.get('e','')
-			if request.GET.get('s',''):
-				dict['success']= request.GET.get('s','')
-		return render_to_response('account/profile.html',dict,context_instance=RequestContext(request))
-	else:
-   		return render_to_response('general/index.html',context_instance=RequestContext(request))
+# @login_required
+# def profile(request):
+# 	if request.user.is_authenticated():
+# 		bu = request.user.basicuser
+# 		dict = {'basicuser':bu,'profile':True}
+# 		if request.method == "GET":
+# 			if request.GET.get('e',''):
+# 				dict['error']= request.GET.get('e','')
+# 			if request.GET.get('s',''):
+# 				dict['success']= request.GET.get('s','')
+# 		return render_to_response('account/profile.html',dict,context_instance=RequestContext(request))
+# 	else:
+#    		return render_to_response('general/index.html',context_instance=RequestContext(request))
 
 @login_required
 def payment(request):

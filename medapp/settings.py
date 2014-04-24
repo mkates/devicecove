@@ -161,7 +161,6 @@ INSTALLED_APPS = (
     'payment',
     'purchase',
     'questions',
-    'search',
     'selling',
     'staffportal',
     #'south', #DB Migrations
