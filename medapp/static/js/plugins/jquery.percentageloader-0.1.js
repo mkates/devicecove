@@ -118,18 +118,18 @@ see the file license.txt that was included with the plugin bundle.
 
         /* Create our linear gradient for the outer ring */
         lingrad = ctx.createLinearGradient(cX, 0, cX, canvas.height);
-        lingrad.addColorStop(0, '#d6eeff');
-        lingrad.addColorStop(1, '#b6d8f0');
+        lingrad.addColorStop(0, '#eee');
+        lingrad.addColorStop(1, '#ddd');
 
         /* Create inner gradient for the outer ring */
         innerGrad = ctx.createLinearGradient(cX, cX * 0.133333, cX, canvas.height - cX * 0.133333);
-        innerGrad.addColorStop(0, '#f9fcfe');
-        innerGrad.addColorStop(1, '#d9ebf7');
+        innerGrad.addColorStop(0, '#f2f2f2');
+        innerGrad.addColorStop(1, '#fff');
 
         /* Tube gradient (background, not the spiral gradient) */
         tubeGrad = ctx.createLinearGradient(cX, 0, cX, canvas.height);
-        tubeGrad.addColorStop(0, '#c1dff4');
-        tubeGrad.addColorStop(1, '#aacee6');
+        tubeGrad.addColorStop(0, '#eee');
+        tubeGrad.addColorStop(1, '#fff');
 
         /* The inner circle is 2/3rds the size of the outer one */
         innerRadius = cX * 0.6666;
@@ -177,7 +177,7 @@ see the file license.txt that was included with the plugin bundle.
             /* draw outer circle */
             ctx.fillStyle = lingrad;
             ctx.beginPath();
-            ctx.strokeStyle = '#b2d5ed';
+            ctx.strokeStyle = '#ddd';
             ctx.arc(cX, cY, radius, 0, Math.PI * 2, counterClockwise);
             ctx.fill();
             ctx.stroke();
@@ -187,7 +187,7 @@ see the file license.txt that was included with the plugin bundle.
             ctx.beginPath();
             ctx.arc(cX, cY, innerRadius, 0, Math.PI * 2, counterClockwise);
             ctx.fill();
-            ctx.strokeStyle = '#b2d5edaa';
+            ctx.strokeStyle = '#ddd';
             ctx.stroke();
 
             ctx.beginPath();
@@ -235,7 +235,7 @@ see the file license.txt that was included with the plugin bundle.
 
             /* Background tube */
             ctx.beginPath();
-            ctx.strokeStyle = '#bcd4e5';
+            ctx.strokeStyle = '#ccc';
             makeInnerTubePath(startAngle, endAngle);
 
             ctx.fillStyle = tubeGrad;
@@ -271,17 +271,17 @@ see the file license.txt that was included with the plugin bundle.
                 fontSize = cX / 2;
 
                 percentageText.style.top = ((settings.height / 2) - (fontSize / 2)).toString() + 'px';
-                percentageText.style.color = '#357d3f';
+                percentageText.style.color = '#6a9902';
                 percentageText.style.font = fontSize.toString() + 'px BebasNeueRegular';
 
                 /* Calculate the text for the given percentage */
-                string = "$"+(progress * 100.0).toFixed(0);
-                credits = "$"+parseInt(settings.credits*(progress*1.0));
+                string = (progress * 100.0).toFixed(0);
+                credits = parseInt(settings.credits*(progress*1.0));
                 percentageText.innerHTML = credits;
 
                 /* Calculate font and placement of small 'value' text */
                 smallSize = cX / 5.5;
-                valueText.style.color = '#80a9c8';
+                valueText.style.color = '#aaa';
                 valueText.style.font = smallSize.toString() + 'px BebasNeueRegular';
                 valueText.style.height = smallSize.toString() + 'px';
                 valueText.style.textShadow = 'None';

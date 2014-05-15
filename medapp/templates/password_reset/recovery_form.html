@@ -1,27 +1,37 @@
-{% extends "password_reset/base.html" %}
+{% extends 'account/sign/sign_base.html' %}
 {% load i18n %}
 {% load url from future %}
 
 {% block title %}{% trans "Password recovery" %}{% endblock %}
-{% block headercss %}
-<link href="{{STATIC_URL}}css/login.css" rel="stylesheet" type="text/css" />
+{% block sign_css %}
+<style>
+.passwordform {
+	margin-top: 15px;
+}
+.passwordform button {
+	margin-top: 20px;
+}
+</style>
 {% endblock %}
-{% block content %}
-	<div class="logincontainer">
-		<div class="login">
-			<div class="loginheader">
-				<h1>Reset Your Password</h1>
-				<h2>Don't have an account? <a href="/login"> Signup here</a></h2>
+{% block sign_content %}
+<div class="signupdiv row">
+	<div class="col-md-7 signup-form">
+		<h3>Reset Your Password</h3>
+		<h4>Don't have an account? <a href="/signup"> Sign Up here</a></h4>
+		<form method="post" action="{{ url }}" class="passwordform">
+            {% csrf_token %}
+            <div class="form-group status-group">
+				<p>Email</p>
+				 <input id="id_username_or_email" class="form-control" type="text" name="username_or_email" placeholder="ex. joedoe@gmail.com">
+				<button class="button button-rounded button-primary" type="submit" value="{% trans "Recover my password" %}">Email Password Reset Info</button>
 			</div>
-			 <form method="post" action="{{ url }}" class="loginform">
-                {% csrf_token %}
-                <p>Email</p>
-                <input id="id_username_or_email" class="form-control" type="text" name="username_or_email" placeholder="ex. joedoe@gmail.com">
-                <button class="button button-rounded button-primary" type="submit" value="{% trans "Recover my password" %}">Email Password Reset Info</button>
-       		 </form>
-       		 <div class="clear"></div>
+   		 </form>
+	</div>
+	<div class="col-md-5 signup-info">
+		<div class="feature">
+			<p>Mobile Pin, Coming Soon</p>
+			<p class="feature-explain">For added convenience, our mobile app will allow the option to use a 4 digit pin instead of a password.</p>
 		</div>
 	</div>
-       
+</div>
 {% endblock %}
-

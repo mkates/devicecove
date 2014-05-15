@@ -4,12 +4,13 @@
 <link href='{{STATIC_URL}}css/pages/search.css' rel='stylesheet' type='text/css' />
 <style>
 .content {
-  background: #eee;
+  background: #fafafa;
   margin: 0;
   padding: 20px 0;
 }
 .vetbox {
 	background: #fff;
+  box-shadow: none;
 }
 .star {
 	display:inline-block;
@@ -82,6 +83,8 @@
 .remove-button {
   display:none;
 }
+
+
 </style>
 {% endblock %}
 
@@ -146,24 +149,24 @@ $(document).ready(function(){
 	<div class='filterbox vetbox'>
 
 		<!-- Category Filter -->
-		<div class='filter-departments filter-category notopborder'>
+	<!-- 	<div class='filter-departments filter-category notopborder'>
 			<h2>Categories</h2>
       {% for child_category in child_categories %}
         {% if child_category != category %}
 			     <a href="/category/{{child_category.name}}" class='sub-category'>{{child_category.displayname}} <span>{{category.totalunits}}</span></a>
 			 {% endif %}
       {% endfor %}
-		</div>
+		</div> -->
 
 	
   	<!-- Discount Filter -->
   		<div class='filter-category'>
   			<h2>Discount</h2>
   			<div class='checkbox'>
-          <input id="discount_50" type="radio" value="30" name="discount"><label for="discount_50">50% or more<span>2</span></label>
-          <input id="discount_25" type="radio" value="25" name="discount"><label for="discount_25">25% or more<span>2</span></label>
-          <input id="discount_10" type="radio" value="10" name="discount"><label for="discount_10">10% or more<span>2</span></label>
-  	  		<input id="discount_0" type="radio" value="0" name="discount" checked><label for="discount_0">No Discount Filters<span>2</span></label>
+          <input id="discount_50" type="radio" value="30" name="discount"><label for="discount_50">50% or more<span>32</span></label>
+          <input id="discount_25" type="radio" value="25" name="discount"><label for="discount_25">25% or more<span>141</span></label>
+          <input id="discount_10" type="radio" value="10" name="discount"><label for="discount_10">10% or more<span>182</span></label>
+  	  		<input id="discount_0" type="radio" value="0" name="discount" checked><label for="discount_0">No Discount Filters<span>231</span></label>
   			</div>
   		</div>
 
@@ -171,17 +174,17 @@ $(document).ready(function(){
   		<div class='filter-category filter-rating'>
   			<h2>Average Vet Rating</h2>
   			<div class='checkbox'>
-          <input type="radio" value="5" name="stars" id="radio_stars_5"><label for="radio_stars_5"><div class="star star5"></div><span> & up</span><span class="count">2</span></label>
-          <input type="radio" value="4" name="stars" id="radio_stars_4"><label for="radio_stars_4"><div class="star star4"></div><span> & up</span><span class="count">2</span></label>
-          <input type="radio" value="3" name="stars" id="radio_stars_3"><label for="radio_stars_3"><div class="star star3"></div><span> & up</span><span class="count">2</span></label>
-          <input type="radio" value="2" name="stars" id="radio_stars_2"><label for="radio_stars_2"><div class="star star2"></div><span> & up</span><span class="count">2</span></label>
-          <input type="radio" value="1" name="stars" id="radio_stars_1" checked="checked"><label for="radio_stars_1"><div class="star star1"></div><span> & up</span><span class="count">2</span></label>
+          <input type="radio" value="5" name="stars" id="radio_stars_5"><label for="radio_stars_5"><div class="star star50"></div><span> & up</span><span class="count">28</span></label>
+          <input type="radio" value="4" name="stars" id="radio_stars_4"><label for="radio_stars_4"><div class="star star40"></div><span> & up</span><span class="count">64</span></label>
+          <input type="radio" value="3" name="stars" id="radio_stars_3"><label for="radio_stars_3"><div class="star star30"></div><span> & up</span><span class="count">83</span></label>
+          <input type="radio" value="2" name="stars" id="radio_stars_2"><label for="radio_stars_2"><div class="star star20"></div><span> & up</span><span class="count">120</span></label>
+          <input type="radio" value="1" name="stars" id="radio_stars_1" checked="checked"><label for="radio_stars_1"><div class="star star10"></div><span> & up</span><span class="count">224</span></label>
   			</div>
   		</div>
 		
 		<!-- Price Filter -->
-		{% if items|length > 1 %}
-		<div id='pricecategory' class='filter-category'>
+		 <!--  {% if items|length > 1 %}
+		  <div id='pricecategory' class='filter-category'>
   			<h2>Price Range</h2>
   			<div id='price-slider-container'>
   				{% load humanize %}
@@ -191,7 +194,7 @@ $(document).ready(function(){
   				<div id='price-range' class='light-gradient'></div>
   			</div>
   		</div>
-  		{% endif %}
+  		{% endif %} -->
 
   		<!-- Condition Filter -->
   		<!-- <div class='filter-category'>
@@ -212,7 +215,11 @@ $(document).ready(function(){
   			<div class='checkbox'>
           {% for manufacturer in manufacturers %}
   				<input class="checkbox_manufacturer" id='manufacturer_{{manufacturer}}' type='checkbox' name='{{manufacturer}}'>
-  				<label for='manufacturer_{{manufacturer}}'>Zoetis<span>0</span></label>
+  				<label for='manufacturer_{{manufacturer}}'>Zoetis<span>12</span></label>
+          <label for='manufacturer_{{manufacturer}}'>Bayer<span>8</span></label>
+          <label for='manufacturer_{{manufacturer}}'>Merck<span>6</span></label>
+          <label for='manufacturer_{{manufacturer}}'>Luitpold<span>4</span></label>
+
           {% endfor %}
   			</div>
   		</div>
@@ -279,7 +286,7 @@ $(document).ready(function(){
           <span class="glyphicon glyphicon-th-list"></span> List View
         </div>
       </div>
-  		<p id="searchquery">Searching for dog food</p>
+  		<p id="searchquery">Searching for Bute</p>
   		<div class='clear'></div>
   		{% if relatedItems %}
   		<div id="related-results">
@@ -296,7 +303,7 @@ $(document).ready(function(){
   		{% endif %}
   	</div>
   	
-  	<div class='resultsbox vetbox' id='resultsbody'>
+  	<div class='resultsbox' id='resultsbody'>
   		{% include 'search/productitem.html' %}
 		<div id="noresults" class="resultitem vetbox">
 			<p class="noluck">Sorry, we can't find anything that matches your search</p>

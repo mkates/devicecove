@@ -15,7 +15,7 @@
 
 {"pk": 1, "model": "listing.manufacturer", "fields": {"name":"zoetis", "displayname": "Zoetis"}},
 
-{"pk": 1, "model": "listing.product", "fields": {"name":"bute", "displayname":"Bute Injectable","description": "Joint Block","category":6,"manufacturer":1,"averagerating":32}},
+{"pk": 1, "model": "listing.product", "fields": {"name":"bute_injectable", "displayname":"Bute Injectable","description": "Joint Block","category":6,"manufacturer":1,"averagerating":32}},
 {"pk": 1, "model": "listing.pharma", "fields": {"rx":true, "compendium": "N/A"}},
 {"pk": 2, "model": "listing.product", "fields": {"name":"wood-twitch","displayname":"Wood Twitch", "description": "strong wood","category":3,"manufacturer":1,"averagerating":18}},
 {"pk": 2, "model": "listing.needles", "fields": {"type":"suture", "length":6,"wound_support":"All"}},
@@ -24,8 +24,107 @@
 {"pk": 1, "model": "listing.item", "fields": {"product":1, "manufacturer_no": 1234567,"description":"Curved, 50ml","msrp_price":5431}},
 {"pk": 2, "model": "listing.item", "fields": {"product":1, "manufacturer_no": 987654,"description":"Curved, 100ml","msrp_price":8431}},
 
-{"pk": 1, "model": "listing.inventory", "fields": {"item":1, "price": 5113,"supplier":1,"quantity_available":2}},
-{"pk": 2, "model": "listing.inventory", "fields": {"item":1, "price": 4992,"supplier":2,"quantity_available":8}}
+{"pk": 1, "model": "listing.inventory", "fields": {"item":1, "base_price": 5113,"supplier":1,"quantity_available":2}},
+{"pk": 2, "model": "listing.inventory", "fields": {"item":2, "base_price": 4992,"supplier":1,"quantity_available":8}},
+{"pk": 3, "model": "listing.inventory", "fields": {"item":2, "base_price": 5092,"supplier":2,"quantity_available":4}},
 
+{"pk": 1, "model": "account.supplier", "fields": {"name": "Henry Schein"}},
+{"pk": 2, "model": "account.supplier", "fields": {"name": "Midwest"}},
+{
+    "pk": 1,
+    "model": "account.clinic",
+    "fields": {
+    	 "creation_date":"2013-10-28T04:36:12.295Z",
+    	 "last_login":"2013-10-28T04:36:12.295Z",
+    	 "referrer_id":"ABCDEF1234",
+    	 "practitioner_name": "Dr. Eric Kates",
+    	 "clinic_name":"Colts Neck Equine",
+    	 "phonenumber": "732-123-4567",
+    	 "organization_type":"LLC",
+    	 "website":"www.cnequine.com",
+    	 "equine":true
+    }
+},
+{
+    "pk": 1,
+    "model": "account.address",
+    "fields": {
+    	 "clinic":1,
+    	 "name": "Colts Neck Equine",
+    	 "address_one":"1 Pacer Court",
+    	 "city": "Colts Neck",
+    	 "state":"New Jersey",
+    	 "zipcode":"07722",
+    	 "country":"United States"
+    }
+},
+{
+    "pk": 1,
+    "model": "checkout.shoppingcart",
+    "fields": {
+         "clinic":1,
+         "creation_date":"2013-10-28T04:36:12.295Z"
+    }
+},
+{
+    "pk": 1,
+    "model": "checkout.cartitem",
+    "fields": {
+         "shoppingcart":1,
+         "date_added":"2013-10-28T04:36:12.295Z",
+         "address":1,
+         "inventory":1,
+         "item":1,
+         "quantity": 4
+    }
+},
+{
+    "pk": 1,
+    "model": "checkout.cartitem",
+    "fields": {
+         "shoppingcart":1,
+         "date_added":"2013-10-28T04:36:12.295Z",
+         "address":1,
+         "inventory":2,
+         "item":2,
+         "quantity": 2
+    }
+},
+{
+    "pk": 1,
+    "model": "auth.user",
+    "fields": {
+        "username": "mitch@aim.com",
+        "first_name": "",
+        "last_name": "",
+        "is_active": true,
+        "is_superuser": false,
+        "is_staff": true,
+        "last_login": "2013-10-28T04:37:02.515Z",
+        "groups": [],
+        "user_permissions": [],
+        "password": "pbkdf2_sha256$10000$baG2jbKu2fmr$GQMak8dwaoerfKjoVBxom27VVhAlm5IAOlcE5wW1fQw=",
+        "email": "mitch@aim.com",
+        "date_joined": "2013-10-28T04:36:12.295Z"
+    }
+},
+{
+    "pk": 1,
+    "model": "account.basicuser",
+    "fields": {
+    	 "user": 1,
+    	 "clinic":1,
+    	 "creation_date": "2014-02-26"
+    }
+},
 
+{"pk": 1,"model": "account.gpo","fields": {"name": "Veterinary GPO"}},
+{"pk": 2,"model": "account.gpo","fields": {"name": "Veterinary Products, Inc."}},
+{"pk": 3,"model": "account.gpo","fields": {"name": "The Veterinary Club, LLC"}},
+{"pk": 4,"model": "account.gpo","fields": {"name": "Veterinary Purchasing Group"}},
+{"pk": 5,"model": "account.gpo","fields": {"name": "Veterinary Group Purchase Services, LLC"}},
+{"pk": 6,"model": "account.gpo","fields": {"name": "Purchasing Services, Inc."}},
+{"pk": 7,"model": "account.gpo","fields": {"name": "VMG"}},
+{"pk": 8,"model": "account.gpo","fields": {"name": "The Veterinary Cooperative"}},
+{"pk": 9,"model": "account.gpo","fields": {"name": "Veterinary Hospitals Assc."}}
 ]

@@ -152,6 +152,7 @@ INSTALLED_APPS = (
     'boto', # For S3 File Storage
     ## All the VetCove Apps ###
     'account',
+    'reviews',
     'checkout',
     'deviceapp',
     'emails',

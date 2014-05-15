@@ -1,0 +1,229 @@
+{% extends 'account/sign/sign_base.html' %}
+{% block sign_css %}
+<style>
+.newaccount-header {
+	text-align: center;
+	margin-bottom: 35px;
+}
+.signup-info .feature {
+	margin: 20px 10px 60px 10px;
+	padding: 10px;
+	border-right: 3px solid #ddd;
+}
+.signup-info .feature .testimonial {
+	font-size: 13px;
+	color: #333;
+	font-weight:normal;
+	text-align: right;
+}
+.signup-info .feature.one {
+	border-right-color: #f78b26;
+}
+.signup-info .feature.two {
+	border-right-color: #fa5559;
+}
+.signup-info .feature.three {
+	border-right-color: #00a885;
+}
+.signup-info .feature.four {
+	border-right-color: #6bc5ea;
+}
+.signup-info .feature h6 {
+	font-weight: bold;
+	text-align: right;
+	color: #333;
+	font-size: 13px;
+}
+.checkboxes .checkbox {
+	width: 49%;
+	display:inline-block;
+	vertical-align: bottom;
+}
+</style>
+{% endblock %}
+
+{% block sign_js %}
+<script>
+$(document).ready(function(){
+	$("#newaccountform").formValidator();
+});
+</script>
+{% endblock %}
+{% block sign_content %}
+<form id="newaccountform" class="form" action='/newaccountform' method="POST">{% csrf_token %}
+	<div class="signupdiv row">
+		<div class="col-md-12 newaccount-header">
+			<h3>Welcome To VetCove!</h3>
+			<h4>You're almost there. We just need to verify your business credentials</h4>
+		</div>
+		<div class="col-md-7 signup-form">
+			<div class="form-group status-group">
+				<p>Primary Practitioner Name<span class="error">Required</span></p>
+				<input data-type="text" data-required="true" name="primary_practitioner" class="form-control" type="text" placeholder="Practitioner Name">
+				<div class="status">
+					<span class="glyphicon glyphicon-ok"></span>
+					<span class="glyphicon glyphicon-remove"></span>
+				</div>
+			</div>
+			<div class="form-group status-group">
+				<p>Clinic Name<span class="error">Required</span></p>
+				<input data-type="text" data-required="true" name="clinic_name" class="form-control" type="text" placeholder="Clinic Name">
+				<div class="status">
+					<span class="glyphicon glyphicon-ok"></span>
+					<span class="glyphicon glyphicon-remove"></span>
+				</div>
+			</div>
+			<div class="form-group status-group">
+				<p>Clinic Website URL (if applicable)</p>
+				<input data-type="text" data-required="false" name="url" class="form-control" type="text" placeholder="Clinic Website URL">
+				<div class="status">
+					<span class="glyphicon glyphicon-ok"></span>
+					<span class="glyphicon glyphicon-remove"></span>
+				</div>
+			</div>
+			<div class="form-group status-group">
+				<p>Clinic Address (Street Address, P.O. Box)<span class="error">Required</span></p>
+				<input data-type="text" data-required="true" name="address_one" class="form-control" type="text" placeholder="Street Address, P.O. Box, Company Name, C/O">
+				<div class="status">
+					<span class="glyphicon glyphicon-ok"></span>
+					<span class="glyphicon glyphicon-remove"></span>
+				</div>
+			</div>
+			<div class="form-group status-group">
+				<p>Clinic Address (Apartment, Suite, Unit, Building, Floor, etc.)</p>
+				<input data-type="text" data-required="false" name="address_two" class="form-control" type="text" placeholder="Apartment, Suite, Unit, Building, Floor, etc.">
+				<div class="status">
+					<span class="glyphicon glyphicon-ok"></span>
+					<span class="glyphicon glyphicon-remove"></span>
+				</div>
+			</div>
+			<div class="form-group status-group">
+					<p>City<span class="error">Required</span></p>
+					<input data-type="text" data-required="true" name="city" class="form-control" type="text" placeholder="City">
+					<div class="status">
+						<span class="glyphicon glyphicon-ok"></span>
+						<span class="glyphicon glyphicon-remove"></span>
+					</div>
+				</div>
+			<div class="inline">
+				<div class="form-group status-group first-group">
+					<p>State<span class="error">Required</span></p>
+					<select name="state" class="form-control">
+						<option>New Jersey</option>
+						<option>New York</option>
+						<option>Kentucky</option>
+					</select>
+				</div><!--
+				--><div class="form-group status-group">
+					<p>Zipccode / Postal Code<span class="error">Required</span></p>
+					<input data-type="text" data-required="true" name="zipcode" class="form-control" type="text" placeholder="Zipcode">
+					<div class="status">
+						<span class="glyphicon glyphicon-ok"></span>
+						<span class="glyphicon glyphicon-remove"></span>
+					</div>
+				</div>
+			</div>
+			<div class="form-group status-group">
+				<p>Phone Number<span class="error">Required</span></p>
+				<input data-type="phonenumber" data-required="true" name="phonenumber" class="form-control" type="text" placeholder="Phone Number">
+				<div class="status">
+					<span class="glyphicon glyphicon-ok"></span>
+					<span class="glyphicon glyphicon-remove"></span>
+				</div>
+			</div>
+			<div class="form-group status-group">
+				<p>Type of Organization</p>
+				<select name="organization_type" class="form-control">
+					<option>Individual</option>
+					<option>LLC</option>
+					<option>Personal</option>
+					<option>Sole-Proprietor</option>
+					<option>Non-Profit</option>
+					<option>Corporation</option>
+					<option>Partnership</option>
+				</select>
+			</div>
+			<div class="form-group status-group">
+				<p>Group Purchasing Organizations (Check all that apply)</p>
+				<div class="checkboxes">
+					{% for gpo in gpos %}
+					<div class="checkbox">
+						<label>
+							<input name="gpo_{{gpo.name}}" type="checkbox">{{gpo.name}}
+						</label>
+					</div>
+					{% endfor %}
+				</div>
+			</div>
+			<div class="form-group status-group">
+				<p>Practice Type (check all that apply)</p>
+				<div class="checkboxes">
+					<div class="checkbox">
+						<label>
+							<input name="large_animal" type="checkbox">Large Animal
+						</label>
+					</div>
+					<div class="checkbox">
+						<label>
+							<input name="small_animal" type="checkbox">Small Animal
+						</label>
+					</div>
+					<div class="checkbox">
+						<label>
+							<input name="equine" type="checkbox">Equine
+						</label>
+					</div>
+				</div>
+			</div>
+			<!-- <div class="form-group status-group">
+				<p>Tax Exemption or Resale Certification Number (if applicable)</p>
+				<input data-type="text" data-required="false"   name="tax_exempt" class="form-control" type="password" placeholder="Tax Exemption Number">
+				<div class="status">
+					<span class="glyphicon glyphicon-ok"></span>
+					<span class="glyphicon glyphicon-remove"></span>
+				</div>
+			</div>
+			<div class="form-group status-group">
+				<p>Copy of Veterinary License<span class="error" id="passwordtext"></span></p>
+				<input required name="license" type="file">
+				<div class="status">
+					<span class="glyphicon glyphicon-ok"></span>
+					<span class="glyphicon glyphicon-remove"></span>
+				</div>
+			</div> -->
+			<div class="form-group status-group">
+				<p>Terms and Conditions</p>
+				<label>
+					<input data-type="checkbox" data-required="true" name="terms" type="checkbox" checked> I agree to the <a href='#' target="_blank">terms and conditions</a>
+				</label>
+			</div>
+		</div>
+		<div class="col-md-5 signup-info">
+			<div class="feature one">
+				<p class="testimonial">VetCove has transformed the way our practice does business. We make our weekly orders in minutes</p>
+				<h6>Dr. Eric Kates | Colts Neck Equine</h6>
+			</div>
+			<div class="feature two">
+				<p class="testimonial">Best prices across the board, hands down</p>
+				<h6>Dr. Paula Miller | Colts Neck Equine</h6>
+			</div>
+			<div class="feature three">
+				<p class="testimonial">I love the fact that you can ask a question and get a response directly from the manufacturer in minutes</p>
+				<h6>Dr. Rebecca Linke | Colts Neck Equine</h6>
+			</div>
+			<div class="feature four">
+				<p class="testimonial">VetCove is so easy to use on any device, so I can place an order right from my iPad or phone</p>
+				<h6>Dr. Carl Nagle | Colts Neck Equine</h6>
+			</div>
+		</div>
+	</div>
+	<div class="signup-progress">
+		<div class="back form-error">
+			<p>There are still incomplete fields on this form</p>
+		</div>
+		<div class="next">
+			<button class="button button-primary button-rounded">Complete Sign Up</button>
+		</div>
+	</div>
+</form>
+{% endblock %}

@@ -3,12 +3,14 @@
 /****Cart Item Formatting */
 /*************************/
 .cart-item {
-	margin-bottom: 10px;
-	position:relative;
-	padding-bottom: 20px;
+	padding:20px 20px 20px 20px;
+	border-bottom:1px solid #eaeaea;
 }
 .cart-item div {
 	padding: 0;
+}
+.cart-item .item-actions {
+	margin-top: 5px;
 }
 .cart-item .item-information {
 	padding: 0;
@@ -18,21 +20,31 @@
 	display:inline-block;
 }
 .cart-item .item-information button {
-	border: none;
+	border: 1px solid #ddd;
 	background: none;
-	padding: 0;
-	font-weight: 13px;
+	margin-right: 5px;
+	padding: 1px 5px;
+	font-size: 12px;
+	font-weight: 200;
 	color: #888;
 	font-weight: 200;
+	transition: background .2s;
 }
-.cart-item .item-information h6 {
-	margin-top: 20px;
+.cart-item .item-information button:hover {
+	text-decoration: none;
+	background: #eee;
+}
+.cart-item .item-information .item-name {
+	font-weight: bold;
 	font-size: 15px;
+}
+.cart-item .item-information .item-name:hover {
+	text-decoration: underline;
 }
 .cart-item .item-information p {
 	margin: 0;
-	padding-bottom: 5px;
-	font-size: 13px;
+	padding-bottom: 3px;
+	font-size: 12px;
 	font-weight: 200;
 }
 
@@ -47,29 +59,34 @@
 .cart-item .item-information .item-quantity {
 	display:inline-block;
 }
+.cart-item .item-image {
+	max-width: 100%;
+	padding: 0px 20px 20px 0px;
+}
 .cart-item .item-image img {
 	max-width: 100%;
-	padding: 20px;
+	border:1px solid #ddd;
 }
-.cart-item .item-price p {
-	text-align: center;
-	margin-top: 15px;
-	font-size: 19px;
-	font-weight: bold;
-	margin-bottom: 0px;
+.cart-item .item-price {
+	text-align: right;
 }
-.cart-item .item-price .quantity-unitprice {
-	font-size: 12px;
+.cart-item .item-price .unit-price {
+	font-size: 13px;
 	margin-top: 0px;
 	font-weight: 200;
+	margin-bottom: 2px;
 
 }
-.cart-item .item-price .msrp_price {
+.cart-item .item-price .msrp-price {
 	text-decoration:line-through;
-	color: #aaa;
+	color: #eb4a4a;
 	font-size: 12px;
 	font-weight: 200;
 	margin: 0;
+}
+.cart-item .item-price .final-price {
+	font-weight:bold;
+	font-size: 15px;
 }
 .cart-item .delete-item:hover,.move-to-saved:hover {
 	cursor:pointer;
@@ -85,8 +102,10 @@
 }
 
 .noitems p {
+	padding-top: 25px;
 	text-align: center;
-	padding-top: 90px;
 	font-weight: 200;
-	font-size: 16px;
+	font-size: 15px;
+	color: #999;
+	font-weight: 200;
 }

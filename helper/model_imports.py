@@ -7,3 +7,4 @@ from payment.models import *
 from purchase.models import *
 from questions.models import *
 from selling.models import *
+from reviews.models import *

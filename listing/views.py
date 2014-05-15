@@ -26,9 +26,8 @@ from django.db.models import Q
 
 # Search by a category
 def category(request,category):
-	# Determine the category type
 	category = Category.objects.get(name=category)
-	child_categories = allCategoriesInTree(category)
+	child_categories = allCategoriesInTree(category) #Gets all categories below it in the tree
 	products = Product.objects.filter(category__in=child_categories)
 	dictionary = {'child_categories':child_categories,'category':category}
 	details = getDetailsFromSearch(products)
@@ -59,7 +58,6 @@ def autosuggest(request):
 			product = Product.objects.get(name=items[0])
 			dict.append({'type':'product','name':product.displayname,'link':product.name,'mainimage':product.mainimage,'category':product.category.displayname})
 	return HttpResponse(json.dumps(dict), content_type='application/json')
-
 
 # Finds all descendants of a category
 def allCategoriesInTree(category):
@@ -153,11 +151,39 @@ def getItemDetailsFromAProduct(product):
 			if inventory.supplier not in suppliers:
 				suppliers.append(inventory.supplier)
 			quantity += inventory.quantity_available
-			if not lowprice or inventory.price < lowprice:
-				lowprice = inventory.price
-			if not highprice or inventory.price > highprice:
-				highprice = inventory.price
+			if not lowprice or inventory.base_price < lowprice:
+				lowprice = inventory.base_price
+			if not highprice or inventory.base_price > highprice:
+				highprice = inventory.base_price
 	return {'lowprice':lowprice,'highprice':highprice,'msrp_lowprice':msrp_lowprice,'msrp_highprice':msrp_highprice,'quantity':quantity,'suppliers':suppliers}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 @login_required

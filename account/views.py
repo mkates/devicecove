@@ -14,16 +14,14 @@ import json, math, difflib, locale, time, re, string, balanced
 from datetime import datetime
 from account.forms import *
 from helper.model_imports import *
-import payment.views as payment_view
-import emails.views as email_view
-
 
 
 ###########################################
 #### Portal Pages #########################
 ###########################################
-def product(request):
-	return render_to_response('product/product2.html',context_instance=RequestContext(request))
+def product(request,productname):
+	product = Product.objects.get(name=productname)
+	return render_to_response('product/product2.html',{'product':product},context_instance=RequestContext(request))
 
 ### Main dashboard ###
 @login_required
@@ -32,8 +30,18 @@ def dashboard(request):
 
 ### Credits ###
 @login_required
-def credits(request):
-	return render_to_response('account/pages/credits.html',{'account_credits':True},context_instance=RequestContext(request))
+def creditsMissions(request):
+	today = datetime.now()
+	month = today.strftime('%B')
+	return render_to_response('account/pages/credits/creditsmissions.html',{'account_credits_missions':True,'month':month},context_instance=RequestContext(request))
+
+@login_required
+def creditsStore(request):
+	return render_to_response('account/pages/credits/creditsstore.html',{'account_credits_store':True},context_instance=RequestContext(request))
+
+@login_required
+def creditsHistory(request):
+	return render_to_response('account/pages/credits/creditshistory.html',{'account_credits_history':True},context_instance=RequestContext(request))
 
 ### Orders ###
 @login_required
@@ -57,8 +65,18 @@ def questions(request):
 
 ### Reviews ###
 @login_required
-def reviews(request):
-	return render_to_response('account/pages/reviews.html',{'account_reviews':True},context_instance=RequestContext(request))
+def reviewsReviews(request):
+	return render_to_response('account/pages/reviews/reviews.html',{'account_reviews':True},context_instance=RequestContext(request))
+
+@login_required
+def reviewsHistory(request):
+	return render_to_response('account/pages/reviews/reviewshistory.html',{'account_reviews':True},context_instance=RequestContext(request))
+
+@login_required
+def reviewsWriteReview(request,reviewid):
+	if request.method=="GET":
+		next = request.GET.get('next',False)
+	return render_to_response('account/pages/reviews/writereview.html',{'account_reviews':True,'next':next},context_instance=RequestContext(request))
 
 ### Referrals ###
 @login_required
@@ -110,14 +128,19 @@ def signin(request):
 	action = request.GET.get('action',None)
 	if request.user.is_authenticated():
 		return HttpResponseRedirect("/account/profile")
-	return render_to_response('account/signin.html',{'next':next,'action':action,'login':True},context_instance=RequestContext(request))
+	return render_to_response('account/sign/signin.html',{'next':next,'action':action,'login':True},context_instance=RequestContext(request))
 
 def signup(request):
 	next = request.GET.get('next',None)
 	action = request.GET.get('action',None)
 	if request.user.is_authenticated():
 		return HttpResponseRedirect("/account/profile")
-	return render_to_response('account/signin.html',{'next':next,'action':action,'signup':True},context_instance=RequestContext(request))
+	return render_to_response('account/sign/signup.html',{'next':next,'action':action},context_instance=RequestContext(request))
+
+@login_required
+def newAccountBasic(request):
+	gpos = GPO.objects.all()
+	return render_to_response('account/sign/signup_info.html',{'gpos':gpos},context_instance=RequestContext(request))
 
 def loginform(request):
 	action = request.POST.get('action','')
@@ -125,6 +148,7 @@ def loginform(request):
 	username = request.POST['username']
 	username = username.lower()
 	password = request.POST['password']
+	next = request.POST['next']
 	user = authenticate(username=username,password=password)
 	if user is not None:
 		if user.is_active:
@@ -133,14 +157,14 @@ def loginform(request):
 				request.session.set_expiry(500000)
 			else:
 				request.session.set_expiry(0)
-			if request.POST.get('next',''):
-				return HttpResponseRedirect(request.GET['next'])
+			if next:
+				return HttpResponseRedirect(next)
 			else:
 				return HttpResponseRedirect("/")
 		else:
-			return render_to_response('account/signin.html',{'login':True,'login_outcome':'This account no longer exists'},context_instance=RequestContext(request))
+			return render_to_response('account/sign/signin.html',{'login':True,'login_outcome':'This account no longer exists'},context_instance=RequestContext(request))
 	else:
-		return render_to_response('account/signin.html',{'login':True,'login_outcome':'Your email and/or password was incorrect'},context_instance=RequestContext(request))
+		return render_to_response('account/sign/signin.html',{'login':True,'login_outcome':'Your email and/or password was incorrect'},context_instance=RequestContext(request))
 	return HttpResponseRedirect("/")
 
 def signupform(request):
@@ -150,56 +174,65 @@ def signupform(request):
 	lastname = request.POST.get('lastname')
 	username = request.POST.get('username')
 	password = request.POST['password']
-	reenterpassword = request.POST['reenterpassword']
-	if password != reenterpassword:
-		return render_to_response('account/signin.html',{'signup':True,'signup_outcome':'Passwords do not match'},context_instance=RequestContext(request))
+	confirmpassword = request.POST['confirmpassword']
+	if password != confirmpassword:
+		return render_to_response('account/sign/signin.html',{'signup':True,'signup_outcome':'Passwords do not match'},context_instance=RequestContext(request))
 	user = User.objects.create_user(username,username,password)
 	user.save()
-	basicuser = BasicUser(user=user,firstname=firstname,lastname=lastname)
+	basicuser = BasicUser(user=user)
 	basicuser.save()
 	user = authenticate(username=user,password=password)
 	login(request,user)
-	if request.POST.get('next',''):
-		return HttpResponseRedirect(request.GET['next'])
-	else:
-		return HttpResponseRedirect("/")
-	return HttpResponseRedirect("/")
+	return HttpResponseRedirect("/newaccount/basic")
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+@login_required
+def newaccountform(request):
+	bu = request.user.basicuser
+	practitioner_name = request.POST.get('practitioner_name','')
+	clinic_name = request.POST.get('clinic_name','')
+	website = request.POST.get('url','')
+	address_one = request.POST.get('address_one','')
+	address_two = request.POST.get('address_two','')
+	city = request.POST.get('city','')
+	state = request.POST.get('state','')
+	zipcode = request.POST.get('zipcode','')
+	phonenumber = request.POST.get('phonenumber','')
+	organization = request.POST.get('organization','')
+	large_animal = request.POST.get('large_animal','')
+	small_animal = request.POST.get('small_animal','')
+	equine =  request.POST.get('equine','')
+	address = Address(name=clinic_name,
+						address_one=address_one,
+						address_two=address_two,
+						city=city,
+						state=state,
+						zipcode=zipcode)
+	address.save()
+	clinic_object = Clinic(clinic_name=clinic_name,
+						website=website,
+						email=request.user.username,
+						address=address,
+						phonenumber=phonenumber,
+						organization_type=organization,
+						large_animal=large_animal,
+						small_animal=small_animal,
+						equine=equine)
+	clinic_object.save()
+	bu.clinic = clinic_object
+	bu.save()
+	gpos = GPO.objects.all()
+	for gpo in gpos:
+		gpo_name = request.POST.get("gpo_"+gpo.name,'') # Is this GPO selected?
+		if gpo_name:
+			gpo.clinics.add(clinic_object)
+			gpo.save()
+	#Create a shopping cart for this clinic
+	shoppingcart = ShoppingCart(clinic=clinic_object,)
+	return HttpResponseRedirect("/account/profile")
 
 ###########################################
 #### Logins and new users #################
 ###########################################
-
-def loginview(request):
-	next = request.GET.get('next',None)
-	action = request.GET.get('action',None)
-	if request.user.is_authenticated():
-		return HttpResponseRedirect("/account/profile")
-	return render_to_response('account/signin.html',{'next':next,'action':action,'login':True},context_instance=RequestContext(request))
 
 def signupview(request):
 	next = request.GET.get('next',None)
@@ -248,7 +281,17 @@ def checkemail(request):
 		else:
 			return HttpResponse(json.dumps('valid'), content_type='application/json')
 	return HttpResponse(json.dumps('error'), content_type='application/json')
-		
+
+def checkpromo(request):
+	if request.method == "GET":
+		promo = request.GET.get('promo','')
+		try:
+			promocode = PromoCode.objects.get(code=promo)
+			return HttpResponse(json.dumps({'status':201,'text':promocode.promo_text}), content_type='application/json')
+		except:
+			return HttpResponse(json.dumps({'status':500}), content_type='application/json')
+	return HttpResponse(json.dumps('error'), content_type='application/json')
+
 def logout_view(request):
 	logout(request)
 	return HttpResponseRedirect('/')

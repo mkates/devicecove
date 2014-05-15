@@ -1,0 +1,30 @@
+{% extends 'account/sign/sign_base.html' %}
+{% block sign_css %}
+<style>
+.signupdiv {
+	border-bottom:1px solid #ccc;
+}
+.complete {
+	text-align: center;
+	margin: 20px;
+}
+.complete h3 {
+	color: green;
+}
+.complete p {
+	margin-top: 40px;
+}
+</style>
+{% endblock %}
+{% block sign_content %}
+<div class="signupdiv row">
+	<div class="complete">
+		<h3><span class="glyphicon glyphicon-ok"></span></h3>
+		<h3>We have successfully received your VetCove information</h3>
+		<p>We are now in the process of confirming your credentials. Once we verify your information, you will have full access to our products and services!</p>
+
+		<span><a href="#">Return to Homepage</a> &middot; <a href="#">How VetCove Works</a> &middot; <a href="#">Account Profile</a></span>
+	</div>
+</div>
+
+{% endblock %}

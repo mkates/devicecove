@@ -1,0 +1,162 @@
+{% extends 'account/pages/base.html' %}
+{% block headertitle %}Reviews{% endblock %}
+{% block account_title %}Your Reviews{% endblock %}
+{% block title-links %}<span class="title-links"><a href='/account/reviews'>Review Products</a> | <a href='/account/reviews/history'>Your Past Reviews</a>{% endblock %}
+{% block account_css %}
+<style>
+/* Review Boxes */
+.review-box {
+	margin-bottom: 40px;
+	background: none;
+	box-shadow: none;
+	border:none;
+}
+.review-header {
+	margin: 0 0 20px 0;
+	font-size: 15px;
+}
+
+.review-item {
+	border-bottom:1px solid #eaeaea;
+	padding: 20px 20px 20px 0 ;
+	margin-bottom: 20px;
+}
+.review-image-container {
+	padding: 0px;
+}
+.review-image {
+	width: 100%;
+	max-height: 300px;
+}
+.review-text h4 {
+	font-size: 15px;
+	margin-top: 0;
+}
+.review-text h4 a:hover {
+	text-decoration: underline;
+}
+.review-text textarea {
+	height: 80px;
+	min-height: 80px;
+	resize:vertical;
+	margin-bottom: 10px;
+}
+.review-text p {
+	font-size: 12px;
+	font-weight: 200;
+}
+.review-item .review-name {
+	color: #777;
+	margin-bottom: 5px;
+}
+.review-form-container {
+	display:none;
+	border:1px solid #eaeaea;
+	background-image: -moz-linear-gradient(bottom, #FFFFFF 0%, #EEEEEE 100%);
+	padding: 10px;
+}
+.review-text p {
+	margin-bottom:3px;
+}
+.review-text a {
+	margin-top: 5px;
+}
+
+/* Review History */
+.review-history {
+	padding: 10px;
+}
+.review-history-item {
+	border-bottom:1px solid #ddd;
+	padding: 15px 0;
+}
+.review-history-item p{
+	font-size: 13px;
+	margin-bottom:0;
+}
+.review-history-item .review-history-date {
+	color: #777;
+	font-size: 12px;
+	font-weight: 200;
+}
+.review-history-item p span {
+	float:right;
+	font-weight: bold;
+	font-size: 14px;
+	color: green;
+}
+.noborderbottom {
+	border-bottom: none;
+}
+/* Raty Formatting */
+.raty {
+	margin-bottom: 10px;
+	display:inline-block;
+}
+.raty_score {
+	display:inline-block;
+	font-weight: bold;
+}
+/* Review Sideboxes*/
+.review-count {
+	padding: 20px 25px;
+	font-size: 13px;
+	text-align: center;
+}
+</style>
+{% endblock %}
+{% block account_js %}
+<script src="{{STATIC_URL}}js/plugins/raty/jquery.raty.js" type="text/javascript" ></script>
+<script>
+$(document).ready(function(){
+	$('.raty').raty({
+	    size      : 24,
+	    starOff   : 'star-off.png',
+	    starOn    : 'star-on.png',
+	    starHalf      : 'star-half.png',
+	    target : '.raty_1',
+	    hints: ['Hate it', "Don't like it", "It's okay", 'Like it', 'Love it'],
+	    path: '{{ STATIC_URL }}js/plugins/raty',
+	    click: function(score, evt) {
+		  }
+	});
+	//$('#raty').raty('score', 0);
+});
+</script>
+{% endblock %}
+{% block account_content %}
+<div class="row">
+	<div class="col-md-3 col-md-push-9">
+		<div class="sidebox review-count">
+			<p><strong>123</strong> people have found your reviews helpful. That's awesome!</p>
+		</div>
+		<div class="review-history sidebox">
+			<h3>Recently Reviewed Items</h3>
+			<div class="review-history-item">
+				<p>25 Upvotes<span>$20</span></p>
+				<p class="review-history-date">Earned on September 4th, 2014</p>
+			</div>
+			<div class="review-history-item">
+				<p>25 Upvotes<span>$35</span></p>
+				<p class="review-history-date">Earned on September 4th, 2014</p>
+			</div>
+			<div class="review-history-item">
+				<p>25 Upvotes<span>$15</span></p>
+				<p class="review-history-date">Earned on September 4th, 2014</p>
+			</div>
+			<div class="review-history-item noborderbottom">
+				<p>25 Upvotes<span>$40</span></p>
+				<p class="review-history-date">Earned on September 4th, 2014</p>
+			</div>
+		</div>
+	</div>
+	<div class="col-md-9 col-md-pull-3 maincol">
+		{% block review_content %}{% endblock %}
+	</div>
+</div>
+
+
+
+
+{% endblock %}
+

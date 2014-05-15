@@ -260,19 +260,19 @@ $(document).ready(function() {
 			</div>
 			<div class="deals">
 				<div class="deal">
-					<div class="deal-image" style="background-image:url('{{STATIC_URL}}img/large_background/horse_dark.png')"></div><div class="deal-info">
-						<h4><a href='#'>Salix Solution in Aerial Bubbles</a></h4>
-						<h5><span class="original">$121.23</span><span class="newprice">$23.29</span></h5>
-						<div class="rating"><div class="star blackstar star{{rating}}"></div><span>(3)</span></div>
+					<div class="deal-image" style="background-image:url('{{STATIC_URL}}img/placeholder_pics/Prednisone.jpg')"></div><div class="deal-info">
+						<h4><a href='#'>Equizone Phenylbutazone Powder</a></h4>
+						<h5><span class="original">$22.93</span><span class="newprice">$14.15</span></h5>
+						<div class="rating"><div class="star blackstar star45"></div><span>(23)</span></div>
 						<p>* Personalized Deal. <a href="#">Learn More</a></p>
 					</div>
 				</div>
 				<div class="deal">
-					<div class="deal-image" style="background-image:url('{{STATIC_URL}}img/large_background/horse_dark.png')"></div><div class="deal-info">
-						<h4><a href='#'>Salix Solution in Aerial Bubbles</a></h4>
-						<h5><span class="original">$121.23</span><span class="newprice">$23.29</span></h5>
-						<div class="rating"><div class="star blackstar star{{rating}}"></div><span>(3)</span></div>
-						<p>* Personalized Deal. <a href="#">Learn More</a></p>
+					<div class="deal-image" style="background-image:url('{{STATIC_URL}}img/placeholder_pics/westnile.gif')"></div><div class="deal-info">
+						<h4><a href='#'>Prednisone Oral 5mg/5ml</a></h4>
+						<h5><span class="original">$122.91</span><span class="newprice">$76.29</span></h5>
+						<div class="rating"><div class="star blackstar star4"></div><span>(15)</span></div>
+						<!-- <p>* Personalized Deal. <a href="#">Learn More</a></p> -->
 					</div>
 				</div>
 				<a href='#' class="morelink">View all Personalized Deals &rarr;</a>
@@ -282,14 +282,125 @@ $(document).ready(function() {
 		<div class="product-row">
 			<h3 class="row-title">Inspired by Your Shopping Trends</h3>
 			<div class="products">
-				{% for name in names %}
+				{% for name in names_DELETE %}
 					{% include 'product/productpreview.html' with name=name rating=4 %}
 				{% endfor %}
+				<div class="product-preview-box-container">
+					<a href='#'>
+				  		<div class="product-preview-box">
+				  			<div class="product-preview-image" style='background-image:url("{{STATIC_URL}}img/placeholder_pics/1.gif")'>
+				  			</div>
+				  			<div class="product-preview-info">
+				  				<p class="title">Potomavac Bacterin Stocked</p>
+				  				<div class="ratings">
+				  					<div class="star blackstar star{{rating}}"></div><span>(8)</span>
+				  				</div>
+				  				<div class="price">
+				  					$17.31<span>$14.22</span>
+				  				</div>
+				  			</div>
+				  		</div>
+				  	</a>
+				</div>
+				<div class="product-preview-box-container">
+					<a href='#'>
+				  		<div class="product-preview-box">
+				  			<div class="product-preview-image" style='background-image:url("{{STATIC_URL}}img/placeholder_pics/2.gif")'>
+				  			</div>
+				  			<div class="product-preview-info">
+				  				<p class="title">Botvax B</p>
+				  				<div class="ratings">
+				  					<div class="star blackstar star{{rating}}"></div><span>(3)</span>
+				  				</div>
+				  				<div class="price">
+				  					$51.39<span>$68.14</span>
+				  				</div>
+				  			</div>
+				  		</div>
+				  	</a>
+				</div>
+				<div class="product-preview-box-container">
+					<a href='#'>
+				  		<div class="product-preview-box">
+				  			<div class="product-preview-image" style='background-image:url("{{STATIC_URL}}img/placeholder_pics/3.gif")'>
+				  			</div>
+				  			<div class="product-preview-info">
+				  				<p class="title">Pneumabort K+1B</p>
+				  				<div class="ratings">
+				  					<div class="star blackstar star30"></div><span>(4)</span>
+				  				</div>
+				  				<div class="price">
+				  					$17.31<span>$14.22</span>
+				  				</div>
+				  			</div>
+				  		</div>
+				  	</a>
+				</div>
+				<div class="product-preview-box-container">
+					<a href='#'>
+				  		<div class="product-preview-box">
+				  			<div class="product-preview-image" style='background-image:url("{{STATIC_URL}}img/placeholder_pics/4.gif")'>
+				  			</div>
+				  			<div class="product-preview-info">
+				  				<p class="title">Pinnacle IN</p>
+				  				<div class="ratings">
+				  					<div class="star blackstar star35"></div><span>(1)</span>
+				  				</div>
+				  				<div class="price">
+				  					$131.89<span>$188.43</span>
+				  				</div>
+				  			</div>
+				  		</div>
+				  	</a>
+				</div>
+				<div class="product-preview-box-container">
+					<a href='#'>
+				  		<div class="product-preview-box">
+				  			<div class="product-preview-image" style='background-image:url("{{STATIC_URL}}img/placeholder_pics/5.gif")'>
+				  			</div>
+				  			<div class="product-preview-info">
+				  				<p class="title">Fluvac Innovator EHV 4/1</p>
+				  				<div class="ratings">
+				  					<div class="star blackstar star50"></div><span>(12)</span>
+				  				</div>
+				  				<div class="price">
+				  					$116.86<span>$180.43</span>
+				  				</div>
+				  			</div>
+				  		</div>
+				  	</a>
+				</div>
+
 			</div>
 			<div class="clear"></div>
 			<div class="morelink">
 				<a href='#'>View more item inspired by your shopping trends &rarr;</a>
 			</div>
+		</div>
+		<div class="dealbox">
+			<div class="deal-title equipment-bg">
+				<h3>Equipment</h3>
+				<h3>Up To 90% Off</h3>
+				<h3>Retail Price</h3>
+			</div>
+			<div class="deals">
+				<div class="deal">
+					<div class="deal-image" style="background-image:url('{{STATIC_URL}}img/placeholder_pics/7.gif')"></div><div class="deal-info">
+						<h4><a href='#'>Monoject Disposable Syringes</a></h4>
+						<h5><span class="original">$25.43</span><span class="newprice">$18.92</span></h5>
+						<p>17 left at this price</p>
+					</div>
+				</div>
+				<div class="deal">
+					<div class="deal-image" style="background-image:url('{{STATIC_URL}}img/placeholder_pics/6.gif')"></div><div class="deal-info">
+						<h4><a href='#'>Stethoscopes - Dual-Head Econo Grey 22"</a></h4>
+						<h5><span class="original">$2.99</span><span class="newprice">$9.29</span></h5>
+						<p>6 left at this price</p>
+					</div>
+				</div>
+				<a href='#' class="morelink">View all Equipment &rarr;</a>
+			</div>
+			<div class="clear"></div>
 		</div>
 		<div class="product-row">
 			<h3 class="row-title">Best Selling Products</h3>
@@ -387,28 +498,23 @@ $(document).ready(function() {
 		<div class="homebox">
 			<h4>Back Order Tracker <a href="#">View All</a></h4>
 			<div class="backorder">
-				<p class="drug-name">Lidacayne Methosol 2mg</p>
-				<p><span class="label label-danger">On Backorder</span><span class="date">as of Dec 14, 2014</span></p>
+				<p class="drug-name">Amikacin 250mg/ml Injection 50ml</p>
+				<p><span class="label label-danger">On Backorder</span><span class="date">as of May 15th, 2014</span></p>
 				<a href='#'>See alternatives and compounds &rarr;</a>
 			</div>
 			<div class="backorder">
-				<p class="drug-name">Lidacayne Methosol 2mg</p>
-				<p><span class="label label-warning">Under Inspection</span><span class="date">as of Dec 14, 2014</span></p>
+				<p class="drug-name">Cisapride Formulations</p>
+				<p><span class="label label-warning">Under Inspection</span><span class="date">as of May 6th, 2014</span></p>
 				<a href='#'>See alternatives and compounds &rarr;</a>
 			</div>
 			<div class="backorder">
-				<p class="drug-name">Lidacayne Methosol 2mg</p>
-				<p><span class="label label-warning">Under Inspection</span><span class="date">as of Dec 14, 2014</span></p>
+				<p class="drug-name">Ivermectin 10mg/ml Suspension</p>
+				<p><span class="label label-danger">On Backorder</span><span class="date">as of April 28tb, 2014</span></p>
 				<a href='#'>See alternatives and compounds &rarr;</a>
 			</div>
 			<div class="backorder">
-				<p class="drug-name">Lidacayne Methosol 2mg</p>
-				<p><span class="label label-danger">On Backorder</span><span class="date">as of Dec 14, 2014</span></p>
-				<a href='#'>See alternatives and compounds &rarr;</a>
-			</div>
-			<div class="backorder">
-				<p class="drug-name">Lidacayne Methosol 2mg</p>
-				<p><span class="label label-danger">On Backorder</span><span class="date">as of Dec 14, 2014</span></p>
+				<p class="drug-name">Ivermectin 0.01% Otic Suspension</p>
+				<p><span class="label label-danger">On Backorder</span><span class="date">as of April 22nd, 2014</span></p>
 				<a href='#'>See alternatives and compounds &rarr;</a>
 			</div>
 		</div>

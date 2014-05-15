@@ -1,0 +1,74 @@
+{% extends 'account/sign/sign_base.html' %}
+
+{% block sign_content %}
+<form id="signupform" class="form" action='/loginform' method="POST">{% csrf_token %}
+	<input name="next" value="{{next}}" type="hidden">
+	<div class="signupdiv row">
+		<div class="col-md-7 signup-form">
+			<h3>Welcome Back to VetCove!</h3>
+			<h4>Don't yet have an account? <a href="/signup">Sign Up Here</a></h4>
+				<!-- <div class="name">
+					<div class="form-group status-group firstname-group">
+						<p>First Name<span class="error" id="firstnametext"></span></p>
+						<input name="firstname" id="firstname" class="form-control" type="text" placeholder="First Name">
+						<div class="status">
+							<span class="glyphicon glyphicon-ok"></span>
+							<span class="glyphicon glyphicon-remove"></span>
+						</div>
+					</div><div class="form-group status-group">
+						<p>Last Name<span class="error" id="lastnametext"></span></p>
+						<input name="lastname" id="lastname" class="form-control" type="text" placeholder="Last Name">
+						<div class="status">
+							<span class="glyphicon glyphicon-ok"></span>
+							<span class="glyphicon glyphicon-remove"></span>
+						</div>
+					</div>
+				</div> -->
+				{% if login_outcome %}
+				<div class="alert alert-danger">
+					{{login_outcome}}
+				</div>
+				{% endif %}
+				<div class="form-group status-group">
+					<p>Email<span class="error">Invalid Email</span></p>
+					<input name="username" id="email" class="form-control" type="text" placeholder="Email">
+					<div class="status">
+						<span class="glyphicon glyphicon-ok"></span>
+						<span class="glyphicon glyphicon-remove"></span>
+					</div>
+				</div>
+				<div class="form-group status-group">
+					<p>Password<span class="error">Minimum length 6</span></p>
+					<input name="password" id="password"  class="form-control password" type="password" placeholder="Password">
+					<div class="status">
+						<span class="glyphicon glyphicon-ok"></span>
+						<span class="glyphicon glyphicon-remove"></span>
+					</div>
+				</div>
+				<div class="forgotpassword">
+					<a href='/forgotpassword'>Forgot password?</a>
+				</div>
+				<div class="form-group status-group">
+					<label>
+						<input class="rememberme" name="rememberme" type="checkbox" checked> Remember Me
+					</label>
+				</div>
+		</div>
+		<div class="col-md-5 signup-info">
+			<div class="feature">
+				<p>Deals of the Day, Coming Soon</p>
+				<p class="feature-explain">Saving 50-90% has never been easier</p>
+				<img src='{{STATIC_URL}}img/signin_images/calendar.png'/>
+			</div>
+		</div>
+	</div>
+	<div class="signup-progress">
+		<div class="back form-error">
+			<p>You are missing several fields</p>
+		</div>
+		<div class="next">
+			<button class="button button-primary button-rounded">Sign In</button>
+		</div>
+	</div>
+</form>
+{% endblock %}

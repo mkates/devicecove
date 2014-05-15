@@ -1,0 +1,167 @@
+{% extends 'account/pages/credits/base.html' %}
+{% block headertitle %}Credits Store{% endblock %}
+{% block account_title %}Redeem Your Credits{% endblock %}
+{% block credits_js %}
+<script>
+$(document).ready(function(){
+	$('.redeem-info').click(function(){
+		$(".redeem-div .overlay").fadeOut();
+		var overlay = $(this).parent().children('.overlay').fadeIn('fast');
+	});
+	$('.exit-redeem').click(function(){
+		$(this).parent().fadeOut('fast');
+	});
+});
+</script>
+{% endblock %}
+{% block credits_css %}
+<style>
+.overlay {
+	width: 100%;
+	height: 100%;
+	position:absolute;
+	background-image:url("{{STATIC_URL}}img/transparency/blacktransparency.png");
+	z-index: 1;
+	display:none;
+}
+.overlay a {
+	color: #eee;
+	position:absolute;
+	right: 0;
+	font-size: 23px;
+	line-height: 23px;
+	display:block;
+	padding: 0px 4px;
+}
+.overlay a:hover{
+	text-decoration: none;
+	color: #ccc;
+}
+.overlay p {
+	color: #eee;
+	padding: 0 10px;
+	margin:50px 0 30px 0;
+}
+.overlay .too-low {
+	color: #ffd6d6;
+}
+</style>
+{% endblock %}
+{% block credits_content %}
+<p>Select a gift from the choices below. While we may change our reward options from time to time, your credits never expire. We will ship all gift cards via standard delivery to the default address specified in your settings.</p>
+<div class="row store-row">
+	<div class="col-md-3 col-sm-3 col-xs-12">
+		<div class="redeem-div">
+			<div class="overlay">
+				<a class="exit-redeem">&#x2716;</a>
+				<p>This gift card will deduct <strong>450 credits</strong> from your balance</p>
+				<form>
+					<button class="button button-rounded button-tiny button-flat-action">Yes! I want it</button>
+				</form>
+			</div>
+			<div class="redeem-info">
+				<img src="{{STATIC_URL}}img/giftcards/amazon.png"/>
+				<div class="card-details">
+					<h4>3 $10 Amazon Gift Cards</h4>
+					<h5>300 credits</h5>
+					<h6>Total Gift Value: $30 </h6>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="col-md-3 col-sm-3 col-xs-12">
+		<div class="redeem-div">
+			<div class="overlay">
+				<a class="exit-redeem">&#x2716;</a>
+				<p class="too-low">You do not have enough credit in your balance to get this reward</p>
+			</div>
+			<div class="redeem-info">
+				<img src="{{STATIC_URL}}img/giftcards/applebees.png"/>
+				<div class="card-details">
+					<h4>3 $20 Applebee's Gift Cards</h4>
+					<h5>600 credits</h5>
+					<h6>Total Gift Value: $60 </h6>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="col-md-3 col-sm-3 col-xs-12">
+		<div class="redeem-div">
+			<div class="overlay">
+				<a class="exit-redeem">&#x2716;</a>
+				<p>This gift card will deduct <strong>450 credits</strong> from your balance</p>
+				<button class="button button-tiny button-flat-action">Yes! I want it</button>
+			</div>
+			<div class="redeem-info">
+				<img src="{{STATIC_URL}}img/giftcards/chilis.png"/>
+				<div class="card-details">
+					<h4>3 $15 Chili's Gift Cards</h4>
+					<h5>450 credits</h5>
+					<h6>Total Gift Value: $45 </h6>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="col-md-3 col-sm-3 col-xs-12">
+		<div class="redeem-div">
+			<div class="credits">
+			</div>
+			<img src="{{STATIC_URL}}img/giftcards/starbucks.png"/>
+			<div class="card-details">
+				<h4>3 $15 Starbucks Gift Cards</h4>
+				<h5>450 credits</h5>
+				<h6>Total Gift Value: $45 </h6>
+			</div>
+		</div>
+	</div>
+	<div class="col-md-3 col-sm-3 col-xs-12">
+		<div class="redeem-div">
+			<div class="credits">
+			</div>
+			<img src="{{STATIC_URL}}img/giftcards/dd.png"/>
+			<div class="card-details">
+				<h4>3 $10 Dunkin Donuts Gift Cards</h4>
+				<h5>300 credits</h5>
+				<h6>Total Gift Value: $30 </h6>
+			</div>
+		</div>
+	</div>
+	<div class="col-md-3 col-sm-3 col-xs-12">
+		<div class="redeem-div">
+			<div class="credits">
+			</div>
+			<img src="{{STATIC_URL}}img/giftcards/itunes.png"/>
+			<div class="card-details">
+				<h4>3 $15 Itunes Gift Cards</h4>
+				<h5>450 credits</h5>
+				<h6>Total Gift Value: $45 </h6>
+			</div>
+		</div>
+	</div>
+	<div class="col-md-3 col-sm-3 col-xs-12">
+		<div class="redeem-div">
+			<div class="credits">
+			</div>
+			<img src="{{STATIC_URL}}img/giftcards/macys.png"/>
+			<div class="card-details">
+				<h4>3 $15 Macy's Gift Cards</h4>
+				<h5>450 credits</h5>
+				<h6>Total Gift Value: $45 </h6>
+			</div>
+		</div>
+	</div>
+	<div class="col-md-3 col-sm-3 col-xs-12">
+		<div class="redeem-div">
+			<div class="credits">
+			</div>
+			<img src="{{STATIC_URL}}img/giftcards/landt.png"/>
+			<div class="card-details">
+				<h4>3 $20 Starbucks Gift Cards</h4>
+				<h5>600 credits</h5>
+				<h6>Total Gift Value: $60 </h6>
+			</div>
+		</div>
+	</div>
+
+</div>
+{% endblock %}

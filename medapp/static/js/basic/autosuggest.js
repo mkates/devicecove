@@ -40,7 +40,6 @@ var autosuggestcall = function autosuggestcall(bar) {
 							$(".manufacturerheader").css('display','block');
 							resultshandle.push(so);
 						} else if (value['type'] == 'product'){
-							console.log(value);
 							var so = $("<a class='searchoption' href='/product/"+value['link']+"'><div class='productitem'><img src='"+value['mainimage']+"'/><div class='producttext'><p class='displaytext' class='productname'>"+value['name']+"</p><p class='productsubtext'>in "+value['category']+"</p></div><div class='clear'></div></div></a></div>");
 							$("#productssection").append(so);
 							resultshandle.push(so);

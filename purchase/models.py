@@ -34,7 +34,7 @@ class PurchasedItem(models.Model):
 	# Seller Deductions / Add-ons
 	charity = models.BooleanField(default=False)
 	charity_name = models.ForeignKey('general.Charity',null=True,blank=True)
-	promo_code = models.ForeignKey('listing.PromoCode',null=True,blank=True)
+	promo_code = models.ForeignKey('general.PromoCode',null=True,blank=True)
 	commission = models.BigIntegerField(max_length=14)
 
 	# Post Purchase

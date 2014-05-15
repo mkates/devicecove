@@ -1,0 +1,31 @@
+{% extends 'account/pages/reviews/base.html' %}
+{% block headertitle %}Review Products{% endblock %}
+{% block account_title %}Review Products{% endblock %}
+{% block review_content %}
+<h3 class="review-header">Review Your Recently Purchased Items</h3>
+<div class="review-item row">
+	<div class="review-image-container col-md-3">
+		<img class="review-image" src='{{STATIC_URL}}img/large_background/dog_walk.jpg'>
+	</div>
+	<div class="col-md-9">
+		<div class="review-text">
+			<h4><a href='#'>Salix Powder Formula with Extra Nutrition and Products <span>from Zoetis</span></a></h4>
+			<p><strong>Manufacturer:</strong> Zoetis</p>
+			<p><strong>Purchase Date:</strong> Last purchased on Sept 14, 2014</p>
+			<p><strong>Price:</strong> $234.53</p>
+			<a href="/account/reviews/writereview/1?next=/account/reviews" class="button button-rounded button-flat-primary button-tiny">Review this Product</a>
+		</div>
+		<!-- <div class="review-form-container">
+			<div class="rating">
+				<div class="raty"></div>
+				<div class="raty_score raty_1"></div>
+			</div>
+			<p class="explanation">Write your review. Is it easy and effective to use? Would you reccommend it?</p>
+			<textarea class="form-control" placeholder="Let us know what you think. Did the product work as advertised? Was it easy to use? Would you reccommend it to other vets."></textarea>
+			<p class="review-name"> - review from office manager of equine practice in Central New Jersey</p>
+			<button class="button button-rounded button-tiny button-action">Submit Review</button>
+		</div> -->
+	</div>
+</div>
+
+{% endblock %}

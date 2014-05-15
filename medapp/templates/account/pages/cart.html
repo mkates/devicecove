@@ -1,0 +1,243 @@
+{% extends 'base/base.html' %}
+{% block css %}
+<link href="{{STATIC_URL}}css/basic/cartitem.css" rel="stylesheet" type="text/css" />
+<style>
+.content {
+	margin: 0 0 0px 0;
+	padding-bottom: 40px;
+	background: #fbfbfb;
+}
+.cart-container {
+	padding: 10px 20px;
+	min-height: 500px;
+}
+.cart-container .cart-header {
+	margin: 0 15px 30px 15px;
+	padding-bottom: 15px;
+	border-bottom:1px solid #eaeaea;
+}
+
+.cart-container .cart-header h3 {
+	margin-top: 20px;
+	padding: 0 0px;
+	margin-bottom: 0px;
+	font-weight: 200;
+	color: #555;
+	letter-spacing: .4px;
+}
+.cart-container .cart-header h3 a {
+	float: right;
+	border:1px solid #dadada;
+}
+.cart-container .cart-header h3 a:hover{
+	background: #ddd;
+}
+.item-summary {
+	padding: 0;
+	background: white;
+	border:1px solid #e6e6e6;
+}
+
+.item-information h6:hover {
+	text-decoration: underline;
+}
+/*Sidebar order summary */
+.cart-summary {
+	padding: 10px 10px 20px 10px;
+	border:5px solid #7dbb53;
+	background: white;
+}
+.cart-summary h6 {
+	font-size: 15px;
+	font-weight: bold;
+	margin-bottom: 20px;
+}
+.cart-summary p {
+	font-size: 13px;
+	margin: 3px 0;
+	
+}
+.cart-summary .credit {
+	padding-top: 5px;
+	border-top:2px solid #eee;
+	color: green;
+	font-weight: bold;
+}
+.cart-summary .total {
+	padding-top: 5px;
+	border-top:2px solid #eee;
+	font-weight: bold;
+}
+.cart-summary p span {
+	float: right;
+}
+.cart-summary .proceedtocheckout {
+	font-size: 13px;
+	width: 100%;
+	margin-top: 20px;
+}
+#itemcount {
+	float: none;
+}
+.last-minute {
+	margin-top: 50px;
+}
+.last-minute h3 {
+	font-weight: 200;
+	color: #555;
+	font-size: 14px;
+	padding-bottom: 10px;
+	margin-bottom:10px;
+	border-bottom:1px solid #eaeaea;
+}
+/*If no items */
+.noitems {
+	min-height: 200px;
+	margin-top: 80px;
+	text-align: center;
+	{% if itemcount %}
+	display: none;
+	{% endif %}
+}
+.cart-item .item-information .not-available {
+	font-weight: 800;
+	color: red;
+}
+.product-headers {
+	padding: 0 15px;
+	text-align: right;
+	border: 1px solid #eaeaea;
+	font-weight: 200;
+	font-size: 12px;
+	letter-spacing: .3px;
+	background: #f6f6f6;
+}
+.product-headers .align-left {
+	text-align: left;
+	padding-left: 5px;
+}
+.product-headers div {
+	padding: 0;
+}
+.product-headers .last {
+	padding-right: 5px;
+}
+.col-price {
+	width: 12%;
+	float: left;
+}
+.col-pic {
+	width: 19%;
+	float: left;
+}
+.col-text {
+	width: 45%;
+	float: left;
+}
+.col-youritem {
+	width: 64%;
+	float: left;
+}
+</style>
+{% endblock%}
+
+
+{% block content %}
+{% load dollars %}{% load zipcodify %}
+<div class="cart-container">
+	<div class="cart-header">
+		<h3>You have {{totals.products_count}} item{% if totals.products_count != 1 %}s{% endif %} in your shopping cart <a href='/' class="button button-flat">Continue Shopping</a></h3>
+	</div>
+	<div class="row">
+		<div class="item-summary col-md-9 col-sm-9 col-xs-12">
+			<div class="row product-headers">
+				<div class="col-youritem align-left">
+					Your Item
+				</div>
+				<div class="col-price">
+					Unit Price
+				</div>
+				<div class="col-price">
+					Quantity
+				</div>
+				<div class="col-price last">
+					Price
+				</div>
+
+			</div>
+			{% for cartitem in cartitems %}
+				{% with cartitem.item as item %}
+				{% with item.product as product %}
+			<div class="cart-item" id="cart-item-{{cartitem.item.id}}">
+				<div class="row">
+					<div class="item-image col-pic">
+						<div class="item-image-div">
+							<img src="{%if item.mainimage %}{{item.mainimage.photo_medium.url}}{% elif product.mainimage %}{{product.mainimage.photo_medium.url}}{% else %}{{STATIC_URL}}img/noimage/noimage_300x400.jpg{% endif %}" alt="{{cartitem.item.name}}"/>	
+						</div>	
+					</div>
+					<div class="item-information col-text">
+						<a class="item-name" href="/product/{{product.name}}">{{product}}</a>
+						<p class="description"><strong>Description:</strong> {{item.description}}</p>
+						<p class="manufacturer"><strong>Manufacturer:</strong> {{product.manufacturer}}</p>
+						<p class="manufacturer_no"><strong>Manufacturer #:</strong> {{item.manufacturer_no}}</p>
+						<p>
+							<span>
+								<strong>Supplier:</strong>
+								VetCove HotRate (Anonmyous Supplier)
+								<!-- <select>
+									<option>Patterson Vet</option>
+								</select> -->
+							</span>
+						</p>
+						<span class="item-actions">
+							<form action="/updatecart/delete/{{cartitem.id}}" method="POST">
+								{% csrf_token %}
+								<button class="delete-item" >Delete</button>
+							</form>
+							<form action="/updatecart/wishlist/{{cartitem.id}}" method="POST">
+								{% csrf_token %}
+								<button name="submit" value="submit" class="move-to-saved">Save for Later</button> 
+							</form>
+							<button>Change Supplier</button>
+						</span>
+					</div>
+					<div class="item-price col-price">
+						<p class="unit-price">{{cartitem.inventory.base_price|dollars}}</p>
+						<p class="msrp-price">{{item.msrp_price|dollars}}</p>
+					</div>
+					<div class="item-price col-price">
+						1 <a>change</a> 
+					</div>
+					<div class="item-price col-price">
+						<p class="final-price">{{cartitem.amount|dollars}}</p>
+					</div>
+				</div>
+			</div>
+				{% endwith %}
+				{% endwith %}
+			{% endfor %}
+			<div class="noitems">
+				<img style="opacity:.7" src='{{STATIC_URL}}img/misc/emptybox.png'>
+				<p>You do not currently have any items in your cart</p>
+			</div>
+			
+		</div>
+		<div class="right-row col-md-3 col-sm-3 col-xs-12">
+			<div class="cart-summary covebox">
+				<h6> Order Summary</h6>
+				<p>Items (<span id="itemcount" class="itemcount">{{totals.items_count}}</span>)<span class="totalprice">{{totals.total}}</span></p>
+				<p>Tax<span class="totalprice">$13.14</span></p>
+				{% if user.basicuser %}<p class="credit">VetCove Credit: <span>- $5.00</span></p>{% endif %}
+				<p class="total">Total:<span class="totalprice">{{shoppingcart.summary.total|dollars}}</span></p>
+				<a class="button-small button button-rounded button-action proceedtocheckout" href="/checkout/verify">Proceed To Checkout <span class="glyphicon glyphicon-shopping-cart"></span></a>
+			</div>
+			<div class="last-minute">
+				<h3>Don't Forget These Last Minute Items</h3>
+			</div>
+		</div>
+		
+	</div>
+</div>
+
+
+{% endblock %}

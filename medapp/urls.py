@@ -50,27 +50,36 @@ urlpatterns = patterns('',
     #########################################
     url(r'^dashboard','account.views.dashboard'),
     url(r'^wishlist','account.views.wishlist'),
-    url(r'^cart','account.views.cart'),
-    url(r'^account/credits','account.views.credits'),
+    url(r'^account/credits/missions','account.views.creditsMissions'),
+    url(r'^account/credits/store','account.views.creditsStore'),
+    url(r'^account/credits/history','account.views.creditsHistory'),
+    url(r'^account/credits','account.views.creditsMissions'),
+    url(r'^account/reviews/history','account.views.reviewsHistory'),
+    url(r'^account/reviews/writereview/(?P<reviewid>\w+)','account.views.reviewsWriteReview'),
+    url(r'^account/reviews','account.views.reviewsReviews'),
     url(r'^account/orders','account.views.orders'),
     url(r'^account/returns','account.views.returns'),
     url(r'^account/analytics','account.views.analytics'),
     url(r'^account/questions','account.views.questions'),
-    url(r'^account/reviews','account.views.reviews'),
     url(r'^account/referrals','account.views.referrals'),
     url(r'^account/sell','account.views.sell'),
     url(r'^account/payments','account.views.payments'),
     url(r'^account/settings','account.views.settings'),
     url(r'^account/profile','account.views.profile'),
 
-    url(r'^item/1','account.views.product'),
+    url(r'^product/(?P<productname>\w+)','account.views.product'),
 
     ########## Login ########################
     #########################################
     url(r'^loginform','account.views.loginform'),
+    url(r'^login','account.views.signin'),
     url(r'^signupform','account.views.signupform'),
-    url(r'^signin/','account.views.signin'),
-    url(r'^signup/','account.views.signup'),
+    url(r'^signin','account.views.signin'),
+    url(r'^signup','account.views.signup'),
+    url(r'^newaccount/basic','account.views.newAccountBasic'),
+    url(r'^newaccountform','account.views.newaccountform'),
+    url(r'^checkemail','account.views.checkemail'),
+     url(r'^checkpromo','account.views.checkpromo'),
 
     ########## Listing ######################
     #########################################
@@ -79,7 +88,9 @@ urlpatterns = patterns('',
     url(r'^manufacturer/(?P<manufacturer>\w+)','listing.views.manufacturer'),
     url(r'^ingredient/(?P<ingredient>\w+)','listing.views.ingredient'),
 
-
+    ########## Checkout #####################
+    #########################################
+    url(r'^cart','checkout.views.cart'),
 
 
 
@@ -102,20 +113,12 @@ urlpatterns = patterns('',
     url(r'^updatecart/delete/(?P<cartitemid>\d+)','checkout.views.updateCartDelete'),
     url(r'^updatecart/quantity/(?P<cartitemid>\d+)','checkout.views.updateCartQuantity'),
     url(r'^addtocart/(?P<itemid>\d+)','checkout.views.addToCart'),
-    url(r'^checkout/verify/(?P<error>\w+)','checkout.views.checkoutVerifyError'),
-    url(r'^checkout/verify','checkout.views.checkoutVerify'),
-    url(r'^checkout/shipping/(?P<checkoutid>\d+)','checkout.views.checkoutShipping'),
     url(r'^checkout/payment/(?P<checkoutid>\d+)','checkout.views.checkoutPayment'),
     url(r'^checkout/review/(?P<checkoutid>\d+)','checkout.views.checkoutReview'),
     url(r'^checkout/confirmation/(?P<orderid>\d+)','checkout.views.checkoutConfirmation'),
-    url(r'^checkoutlogin','checkout.views.checkoutlogin'),
-    url(r'^useaddress','checkout.views.useAddress'),
     url(r'^newaddress/(?P<checkoutid>\d+)','checkout.views.newAddress'),
-    url(r'^deleteaddress','checkout.views.deleteAddress'),
     #### Payment Experience
     url(r'^checkout/addcard/(?P<checkoutid>\d+)','checkout.views.checkoutAddCard'),
-    url(r'^checkout/deletepayment/(?P<checkoutid>\d+)/(?P<paymentid>\d+)','checkout.views.checkoutDeletePayment'),
-    url(r'^checkout/usepayment/(?P<checkoutid>\d+)/(?P<paymentid>\d+)','checkout.views.checkoutUsePayment'),
     #### Complete Checkout  
     url(r'^checkoutpurchase/(?P<checkoutid>\d+)','checkout.views.checkoutPurchase'), 
 
@@ -173,11 +176,8 @@ urlpatterns = patterns('',
     url(r'^logout','account.views.logout_view'),
     url(r'^forgotpassword','account.views.forgotpassword'),
     url(r'^lgnrequest','account.views.lgnrequest'),
-    url(r'^login','account.views.loginview'),
-    url(r'^signup','account.views.signupview'),
     url(r'^account/buyhistory','account.views.buyhistory'),
     url(r'^account/sellhistory','account.views.sellhistory'),
-    url(r'^newuserform','checkout.views.newuserform'),
     url(r'^checkemail','account.views.checkemail'),
     url(r'^saveitem','account.views.saveitem'),
     url(r'^removeitem','account.views.removeitem'),

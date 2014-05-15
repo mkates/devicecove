@@ -4,14 +4,19 @@
 <style>
 .content {
 	margin: 0;
-	padding: 30px 20px;
+	background: #fbfbfb;
+	padding: 10px 20px 30px 20px;
 }
 .vetbox {
 	background: #fff;
+	box-shadow:none;
+}
+.padding {
+	padding: 20px;
 }
 .product-box {
 	margin-top: 10px;
-	padding: 20px;
+	margin-bottom: 20px;
 }
 .product-box h3 {
 	font-size: 18px;
@@ -23,7 +28,10 @@
 /****** TopBar *******/
 /*********************/
 .topbar {
-	padding: 5px 10px;
+	padding: 5px 5px 5px 5px
+}
+.topbar a:hover {
+	text-decoration: underline;
 }
 .topbar div {
 	display:inline-block;
@@ -240,6 +248,100 @@
 	right: 0;
 }
 
+/** Reviews **/
+#ratings .review {
+	border-bottom:1px solid #eaeaea;
+	padding: 20px 0px;
+
+}
+#ratings .review .star {
+	display:inline-block;
+	vertical-align:top;
+	margin-top: 2px;
+}
+#ratings .review .helpful {
+    border-left: 1px solid #DDDDDD;
+    color: #444444;
+    display: inline-block;
+    font-size: 14px;
+    font-weight: 200;
+    letter-spacing: 0.25px;
+    margin-left: 5px;
+    padding-left: 5px;
+}
+#ratings .review  .reviewer {
+    font-weight: bold;
+    margin: 3px 0 7px;
+}
+#ratings .review .reviewer span {
+    color: #AAAAAA;
+    font-size: 12px;
+    font-weight: normal;
+}
+#ratings .review  .review-text {
+    font-size: 13px;
+}
+#ratings .review .review-grade button {
+	border:1px solid #ddd;
+}
+#ratings .review .review-grade button:hover {
+	background: #d6d6d6;
+}
+
+
+
+/* Review Box Formatting */
+.review-box-td {
+	width: 220px;
+}
+.review-box {
+	padding-right: 20px;
+	padding-bottom: 20px;
+	border-right:1px solid #eaeaea;
+}
+
+.review-box table {
+	width: 100%;
+}
+.review-box h6{
+	margin-top: 0px;
+}
+.review-box table p {
+	font-size: 11px;
+	margin: 0;
+}
+.review-box .progress {
+	width: 117px;
+	height: 10px;
+	margin: 0 5px;
+	border-radius: 0px;
+	border:1px solid #ccc;
+}
+
+/*Review Bar */
+.review-bar {
+	width: 100%;
+	margin-bottom:10px;
+	padding-bottom:30px;
+	border-bottom:1px solid #eaeaea;
+}
+.review-bar .new-review {
+	text-align: center;
+}
+.review-bar td {
+	vertical-align: top;
+}
+.review-bar .new-review h6 {
+	font-size: 14px;
+	margin-bottom: 5px;
+}
+.review-bar .new-review p {
+	color: #888;
+	font-size: 12px;
+}
+.review-bar .new-review a:hover{
+	text-decoration: underline;
+}
 </style>
 {% endblock %}
 
@@ -306,198 +408,246 @@ function drawChart() {
 
 
 {% block content %}
-<div class="topbar vetbox">
+<div class="topbar">
 	<div><a href='#'>&larr; Return to Anti-Inflammatory Search</a></div>
 	<div class="breadcrumbs"><a href='#ratings'>Food and Supplies</a> / <a href='#'>Dog Food</a> / <a href='#'>Purina</a></div>
 </div>
 
 <div class="product-container row">
-	<div class="leftrow subrow col-md-8">
+	<div class="leftrow subrow col-md-9">
 		<div class="vetbox product-box">
-			<div class="product-header">
-				<p>Zoetis<span id="review-count">0 Reviews | <a href='#'>Write a Review</a></span></p>
-				<h5>Salix Solution 95% Pure (w/ Phenyallinine)<span><div class="topstar star star4"></div></span></h5>
-			</div>
-
-			<div class="product-overview row">
-				<div class="col-md-5 product-overview-div">
-					<img src="{{STATIC_URL}}img/noimage.jpg">
+			<div class="topcolor topcolorblue"></div>
+			<div class="padding">
+				<div class="product-header">
+					<p>Zoetis<span id="review-count">0 Reviews | <a href='#'>Write a Review</a></span></p>
+					<h5>Salix Solution 95% Pure (w/ Phenyallinine)<span><div class="topstar star star4"></div></span></h5>
 				</div>
-				<div class="col-md-7 product-overview-div">
-					<div class="product-overview-details">
-						<div>
-							<h4>Original Price</h4>
-							<p id="original-price">$241.32</p>
-						</div>
-						<div>
-							<h4>Item Size: <span>100ml Vial</span></h4>
-							<div class="option-container">
-								<div class="option active">100ml Vial Brand Label</div>
-								<div class="option">200ml Vial Brand Label</div>
-								<div class="option">200ml Vial Generic</div>
-							</div>
-						</div>
-						<div>
-							<h4>Item ID</h4>
-							<p>SKU: 48384391, Manufacturer ID: #33293CDE</p>
-						</div>
-						<div>
-							<h4>Main Ingredient</h4>
-							<p>100% Flucatrasine</p>
-						</div>
 
+				<div class="product-overview row">
+					<div class="col-md-5 product-overview-div">
+						<img src="{{STATIC_URL}}img/noimage/noimage_300x400.jpg">
+					</div>
+					<div class="col-md-7 product-overview-div">
+						<div class="product-overview-details">
+							<div>
+								<h4>Original Price</h4>
+								<p id="original-price">$241.32</p>
+							</div>
+							<div>
+								<h4>Item Size: <span>100ml Vial</span></h4>
+								<div class="option-container">
+									<div class="option active">100ml Vial Brand Label</div>
+									<div class="option">200ml Vial Brand Label</div>
+									<div class="option">200ml Vial Generic</div>
+								</div>
+							</div>
+							<div>
+								<h4>Item ID</h4>
+								<p>SKU: 48384391, Manufacturer ID: #33293CDE</p>
+							</div>
+							<div>
+								<h4>Main Ingredient</h4>
+								<p>100% Flucatrasine</p>
+							</div>
+
+						</div>
+					</div>
+				</div>
+				<div class="product-description">
+					<p>FufroJect (Furosemide) Injection is an effective diuretic-saluretic for use in the treatment of acute noninflammatory tissue edema in dogs and horses, and for use in the treatment of edema (pulmonary congestion, ascites) associated with cardiac insufficiency in the dog. In cases of edema involving cardiac insufficiency, the continued use of heart stimulants such as digitalis or its glycosides is indicated.</p>
+				</div>
+			</div>
+		</div>
+
+		
+		<div class="vetbox product-box">
+			<div class="topcolor topcolororange"></div>
+			<div class="padding">
+				<h3>Questions</h3>
+				<p>Cool</p>
+			</div>
+		</div>
+		<div class="vetbox product-box" id="ratings">
+			<div class="topcolor topcolorred"></div>
+			<div class="padding">
+				<h3>Reviews</h3>
+				<table class="review-bar">
+					<tr>
+						<td class='review-box-td'>
+							<div class="review-box">
+								<h6>Rating Breakdown (2.3 Average)</h6>
+								<table class="rating-table">
+									<tr>
+										<td><p>5 Stars</p></td>
+										<td>
+											<div class="progress">
+										  		<div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 40%;"></div>
+											</div>
+										</td>
+										<td><p>999</p></td>
+									</tr>
+									<tr>
+										<td><p>4 Stars</p></td>
+										<td>
+											<div class="progress">
+										  		<div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 20%;"></div>
+											</div>
+										</td>
+										<td><p>2</p></td>
+									</tr>
+									<tr>
+										<td><p>3 Stars</p></td>
+										<td>
+											<div class="progress">
+										  		<div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 20%;"></div>
+											</div>
+										</td>
+										<td><p>2</p></td>
+									</tr>
+									<tr>
+										<td><p>2 Stars</p></td>
+										<td>
+											<div class="progress">
+										  		<div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div>
+											</div>
+										</td>
+										<td><p>2</p></td>
+									</tr>
+									<tr>
+										<td><p>1 Star</p></td>
+										<td>
+											<div class="progress">
+										  		<div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 10%;"></div>
+											</div>
+										</td>
+										<td><p>2</p></td>
+									</tr>
+								</table>
+							</div>
+						</td>
+						<td>
+							<div class="new-review">
+								<h6>Has your practice used this product? Write a Review!</h6>
+								<p>Write reviews and earn sweet prizes for your clinic. <a href="/">View Rewards</a></p>
+								<button class="newreview button button-rounded button-flat-primary">Review This Product</button>
+							</div>
+						</td>
+					</tr>
+				</table>
+				<div class="review">
+					<div class="star star45"></div>
+					<div class="helpful">
+						<strong>12</strong> people found this review helpful
+					</div>
+					<div class="reviewer">
+						Office Manager in Central New Jersey <span> on May 14, 2014</span>
+					</div>
+					<div class="review-text">
+						<p>We've had a lot of success with this product on equine horses. This is our first option when we need a bute powder, and it is reasonably priced for the quantity you are given. All 5 veterinarians in our practice use Equizone on a daily basis</p>
+					</div>
+					<div class="review-grade">
+						<form>
+							<span> Was this review helpful to you?
+								<button class="button button-flat button-tiny button-rounded">Yes</button>
+								<button class="button button-flat button-tiny button-rounded">No</button>
+							</span>
+						</form>
+					</div>
+				</div>
+
+				<div class="review">
+					<div class="star star45"></div>
+					<div class="helpful">
+						<strong>12</strong> people found this review helpful
+					</div>
+					<div class="reviewer">
+						Office Manager in Central New Jersey <span> on May 14, 2014</span>
+					</div>
+					<div class="review-text">
+						<p>We've had a lot of success with this product on equine horses. This is our first option when we need a bute powder, and it is reasonably priced for the quantity you are given. All 5 veterinarians in our practice use Equizone on a daily basis</p>
+					</div>
+					<div class="review-grade">
+						<form>
+							<span> Was this review helpful to you?
+								<button class="button button-flat button-tiny button-rounded">Yes</button>
+								<button class="button button-flat button-tiny button-rounded">No</button>
+							</span>
+						</form>
+					</div>
+				</div>
+
+				<div class="review">
+					<div class="star star45"></div>
+					<div class="helpful">
+						<strong>12</strong> people found this review helpful
+					</div>
+					<div class="reviewer">
+						Office Manager in Central New Jersey <span> on May 14, 2014</span>
+					</div>
+					<div class="review-text">
+						<p>We've had a lot of success with this product on equine horses. This is our first option when we need a bute powder, and it is reasonably priced for the quantity you are given. All 5 veterinarians in our practice use Equizone on a daily basis</p>
+					</div>
+					<div class="review-grade">
+						<form>
+							<span> Was this review helpful to you?
+								<button class="button button-flat button-tiny button-rounded">Yes</button>
+								<button class="button button-flat button-tiny button-rounded">No</button>
+							</span>
+						</form>
 					</div>
 				</div>
 			</div>
-			<div class="product-description">
-				<p>FufroJect (Furosemide) Injection is an effective diuretic-saluretic for use in the treatment of acute noninflammatory tissue edema in dogs and horses, and for use in the treatment of edema (pulmonary congestion, ascites) associated with cardiac insufficiency in the dog. In cases of edema involving cardiac insufficiency, the continued use of heart stimulants such as digitalis or its glycosides is indicated.</p>
-			</div>
 		</div>
-
-		<div class="vetbox product-box">
-			<h3>Veterinarians Also Liked These Items</h3>
-			<div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
-			  <!-- Wrapper for slides -->
-			  <div class="carousel-inner">
-			    <div class="item active">
-			      <div class="related-item-container">
-			      		<a href='#'>
-				      		<div class="related-item">
-				      			<img class="image" src='{{STATIC_URL}}img/noimage.jpg'>
-				      			<div class="related-item-info">
-				      				<p class="title">Apple Flavored Aspirin Powder with all the essential ingredients(1lb)</p>
-				      				<div class="secondrow"><div class="star goldstar star1"></div><div class="price">$14.22</div></div>
-				      			</div>
-				      		</div>
-				      	</a>
-			      </div><div class="related-item-container">
-			      		<a href='#'>
-				      		<div class="related-item">
-				      			<img class="image" src='{{STATIC_URL}}img/noimage.jpg'>
-				      			<div class="related-item-info">
-				      				<p class="title">Apple Flavored Aspirin Powder</p>
-				      				<div class="secondrow"><div class="star goldstar star1"></div><div class="price">$14.22</div></div>
-				      			</div>
-				      		</div>
-				      	</a>
-			      </div><div class="related-item-container">
-			      		<a href='#'>
-				      		<div class="related-item">
-				      			<img class="image" src='{{STATIC_URL}}img/noimage.jpg'>
-				      			<div class="related-item-info">
-				      				<div class="star goldstar star3"></div>
-				      				<p class="title">Salin Solution Branded with albuterol paste</p>
-				      			</div>
-				      		</div>
-				      	</a>
-			      </div>
-			    </div>
-			    <div class="item">
-			      <div class="related-item-container">
-			      		<div class="related-item">
-			      		</div>
-			      </div><div class="related-item-container">
-			      		<div class="related-item">
-			      		</div>
-			      </div><div class="related-item-container">
-			      		<div class="related-item">
-			      		</div>
-			      </div><div class="related-item-container">
-			      		<div class="related-item">
-			      		</div>
-			      </div>
-			    </div>
-			    <div class="item">
-			      <div class="related-item-container">
-			      		<div class="related-item">
-			      		</div>
-			      </div><div class="related-item-container">
-			      		<div class="related-item">
-			      		</div>
-			      </div><div class="related-item-container">
-			      		<div class="related-item">
-			      		</div>
-			      </div><div class="related-item-container">
-			      		<div class="related-item">
-			      		</div>
-			      </div>
-			    </div>
-			  </div>
-
-			  <!-- Controls -->
-			  <a class="left carousel-control" href="#carousel-example-generic" data-slide="prev">
-			    <span class="glyphicon glyphicon-chevron-left"></span>
-			  </a>
-			  <a class="right carousel-control" href="#carousel-example-generic" data-slide="next">
-			    <span class="glyphicon glyphicon-chevron-right"></span>
-			  </a>
-			</div>
-
-		</div>
-		<div class="vetbox product-box">
-			<h3>Questions</h3>
-			<p>Cool</p>
-		</div>
-		<div class="vetbox product-box" id="ratings">
-			<h3>Reviews</h3>
-			<div class="rating">
-				<div id="raty"></div>
-				<div id="raty-score"></div>
-			</div>
-		</div>
-
 	</div>
-	<div class="rightrow subrow col-md-4">
+	<div class="rightrow subrow col-md-3">
 		<div class="vetbox product-box">
-			<h3>Buying Options</h3>
-			<div class="quantity-box">
-				<span>Quantity:
-					<select>
-						<option>1</option>
-					</select>
-				</span>
-			</div>
-			<div class="shipping-box">
-					<span>Shipping:
+			<div class="topcolor topcolorgreen"></div>
+			<div class="padding">
+				<h3>Buying Options</h3>
+				<div class="quantity-box">
+					<span>Quantity:
 						<select>
-							<option>2 Day Shipping</option>
-							<option>Next Day Shipping</option>
+							<option>1</option>
 						</select>
 					</span>
 				</div>
-			<div class="buy-option saverate">
-				<table>
-					<tr>
-						<td class="price-td">$124.23</td>
-						<td class="logo-td">VetCove SaveRate</td>
-						<td class="button-td"><button class="button button-tiny button-action button-rounded">Add to Cart</button></td>
-					</tr>
-				</table>
-			</div>
-			<div class="buy-option">
-				<table>
-					<tr>
-						<td class="price-td">$124.23</td>
-						<td class="logo-td">Henry Schein</td>
-						<td class="button-td"><button class="button button-tiny button-action button-rounded">Add to Cart</button></td>
-					</tr>
-				</table>
-			</div>
-			<div class="buy-option">
-				<table>
-					<tr>
-						<td class="price-td">$124.23</td>
-						<td class="logo-td">Penn Vet</td>
-						<td class="button-td"><button class="button button-tiny button-action button-rounded">Add to Cart</button></td>
-					</tr>
-				</table>
+				<div class="shipping-box">
+						<span>Shipping:
+							<select>
+								<option>2 Day Shipping</option>
+								<option>Next Day Shipping</option>
+							</select>
+						</span>
+					</div>
+				<div class="buy-option saverate">
+					<table>
+						<tr>
+							<td class="price-td">$124.23</td>
+							<td class="logo-td">VetCove SaveRate</td>
+							<td class="button-td"><button class="button button-tiny button-action button-rounded">Add to Cart</button></td>
+						</tr>
+					</table>
+				</div>
+				<div class="buy-option">
+					<table>
+						<tr>
+							<td class="price-td">$124.23</td>
+							<td class="logo-td">Henry Schein</td>
+							<td class="button-td"><button class="button button-tiny button-action button-rounded">Add to Cart</button></td>
+						</tr>
+					</table>
+				</div>
+				<div class="buy-option">
+					<table>
+						<tr>
+							<td class="price-td">$124.23</td>
+							<td class="logo-td">Penn Vet</td>
+							<td class="button-td"><button class="button button-tiny button-action button-rounded">Add to Cart</button></td>
+						</tr>
+					</table>
+				</div>
 			</div>
 		</div>
-		<!-- <div class="vetbox product-box sales_chart">
-			<h3>Order History</h3>
-			<div id="sales_chart_parent">
-			</div>
-		</div> -->
 	</div>
 
 </div>

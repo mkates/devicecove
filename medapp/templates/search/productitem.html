@@ -8,52 +8,61 @@
 				<p>
 					{% if product.details.lowprice == product.details.highprice %}
 						{{product.details.lowprice|dollars}}
-					{% else %}
 						{{product.details.lowprice|dollars}} - {{product.details.highprice|dollars}}
+					{% else %}
+						
+						$11.12-$17.28
 					{% endif %}
 				</p>
 				<p class="msrp_price">
 					{% if product.details.msrp_lowprice == product.details.msrp_highprice %}
 						{{product.details.msrp_lowprice|dollars}}
-					{% else %}
 						{{product.details.msrp_lowprice|dollars}} - {{product.details.msrp_highprice|dollars}}
+					{% else %}
+						$16.22-$23.45
 					{% endif %}
 
 				</p>
-				<a class='button button-rounded button-primary' href="/item/{{product.id}}/details">View</a>
+				<a class='button button-rounded button-primary' href="/product/{{product.name}}">View</a>
 			</div>
 			<div class='col-md-3 col-md-push-7 col-sm-4 col-sm-push-6 col-xs-12 imgdiv'>	
-				<img src="{%if product.mainimage %}{{product.mainimage.photo_medium.url}}{% else %}{{STATIC_URL}}img/noimage/noimage.jpg{% endif %}" alt="{{product.name}}"/>		
+				<!-- <img src="{%if product.mainimage %}{{product.mainimage.photo_medium.url}}{% else %}{{STATIC_URL}}img/noimage/noimage.jpg{% endif %}" alt="{{product.name}}"/>		 -->
+				<img src='http://www.myvetdirect.com/grandvalley/images/products/034378.gif'/>
 			</div>
 			
 			<div class='textdiv col-md-7 col-md-pull-3 col-sm-6 col-sm-pull-4 col-xs-12'>
-				<p class="manufacturer">{{product.manufacturer}}</p>
-				<h2 class="itemname"><a href="/item/1">{{product.displayname}}</a></h2>
+				<p class="manufacturer">A&G Pharmaceuticals</p>
+				<h2 class="itemname"><a href="/product/{{product.name}}">Equizone Phenylbutazone Powder</a></h2>
 				<div class="reviews">
-					<div class="star star{{product.averagerating|ratingstars}}"></div>
+					<!-- <div class="star star{{product.averagerating|ratingstars}}"></div>
 					<div class="rating">
-						<a href='#'><strong>{{product.averagerating|ratingtext}}</strong> - 120 Reviews</a>
+						<a href='#'><strong>{{product.averagerating|ratingtext}}</strong> - 22 Reviews</a>
+					</div> -->
+					<div class="star star45"></div>
+					<div class="rating">
+						<a href='#'><strong>Excellent</strong> - 22 Reviews</a>
 					</div>
 				</div>
 				<h6 class="resulttag"> 
 					{% if product %}<p data-toggle="tooltip" title="This item is in stock" class='result-darkgreen'><span class="glyphicon glyphicon-ok"></span> In Stock</p>{% endif %} 
 					{% if not product %}<p data-toggle="tooltip" title="This item is currently out of stock" class='result-red'><span class="glyphicon glyphicon-remove-sign"></span> Out of Stock</p>{% endif %} 
-					{% if not product %}<p data-toggle="tooltip" title="The item is currently 50% off retail price" class='result-lightgreen'><span class="glyphicon glyphicon-tag"></span> Promotion</p>{% endif %} 
+					{% if product %}<p data-toggle="tooltip" title="The item is currently 50% off retail price" class='result-lightgreen'><span class="glyphicon glyphicon-tag"></span> Promotion</p>{% endif %} 
 					{% if not product %}<pdata-toggle="tooltip" title="This item is currently on backorder"  class='result-green'><span class="glyphicon glyphicon-warning-sign"></span> Backorder</p>{% endif %} 
-					{% if product %}<p data-toggle="tooltip" title="This item is shipped directly from the manufacturer" class='result-orange'><span class=" glyphicon glyphicon-plane"></span> Drop Shipped</p>{% endif %} 
-					{% if product %}<p data-toggle="tooltip" title="Additional Information is required to order this item" class='result-blue'><span class="glyphicon glyphicon-earphone"></span> More Info Req'd</p>{% endif %} 
-					{% if not product %}<p data-toggle="tooltip" title="You last ordered this item on Sept 14, 2013" class='result-purple'><span class="glyphicon glyphicon-shopping-cart"></span> Ordered Before</p>{% endif %} 
+					{% if not product %}<p data-toggle="tooltip" title="This item is shipped directly from the manufacturer" class='result-orange'><span class=" glyphicon glyphicon-plane"></span> Drop Shipped</p>{% endif %} 
+					{% if not product %}<p data-toggle="tooltip" title="Additional Information is required to order this item" class='result-blue'><span class="glyphicon glyphicon-earphone"></span> More Info Req'd</p>{% endif %} 
+					{% if product %}<p data-toggle="tooltip" title="You last ordered this item on Sept 14, 2013" class='result-purple'><span class="glyphicon glyphicon-shopping-cart"></span> Ordered Before</p>{% endif %} 
 					{% if not product %}<p class='result-lightred'><span class="glyphicon glyphicon-ban-circle"></span> Indefinite BackOrder</p>{% endif %} 
 				</h6>
 				<div class="availableoptions">
-					<p><strong>Available Options:</strong> <span>Curved (50ml), Curved (100ml)</span></p>
+					<p><strong>Available Options:</strong> <span>1.1lb Jar, 2.2lb Jar</span></p>
 				</div>
 				{% load multiply %}
 				
 				<div class='buttondiv'>
 					<button class='button button-tiny infobutton detailsbutton' data-ref="#description_{{product.id}}"> Description</button>
-					<button class='button button-tiny infobutton specsbutton' data-ref="#reviews_{{product.id}}">Reviews</button>
 					<button class='button button-tiny infobutton conditionbutton' data-ref="#purchasehistory_{{product.id}}">Purchase History</button>
+					<button class='button button-tiny infobutton specsbutton' data-ref="#reviews_{{product.id}}">Reviews</button>
+					<button class='button button-tiny infobutton conditionbutton' data-ref="#question_{{product.id}}">Questions</button>
 					<button class='button button-tiny infobutton conditionbutton' data-ref="#buyingoptions_{{product.id}}">Buying Options</button>
 				</div>
 			</div>
@@ -70,26 +79,50 @@
 		<div class="review review-one col-md-6">
 			<div class="star star4"></div>
 			<div class="helpful">
-				<strong>7</strong> people found this review helpful
+				<strong>12</strong> people found this review helpful
 			</div>
 			<div class="reviewer">
-				Office Manager in Central New Jersey <span> on Dec 14, 2014</span>
+				Office Manager in Central New Jersey <span> on May 14, 2014</span>
 			</div>
 			<div class="review-text">
-				<p>A stay at b2 miami downtown places you in the heart of Miami, walking distance from Bayside Marketplace and Island Queen Cruises. This hotel is within close proximity of Freedom Tower and Wallflower Gallery. Make yourself at home in one of the 243 guestrooms featuring iPod docking stations and LCD televisions. Windows open to city and sea views.</p>
+				<p>We've had a lot of success with this product on equine horses. This is our first option when we need a bute powder, and it is reasonably priced for the quantity you are given. All 5 veterinarians in our practice use Equizone on a daily basis</p>
 			</div>
 			<div class="whitefade"></div>
 		</div>
 		<div class="review review-two col-md-6">
-			<div class="star star4"></div>
+			<div class="star star3"></div>
 			<div class="helpful">
-				<strong>7</strong> people found this review helpful
+				<strong>5</strong> people found this review helpful
 			</div>
 			<div class="reviewer">
-				Office Manager in Central New Jersey <span> on Dec 14, 2014</span>
+				Veterinarian in Northern Kentucky <span> on May 1st, 2014</span>
 			</div>
 			<div class="review-text">
-				<p>A stay at b2 miami downtown places you in the heart of Miami, walking distance from Bayside Marketplace and Island Queen Cruises. This hotel is within close proximity of Freedom Tower and Wallflower Gallery. Make yours.</p>
+				<p>We've had mixed results using Equizone, where some horses respond much better to others. It is a great option for managing inflammation, but we have had more success with other bute products.</p>
+			</div>
+			<div class="whitefade"></div>
+		</div>
+		<div class='morediv'>
+			<a href="/item/{{product.id}}/details"> View complete purchase history &#8594;</a>
+			<button class='button button-rounded button-tiny closebutton'>Close</button>
+		</div>
+	</div>
+	<div id="question_{{product.id}}" class='questiondiv previewdiv row'>
+		<div class="review review-one col-md-6">
+			<div class="reviewer">
+				A couple horses are refusing to eat the powder, are there any other solutions? <span>from veterinarian in Greater NYC</span>
+			</div>
+			<div class="review-text">
+				<p>Manufacturer: Yes, we have seen some cases where a horse does not want to eat the powder. Many vets who encounter this problem split the dose between morning and night, which lowers the concentration and makes it more palatable for the horses.</p>
+			</div>
+			<div class="whitefade"></div>
+		</div>
+		<div class="review review-two col-md-6">
+			<div class="reviewer">
+				What are the specific sweeteners used in this product <span>from veterinarian in Central Florida</span>
+			</div>
+			<div class="review-text">
+				<p>Manufacturer: We use a citrus sweetener, which is all natural. We have very few instances where the animal does not eat the powder mixed with the food, but we do have several other flavorings available in those cases.</p>
 			</div>
 			<div class="whitefade"></div>
 		</div>
@@ -111,15 +144,13 @@
 			<table class="buytable">
 				<thead>
 					<th>Description</th>
-					<th>Promotion</th>
 					<th>Price</th>
 					<th class="align-right">Add to Cart</th>
 				</thead>
 				<tbody>
 					<tr>
-						<td class="description">Curved (5x10ml), Pack of 50</td>
-						<td class="promotion">25% OFF</td>
-						<td class="price"><span>$16.23</span> $14.18</td>
+						<td class="description">Powder, 1.1lb</td>
+						<td class="price"><span>$16.22</span> $11.12</td>
 						<td class="quantity">
 							<div class="change-quantity">
 								<div class="quantity-box float">
@@ -128,7 +159,7 @@
 									<div class="quantity-plus quantity-change"><span class="glyphicon glyphicon-plus"></span></div>
 								</div>
 								<div class="addtocart-button quantity-button float">
-									<button class="button button-tiny button-flat-action">Add to Cart ($92.13)</button>
+									<button class="button button-tiny button-flat-action">Add to Cart ($11.12)</button>
 								</div>
 								<div class="remove-button quantity-button float">
 									<button class="button button-tiny button-flat-caution">Remove quantity <span>2</span> from cart</button>
@@ -138,9 +169,8 @@
 						</td>
 					</tr>
 					<tr>
-						<td class="description">Curved (5x10ml), Pack of 50</td>
-						<td class="promotion"></td>
-						<td class="price"><span>$16.23</span> $14.18</td>
+						<td class="description">Powder, 2.2lb</td>
+						<td class="price"><span>$23.45</span> $17.28</td>
 						<td class="quantity">
 							<div class="change-quantity">
 								<div class="quantity-box float">
@@ -149,7 +179,7 @@
 									<div class="quantity-plus quantity-change"><span class="glyphicon glyphicon-plus"></span></div>
 								</div>
 								<div class="addtocart-button quantity-button float">
-									<button class="button button-tiny button-flat-action">Add to Cart ($92.13)</button>
+									<button class="button button-tiny button-flat-action">Add to Cart ($16.23)</button>
 								</div>
 								<div class="remove-button quantity-button float">
 									<button class="button button-tiny button-flat-caution">Remove quantity <span>2</span> from cart</button>
@@ -168,6 +198,5 @@
 		</div>
 	</div>
 </div>
-
 {% endfor %}
 </div>

@@ -7,7 +7,7 @@ from imagekit.models import ProcessedImageField
 ####### Product Database Models ############
 ############################################
 
-# Industries in our case can be small animal, bovine, and equine #
+# Industries in our case can be small_animal, bovine, and equine. Eventually include human industries as well #
 class Industry(models.Model):
 	name = models.CharField(max_length=40)
 	displayname = models.CharField(max_length=50)
@@ -19,7 +19,7 @@ class Manufacturer(models.Model):
 	displayname = models.CharField(max_length=50)
 	image = models.ForeignKey('Image',null=True,blank=True)
 	totalunits = models.IntegerField(default=0) # Script updates this
-	members = models.ManyToManyField('account.BasicUser') # Certain users can edit the product pages of these products
+	members = models.ManyToManyField('account.BasicUser') # Certain users can edit the product pages of these products #
 	def __unicode__(self):
 		return self.displayname
 
@@ -29,8 +29,9 @@ class Category(models.Model):
 	name = models.CharField(max_length=60,unique=True)
 	displayname = models.CharField(max_length=50)
 	totalunits = models.IntegerField(default=0) # Script updates this
-	parents = models.ManyToManyField('self')
+	parents = models.ManyToManyField('self') # Points to it's parents in the category tree
 	industry = models.ManyToManyField(Industry)
+	# Having a category type makes it very convenient to find all subcategories and for display purposes
 	CATEGORY_TYPES = (('maincategory','maincategory'),('secondcategory','secondcategory'),('thirdcategory','thirdcategory'))
 	category_type = models.CharField(max_length=20,choices=CATEGORY_TYPES)
 	def __unicode__(self):
@@ -39,8 +40,13 @@ class Category(models.Model):
 ############################################
 ############ Catalog #######################
 ############################################
+### Listings work as follows: The parent class is Product, which includes all the generic information and its child classes
+### are all the different types of products (pharmaceutical, devices, equipment, etc. ), which are required for the different 
+### information that is required for each type of product (so it can eventually be searchable). The unique items (based on manufacturer #)
+### are items. This only includes any item specific information such as name, it's size, image. Finally, suppliers have their own inventory
+### which have foreign keys to the items and prices ###
 
-### Product Listing (what search is based around) ###
+### Product Listing (what search is based around, not actual products but one level above) ###
 class Product(models.Model):
 	name = models.CharField(max_length=200, unique=True)
 	displayname = models.CharField(max_length=200)
@@ -48,39 +54,43 @@ class Product(models.Model):
 	category = models.ForeignKey(Category)
 	description = models.TextField()
 	mainimage = models.ForeignKey('Image',null=True,blank=True)
-	averagerating = models.IntegerField(max_length=2,default=0) # Multiplied by 10, so 50 is the highest rating
+	averagerating = models.IntegerField(max_length=2,default=0) # Multiplied by 10, so 50 is 5 stars and 10 is 1 star
 	def __unicode__(self):
 		return self.displayname
 
-
+### Pharma Listings ###
 class Pharma(Product):
 	rx = models.BooleanField(default=True)
 	compendium = models.CharField(max_length=200)
 	human_label = models.BooleanField(default=False)
 	ingredient = models.ManyToManyField('Ingredient',null=True,blank=True)
 
+### Needles Listing ###
 class Needles(Product):
 	type = models.CharField(max_length=20)
 	length = models.IntegerField(max_length=5) #inches
 	wound_support = models.CharField(max_length=10)
 	colors = models.ManyToManyField('Color')
 
-class Equipment(Product): # Small equipment items
+### Small Equipment Listing ### (Scissors, etc.) ###
+class Equipment(Product): 
 	details = models.TextField(max_length=100)
 
+### Small Equipment Listing ### (I.E. Ultrasounds, Endoscopes, things with warranties and contracts)
 class Device(Product): # Large devices
 	features = models.TextField() # !~ is the delimiter
-	modelyear = models.IntegerField(max_length=4,null=True,blank=True)
+	modelyear = models.IntegerField(max_length=4,null=True,blank=True) # Only if not new
 	### Warranty + Service Contracts ###
 	CONTRACT_OPTIONS =  (('warranty', 'Warranty'),('servicecontract', 'Service Contract'),('none', 'None'))
 	contract = models.CharField(max_length=40, choices=CONTRACT_OPTIONS,default="none")
 	contractdescription = models.TextField(blank=True)
 
+
 ############################################
 ####### Man # Specific #####################
 ############################################
 
-### Item's are products with multiple types, i.e. 50mg and 100mg versions
+### Item's are products with multiple types, i.e. 50mg and 100mg versions ###
 class Item(models.Model):
 	product = models.ForeignKey(Product)
 	manufacturer_no = models.CharField(max_length=25,null=True,blank=True)
@@ -88,19 +98,23 @@ class Item(models.Model):
 	itemimage = models.ForeignKey('Image',related_name="itemimage",null=True,blank=True) # if size specific image is available
 	msrp_price = models.BigIntegerField(max_length=13)
 
+	def __unicode__(self):
+		return self.product.name
+
 ### When a distributor/manufacturer uploads (their inventory) ###
 class Inventory(models.Model): 
 	supplier = models.ForeignKey('account.Supplier')
 	sku = models.CharField(max_length=25,null=True,blank=True) # The uploader's SKU for this product
 	item = models.ForeignKey(Item)
 	quantity_available = models.IntegerField(max_length=8) # Quantity of this amount available
-	price = models.BigIntegerField(max_length=13) # in cents
+	base_price = models.BigIntegerField(max_length=8) # Before discounts for GPO, 2 day shipping, etc.
 
-### Tags are used for connecting products outside of traditional category tiers ###
-### I.E. Super discount, recent listing, mobile vet, etc. ###
+### Tags are used for connecting products outside of traditional category tiers, for more search criteria###
+### I.E. Practice Set-up, spring vaccines, etc. ###
 class Tags(models.Model):
 	name = models.CharField(max_length=50)
 	products = models.ManyToManyField(Product)
+
 ### Helper Classes for Product Listings ###
 class Ingredient(models.Model):
 	name = models.CharField(max_length=50)
@@ -169,16 +183,4 @@ class Image(models.Model):
 	photo_small = ProcessedImageField(upload_to=get_file_path_small, processors=[ResizeToFit(100, 100)],format='JPEG',options={'quality': 60})
 	photo_medium = ProcessedImageField(upload_to=get_file_path_medium, processors=[ResizeToFit(500, 500)],format='JPEG',options={'quality': 60})
 
-############################################
-### Promotional Codes ######################
-############################################
-class PromoCode(models.Model):
-	code = models.CharField(max_length=100,unique=True)
-	promo_text = models.CharField(max_length=255) # Fun description
-	active = models.BooleanField()
-	uses_left = models.IntegerField(max_length=5,default=10000)
-	details = models.CharField(max_length=100) # Short description
-	discount = models.IntegerField(max_length = 10,null=True,blank=True) # integer discount
-	def __unicode__(self):
-		return self.code
 

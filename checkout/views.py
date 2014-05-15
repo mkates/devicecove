@@ -13,454 +13,134 @@ import json, re, random, string
 from datetime import datetime
 from django.utils.timezone import utc
 import balanced
-import helper.commission as commission
-import helper.credits as credits
-import emails.views	as email_view
-import payment.views as payment_view
 from helper.model_imports import *
-from checkout.forms import *
-from account.forms import *
 
-###################################
-### Sign Up Form ##################
-###################################
-# When a user is created, create the following: User, BasicUser, Shopping Cart
-# Then, transfer all the items from the session shopping cart to their account
-# Finally, create a Checkout if the user is checking out
-def newuserform(request):
-	if request.method == 'POST':
-		form = NewUserForm(request.POST)
-		if form.is_valid():		
-			# General user sign-up
-			firstname = form.cleaned_data['firstname']
-			lastname = form.cleaned_data['lastname']
-			email = form.cleaned_data['email']
-			email = email.lower()
-			zipcode = form.cleaned_data['zipcode']
-			password = form.cleaned_data['password']
-			checkout_signup = form.cleaned_data['checkout_signup']
-			# If user email is already used, serve an email error
-			if User.objects.filter(username=email).exists():
-				return render_to_response('account/login.html',{'error':'email'},context_instance=RequestContext(request))
-			
-			# Create new user
-			newuser = User.objects.create_user(email,email,password)
-			newuser.save()
-			
-			# Create the basic user
-
-			# Check if there is a referral object
-			try:
-				referrer = BasicUser.objects.get(referral_id=request.session['referral_id'])
-			except:
-				referrer = None
-			nbu = BasicUser(user=newuser,referrer=referrer,referral_id=generateToken(),firstname=firstname,lastname=lastname,email=email,zipcode=zipcode)
-			nbu.save()
-			credits.updateCredits(nbu)
-			
-			# Attempt to get the lat long and assign the city, state, and county
-			try:
-				latlong_obj = LatLong.objects.get(zipcode=int(zipcode))
-				nbu.city = latlong_obj.city
-				nbu.county = latlong_obj.county
-				nbu.state = latlong_obj.state
-				nbu.save()
-			except:
-				latlong_obj = None
-			
-			# Create the shopping cart
-			shoppingcart = ShoppingCart(user=nbu)
-			shoppingcart.save()
-			
-			user = authenticate(username=newuser,password=password)
-			
-			# Add all session cart items into their account's shopping cart
-			session_shoppingcart = getShoppingCart(request)
-			if session_shoppingcart:
-				for cartitem in session_shoppingcart.cartitem_set.all():
-					cartitem.shoppingcart = nbu.shoppingcart
-					cartitem.save()	
-			
-			# Send welcome email 
-			email_view.composeEmailWelcome(nbu)
-			
-			#Login, now that cart items from session are added to the user account
-			login(request,user)
-			
-			# If checking out. . . 
-			if checkout_signup:
-				checkoutid = createCheckout(nbu)
-				return HttpResponseRedirect('/checkout/shipping/'+str(checkoutid))
-
-			# If it was a login wall . . .
-			if request.GET.get('next',''):
-				return HttpResponseRedirect(request.GET.get('next','/'))
-			
-			# Else just send them to their profile
-			return HttpResponseRedirect('/account/profile')
-		else:
-			return render_to_response('account/login.html',{'error':'invalid'},context_instance=RequestContext(request))
-	return HttpResponseRedirect('/error/notpost')
-	
-	
 ###################################
 ### General Cart Functions ########
 ###################################
 
 ##### The cart page #########
+@login_required
 def cart(request):
-	# Retrieves the ShoppingCart
-	shoppingcart = getShoppingCart(request)
-	# Calculates price and counts from the ShoppingCart
+	shoppingcart = request.user.basicuser.clinic.shoppingcart
+	cartitems = shoppingcart.cartitem_set.all()
+	cartitems_l = []
+	for i in range(3):
+		cartitems_l.append(cartitems[0])
 	shoppingcart_totals = getShoppingCartTotals(shoppingcart)
-	# Create the variables dictionary
-	dict = shoppingcart_totals
-	dict['shoppingcart'] = shoppingcart
-	# Update cartitem price if the item's price changed
-	if shoppingcart:
-		for cartitem in shoppingcart.cartitem_set.all():
-			if cartitem.price != cartitem.item.price:
-				cartitem.price = cartitem.item.price
-				cartitem.save()
-	# Calculate totals
-	
-	return render_to_response('account/cart.html',dict,context_instance=RequestContext(request))
+	return render_to_response('account/pages/cart.html',{'totals':shoppingcart_totals,'cartitems':cartitems_l},context_instance=RequestContext(request))
 
 ##### Add an item to the cart ######
+@login_required
 def addToCart(request,itemid):
 	if request.method == "POST":
-		# Get or create a shopping cart
-		shoppingcart = getShoppingCart(request)
-		if not shoppingcart:
-			shoppingcart = ShoppingCart()
-			shoppingcart.save()
-			request.session['shoppingcart'] = shoppingcart.id
-		item = Item.objects.get(id=itemid)
-		# Make sure if item is offline the user can add the item to their cart
-		if item.item_type == 'UsedEquipment':
-			if not BuyAuthorization.objects.filter(buyer=request.user.basicuser,item=item).exists():
-				return HttpResponseRedirect('/item/'+itemid+"/details")
-		# Only creates the cart object if it doesn't exist
-		newCartItem, created = CartItem.objects.get_or_create(shoppingcart=shoppingcart,item=item,price=item.price,quantity=1)
-		newCartItem.save()
-		# Set new cart cache
-		if request.user.is_authenticated():
-			bu = request.user.basicuser
-			cache.set('cart_items_'+str(bu.id),bu.shoppingcart.cartitem_set.all())
-		return HttpResponseRedirect('/cart')
+		item_id = request.POST.get('itemid',None)
+		quantity = request.POST.get('quantity',1)
+		address = request.POST.get('address',None)
+		item = Item.objects.get(id=item_id)
+		cartitem = CartItem(shoppingcart=request.user.clinic.shoppingcart,item=item,address=address,quantity=quantity)
+		cartitem.save()
 	return HttpResponseRedirect('/cart')
-	
+
 ##### Update the Cart Wishlist #########
+@login_required
 def updateCartWishlist(request,cartitemid):
 	cartitem = CartItem.objects.get(id=cartitemid)
-	if request.user.is_authenticated():
-		bu = request.user.basicuser
+	if request.method == "POST":
+		clinic = request.user.basicuser.clinic
 		cartitem.shoppingcart = None
 		cartitem.delete()
-		si, created = SavedItem.objects.get_or_create(item=cartitem.item,user=bu)
+		si, created = SavedItem.objects.get_or_create(item=cartitem.item,clinic=clinic)
 		si.save()
-		cache.set('cart_items_'+str(bu.id),bu.shoppingcart.cartitem_set.all())
-		return HttpResponseRedirect('/cart')
-	else:
-		return HttpResponseRedirect('/login?next=/cart')
+	return HttpResponseRedirect('/cart')
 		
 ##### Delete Cart Item #########
 def updateCartDelete(request,cartitemid):
 	cartitem = CartItem.objects.get(id=cartitemid)
-	shoppingcart = getShoppingCart(request)
-	if cartitem.shoppingcart == shoppingcart: # Only if its the right shopping cart
+	if request.method == "POST":
 		cartitem.shoppingcart = None
 		cartitem.delete()
-	# Set new cart cache
-	if request.user.is_authenticated():
-		bu = request.user.basicuser
-		cache.set('cart_items_'+str(bu.id),bu.shoppingcart.cartitem_set.all())
 	return HttpResponseRedirect('/cart')
 
 ##### Update Cart Quantity #########
 def updateCartQuantity(request,cartitemid):
 	cartitem = CartItem.objects.get(id=cartitemid)
-	shoppingcart = getShoppingCart(request)
-	if cartitem.shoppingcart == shoppingcart:
-		cartitem.quantity = int(request.POST['quantity'])
-		cartitem.save()
-	# Set new cart cache
-	if request.user.is_authenticated():
-		bu = request.user.basicuser
-		cache.set('cart_items_'+str(bu.id),bu.shoppingcart.cartitem_set.all())
-	return HttpResponseRedirect('/cart')
-	
-###################################
-### Confirm User In Checkout ######
-###################################
-
-# ### Landing page once they proceed to checkout ###
-def checkoutVerify(request):
-	return render_to_response('checkout/checkout_login.html',{'checkout_verify':True},context_instance=RequestContext(request))
-
-### Landing page if there is an error ####
-def checkoutVerifyError(request,error):
-	# This variable is a boolean in the signup form to know you are checking out
-	dict = {'checkout_verify':True}
-	#Write up your error message
-	errormessage = 'There was an error verifying your account. Please try again'
-	if error == 'username_password_error':
-		errormessage = 'Oops! Your username and password do not match'
-	if error == 'disabled_account':
-		errormessage = 'Your account has been disabled. Please contact us if you would like it reactivated'
-	if error == 'different_user':
-		errormessage = 'You are currently logged in as a different user'
-	if error == 'timeout':
-		errormessage = 'Your checkout session timed out'
-	if error == 'purchased':
-		errormessage = 'You already purchased the items in this cart'
-	if error == 'emptycart':
-		errormessage = 'You have no items in your shopping cart'
-	if error == 'notloggedin':
-		errormessage = 'You are not currently logged in'
-	if error == 'toolarge':
-		errormessage = 'The items in your cart cannot exceed $15,000'
-	if error == 'payment':
-		errormessage = 'There was a problem processing your payment selection'
-	dict['error'] = errormessage
-	return render_to_response('checkout/checkout_login.html',dict,context_instance=RequestContext(request))
-
-### Login Form to start checkout process ###
-def checkoutlogin(request):
 	if request.method == "POST":
-		form = LoginForm(request.POST)
-		if form.is_valid():	
-			email = form.cleaned_data['email']
-			email = email.lower()
-			password = form.cleaned_data['password']
-			rememberme = form.cleaned_data['rememberme']
-			user = authenticate(username=email,password=password)
-			if user is not None:
-				if user.is_active:
-					if request.user.is_authenticated():
-						# If a user is already logged in, login must match
-						if user == request.user:
-							bu = request.user.basicuser
-							checkoutid = createCheckout(bu)
-							return HttpResponseRedirect('/checkout/shipping/'+str(checkoutid))
-						else:
-							return HttpResponseRedirect('/checkout/verify/different_user')
-					else:
-						# User is not logged in, add session items into existing cart and continue
-						session_shoppingcart = getShoppingCart(request)
-						login(request,user)
-						if rememberme:
-							request.session.set_expiry(500000)
-						else:
-							request.session.set_expiry(0)
-						bu = BasicUser.objects.get(user=user)
-						if session_shoppingcart:
-							for cartitem in session_shoppingcart.cartitem_set.all():
-								#Add only items not already in their cart
-								if cartitem.item not in bu.shoppingcart.cart_items():
-									cartitem.shoppingcart = bu.shoppingcart
-									cartitem.save()
-						checkoutid = createCheckout(bu)
-						return HttpResponseRedirect('/checkout/shipping/'+str(checkoutid))
-				else:
-					return HttpResponseRedirect('/checkout/verify/disabled_account')
-			else:
-				return HttpResponseRedirect('/checkout/verify/username_password_error')		
-	return HttpResponseRedirect('/checkout/verify/error')
+		quantity = request.POST.get('quantity',1)
+		cartitem.quantity = quantity
+		cartitem.save()
+	return HttpResponseRedirect('/cart')
 
-### Helper method to create a checkout object for a user ###
-### Adds each item from the BU into the checkout cart ###
-def createCheckout(bu):	
-	cartitems = bu.shoppingcart.cartitem_set.all()
-	checkout = Checkout(buyer=bu,shipping_address=None,state=1)
-	checkout.save()
-	for cartitem in cartitems:
-		if cartitem.item.liststatus == 'active':
-			cartitem.checkout = checkout
-			cartitem.price = cartitem.item.price
-			cartitem.save()
-	return checkout.id
+####################################################
+###### Checkout Helper Methods #####################
+####################################################
+
+# Calculate the total cost and number of items in a shopping cart
+def getShoppingCartTotals(shoppingcart):
+	items = 0
+	products = 0
+	totalcost = 0
+	if shoppingcart:
+		for cartitem in shoppingcart.cartitem_set.all():
+			items += cartitem.quantity
+			products += 1
+			totalcost += cartitem.quantity * cartitem.inventory.base_price
+	return {'total':"$"+"{:,}".format(totalcost),'items_count':items,'products_count':products}
+
+
 
 ###################################
 ### Checkout Shipping #############
 ###################################
 
-### Checkout shipping page ###
 @login_required
-def checkoutShipping(request,checkoutid):
-	# Checkout Validation
-	checkout = Checkout.objects.get(id=checkoutid)
-	checkoutValid = checkoutValidCheck(checkout,request)
-	if checkoutValid['status'] != 201:
-		return HttpResponseRedirect('/checkout/verify/'+checkoutValid['error'])
-	return render_to_response('checkout/checkout_shipping.html',{'checkout':checkout},context_instance=RequestContext(request))
-
-@login_required
-def	useAddress(request):
+def newAddress(request):
 	if request.method == 'POST':
-		checkoutid = request.POST['checkout_id']
-		addressid = request.POST['address_id']
-		# Checkout Validation
-		checkout = Checkout.objects.get(id=checkoutid)
-		checkoutValid = checkoutValidCheck(checkout,request)
-		if checkoutValid['status'] != 201:
-			return HttpResponseRedirect('/checkout/verify/'+checkoutValid['error'])
-		#Set the address of the checkout to the Address
-		checkout = Checkout.objects.get(id=checkoutid)
-		address = Address.objects.get(id=addressid)
-		checkout.shipping_address = address
-		checkout.state = 2
-		checkout.save()
-		return HttpResponseRedirect('/checkout/payment/'+str(checkoutid))
-	return HttpResponseRedirect('/checkout/shipping/'+str(checkoutid))
-
-@login_required
-def deleteAddress(request):
-	if request.method == 'POST':
-		checkoutid = request.POST['checkout_id']
-		addressid = request.POST['address_id']
-		# Checkout Validation
-		checkout = Checkout.objects.get(id=checkoutid)
-		checkoutValid = checkoutValidCheck(checkout,request)
-		if checkoutValid['status'] != 201:
-			return HttpResponseRedirect('/checkout/verify/'+checkoutValid['error'])
-		# Grab a handle for the address to delete
-		deleteaddress = Address.objects.get(id=addressid)
-		# Remove the address object from the user
-		if checkout.shipping_address == deleteaddress:
-			checkout.shipping_address = None
-			checkout.save()
-		payment_view.deleteAddress(request,deleteaddress)		
-		return HttpResponseRedirect('/checkout/shipping/'+str(checkoutid))
-	return HttpResponseRedirect('/checkout/shipping/'+str(checkoutid))
-
-@login_required
-def newAddress(request,checkoutid):
-	# Checkout Validation
-	checkout = Checkout.objects.get(id=checkoutid)
-	checkoutValid = checkoutValidCheck(checkout,request)
-	if checkoutValid['status'] != 201:
-		return HttpResponseRedirect('/checkout/verify/'+checkoutValid['error'])
-	if request.method == 'POST':
-		#Create the Address object
-		user = request.user.basicuser
+		# Create the Address object
+		clinic = request.user.basicuser.clinic
 		name = request.POST['name']
 		address_one = request.POST['address_one']
 		address_two = request.POST.get('address_two','')
 		city = request.POST['city']
 		state = request.POST['state']
 		zipcode = request.POST['zipcode']
-		phonenumber = request.POST['phonenumber']
-		newaddress = Address(user=user,name=name,address_one=address_one,address_two=address_two,city=city,state=state,zipcode=zipcode,phonenumber=phonenumber)
+		newaddress = Address(clinic=clinic,name=name,address_one=address_one,address_two=address_two,city=city,state=state,zipcode=zipcode)
 		newaddress.save()
-		#Create new payment object as well
-		new_payment = CheckAddress(user=user,address=newaddress)
-		new_payment.save()
-		#Point checkout's address to the new Address
-		checkout = Checkout.objects.get(id=checkoutid)
-		checkout.shipping_address = newaddress
-		checkout.state = 2
-		checkout.save()
-		return HttpResponseRedirect('/checkout/payment/'+str(checkoutid))
-	return HttpResponseRedirect('/checkout/shipping/'+str(checkoutid))
+	return HttpResponseRedirect('/cart')
 
 		
 ###################################
 ### Checkout Payment ##############
 ###################################	
+
 @login_required
 def checkoutPayment(request,checkoutid):
-	# Checkout Validation
-	checkout = Checkout.objects.get(id=checkoutid)
-	checkoutValid = checkoutValidCheck(checkout,request)
-	payment_methods = False
-	for payment in request.user.basicuser.payment_set.all():
+	clinic = request.user.basicuser.clinic
+	for payment in clinic.payment_set.all():
 		if hasattr(payment,'balancedbankaccount') or hasattr(payment,'balancedcard') or hasattr(payment,'checkpayment'):
 			payment_methods = True
-	if checkoutValid['status'] != 201:
-		return HttpResponseRedirect('/checkout/verify/'+checkoutValid['error'])
-	elif checkout.shipping_address == None and checkout.shippingAddressRequired():
-		return HttpResponseRedirect('/checkout/shipping/'+str(checkoutid))
 	return render_to_response('checkout/checkout_payment.html',{'checkout':checkout,'payment_methods':payment_methods,'paying':True,'BALANCED_MARKETPLACE_ID':settings.BALANCED_MARKETPLACE_ID},context_instance=RequestContext(request))
 
 @login_required
-def checkoutUsePayment(request,checkoutid,paymentid):
-	if request.method == 'POST':
-		# Checkout Validation
-		checkout = Checkout.objects.get(id=checkoutid)
-		checkoutValid = checkoutValidCheck(checkout,request)
-		if checkoutValid['status'] != 201:
-			return HttpResponseRedirect('/checkout/verify/'+checkoutValid['error'])	
-		payment = Payment.objects.get(id=paymentid)
-		if not payment.user == request.user.basicuser:
-			return HttpResponseRedirect('/checkout/verify/payment')	
-		checkout.payment = payment
-		checkout.state = 3
-		checkout.save()
-		return HttpResponseRedirect('/checkout/review/'+str(checkoutid))
-	return HttpResponseRedirect('/checkout/review/'+str(checkoutid))
-	
-@login_required
-def checkoutDeletePayment(request,checkoutid,paymentid):
-	if request.method == 'POST':
-		# Checkout Validation
-		checkout = Checkout.objects.get(id=checkoutid)
-		checkoutValid = checkoutValidCheck(checkout,request)
-		if checkoutValid['status'] != 201:
-			return HttpResponseRedirect('/checkout/verify/'+checkoutValid['error'])
-		payment = Payment.objects.get(id=paymentid)
-		if 	checkout.payment == payment:
-			checkout.payment = None
-			checkout.save()
-		# Safely de-references the payment
-		dp = payment_view.deletePayment(request,paymentid)
-		return HttpResponseRedirect('/checkout/payment/'+str(checkoutid))
-	return HttpResponseRedirect('/checkout/payment/'+str(checkoutid))
-	
-@login_required
 def checkoutAddCard(request,checkoutid):
+	balancedCard = addBalancedCard(request)
+	if balancedCard['status'] == 201:	
+		return HttpResponse(json.dumps({'status':balancedCard['status'],'error':balancedCard['error']}), content_type='application/json')
+
+### Currently Not Used At This Point ###
+@login_required
+def checkoutAddBankAccount(request,checkoutid):
 	# Checkout Validation
 	checkout = Checkout.objects.get(id=checkoutid)
 	checkoutValid = checkoutValidCheck(checkout,request)
 	if checkoutValid['status'] != 201:
 		return HttpResponseRedirect('/checkout/verify/'+checkoutValid['error'])
-	# Add credit card to a Basic User
-	balancedCard = payment_view.addBalancedCard(request)
-	if balancedCard['status'] == 201:
-		checkout.payment = balancedCard['card']
-		checkout.state = 3
+	# Add bank account to checkout
+	balancedBankAccount = payment_view.addBalancedBankAccount(request)
+	if balancedBankAccount['status'] == 201:
+		checkout.payment = balancedBankAccount['bank']
 		checkout.save()	
-	return HttpResponse(json.dumps({'status':balancedCard['status'],'error':balancedCard['error']}), content_type='application/json')
-
-### Currently Not Used At This Point ###
-# @login_required
-# def checkoutAddBankAccount(request,checkoutid):
-# 	# Checkout Validation
-# 	checkout = Checkout.objects.get(id=checkoutid)
-# 	checkoutValid = checkoutValidCheck(checkout,request)
-# 	if checkoutValid['status'] != 201:
-# 		return HttpResponseRedirect('/checkout/verify/'+checkoutValid['error'])
-# 	# Add bank account to checkout
-# 	balancedBankAccount = payment_view.addBalancedBankAccount(request)
-# 	if balancedBankAccount['status'] == 201:
-# 		checkout.payment = balancedBankAccount['bank']
-# 		checkout.save()	
-# 	return HttpResponse(json.dumps({'status':balancedBankAccount['status'],'error':balancedBankAccount['error']}), content_type='application/json')
-
-# @login_required
-# def checkoutAddCheckPayment(request,checkoutid):
-# 	# Checkout Validation
-# 	checkout = Checkout.objects.get(id=checkoutid)
-# 	checkoutValid = checkoutValidCheck(checkout,request)
-# 	if checkoutValid['status'] != 201:
-# 		return HttpResponseRedirect('/checkout/verify/'+checkoutValid['error'])
-# 	# Add bank account to checkout
-# 	checkPayment = CheckPayment(user=request.user.basicuser)
-# 	checkPayment.save()
-# 	checkout.payment = checkPayment;
-# 	checkout.save()	
-# 	return HttpResponseRedirect('/checkout/review/'+str(checkoutid))
-
+	return HttpResponse(json.dumps({'status':balancedBankAccount['status'],'error':balancedBankAccount['error']}), content_type='application/json')
 
 ###################################
 ### Checkout Review  ##############
@@ -604,31 +284,8 @@ def checkoutConfirmation(request,orderid):
 	else:
 		return HttpResponseRedirect('/cart')
 
-####################################################
-###### Checkout Helper Methods #####################
-####################################################
 
 
-#Get the shopping cart from the user, the session, or return none
-def getShoppingCart(request):
-	shoppingcart = None
-	if request.user.is_authenticated():
-		bu = request.user.basicuser
-		shoppingcart = ShoppingCart.objects.get(user=bu)
-	else:
-		if 'shoppingcart' in request.session:
-			shoppingcart = ShoppingCart.objects.get(id=int(request.session['shoppingcart']))
-	return shoppingcart
-
-#Calculate the total cost and number of items in a shopping cart
-def getShoppingCartTotals(shoppingcart):
-	count = 0
-	totalcost = 0
-	if shoppingcart:
-		for cartitem in shoppingcart.cartitem_set.all():
-			count += cartitem.quantity
-			totalcost += cartitem.quantity * cartitem.item.price
-	return {'total':"$"+"{:,}".format(totalcost),'itemcount':count}
 
 #Checks if all items are available, and updates checkout accordingly
 def allItemsAvailable(checkout):
@@ -689,6 +346,3 @@ def checkoutValidCheck(checkout,request):
 		dict = {'status':201} #Checkout is VALID!!!
 	
 	return dict
-
-def generateToken():
-	return ''.join(random.choice(string.ascii_uppercase + string.digits) for x in range(20))
