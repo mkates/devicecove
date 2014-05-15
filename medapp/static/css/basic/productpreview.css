@@ -1,35 +1,49 @@
 .product-preview-box-container {
-	padding: 5px;
+	padding: 0px;
 	float: left;
 	width: 20%;
+	border:1px solid #dadada;
+	border-right:none;
+	background: #fff;
+	margin-bottom: 30px;
+}
+.product-preview-box-container.first {
+	border-bottom-left-radius: 4px;
+	border-top-left-radius: 4px;
+}
+.product-preview-box-container.last {
+	border-bottom-right-radius: 4px;
+	border-top-right-radius: 4px;
+	border-right:1px solid #dadada;
+}
+.product-preview-box-container a{
+	display:block;
 }
 .product-preview-box {
-	border:1px solid #eee;
-	transition:box-shadow .2s;
+	overflow:auto;
 }
-.product-preview-box:hover {
-	box-shadow: 0 0 2px #999;
-}
-.product-preview-image {
-	background-position: center center;
-	background-size: cover;
-	height: 150px;
-	border-bottom:1px solid #eee;
-}
-.product-preview-box img {
-	max-width: 100%;
-}
-.product-preview-info {
+.product-preview-box-container a:hover{
+	box-shadow: 0 0 12px rgba(0,0,0,.1) inset;
 	background: #fff;
 }
+.product-preview-image {
+	background:none;
+	background-repeat: no-repeat;
+	background-size: contain;
+	background-position:center;
+	height: 130px;
+	margin: 15px 15px 15px 15px;
+}
+.product-preview-info {
+	border-top:1px solid #eee;
+	margin: 0 10px;
+}
 .product-preview-info p {
-	padding: 5px 5px 0 5px;
+	padding: 5px 5px 5px 5px;
 	margin: 0;
+	font-weight:normal;
 	font-size: 12px;
-	font-weight: 200;
-	letter-spacing: .25px;
-	line-height: 18px;
-	color: #333;
+	color: #666;
 	white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -44,25 +58,24 @@
 }
 .product-preview-info .ratings .star{
 	margin-left: 3px;
+	margin-bottom: 2px;
 	display:inline-block;
 }
-.product-preview-info .price {
-	font-weight: 200;
-	margin-left: 5px;
-	padding-bottom: 4px;
-	color: #aaa;
-	font-size: 12px;
-	text-decoration:line-through;
-}
 
-.product-preview-info .price span {
+.product-preview-info .price {
 	font-weight: bold;
-	margin-top: -2px;
+	margin-bottom: 6px;
 	letter-spacing: .3px;
 	margin-right: 5px;
-	margin-left: 3px;
+	margin-left: 5px;
 	color: #3cab47;
 	font-size: 14px;
 	text-decoration: none;
-	float: right;
+}
+.product-preview-info .price span{
+	font-weight: 200;
+	margin-left: 5px;
+	color: #aaa;
+	font-size: 11px;
+	text-decoration:line-through;
 }

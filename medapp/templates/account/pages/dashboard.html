@@ -6,32 +6,31 @@
 .content {
 	margin: 0;
 	padding-bottom: 70px;
-	background: #f6f6f6;
+	box-shadow: 0 0 12px rgba(0,0,0,.1) inset;
 }
 .sidecol {
-	padding-left: 30px;
+	padding-left: 20px;
+	padding-right: 0;
 }
 .product-row {
 	margin-top: 30px;
 }
 .product-row .row-title {
-	font-size: 22px;
-	color: #333;
-	border-bottom:1px solid #eee;
-	margin: 10px 5px;
-	padding-bottom: 5px;
+	font-size: 16px;
+	color: #666;
+	margin: 10px 5px 5px 5px;
 }
 .products {
 	margin-bottom: 10px;
 }
-.product-row .morelink {
-	padding: 15px 5px;
-}
-.product-row .morelink a {
+.product-row .row-title a {
 	color: #009cc3;
-	display:inline-block;
+	padding-top: 4px;
+	float: right;
+	font-size: 12px;
+	letter-spacing: .2px;
 }
-.product-row .morelink a:hover {
+.product-row .row-title a:hover {
 	text-decoration: underline;
 }
 
@@ -43,26 +42,27 @@
 	text-decoration: underline;
 }
 .dealbox-col {
-	padding: 0
+	padding: 0;
 }
 .dealbox {
-	border:1px solid #eee;
+	border:1px solid #dadada;
+	border-radius:4px;
 	background: white;
-	margin: 25px 5px 15px 5px;
+	margin: 10px 0px 40px 0px;
 	position: relative;
 }
 .dealbox .deal-title h3 {
 	font-weight: 100;
 	letter-spacing: 1.2px;
-	text-shadow: 0 0 2px #aaa;
+	text-shadow: 0 0 5px #fff;
 	font-size: 53px;
 	margin: 15px 20px 10px 20px;
-	color: #fff;
+	color: #000;
 }
 .dealbox .deal-title h4 {
 	font-weight: 200;
 	color: #eee;
-	font-size: 16px;
+	font-size: 14px;
 	margin: 0 20px 20px 20px;
 }
 .dealbox .dog {
@@ -75,97 +75,68 @@
 	background-image:url("{{STATIC_URL}}img/large_background/horse_dark.png");
 	background-position:center center;
 	background-size:cover;
+	border-bottom-left-radius: 4px;
+	border-top-left-radius: 4px;
 	height: 260px;
 	width: 50%;
 	float:left;
+	border-right:1px solid #e6e6e6;
 	overflow:hidden;
 }
 .dealbox .pill-bg {
 	background-image:url("{{STATIC_URL}}img/large_background/pill_dark.png");
 }
 .dealbox .equipment-bg {
-	background-image:url("{{STATIC_URL}}img/large_background/equipmentbg.png");
+	background-image:url("{{STATIC_URL}}img/large_background/equipmentbg.jpg");
 }
 .dealbox .deals {
 	width: 50%;
+	height: 100%;
 	float: left;
-	padding: 15px;
+	padding: 10px 25px 15px 10px;
 }
 .dealbox .deals .deal-image {
-	width: 25%;
-	height: 80px;
-	border:1px solid #eee;
-	background-position:center center;
-	background-size:cover;
-	display:inline-block;
-	vertical-align: top;
-
+	height: 230px;
+}
+.dealbox .deals .deal-image img {
+	height: 100%;
 }
 .dealbox .deals .deal {
 	margin-bottom: 20px;
 }
 .dealbox .deals .deal-info {
-	width: 75%;
-	display:inline-block;
-	vertical-align: top;
-	padding-left: 10px;
+	padding-top: 20px;
 }
 .dealbox .deals .deal-info h4 {
-	font-weight: 200;
 	font-size: 15px;
-	color: #333;
-	letter-spacing: .25px;
-	margin: 0;
-	white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+	line-height: 18px;
+	margin: 0 0 6px 0;
+	font-weight: normal;
 }
 .dealbox .deals .deal-info h5 {
-	margin: 5px 0 0 0;
-}
-.dealbox .deals .deal-info h5 .original{
-	font-size: 15px;
-	color: #999;
-	font-weight: 200;
-	letter-spacing: .25px;
-	text-decoration: line-through;
-	margin: 0;
-	font-size: 14px;
-}
-.dealbox .deals .deal-info h5 .newprice {
+	margin: 5px 0 15px 0;
 	color: green;
-	font-weight: bold;
-	margin-left: 5px;
-	font-size: 16px;
+	font-weight:bold;
 }
-.dealbox .deals .deal-info p {
-	color: #777;
-	margin-top: 5px;
-	font-size: 12px;
+.dealbox .deals .deal-info h5 span {
+	font-weight: normal;
 }
-.dealbox .deals .deal-info .star {
-	display:inline-block;
-	margin-top: 3px;
-	vertical-align: middle;
-}
-.dealbox .deals .deal-info .rating span {
-	vertical-align: middle;
-	margin-left: 5px;
-	color: #999;
-	padding-top: 2px;
+.dealbox .deals .deal-info a:hover{
+	text-decoration: none;
 }
 .dealbox .morelink {
-	float: right;
 	margin-top: 10px;
 	position:absolute;
 	bottom:10px;
 	right: 10px;
+	font-size: 13px;
 }
 
 .homebox {
-	margin-top: 25px;
+	margin:10px 0 25px 0;
 	background:#fff;
-	border:1px solid #eee;
+	border:1px solid #dadada;
+	border-radius: 4px;
 }
 .homebox h4 {
 	margin: 0 10px;
@@ -212,13 +183,13 @@
 	padding-bottom: 20px;
 }
 .referral h3 {
-	color: #f6f6f6;
-	font-size: 30px;
+	color: #333;
+	text-shadow: 0 0 2px #fff;
+	font-size: 20px;
 }
 .referral p {
 	font-size: 13px;
-	color: #fff;
-	text-shadow: 0 0 1px #000;
+	color: #666;
 }
 .usedequipment {
 	background-image:url("{{STATIC_URL}}img/large_background/ultrasound.png");
@@ -237,6 +208,63 @@
 	text-align: center;
 	padding: 10px 10px 20px 10px;
 }
+
+/* Selection Bar */
+.selections {
+	padding: 0;
+	margin: 30px 20px 0px 20px;
+}
+.col12-8 {
+	width: 25%;
+	float: left;
+}
+.selections a {
+	overflow:hidden;
+	display:block;
+	height: 90px;
+	position:relative;
+	border:1px solid #dadada;
+	border-right: none;
+	background: white;
+	transition-duration: 0.5s, 0.5s, 100ms;
+    transition-property: transform, left, box-shadow;
+    transition-timing-function: ease-in-out, ease-in-out, ease-in-out;
+}
+.selections a:hover {
+	box-shadow: 0 8px 10px #EBEBEB inset, 4px 35px 65px 5px rgba(242, 242, 242, 0.9) inset;
+}
+.selections a.active {
+	background: -moz-linear-gradient(center top , #5A5A5A 0px, rgba(255, 255, 255, 0.5) 10%) repeat scroll 0 0%, -moz-linear-gradient(center top , rgba(122, 122, 122, 0.7) 40%, rgba(255, 255, 255, 0.5) 100%) repeat scroll 0 0 rgba(0, 0, 0, 0);
+    box-shadow: 0 5px 10px -1px rgba(90, 90, 90, 0.5) inset, 2px 35px 65px 5px rgba(235, 235, 235, 0.5) inset;
+}
+.selections a.first {
+	border-bottom-left-radius: 4px;
+	border-top-left-radius: 4px;
+}
+.selections a.last {
+	border-bottom-right-radius: 4px;
+	border-top-right-radius: 4px;
+	border-right:1px solid #dadada;
+}
+.selections .item {
+	position:absolute;
+	top: 100px;
+	text-align: center;
+	width: 100%;
+}
+.selections .item img {
+	max-width: 100%;
+	max-height: 60px;
+	margin-top: 0px;
+	opacity: 1;
+}
+.selections .item p {
+	color: #777;
+	padding-top: 3px;
+	width: 100%;
+	text-align: center;
+	font-size: 12px;
+}
 </style>
 {% block account_css %}{% endblock %}
 {% endblock %}
@@ -245,47 +273,85 @@
 $(document).ready(function() {
 	//Auto Focus on the search bar when page loads
 	$("#searchinput").focus();
-});
+	var items = $(".selections .item");
+	$.each(items,function(index,value){
+		$(value).delay(index*80).animate({
+			top:-5,
+			opacity: 1
+		},400).animate({
+				top:2,
+				opacity: 1
+			},200)
+		});
+	})
 </script>
 {% endblock %}
 {% block content %}
+<div class="selections row">
+	<a href='#' class="col12-8 first active">
+		<div class="item">
+			<img class="item-image" src='{{STATIC_URL}}test/test.png' >
+			<p>Promotions</p>
+		</div>
+	</a>
+	<a href='#' class="col12-8">
+		<div class="item">
+			<div class="img">
+				<img class="item-image" src='{{STATIC_URL}}test/test.png' >
+			</div>
+			<p>Trending</p>
+		</div>
+	</a>
+	<a href='#' class="col12-8">
+		<div class="item">
+			<div class="img">
+				<img class="item-image" src='{{STATIC_URL}}test/test.png' >
+			</div>
+			<p>New Products</p>
+		</div>
+	</a>
+	
+	<a href='#' class="col12-8 last">
+		<div class="item">
+			<div class="img">
+				<img class="item-image" src='{{STATIC_URL}}test/test.png' >
+			</div>
+			<p>Recently Viewed</p>
+		</div>
+	</a>
+
+</div>
 <div class="row introrow">
 	<div class="col-md-9 dealbox-col">
 
 		<div class="dealbox">
 			<div class="deal-title">
-				<h3>Our Most</h3>
-				<h3>Unbelievable</h3>
-				<h3>Deals Yet</h3>
+				<h3>Our Hottest</h3>
+				<h3>Vet Special</h3>
+				<h3>Of The Month</h3>
 			</div>
 			<div class="deals">
-				<div class="deal">
-					<div class="deal-image" style="background-image:url('{{STATIC_URL}}img/placeholder_pics/Prednisone.jpg')"></div><div class="deal-info">
-						<h4><a href='#'>Equizone Phenylbutazone Powder</a></h4>
-						<h5><span class="original">$22.93</span><span class="newprice">$14.15</span></h5>
-						<div class="rating"><div class="star blackstar star45"></div><span>(23)</span></div>
-						<p>* Personalized Deal. <a href="#">Learn More</a></p>
+				<div class="row">
+					<div class="col-md-5 col-sm-5 deal-image">
+						<img src="{{STATIC_URL}}img/placeholder_pics/3.gif"/>
+					</div>
+					<div class="col-md-7 col-sm-7 deal-info">
+						<h4>Salix Solution with 5% dioxide methnol presdnosthazole</h4>
+						<h5>$14.12 <span>(52% off retail price)<span></h5>
+						<a href="/special" class="button button-flat-primary button-rounded">View Details</a>
 					</div>
 				</div>
-				<div class="deal">
-					<div class="deal-image" style="background-image:url('{{STATIC_URL}}img/placeholder_pics/westnile.gif')"></div><div class="deal-info">
-						<h4><a href='#'>Prednisone Oral 5mg/5ml</a></h4>
-						<h5><span class="original">$122.91</span><span class="newprice">$76.29</span></h5>
-						<div class="rating"><div class="star blackstar star4"></div><span>(15)</span></div>
-						<!-- <p>* Personalized Deal. <a href="#">Learn More</a></p> -->
-					</div>
-				</div>
-				<a href='#' class="morelink">View all Personalized Deals &rarr;</a>
+				<a href='#' class="morelink">View all current specials &rarr;</a>
 			</div>
 			<div class="clear"></div>
 		</div>
 		<div class="product-row">
-			<h3 class="row-title">Inspired by Your Shopping Trends</h3>
+			<h3 class="row-title">Inspired by Your Shopping Trends <a href='#'>View all shopping trend reccomendations &rarr;<a></h3>
 			<div class="products">
 				{% for name in names_DELETE %}
 					{% include 'product/productpreview.html' with name=name rating=4 %}
 				{% endfor %}
-				<div class="product-preview-box-container">
+				<div class="product-preview-box-container first">
 					<a href='#'>
 				  		<div class="product-preview-box">
 				  			<div class="product-preview-image" style='background-image:url("{{STATIC_URL}}img/placeholder_pics/1.gif")'>
@@ -353,7 +419,7 @@ $(document).ready(function() {
 				  		</div>
 				  	</a>
 				</div>
-				<div class="product-preview-box-container">
+				<div class="product-preview-box-container last">
 					<a href='#'>
 				  		<div class="product-preview-box">
 				  			<div class="product-preview-image" style='background-image:url("{{STATIC_URL}}img/placeholder_pics/5.gif")'>
@@ -373,9 +439,6 @@ $(document).ready(function() {
 
 			</div>
 			<div class="clear"></div>
-			<div class="morelink">
-				<a href='#'>View more item inspired by your shopping trends &rarr;</a>
-			</div>
 		</div>
 		<div class="dealbox">
 			<div class="deal-title equipment-bg">
@@ -384,18 +447,14 @@ $(document).ready(function() {
 				<h3>Retail Price</h3>
 			</div>
 			<div class="deals">
-				<div class="deal">
-					<div class="deal-image" style="background-image:url('{{STATIC_URL}}img/placeholder_pics/7.gif')"></div><div class="deal-info">
-						<h4><a href='#'>Monoject Disposable Syringes</a></h4>
-						<h5><span class="original">$25.43</span><span class="newprice">$18.92</span></h5>
-						<p>17 left at this price</p>
+				<div class="row">
+					<div class="col-md-5 col-sm-5 deal-image">
+						<img src="{{STATIC_URL}}img/placeholder_pics/3.gif"/>
 					</div>
-				</div>
-				<div class="deal">
-					<div class="deal-image" style="background-image:url('{{STATIC_URL}}img/placeholder_pics/6.gif')"></div><div class="deal-info">
-						<h4><a href='#'>Stethoscopes - Dual-Head Econo Grey 22"</a></h4>
-						<h5><span class="original">$2.99</span><span class="newprice">$9.29</span></h5>
-						<p>6 left at this price</p>
+					<div class="col-md-7 col-sm-7 deal-info">
+						<h4>Salix Solution with 5% dioxide methnol presdnosthazole</h4>
+						<h5>$14.12 <span>(52% off retail price)<span></h5>
+						<a href="/special" class="button button-flat-primary button-rounded">View Details</a>
 					</div>
 				</div>
 				<a href='#' class="morelink">View all Equipment &rarr;</a>
@@ -403,16 +462,13 @@ $(document).ready(function() {
 			<div class="clear"></div>
 		</div>
 		<div class="product-row">
-			<h3 class="row-title">Best Selling Products</h3>
+			<h3 class="row-title">Best Selling Products<a href='#'>View all best selling items &rarr;</a></h3>
 			<div class="products">
 				{% for name in names %}
 					{% include 'product/productpreview.html' with name=name %}
 				{% endfor %}
 			</div>
 			<div class="clear"></div>
-			<div class="morelink">
-				<a href='#'>View all best selling items &rarr;</a>
-			</div>
 		</div>
 		<div class="dealbox">
 			<div class="deal-title pill-bg">
@@ -421,18 +477,14 @@ $(document).ready(function() {
 				<h3>Pharma Specials</h3>
 			</div>
 			<div class="deals">
-				<div class="deal">
-					<div class="deal-image" style="background-image:url('{{STATIC_URL}}img/large_background/horse_dark.png')"></div><div class="deal-info">
-						<h4><a href='#'>Salix Solution in Aerial Bubbles</a></h4>
-						<h5><span class="original">$121.23</span><span class="newprice">$23.29</span></h5>
-						<div class="rating"><div class="star blackstar star{{rating}}"></div><span>(3)</span></div>
+				<div class="row">
+					<div class="col-md-5 col-sm-5 deal-image">
+						<img src="{{STATIC_URL}}img/placeholder_pics/3.gif"/>
 					</div>
-				</div>
-				<div class="deal">
-					<div class="deal-image" style="background-image:url('{{STATIC_URL}}img/large_background/horse_dark.png')"></div><div class="deal-info">
-						<h4><a href='#'>Salix Solution in Aerial Bubbles</a></h4>
-						<h5><span class="original">$121.23</span><span class="newprice">$23.29</span></h5>
-						<div class="rating"><div class="star blackstar star{{rating}}"></div><span>(3)</span></div>
+					<div class="col-md-7 col-sm-7 deal-info">
+						<h4>Salix Solution with 5% dioxide methnol presdnosthazole</h4>
+						<h5>$14.12 <span>(52% off retail price)<span></h5>
+						<a href="/special" class="button button-flat-primary button-rounded">View Details</a>
 					</div>
 				</div>
 				<a href='#' class="morelink">View all Weekly Specials &rarr;</a>
@@ -440,60 +492,21 @@ $(document).ready(function() {
 			<div class="clear"></div>
 		</div>
 		<div class="product-row">
-			<h3 class="row-title">Recently Reduced In Price</h3>
+			<h3 class="row-title">Recently Reduced In Price<a href='#'>View all items that dropped in price &rarr;</a></h3>
 			<div class="products">
 				{% for name in names %}
 					{% include 'product/productpreview.html' with name=name %}
 				{% endfor %}
 			</div>
 			<div class="clear"></div>
-			<div class="morelink">
-				<a href='#'>View all items that dropped in price &rarr;</a>
-			</div>
 		</div>
-		<div class="product-row">
-			<h3 class="row-title">Top Rated Products</h3>
-			<div class="products">
-				{% for name in names %}
-					{% include 'product/productpreview.html' with name=name %}
-				{% endfor %}
-			</div>
-			<div class="clear"></div>
-			<div class="morelink">
-				<a href='#'>View all top rated products &rarr;</a>
-			</div>
-		</div>
-		<div class="dealbox">
-			<div class="deal-title equipment-bg">
-				<h3>Equipment</h3>
-				<h3>Up To 90% Off</h3>
-				<h3>Retail Price</h3>
-			</div>
-			<div class="deals">
-				<div class="deal">
-					<div class="deal-image" style="background-image:url('{{STATIC_URL}}img/large_background/horse_dark.png')"></div><div class="deal-info">
-						<h4><a href='#'>Salix Solution in Aerial Bubbles</a></h4>
-						<h5><span class="original">$121.23</span><span class="newprice">$23.29</span></h5>
-						<p>Sold by Colts Neck Equine</p>
-					</div>
-				</div>
-				<div class="deal">
-					<div class="deal-image" style="background-image:url('{{STATIC_URL}}img/large_background/horse_dark.png')"></div><div class="deal-info">
-						<h4><a href='#'>Salix Solution in Aerial Bubbles</a></h4>
-						<h5><span class="original">$121.23</span><span class="newprice">$23.29</span></h5>
-						<p>Sold by Everwood Equine Practice</p>
-					</div>
-				</div>
-				<a href='#' class="morelink">View all Equipment &rarr;</a>
-			</div>
-			<div class="clear"></div>
-		</div>
+		
 	</div>
 	<div class="col-md-3 sidecol">
 		<div class="homebox referral">
-			<h3>Give $20, Get $20</h3>
-			<p>Send a $20 discount to another clinic, and receive $20 instant credits!</p>
-			<a href='#' class='button button-flat button-rounded button-flat-royal'>Learn More</a>
+			<h3>Share The Love</h3>
+			<p>Send 200 credits to another clinic, and receive 200 credits!</p>
+			<a href='#' class='button button-flat button-rounded button-flat-royal'>Share The Deal</a>
 		</div>
 		<div class="homebox">
 			<h4>Back Order Tracker <a href="#">View All</a></h4>

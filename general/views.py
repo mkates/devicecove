@@ -35,7 +35,7 @@ def index(request):
 def categories(request):
 	categories = Category.objects.all()
 	maincategories = categories.filter(category_type='maincategory').order_by('displayname')
-	#Format the subcategories into alphabetical rows of 3
+	# Format the subcategories into alphabetical rows of 3
 	for cat in maincategories:
 		subcategories = cat.parents.filter(category_type='secondcategory').order_by('displayname')
 		cat.subcat = subcategories

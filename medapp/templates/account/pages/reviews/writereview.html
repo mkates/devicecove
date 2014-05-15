@@ -8,9 +8,9 @@
 	
 }
 .review-tips h6 {
-	text-align: center;
 	margin-bottom: 15px;
 	font-size: 15px;
+	margin-left: 15px;
 }
 .review-tips ul {
 	padding-left: 15px;
@@ -85,6 +85,31 @@
 .new-review .preview-container {
 	display:none;
 }
+.new-review .preview-container .preview {
+	margin-bottom: 25px;
+	border-bottom:1px solid #eaeaea;
+	padding-bottom: 25px;
+}
+#preview-rating {
+	display:inline-block;
+	vertical-align:top;
+}
+.new-review .preview-title {
+	display:inline-block;
+	vertical-align:top;
+	padding-right: 10px;
+}
+.new-review .preview-reviewer {
+	color: #888;
+	font-size: 13px;
+}
+.new-review .preview-content {
+	margin-top: 5px;
+}
+.new-review .input-container .error {
+	color: red;
+	display:none;
+}
 /* Raty Formatting */
 #raty {
 	margin-bottom: 20px;
@@ -101,16 +126,34 @@
 <script>
 $(document).ready(function(){
 	$("#review-preview").click(function(){
-		updatePreview();
-		$('.review-container').fadeOut('fast',function(){
-			$('.preview-container').fadeIn('fast');
-		});
+		//Check is the title and content is valid
+		valid = true;
+		valid = evaluate($("#review-title")) && valid;
+		valid = evaluate($("#review-content")) && valid;
+		if (valid) {
+			updatePreview();
+			$('.review-container').fadeOut('fast',function(){
+				$('.preview-container').fadeIn('fast');
+			});
+		};
 	});
+	//Evaluates if a function has any text and adds appropriate error class
+	function evaluate(handle) {
+		if (!(handle.val())) {
+			$(handle).parent().children(".error").css('display','block');
+			return false
+		} else {
+			$(handle).parent().children(".error").css('display','none');
+			return true
+		}
+	}
+	//Goes back to the review editing page
 	$("#edit-review").click(function(){
 		$('.preview-container').fadeOut('fast',function(){
 			$('.review-container').fadeIn('fast');
 		});
 	});
+	//Toggler for a custom reviewer name
 	$('#review-reviewer').change(function(){
 		if ($(this).val()=='Custom. . .') {
 			$("#custom-reviewer").fadeIn('fast');
@@ -118,6 +161,11 @@ $(document).ready(function(){
 			$("#custom-reviewer").css('display','none');
 		}
 	})
+	//Limit the length of the characters in the textboxes
+	$('#review-content').charLimit({limit:1500});
+	$('#review-title').charLimit({limit:60})
+
+	//Raty Stars Plug-In
 	$('#raty').raty({
 	    size      : 24,
 	    starOff   : 'star-off.png',
@@ -127,18 +175,40 @@ $(document).ready(function(){
 	    hints: ['Hate it', "Don't like it", "It's okay", 'Like it', 'Love it'],
 	    path: '{{ STATIC_URL }}js/plugins/raty',
 	    click: function(score, evt) {
-		  }
+			$("#review-rating").val(score);
+
+		}
 	});
+	//The default score is 2
 	$('#raty').raty('score', 2);
 });
 
 function updatePreview() {
-	console.log($('#review-content').val());
+	var review_content = $('#review-content').val();
+	var content_list = review_content.replace(/\n/g, '<br />'); // So parapgraphs are maintained
 	$('.preview-title').html($('#review-title').val());
-	$('.preview-content').html($('#review-content').val());
+	$('.preview-content').html(content_list);
 	var reviewer_val = $("#review-reviewer").val()
 	var reviewer = reviewer_val != 'Custom. . .' ? reviewer_val : $("#custom-reviewer").val();
-	$('.preview-reviewer').html(reviewer)
+	$('.preview-reviewer span').html(reviewer)
+	$("#preview-rating").removeClass();
+	$("#preview-rating").addClass('star');
+	$("#preview-rating").addClass('star'+$('#review-rating').val()+"0");
+
+
+}
+
+$.fn.charLimit = function(args) {
+	var limitChar = args['limit'];
+	var handle = $(this);
+	handle.bind('input propertychange', function(e) {
+	   spliceText(limitChar)
+	});
+
+	var spliceText = function(limitChar) {
+		text = handle.val();
+		handle.val(text.substr(0,limitChar));
+	};
 }
 </script>
 {% endblock %}
@@ -160,13 +230,16 @@ function updatePreview() {
 									<div id="raty"></div>
 									<div class="raty_score raty_1"></div>
 								</div>
+								<input id="review-rating" type="hidden" value="2" name="rating">
 							</div>
-							<div class="review-title">
-								<p class="form-label">Title of the review <span>(please limit to 10 words)</p>
+							<div class="review-title input-container">
+								<p class="form-label">Title of the review <span>(please limit to 60 characters)</p>
+								<p class="error">Please provide a title for your review</p>
 								<input id="review-title" name="title" class="form-control">
 							</div>
-							<div class="textarea">
-								<p class="form-label">Body of the review <span>(use the writing review tips as a guideline for your review)</p>
+							<div class="textarea input-container">
+								<p class="form-label">Body of the review <span>(use the writing review tips as a guideline for your review, maximum 1500 characters)</p>
+								<p class="error">Please provide content for your review</p>
 								<textarea id="review-content" name="review" class="form-control"></textarea>
 							</div>
 							<div class="reviewer">
@@ -193,10 +266,10 @@ function updatePreview() {
 						<h5>Here is a preview of what your review will look like</h5>
 					</div>
 					<div class="preview">
-						<div class="star"></div>
-						<div class="preview-title">sweet</div>
+						<div class="preview-title"></div>
+						<div id="preview-rating" class="star star20"></div>
+						<div class="preview-reviewer">Written by <span></span></div>
 						<div class="preview-content"></div>
-						<div class="preview-reviewer"></div>
 					</div>
 					<div class="submit">
 						<a href="{% if next %}{{next}}{% else %}/account/reviews{% endif %}"class="button button-rounded">Cancel</a>

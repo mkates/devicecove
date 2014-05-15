@@ -139,7 +139,7 @@
 	margin: 0;
 }
 .showmorebutton:hover {
-	box-shadow: 0 0 4px #999;
+	box-shadow: 0 0 4px rgba(0,0,0,.1) inset;
 	background: #f4f4f4;
 	cursor: pointer;
 	color: black;
@@ -397,7 +397,7 @@ outline:none;
 	margin-right: 0px;
 }
 .resultitem:hover {
-	box-shadow: 0 0 4px #999;
+	box-shadow: 0 0 12px rgba(0,0,0,.1) inset;
 }
 .resultitem:active {
 	outline: none;

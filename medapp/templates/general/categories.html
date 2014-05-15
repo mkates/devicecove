@@ -47,13 +47,13 @@ background-image: linear-gradient(to top, #FFFFFF 0%, #DDDDDD 100%);
 .category-container .sublink-container {
 	margin: 2px 0;
 }
-.category-container .sublink {
-	color: #555;
-}
-.category-container .sublink span {
+.category-container .sublink  span {
 	color: #bbb;
 }
-.category-container .sublink:hover {
+.category-container .sublink span a {
+	color: #555;
+}
+.category-container .sublink a:hover {
 	text-decoration: underline;
 	color: #009cc3;
 }
@@ -102,11 +102,9 @@ background-image: linear-gradient(to top, #FFFFFF 0%, #DDDDDD 100%);
 				<div class="row">
 					{% for subcat in cat.subcat %}
 						<div class="col-md-4 col-sm-4">
-						{% for subcats in subcat %}
-							<div class="sublink-container">
-								<a href='#' class="sublink">{{subcats.displayname}} <span>({{subcats.totalunits}})</span></a>
+							<div class="sublink">
+								<span><a href='#' class="sublink">{{subcat.displayname}}</a> ({{subcat.totalunits}})</span>
 							</div>
-						{% endfor %}
 						</div>
 					{% endfor %}
 				</div>
