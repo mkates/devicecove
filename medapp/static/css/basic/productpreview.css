@@ -20,7 +20,7 @@
 	display:block;
 }
 .product-preview-box {
-	overflow:auto;
+	overflow:hidden;
 }
 .product-preview-box-container a:hover{
 	box-shadow: 0 0 12px rgba(0,0,0,.1) inset;
@@ -39,7 +39,7 @@
 	margin: 0 10px;
 }
 .product-preview-info p {
-	padding: 5px 5px 5px 5px;
+	padding: 5px 5px 0px 5px;
 	margin: 0;
 	font-weight:normal;
 	font-size: 12px;
@@ -47,7 +47,9 @@
 	white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-
+}
+.product-preview-box .title:hover{
+	text-decoration: underline;
 }
 .product-preview-info .ratings span{
 	color: #999;

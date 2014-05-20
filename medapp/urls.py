@@ -48,6 +48,13 @@ urlpatterns = patterns('',
 
     ########## User Portal ##################
     #########################################
+
+    ### Basic Pages ###
+    url(r'^new/','account.views.new'),
+    url(r'^recent/','account.views.recent'),
+    url(r'^trending/','account.views.trending'),
+    url(r'^deals/','account.views.deals'),
+
     url(r'^dashboard','account.views.dashboard'),
     url(r'^wishlist','account.views.wishlist'),
     url(r'^account/credits/missions','account.views.creditsMissions'),

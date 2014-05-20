@@ -1,0 +1,393 @@
+{% extends 'base/base.html' %}
+{% block headertitle %}VetCove{% endblock %}
+{% block css %}
+<link href="{{STATIC_URL}}css/basic/productpreview.css" rel="stylesheet" type="text/css" />
+<style>
+.content {
+	margin: 0;
+	padding-bottom: 70px;
+	box-shadow: 0 0 12px rgba(0,0,0,.1) inset;
+}
+.sidecol {
+	padding-left: 20px;
+	padding-right: 0;
+}
+.product-row {
+	margin-top: 30px;
+}
+.product-row .row-title {
+	font-size: 16px;
+	color: #666;
+	margin: 10px 5px 5px 5px;
+}
+.products {
+	margin-bottom: 10px;
+}
+.product-row .row-title a {
+	color: #009cc3;
+	padding-top: 4px;
+	float: right;
+	font-size: 12px;
+	letter-spacing: .2px;
+}
+.product-row .row-title a:hover {
+	text-decoration: underline;
+}
+
+/* Deal Box */
+.introrow {
+	margin: 20px;
+}
+.dealbox a:hover {
+	text-decoration: underline;
+}
+.dealbox-col {
+	padding: 0;
+}
+.dealbox {
+	border:1px solid #dadada;
+	border-radius:4px;
+	background: white;
+	margin: 10px 0px 40px 0px;
+	position: relative;
+}
+.dealbox .deal-title h3 {
+	font-weight: 100;
+	letter-spacing: 1.2px;
+	text-shadow: 0 0 5px #fff;
+	font-size: 53px;
+	margin: 15px 20px 10px 20px;
+	color: #000;
+}
+.dealbox .deal-title h4 {
+	font-weight: 200;
+	color: #eee;
+	font-size: 14px;
+	margin: 0 20px 20px 20px;
+}
+.dealbox .dog {
+	position:absolute;
+	bottom: -15px;
+	right: 0;
+	width: 180px;
+}
+.dealbox .deal-title {
+	background-image:url("{{STATIC_URL}}img/large_background/horse_dark.png");
+	background-position:center center;
+	background-size:cover;
+	border-bottom-left-radius: 4px;
+	border-top-left-radius: 4px;
+	height: 260px;
+	width: 50%;
+	float:left;
+	border-right:1px solid #e6e6e6;
+	overflow:hidden;
+}
+.dealbox .pill-bg {
+	background-image:url("{{STATIC_URL}}img/large_background/pill_dark.png");
+}
+.dealbox .equipment-bg {
+	background-image:url("{{STATIC_URL}}img/large_background/equipmentbg.jpg");
+}
+.dealbox .deals {
+	width: 50%;
+	height: 100%;
+	float: left;
+	padding: 10px 25px 15px 10px;
+}
+.dealbox .deals .deal-image {
+	height: 230px;
+}
+.dealbox .deals .deal-image img {
+	height: 100%;
+}
+.dealbox .deals .deal {
+	margin-bottom: 20px;
+}
+.dealbox .deals .deal-info {
+	padding-top: 20px;
+}
+.dealbox .deals .deal-info h4 {
+	font-size: 15px;
+	line-height: 18px;
+	margin: 20px 0 6px 0;
+	font-weight: normal;
+}
+.dealbox .deals .deal-info h5 {
+	margin: 5px 0 15px 0;
+	color: green;
+	font-weight:bold;
+}
+.dealbox .deals .deal-info h5 span {
+	font-weight: normal;
+}
+.dealbox .deals .deal-info a:hover{
+	text-decoration: none;
+}
+.dealbox .morelink {
+	margin-top: 10px;
+	position:absolute;
+	bottom:10px;
+	right: 10px;
+	font-size: 13px;
+}
+
+.homebox {
+	margin:10px 0 25px 0;
+	background:#fff;
+	border:1px solid #dadada;
+	border-radius: 4px;
+}
+.homebox h4 {
+	margin: 0 10px;
+	font-size: 15px;
+	padding: 10px 0;
+	font-weight: normal;
+	border-bottom:1px solid #e6e6e6;
+}
+.homebox h4 a {
+	font-size: 12px;
+	margin-top: 5px;
+	float: right;
+	font-weight: 200;
+}
+.backorder {
+	padding:10px 10px 5px 10px;
+	margin-bottom: 5px;
+}
+.homebox a:not(.button):hover {
+	text-decoration: underline;
+}
+.backorder .drug-name {
+	font-weight: 200;
+	letter-spacing: .3px;
+	font-size: 13px;
+}
+.backorder p {
+	margin: 0 0 0px 0;
+}
+.backorder a {
+	font-size: 12px;
+}
+.backorder .date{
+	color: #999;
+	margin-left: 10px;
+	font-size: 11px;
+	font-weight: 200;
+}
+.referral {
+	background-image:url("{{STATIC_URL}}img/misc/referral.png");
+	background-position:center center;
+	background-size:cover;
+	text-align: center;
+	padding-bottom: 20px;
+}
+.referral h3 {
+	color: #333;
+	text-shadow: 0 0 2px #fff;
+	font-size: 20px;
+}
+.referral p {
+	font-size: 13px;
+	color: #666;
+}
+.usedequipment {
+	background-image:url("{{STATIC_URL}}img/large_background/ultrasound.png");
+	background-position:center center;
+	background-size:cover;
+	text-align: center;
+	padding: 10px 10px 20px 10px;
+}
+.usedequipment p {
+	text-shadow: 0 0 2px #fff;
+}
+.analytics {
+	background-image:url("{{STATIC_URL}}img/large_background/graph_bg.png");
+	background-position:center center;
+	background-size:cover;
+	text-align: center;
+	padding: 10px 10px 20px 10px;
+}
+
+/* Selection Bar */
+.selections {
+	padding: 0;
+	margin: 30px 20px 0px 20px;
+}
+.col12-8 {
+	width: 16.66%;
+	float: left;
+}
+.selections a {
+	overflow:hidden;
+	display:block;
+	height: 75px;
+	position:relative;
+	border:1px solid #dadada;
+	border-right: none;
+	background: white;
+	transition-duration: 0.5s, 0.5s, 100ms;
+    transition-property: transform, left, box-shadow;
+    transition-timing-function: ease-in-out, ease-in-out, ease-in-out;
+}
+.selections a:hover {
+	box-shadow: 0 8px 10px #EBEBEB inset, 4px 35px 65px 5px rgba(242, 242, 242, 0.9) inset;
+}
+.selections a.active {
+	background: -moz-linear-gradient(center top , #5A5A5A 0px, rgba(255, 255, 255, 0.5) 10%) repeat scroll 0 0%, -moz-linear-gradient(center top , rgba(122, 122, 122, 0.7) 40%, rgba(255, 255, 255, 0.5) 100%) repeat scroll 0 0 rgba(0, 0, 0, 0);
+    box-shadow: 0 5px 10px -1px rgba(90, 90, 90, 0.5) inset, 2px 35px 65px 5px rgba(235, 235, 235, 0.5) inset;
+}
+.selections a.first {
+	border-bottom-left-radius: 4px;
+	border-top-left-radius: 4px;
+}
+.selections a.last {
+	border-bottom-right-radius: 4px;
+	border-top-right-radius: 4px;
+	border-right:1px solid #dadada;
+}
+.selections .item {
+	position:absolute;
+	top: 100px;
+	text-align: center;
+	width: 100%;
+	{% if not dashboard %}
+	top: 2px;
+	{% endif %}
+
+}
+.selections .item .item-image {
+	margin: 0 auto;
+	height: 40px;
+	background-size: 210px 40px;
+	width: 35px;
+	margin-top: 7px;
+	opacity: 1;
+}
+.selections .item p {
+	color: #777;
+	padding-top: 3px;
+	width: 100%;
+	text-align: center;
+	font-size: 12px;
+}
+</style>
+{% block browse_css %}{% endblock %}
+{% endblock %}
+{% block js %}
+<script>
+{% if dashboard %}
+$(document).ready(function() {
+	//Auto Focus on the search bar when page loads
+	$("#searchinput").focus();
+	var items = $(".selections .item");
+	$.each(items,function(index,value) {
+		$(value).delay(index*80).animate({
+			top:-5,
+		},400).animate({
+			top:2,
+		},200);
+	});
+});
+{% endif %}
+</script>
+{% block browse_js %}{% endblock %}
+{% endblock %}
+{% block content %}
+<div class="selections row">
+	<a href='/dashboard' class="col12-8 first {% if dashboard %}active{% endif %}">
+		<div class="item">
+			<div class="item-image" style='background-image:url("{{STATIC_URL}}img/misc/topicons.png")'></div>
+			<p>Dashboard</p>
+		</div>
+	</a>
+	<a href='/deals' class="col12-8 {% if browse_deals %}active{% endif %}">
+		<div class="item">
+			<div class="item-image" style='background-image:url("{{STATIC_URL}}img/misc/topicons.png");background-position: -35px 0'></div>
+			<p>Promotions</p>
+		</div>
+	</a>
+	<a href='/trending' class="col12-8{% if browse_trending %} active{% endif %}">
+		<div class="item">
+			<div class="img">
+				<div class="item-image" style='background-image:url("{{STATIC_URL}}img/misc/topicons.png");background-position: -70px 0' ></div>
+			</div>
+			<p>Trending</p>
+		</div>
+	</a>
+	<a href='/new' class="col12-8 {% if browse_new %} active{% endif %}">
+		<div class="item">
+			<div class="img">
+				<div class="item-image" style='background-image:url("{{STATIC_URL}}img/misc/topicons.png");background-position: -140px 0'></div>
+			</div>
+			<p>New Products</p>
+		</div>
+	</a>
+	<a href='/recent' class="col12-8 {% if browse_recent %} active{% endif %}">
+		<div class="item">
+			<div class="img">
+				<div class="item-image" style='background-image:url("{{STATIC_URL}}img/misc/topicons.png");background-position: -105px 0' ></div>
+			</div>
+			<p>Recently Viewed</p>
+		</div>
+	</a>
+	<a href='/recent' class="col12-8 last{% if browse_recent %} active{% endif %}">
+		<div class="item">
+			<div class="img">
+				<div class="item-image" style='background-image:url("{{STATIC_URL}}img/misc/topicons.png");background-position: -175px 0' ></div>
+			</div>
+			<p>Marketplace</p>
+		</div>
+	</a>
+
+</div>
+<div class="row introrow">
+	{% block browse_content %}
+		{% include 'account/pages/browse/dealrow-base.html' %}
+		{% include 'account/pages/browse/productrow-base.html' with row_title=row_one %}
+		{% include 'account/pages/browse/productrow-base.html' with row_title=row_two %}		
+	{% endblock %}
+
+	<!-- <div class="col-md-3 sidecol">
+		<div class="homebox referral">
+			<h3>Share The Love</h3>
+			<p>Send 200 credits to another clinic, and receive 200 credits!</p>
+			<a href='#' class='button button-flat button-rounded button-flat-royal'>Share The Deal</a>
+		</div>
+		<div class="homebox">
+			<h4>Back Order Tracker <a href="#">View All</a></h4>
+			<div class="backorder">
+				<p class="drug-name">Amikacin 250mg/ml Injection 50ml</p>
+				<p><span class="label label-danger">On Backorder</span><span class="date">as of May 15th, 2014</span></p>
+				<a href='#'>See alternatives and compounds &rarr;</a>
+			</div>
+			<div class="backorder">
+				<p class="drug-name">Cisapride Formulations</p>
+				<p><span class="label label-warning">Under Inspection</span><span class="date">as of May 6th, 2014</span></p>
+				<a href='#'>See alternatives and compounds &rarr;</a>
+			</div>
+			<div class="backorder">
+				<p class="drug-name">Ivermectin 10mg/ml Suspension</p>
+				<p><span class="label label-danger">On Backorder</span><span class="date">as of April 28tb, 2014</span></p>
+				<a href='#'>See alternatives and compounds &rarr;</a>
+			</div>
+			<div class="backorder">
+				<p class="drug-name">Ivermectin 0.01% Otic Suspension</p>
+				<p><span class="label label-danger">On Backorder</span><span class="date">as of April 22nd, 2014</span></p>
+				<a href='#'>See alternatives and compounds &rarr;</a>
+			</div>
+		</div>
+		<div class="homebox usedequipment">
+			<h3>Sell Used Equipment</h3>
+			<p>List a used piece of equipment on VetCove, and receive <strong>100% of the sale</strong> as credits towards future VetCove purchases</p>
+			<a href='#' class='button button-flat button-rounded button-flat-primary'>List Equipment</a>
+		</div>
+		<div class="homebox analytics">
+			<h3>Show off Your Savings</h3>
+			<p>Show your practice how much you saved with our advanced, printable analytics reports</p>
+			<a href='#' class='button button-flat button-rounded button-flat-action'>View Reports</a>
+		</div>
+	</div> -->
+</div>
+{% endblock %}
+

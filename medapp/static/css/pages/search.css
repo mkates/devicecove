@@ -496,63 +496,6 @@ outline:none;
 }
 
 
-
-
-
-.resulttag {
-	min-height: 20px;
-}
-.resulttag p {
-	display:inline-block;
-	padding: 4px 8px;
-	font-size: 10px;
-	letter-spacing: .2px;
-	font-weight: 400;
-	text-shadow: 0 1px 1px #fff;
-	margin: 5px 0;
-	border-radius: 5px;
-	background: #C2DAED;
-	color: #3F7DB0;
-	line-height: 10px;
-	text-transform: uppercase;
-}
-.resulttag p:hover{
-	cursor:default;
-}
-.resulttag .result-red {
-	background: #fdeaec;
-	color: #b24a54;
-}
-.resulttag .result-darkgreen {
-	background: #C0E0BC;
-	color: #5D9157;
-}
-.resulttag .result-purple {
-	background: #EED8F2;
-	color: #7F2691;
-}
-.resulttag .verified {
-	background: #F2D577;
-	color: #8F6511;
-}
-.resulttag .result-lightgreen {
-	background: #EDEFB3;
-	color: #6F8C12;
-}
-.resulttag .result-orange {
-	background: #FFE9C4;
-	color: #B3852B;
-}
-.resulttag .buyonline {
-	background: #E6F5F3;
-	color: #1062DE;
-}
-.resulttag .result-lightred {
-	background: #F2C9CF;
-	color: #B52639;
-}
-
-
 /* Price Div */
 
 .resultitem .pricediv {

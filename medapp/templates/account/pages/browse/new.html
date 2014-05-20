@@ -1,0 +1,10 @@
+{% extends 'account/pages/browse/base.html' %}
+
+{% block headertitle %}New Products{% endblock %}
+
+{% block browse_content %}
+	{% include 'account/pages/browse/productrow-base.html' with row_title=row_one %}
+	{% include 'account/pages/browse/productrow-base.html' with row_title=row_two %}	
+	{% include 'account/pages/browse/productrow-base.html' with row_title=row_one %}
+	{% include 'account/pages/browse/productrow-base.html' with row_title=row_two %}		
+{% endblock %}

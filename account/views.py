@@ -15,6 +15,26 @@ from datetime import datetime
 from account.forms import *
 from helper.model_imports import *
 
+###########################################
+#### Basic Pages ##########################
+###########################################
+def dashboard(request):
+	products_one,products_two,products_three,products_four = None,None,None,None
+	product_rows = {'Recently Viewed Items You May Be Interested In':products_one,
+			'New VetCove Marketplace Items':products_one,
+			'Promotional Products You May Be Interested In':products_two,
+			'Newly Added Products You May Be Interested In':products_three,
+			'Top Products Trending on VetCove':products_four
+				}
+	return render_to_response('account/pages/browse/dashboard.html',{'dashboard':True,'product_rows':product_rows},context_instance=RequestContext(request))
+def new(request):
+	return render_to_response('account/pages/browse/new.html',{'browse_new':True},context_instance=RequestContext(request))
+def recent(request):
+	return render_to_response('account/pages/browse/recent.html',{'browse_recent':True},context_instance=RequestContext(request))
+def trending(request):
+	return render_to_response('account/pages/browse/trending.html',{'browse_trending':True},context_instance=RequestContext(request))
+def deals(request):
+	return render_to_response('account/pages/browse/deals.html',{'browse_deals':True},context_instance=RequestContext(request))
 
 ###########################################
 #### Portal Pages #########################
@@ -22,11 +42,6 @@ from helper.model_imports import *
 def product(request,productname):
 	product = Product.objects.get(name=productname)
 	return render_to_response('product/product2.html',{'product':product},context_instance=RequestContext(request))
-
-### Main dashboard ###
-@login_required
-def dashboard(request):
-	return HttpResponseRedirect('/')
 
 ### Credits ###
 @login_required

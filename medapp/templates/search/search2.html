@@ -2,6 +2,7 @@
 {% load dollars %}{% load zipcodify %}
 {% block css %}
 <link href='{{STATIC_URL}}css/pages/search.css' rel='stylesheet' type='text/css' />
+<link href='{{STATIC_URL}}css/basic/tags.css' rel='stylesheet' type='text/css' />
 <style>
 .content {
   margin: 0;
@@ -21,57 +22,6 @@
   display:none;
 }
 {% endif %}
-.change-quantity {
-  display:inline-block;
-}
-.change-quantity .float {
-  float: left;
-}
-.quantity-box {
-  overflow: auto;
-}
-.quantity-box div {
-  float: left;
-}
-.quantity-box .quantity-change {
-  font-size: 12px;
-  background-image: -moz-linear-gradient(top, #FFFFFF 0%, #EEEEEE 100%);
-  border-radius: 3px;
-  border:1px solid #ccc;
-  line-height: 24px;
-  height: 24px;
-  margin: 0px 0;
-  padding: 0 4px;
-}
-.quantity-box .quantity-plus {
-  color: #2b7f3f;
-  border-bottom-left-radius: 0px;
-  border-top-left-radius: 0px;
-}
-.quantity-box .quantity-minus {
-  color: #a83030;
-  border-bottom-right-radius: 0px;
-  border-top-right-radius: 0px;
-}
-.quantity-box .quantity-change:hover {
-  cursor:pointer;
-  background:#eee;
-}
-.quantity-box .quantity-change:active {
-  background: #ccc;
-}
-.quantity-box input {
-  width: 35px;
-  background: #f9f9f9;
-  border-right: none;
-  border-left:none;
-  text-align: center;
-  border-radius: 0px;
-  margin: 0px 0px 0px 0;
-  float: left;
-  padding: 2px;
-  height: 24px;
-}
 .addtocart-button {
   margin-left: 8px;
 }
@@ -117,7 +67,7 @@ $(document).ready(function(){
 });
 //Information Tag Tooltips
 $(document).ready(function(){
-  $('.resulttag p').tooltip({
+  $('.tags p').tooltip({
     delay: { show: 300, hide: 10 },
 
   });

@@ -1,21 +1,19 @@
 {% extends 'base/base.html' %}
 {% load dollars %}{% load zipcodify %}
 {% block css %}
+<link href='{{STATIC_URL}}css/basic/tags.css' rel='stylesheet' type='text/css' />
+<link href="{{STATIC_URL}}css/basic/productpreview.css" rel="stylesheet" type="text/css" />
 <style>
 .content {
 	margin: 0;
-	background: #fbfbfb;
 	padding: 10px 20px 30px 20px;
-}
-.vetbox {
-	background: #fff;
-	box-shadow:none;
 }
 .padding {
 	padding: 20px;
 }
 .product-box {
-	margin-top: 10px;
+	margin-top: 5px;
+	padding: 0px;
 	margin-bottom: 20px;
 }
 .product-box h3 {
@@ -24,11 +22,21 @@
 	margin:0px;
 	margin-bottom: 15px;
 }
+.product-info {
+	padding: 15px;
+}
+.product-cart-container {
+	border-left:1px solid #d6d6d6;
+	box-shadow: 5px 0 15px rgba(0,0,0,.10) inset;
+}
 /*********************/
 /****** TopBar *******/
 /*********************/
 .topbar {
-	padding: 5px 5px 5px 5px
+	padding: 5px 5px 0px 5px;
+}
+.topbar a {
+	color: #333;
 }
 .topbar a:hover {
 	text-decoration: underline;
@@ -36,8 +44,7 @@
 .topbar div {
 	display:inline-block;
 	margin: 0;
-	font-weight: 200;
-	font-size: 13px;
+	font-size: 12px;
 }
 .topbar .breadcrumbs {
 	float:right;
@@ -45,15 +52,10 @@
 /*********************/
 /**** Container ******/
 /*********************/
-.product-container.row .subrow {
-	padding: 0;
-}
-.product-container .leftrow .vetbox {
-	margin-right: 10px;
-}
+
 .product-header {
-	padding-bottom: 10px;
-	border-bottom:1px solid #eee;
+	padding: 10px 20px;
+	border-bottom:1px solid #dadada;
 }
 .product-header p {
 	font-size: 14px;
@@ -75,34 +77,8 @@
 .product-header .topstar {
 	margin-top: 3px;
 }
-.product-overview {
-	margin: 20px 0px 10px 0px;
-	padding:;
-}
-.product-overview img {
-	max-width: 100%;
-	border-radius: 2px;
-	border:2px solid #ddd;
-}
-.product-overview .product-overview-div {
-	padding: 0;
-}
-.product-overview-details {
-	margin-left: 20px;
-}
-.product-overview-details div {
-	margin-bottom: 10px;
-}
-.product-overview-details  h4 {
-	font-size: 14px;
-	margin-top: 0;
-	font-weight: bold;
-	margin-bottom: 2px;
-}
-.product-overview-details p {
-	font-size: 13px;
-}
-.product-overview-details .option-container .option {
+
+/*.product-overview-details .option-container .option {
 	display:inline-block;
 	padding: 5px 10px;
 	background: #eee;
@@ -123,131 +99,226 @@
 	background: #d5e8f6;
 	border:1px solid red;
 	opacity: 1;
+}*/
+.product-image-container {
+	width: 50%;
+	float: left;
+	margin-top: 20px;
+
 }
-.product-description {
-	margin: 20px 0px 0 0;
-	padding-top: 10px;
-	border-top:1px solid #eee;
-	font-size: 13px;
+.responsive-container {
+    position: relative;
+    width: 100%;
 }
-.quantity-box {
-	display: inline-block;
-	margin-bottom: 15px;
+
+.dummy {
+    padding-top: 70%; /* forces 1:2 aspect ratio */
 }
-.shipping-box {
-	float:right;
-	display:inline-block;
-}
-.buy-option {
-	border-radius: 2px;
-	background: #f3f3f3;
-	border:1px solid #ddd;
-	margin-bottom: 10px;
-	padding: 10px;
-}
-.buy-option.saverate {
-	background: #e8f7ec;
-	border:1px solid #a8d3b1;
-	margin-bottom: 20px;
-}
-.buy-option table{
-	width: 100%;
-	font-weight: 200;
-	font-size: 13px;
-}
-.buy-option .button-td {
-	text-align: right;
-}
-.buy-option .logo-td {
-	text-align: left;
-}
-.buy-option .price-td {
-	width: 80px;
-	font-weight: bold;
-}
-#original-price {
-	font-style:line-through;
-	font-size: 20px;
-}
-.sales_chart {
-	padding: 20px 0;
-}
-.sales_chart p {
+.product-image-container .slider-nav {
+	position:absolute;
+	z-index: 999;
+	background-image:url("{{STATIC_URL}}img/transparency/blacktransparency_2.png");
+	top: 50%;
+	margin-top: -40px;
+	height: 80px;
+	width: 20px;
+	line-height: 80px;
 	text-align: center;
-	font-weight: 200;
+	color: #eee;
+	opacity: .3;
+}
+.product-image-container .slider-nav:hover {
+	opacity: 1;
+	cursor:pointer;
+}
+.product-image-container .left-slider {
+	border-top-right-radius: 4px;
+	border-bottom-right-radius: 4px;
+	left:0;
+}
+.product-image-container .right-slider {
+	border-top-left-radius: 4px;
+	border-bottom-left-radius: 4px;
+	right:0;
+}
+.img-container {
+    position: absolute;
+    border:1px solid #dadada;
+    box-shadow: 0 0 10px rgba(0,0,0,.1) inset;
+    border-radius: 2px;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    text-align:center; /* Align center inline elements */
+    font: 0/0 a;
 }
 
-.carousel .related-item-container {
-	width: 33%;
-	display:inline-block;
-	white-space-collapsing:discard;
+.img-container:before {
+    content: ' ';
+    display: inline-block;
+    vertical-align: middle;
+    height: 100%;
 }
-.carousel .related-item-container .related-item {
-	margin: 10px;
-	background: #fff;
-	height: 160px;
-	position:relative;
-	border:1px solid #ddd;
-}
-.carousel .related-item .image {
-	width: 100%;
-	max-height: 100%;
-	position:absolute;
-	z-index: 1;
-}
-.carousel .related-item-info {
-	position:absolute;
-	bottom: 0;
-	z-index: 2;
-	width: 100%;
-	background-image: url("{{STATIC_URL}}img/bwgradient.png");
-	background-size: auto 100%;
-	text-align: left;
-}
-.carousel .related-item-info p {
-	padding: 20px 5px 0 5px;
-	margin: 0;
-	font-size: 12px;
-	line-height: 18px;
-	color: white;
-	text-shadow: 0 0 2px #000;
 
+.img-container img {
+	padding: 10px;
+    vertical-align: middle;
+    display: inline-block;
+    max-width:100%;
+    max-height: 100%;
 }
-.carousel .related-item-info .secondrow {
-	text-align: left;
+.img-thumbnails {
+	text-align: center;
+	margin-top: 25px;
 }
-.carousel .related-item-info div div {
-	text-align: left;
-	margin-left: 3px;
+.thumbnail {
+	padding: 2px;
 	display:inline-block;
+	vertical-align: top;
+	margin: 0 3px 5px 3px;
 }
-.carousel .related-item-info div .price {
-	float:right;
-	margin-right: 3px;
-	color: #fff;
+.thumbnail.active {
+	border-color: #4ab0d2;
+	background: #e5f2f6;
+}
+.thumbnail:not(.active):hover {
+	border-color: #aaa;
+	cursor:pointer;
+}
+.thumbnail img {
+	max-height: 40px;
+	max-width: 40px;
+}
+.product-overview {
+	width: 49%;
+	padding-left: 20px;
+	float: left;
+	margin-top: 20px;
+}
+.product-overview h4 {
+	font-size: 13px;
+	font-weight: bolder;
+	margin: 15px 0 5px 0
+}
+.product-overview p {
+	font-size: 13px;
+}
+.product-overview .success {
+	font-size: 18px;
+	color: green;
 	font-weight: bold;
-	text-shadow: 0 0 1px #000;
 }
-.carousel-inner .item {
-	padding: 20px 30px 10px 30px;
+.product-overview .sizes table {
+	border:1px solid #d6d6d6;
+	margin: 15px 0;
+	width: 100%;
+	font-size: 13px;
 }
-.carousel-control {
-	width: 30px;
+.product-overview .sizes table thead {
+	background-image: -moz-linear-gradient(top, #FFFFFF 0%, #eee 100%);
+	border-bottom:2px solid #ddd;
 }
-.carousel-control .glyphicon-chevron-left, .carousel-control .glyphicon-chevron-right {
+.product-overview .sizes table tbody {
+	background-image: -moz-linear-gradient(top, #FFFFFF 0%, #f6f6f6 100%);
+}
+.product-overview .sizes table th{
+	padding: 1px 5px;
 	color: #333;
-	top: 43%;
+	font-size: 12px;
 }
-.carousel-control.left, .carousel-control.right {
-	background-image: none;
+.product-overview .sizes table tr{
+	border-bottom:1px solid #ddd;
 }
-.carousel-control.left span {
-	left: 0;
+.product-overview .sizes table tr.activse{
+	background: #ebf6fa;
 }
-.carousel-control.right span {
-	right: 0;
+.product-overview .sizes table td{
+	padding: 3px 5px;
+	background: none;
 }
+.product-overview .sizes table .msrp{
+	color: #777;
+	text-decoration: line-through;
+}
+.product-overview .sizes table .price{
+	font-weight: bold;
+	text-align: right;
+	padding-right: 10px;
+}
+.product-overview .sizes table td label {
+	font-weight:normal;
+}
+.product-overview .sizes table td label:hover {
+	cursor:pointer;
+}
+.product-overview .sizes table td label input {
+	outline:none;
+}
+.product-cart {
+	padding: 15px 10%;
+	width: 100%;
+	margin-top: 20px;
+}
+.product-cart h4 {
+	font-size: 12px;
+	font-weight: bolder;
+}
+.product-cart p {
+	font-size: 12px;
+	color: #666;
+	margin-bottom: 0;
+}
+.product-cart a {
+	font-size: 12px;
+}
+.product-cart .option {
+	margin-bottom: 10px;
+	padding-bottom: 10px;
+	border-bottom: 1px solid #eee;
+}
+.product-cart .select-box {
+	display:inline-block;
+	padding: 3px 8px;
+	border:1px solid #d6d6d6;
+}
+.product-cart .select-box.active {
+	border:1px solid blue;
+}
+.product-cart .address {
+	margin-top: 5px;
+}
+.product-cart .address p {
+	margin-bottom: 2px;
+}
+.product-cart .buy {
+	padding: 10px 0 20px 0;
+}
+.product-cart .buy .button {
+	width: 100%;
+	max-width: 180px;
+}
+.product-cart .noborder {
+	border:none;
+}
+.product-cart .price {
 
+}
+.product-cart .price h5 {
+	color: green;
+	font-weight: bolder;
+	font-size: 22px;
+}
+.product-cart .price h5 {
+	margin: 0;
+}
+.product-cart td {
+	color: #777;
+	font-size: 12px;
+}
+.product-cart .list-price {
+	text-decoration: line-through;
+}
 /** Reviews **/
 #ratings .review {
 	border-bottom:1px solid #eaeaea;
@@ -317,7 +388,41 @@
 	border-radius: 0px;
 	border:1px solid #ccc;
 }
+/*More information */
+.more-information {
+	padding: 0;
+}
+.more-information-box {
+	padding: 15px;
+	margin:10px 0 30px 0;
+}
+.more-information h3 {
+	margin: 0 0 20px 0;
+	border-bottom:1px solid #eee;
+	padding-bottom:5px;
+	font-size: 20px;
+	font-weight: normal;
+	color: #333;
+}
+.related {
+	padding: 0 25px 0 45px;
+	margin-top: 10px;
 
+}
+.related h4 {
+	font-size: 15px;
+	color: #555;
+	margin-top: 0px;
+	font-weight: normal;
+	line-height: 20px;
+	border-bottom:1px solid #d6d6d6;
+}
+.related .product-preview-box-container {
+	width: 100%;
+	border:none;
+	text-align:center;
+	box-shadow: 0 0 12px rgba(0,0,0,.1) inset;
+}
 /*Review Bar */
 .review-bar {
 	width: 100%;
@@ -342,134 +447,407 @@
 .review-bar .new-review a:hover{
 	text-decoration: underline;
 }
+/*Quantity Box Formatting */
+.quantity-box {
+  overflow: auto;
+}
+.quantity-box div {
+  float: left;
+}
+.quantity-box .quantity-change {
+  font-size: 12px;
+  background-image: -moz-linear-gradient(top, #FFFFFF 0%, #EEEEEE 100%);
+  border-radius: 3px;
+  border:1px solid #ccc;
+  line-height: 24px;
+  height: 24px;
+  margin: 0px 0;
+  padding: 0 4px;
+}
+.quantity-box .quantity-plus {
+  color: #2b7f3f;
+  border-bottom-left-radius: 0px;
+  border-top-left-radius: 0px;
+}
+.quantity-box .quantity-minus {
+  color: #a83030;
+  border-bottom-right-radius: 0px;
+  border-top-right-radius: 0px;
+}
+.quantity-box .quantity-change:hover {
+  cursor:pointer;
+  background:#eee;
+}
+.quantity-box .quantity-change:active {
+  background: #ccc;
+}
+.quantity-box input {
+  width: 55px;
+  background: #f9f9f9;
+  border-right: none;
+  border-left:none;
+  text-align: center;
+  border-radius: 0px;
+  margin: 0px 0px 0px 0;
+  float: left;
+  padding: 2px;
+  height: 24px;
+}
+.page-zoom {
+	position:fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	z-index: 9999;
+	width: 100%;
+	height: 100%;
+	background: white;
+	display:none;
+}
+.page-zoom .carousel {
+	height: 100%;
+}
+.page-zoom .item img {
+	text-align: center;
+	margin: 0 auto;
+}
+.page-zoom .exit {
+	font-size: 40px;
+	position:absolute;
+	padding: 10px;
+	z-index: 9999;
+	top: 10px;
+	left: 20px;
+	color: #777;
+}
+.page-zoom .exit:hover {
+	color: #000;
+	cursor:pointer;
+}
+.page-zoom .carousel-control {
+	background: none;
+	color: #444;
+	position:absolute;
+	height: 120px;
+	background-image:url("{{STATIC_URL}}img/transparency/blacktransparency_2.png");
+	top: 50%;
+	margin-top: -60px;
+	width: 40px;
+	text-align: center;
+	color: #eee;
+}
+.page-zoom .carousel .carousel-control span {
+	text-align: left;
+	position:relative;
+	left: 0;
+	top: 0;
+	right: 0;
+	line-height: 120px;
+}
+.vertical-block {
+  text-align: center;
+}
+ 
+/* The ghost, nudged to maintain perfect centering */
+.vertical-block:before {
+  content: '';
+  display: inline-block;
+  height: 100%;
+  vertical-align: middle;
+  margin-right: -0.25em; /* Adjusts for spacing */
+}
+
+/* The element to be centered, can
+   also be of any width and height */ 
+.centered {
+  display: inline-block;
+  vertical-align: middle;
+  max-width: 80%;
+  max-height: 80%;
+}
+.centered img {
+	max-width: 100%;
+	max-height: 100%;
+}
+.fullscreen-carousel {
+	background: none;
+}
 </style>
 {% endblock %}
 
 
 {% block js %}
-<script src="{{STATIC_URL}}js/chart.js" type="text/javascript" ></script>
 <script src="{{STATIC_URL}}js/raty/jquery.raty.js" type="text/javascript" ></script>
 <script>
 $(document).ready(function(){
-	$('#raty').raty({
-	    size      : 24,
-	    starOff   : 'star-off.png',
-	    starOn    : 'star-on.png',
-	    starHalf      : 'star-half.png',
-	    target : '#raty-score',
-	    hints: ['I hate it', "I don't like it", "It's okay", 'I like it', 'I love it'],
-	    path: '{{ STATIC_URL }}js/raty',
-	    click: function(score, evt) {
-		    alert('ID: ' + $(this).attr('id') + "\nscore: " + score + "\nevent: " + evt);
-		  }
+	$(".product-cart").css('height',Math.max(parseInt($('.product-info').css('height')),parseInt($('.product-cart').css('height'))));
+	$('.main-image').click(function(){
+		//Action goes here
 	});
-	//$('#raty').raty('score', 0); 
-	drawChart();
-	$('.carousel').carousel({
-		interval:false,
-	});
+	$('.quantity-box .quantity-change').click(function() {
+    var input = $(this).parent().children('input')
+    if ($(this).hasClass('quantity-minus')) {
+      input.val(Math.max(1,input.val()-1))
+    } else {
+      input.val(parseInt(input.val())+1)
+    }
+  });
+	//Information Tag Tooltips
+  $('.tags p').tooltip({
+    delay: { show: 300, hide: 10 }
+  });
 
-});
-var counter;
-$(window).resize(function() {
-    clearTimeout(counter);
-    counter = setTimeout(drawChart, 500);
-    
-});
-function drawChart() {
-	console.log("here")
-	var parent = $("#sales_chart_parent");
-	parent.empty();
-	parent.append('<canvas id="sales_chart" height="220px"></canvas>');
-	var width = $("#sales_chart").parent().width();
-	$("#sales_chart").attr("width",width+"px");
-	var ctx = $("#sales_chart").get(0).getContext("2d");
-	var data = {
-		labels : ["Apr","May","Jun","Jul","Aug","Sep","Oct"],
-		datasets : [
-			{
-				fillColor : "rgba(151,187,205,0.5)",
-				strokeColor : "rgba(151,187,205,1)",
-				data : [2,0,0,6,1,0,3]
-			}
-		]
-	}
-	var myNewChart = new Chart(ctx).Bar(data,{
-		animation:false
-		// scaleOverlay:true,	
-		// scaleOverride : true,
-		// scaleSteps : 10,
-		// scaleStepWidth : 1,
-		// scaleStartValue : -4,
+  //Vertical Centering of the carousel images
+  $('.page-zoom .exit').click(function(){
+  	enableScrolling();
+  	$('.page-zoom').fadeOut('fast');
+  });
+  $('.main-image').click(function(){
+  	$('.page-zoom').fadeIn('fast',function(){
+  		disableScrolling();
+  	});
+  });
+  carouselCenter();
+  $(window).resize(function() {
+    carouselCenter();
+   });
+
+  function enableScrolling() {
+  	$('html, body').css({
+    	'overflow': 'auto',
+    	'height': 'auto'
 	});
-}
+  }
+  function disableScrolling() {
+  	$('html, body').css({
+    	'overflow': 'hidden',
+    	'height': '100%'
+	});
+  }
+  //Centers images vertically on window resize
+  function carouselCenter(){
+  	height = $(window).height();
+    $.each($('.fullscreen-carousel'),function(index,value){
+    	$(value).css('height',height);
+    });
+  }
+});
 </script>
 {% endblock %}
 
 
 {% block content %}
+<div class="page-zoom">
+	<div id="carousel" class="carousel slide" data-ride="carousel">
+	  <div class="exit">
+	  	<span class="glyphicon glyphicon-remove"></span>
+	  </div>
+	  <!-- Wrapper for slides -->
+	  <div class="carousel-inner">
+	  	<div class="item active">
+	      	<div class="fullscreen-carousel vertical-block" style="">
+			    <div class="centered">
+			        <img src="http://placehold.it/1600x240" alt="...">
+			    </div>
+			</div>
+	    </div>
+	    <div class="item">
+	      	<div class="fullscreen-carousel vertical-block" style="">
+			    <div class="centered">
+			        <img src="http://placehold.it/600x120" alt="...">
+			    </div>
+			</div>
+	    </div>
+	    <div class="item">
+	      	<div class="fullscreen-carousel vertical-block" style="">
+			    <div class="centered">
+			        <img src="http://placehold.it/400x120" alt="...">
+			    </div>
+			</div>
+	    </div>
+	  </div>
+
+	  <!-- Controls -->
+	  <a class="left carousel-control" href="#carousel" data-slide="prev">
+	    <span class="glyphicon glyphicon-chevron-left"></span>
+	  </a>
+	  <a class="right carousel-control" href="#carousel" data-slide="next">
+	    <span class="glyphicon glyphicon-chevron-right"></span>
+	  </a>
+	</div>
+</div>
+
 <div class="topbar">
 	<div><a href='#'>&larr; Return to Anti-Inflammatory Search</a></div>
 	<div class="breadcrumbs"><a href='#ratings'>Food and Supplies</a> / <a href='#'>Dog Food</a> / <a href='#'>Purina</a></div>
 </div>
 
-<div class="product-container row">
-	<div class="leftrow subrow col-md-9">
-		<div class="vetbox product-box">
-			<div class="topcolor topcolorblue"></div>
-			<div class="padding">
-				<div class="product-header">
-					<p>Zoetis<span id="review-count">0 Reviews | <a href='#'>Write a Review</a></span></p>
-					<h5>Salix Solution 95% Pure (w/ Phenyallinine)<span><div class="topstar star star4"></div></span></h5>
+<div class="product-container">
+	<div class="vetbox product-box row">
+		<div class="product-header col-md-12">
+			<p>Zoetis<span id="review-count">0 Reviews | <a href='#'>Write a Review</a></span></p>
+			<h5>Salix Solution 95% Pure (w/ Phenyallinine)<span><div class="topstar star star4"></div></span></h5>
+		</div>
+		<div class="col-lg-9 col-md-8 col-sm-8 product-info">
+			<div class="product-image-container">
+				<div class="responsive-container">
+				    <div class="dummy"></div>
+				    <div class="left-slider slider-nav">
+				    	<span class="glyphicon glyphicon-chevron-left"></span>
+				    </div>
+				     <div class="right-slider slider-nav">
+				    	<span class="glyphicon glyphicon-chevron-right"></span>
+				    </div>
+				    <div class="img-container main-image">
+				        <img src="http://placehold.it/100x100" alt="" >
+				    </div>
+				</div>
+				<div class="img-thumbnails">
+			    	<div class="thumbnail active">
+			    		<img src="http://placehold.it/100x100">
+			    	</div>
+			    	<div class="thumbnail">
+			    		<img src="http://placehold.it/120x100">
+			    	</div>
+			    	<div class="thumbnail">
+			    		<img src="http://placehold.it/100x120">
+			    	</div>
+			    	<div class="thumbnail">
+			    		<img src="http://placehold.it/100x100">
+			    	</div>
+			    	<div class="thumbnail">
+			    		<img src="http://placehold.it/100x100">
+			    	</div>
+			    	<div class="thumbnail">
+			    		<img src="http://placehold.it/120x100">
+			    	</div>
+			    	<div class="thumbnail">
+			    		<img src="http://placehold.it/100x120">
+			    	</div>
+			    </div>
+			</div>
+			<div class="product-overview">
+				<div class="tags">
+					{% if product %}<p data-toggle="tooltip" title="This item is in stock" class='result-darkgreen'><span class="glyphicon glyphicon-ok"></span> In Stock</p>{% endif %} 
+					{% if not product %}<p data-toggle="tooltip" title="This item is currently out of stock" class='result-red'><span class="glyphicon glyphicon-remove-sign"></span> Out of Stock</p>{% endif %} 
+					{% if not product %}<p data-toggle="tooltip" title="The item is currently 50% off retail price" class='result-lightgreen'><span class="glyphicon glyphicon-tag"></span> Promotion</p>{% endif %} 
+					{% if not product %}<p><data-toggle="tooltip" title="This item is currently on backorder"  class='result-green'><span class="glyphicon glyphicon-warning-sign"></span> Backorder</p>{% endif %} 
+					{% if not product %}<p data-toggle="tooltip" title="This item is shipped directly from the manufacturer" class='result-orange'><span class=" glyphicon glyphicon-plane"></span> Drop Shipped</p>{% endif %} 
+					{% if not product %}<p data-toggle="tooltip" title="Additional Information is required to order this item" class='result-blue'><span class="glyphicon glyphicon-earphone"></span> More Info Req'd</p>{% endif %} 
+					{% if product %}<p data-toggle="tooltip" title="You last ordered this item on Sept 14, 2013" class='result-purple'><span class="glyphicon glyphicon-shopping-cart"></span> Ordered Before</p>{% endif %} 
+					{% if not product %}<p class='result-lightred'><span class="glyphicon glyphicon-ban-circle"></span> Indefinite BackOrder</p>{% endif %} 
+				</div>
+				<div>
+					<div class="sizes">
+						<form>
+							<table class="">
+								<thead>
+									<th>Option</th>
+									<th>MSRP</th>
+									<th class="price">Price</th>
+								</thead>
+								<tbody>
+									<tr class="active">
+										<td><label>
+												<input name="item" type="radio" checked>
+												Curved, 50ml
+											</label>
+										</td>
+										<td class="msrp">$14.99</td>
+										<td class="price">$11.99</td>
+									</tr>
+									<tr>
+										<td><label>
+												<input name="item" type="radio" checked>
+												Curved, 100ml
+											</label>
+										</td>
+										<td class="msrp">$14.99</td>
+										<td class="price">$11.99</td>
+									</tr>
+									<tr>
+										<td><label>
+												<input name="item" type="radio" checked>
+												Curved, 200ml 
+											</label>
+										</td>
+										<td class="msrp">$14.99</td>
+										<td class="price">$11.99</td>
+									</tr>
+								</tbody>
+							</table>
+						</form>
+					</div>
+				</div>
+				<div>
+					<p><strong>Manufacturer ID: </strong>28JB2B22</p>
+				</div>
+				<div>
+					<p><strong>Description: </strong>Kinavet-CA1® is labeled for the treatment of recurrent or non-resectable Grade II and Grade III Mast Cell Tumors that have not been previously treated with chemotherapy and/or radiation therapy except corticosteroids.</p>
 				</div>
 
-				<div class="product-overview row">
-					<div class="col-md-5 product-overview-div">
-						<img src="{{STATIC_URL}}img/noimage/noimage_300x400.jpg">
-					</div>
-					<div class="col-md-7 product-overview-div">
-						<div class="product-overview-details">
-							<div>
-								<h4>Original Price</h4>
-								<p id="original-price">$241.32</p>
-							</div>
-							<div>
-								<h4>Item Size: <span>100ml Vial</span></h4>
-								<div class="option-container">
-									<div class="option active">100ml Vial Brand Label</div>
-									<div class="option">200ml Vial Brand Label</div>
-									<div class="option">200ml Vial Generic</div>
-								</div>
-							</div>
-							<div>
-								<h4>Item ID</h4>
-								<p>SKU: 48384391, Manufacturer ID: #33293CDE</p>
-							</div>
-							<div>
-								<h4>Main Ingredient</h4>
-								<p>100% Flucatrasine</p>
-							</div>
-
-						</div>
+			</div>
+		</div>
+		<div class="col-lg-3 col-md-4 col-sm-4 product-cart-container">
+			<div class="product-cart">
+				<div class="option price">
+					<h5>$294.32</h5>
+					<table>
+						<tr>
+							<td>List Price:</td>
+							<td class="list-price">$324.99</td>
+						</tr>
+						<tr>
+							<td>You Save:</td>
+							<td>$10.00 (23%)</td>
+						</tr>
+					</table>
+				</div>
+				<div class="option">
+					<h4>Shipping Address</h4>
+					<select>
+						<option>Main Office</option>
+						<option>George Green</option>
+						<option>Add New Address. . .</option>
+					</select>
+					<div class="address">
+						<p>2 Norfolk Terrace</p>
+						<p>Cambridge, MA 02139</p>
 					</div>
 				</div>
-				<div class="product-description">
-					<p>FufroJect (Furosemide) Injection is an effective diuretic-saluretic for use in the treatment of acute noninflammatory tissue edema in dogs and horses, and for use in the treatment of edema (pulmonary congestion, ascites) associated with cardiac insufficiency in the dog. In cases of edema involving cardiac insufficiency, the continued use of heart stimulants such as digitalis or its glycosides is indicated.</p>
+				<div class="option">
+					<h4>Quantity</h4>
+					<div class="quantity-box float">
+						<div class="quantity-minus quantity-change"><span class="glyphicon glyphicon-minus"></span></div>
+						<input type="number" class="form-control" value="1" min="1">
+						<div class="quantity-plus quantity-change"><span class="glyphicon glyphicon-plus"></span></div>
+					</div>
+				</div>
+				<div class="option buy">
+					<button class="button button-rounded button-action">Add to Cart</button>
+				</div>
+				<div class="option">
+					<a href='#'><span class='glyphicon glyphicon-star'></span> Add To Saved List</a>
+				</div>
+				<div class="option">
+					<a href='#'><span class='glyphicon glyphicon-th'></span> View Popular Alternatives</a> 
+				</div>
+				<div class="option noborder">
+					<h4>Free Shipping</h4>
+					<p>This item ships for free within 24 hours. It is expected to arrive tomorrow.</p>
 				</div>
 			</div>
 		</div>
+	</div>
 
-		
-		<div class="vetbox product-box">
-			<div class="topcolor topcolororange"></div>
-			<div class="padding">
+	<div class="row information-container">
+		<div class="col-lg-9 col-md-9 col-sm-9 more-information">
+			<div class="vetbox more-information-box">
 				<h3>Questions</h3>
 				<p>Cool</p>
 			</div>
-		</div>
-		<div class="vetbox product-box" id="ratings">
-			<div class="topcolor topcolorred"></div>
-			<div class="padding">
+			<div class="vetbox more-information-box" id="ratings">
 				<h3>Reviews</h3>
 				<table class="review-bar">
 					<tr>
@@ -554,101 +932,45 @@ function drawChart() {
 						</form>
 					</div>
 				</div>
-
-				<div class="review">
-					<div class="star star45"></div>
-					<div class="helpful">
-						<strong>12</strong> people found this review helpful
-					</div>
-					<div class="reviewer">
-						Office Manager in Central New Jersey <span> on May 14, 2014</span>
-					</div>
-					<div class="review-text">
-						<p>We've had a lot of success with this product on equine horses. This is our first option when we need a bute powder, and it is reasonably priced for the quantity you are given. All 5 veterinarians in our practice use Equizone on a daily basis</p>
-					</div>
-					<div class="review-grade">
-						<form>
-							<span> Was this review helpful to you?
-								<button class="button button-flat button-tiny button-rounded">Yes</button>
-								<button class="button button-flat button-tiny button-rounded">No</button>
-							</span>
-						</form>
-					</div>
-				</div>
-
-				<div class="review">
-					<div class="star star45"></div>
-					<div class="helpful">
-						<strong>12</strong> people found this review helpful
-					</div>
-					<div class="reviewer">
-						Office Manager in Central New Jersey <span> on May 14, 2014</span>
-					</div>
-					<div class="review-text">
-						<p>We've had a lot of success with this product on equine horses. This is our first option when we need a bute powder, and it is reasonably priced for the quantity you are given. All 5 veterinarians in our practice use Equizone on a daily basis</p>
-					</div>
-					<div class="review-grade">
-						<form>
-							<span> Was this review helpful to you?
-								<button class="button button-flat button-tiny button-rounded">Yes</button>
-								<button class="button button-flat button-tiny button-rounded">No</button>
-							</span>
-						</form>
-					</div>
-				</div>
+			</div>
+		</div>
+		<div class="col-lg-3 col-md-3 col-sm-3 related">
+			<h4>Other Products Customers Viewed</h4>
+			<div class="product-preview-box-container">
+				<a href='#'>
+			  		<div class="product-preview-box">
+			  			<div class="product-preview-image" style='background-image:url("{{STATIC_URL}}img/placeholder_pics/1.gif")'>
+			  			</div>
+			  			<div class="product-preview-info">
+			  				<p class="title">Potomavac Bacterin Stocked sdfa fsa fd sad fsa f as fdsa</p>
+			  				<div class="ratings">
+			  					<div class="star blackstar star{{rating}}"></div><span>(8)</span>
+			  				</div>
+			  				<div class="price">
+			  					$17.31<span>$14.22</span>
+			  				</div>
+			  			</div>
+			  		</div>
+			  	</a>
+			</div>
+			<div class="product-preview-box-container">
+				<a href='#'>
+			  		<div class="product-preview-box">
+			  			<div class="product-preview-image" style='background-image:url("{{STATIC_URL}}img/placeholder_pics/1.gif")'>
+			  			</div>
+			  			<div class="product-preview-info">
+			  				<p class="title">Potomavac Bacterin Stocked sdfa fsa fd sad fsa f as fdsa</p>
+			  				<div class="ratings">
+			  					<div class="star blackstar star{{rating}}"></div><span>(8)</span>
+			  				</div>
+			  				<div class="price">
+			  					$17.31<span>$14.22</span>
+			  				</div>
+			  			</div>
+			  		</div>
+			  	</a>
 			</div>
 		</div>
 	</div>
-	<div class="rightrow subrow col-md-3">
-		<div class="vetbox product-box">
-			<div class="topcolor topcolorgreen"></div>
-			<div class="padding">
-				<h3>Buying Options</h3>
-				<div class="quantity-box">
-					<span>Quantity:
-						<select>
-							<option>1</option>
-						</select>
-					</span>
-				</div>
-				<div class="shipping-box">
-						<span>Shipping:
-							<select>
-								<option>2 Day Shipping</option>
-								<option>Next Day Shipping</option>
-							</select>
-						</span>
-					</div>
-				<div class="buy-option saverate">
-					<table>
-						<tr>
-							<td class="price-td">$124.23</td>
-							<td class="logo-td">VetCove SaveRate</td>
-							<td class="button-td"><button class="button button-tiny button-action button-rounded">Add to Cart</button></td>
-						</tr>
-					</table>
-				</div>
-				<div class="buy-option">
-					<table>
-						<tr>
-							<td class="price-td">$124.23</td>
-							<td class="logo-td">Henry Schein</td>
-							<td class="button-td"><button class="button button-tiny button-action button-rounded">Add to Cart</button></td>
-						</tr>
-					</table>
-				</div>
-				<div class="buy-option">
-					<table>
-						<tr>
-							<td class="price-td">$124.23</td>
-							<td class="logo-td">Penn Vet</td>
-							<td class="button-td"><button class="button button-tiny button-action button-rounded">Add to Cart</button></td>
-						</tr>
-					</table>
-				</div>
-			</div>
-		</div>
-	</div>
-
 </div>
 {% endblock %}

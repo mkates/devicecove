@@ -26,7 +26,7 @@ def browserUpgrade(request):
 def index(request):
 	# If the user is authenticated, show the appropriate homepage
 	if request.user.is_authenticated():
-		return render_to_response('account/pages/dashboard.html',{'names':['Ultrasound 1','Ultrasound with all the amentieis and a great side pack','ben','mike','joe']},context_instance=RequestContext(request))
+		return HttpResponseRedirect('/dashboard')
 	# If the user is not logged in, render the generic page
 	else:
 		return render_to_response('general/index.html',{},context_instance=RequestContext(request))

@@ -868,30 +868,33 @@ padding: 0;
 	height: 16px;
 	width: 85px;
 	overflow: hidden;
+	background-size: 170px 16px;
 	background-image: url("../../img/misc/blackstars.png");
-}
-.goldstar {
-	background-image: url("../../img/misc/goldstars.png");
 }
 
 .star45 {
 	background-image: url("../../img/misc/blackstars_half.png");
+	background-size: 186px 16px;
 	background-position: -17px 0;
 }
 .star35 {
 	background-image: url("../../img/misc/blackstars_half.png");
+	background-size: 186px 16px;
 	background-position: -34px 0;
 }
 .star25 {
 	background-image: url("../../img/misc/blackstars_half.png");
+	background-size: 186px 16px;
 	background-position: -51px 0;
 }
 .star15 {
 	background-image: url("../../img/misc/blackstars_half.png");
+	background-size: 186px 16px;
 	background-position: -68px 0;
 }
 .star5 {
 	background-image: url("../../img/misc/blackstars_half.png");
+	background-size: 186px 16px;
 	background-position: -85px 0;
 }
 .star40 {
