@@ -75,8 +75,20 @@ def analytics(request):
 
 ### Questions ###
 @login_required
-def questions(request):
-	return render_to_response('account/pages/questions.html',{'account_questions':True},context_instance=RequestContext(request))
+def answeredQuestions(request):
+	return render_to_response('account/pages/questions/questions.html',{'account_questions':True},context_instance=RequestContext(request))
+
+@login_required
+def askedQuestions(request):
+	return render_to_response('account/pages/questions/questions.html',{'account_questions':True},context_instance=RequestContext(request))
+
+@login_required
+def answerQuestion(request,questionid):
+	return render_to_response('account/pages/questions/writequestion.html',{'account_questions':True},context_instance=RequestContext(request))
+
+@login_required
+def askQuestion(request,productid):
+	return render_to_response('account/pages/questions/writequestion.html',{'account_questions':True},context_instance=RequestContext(request))
 
 ### Reviews ###
 @login_required

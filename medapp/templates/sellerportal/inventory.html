@@ -1,0 +1,214 @@
+{% extends 'sellerportal/base.html' %}
+{% load dollars %}
+{% block seller_css %}
+<style>
+/* Management Div */
+.quickfacts {
+	border-bottom:1px solid #eaeaea;
+	min-height: 50px;
+	padding-left: 10px;
+}
+.quickfacts h3 {
+	margin-top: 12px;
+	margin-bottom: 5px;
+}
+.quickfacts .update {
+	font-size: 12px;
+	color: #999;
+}
+.stats {
+	position:absolute;
+	top: 0;
+	right: 15px;
+}
+.stat {
+	display:inline-block;
+	text-align: center;
+	margin: 0 20px;
+}
+.stat h5 {
+	font-size: 30px;
+	font-weight: 200;
+	margin-bottom: 4px;
+}
+.stat p {
+	color: #777;
+	font-size: 11px;
+	text-transform: uppercase;
+}
+.management {
+	margin-bottom: 20px;
+	padding: 5px 5px 20px 5px;
+	position:relative;
+}
+.new-row {
+	padding-top: 20px;
+}
+.new_inventory_form {
+	padding-bottom: 10px;
+}
+.new_inventory {
+	vertical-align: top;
+}
+.new_inventory p {
+	font-size: 12px;
+	height: 15px;
+	color: #444;
+	margin-bottom: 2px;
+}
+.new_inventory {
+	display:inline-block;
+}
+.new_inventory_form input {
+	max-width: 130px;
+	height: 30px;
+	padding: 2px 5px;
+}
+.new_inventory_form input.short {
+	max-width: 70px;
+}
+.new_inventory_form input.long {
+	max-width: 170px;
+}
+.new_inventory button {
+	height: 30px;
+	font-size:13px;
+}
+.management .manual-div {
+	border-right:1px solid #eaeaea;
+}
+.management .upload-div {
+	padding:15px 0 10px 0;
+	text-align: center;
+}
+.management .upload-div button {
+	height: 30px;
+}
+</style>
+{% endblock %}
+
+{% block js %}
+<script src="{{STATIC_URL}}js/plugins/jquery.tablesorter.min.js" type="text/javascript" ></script>
+<script>
+$(document).ready(function(){
+  $("#listing-table").tablesorter();
+  $('.tooltip-p').tooltip({
+    delay: { show: 100, hide: 100}
+  });
+
+});
+</script>
+{% endblock %}
+{% block content %}
+<h3 class="page-title">
+	Inventory Management<span><a href='#'>Need Help? Just Ask</a> &middot; <a href='#'>Inventory Settings</a></span>
+	<div class="gradient"></div>
+</h3>
+<div class="table-responseive listing-table-container">
+	<div class="vetbox management">
+		<div class="quickfacts">
+			<h3>Patterson Veterinary Supply</h3>
+			<p class="update"><strong>Last Updated: </strong> May 21st, 7:35PM</p>
+			<div class="stats">
+				<div class="stat">
+					<h5>23</h5>
+					<p>Total Units Listed</p>
+				</div>
+				<div class="stat">
+					<h5>13</h5>
+					<p>Total Items Listed</p>
+				</div>
+			</div>
+		</div>
+		<div class="row new-row">
+			<div class="col-md-10 manual-div">
+				<div class="new_inventory_form">
+					<div class="new_inventory">
+						<p>SKU (optional)</p>
+						<input type="text" class="form-control">
+					</div>
+					<div class="new_inventory">
+						<p>Manufactuer</p>
+						<input type="text" class="form-control long">
+					</div>
+					<div class="new_inventory">
+						<p>Manufacturer No.</p>
+						<input type="text" class="form-control">
+					</div>
+					<div class="new_inventory">
+						<p>Brand Price</p>
+						<input type="text" class="form-control">
+					</div>
+					<div class="new_inventory">
+						<p>Anon. Price</p>
+						<input type="text" class="form-control">
+					</div>
+					<div class="new_inventory">
+						<p>Quantity</p>
+						<input type="number" min="1" class="form-control short">
+					</div>
+					<div class="new_inventory submit-div">
+						<p></p>
+						<button class="button button-flat-action button-rounded">Add Inventory</button>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-2 upload-div">
+				<button class="button button-flat-primary button-rounded">Upload Inventory</button>
+			</div>
+		</div>
+	</div>
+	<table id="listing-table" class="table table-striped tablesorter">
+		<thead>
+			<th><p>Product Name</p></th>
+			<th><p>Item</p></th>
+			<th><p>Manufacturer No.</p></th>
+			<th><p>Manufacturer</p></th>
+			<th><p data-toggle="tooltip" title="Optionally add your own SKUs" class='tooltip-p'>SKU</p></th>
+			<th class="center"><p data-toggle="tooltip" title="This is the price associated with your company" class='tooltip-p'>Brand Price</p></th>
+			<th class="center"><p data-toggle="tooltip" title="This is the price if a clinic buys an item anonymously from you" class='tooltip-p'>Anonymous Price</p></th>
+			<th class="center"><p>Quantity In Stock</p></th>
+			<th class="center"><p>Edit</p></th>
+			<th class="center"><p>Sales History</p></th>
+		</thead>
+		<tbody>
+			{% for inventory in inventories %}
+				{% with inventory.item as item %}{% with item.product as product %}
+					<tr>
+						<td>
+							<a href="/product/{{product.name}}">{{product.displayname}}</a>
+						</td>
+						<td>
+							{{item.description}}
+						</td>
+						<td>
+							{{item.manufacturer_no}}
+						</td>
+						<td>
+							{{product.manufacturer}}
+						</td>
+						<td>
+							{{inventory.sku}}
+						</td>
+						<td class="center">
+							{{inventory.base_price|dollars}}
+						</td>
+						<td class="center">
+							{{inventory.base_price|dollars}}
+						</td>
+						<td class="center">
+							{{inventory.quantity_available}}
+						</td>
+						<td class="center">
+							<a class="edit button button-rounded button-flat button-flat-primary button-tiny">Edit</a>
+						</td>
+						<td class="center">
+							<a href="details" class="button button-rounded button-flat button-flat-royal button-tiny">Details</a>
+						</td>
+					</tr>
+				{% endwith %}{% endwith %}
+			{% endfor %}
+		</tbody>
+	</table>
+</div>
+{% endblock %}

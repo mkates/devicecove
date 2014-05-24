@@ -64,10 +64,14 @@ urlpatterns = patterns('',
     url(r'^account/reviews/history','account.views.reviewsHistory'),
     url(r'^account/reviews/writereview/(?P<reviewid>\w+)','account.views.reviewsWriteReview'),
     url(r'^account/reviews','account.views.reviewsReviews'),
+    url(r'^account/questions/answeredquestions','account.views.answeredQuestions'),
+    url(r'^account/questions/askedquestions','account.views.askedQuestions'),
+    url(r'^account/questions/answerquestion/(?P<questionid>\w+)','account.views.answerQuestion'),
+    url(r'^account/questions/askquestion/(?P<productid>\w+)','account.views.askQuestion'),
+    url(r'^account/questions/','account.views.askedQuestions'),
     url(r'^account/orders','account.views.orders'),
     url(r'^account/returns','account.views.returns'),
     url(r'^account/analytics','account.views.analytics'),
-    url(r'^account/questions','account.views.questions'),
     url(r'^account/referrals','account.views.referrals'),
     url(r'^account/sell','account.views.sell'),
     url(r'^account/payments','account.views.payments'),
@@ -99,7 +103,20 @@ urlpatterns = patterns('',
     #########################################
     url(r'^cart','checkout.views.cart'),
 
-
+    ########## Seller Portal ################
+    #########################################
+    url(r'^portal/inventory','selling.views.portalInventory'),
+    url(r'^portal/product/(?P<productid>\d+)/edit','selling.views.portalProductEdit'),
+    url(r'^portal/product/(?P<productid>\d+)/analytics','selling.views.portalProductAnalytics'),
+    url(r'^portal/product/(?P<productid>\d+)/promotions','selling.views.portalProductPromotions'),
+    url(r'^portal/product','selling.views.portalProduct'),
+    url(r'^portal/purchases','selling.views.portalPurchases'),
+    url(r'^portal/questions','selling.views.portalQuestions'),
+    url(r'^portal/reviews','selling.views.portalReviews'),
+    url(r'^portal/promotions','selling.views.portalPromotions'),
+    url(r'^portal/analytics','selling.views.portalAnalytics'),
+    url(r'^portal/account','selling.views.portalAccount'),
+    url(r'^portal/','selling.views.portalProduct'),
 
 
 

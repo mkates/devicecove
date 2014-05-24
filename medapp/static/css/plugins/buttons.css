@@ -425,7 +425,7 @@ button.button:disabled {
 }
 /* line 169, ../scss/partials/_buttons.scss */
 .button-flat:hover {
-  background: #fbfbfb;
+  background: #ddd;
 }
 /* line 172, ../scss/partials/_buttons.scss */
 .button-flat:active {
@@ -456,14 +456,14 @@ button.button:disabled {
   -moz-transition-duration: 0.3s;
   -o-transition-duration: 0.3s;
   transition-duration: 0.3s;
-  background: #00a1cb;
+  background: #5ecadf;
   color: white;
   text-shadow: none;
   border: none;
 }
 /* line 198, ../scss/partials/_buttons.scss */
 .button-flat-primary:hover {
-  background: #00b5e5;
+  background: #51b9cd;
 }
 /* line 201, ../scss/partials/_buttons.scss */
 .button-flat-primary:active {

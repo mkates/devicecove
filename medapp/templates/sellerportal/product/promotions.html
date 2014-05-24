@@ -1,0 +1,38 @@
+{% extends 'sellerportal/product/base.html' %}
+{% block headertitle %}Promotions | {{product.displayname}}{% endblock %}
+{% block product_css %}
+<style>
+.nopromotions {
+	text-align: center;
+	padding: 40px;
+}
+.nopromotions .glyphicon {
+	font-size: 100px;
+	color: #eee;
+}
+.nopromotions p {
+	margin-top: 10px;
+	font-size: 16px;
+	color: #aaa;
+}
+.nopromotions a {
+	margin-right: 5px;
+}
+</style>
+{% endblock %}
+
+{% block product_js %}
+
+{% endblock %}
+
+{% block product_content %}
+<div class="vetbox product-content-container">
+	<div class="product-content">
+		<div class="nopromotions">
+			<span class="glyphicon glyphicon-gift"></span>
+			<p>You have not run any promotions specifically for this item</p>
+			<a href="/portal/promotions" class="button button-rounded  button-flat">Learn More</a><a href="/portal/promotions" class="button button-rounded button-flat-primary">Create a Promotion (coming soon. . .)</a>
+		</div>
+	</div>
+</div>
+{% endblock %}

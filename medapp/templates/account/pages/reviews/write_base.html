@@ -1,0 +1,240 @@
+{% extends 'account/pages/base.html' %}
+
+{% block account_css %}
+<style>
+
+.tips h6 {
+	margin-bottom: 15px;
+	font-size: 15px;
+	margin-left: 15px;
+}
+.tips ul {
+	padding-left: 15px;
+}
+.tips ul li {
+	margin-bottom: 20px;
+	font-size: 12px;
+	color: #555;
+}
+.new-write h4 {
+	font-size: 18px;
+	font-weight: normal;
+}
+.new-write h5 {
+	font-size: 15px;
+	color: #666;
+	line-height: 20px;
+	letter-spacing: .2px;
+	font-weight: normal;
+	margin:0;
+}
+.new-write input {
+	font-size: 13px;
+}
+.new-write a:hover{
+	cursor:pointer;
+}
+.new-write .intro {
+	border-bottom:1px solid #eaeaea;
+	padding-bottom: 20px;
+	margin-bottom: 20px;
+}
+.new-write .form-label {
+	font-size: 13px;
+	font-weight: bold;
+}
+.new-write .form-label span {
+	font-weight: normal;
+}
+.new-write .review-title {
+	margin-bottom: 20px;
+}
+.new-write .textarea {
+	margin-bottom: 20px;
+}
+.new-write .textarea textarea {
+	resize:vertical;
+	height: 150px;
+	font-size: 13px;
+}
+.new-write .reviewer {
+	margin-bottom: 20px;
+	padding-bottom:20px;
+	border-bottom:1px solid #eaeaea;
+}
+.new-write .reviewer select {
+	max-width: 300px;
+	font-size: 13px;
+}
+.new-write #custom-signature {
+	margin-top: 10px;
+	max-width: 300px;
+	display:none;
+}
+.new-write .submit .preview {
+	float: right;
+}
+.new-write .submit .edit {
+	float: right;
+	margin-right: 10px;
+}
+.new-write .preview-write-container {
+	display:none;
+}
+.new-write .preview-write-container .preview {
+	margin-bottom: 25px;
+	border-bottom:1px solid #eaeaea;
+	padding-bottom: 25px;
+}
+#preview-rating {
+	display:inline-block;
+	vertical-align:top;
+}
+.new-write .preview-title {
+	display:inline-block;
+	vertical-align:top;
+	padding-right: 10px;
+}
+.new-write .preview-reviewer {
+	color: #888;
+	font-size: 13px;
+}
+.new-write .preview-content {
+	margin-top: 5px;
+}
+.new-write .input-container .error {
+	color: red;
+	display:none;
+}
+/* Raty Formatting */
+#raty {
+	margin-bottom: 20px;
+	display:inline-block;
+}
+.raty_score {
+	display:inline-block;
+	font-weight: bold;
+}
+</style>
+{% endblock %}
+{% block account_js %}
+<script src="{{STATIC_URL}}js/plugins/raty/jquery.raty.js" type="text/javascript" ></script>
+<script>
+$(document).ready(function(){
+	$("#write-preview").click(function(){
+		//Check is the title and content is valid
+		valid = true;
+		required = $('.required-field');
+		$.each(required,function(index,value){
+			valid = evaluate($(value)) && valid;
+		});
+		if (valid) {
+			updatePreview();
+			$('.write-container').fadeOut('fast',function(){
+				$('.preview-write-container').fadeIn('fast');
+			});
+		};
+	});
+	//Evaluates if a function has any text and adds appropriate error class
+	function evaluate(handle) {
+		if (!(handle.val())) {
+			$(handle).parent().children(".error").css('display','block');
+			return false
+		} else {
+			$(handle).parent().children(".error").css('display','none');
+			return true
+		}
+	}
+	//Goes back to the review editing page
+	$("#edit-write").click(function(){
+		$('.preview-write-container').fadeOut('fast',function(){
+			$('.write-container').fadeIn('fast');
+		});
+	});
+	//Toggler for a custom sign
+	$('#signature').change(function(){
+		if ($(this).val()=='Custom. . .') {
+			$("#custom-signature").fadeIn('fast');
+		} else {
+			$("#custom-signature").css('display','none');
+		}
+	})
+	//Limit the length of the characters in the textboxes
+	$('.user-content').charLimit({limit:1500});
+	$('.user-title').charLimit({limit:60})
+
+	//Raty Stars Plug-In
+	$('#raty').raty({
+	    size      : 24,
+	    starOff   : 'star-off.png',
+	    starOn    : 'star-on.png',
+	    starHalf      : 'star-half.png',
+	    target : '.raty_1',
+	    hints: ['Hate it', "Don't like it", "It's okay", 'Like it', 'Love it'],
+	    path: '{{ STATIC_URL }}js/plugins/raty',
+	    click: function(score, evt) {
+			$("#review-rating").val(score);
+
+		}
+	});
+	//The default score is 2
+	$('#raty').raty('score', 2);
+});
+
+function updatePreview() {
+	console.log("passed");
+	var content =  $('#write-content').val().replace(/\n/g, '<br />'); // So parapgraphs are maintained
+	$('.preview-title').html($('#review-title').val());
+	$('.preview-content').html(content);
+	var reviewer_val = $("#signature").val()
+	var reviewer = reviewer_val != 'Custom. . .' ? reviewer_val : $("#custom-signature").val();
+	$('.preview-reviewer span').html(reviewer)
+	$("#preview-rating").removeClass();
+	$("#preview-rating").addClass('star');
+	$("#preview-rating").addClass('star'+$('#review-rating').val()+"0");
+
+
+}
+
+$.fn.charLimit = function(args) {
+	var limitChar = args['limit'];
+	var handle = $(this);
+	handle.bind('input propertychange', function(e) {
+	   spliceText(limitChar)
+	});
+
+	var spliceText = function(limitChar) {
+		text = handle.val();
+		handle.val(text.substr(0,limitChar));
+	};
+}
+</script>
+{% endblock %}
+{% block account_content %}
+
+<div class="row">
+	<div class="col-md-9">
+		<form id="review-form" method="POST" action="/"> {% csrf_token %}
+			<div class="new-write">
+				<div class="write-container">
+					<div class="write">
+						{% block write_content %}{% endblock %}
+					</div>
+				</div>
+				<div class="preview-write-container">
+					{% block preview_content %}{% endblock %}
+				</div>
+			</div>
+		</form>	
+	</div>
+	<div class="col-md-3">
+		<div class="sidebox tips">
+			<h6>{% block tips_title %}Writing Tips{% endblock %}</h6>
+			<ul>
+				{% block write_tips %}{% endblock %}
+			</ul>
+		</div>
+	</div>
+</div>
+
+{% endblock %}

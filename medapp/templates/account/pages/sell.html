@@ -1,9 +1,70 @@
 {% extends 'account/pages/base.html' %}
 {% block headertitle %}Selling on VetCove{% endblock %}
-{% block account_title %}Selling on VetCove{% endblock %}
+
+{% block title-container %}{% endblock %}
 {% block account_css %}
 <style>
-
+.sell-box {
+	box-shadow: 0 0 30px rgba(0,0,0,.1) inset;
+	margin-top: 15px;
+}
+.sell-box .text {
+	margin: 0 20px;
+}
+.sell-box h2 {
+	font-weight: 200;
+	font-size: 38px;
+	color: #444;
+	margin-top: 40px;
+}
+.sell-box h3 {
+	font-weight: bold;
+	margin-top: 5px;
+	font-size: 18px;
+	color: #aaa;
+	margin-bottom: 40px;
+}
+.sell-box p {
+	font-size: 13px;
+	max-width: 500px;
+	margin-bottom: 30px;
+	color: #333;
+}
+.sell-box a {
+	font-weight: 200;
+}
+.sell-box img {
+	width: 400px;
+	max-width: 100%;
+}
+.seller {
+	margin: 25px 0;
+}
+.seller .col .vetbox {
+	box-shadow: 0 0 30px rgba(0,0,0,.1) inset;
+}
+.seller .col .unit {
+	margin: 20px 20px 25px 20px;
+}
+.seller .col h4 {
+	color: #555;
+	border-bottom:1px solid #eee;
+	padding-bottom: 10px;
+	margin: 20px 20px 0 20px;
+}
+.seller .col h5 {
+	color: #2397BA;
+	font-weight: bold;
+}
+.seller .col p {
+	font-size: 13px;
+}
+.seller .col-left{
+	padding-left: 0px;
+}
+.seller .col-right {
+	padding-right: 0px;
+}
 </style>
 {% endblock %}
 {% block account_js %}
@@ -12,7 +73,49 @@
 </script>
 {% endblock %}
 {% block account_content %}
-<div class="row">
-	order history
+<div class="vetbox sell-box row">
+	<div class="col-sm-7">
+		<div class="text">
+			<h2>The veterinary selling community</h2>
+			<h3>Buy and sell pre-owned and refurbished equipment and supplies</h3>
+			<p>Our community of veterinarians, refurbishers, and equipment suppliers make buying and selling your used piece of equipment a breeze. List an item for free in minutes!</p>
+			<a href='#' class="button button-large button-rounded button-flat-primary">List Your Equipment (for free)</a>
+	</div>
+	</div>
+	<div class="col-sm-5">
+		<img src="{{STATIC_URL}}img/listing/listing_image.png">
+	</div>
+</div>
+<div class="seller row">
+	<div class="col-sm-6 col col-left">
+		<div class="vetbox same-height" data-height="sell-boxes">
+			<h4>Common Questions</h4>
+			<div class="unit">
+				<h5>I have many products to list. How long does it take to list a product on Vetcove?</h5>
+				<p>Listing a product takes as little as two minutes. We do recommend providing detailed descriptions of the product's condition, history, and warranty to improve buyer confidence. Better quality listings may appear higher in the search results.</p>
+			</div>
+			<div class="unit">
+				<h5>Are there any fees associated with selling equipment on VetCove?</h5>
+				<p>For items that are listed for in person viewing, your listing is 100% free if you transact offline. If you complete the transaction online (reccommended for items that are required to be shipped), we take a standard 5% commission fee plus credit card processing fees. This charge also supports the buyer and seller protection programs.</p>
+			</div>
+		</div>
+	</div>
+	<div class="col-sm-6 col col-right">
+		<div class="vetbox same-height" data-height="sell-boxes">
+			<h4>The VetCove Difference</h4>
+			<div class="unit">
+				<h5>Exclusive to US doctors, suppliers, and manufacturers</h5>
+				<p>We work hard through our VetCove Verification Program to maintain a community of trusted professionals to give the VetCove community confidence using our service.</p>
+			</div>
+			<div class="unit">
+				<h5>Safe, Secure, and Trustworthy</h5>
+				<p>Our site works with a PCI 1 compliant credit card processor to ensure your information stays safe.</p>
+			</div>
+			<div class="unit">
+				<h5>Easy To List</h5>
+				<p>A complete listing can be completed in less than 2 minutes. If you have a large quantity of items to list and need assistance, don't hesitate to contact us and we will help you</p>
+			</div>
+		</div>
+	</div>
 </div>
 {% endblock %}

@@ -1,295 +1,70 @@
-{% extends 'account/pages/base.html' %}
+{% extends 'account/pages/reviews/write_base.html' %}
+
 {% block headertitle %}Review for {{product.name}}{% endblock %}
 {% block account_title %}Write a Review{% endblock %}
 {% block title-links %}<span class="title-links"><a href='/account/reviews'>Review Products</a> | <a href='/account/reviews/history'>Your Past Reviews</a>{% endblock %}
-{% block account_css %}
-<style>
-.review-tips {
-	
-}
-.review-tips h6 {
-	margin-bottom: 15px;
-	font-size: 15px;
-	margin-left: 15px;
-}
-.review-tips ul {
-	padding-left: 15px;
-}
-.review-tips ul li {
-	margin-bottom: 20px;
-	font-size: 12px;
-	color: #555;
-}
-.new-review h4 {
-	font-size: 18px;
-	font-weight: normal;
-}
-.new-review h5 {
-	font-size: 15px;
-	color: #666;
-	line-height: 20px;
-	letter-spacing: .2px;
-	font-weight: normal;
-	margin:0;
-}
-.new-review input {
-	font-size: 13px;
-}
-.new-review a:hover{
-	cursor:pointer;
-}
-.new-review .intro {
-	border-bottom:1px solid #eaeaea;
-	padding-bottom: 20px;
-	margin-bottom: 20px;
-}
-.new-review .form-label {
-	font-size: 13px;
-	font-weight: bold;
-}
-.new-review .form-label span {
-	font-weight: normal;
-}
-.new-review .review-title {
-	margin-bottom: 20px;
-}
-.new-review .textarea {
-	margin-bottom: 20px;
-}
-.new-review .textarea textarea {
-	resize:vertical;
-	height: 150px;
-	font-size: 13px;
-}
-.new-review .reviewer {
-	margin-bottom: 20px;
-	padding-bottom:20px;
-	border-bottom:1px solid #eaeaea;
-}
-.new-review .reviewer select {
-	max-width: 300px;
-	font-size: 13px;
-}
-.new-review .custom-reviewer {
-	margin-top: 10px;
-	max-width: 300px;
-	display:none;
-}
-.new-review .submit .preview {
-	float: right;
-}
-.new-review .submit .edit {
-	float: right;
-	margin-right: 10px;
-}
-.new-review .preview-container {
-	display:none;
-}
-.new-review .preview-container .preview {
-	margin-bottom: 25px;
-	border-bottom:1px solid #eaeaea;
-	padding-bottom: 25px;
-}
-#preview-rating {
-	display:inline-block;
-	vertical-align:top;
-}
-.new-review .preview-title {
-	display:inline-block;
-	vertical-align:top;
-	padding-right: 10px;
-}
-.new-review .preview-reviewer {
-	color: #888;
-	font-size: 13px;
-}
-.new-review .preview-content {
-	margin-top: 5px;
-}
-.new-review .input-container .error {
-	color: red;
-	display:none;
-}
-/* Raty Formatting */
-#raty {
-	margin-bottom: 20px;
-	display:inline-block;
-}
-.raty_score {
-	display:inline-block;
-	font-weight: bold;
-}
-</style>
-{% endblock %}
-{% block account_js %}
-<script src="{{STATIC_URL}}js/plugins/raty/jquery.raty.js" type="text/javascript" ></script>
-<script>
-$(document).ready(function(){
-	$("#review-preview").click(function(){
-		//Check is the title and content is valid
-		valid = true;
-		valid = evaluate($("#review-title")) && valid;
-		valid = evaluate($("#review-content")) && valid;
-		if (valid) {
-			updatePreview();
-			$('.review-container').fadeOut('fast',function(){
-				$('.preview-container').fadeIn('fast');
-			});
-		};
-	});
-	//Evaluates if a function has any text and adds appropriate error class
-	function evaluate(handle) {
-		if (!(handle.val())) {
-			$(handle).parent().children(".error").css('display','block');
-			return false
-		} else {
-			$(handle).parent().children(".error").css('display','none');
-			return true
-		}
-	}
-	//Goes back to the review editing page
-	$("#edit-review").click(function(){
-		$('.preview-container').fadeOut('fast',function(){
-			$('.review-container').fadeIn('fast');
-		});
-	});
-	//Toggler for a custom reviewer name
-	$('#review-reviewer').change(function(){
-		if ($(this).val()=='Custom. . .') {
-			$("#custom-reviewer").fadeIn('fast');
-		} else {
-			$("#custom-reviewer").css('display','none');
-		}
-	})
-	//Limit the length of the characters in the textboxes
-	$('#review-content').charLimit({limit:1500});
-	$('#review-title').charLimit({limit:60})
 
-	//Raty Stars Plug-In
-	$('#raty').raty({
-	    size      : 24,
-	    starOff   : 'star-off.png',
-	    starOn    : 'star-on.png',
-	    starHalf      : 'star-half.png',
-	    target : '.raty_1',
-	    hints: ['Hate it', "Don't like it", "It's okay", 'Like it', 'Love it'],
-	    path: '{{ STATIC_URL }}js/plugins/raty',
-	    click: function(score, evt) {
-			$("#review-rating").val(score);
-
-		}
-	});
-	//The default score is 2
-	$('#raty').raty('score', 2);
-});
-
-function updatePreview() {
-	var review_content = $('#review-content').val();
-	var content_list = review_content.replace(/\n/g, '<br />'); // So parapgraphs are maintained
-	$('.preview-title').html($('#review-title').val());
-	$('.preview-content').html(content_list);
-	var reviewer_val = $("#review-reviewer").val()
-	var reviewer = reviewer_val != 'Custom. . .' ? reviewer_val : $("#custom-reviewer").val();
-	$('.preview-reviewer span').html(reviewer)
-	$("#preview-rating").removeClass();
-	$("#preview-rating").addClass('star');
-	$("#preview-rating").addClass('star'+$('#review-rating').val()+"0");
-
-
-}
-
-$.fn.charLimit = function(args) {
-	var limitChar = args['limit'];
-	var handle = $(this);
-	handle.bind('input propertychange', function(e) {
-	   spliceText(limitChar)
-	});
-
-	var spliceText = function(limitChar) {
-		text = handle.val();
-		handle.val(text.substr(0,limitChar));
-	};
-}
-</script>
-{% endblock %}
-{% block account_content %}
-
-<div class="row">
-	<div class="col-md-9">
-		<form id="review-form" method="POST" action="/"> {% csrf_token %}
-			<div class="new-review">
-				<div class="review-container">
-					<!-- <div class="intro">
-						<h5>Write a review for {{produce.name}}. Your opinions and experience will be invaluable in helping others make more informed buying decisions.</h5>
-					</div> -->
-					<div class="review">
-						<h4>Salix Powder Formula with Extra Nutrition and Produ{{product.name}}</h4>
-							<div class="rating">
-								<p class="form-label">Select a rating for this product <span>(choose between 1 and 5 stars)</span></p>
-								<div class="rating">
-									<div id="raty"></div>
-									<div class="raty_score raty_1"></div>
-								</div>
-								<input id="review-rating" type="hidden" value="2" name="rating">
-							</div>
-							<div class="review-title input-container">
-								<p class="form-label">Title of the review <span>(please limit to 60 characters)</p>
-								<p class="error">Please provide a title for your review</p>
-								<input id="review-title" name="title" class="form-control">
-							</div>
-							<div class="textarea input-container">
-								<p class="form-label">Body of the review <span>(use the writing review tips as a guideline for your review, maximum 1500 characters)</p>
-								<p class="error">Please provide content for your review</p>
-								<textarea id="review-content" name="review" class="form-control"></textarea>
-							</div>
-							<div class="reviewer">
-								<p class="form-label">Reviewer <span>(choose the reviewer and level of anonymity)</p>
-								<select id="review-reviewer" name="review" class="form-control">
-									<option>Veterinary Clinic in NJ</option>
-									<option>Office Manager in in NJ</option>
-									<option>Office Staff in NJ</option>
-									<option>Veterinarian in NJ</option>
-									<option>Anonymous</option>
-									<option>Custom. . .</option>
-								</select>
-								<input id="custom-reviewer" class="custom-reviewer form-control" name="custom-reviewer" placeholder="Custom Reviewer Name">
-							</div>
-							<div class="submit">
-								<a href="{% if next %}{{next}}{% else %}/account/reviews{% endif %}"class="button button-rounded">Cancel</a>
-								<a id="review-preview" class="preview button button-rounded button-primary">Preview</a>
-							</div>
-					</div>
-				</div>
-				<div class="preview-container">
-					<div class="intro">
-						<h4>Check Your Review</h4>
-						<h5>Here is a preview of what your review will look like</h5>
-					</div>
-					<div class="preview">
-						<div class="preview-title"></div>
-						<div id="preview-rating" class="star star20"></div>
-						<div class="preview-reviewer">Written by <span></span></div>
-						<div class="preview-content"></div>
-					</div>
-					<div class="submit">
-						<a href="{% if next %}{{next}}{% else %}/account/reviews{% endif %}"class="button button-rounded">Cancel</a>
-						<button value="submit" name="submit" class="preview button button-rounded button-primary">Submit</button>
-						<a id="edit-review" class="edit button button-rounded">Edit</a>
-					</div>
-				</div>
-			</div>
-		</form>	
+{% block write_content %}
+<h4>Salix Powder Formula with Extra Nutrition and Produ{{product.name}}</h4>
+<div class="rating">
+	<p class="form-label">Select a rating for this product <span>(choose between 1 and 5 stars)</span></p>
+	<div class="rating">
+		<div id="raty"></div>
+		<div class="raty_score raty_1"></div>
 	</div>
-	<div class="col-md-3">
-		<div class="sidebox review-tips">
-			<h6>Writing Review Tips</h6>
-			<ul>
-				<li>The most helpful comments help others make informed decisions about a product. Explain why your clinic likes or dislikes the product, focusing on the product's features, functionality, usability, and effectiveness.</li>
-				<li>It is very helpful to personalize the review to your experiences.</li>
-				<li>DO NOT post single word reviews, inappropriate language, or contact information in your reviews.</li>
-			</ul>
-		</div>
-	</div>
+	<input id="review-rating" type="hidden" value="2" name="rating">
+</div>
+<div class="review-title input-container">
+	<p class="form-label">Title of the review <span>(please limit to 60 characters)</p>
+	<p class="error">Please provide a title for your review</p>
+	<input id="review-title" name="title" class="form-control required-field user-title">
+</div>
+<div class="textarea input-container">
+	<p class="form-label">Body of the review <span>(use the writing review tips as a guideline for your review, maximum 1500 characters)</p>
+	<p class="error">Please provide content for your review</p>
+	<textarea  id="write-content" name="review" class="form-control required-field user-content"></textarea>
+</div>
+<div class="reviewer">
+	<p class="form-label">Review <span>(select who wrote the review)</p>
+	<select id="signature" name="review" class="form-control">
+		<option>Veterinary Clinic in NJ</option>
+		<option>Office Manager in in NJ</option>
+		<option>Office Staff in NJ</option>
+		<option>Veterinarian in NJ</option>
+		<option>Anonymous</option>
+		<option>Custom. . .</option>
+	</select>
+	<input id="custom-signature" class="form-control" name="custom-reviewer" placeholder="Custom Reviewer Name">
+</div>
+<div class="submit">
+	<a href="{% if next %}{{next}}{% else %}/account/reviews{% endif %}"class="button button-rounded">Cancel</a>
+	<a id="write-preview" class="preview button button-rounded button-primary">Preview</a>
 </div>
 
+{% endblock %}
+
+{% block preview_content %}
+<div class="intro">
+	<h4>Check Your Review</h4>
+	<h5>Here is a preview of what your review will look like</h5>
+</div>
+<div class="preview">
+	<div class="preview-title"></div>
+	<div id="preview-rating" class="star star20"></div>
+	<div class="preview-reviewer">Written by <span></span></div>
+	<div class="preview-content"></div>
+</div>
+<div class="submit">
+	<a href="{% if next %}{{next}}{% else %}/account/reviews{% endif %}"class="button button-rounded">Cancel</a>
+	<button value="submit" name="submit" class="preview button button-rounded button-primary">Submit</button>
+	<a id="edit-write" class="edit button button-rounded">Edit</a>
+</div>
+{% endblock %}
+
+{% block tips_title %}Writing Reviews Tips{% endblock %}
+
+{% block write_tips %}
+	<li>The most helpful comments help others make informed decisions about a product. Explain why your clinic likes or dislikes the product, focusing on the product's features, functionality, usability, and effectiveness.</li>
+	<li>It is very helpful to personalize the review to your experiences.</li>
+	<li>DO NOT post single word reviews, inappropriate language, or contact information in your reviews.</li>
 {% endblock %}

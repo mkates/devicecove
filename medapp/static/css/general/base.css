@@ -25,6 +25,7 @@ input::-moz-focus-inner {
 }
 .body-container {
 	max-width: 1300px;
+	min-width: 900px;
 	position: relative;
 	margin: 0 auto;
 	box-shadow: 0 0px 8px #333;
@@ -32,7 +33,9 @@ input::-moz-focus-inner {
 	/*background-image: -moz-linear-gradient(left, #E3F3FC 0%, #F2FFF5 100%, #FCFCED 75%, #FDF5FF 100%);*/
 	/*background-image: -moz-linear-gradient(left, #E8F4FC 0%, #F5F2FF 50%, #F2FAF0 100%);*/
 	/*background-image: -moz-linear-gradient(left, #E3F3FC 0%, #F2FFF5 100%);*/
-
+}
+.box-shadow {
+	box-shadow: 0 0 12px rgba(0,0,0,.1) inset;
 }
 .content {
 	margin: 20px 0 40px 0;
@@ -937,6 +940,45 @@ padding: 0;
 }
 .topcolorlime {
 	background: #abcf2f;
+}
+/**********************************/
+/** Percent Complete Bars *********/
+/**********************************/
+.completebar {
+	background-image:url("../../img/misc/seller/completebars.png");
+	background-size: 150px 36px;
+	width: 30px;
+	height: 36px;
+}
+.completebar-large {
+	width: 60px;
+	height: 72px;
+	background-size: 300px 72px;
+}
+.completebar2-large {
+	background-position: -60px 0;
+}
+.completebar3-large {
+	background-position: -120px 0;
+}
+.completebar4-large {
+	background-position: -180px 0;
+}
+.completebar5-large {
+	background-position: -240px 0;
+}
+
+.completebar2 {
+	background-position: -30px 0;
+}
+.completebar3 {
+	background-position: 60px 0;
+}
+.completebar4 {
+	background-position: -90px 0;
+}
+.completebar5 {
+	background-position: -120px 0;
 }
 
 /**********************************/

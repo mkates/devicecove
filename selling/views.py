@@ -11,25 +11,55 @@ from django.conf import settings
 import medapp.settings as settings
 import json
 import balanced
-from deviceapp.models import *
+from listing.models import *
 import payment.views as payment_view
 import emails.views as email_view
 import helper.commission as commission
 ############################################
 ########## Selling Portal ##################
 ############################################
-def sellerHome(request):
-	return render_to_response('sellerportal/home.html',{},context_instance=RequestContext(request))
+def portalInventory(request):
+	### !!! Add Security Layer Here ###
+	inventories = Inventory.objects.all()
+	return render_to_response('sellerportal/inventory.html',{'seller':True,'portal_inventory':True,'inventories':inventories},context_instance=RequestContext(request))
 
+def portalProduct(request):
+	### !!! Add Security Layer Here ###
+	products = Product.objects.all()
+	return render_to_response('sellerportal/product/home.html',{'seller':True,'portal_product':True,'products':products},context_instance=RequestContext(request))
+ 
+def portalProductEdit(request,productid):
+	### !!! Add Security Layer Here ###
+	product = Product.objects.get(id=productid)
+	return render_to_response('sellerportal/product/edit.html',{'seller':True,'portal_product':True,'portal_products_edit':True,'product':product},context_instance=RequestContext(request))
 
+def portalProductAnalytics(request,productid):
+	### !!! Add Security Layer Here ###
+	product = Product.objects.get(id=productid)
+	return render_to_response('sellerportal/product/analytics.html',{'seller':True,'portal_product':True,'portal_products_analytics':True,'product':product},context_instance=RequestContext(request))
 
+def portalProductPromotions(request,productid):
+	### !!! Add Security Layer Here ###
+	product = Product.objects.get(id=productid)
+	return render_to_response('sellerportal/product/promotions.html',{'seller':True,'portal_product':True,'portal_products_promotions':True,'product':product},context_instance=RequestContext(request))
 
+def portalPurchases(request):
+	return render_to_response('sellerportal/purchases.html',{'seller':True,'portal_purchases':True},context_instance=RequestContext(request))
 
+def portalQuestions(request):
+	return render_to_response('sellerportal/questions.html',{'seller':True,'portal_questions':True},context_instance=RequestContext(request))
 
+def portalReviews(request):
+	return render_to_response('sellerportal/reviews.html',{'seller':True,'portal_reviews':True},context_instance=RequestContext(request))
 
+def portalPromotions(request):
+	return render_to_response('sellerportal/promotions.html',{'seller':True,'portal_promotions':True},context_instance=RequestContext(request))
 
+def portalAnalytics(request):
+	return render_to_response('sellerportal/analytics.html',{'seller':True,'portal_analytics':True},context_instance=RequestContext(request))
 
-
+def portalAccount(request):
+	return render_to_response('sellerportal/account.html',{'seller':True,'portal_account':True},context_instance=RequestContext(request))
 
 
 ############################################

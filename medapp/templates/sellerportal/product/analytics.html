@@ -1,0 +1,407 @@
+{% extends 'sellerportal/product/base.html' %}
+{% block headertitle %}Analytics | {{product.displayname}}{% endblock %}
+{% block product_css %}
+
+{% endblock %}
+
+{% block product_js %}
+<script src="{{STATIC_URL}}js/plugins/amcharts/amcharts.js" type="text/javascript" ></script>
+<script type="text/javascript" src="{{STATIC_URL}}js/plugins/amcharts/serial.js"></script>
+<script type="text/javascript" src="{{STATIC_URL}}js/plugins/amcharts/pie.js"></script>
+<script type="text/javascript" src="{{STATIC_URL}}js/plugins/amcharts/themes/light.js"></script>
+<script type="text/javascript" src="{{STATIC_URL}}js/plugins/us-map/lib/raphael.js"></script>
+<script type="text/javascript" src="{{STATIC_URL}}js/plugins/us-map/jquery.usmap.js"></script>
+<script>
+$(document).ready(function(){
+	var img_location = "{{STATIC_URL}}js/plugins/amcharts/images/";
+	var chartData = generateChartData();
+	var chart = AmCharts.makeChart("chartdiv", {
+	    "type": "serial",
+	    "theme": "none",
+	    "pathToImages": img_location,
+	    "dataProvider": chartData,
+	    "valueAxes": [{
+	        "axisAlpha": 0.2,
+	        "dashLength": 1,
+	        "position": "left"
+	    }],
+	    "graphs": [{
+	        "id":"g1",
+	        "balloonText": "[[category]]<br /><b><span style='font-size:14px;'>Purchases: [[value]]</span></b>",
+	        "bullet": "round",
+	        "bulletBorderAlpha": 1,
+			"bulletColor":"#FFFFFF",
+			"lineColor":"#4ab0d2",
+	        "hideBulletsCount": 50,
+	        "title": "red line",
+	        "type": "smoothedLine",
+	        "valueField": "visits",
+			"useLineColorForBulletBorder":true
+	    }],
+	    "chartScrollbar": {
+	        "autoGridCount": true,
+	        "graph": "g1",
+	        "scrollbarHeight": 40
+	    },
+	    "chartCursor": {
+	        "cursorPosition": "mouse"
+	    },
+	    "categoryField": "date",
+	    "categoryAxis": {
+	        "parseDates": true,
+	        "axisColor": "#DADADA",
+	        "dashLength": 1,
+	        "minorGridEnabled": true
+	    },
+		"exportConfig":{
+		  menuRight: '20px',
+	      menuBottom: '30px',
+	      menuItems: [{
+	      icon: 'http://www.amcharts.com/lib/3/images/export.png',
+	      format: 'png'	  
+	      }]  
+		}
+	});
+	var chart2 = AmCharts.makeChart("chartdiv2", {
+	    "type": "serial",
+	    "theme": "none",
+	    "pathToImages": img_location,
+	    "dataProvider": chartData,
+	    "valueAxes": [{
+	        "axisAlpha": 0.2,
+	        "dashLength": 1,
+	        "position": "left"
+	    }],
+	    "graphs": [{
+	        "id":"g1",
+	        "balloonText": "[[category]]<br /><b><span style='font-size:14px;'>Purchases: [[value]]</span></b>",
+	        "bullet": "round",
+	        "bulletBorderAlpha": 1,
+			"bulletColor":"#FFFFFF",
+	        "hideBulletsCount": 50,
+	        "lineColor":"#4ab0d2",
+	        "title": "red line",
+	        "valueField": "visits",
+			"useLineColorForBulletBorder":true
+	    }],
+	    "chartScrollbar": {
+	        "autoGridCount": true,
+	        "graph": "g1",
+	        "scrollbarHeight": 40
+	    },
+	    "chartCursor": {
+	        "cursorPosition": "mouse"
+	    },
+	    "categoryField": "date",
+	    "categoryAxis": {
+	        "parseDates": true,
+	        "axisColor": "#DADADA",
+	        "dashLength": 1,
+	        "minorGridEnabled": true
+	    },
+		"exportConfig":{
+		  menuRight: '20px',
+	      menuBottom: '30px',
+	      menuItems: [{
+	      icon: 'http://www.amcharts.com/lib/3/images/export.png',
+	      format: 'png'	  
+	      }]  
+		}
+	});
+	chart2.addListener("rendered",zoomChart);
+	chart.addListener("rendered", zoomChart);
+	zoomChart();
+
+	var chart3 = AmCharts.makeChart("piediv", {
+	    "type": "pie",
+		"theme": "none",
+	    "dataProvider": [
+		{
+	        "type": "Large Animal",
+	        "purchases":141.2
+	    }, {
+	        "type": "Equine Only",
+	        "purchases": 201.1
+	    }, {
+	        "type": "Companion Animal",
+	        "purchases": 165.8
+	    }, {
+	        "type": "Mixed Animal",
+	        "purchases": 139.9
+	    }],
+	    "valueField": "purchases",
+	    "titleField": "type",
+		"labelRadius": 15,
+	    "innerRadius": "50%",
+	    "depth3D": 5,
+	    "colors":["#4ab0d2", "#fa5559", "#0aab89",'#f78b26','#ae4c93'],
+	    "balloonText": "[[title]]<br><span style='font-size:14px'><b>[[value]]</b> ([[percents]]%)</span>",
+	    "angle": 15
+	});
+
+	// this method is called when chart is first inited as we listen for "dataUpdated" event
+	function zoomChart() {
+	    // different zoom methods can be used - zoomToIndexes, zoomToDates, zoomToCategoryValues
+	    chart.zoomToIndexes(chartData.length - 40, chartData.length - 1);
+	}
+
+	// generate some random data, quite different range
+	function generateChartData() {
+	    var chartData = [];
+	    var firstDate = new Date();
+	    firstDate.setDate(firstDate.getDate() - 5);
+
+	    for (var i = 0; i < 1000; i++) {
+	        // we create date objects here. In your data, you can have date strings
+	        // and then set format of your dates using chart.dataDateFormat property,
+	        // however when possible, use date objects, as this will speed up chart rendering.
+	        var newDate = new Date(firstDate);
+	        newDate.setDate(newDate.getDate() + i);
+
+	        var visits = Math.round(Math.random() * (40 + i / 5)) + 20 + i;
+
+	        chartData.push({
+	            date: newDate,
+	            visits: visits
+	        });
+	    }
+	    return chartData;
+	}
+});
+
+var heat = {
+	coldest: '#0c168d',
+	colder:'#4d249a',
+	cold: '#62115e',
+	hot: '#8b0f47',
+	hotter: '#cf0b22',
+	hottest: '#fa080a'
+}
+
+function generateColor() {
+	integer = parseInt(Math.random()*6);
+	console.log(integer);
+	if (integer < 1) {
+		return heat['coldest'];
+	} else if (integer < 2) {
+		return heat['colder']
+	} else if (integer < 3) {
+		return heat['cold']
+	} else if (integer < 4) {
+		return heat['hot']
+	} else if (integer < 5) {
+		return heat['hotter']
+	} else {
+		return heat['hottest'];
+	}
+}
+//US Map
+$(document).ready(function() {
+    //$('#map').usmap({});
+    value = 2
+    $('#map').usmap({
+	  stateSpecificStyles: {
+	    'AL': {fill: generateColor(value)},
+		'AK': {fill: generateColor(value)},
+		'AZ': {fill: generateColor(value)},
+		'AR': {fill: generateColor(value)},
+		'CA': {fill: generateColor(value)},
+		'CO': {fill: generateColor(value)},
+		'CT': {fill: generateColor(value)},
+		'DC': {fill: generateColor(value)},
+		'DE': {fill: generateColor(value)},
+		'FL': {fill: generateColor(value)},
+		'GA': {fill: generateColor(value)},
+		'HI': {fill: generateColor(value)},
+		'ID': {fill: generateColor(value)},
+		'IL': {fill: generateColor(value)},
+		'IN': {fill: generateColor(value)},
+		'IA': {fill: generateColor(value)},
+		'KS': {fill: generateColor(value)},
+		'KY': {fill: generateColor(value)},
+		'LA': {fill: generateColor(value)},
+		'ME': {fill: generateColor(value)},
+		'MD': {fill: generateColor(value)},
+		'MA': {fill: generateColor(value)},
+		'MI': {fill: generateColor(value)},
+		'MN': {fill: generateColor(value)},
+		'MS': {fill: generateColor(value)},
+		'MO': {fill: generateColor(value)},
+		'MT': {fill: generateColor(value)},
+		'NE': {fill: generateColor(value)},
+		'NV': {fill: generateColor(value)},
+		'NH': {fill: generateColor(value)},
+		'NJ': {fill: generateColor(value)},
+		'NM': {fill: generateColor(value)},
+		'NY': {fill: generateColor(value)},
+		'NC': {fill: generateColor(value)},
+		'ND': {fill: generateColor(value)},
+		'OH': {fill: generateColor(value)},
+		'OK': {fill: generateColor(value)},
+		'OR': {fill: generateColor(value)},
+		'PA': {fill: generateColor(value)},
+		'RI': {fill: generateColor(value)},
+		'SC': {fill: generateColor(value)},
+		'SD': {fill: generateColor(value)},
+		'TN': {fill: generateColor(value)},
+		'TX': {fill: generateColor(value)},
+		'UT': {fill: generateColor(value)},
+		'VT': {fill: generateColor(value)},
+		'VA': {fill: generateColor(value)},
+		'WA': {fill: generateColor(value)},
+		'WV': {fill: generateColor(value)},
+		'WI': {fill: generateColor(value)},
+		'WY': {fill: generateColor(value)}
+	  },
+	  stateStyles: {fill: 'none'},
+	  stateHoverStyles: {fill: 'none'}
+	});
+ });
+</script>
+{% endblock %}
+
+{% block product_content %}
+<div class="vetbox product-content-container">
+	<div class="analytics-content row">
+		<div class="col-md-3 visualization">
+			<div class="visual-container">
+				<h3>Response Rate</h3>
+				<div class="analytic-stat">
+					<h5>81%</h5>
+					<p>Of questions</p>
+				</div>
+			</div>
+		</div>
+		<div class="col-md-3 visualization">
+			<div class="visual-container">
+				<h3>Response Time</h3>
+				<div class="analytic-stat">
+					<h5>4.5</h5>
+					<p>Hours To Answer</p>
+				</div>
+			</div>
+		</div>
+		<div class="col-md-3 visualization">
+			<div class="visual-container">
+				<h3>Average Purchase Size</h3>
+				<div class="analytic-stat">
+					<h5>2.1</h5>
+					<p>Items per purchase</p>
+				</div>
+			</div>
+		</div>
+		<div class="col-md-3 visualization">
+			<div class="visual-container">
+				<h3>Promotion Count</h3>
+				<div class="analytic-stat">
+					<h5>0</h5>
+					<p>Promotions Run</p>
+				</div>
+			</div>
+		</div>
+		<div class="col-md-6 visualization">
+			<div class="visual-container">
+				<h3>Purchases (All Sellers)</h3>
+				<div class="chartdiv" id="chartdiv"></div>
+			</div>
+		</div>
+		<div class="col-md-6 visualization">
+			<div class="visual-container">
+				<h3>Page Views (All VetCove Users)</h3>
+				<div class="chartdiv" id="chartdiv2"></div>
+			</div>
+		</div>
+		<div class="col-md-6 visualization same-height" data-type="analytics-row">
+			<div class="visual-container">
+				<h3>Sales by Practice Type</h3>
+				<div class="chartdiv" id="piediv"></div>
+			</div>
+		</div>
+		<div class="col-md-6 visualization same-height" data-type="analytics-row">
+			<div class="visual-container">
+				<h3>Top Sellers in The Category NSAIDs</h3>
+				<div class="chartdiv">
+					<table id="competition-table" class="table table-striped">
+						<thead>
+							<tr>	
+								<th>Product</th>
+								<th>Manufacturer</th>
+								<th>Monthly Volume</th>
+								<th>Monthly Amount</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>
+									<a href="#">
+										Equizone Phenybutazone Powder
+									</a>
+								</td>
+								<td>
+									<a href='#'>
+										A & G Pharmaceuticals
+									</a>
+								</td>
+								<td class="number">
+										16.7
+								</td>
+								<td class="number">
+										$2,432
+								</td>
+							</tr>
+							<tr class="active">
+								<td>
+									<a href="#">
+										Equizone Phenybutazone Powder
+									</a>
+								</td>
+								<td>
+									<a href='#'>
+										A & G Pharmaceuticals
+									</a>
+								</td>
+								<td class="number">
+										16.7
+								</td>
+								<td class="number">
+										$2,432
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<a href="#">
+										Equizone Phenybutazone Powder
+									</a>
+								</td>
+								<td>
+									<a href='#'>
+										A & G Pharmaceuticals
+									</a>
+								</td>
+								<td class="number">
+										16.7
+								</td>
+								<td class="number">
+										$2,432
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+		<div class="col-md-6 visualization">
+			<div class="visual-container">
+				<h3>Sales By Region (By Percentage of Total Sales)</h3>
+				<div class="chartdiv" style="height:auto">
+					<div id="map" style="width: 100%; height: 300px;"></div>
+					<div class="usmap-legend">
+						<img src='{{STATIC_URL}}img/misc/seller/heatmap.png'>
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</div>
+</div>
+{% endblock %}

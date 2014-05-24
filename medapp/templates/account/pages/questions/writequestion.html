@@ -1,0 +1,55 @@
+{% extends 'account/pages/reviews/write_base.html' %}
+{% block headertitle %}Answer {{question.question}}{% endblock %}
+{% block account_title %}Answer Question{% endblock %}
+{% block title-links %}<span class="title-links"><a href='/account/questions/asked'>Questions You Have Asked</a> | <a href='/account/questions/answered'>Questions You Have Answered</a>{% endblock %}
+
+{% block write_content %}
+<h4>{{question.question}}</h4>
+
+<div class="textarea input-container">
+	<p class="form-label">Write Your Question Below <span>(maximum 1500 characters)</p>
+	<p class="error">Please provide a question</p>
+	<textarea name="question" class="form-control required-field user-content"></textarea>
+</div>
+<div class="reviewer">
+	<p class="form-label">Asked By <span>(select who answered the question)</p>
+	<select id="signature" name="review" class="form-control">
+		<option>Veterinary Clinic in NJ</option>
+		<option>Office Manager in in NJ</option>
+		<option>Office Staff in NJ</option>
+		<option>Veterinarian in NJ</option>
+		<option>Anonymous</option>
+		<option>Custom. . .</option>
+	</select>
+	<input id="custom-signature" class="form-control" name="custom-reviewer" placeholder="Custom Reviewer Name">
+</div>
+<div class="submit">
+	<a href="{% if next %}{{next}}{% else %}/account/reviews{% endif %}"class="button button-rounded">Cancel</a>
+	<a id="write-preview" class="preview button button-rounded button-primary">Preview</a>
+</div>
+
+{% endblock %}
+
+{% block preview_content %}
+<div class="intro">
+	<h4>Check Your Question</h4>
+	<h5>Here is a preview of what your question will look like</h5>
+</div>
+<div class="preview">
+	<div class="preview-content"></div>
+	<div class="preview-reviewer">Answered by <span></span></div>
+</div>
+<div class="submit">
+	<a href="{% if next %}{{next}}{% else %}/account/reviews{% endif %}"class="button button-rounded">Cancel</a>
+	<button value="submit" name="submit" class="preview button button-rounded button-primary">Submit</button>
+	<a id="edit-write" class="edit button button-rounded">Edit</a>
+</div>
+{% endblock %}
+
+{% block tips_title %}Writing Questions Tips{% endblock %}
+
+{% block write_tips %}
+	<li>The most helpful comments help others make informed decisions about a product. Explain why your clinic likes or dislikes the product, focusing on the product's features, functionality, usability, and effectiveness.</li>
+	<li>It is very helpful to personalize the review to your experiences.</li>
+	<li>DO NOT post single word reviews, inappropriate language, or contact information in your reviews.</li>
+{% endblock %}

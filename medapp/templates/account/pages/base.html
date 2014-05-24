@@ -202,10 +202,12 @@ $(document).ready(function(){
 			</td>
 			<td>
 				<div class="main-container">
-					<h2 class="title">
-						{% block account_title %} Your Account {% endblock %}
-						{% block title-links %}{% endblock %}
-					</h2>
+					{% block title-container %}
+						<h2 class="title">
+							{% block account_title %} Your Account {% endblock %}
+							{% block title-links %}{% endblock %}
+						</h2>
+					{% endblock %}
 					{% block account_content %}{% endblock %}
 				</div>
 			</td>

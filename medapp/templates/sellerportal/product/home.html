@@ -1,0 +1,92 @@
+{% extends 'sellerportal/base.html' %}
+
+{% block seller_css %}
+
+{% endblock %}
+
+{% block js %}
+<script src="{{STATIC_URL}}js/plugins/jquery.tablesorter.min.js" type="text/javascript" ></script>
+<script>
+$(document).ready(function(){
+  $("#listing-table").tablesorter();
+  $('.tooltip-p').tooltip({
+    delay: { show: 100, hide: 100}
+  });
+
+});
+</script>
+{% endblock %}
+{% block content %}
+<h3 class="page-title">
+	Products Management<span><a href='#'>Need Help? Just Ask</a></span>
+	<div class="gradient"></div>
+</h3>
+<div class="table-responseive listing-table-container">
+	<table id="listing-table" class="table table-striped tablesorter">
+		<thead>
+			<th><p>Product Name</p></th>
+			<th>
+				<p data-toggle="tooltip" title="The different sizes,lengths,colors etc. of the product" class='tooltip-p'>Items</p>
+			</th>
+			<th>
+				<p data-toggle="tooltip" title="This is the average rating from VetCove users" class='tooltip-p'>Rating</p>
+			</th>
+			<th class="center">
+				<p data-toggle="tooltip" title="The total number of page views" class='tooltip-p'>Views</p>
+			</th>
+			<th class="center">
+				<p data-toggle="tooltip" title="Total purchases across all VetCove sellers" class='tooltip-p'>Purchases</p>
+			</th>
+			<th class="center">
+				<p data-toggle="tooltip" title="Measures how complete the listing appears" class='tooltip-p'>Listing Quality</p>
+			</th>
+			<th class="center">
+				<p data-toggle="tooltip" title="Edit the listing" class='tooltip-p'>Edit</p>
+			</th>
+			<th class="center">
+				<p data-toggle="tooltip" title="Sales and Views Breakdowns" class='tooltip-p'>Analytics</p>
+			</th>
+			<th class="center">
+				<p data-toggle="tooltip" title="Promotions run for this product" class='tooltip-p'>Promotions</p>
+			</th>
+			<th class="center">
+				<p data-toggle="tooltip" title="View a live image of the listing" class='tooltip-p'>Live View</p>
+			</th>
+		</thead>
+		<tbody>
+			{% for product in products %}
+			<tr>
+				<td>{{product.displayname}}</td>
+				<td>
+					{% for item in product.item_set.all %}
+					<p>Man. #{{item.manufacturer_no}} | {{item.description}}</p>
+					{% endfor %}
+				</td>
+				<td>
+					<div class="value hidden">45</div>
+					<div class="star star45"></div>
+				</td>
+				<td class="bold center">234</td>
+				<td class="bold center">23</td>
+				<td>
+					<div class="value hidden">1</div>
+					<div class="center completebar completebar1"></div>
+				</td>
+				<td class="center">
+					<a href="/portal/product/{{product.id}}/edit" class="button button-rounded button-flat button-flat-action button-tiny">Edit</a>
+				</td>
+				<td class="center">
+					<a href="/portal/product/{{product.id}}/analytics" class="button button-rounded button-flat button-flat-primary button-tiny">Analytics</a>
+				</td>
+				<td class="center">
+					<a href="/portal/product/{{product.id}}/promotions" class="button button-rounded button-flat button-flat-royal button-tiny">Promotions</a>
+				</td>
+				<td class="center">
+					<a href="/product/{{product.name}}" class="button button-rounded button-flat button-flat-highlight button-tiny">View Listing</a>
+				</td>
+			</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+</div>
+{% endblock %}

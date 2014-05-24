@@ -1,0 +1,92 @@
+{% extends 'base/base.html' %}
+
+{% block css %}
+<style>
+.promotion-container {
+	margin: 20px;
+	background-image: url("{{STATIC_URL}}img/misc/seller/promotion.png");
+	background-size: 500px auto;
+	background-position: right top;
+	background-repeat: no-repeat;
+	height: 400px;
+	padding-left: 5%;
+}
+.promotion-container h2 {
+	font-weight: 200;
+	font-size: 42px;
+	color: #444;
+	margin-top: 60px;
+}
+.promotion-container h3 {
+	font-weight: bold;
+	margin-top: 5px;
+	font-size: 18px;
+	color: #aaa;
+	margin-bottom: 40px;
+}
+.promotion-container p {
+	font-size: 13px;
+	max-width: 500px;
+	color: #333;
+}
+.promotion-container a {
+
+	margin-top: 30px;
+}
+.promotion-options {
+	margin: 0 5px 40px 5px;
+}
+.promotion {
+	text-align: center;
+	padding: 15px 15px 0 15px;
+}
+.promotion img {
+	max-width: 250px;
+	width: 100%;
+}
+.promotion h4 {
+	font-weight: 200;
+	margin-top: 0;
+}
+.promotion p {
+	font-size: 13px;
+	color: #777;
+	height: 70px;
+}
+</style>
+{% endblock %}
+
+{% block js %}
+
+{% endblock %}
+{% block content %}
+<div class="vetbox promotion-container">
+	<h2>Everyone loves a good deal</h2>
+	<h3>Create custom promotions that put your products in front of clinics</h3>
+	<p> With our InstantPromotion&reg; creation tool, you can create promotions on the fly. Choose your demographic and create your promotion in minutes. Then you can track, analyze, and watch your sales increase in minutes!</p>
+	<a href='#' class="button button-large button-rounded button-flat-primary">Create Your Promotion (coming soon...)</a>
+</div>
+<div class="row promotion-options">
+	<div class="col-md-4 col-sm-4">
+		<div class="vetbox promotion">
+			<h4>Create a Monthly Goal</h4>
+			<p>Each month, vets are given a handful of goals to acheive that earns them credits towards gift cards and VetCove cash. Just select the eligible products and target amount.</p>
+			<img src="{{STATIC_URL}}img/misc/seller/promotion3.png">
+		</div>
+	</div>
+	<div class="col-md-4 col-sm-4">
+		<div class="vetbox promotion">
+			<h4>Weekly Specials</h4>
+			<p>Each week, we feature the best promotions and specials on the vet's homepage. The better the promotion, the more likely your promotion will reach the #1 spot!</p>
+			<img src="{{STATIC_URL}}img/misc/seller/promotion2.png">
+		</div>
+	</div>
+	<div class="col-md-4 col-sm-4">
+		<div class="vetbox promotion">
+			<h4>Instant Credits</h4>
+			<p>You can offer instant credits for purchases on items in our system. For example, each case that is purchased can earn the clinic 200 instant credits.</p>
+			<img src="{{STATIC_URL}}img/misc/seller/promotion1.png">
+		</div>
+	</div>
+</div>
+{% endblock %}
