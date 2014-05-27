@@ -1,0 +1,196 @@
+{% extends 'sellerportal/base.html' %}
+{% load dollars %}
+{% block seller_css %}
+<style>
+.back-arrow {
+	margin-left: 20px;
+	margin-bottom: 0px;
+}
+.back-arrow:hover {
+	text-decoration: underline;
+}
+.headbar {
+	margin: 0 15px 15px 15px;
+	position:relative;
+	padding: 10px 20px;
+}
+.headbar p {
+	font-size: 12px;
+	color: #aaa;
+	margin-bottom: 0px;
+}
+.headbar h5 {
+	font-size: 20px;
+	margin: 3px 0 3px 0;
+}
+.headbar #status {
+	position:absolute;
+	text-align:right;
+	right: 20px;
+	top: 10px;
+	margin-top: 0;
+}
+.headbar #status h5 {
+	font-weight: bolder;
+	color: #3c7b38;
+	font-size: 22px;
+	margin-bottom: 0px;
+}
+.headbar #status p {
+	font-size: 13px;
+	color: #aaa;
+	font-size: 11px;
+}
+.details {
+	margin: 0 15px 20px;
+}
+.details .details-col {
+	padding: 0 0 0 5px;
+}
+.details-col:first-child {
+	padding: 0;
+}
+.details-col .vetbox {
+	padding: 10px;
+}
+.details h5 {
+	padding-bottom: 3px;
+	border-bottom:1px solid #eaeaea;
+}
+.details p {
+	font-size: 13px;
+	margin-bottom: 3px;
+}
+.details p span{
+	float:right;
+	font-weight:bold;
+}
+.details .message {
+	padding-top: 5px;
+	padding-bottom: 20px;
+	margin-top: 5px;
+	border-top: 1px solid #eaeaea;
+}
+.details .message p {
+	font-size: 12px;
+}
+#tracking-button {
+	margin-top: 10px;
+	margin-bottom: 20px;
+}
+.items {
+	margin: 0 15px 50px;
+}
+.items #listing-table {
+	border:none;
+	margin-bottom:0;
+}
+.items .right {
+	text-align: right;
+}
+</style>
+{% endblock %}
+
+{% block js %}
+
+{% endblock %}
+{% block content %}
+<a class="back-arrow" href='/portal/product'>&#171; Return To All Purchases</a></span>
+<div class="headbar vetbox">
+  	<h5>Order #93443-4324</h5>
+  	<p>May 1st, 2014 at 2:34PM</p>
+  	<div id="status">
+  		<h5>Incomplete</h5>
+  		<p>Order Status</p>
+  	</div>
+</div>
+<div class="details">
+	<div class="row details-row">
+		<div class="col-sm-4 details-col">
+			<div class="vetbox same-height" data-height="order-detail">
+				<h5>Tracking Numbers</h5>
+				<p>UPS #4039493093 <span>Out For Delivery</span></p>
+				<button id="tracking-button" class="button button-rounded button-flat-primary button-tiny">Add Tracking Number</button>
+			</div>
+		</div>
+		<div class="col-sm-4 details-col">
+			<div class="vetbox same-height" data-height="order-detail">
+				<h5>Buyer Information</h5>
+				<p>ID: #493-2132</p>
+				<p>Dr. Eric Kates</p>
+				<p>Colts Neck Equine Associates</p>
+				<p>(732) 547-4515</p>
+				<p>cnequine@gmail.com</p>
+				<button id="tracking-button" class="button button-rounded button-flat-primary button-tiny">Get Buyer Credentials</button>
+			</div>
+		</div>
+		<div class="col-sm-4 details-col">
+			<div class="vetbox same-height" data-height="order-detail">
+				<h5>Shipping Information</h5>
+				<p>Colts Neck Equine Associates</p>
+				<p>1 Farmingdale Road</p>
+				<p>Colts Neck, NJ 07722</p>
+				<div class="message">
+					<p><strong> Delivery Instructions</strong> Please leave the boxes without a signature so I can grab them after I return to the office.</p>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="items vetbox">
+	<table id="listing-table" class="table table-striped tablesorter">
+		<thead>
+			<th></th>
+			<th><p>Item Name</p></th>
+			<th><p>SKU</p></th>
+			<th><p>Manufacturer</p></th>
+			<th><p>Manufacturer No.</p></th>
+			<th><p>Unit Price</p></th>
+			<th><p>Quantity</p></th>
+			<th><p>Total Price</p></th>
+			<th><p>Status</p></th>
+			<th><p>Change Status</p></th>
+		</thead>
+		<tbody>
+			<tr>
+				<td>
+					<img src="http://placehold.it/40x40">
+				</td>
+				<td>
+					<p>Equizone Phenyubutazone Powder 1.1lb Jar</p>
+				</td>
+				<td>
+					<p>#129892</p>
+				</td>
+				<td>
+					<p>A&G Pharmaceuticals</p>
+				</td>
+				<td>
+					<p>#494203-32</p>
+				</td>
+				<td>
+					<p>$10.18</p>
+				</td>
+				<td>
+					<p>3</p>
+				</td>
+				<td>
+					<p>$30.54</p>
+				</td>
+				<td>
+					<h6>Shipping</h6>
+				</td>
+				<td>
+					<select>
+						<option>Shipping</option>
+						<option>Backordered</option>
+					</select>
+				</td>
+			</tr>
+
+		</tbody>
+	</table>
+
+</div>
+
+{% endblock %}

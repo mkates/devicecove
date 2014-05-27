@@ -1,0 +1,150 @@
+{% extends 'sellerportal/base.html' %}
+{% load dollars %}
+{% block seller_css %}
+<style>
+.help {
+	margin: 0 15px 40px 15px;
+	background: #fafafa;
+}
+.sidebar p {
+	border-top: 1px solid #eaeaea;
+	margin-top: 15px;
+	padding-top: 15px;
+	font-size: 12px;
+	color: #555;
+}
+.sidebar .stats {
+	width: 100%;
+	font-size: 13px;
+	color: #555;
+	margin-top: 15px;
+}
+.sidebar .stats .bold {
+	font-weight: bold;
+	color: #333;
+	font-size: 14px;
+}
+.sidebar .stats td {
+	padding-bottom: 4px;
+}
+.mainbar .filter {
+	margin-bottom: 30px;
+}
+.mainbar .filter select {
+	margin: 0 10px 0 3px;
+}
+.mainbar {
+	background: #fff;
+	border-left:1px solid #d6d6d6;
+	padding: 20px 20px 20px 20px;
+}
+.community-action {
+	margin-bottom: 10px;
+	padding-bottom:10px;
+	border-bottom:1px solid #eee;
+}
+.community-action .star {
+	display:inline-block;
+	margin:2px 5px 0 5px;
+	vertical-align: top;
+}
+.community-action h5 {
+	line-height: 18px;
+}
+.community-action h5 .question{
+	font-size: 13px;
+	margin-left: 5px;
+	color: #999;
+	font-weight: normal;
+}
+.community-action .action {
+	font-size: 13px;
+}
+.community-action p span {
+	font-size: 11px;
+	color: #aaa;
+}
+</style>
+{% endblock %}
+
+{% block js %}
+
+{% endblock %}
+{% block content %}
+<h3 class="page-title">
+	Community Activity<span><a href='/portal/help'>Need help? Just ask</a></span>
+	<div class="gradient"></div>
+</h3>
+<div class="vetbox help row">
+	<div class="col-sm-2 sidebar">
+		<table class="stats">
+			<tr>
+				<td class="bold">Total Upvotes</td>
+				<td class="bold">0</td>
+			</tr>
+			<tr>
+				<td>Answer Upvotes</td>
+				<td>0</td>
+			</tr>
+			<tr>
+				<td>Comment Upvotes</td>
+				<td>0</td>
+			</tr>
+			<tr>
+				<td>Total Answers</td>
+				<td>0</td>
+			</tr>
+			<tr>
+				<td>Total Comments</td>
+				<td>0</td>
+			</tr>
+		</table>
+		<p>By answering questions and commenting on reviews, you can help give clinics confidence in your products and help address concerns they may have</p>
+	</div>
+	<div class="col-sm-10 mainbar">
+		<div class="filter">
+			<span>
+				Filter by: 
+				<select>
+					<option>All Activity</option>
+					<option>Unanswered Questions</option>
+					<option>Questions You've Answered</option>
+					<option>Comments on Questions</option>
+					<option>Comments on Reviews</option>
+				</select>
+				For Time Range:
+				<select>
+					<option>All Time</option>
+					<option>Past Year</option>
+					<option>Past Month</option>
+					<option>Past 7 Days</option>
+				</select>
+
+			</span>
+		</div>
+		<div class="community-action">
+			<h5><span class="label label-danger">Unanswered Question</span><span class="question">How long does this product last after an expiration date?</span></h5>
+			<span class="action"><a href="#">Answer This Question</a></span>
+		</div>
+		<div class="community-action">
+			<h5><span class="label label-primary">Review</span><span class="question">How long does this product last after an expiration date?</span></h5>
+			<span class="action"><a href="#">Answer This Question</a></span>
+		</div>
+		<div class="community-action">
+			<h5><span class="label label-success">Answer to Question</span><span class="question">How long does this product last after an expiration date?</span></h5>
+			<p>I believe you are not using the right amount of salt for this solution.<span> on Sept 14th, 2014</span></p>
+			<span class="action"><a href="#">View All Answers</a> | <a href="#">Edit Answer</a></span>
+		</div>
+		<div class="community-action">
+			<h5><span class="label label-info">Comment on Question</span><span class="question">How long does this product last after an expiration date?</span></h5>
+			<p>I believe you are not using the right amount of salt for this solution.</p>
+			<span class="action"><a href="#">View Entire Thread</a> | <a href="#">Edit Comment</a></span>
+		</div>
+		<div class="community-action">
+			<h5><span class="label label-warning">Comment on Review</span><div class="star star45"></div><span class="question">How long does this product last after an expiration date?</span></h5>
+			<p>I believe you are not using the right amount of salt for this solution.</p>
+			<span class="action"><a href="#">View Entire Thread</a> | <a href="#">Edit Comment</a></span>
+		</div>
+	</div>
+</div>
+{% endblock %}

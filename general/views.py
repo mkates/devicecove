@@ -95,7 +95,7 @@ def buyerprotect(request):
 #############################################################
 
 def contact(request):
-	return render_to_response('general/contact.html',{'contact':True},context_instance=RequestContext(request))
+	return render_to_response('general/information/contact.html',{'contact':True},context_instance=RequestContext(request))
 
 def contactform(request):
 	form = ContactForm(request.POST)

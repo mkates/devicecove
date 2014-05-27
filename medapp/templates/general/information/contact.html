@@ -1,4 +1,4 @@
-{% extends 'general/info_base.html' %}
+{% extends 'general/information/info_base.html' %}
 {% block headertitle %}VetCove | Contact Us{% endblock%}
 {% block css_block %}
 <style>
@@ -71,7 +71,7 @@
 			<label for="name">Message</label>
 			<textarea name="message" class="form-control" id="contact-message" placeholder="Message" required></textarea>
 		</div>
-		<button type="submit" class="button button-rounded button-action">Send Message</button>
+		<button type="submit" class="button button-rounded button-flat-action">Send Message</button>
 	</form>
 	{% endif %}
 

@@ -20,50 +20,73 @@ def create_license_path(instance, filename):
 ############################################
 class BasicUser(models.Model):
 	user = models.OneToOneField(User)
-	# A user can be a buyer (clinic member), or seller (supplier). Different user_types have vastly different UIs #
-	user_type = models.CharField(max_length=20,default="clinic")
-	clinic = models.ForeignKey('Clinic',null=True,blank=True)
 	creation_date = models.DateTimeField(auto_now_add=True)
+	last_login = models.DateTimeField(auto_now_add=True)
+	member = models.ForeignKey('Basic',null=True,blank=True)
 
-############################################
-####### Clinic #############################
-############################################	
-class Clinic(models.Model):
+### General Information Pertaining To All User Types On Our System ###
+class Basic(models.Model):
+	### General Modification Data ###
 	creation_date = models.DateTimeField(auto_now_add=True)
 	last_login = models.DateTimeField(auto_now_add=True)
 
+	email = models.EmailField(max_length=60) #Added automatically, editable
+	address = models.ForeignKey('Address',related_name="main_address",null=True,blank=True)
+	phonenumber = models.CharField(max_length=20,null=True,blank=True)
+	### Referral Information ###
 	referrer_id = models.CharField(max_length=8) # The ID used to give out referrals
 	referrer_user = models.ForeignKey('self',null=True,blank=True) # Did another clinic refer them to join?, lets store it
 
-	### Clinic Information ###
-	email = models.EmailField(max_length=60) # Added automatically, editable
-	practitioner_name= models.CharField(max_length=60)
-	clinic_name = models.CharField(max_length=60)
-	address = models.ForeignKey('Address',related_name="main_address",null=True,blank=True)
-	phonenumber = models.CharField(max_length=20,null=True,blank=True)
-	organization_type = models.CharField(max_length=60) #i.e. Peronsal, LLC, etc. 
-	website = models.CharField(max_length=60,blank=True,null=True)
-	### Practice Type ###
-	small_animal = models.BooleanField(default=False)
-	large_animal = models.BooleanField(default=False)
-	equine = models.BooleanField(default=False)
-
-	### Security Information ### TODO LATER
-	approved_until = models.DateField(blank=True,null=True)
-	license = ProcessedImageField(upload_to=create_license_path,format='JPEG',options={'quality': 60},null=True,blank=True) 
-	license_expiration = models.DateField(null=True,blank=True)
-	license_state = models.CharField(max_length=60,null=True,blank=True)
-
-
-	### Payment and Payout Methods ###
+	### Payments ###
 	balanceduri = models.CharField(max_length=255,blank=True,null=True)
-	payment_method = models.ForeignKey('payment.Payment',related_name="paymentmethod",null=True,blank=True)
+	payment_method = models.ForeignKey('payment.Payment',null=True,blank=True,related_name='basic_payment_method')
+	payout_method = models.ForeignKey('payment.Payment',null=True,blank=True,related_name='basic_payout_method')
 
 	# Current credit balance
 	credits = models.BigIntegerField(max_length=12,default=0) # Stored for speed purposes
 
+	# # Override the default creation to add a referral ID to each user
+	# def save(self, *args, **kwargs):
+	# 	if not self.pk: # Only on creation save
+	# 		self.referrer_id = ''.join(random.choice(string.ascii_uppercase + string.digits) for x in range(8))
+	# 	super(Basic,self).save(*args, **kwargs)
+
+	def handle(self):
+		return self.supplier if hasattr(self,'supplier') else (self.clinic if hasattr(self,'clinic') else self.individual)
+
+	def type(self):
+		return 'supplier' if hasattr(self,'supplier') else ('clinic' if hasattr(self,'clinic') else 'individual')
+
+class Individual(Basic):
+	clinic=models.ForeignKey('Clinic',null=True,blank=True)
+
+class Company(Basic):
+	### Personal Information ###
+	company_name = models.CharField(max_length=60)
+	website = models.CharField(max_length=60,blank=True,null=True)
+	mainimage = ProcessedImageField(upload_to=create_company_image_path, processors=[ResizeToFit(300, 150)],format='JPEG',options={'quality': 60},null=True,blank=True) 
+
+	class Meta:
+		abstract=True
+
+############################################
+####### Clinic #############################
+############################################	
+class Clinic(Company):
+	### Security Credentials###
+	practitioner_name= models.CharField(max_length=60)
+	approved_until = models.DateField(blank=True,null=True)
+	license = ProcessedImageField(upload_to=create_license_path,format='JPEG',options={'quality': 60},null=True,blank=True) 
+	license_expiration = models.DateField(null=True,blank=True)
+	license_state = models.CharField(max_length=60,null=True,blank=True)
+	
+	### Practice Type ###
+	small_animal = models.BooleanField(default=False)
+	large_animal = models.BooleanField(default=False)
+	equine = models.BooleanField(default=False)
+	
 	def __unicode__(self):
-		return self.clinic_name
+		return self.company_name
 
 	# Number of items in wishlist
 	def savedcount(self):
@@ -79,35 +102,31 @@ class Clinic(models.Model):
 				dict['inactive'] += 1
 		return dict
 
-	# Override the default creation to add a referral ID to each user
-	def save(self, *args, **kwargs):
-		if not self.pk: # Only on creation save
-			self.referrer_id = ''.join(random.choice(string.ascii_uppercase + string.digits) for x in range(8))
-		super(Clinic, self).save(*args, **kwargs)
+############################################
+####### Supplier ###########################
+############################################
+class Supplier(Company):
+	description = models.TextField()
+	sell_scripts = models.BooleanField(default=False)
+	can_sell_rx = models.BooleanField(default=False)
 
+	def __unicode__(self):
+		return self.company_name
+
+
+
+### Names of All the GPOs ###
 class GPO(models.Model):
 	name = models.CharField(max_length=50,unique=True)
 	clinics = models.ManyToManyField(Clinic)
 
-############################################
-####### Supplier ###########################
-############################################
-class Supplier(models.Model):
-	members = models.ManyToManyField(BasicUser)
-	name = models.CharField(max_length=60)
-	description = models.TextField()
-	website = models.CharField(max_length=60,blank=True,null=True)
-	mainimage = ProcessedImageField(upload_to=create_company_image_path, processors=[ResizeToFit(300, 150)],format='JPEG',options={'quality': 60},null=True,blank=True) 
 
-	# Payment and Payout Methods
-	balanceduri = models.CharField(max_length=255,blank=True,null=True)
-	payout_method = models.ForeignKey('payment.Payment',null=True,blank=True)
 
 ############################################
 ####### Credits ############################
 ############################################
 class Credit(models.Model):
-	clinic = models.ForeignKey(Clinic)
+	basic = models.ForeignKey(Basic)
 	amount = models.BigIntegerField(max_length=12) # In cents
 	CREDIT_TYPES = (('referral','Friend Referral'),('signup','New Customer'),('promotion','Promotion'),('sale','sale'))
 	credittype = models.CharField(max_length=2,choices=CREDIT_TYPES,default=0)
@@ -128,7 +147,7 @@ class SavedItem(models.Model):
 ####### Addresses Model  ###################
 ############################################
 class Address(models.Model):
-	clinic = models.ForeignKey(Clinic,null=True,blank=True,related_name="address_clinic")
+	basic = models.ForeignKey(Basic,null=True,blank=True,related_name="address_clinic")
 	name = models.CharField(max_length=50) # full name
 	address_one = models.CharField(max_length=100) # street address,p.o. box, company name c/o
 	address_two = models.CharField(max_length=100,blank=True,null=True) # apartment, suite, unit, building,floor,etc.

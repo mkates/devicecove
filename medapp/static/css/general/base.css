@@ -528,10 +528,7 @@ padding: 0;
 
 
 .category-info ul {
-  display: flex;
-  flex-direction: column;
-  flex-wrap: wrap;
-  height: 330px;
+ /* height: 330px;*/
   list-style-type: none;
   padding-left: 0;
 }

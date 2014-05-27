@@ -15,10 +15,13 @@
 <!--CSS-->
 <link rel="icon" type="image/png" href="{{STATIC_URL}}img/favicon32.png">
 <link href="{{STATIC_URL}}css/plugins/bootstrap.min.css" rel="stylesheet" type="text/css" />
+<link rel="stylesheet" href="{{STATIC_URL}}css/plugins/font-awesome.min.css">
+
 {% block main_css %}
 <link href="{{STATIC_URL}}css/plugins/jquery.sidr.dark.css" rel="stylesheet" type="text/css" />
 <link href="{{STATIC_URL}}css/plugins/buttons.css" rel="stylesheet" type="text/css" />
 <link href="{{STATIC_URL}}css/general/base.css" rel="stylesheet" type="text/css" />
+<link rel="stylesheet" href="{{STATIC_URL}}css/navbar/sidenav.css">
 {% if seller %}
 <link href="{{STATIC_URL}}css/navbar/sidenav.css" rel="stylesheet" type="text/css" />
 {% endif %}
@@ -69,20 +72,14 @@
 				<div class="category-box dropdown-box">
 					<div class="category-menu">
 						<ul id="category-menu-ul">
-							<li><a data-name="dentistry" class="category-menu-item">Dentistry<span> &rsaquo; </span></a></li>
-							<li><a data-name="diagnosticexams" class="category-menu-item">Diagnostic Exam<span> &rsaquo; </span></a></li>
-							<li><a data-name="diagnostics" class="category-menu-item">Diagnostics<span> &rsaquo; </span></a></li>
-							<li><a data-name="dentistry" class="category-menu-item">Dentistry<span> &rsaquo; </span></a></li>
-							<li><a data-name="diagnosticexams" class="category-menu-item">Diagnostic Exam<span> &rsaquo; </span></a></li>
-							<li><a data-name="diagnostics" class="category-menu-item">Diagnostics<span> &rsaquo; </span></a></li>
-							<li><a data-name="dentistry" class="category-menu-item">Dentistry<span> &rsaquo; </span></a></li>
-							<li><a data-name="diagnosticexams" class="category-menu-item">Diagnostic Exam<span> &rsaquo; </span></a></li>
-							<li><a data-name="diagnostics" class="category-menu-item">Diagnostics<span> &rsaquo; </span></a></li>
+							{% for category in categories %}
+								<li><a data-name="{{category}}" class="category-menu-item">{{category}}<span> &rsaquo; </span></a></li>
+							{% endfor %}
 							<li><a href='/categories' class="full-directory">See Full Directory</a></li>
 						</ul>
 					</div>
 					<div class="category-content">
-						<div id="menu-dentistry" class="category-info">
+						<div id="menu-{{category}}" class="category-info">
 							<h1>Dentistry</h1>
 							<div class="category-info-box">
 								<ul class="reformat">
@@ -411,13 +408,13 @@ var noImageURL = '{{STATIC_URL}}img/noimage/noimage.jpg';
 	var same_height = $('.same-height');
 	$.each(same_height,function(index,value){
 		var data_height = $(value).attr('data-height');
+		var max_height = 0;
 		$.each(same_height,function(index,newvalue){
 			if ($(newvalue).attr('data-height') == data_height){
-				largest_height = Math.max(parseInt($(value).height()),parseInt($(newvalue).height()));
-				$(value).css('height',largest_height);
-				$(newvalue).css('height',largest_height);
+				max_height = Math.max(max_height+10,parseInt($(newvalue).height()));
 			}
 		});
+		$(value).css('height',max_height);
 	});
 
 

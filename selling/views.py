@@ -18,6 +18,9 @@ import helper.commission as commission
 ############################################
 ########## Selling Portal ##################
 ############################################
+def portalHelp(request):
+	return render_to_response('sellerportal/help.html',{'seller':True},context_instance=RequestContext(request))
+
 def portalInventory(request):
 	### !!! Add Security Layer Here ###
 	inventories = Inventory.objects.all()
@@ -46,17 +49,20 @@ def portalProductPromotions(request,productid):
 def portalPurchases(request):
 	return render_to_response('sellerportal/purchases.html',{'seller':True,'portal_purchases':True},context_instance=RequestContext(request))
 
-def portalQuestions(request):
-	return render_to_response('sellerportal/questions.html',{'seller':True,'portal_questions':True},context_instance=RequestContext(request))
+def portalIndividualPurchase(request,purchaseid):
+	return render_to_response('sellerportal/individualpurchase.html',{'seller':True,'portal_purchases':True},context_instance=RequestContext(request))
 
-def portalReviews(request):
-	return render_to_response('sellerportal/reviews.html',{'seller':True,'portal_reviews':True},context_instance=RequestContext(request))
+def portalCommunity(request):
+	return render_to_response('sellerportal/community.html',{'seller':True,'portal_community':True},context_instance=RequestContext(request))
 
 def portalPromotions(request):
 	return render_to_response('sellerportal/promotions.html',{'seller':True,'portal_promotions':True},context_instance=RequestContext(request))
 
 def portalAnalytics(request):
 	return render_to_response('sellerportal/analytics.html',{'seller':True,'portal_analytics':True},context_instance=RequestContext(request))
+
+def portalReports(request):
+	return render_to_response('sellerportal/reports.html',{'seller':True,'portal_reports':True},context_instance=RequestContext(request))
 
 def portalAccount(request):
 	return render_to_response('sellerportal/account.html',{'seller':True,'portal_account':True},context_instance=RequestContext(request))

@@ -79,6 +79,7 @@ urlpatterns = patterns('',
     url(r'^account/profile','account.views.profile'),
 
     url(r'^product/(?P<productname>\w+)','account.views.product'),
+    url(r'^company/(?P<companyname>\w+)','account.views.company'),
 
     ########## Login ########################
     #########################################
@@ -105,17 +106,19 @@ urlpatterns = patterns('',
 
     ########## Seller Portal ################
     #########################################
+    url(r'^portal/help','selling.views.portalHelp'),
     url(r'^portal/inventory','selling.views.portalInventory'),
     url(r'^portal/product/(?P<productid>\d+)/edit','selling.views.portalProductEdit'),
     url(r'^portal/product/(?P<productid>\d+)/analytics','selling.views.portalProductAnalytics'),
     url(r'^portal/product/(?P<productid>\d+)/promotions','selling.views.portalProductPromotions'),
     url(r'^portal/product','selling.views.portalProduct'),
     url(r'^portal/purchases','selling.views.portalPurchases'),
-    url(r'^portal/questions','selling.views.portalQuestions'),
-    url(r'^portal/reviews','selling.views.portalReviews'),
+    url(r'^portal/purchase/(?P<purchaseid>\d+)','selling.views.portalIndividualPurchase'),
+    url(r'^portal/community','selling.views.portalCommunity'),
     url(r'^portal/promotions','selling.views.portalPromotions'),
     url(r'^portal/analytics','selling.views.portalAnalytics'),
     url(r'^portal/account','selling.views.portalAccount'),
+    url(r'^portal/reports','selling.views.portalReports'),
     url(r'^portal/','selling.views.portalProduct'),
 
 

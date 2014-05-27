@@ -1,0 +1,225 @@
+{% extends 'sellerportal/base.html' %}
+{% load dollars %}
+{% block seller_css %}
+<style>
+.help {
+	margin: 0 15px 40px 15px;
+	background: #fafafa;
+}
+.tabs {
+	margin-top: 0px;
+}
+.sidebar {
+	padding-top: 10px;
+}
+.sidebar h5{
+	color: #aaa;
+	font-weight: bolder;
+	font-size: 15px;
+}
+.sidebar a {
+	display:inline-block;
+	font-size: 13px;
+	padding: 3px 0;
+}
+.sidebar a:hover {
+	text-decoration: underline;
+	color: #333;
+}
+.contact {
+	margin-top: 40px;
+	padding-top: 20px;
+	border-top:1px solid #d6d6d6;
+}
+.contact p {
+	margin-bottom: 3px;
+	color: #333;
+	font-size: 13px;
+}
+.mainbar {
+	background: #fff;
+	border-left:1px solid #d6d6d6;
+	min-height: 100px;
+	padding: 20px;
+}
+.mainbar .group {
+	padding-bottom: 20px;
+	margin-bottom:20px;
+	border-bottom: 1px solid #eee;
+}
+.mainbar .group h4 {
+	font-size: 17px;
+	color: #333;
+	margin:0px;
+}
+.mainbar .group h5 {
+	margin: 5px 0 20px 0;
+	padding-top: 0px;
+	font-size: 13px;
+	font-size:normal;
+	color: #999;
+}
+.mainbar .group .row .firstcol {
+	border-right:1px solid #eaeaea;
+	padding: 0 10px 0 0 ;
+}
+.mainbar .group .row .lastcol {
+	padding: 0 10px 0 10px;
+}
+.mainbar .group .row a {
+	margin-bottom: 10px;
+	display:block;
+}
+.mainbar .group .row a:hover {
+	text-decoration: underline;
+}
+.question-container {
+	margin-bottom: 25px;
+}
+.question-container .question {
+	font-weight: bold;
+	margin-bottom: 10px;
+}
+</style>
+{% endblock %}
+
+{% block js %}
+<script>
+$(document).ready(function(){
+	$(".scroll").click(function() {
+	    $('html, body').animate({
+	        scrollTop: $($(this).attr('data-ref')).offset().top
+	    }, 500);
+	});
+});
+</script>
+{% endblock %}
+{% block content %}
+<h3 class="page-title">
+	Help Center
+	<div class="gradient"></div>
+</h3>
+<div class="vetbox help row">
+	<div class="col-sm-2 sidebar">
+		<h5>Topics</h5>
+		<div class="topic"><a href='#' class="scroll" data-ref='#div-account'>Account Settings</a></div>
+		<div class="topic"><a href='#'>Manage Inventory</a></div>
+		<div class="topic"><a href='#'>Manage Orders</a></div>
+		<div class="topic"><a href='#'>Payments</a></div>
+		<div class="topic"><a href='#'>Refunds, Returns and Claims</a></div>
+		<div class="topic"><a href='#'>Performance and Reports</a></div>
+		<div class="topic"><a href='#'>Promotions</a></div>
+		<div class="contact">
+			<p><strong>More questions?</strong></p>
+			<p>10 Pacer Court</p>
+			<p>Colts Neck,NJ 07722</p>
+			<p>(732) 547-4516</p>
+			<p>info@vetcove.com</p>
+		</div>
+	</div>
+	<div class="col-sm-10 mainbar">
+		<div class="group">
+			<h4>Popular Questions</h4>
+			<h5>Some of the more common questions we get</h5>
+			<div class="row">
+				<div class="col-sm-6 firstcol">
+					<a href='#'> Can I upload by inventory directly from an excel spreadsheet or another upload method?</a>
+					<a href='#'> Can I upload by inventory directly from an excel spreadsheet?</a>
+					<a href='#'> Can I upload by inventory directly from an excel spreadsheet?</a>
+					<a href='#'> Can I upload by inventory directly from an excel spreadsheet?</a>
+				</div>
+				<div class="col-sm-6 lastcol">
+					<a href='#'> Can I upload by inventory directly from an excel spreadsheet?</a>
+					<a href='#'> Can I upload by inventory directly from an excel spreadsheet?</a>
+					<a href='#'> Can I upload by inventory directly from an excel spreadsheet?</a>
+					<a href='#'> Can I upload by inventory directly from an excel spreadsheet?</a>
+				</div>
+			</div>
+		</div>
+		<div class="group">
+			<h4>Account Settings</h4>
+			<h5>Collecting and receiving payments on VetCove</h5>
+			<div class="question-container">
+				<div class="question">
+					Can I upload by inventory directly from an excel spreadsheet?
+				</div>
+				<div class="answer">
+					yes you can.
+				</div>
+			</div>
+			<div class="question-container">
+				<div class="question">
+					Can I upload by inventory directly from an excel spreadsheet?
+				</div>
+				<div class="answer">
+					yes you can.
+				</div>
+			</div>
+			<div class="question-container">
+				<div class="question">
+					Can I upload by inventory directly from an excel spreadsheet?
+				</div>
+				<div class="answer">
+					yes you can.
+				</div>
+			</div>
+		</div>
+		<div class="group">
+			<h4>Account Settings</h4>
+			<h5>Collecting and receiving payments on VetCove</h5>
+			<div class="question-container">
+				<div class="question">
+					Can I upload by inventory directly from an excel spreadsheet?
+				</div>
+				<div class="answer">
+					yes you can.
+				</div>
+			</div>
+			<div class="question-container">
+				<div class="question">
+					Can I upload by inventory directly from an excel spreadsheet?
+				</div>
+				<div class="answer">
+					yes you can.
+				</div>
+			</div>
+			<div class="question-container" id="div-account">
+				<div class="question">
+					Can I upload by inventory directly from an excel spreadsheet?
+				</div>
+				<div class="answer">
+					yes you can.
+				</div>
+			</div>
+		</div>
+			<div class="group">
+			<h4>Account Settings</h4>
+			<h5>Collecting and receiving payments on VetCove</h5>
+			<div class="question-container">
+				<div class="question">
+					Can I upload by inventory directly from an excel spreadsheet?
+				</div>
+				<div class="answer">
+					yes you can.
+				</div>
+			</div>
+			<div class="question-container">
+				<div class="question">
+					Can I upload by inventory directly from an excel spreadsheet?
+				</div>
+				<div class="answer">
+					yes you can.
+				</div>
+			</div>
+			<div class="question-container">
+				<div class="question">
+					Can I upload by inventory directly from an excel spreadsheet?
+				</div>
+				<div class="answer">
+					yes you can.
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}

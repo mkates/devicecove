@@ -1,0 +1,210 @@
+{% extends 'base/base.html' %}
+{% load dollars %}{% load zipcodify %}
+{% block css %}
+<link href="{{STATIC_URL}}css/basic/productpreview.css" rel="stylesheet" type="text/css" />
+<style>
+.company-header {
+  margin: 10px 15px 10px 15px;
+  padding: 20px;
+}
+.company-header table td {
+  vertical-align: top;
+}
+.company-header h3 {
+  margin-top: 14px;
+  letter-spacing: .2px
+}
+.company-header .image {
+  padding: 5px;
+  box-shadow: 0 0 5px rgba(0,0,0,.2) inset;
+  margin-right: 10px;
+  border-radius: 3px;
+}
+.company-header img {
+  display:inline-block;
+}
+.company-header h4 {
+  margin: 0 0 10px 0;
+  font-weight: normal;
+  color: #999;
+  font-size: 14px;
+}
+.company-header .rating {
+  color: #999;
+  font-size: 12px;
+}
+.company-header .rating p {
+  margin-left: 5px;
+  padding-top: 1px;
+  display:inline-block;
+  vertical-align: top;
+  font-size: 11px;
+  color: #aaa;
+}
+.company-header .star {
+  display:inline-block;
+}
+.company-header .name {
+  display:inline-block;
+  vertical-align: top;
+  background: red;
+}
+.company-side-container {
+  padding-left: 0px;
+}
+.company-main {
+  padding: 20px;
+}
+.company-side {
+  padding: 20px;
+}
+.company-side .section {
+  padding-bottom:10px;
+  margin-bottom: 10px;
+  border-bottom:1px solid #eee;
+}
+.company-side .section h6{
+  font-weight: bold;
+  font-size: 12px;
+}
+.company-side .section p{
+  font-size: 12px;
+  margin-bottom:5px;
+}
+.company-side .section a{
+  font-size: 12px;
+}
+.company-side .section span{
+  float: right;
+}
+.company-side .social-icon {
+  color: #999;
+  margin-right: 3px;
+}
+.company-side .social-icon .fa-facebook-square {
+  color: #3B5998;
+}
+.company-side .social-icon .fa-twitter-square {
+  color: #55ACEE;
+}
+.company-side .social-icon .fa-linkedin-square {
+  color: #007BB6;
+}
+.company-side .social-icon .fa-youtube-square {
+  color: #c82a2a;
+}
+.search {
+  border-bottom:1px solid #eaeaea;
+  padding-bottom: 20px;
+  margin-bottom: 10px;
+}
+.company-search {
+  width: 100%;
+}
+.company-search input {
+  max-width: 400px;
+}
+.company-search .search-button{
+  margin-left: -5px;
+  box-shadow:none;
+  border-top-left-radius: 0px;
+  border-bottom-left-radius: 0px;
+}
+.company-search button.active {
+  background:#ddd;
+  color: #777;
+  box-shadow: 0 2px 4px rgba(0,0,0,.4) inset;
+}
+.company-search .sort {
+  text-align: right;
+  color: #aaa;
+}
+.company-search .sort .light {
+  font-size: 12px;
+  margin-left: 5px;
+}
+.company-search .sort select {
+  margin-right: 5px;
+  font-size: 13px;
+}
+.sort .button {
+  margin-right: 5px;
+  font-size: 10px;
+  padding: 0 10px;
+}
+</style>
+{% endblock %}
+
+
+
+{% block content %}
+
+<div class="vetbox company-header">
+  <table>
+    <tr>
+      <td>
+        <div class="image">
+          <img src='http://placehold.it/100x100'>
+        </div>
+      </td>
+      <td>
+          <h3>A&G Pharmacueticals</h3>
+          <h4>A&G Pharmaceuticals is dedicated to serving the Professional Equine Practitioner, delivering next day shipping on over 97% of orders.</h4>
+          <div class="rating"><div class="star star45"></div><p>(Average Product Rating)</p></div>
+      </td>
+    </tr>
+  </table>
+</div>
+<div class="row">
+  <div class="col-sm-9 col-md-10 company-main-container">
+    <div class="vetbox company-main">
+       <div class="search">
+          <table class="company-search">
+            <td><input type="text" class="form-control" placeholder="Search Zoetis Products"></td>
+            <td><button value="submit" class="search-button button button-rounded"><span class="glyphicon glyphicon-search"></span></button></td>
+            <td class="sort">
+               <button class="active button button-rounded"><span class="glyphicon glyphicon-th"></span></button>
+              <button class="button button-rounded"><span class="glyphicon glyphicon-align-justify"></span></button>
+             | <span class="light">Sort By:</span>
+              <select>
+                <option>Most Popular</option>
+                <option>Highest Rated</option>
+                <option>Newest</option>
+              </select> 
+             </td>
+          </table>
+      </div>
+      <div class="product-row">
+        {% include 'account/pages/browse/productrow-base.html' with row_title="Newest Products" %}
+      </div>
+      <div class="product-row">
+        {% include 'account/pages/browse/productrow-base.html' with row_title="Top Rated Products" %}
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-3 col-md-2 company-side-container">
+     <div class="vetbox company-side">
+         <div class="section">
+           <h6>Contact Information</h6>
+           <p>info@zoetis.com</p>
+           <p>(323) 323 3232</p>
+        </div>
+        <div class="section">
+           <a>www.agpharma.com</a>
+        </div>
+        <div class="section">
+          <h6>Selling Statistics</h6>
+          <p>Sales Volume<span>3/494</p>
+          <p>Products Listed<span>3</p>
+          <p>Repeat Buyers<span>81%</p>
+        </div>
+        <div class="section">
+          <a href='#' class="social-icon"><i class="fa fa-facebook-square fa-2x"></i></a>
+          <a href='#' class="social-icon"><i class="fa fa-twitter-square fa-2x"></i></a>
+          <a href='#' class="social-icon"><i class="fa fa-linkedin-square fa-2x"></i></a>
+          <a href='#' class="social-icon"><i class="fa fa-youtube-square fa-2x"></i></a>
+        </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

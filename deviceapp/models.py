@@ -1,0 +1,2 @@
+categories = ['Anesthesia','Animal Control','Behavior Modification','Biologicals','Critical Care & Recovery','Dental Care','Dental','Diagnostics','Nutrition','Eye and Ear','Fuid and Drug Administration','Grooming','Instrument Care & Sterilization','Joint Care','Monitors','Orthopedics','Parasiticides','Pharmaceuticals',
+'Protective Wear','Reproduction','Surgery','Wound Care','X-Ray']

@@ -19,6 +19,7 @@ from helper.model_imports import *
 #### Basic Pages ##########################
 ###########################################
 def dashboard(request):
+	categories = ['Biologicals','Dental Care','Diagnostics','Eye and Ear','Fluid and Drugs','Nutrition','Pharmaceutical','Surgery','Wound Care','X-Ray']
 	products_one,products_two,products_three,products_four = None,None,None,None
 	product_rows = {'Recently Viewed Items You May Be Interested In':products_one,
 			'New VetCove Marketplace Items':products_one,
@@ -26,7 +27,7 @@ def dashboard(request):
 			'Newly Added Products You May Be Interested In':products_three,
 			'Top Products Trending on VetCove':products_four
 				}
-	return render_to_response('account/pages/browse/dashboard.html',{'dashboard':True,'product_rows':product_rows},context_instance=RequestContext(request))
+	return render_to_response('account/pages/browse/dashboard.html',{'dashboard':True,'product_rows':product_rows,'categories':categories},context_instance=RequestContext(request))
 def new(request):
 	return render_to_response('account/pages/browse/new.html',{'browse_new':True},context_instance=RequestContext(request))
 def recent(request):
@@ -42,6 +43,8 @@ def deals(request):
 def product(request,productname):
 	product = Product.objects.get(name=productname)
 	return render_to_response('product/product2.html',{'product':product},context_instance=RequestContext(request))
+def company(request,companyname):
+	return render_to_response('search/company.html',{},context_instance=RequestContext(request))
 
 ### Credits ###
 @login_required

@@ -45,8 +45,13 @@
 }
 #listing-table {
 	padding: 20px;
+	border-radius: 4px;
 	border:1px solid #dadada;
 	font-size: 13px;
+}
+#listing-table thead tr:first-child {
+	border-top-left-radius: 4px;
+
 }
 #listing-table thead {
 	background: #eaeaea;
@@ -93,6 +98,49 @@
 }
 #listing-table .right {
 	text-align: right;
+}
+
+/* Tabs */
+.tabs {
+	margin: 15px 15px 0px 15px;
+	clear: both;
+	background-position: center bottom;
+	background-repeat: no-repeat;
+	border-bottom:none;
+	border-top:none;
+	background: none;
+	border-bottom-right-radius: 0px;
+	border-bottom-left-radius: 0px;
+
+}
+.tab {
+	border-top:1px solid #dadada;
+	border-top-right-radius: 5px;
+	border-top-left-radius: 5px;
+	width: 33.33%;
+	color: #666;
+	font-size: 14px;
+	padding: 10px 10px;
+	float: left;
+	text-align: center;
+	border-right: 1px solid #dadada;
+	background-image: -moz-linear-gradient(top, #fff 0%, #eee 75%, #ddd 95%,#ccc 100%);
+	/*box-shadow: 0 5px 10px rgba(0,0,0,.1) inset;*/
+	border-bottom:1px solid #dadada;
+	color: #999;
+}
+.tab:hover {
+	color: #555;
+	cursor:pointer;
+}
+.tab.active {
+	background: white;
+	box-shadow:none;
+    color: #333;
+    border-bottom:1px solid #fff;
+}
+.tab.noborder {
+	border-right:none;
 }
 </style>
 {% block seller_css %}{% endblock %}

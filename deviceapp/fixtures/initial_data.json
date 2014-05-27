@@ -1,11 +1,73 @@
 [
-
-{"pk": 1, "model": "account.supplier", "fields": {"name": "Henry Schein"}},
-{"pk": 2, "model": "account.supplier", "fields": {"name": "Midwest"}},
+{
+     "pk": 1,
+    "model": "account.basic",
+    "fields": {
+         "creation_date":"2013-10-28T04:36:12.295Z",
+         "last_login":"2013-10-28T04:36:12.295Z",
+         "email":"cnequine@gmail.com",
+         "referrer_id":"ABCDEF1234",
+         "phonenumber": "732-123-4567"
+    }
+},
+{
+    "pk": 1,
+    "model": "account.clinic",
+    "fields": {
+         "creation_date":"2013-10-28T04:36:12.295Z",
+         "last_login":"2013-10-28T04:36:12.295Z",
+         "company_name":"Colts Neck Equine",
+         "email":"cnequine@gmail.com",
+         "referrer_id":"ABCDEF1234",
+         "practitioner_name": "Dr. Eric Kates",
+         "phonenumber": "732-123-4567",
+         "website":"www.cnequine.com",
+         "equine":true
+    }
+},
+{
+    "pk": 2,
+    "model": "account.basic",
+    "fields": {
+         "creation_date":"2013-10-28T04:36:12.295Z",
+         "last_login":"2013-10-28T04:36:12.295Z",
+         "email":"midwest@gmail.com",
+         "referrer_id":"ABCDEF1234",
+         "phonenumber": "732-123-4567"
+    }
+},
+{
+    "pk": 2,
+    "model": "account.supplier",
+    "fields": {
+         "company_name":"Henry Schein",
+         "website":"www.cnequine.com"
+    }
+},
+{
+    "pk": 3,
+    "model": "account.basic",
+    "fields": {
+         "creation_date":"2013-10-28T04:36:12.295Z",
+         "last_login":"2013-10-28T04:36:12.295Z",
+         "email":"henryschein@gmail.com",
+         "referrer_id":"ABCDEF1234",
+         "phonenumber": "732-123-4567"
+    }
+},
+{
+    "pk": 3,
+    "model": "account.supplier",
+    "fields": {
+         "company_name":"Midwest",
+         "website":"www.cnequine.com"
+    }
+},
 
 {"pk": 1, "model": "listing.industry", "fields": {"displayname": "Equine", "name": "equine"}},
 {"pk": 2, "model": "listing.industry", "fields": {"displayname": "Bovine and Livestock", "name": "bovine"}},
 {"pk": 3, "model": "listing.industry", "fields": {"displayname": "Companion Animal", "name": "companion"}},
+
 {"pk": 1, "model": "listing.category", "fields": {"displayname": "Pharmaceuticals", "name": "pharmaceuticals", "totalunits": 0,"parents":[],"category_type":"maincategory"}},
 {"pk": 2, "model": "listing.category", "fields": {"displayname":"Nutrition", "name": "nutrition", "totalunits": 0,"parents":[],"category_type":"maincategory"}},
 {"pk": 3, "model": "listing.category", "fields": {"displayname":"Behavior Modification", "name": "behaviormodification", "totalunits": 0,"parents":[],"category_type":"maincategory"}},
@@ -20,36 +82,18 @@
 {"pk": 2, "model": "listing.product", "fields": {"name":"wood-twitch","displayname":"Wood Twitch", "description": "strong wood","category":3,"manufacturer":1,"averagerating":18}},
 {"pk": 2, "model": "listing.needles", "fields": {"type":"suture", "length":6,"wound_support":"All"}},
 
-
 {"pk": 1, "model": "listing.item", "fields": {"product":1, "manufacturer_no": 1234567,"description":"Curved, 50ml","msrp_price":5431}},
 {"pk": 2, "model": "listing.item", "fields": {"product":1, "manufacturer_no": 987654,"description":"Curved, 100ml","msrp_price":8431}},
 
-{"pk": 1, "model": "listing.inventory", "fields": {"item":1, "base_price": 5113,"supplier":1,"quantity_available":2}},
-{"pk": 2, "model": "listing.inventory", "fields": {"item":2, "base_price": 4992,"supplier":1,"quantity_available":8}},
-{"pk": 3, "model": "listing.inventory", "fields": {"item":2, "base_price": 5092,"supplier":2,"quantity_available":4}},
+{"pk": 1, "model": "listing.inventory", "fields": {"item":1, "base_price": 5113,"supplier":2,"quantity_available":2}},
+{"pk": 2, "model": "listing.inventory", "fields": {"item":2, "base_price": 4992,"supplier":2,"quantity_available":8}},
+{"pk": 3, "model": "listing.inventory", "fields": {"item":2, "base_price": 5092,"supplier":3,"quantity_available":4}},
 
-{"pk": 1, "model": "account.supplier", "fields": {"name": "Henry Schein"}},
-{"pk": 2, "model": "account.supplier", "fields": {"name": "Midwest"}},
-{
-    "pk": 1,
-    "model": "account.clinic",
-    "fields": {
-    	 "creation_date":"2013-10-28T04:36:12.295Z",
-    	 "last_login":"2013-10-28T04:36:12.295Z",
-    	 "referrer_id":"ABCDEF1234",
-    	 "practitioner_name": "Dr. Eric Kates",
-    	 "clinic_name":"Colts Neck Equine",
-    	 "phonenumber": "732-123-4567",
-    	 "organization_type":"LLC",
-    	 "website":"www.cnequine.com",
-    	 "equine":true
-    }
-},
 {
     "pk": 1,
     "model": "account.address",
     "fields": {
-    	 "clinic":1,
+    	 "basic":1,
     	 "name": "Colts Neck Equine",
     	 "address_one":"1 Pacer Court",
     	 "city": "Colts Neck",
@@ -113,8 +157,9 @@
     "model": "account.basicuser",
     "fields": {
     	 "user": 1,
-    	 "clinic":1,
-    	 "creation_date": "2014-02-26"
+    	 "member":1,
+    	 "creation_date": "2014-02-26",
+         "last_login":"2013-10-28T04:36:12.295Z"
     }
 },
 

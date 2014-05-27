@@ -1,0 +1,363 @@
+{% extends 'sellerportal/base.html' %}
+{% load dollars %}
+{% block seller_css %}
+<style>
+.help {
+	margin: 0 15px 40px 15px;
+	background: #fafafa;
+}
+.tabs {
+	margin-top: 0px;
+}
+.sidebar {
+	padding-top: 10px;
+}
+.sidebar h5{
+	color: #aaa;
+	font-weight: bolder;
+	font-size: 15px;
+}
+.sidebar a {
+	display:inline-block;
+	font-size: 13px;
+	padding: 3px 0;
+}
+.sidebar a:hover {
+	text-decoration: underline;
+	color: #333;
+}
+.contact {
+	margin-top: 20px;
+	padding-top: 20px;
+	border-top:1px solid #d6d6d6;
+}
+.contact p {
+	margin-bottom: 3px;
+	color: #333;
+	font-size: 13px;
+}
+.mainbar {
+	background: #fff;
+	border-top-right-radius: 4px;
+	border-bottom-right-radius: 4px;
+	border-left:1px solid #d6d6d6;
+	min-height: 500px;
+	padding: 20px;
+}
+.mainbar .group {
+	padding-bottom: 20px;
+	margin-bottom:20px;
+}
+.mainbar .group h4 {
+	font-size: 17px;
+	color: #333;
+	margin:0px;
+}
+.mainbar .group h5 {
+	margin: 5px 0 20px 0;
+	padding-top: 0px;
+	font-size: 13px;
+	font-size:normal;
+	color: #999;
+}
+.mainbar .invoice-table {
+	width: 100%;
+	margin-bottom: 30px;
+}
+.mainbar .invoice-table .right {
+	text-align: right;
+}
+.mainbar .invoice-table .price {
+	color: #555;
+	font-weight: bold;
+}
+.mainbar .invoice-table .green {
+	color: #27AE60;
+}
+.mainbar .invoice-table .total {
+	font-size: 17px;
+}
+.mainbar .invoice-table .total span {
+	font-size: 14px;
+	color: #999;
+	font-weight: normal;
+}
+.mainbar .invoice-table tr.headertr {
+	border-bottom:2px solid #eee;
+	color: #999;
+	font-size: 14px;
+}
+.mainbar .invoice-table tr.headertr td {
+	padding-top: 50px;
+	color: #999;
+}
+.mainbar .invoice-table tr .bold{
+	font-weight: bold;
+}
+.mainbar .invoice-table tr .normal{
+	font-weight: normal;
+}
+.mainbar .invoice-table td {
+	color: #555;
+	padding: 3px 0;
+	font-size: 14px;
+	font-weight: bold;
+}
+.mainbar .invoice-table-summary .total {
+	border-top:2px solid #eee;
+}
+.mainbar .subhead td{
+	background: #fafafa;
+	border-bottom:1px solid #eee;
+	font-size: 11px;
+	padding: 1px;
+}
+.mainbar .subhead td {
+	color: #999;
+}
+.charge {
+	color: #999;
+	text-align: center;
+	padding: 20px 40px;
+}
+</style>
+{% endblock %}
+
+{% block js %}
+{% endblock %}
+{% block content %}
+<h3 class="page-title">
+	Reports
+	<div class="gradient"></div>
+</h3>
+<div class="vetbox help row">
+	<div class="col-sm-2 sidebar">
+		<h5>General Reports</h5>
+		<div class="topic"><a href='#' class="scroll" data-ref='#div-account'>Monthly Invoices</a></div>
+		<div class="topic"><a href='#'>All Purchases</a></div>
+		<div class="topic"><a href='#'>All Charges</a></div>
+		<h5>Manufacturer Reports</h5>
+		<div class="topic"><a href='#' class="scroll" data-ref='#div-account'>Sales and Analytics Report</a></div>
+		<h5>Seller Reports</h5>
+		<div class="topic"><a href='#' class="scroll" data-ref='#div-account'>Sales Report</a></div>
+		<div class="contact">
+			<p><strong>Something Missing?</strong></p>
+			<p><strong>Let Us Know!</strong></p>
+			<p>Send us a message at info@vetcove.com and let us know what we can improve.</p>
+		</div>
+	</div>
+	<div class="col-sm-10 mainbar">
+<!-- 		<div class="group">
+			- List of past $ transactions (including purchases and payouts) - for any type
+			- Analytics report for Manufacturers
+			- Analytics report for Clinic
+			- Analytics/Performance report for Seller
+			- 
+		</div> -->
+		<div class="group">
+			<h4>Monthly Invoices</h4>
+			<h5>Charges and credits from recent activity on VetCove</h5>
+			<span>
+				Month:
+				<select>
+					<option>May 2014</option>
+					<option>April 2014</option>
+					<option>March 2014</option>
+				</select>
+			</span>
+			<table class="invoice-table invoice-table-summary">
+				<tbody>
+					<tr class="headertr">
+						<td class="bold">Invoice Summary</td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td class="right normal">April 1, 2014 - May 1, 2014</td>
+					</tr>
+					<tr>
+						<td>Item Purchases</td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td class="right price">$424.32</td>
+					</tr>
+					<tr>
+						<td>Item Sales</td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td class="right price green">($123.32)</td>
+					</tr>
+					<tr>
+						<td>Membership Fee</td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td class="right price">$0.00</td>
+					</tr>
+					<tr>
+						<td>Seller Fees</td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td class="right price">$9.00</td>
+					</tr>
+					<tr class="total">
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td class="right price"><span>Total:</span> $132.32</td>
+					</tr>
+
+
+
+					<tr class="headertr">
+						<td class="bold">Purchases</td>
+					</tr>
+					<tr class="subhead">
+						<td>Date</td>
+						<td>Order #</td>
+						<td></td>
+						<td>Amount</td>
+						<td>Discounts</td>
+						<td class="right">Total</td>
+					</tr>
+					<tr>
+						<td class="date">May 1</td>
+						<td><a href='#'>#23092-2321</a></td>
+						<td></td>
+						<td>$243.32</td>
+						<td class="green">($5.00)</td>
+						<td class="right">$238.32</td>
+					</tr>
+					<tr class="total">
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td class="right price"><span>Total:</span> $234.32</td>
+					</tr>
+				
+
+					<tr class="headertr">
+						<td class="bold">Sales</td>
+					</tr>
+					<tr class="subhead">
+						<td>Date</td>
+						<td>Order #</td>
+						<td>Buyer</td>
+						<td>Amount</td>
+						<td>Seller Fees</td>
+						<td class="right">Total</td>
+					</tr>
+					<tr>
+						<td class="date">May 1</td>
+						<td><a href='#'>#23092-2321</a></td>
+						<td>Colts Neck Equine</td>
+						<td class="green">($243.32)</td>
+						<td>$16.00</td>
+						<td class="right green">($213.32)</td>
+					</tr>
+					<tr class="total">
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td>$16.00</td>
+						<td class="right price green"><span>Total:</span> ($132.32)</td>
+					</tr>
+
+
+
+					<tr class="headertr">
+						<td class="bold">Credits</td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td class="header right normal">Balance: 2,450</td>
+					</tr>
+					<tr class="subhead">
+						<td>Month</td>
+						<td>Transaction #</td>
+						<td>Description</td>
+						<td></td>
+						<td></td>
+						<td class="right">Total</td>
+					</tr>
+					<tr>
+						<td class="date">May 13</td>
+						<td><a href='#'>#243-232</a></td>
+						<td>Redeem: 3 $15 Amazon Gift Cards</td>
+						<td></td>
+						<td></td>
+						<td class="right">650</td>
+					</tr>
+					<tr>
+						<td class="date">May</td>
+						<td><a href='#'>#123-232</a></td>
+						<td>Earn: Complete 8 Reviews</td>
+						<td></td>
+						<td></td>
+						<td class="right">650</td>
+					</tr>
+					<tr class="total">
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td class="right price"><span>Total:</span> 200</td>
+					</tr>
+				</tbody>
+			</table>
+
+			<table class="invoice-table invoice-table-summary">
+				<tbody>
+					<tr class="headertr">
+						<td class="bold">Summary By Purchase</td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td class="right normal">April 1, 2014 - May 1, 2014</td>
+					</tr>
+					<tr class="subhead">
+						<td>Date</td>
+						<td>Order #</td>
+						<td>Name</td>
+						<td>Quantity</td>
+						<td>Price</td>
+						<td class="right">Total</td>
+					</tr>
+					<tr>
+						<td>June 1</td>
+						<td>#92392-321</td>
+						<td>Equizone Phenybutazone Powder - 50ml</td>
+						<td>4</td>
+						<td>$12.13</td>
+						<td class="right">$48.51</td>
+					</tr>
+					<tr class="total">
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td class="right price"><span>Total:</span> $48.51</td>
+					</tr>
+				</tbody>
+			</table>
+			<p class="charge">All charges and credits will appear on your credit card or bank account statement as VetCove, LLC</p>
+		</div>
+	</div>
+</div>
+{% endblock %}

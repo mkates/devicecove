@@ -2,88 +2,7 @@
 {% load dollars %}
 {% block seller_css %}
 <style>
-/* Management Div */
-.quickfacts {
-	border-bottom:1px solid #eaeaea;
-	min-height: 50px;
-	padding-left: 10px;
-}
-.quickfacts h3 {
-	margin-top: 12px;
-	margin-bottom: 5px;
-}
-.quickfacts .update {
-	font-size: 12px;
-	color: #999;
-}
-.stats {
-	position:absolute;
-	top: 0;
-	right: 15px;
-}
-.stat {
-	display:inline-block;
-	text-align: center;
-	margin: 0 20px;
-}
-.stat h5 {
-	font-size: 30px;
-	font-weight: 200;
-	margin-bottom: 4px;
-}
-.stat p {
-	color: #777;
-	font-size: 11px;
-	text-transform: uppercase;
-}
-.management {
-	margin-bottom: 20px;
-	padding: 5px 5px 20px 5px;
-	position:relative;
-}
-.new-row {
-	padding-top: 20px;
-}
-.new_inventory_form {
-	padding-bottom: 10px;
-}
-.new_inventory {
-	vertical-align: top;
-}
-.new_inventory p {
-	font-size: 12px;
-	height: 15px;
-	color: #444;
-	margin-bottom: 2px;
-}
-.new_inventory {
-	display:inline-block;
-}
-.new_inventory_form input {
-	max-width: 130px;
-	height: 30px;
-	padding: 2px 5px;
-}
-.new_inventory_form input.short {
-	max-width: 70px;
-}
-.new_inventory_form input.long {
-	max-width: 170px;
-}
-.new_inventory button {
-	height: 30px;
-	font-size:13px;
-}
-.management .manual-div {
-	border-right:1px solid #eaeaea;
-}
-.management .upload-div {
-	padding:15px 0 10px 0;
-	text-align: center;
-}
-.management .upload-div button {
-	height: 30px;
-}
+
 #listing-table td {
 	vertical-align:top;
 }
@@ -114,7 +33,6 @@ $(document).ready(function(){
 			<th><p>Order Details</p></th>
 			<th><p>Buyer</p></th>
 			<th><p>Order Total</p></th>
-			<th class="center"><p>Tracking Numbers</p></th>
 			<th class="center"><p>Details / Update</p></th>
 		</thead>
 		<tbody>
@@ -127,41 +45,14 @@ $(document).ready(function(){
 							<p><strong>Date:</strong> Sept 14, 2013 at 2:33PM</p>
 						</td>
 						<td>
-							<p><strong>ID:</strong>2033-4324</p>
-							<p>Dr. Eric Kates</p>
-							<p>Colts Neck Equine</p>
+							<p><strong>ID:</strong> 2033-4324</p>
+							<p>Dr. Eric Kates, Colts Neck Equine</p>
 						</td>
-						<!-- <td>
-							<table>
-								<thead>
-									<tr>
-										<th>Name</th>
-										<th>SKU</th>
-										<th>Manufacturer</th>
-										<th>Man #</th>
-										<th>Quantity</th>
-									</tr>
-								</thead>
-								<tbody>
-									<tr>
-										<td>Equizone Phenybutazone Powder</td>
-										<td>#2928-232</td>
-										<td>A&G Pharmaceuticals</td>
-										<td>#2093-INIS</td>
-										<td>2</td>
-									</tr>
-								</tbody>
-							</table>
-						</td> -->
-						<td class="center">
+						<td class="bold">
 							$242.32
 						</td>
 						<td class="center">
-							<p>UPS (#393UNSDS)</p>
-							<p>UPS (#394304SU)</p>
-						</td>
-						<td class="center">
-							<a class="edit button button-rounded button-flat button-flat-royal button-tiny">View Details and Update</a>
+							<a href="/portal/purchase/1" class="edit button button-rounded button-flat button-flat-royal button-tiny">Details & Update</a>
 						</td>
 					</tr>
 		</tbody>
