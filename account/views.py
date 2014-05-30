@@ -167,10 +167,10 @@ def signup(request):
 		return HttpResponseRedirect("/account/profile")
 	return render_to_response('account/sign/signup.html',{'next':next,'action':action},context_instance=RequestContext(request))
 
-@login_required
+#@login_required
 def newAccountBasic(request):
 	gpos = GPO.objects.all()
-	return render_to_response('account/sign/signup_info.html',{'gpos':gpos},context_instance=RequestContext(request))
+	return render_to_response('account/sign/newaccount_base.html',{'gpos':gpos},context_instance=RequestContext(request))
 
 def loginform(request):
 	action = request.POST.get('action','')

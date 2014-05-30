@@ -30,9 +30,9 @@ urlpatterns = patterns('',
     url(r'^error/(?P<errorname>\w+)','general.views.error'),
     url(r'^categories/','general.views.categories'),
     ### Corporate ###
-    url(r'^features/','general.views.features'),
-    url(r'^supplier/','general.views.supplier'),
-    url(r'^manufacturer/','general.views.manufacturer'),
+    url(r'^learn/features/','general.views.features'),
+    url(r'^learn/supplier/','general.views.supplier'),
+    url(r'^learn/manufacturer/','general.views.manufacturer'),
     url(r'^referral/(?P<referral_id>\w+)/','general.views.newReferral'),
     ### Information ###
     url(r'^about/','general.views.about'),
