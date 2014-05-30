@@ -213,8 +213,8 @@ ALLOWED_HOSTS = ['*']
 
 # Static asset configuration
 try: #In try block because local settings cant import dj_database_url
-    STATIC_URL = 'https://devicerock.s3.amazonaws.com/'
-    HTTPS_SUPPORT = True
+    STATIC_URL = 'https://vetcovepharma.s3.amazonaws.com/'
+    HTTPS_SUPPORT = False
     import dj_database_url
     DATABASES = {
         "default": dj_database_url.config()
@@ -253,7 +253,7 @@ AWS_STORAGE_BUCKET_NAME = 'vetcovepharma'
 AWS_PRELOAD_METADATA = True
 
 # ImageKit File Storage
-AWS_BUCKET_ = NAME = AWS_STORAGE_BUCKET_NAME 
+AWS_BUCKET_NAME = AWS_STORAGE_BUCKET_NAME 
 IMAGEKIT_DEFAULT_FILE_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
 
 ### App Specific Variables ###
