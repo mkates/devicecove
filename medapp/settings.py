@@ -249,7 +249,7 @@ BALANCED_MARKETPLACE_ID = 'MP3D5qjr7obzojCvs5rfyK2Q'
 # Amazon File Storage
 DEFAULT_FILE_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
 #STATICFILES_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
-AWS_STORAGE_BUCKET_NAME = 'devicerock'
+AWS_STORAGE_BUCKET_NAME = 'vetcovepharma'
 AWS_PRELOAD_METADATA = True
 
 # ImageKit File Storage
