@@ -74,7 +74,7 @@ def portalAccount(request):
 
 
 ### When a message is sent to the seller (offline item) ###
-@login_required
+#@login_required
 def messageseller(request,itemid):
 	if request.user.is_authenticated() and request.method=="POST":
 		item = Item.objects.get(id=itemid)
@@ -96,7 +96,7 @@ def messageseller(request,itemid):
 	return HttpResponse(json.dumps(status), content_type='application/json')
 
 ### When a seller wants to view all of their buyer messages ###
-@login_required
+#@login_required
 def buyermessages(request,itemid):
 	item = Item.objects.get(id=itemid)
 	net_commission = commission.commission(item)
@@ -154,7 +154,7 @@ def updateListingState(request,action,token):
 ### Gateway for viewing buyer interest  #########
 #################################################
 # Calls the balanced create card, which adds the card to the user and sets default credit card
-@login_required
+#@login_required
 def newcard_chargecommission(request,itemid):
 	item = Item.objects.get(id=itemid)
 	# If commission already paid, skip to messages
@@ -188,7 +188,7 @@ def newcard_chargecommission(request,itemid):
 	return HttpResponse(json.dumps({'status':501,'error':'Error passing security credentials'}), content_type='application/json')
 
 # Using an existing card to pay the commission fees
-@login_required
+#@login_required
 def gatePayment(request,paymentid,itemid):
 	item = Item.objects.get(id=itemid)
 	if item.commission_paid == True:
@@ -220,7 +220,7 @@ def gatePayment(request,paymentid,itemid):
 #################################################
 ### Post Purchase Messaging  ####################
 #################################################
-@login_required
+#@login_required
 def purchasesellermessage(request,purchaseditemid):
 	pi = PurchasedItem.objects.get(id=purchaseditemid)
 	message = request.POST['buyer-message']
@@ -231,7 +231,7 @@ def purchasesellermessage(request,purchaseditemid):
 	#####################################
 	return HttpResponseRedirect('/account/buyhistory')
 
-@login_required
+#@login_required
 def purchaseshippinginfo(request,purchaseditemid):
 	pi = PurchasedItem.objects.get(id=purchaseditemid)
 	shipping_details = request.POST['shipping-details']
@@ -247,7 +247,7 @@ def purchaseshippinginfo(request,purchaseditemid):
 	pi.save()
 	return HttpResponseRedirect('/account/sellhistory')
 	
-@login_required
+#@login_required
 def authorizeBuyer(request,buyerid,itemid):
 	item = Item.objects.get(id=itemid)
 	if request.user.basicuser == item.user and request.method == 'POST':
@@ -261,7 +261,7 @@ def authorizeBuyer(request,buyerid,itemid):
 			email_view.composeEmailAuthorizedBuyer(item,buyer)
 	return HttpResponseRedirect('/account/messages/'+str(item.id))
 
-@login_required
+#@login_required
 def deauthorizeBuyer(request,buyerid,itemid):
 	item = Item.objects.get(id=itemid)
 	if request.user.basicuser == item.user and request.method == 'POST':
@@ -277,12 +277,12 @@ def deauthorizeBuyer(request,buyerid,itemid):
 #################################################
 ### Sale Problems  ##############################
 #################################################
-@login_required
+#@login_required
 def reportproblem(request,purchaseditemid):
 	pi = PurchasedItem.objects.get(id=purchaseditemid)
 	return render_to_response('account/buying/report.html',{'pitem':pi},context_instance=RequestContext(request))
 
-@login_required
+#@login_required
 def reportproblemform(request,purchaseditemid):
 	pi = PurchasedItem.objects.get(id=purchaseditemid)
 	if request.method == "POST":
@@ -303,7 +303,7 @@ def reportproblemform(request,purchaseditemid):
 
 
 # New bank account, which adds the BA to the user and sets default credit card
-@login_required
+#@login_required
 def newbank_chargecommission(request,itemid):
 	item = Item.objects.get(id=itemid)
 	if item.commission_paid == True:
