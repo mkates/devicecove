@@ -264,7 +264,8 @@ CC_PROCESSING_FEE = .03
 
 ### Import the local settings ###
 try:
-    from local_settings import *
+    #from local_settings import *
+    pass
 except ImportError:
     pass
 
