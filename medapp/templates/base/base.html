@@ -44,7 +44,7 @@
 					<a href='/'><img id="main-logo" src="{{STATIC_URL}}img/logo/paw_logo_beta.png" alt="VetCove"/></a>
 				</div>
 			</div>
-			<div class="right-header mainheader-div">
+			<!-- <div class="right-header mainheader-div">
 				<ul>
 					{% if user.is_staff %}
 					<li><a class="" href="/staff/overview">Staff Portal</a></li>
@@ -60,13 +60,59 @@
 						<li><a href='/account/credits'>Credits<span class="label label-success">{{user.basicuser.credits|dollars}}</span></a></li>
 			        {% endif %}
 				</ul>
+			</div> -->
+			<div class="selections">
+				<a href='/dashboard' class="col12-8 first {% if dashboard %}active{% endif %}">
+					<div class="item">
+						<div class="item-image" style='background-image:url("{{STATIC_URL}}img/misc/topicons.png")'></div>
+						<p>Dashboard</p>
+					</div>
+				</a>
+				<a href='/deals' class="col12-8 {% if browse_deals %}active{% endif %}">
+					<div class="item">
+						<div class="item-image" style='background-image:url("{{STATIC_URL}}img/misc/topicons.png");background-position: -21px 0'></div>
+						<p>Promotions</p>
+					</div>
+				</a>
+				<a href='/trending' class="col12-8{% if browse_trending %} active{% endif %}">
+					<div class="item">
+						<div class="img">
+							<div class="item-image" style='background-image:url("{{STATIC_URL}}img/misc/topicons.png");background-position: -42px 0' ></div>
+						</div>
+						<p>Trending</p>
+					</div>
+				</a>
+				<a href='/new' class="col12-8 {% if browse_new %} active{% endif %}">
+					<div class="item">
+						<div class="img">
+							<div class="item-image" style='background-image:url("{{STATIC_URL}}img/misc/topicons.png");background-position: -63px 0'></div>
+						</div>
+						<p>New Products</p>
+					</div>
+				</a>
+				<a href='/recent' class="col12-8 {% if browse_recent %} active{% endif %}">
+					<div class="item">
+						<div class="img">
+							<div class="item-image" style='background-image:url("{{STATIC_URL}}img/misc/topicons.png");background-position: -84px 0' ></div>
+						</div>
+						<p>Recently Viewed</p>
+					</div>
+				</a>
+				<a href='/recent' class="col12-8 last{% if browse_recent %} active{% endif %}">
+					<div class="item">
+						<div class="img">
+							<div class="item-image" style='background-image:url("{{STATIC_URL}}img/misc/topicons.png");background-position: -105px 0' ></div>
+						</div>
+						<p>Marketplace</p>
+					</div>
+				</a>
 			</div>
 		</div>
 		{% block secondheader %}
 		<div class="subheader row">
 			<div class="col-12-10 custom-dropdown category-div">
 				<a class="categories subheader-option two-rows">
-					<p>Browse by</p>
+					<p class="first">Browse by</p>
 					<p>Category <b class="caret"></b></p>
 				</a>
 				<div class="category-box dropdown-box">

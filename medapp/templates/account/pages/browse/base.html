@@ -192,67 +192,7 @@
 }
 
 /* Selection Bar */
-.selections {
-	padding: 0;
-	margin: 30px 20px 0px 20px;
-}
-.col12-8 {
-	width: 16.66%;
-	float: left;
-}
-.selections a {
-	overflow:hidden;
-	display:block;
-	height: 75px;
-	position:relative;
-	border:1px solid #dadada;
-	border-right: none;
-	background: white;
-	transition-duration: 0.5s, 0.5s, 100ms;
-    transition-property: transform, left, box-shadow;
-    transition-timing-function: ease-in-out, ease-in-out, ease-in-out;
-}
-.selections a:hover {
-	box-shadow: 0 8px 10px #EBEBEB inset, 4px 35px 65px 5px rgba(242, 242, 242, 0.9) inset;
-}
-.selections a.active {
-	background: -moz-linear-gradient(center top , #5A5A5A 0px, rgba(255, 255, 255, 0.5) 10%) repeat scroll 0 0%, -moz-linear-gradient(center top , rgba(122, 122, 122, 0.7) 40%, rgba(255, 255, 255, 0.5) 100%) repeat scroll 0 0 rgba(0, 0, 0, 0);
-    box-shadow: 0 5px 10px -1px rgba(90, 90, 90, 0.5) inset, 2px 35px 65px 5px rgba(235, 235, 235, 0.5) inset;
-}
-.selections a.first {
-	border-bottom-left-radius: 4px;
-	border-top-left-radius: 4px;
-}
-.selections a.last {
-	border-bottom-right-radius: 4px;
-	border-top-right-radius: 4px;
-	border-right:1px solid #dadada;
-}
-.selections .item {
-	position:absolute;
-	top: 100px;
-	text-align: center;
-	width: 100%;
-	{% if not dashboard %}
-	top: 2px;
-	{% endif %}
 
-}
-.selections .item .item-image {
-	margin: 0 auto;
-	height: 40px;
-	background-size: 210px 40px;
-	width: 35px;
-	margin-top: 7px;
-	opacity: 1;
-}
-.selections .item p {
-	color: #777;
-	padding-top: 3px;
-	width: 100%;
-	text-align: center;
-	font-size: 12px;
-}
 </style>
 {% block browse_css %}{% endblock %}
 {% endblock %}
@@ -263,20 +203,20 @@ $(document).ready(function() {
 	//Auto Focus on the search bar when page loads
 	$("#searchinput").focus();
 	var items = $(".selections .item");
-	$.each(items,function(index,value) {
-		$(value).delay(index*80).animate({
-			top:-5,
-		},400).animate({
-			top:2,
-		},200);
-	});
+	// $.each(items,function(index,value) {
+	// 	$(value).delay(index*80).animate({
+	// 		top:-5,
+	// 	},400).animate({
+	// 		top:2,
+	// 	},200);
+	// });
 });
 {% endif %}
 </script>
 {% block browse_js %}{% endblock %}
 {% endblock %}
 {% block content %}
-<div class="selections row">
+<!-- <div class="selections row">
 	<a href='/dashboard' class="col12-8 first {% if dashboard %}active{% endif %}">
 		<div class="item">
 			<div class="item-image" style='background-image:url("{{STATIC_URL}}img/misc/topicons.png")'></div>
@@ -321,8 +261,7 @@ $(document).ready(function() {
 			<p>Marketplace</p>
 		</div>
 	</a>
-
-</div>
+</div> -->
 <div class="row introrow">
 	{% block browse_content %}
 		{% include 'account/pages/browse/dealrow-base.html' %}

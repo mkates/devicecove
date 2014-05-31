@@ -213,7 +213,7 @@ ALLOWED_HOSTS = ['*']
 
 # Static asset configuration
 try: #In try block because local settings cant import dj_database_url
-    STATIC_URL = 'https://vetcovepharma.s3.amazonaws.com/'
+    STATIC_URL = 'https://devicerock.s3.amazonaws.com/'
     HTTPS_SUPPORT = False
     import dj_database_url
     DATABASES = {
@@ -246,6 +246,7 @@ SERVER_EMAIL = 'info@vetcove.com'
 MANDRILL_API_KEY = "iSqtoSVWpB1aSTzA_YqaXg"
 EMAIL_BACKEND = "djrill.mail.backends.djrill.DjrillBackend"
 BALANCED_MARKETPLACE_ID = 'MP3D5qjr7obzojCvs5rfyK2Q'
+
 # Amazon File Storage
 DEFAULT_FILE_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
 #STATICFILES_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
@@ -265,5 +266,6 @@ try:
     from local_settings import *
 except ImportError:
     pass
-
+    
+STATIC_URL = '/static/'
     
