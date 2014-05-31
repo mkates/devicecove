@@ -266,6 +266,7 @@ try:
     from local_settings import *
 except ImportError:
     pass
-    
+
 STATIC_URL = '/static/'
+
     
