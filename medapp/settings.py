@@ -213,7 +213,8 @@ ALLOWED_HOSTS = ['*']
 
 # Static asset configuration
 try: #In try block because local settings cant import dj_database_url
-    STATIC_URL = 'https://devicerock.s3.amazonaws.com/'
+   # STATIC_URL = 'https://devicerock.s3.amazonaws.com/'
+   STATIC_URL = '/static/'
     HTTPS_SUPPORT = False
     import dj_database_url
     DATABASES = {
@@ -266,7 +267,5 @@ try:
     from local_settings import *
 except ImportError:
     pass
-
-STATIC_URL = '/static/'
 
     
