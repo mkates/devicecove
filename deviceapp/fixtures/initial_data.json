@@ -6,7 +6,7 @@
          "creation_date":"2013-10-28T04:36:12.295Z",
          "last_login":"2013-10-28T04:36:12.295Z",
          "email":"cnequine@gmail.com",
-         "referrer_id":"ABCDEF1234",
+         "referrer_id":"ABCD1234",
          "phonenumber": "732-123-4567"
     }
 },
@@ -18,7 +18,7 @@
          "last_login":"2013-10-28T04:36:12.295Z",
          "company_name":"Colts Neck Equine",
          "email":"cnequine@gmail.com",
-         "referrer_id":"ABCDEF1234",
+         "referrer_id":"ABCD1234",
          "practitioner_name": "Dr. Eric Kates",
          "phonenumber": "732-123-4567",
          "website":"www.cnequine.com",
@@ -32,7 +32,7 @@
          "creation_date":"2013-10-28T04:36:12.295Z",
          "last_login":"2013-10-28T04:36:12.295Z",
          "email":"midwest@gmail.com",
-         "referrer_id":"ABCDEF1234",
+         "referrer_id":"ABCD1234",
          "phonenumber": "732-123-4567"
     }
 },
@@ -51,7 +51,7 @@
          "creation_date":"2013-10-28T04:36:12.295Z",
          "last_login":"2013-10-28T04:36:12.295Z",
          "email":"henryschein@gmail.com",
-         "referrer_id":"ABCDEF1234",
+         "referrer_id":"ABCD1234",
          "phonenumber": "732-123-4567"
     }
 },
