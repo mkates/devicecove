@@ -6,7 +6,8 @@
 
 <!-- Meta Information -->
 <meta http-equiv="content-type" content="text/html;charset=UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- <meta name="viewport" content="width=device-width, initial-scale=1.0"> -->
+<meta name="viewport" content="width=800, initial-scale=1.0">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta property="og:title" content="VetCove" />
 <meta property="og:description" content="Deals on used veterinary pharmaceuticals, vaccines, compounders, and medical equipment" />
@@ -34,12 +35,12 @@
 	<header class="header">
 		<div class="mainheader">
 			<div class="left-header mainheader-div">
-				<a id="simple-menu" href="#sidr">
+				<!-- <a id="simple-menu" href="#sidr">
 					<span class="icon-bar"></span>
 	        		<span class="icon-bar"></span>
 	        		<span class="icon-bar"></span>
 	        		<span class="sr-only">Menu</span>
-	        	</a>
+	        	</a> -->
 				<div class="header-logo">
 					<a href='/'><img id="main-logo" src="{{STATIC_URL}}img/logo/paw_logo_beta.png" alt="VetCove"/></a>
 				</div>
@@ -79,7 +80,7 @@
 						<div class="img">
 							<div class="item-image" style='background-image:url("{{STATIC_URL}}img/misc/topicons.png");background-position: -42px 0' ></div>
 						</div>
-						<p>Trending</p>
+						<p>Browse</p>
 					</div>
 				</a>
 				<a href='/new' class="col12-8 {% if browse_new %} active{% endif %}">
@@ -87,7 +88,7 @@
 						<div class="img">
 							<div class="item-image" style='background-image:url("{{STATIC_URL}}img/misc/topicons.png");background-position: -63px 0'></div>
 						</div>
-						<p>New Products</p>
+						<p>Rewards</p>
 					</div>
 				</a>
 				<a href='/recent' class="col12-8 {% if browse_recent %} active{% endif %}">
@@ -95,7 +96,7 @@
 						<div class="img">
 							<div class="item-image" style='background-image:url("{{STATIC_URL}}img/misc/topicons.png");background-position: -84px 0' ></div>
 						</div>
-						<p>Recently Viewed</p>
+						<p>Community</p>
 					</div>
 				</a>
 				<a href='/recent' class="col12-8 last{% if browse_recent %} active{% endif %}">
@@ -109,6 +110,165 @@
 			</div>
 		</div>
 		{% block secondheader %}
+		<div class="dynamic-row">
+			<div class="fixed element noborder custom-dropdown category-div">
+				<div class="element-relative">
+					<a class="bar">
+						<div class="inlined two-row">
+							<!-- <p>Browse by</p> -->
+							<p>Categories <b class="caret"></b></p>
+						</div>
+					</a>
+					<div class="category-box dropdown-box">
+						<div class="category-menu">
+							<ul id="category-menu-ul">
+								{% for category in categories %}
+									<li><a data-name="{{category}}" class="category-menu-item">{{category}}<span> &rsaquo; </span></a></li>
+								{% endfor %}
+								<li><a href='/categories' class="full-directory">See Full Directory</a></li>
+							</ul>
+						</div>
+						<div class="category-content">
+							<div id="menu-{{category}}" class="category-info">
+								<h1>Dentistry</h1>
+								<div class="category-info-box">
+									<ul class="reformat">
+									  <li><a href='#'>Aloe</a></li>
+									  <li>Bergamot</li>
+									  <li>Calendula</li>
+									  <li>Damiana</li>
+									  <li>Elderflower</li>
+									  <li>Feverfew</li>
+									  <li>Ginger</li>
+									  <li>Hops</li>
+									</ul>
+								</div>
+							</div>
+							<div id="menu-diagnosticexams" class="category-info">
+								<h1>Diagnostic Exams</h1>
+							</div>
+							<div id="menu-diagnostics" class="category-info">
+								<h1>Diagnostics</h1>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="variable element noborder">
+				<div class="element-relative">
+					<table id="search-table">
+						<tr>
+							<td><input class="form-control" id="searchinput" autocomplete="off" placeholder="Search Equipment and Supplies. . ."/><span id="search-exit">&#10006;</span></td>
+							<td class="button-td"><button class="button button-rounded">Go</button></td>
+						</tr>
+					</table>
+					<div id="autosuggest" >
+						<div class="section categoriesheader">
+							Categories
+						</div>
+						<div id="categoriessection" class="section-content">
+						</div>
+						<div class="section productsheader">
+							Products
+						</div>
+						<div id="productssection" class="section-content">
+						</div>
+						<div class="section manufacturerheader">
+							Manufacturers
+						</div>
+						<div id="manufacturerssection" class="section-content">
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="fixed element">
+				<div class="element-relative">
+					<a href="#" class="bar">
+						<div class="inlined two-row">
+							<p><span class="glyphicon glyphicon-record"></span> Credits <span class="label label-success">240</span> <b class="caret"></b></p>
+						</div>
+					</a>
+					<div class="dropdown-box">
+						<p class="balance"><strong>Credit Balance: 240 credits</strong></p>
+						<a class="" href="#">Earn More Credits</a>
+						<a class="" href="#">Redeem Your Credits</a>
+						<a class="" href="#">View Credits History</a>
+					</div>
+				</div>
+			</div>
+			<div class="fixed element">
+				<div class="element-relative">
+					<a href="#" class="bar">
+						<div class="inlined two-row">
+							<p><span class="glyphicon glyphicon-shopping-cart"></span> Cart <span class="label label-success">2</span> <b class="caret"></b></p>
+						</div>
+					</a>
+					<div class="dropdown-box product-dropdown">
+						<div class="product-item">
+							<div class="product-item-image product-item-div">
+								<img src='{{STATIC_URL}}img/noimage/noimage_75x100.jpg'>
+							</div>
+							<div class="product-item-info product-item-div">
+								<p class="product-item-name">Salix Solution 5% Injectable with salin compund and </p>
+								<p class="product-item-details">Quantity: 2 | $12.23</p>
+							</div>
+						</div>
+						<div class="product-item">
+							<div class="product-item-image product-item-div">
+								<img src='{{STATIC_URL}}img/noimage/noimage_75x100.jpg'>
+							</div>
+							<div class="product-item-info product-item-div">
+								<p class="product-item-name">Salix  </p>
+								<p class="product-item-details">$12.23</p>
+							</div>
+						</div>
+						<div class="cart-button">
+							<a href="/cart" class="button button-rounded button-primary">View Cart and Checkout <span class="glyphicon glyphicon-arrow-right"></span></a>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="fixed element">
+				<div class="element-relative">
+					<a href="#" class="bar">
+						<div class="inlined two-row">
+							<p><span class="glyphicon glyphicon-flag"></span> Updates <span class="label label-success">2</span> <b class="caret"></b></p>
+						</div>
+					</a>
+					<div class="dropdown-box">
+						<a class="" href="#">Your Subscriptions</a>
+						<a class="" href="#">Your Orders</a>
+						<a class="" href="#">Your Wishlist</a>
+					</div>
+				</div>
+			</div>
+			<div class="fixed element noborder">
+				<div class="element-relative">
+					<a href="#" class="bar">
+						<div class="inlined two-row">
+							<p><span class="glyphicon glyphicon-cog"></span> Account <b class="caret"></b></p>
+						</div>
+					</a>
+					<div class="dropdown-box account-dropdown">
+					{% if not basicuser %}
+						<a href='/signin' class="button button-rounded button-primary">Sign In</a>
+						<p class="newcustomer">New Customer? <a href='/signup'>Sign Up Here</a></p>
+						<div class="divider"></div>
+					{% endif %}
+						<a class="" href="/account/profile">Your Account</a>
+						<a class="" href="#">Your Subscriptions</a>
+						<a class="" href="#">Your Orders</a>
+						<a class="" href="#">Your Wishlist</a>
+						<a class="" href="#">Your Rebate Programs</a>
+						<div class="divider"></div>
+						<a class="" href="#">Your Questions</a>
+						<a class="" href="/account/reviews">Your Reviews</a>
+						<div class="divider"></div>
+						<a class="" href="/logout">Not {{basicuser.clinic}}? Sign Out</a>
+					</div>
+				</div>
+			</div>
+		</div>
 		<div class="subheader row">
 			<div class="col-12-10 custom-dropdown category-div">
 				<a class="categories subheader-option two-rows">
@@ -183,8 +343,8 @@
 			</div>
 			<div class="col-12-10 custom-dropdown">
 				<a href='#' class="subheader-option two-rows account">
-					<p class="account-name">{% if not basicuser %}Hello. Sign in.{% else %}{{basicuser.clinic}}{% endif %}</p>
-					<p>Your Account <b class="caret"></b></p>
+					<p class="first">{% if not basicuser %}Hello. Sign in.{% else %}Your{% endif %}</p>
+					<p>Account<b class="caret"></b></p>
 				</a>
 				<div class="dropdown-box account-dropdown">
 				{% if not basicuser %}
@@ -205,8 +365,9 @@
 				</div>
 			</div>
 			<div class="col-12-10 custom-dropdown">
-				<a href='#' class="subheader-option">
-					<p>Saved <b class="caret"></b></p>
+				<a href='#' class="subheader-option two-rows account">
+					<p class="first">Your</p>
+					<p>Saved<b class="caret"></b></p>
 				</a>
 				<div class="dropdown-box product-dropdown">
 					<div class="product-item">
@@ -360,71 +521,75 @@
 	<footer class="footer">
 		<img id="footer-shadow" src="{{STATIC_URL}}img/misc/shadow.png"/>
 		<div class="row">
-			<div class="col-md-2 col-sm-4 col-xs-6">
-				<h3>Buying</h3>
+			<div class="col-md-2 col-sm-2 col-xs-6">
+				<h3>Browsing</h3>
 				<ul>
-					<li><a href='#'>Browse Categories</a></li>
-					<li><a href='#'>Specials</a></li>
-					<li><a href='#'>Reccommended</a></li>
-					<li><a href='#'>Wishlist</a></li>
-					<li><a href='#'>Buying History</a></li>
-					<li><a href='#'>Your Questions</a></li>
+					<li><a href='/categories'>Categories</a></li>
+					<li><a href='/dashboard'>Dashboard</a></li>
+					<li><a href='/promotions'>Promotions</a></li>
+					<li><a href='/trending'>Trending</a></li>
+					<li><a href='/recent'>Recently Viewed</a></li>
+					<li><a href='/'>Rewards</a></li>
+					<li><a href='#'>Redeem Credits</a></li>
 				</ul>
 			</div>
-			<div class="col-md-2 col-sm-4 col-xs-6">
-				<h3>Selling</h3>
-				<ul>
-					<li><a href='/sell'>Suppliers</a></li>
-					<li><a href='/manufacturer'>Manufacturers</a></li>
-					<li><a href='/pricing'>Fees and Pricing</a></li>
-				</ul>
-			</div>
-			<div class="visible-xs clear"></div>
-			<div class="col-md-2 col-sm-4 col-xs-6">
-				<h3>Account</h3>
-				<ul>
-					<li><a href='#'>Notifications</a></li>
-					<li><a href='#'>Profile</a></li>
-					<li><a href='#'>Settings</a></li>
-					<li><a href='#'>Payments</a></li>
-				</ul>
-			</div>
-			<div class="visible-sm clear"></div>
-			<div class="col-md-2 col-sm-4 col-xs-6">
+			<div class="col-md-2 col-sm-2 col-xs-6">
 				<h3>General</h3>
 				<ul>
-					<li><a href='/faq'>FAQ</a></li>
-					<li><a href='/tos'>Terms of Service</a></li>
-					<li><a href='/privacypolicy'>Privacy Policy</a></li>
+					<li><a href='/sitemap'>Site Map</a></li>
+					<li><a href='/manufacturer'>FAQ</a></li>
+					<li><a href='/tos'>Legal</a></li>
 				</ul>
-			</div>
-			<div class="visible-xs clear"></div>
-			<div class="col-md-2 col-sm-4 col-xs-6">
-				<h3>Programs</h3>
+				<h3>Partners</h3>
 				<ul>
-					<li><a href='/pvp'>Verification Program</a></li>
-					<li><a href='/sellerprotect'>Seller Protection</a></li>
-					<li><a href='/buyerprotect'>Buyer Protection</a></li>
-					<li><a href='/giveback'>Give Back 1+1 Program</a></li>
+					<li><a href='/sitemap'>Manufacturers</a></li>
+					<li><a href='/manufacturer'>Suppliers</a></li>
+					<li><a href='/tos'>Clinics</a></li>
 				</ul>
 			</div>
-			<div class="col-md-2 col-sm-4 col-xs-6">
+			<div class="col-md-2 col-sm-2 col-xs-6">
+				<h3>Account</h3>
+				<ul>
+					<li><a href='#'>Order History</a></li>
+					<li><a href='#'>Returns</a></li>
+					<li><a href='#'>Analytics</a></li>
+					<li><a href='#'>Payments</a></li>
+					<li><a href='#'>Settings</a></li>
+					<li><a href='#'>Profile</a></li>
+					<li><a href='/help'>Help</a></li>
+					<li><a href='/contact'>Contact Us</a></li>
+				</ul>
+			</div>
+			<div class="col-md-2 col-sm-2 col-xs-6">
+				<h3>Community</h3>
+				<ul>
+					<li><a href='#'>Questions</a></li>
+					<li><a href='#'>Reviews</a></li>
+					<li><a href='#'>Referrals</a></li>
+				</ul>
 				<h3>Company</h3>
 				<ul>
-					<li><a href='#'>Blog</a></li>
-					<li><a href='#'>Contact Us</a></li>
+					<li><a href='http://blog.vetcove.com'>Blog</a></li>
 					<li><a href='/about'>Team</a></li>
 				</ul>
 			</div>
+			<div class="col-md-4 col-sm-4 col-xs-6 contact-col">
+				<h3>Contact Information</h3>
+				<ul>
+					<li>10 Pacer Court, Colts Neck NJ</li>
+					<li>(732) 938-4240</li>
+					<li>info@vetcove.com</li>
+				</ul>
+				<div class='socialcontainer'>
+					<a href='https://twitter.com/vetcove'><div class="twitter-hover social-slide"></div></a>
+					<a href='https://www.facebook.com/vetcove'><div class="facebook-hover social-slide"></div></a>
+					<a href='http://www.linkedin.com'><div class="linkedin-hover social-slide"></div></a>
+					<a href='https://angel.co'><div class="angellist-hover social-slide"></div></a>
+				</div>
+			</div>
 		</div>
 		<div class="row copyright-row">
-			<div class='socialcontainer'>
-				<a href='https://twitter.com/vetcove'><div class="twitter-hover social-slide"></div></a>
-				<a href='https://www.facebook.com/vetcove'><div class="facebook-hover social-slide"></div></a>
-				<a href='http://www.linkedin.com'><div class="linkedin-hover social-slide"></div></a>
-				<a href='https://angel.co'><div class="angellist-hover social-slide"></div></a>
-			</div>
-
+			<p>VetCove is the leading platform for <a href='#'>veterinary pharmaceuticals</a> | <a href='#'>discount medications</a> | <a href='#'>medical equipment</a> | <a href='#'>pharmaceuticals</a> | <a href='#'>supply ordering</a> | <a href='#'>cheap supplies</a></p>
 			<p> Copyright 2014. All rights reserved</p>
 		</div>
 	</footer>
@@ -500,28 +665,28 @@ var noImageURL = '{{STATIC_URL}}img/noimage/noimage.jpg';
 	//************** Categories ***********************
 	//*************************************************
 	$(document).ready(function() {
-		$(".custom-dropdown .subheader-option").click(function(){
+		$(".dynamic-row .element-relative a").click(function(){
 			activatingDropdown($(this));
 		});
 
-		$(".custom-dropdown").hoverIntent(function(){
-			activatingDropdown($(this).children(".subheader-option"));
+		$(".dynamic-row .element-relative").hoverIntent(function(){
+			activatingDropdown($(this).children("a"));
 		},function() {
 			box = $(this).children(".dropdown-box");
-			link = $(this).children(".subheader-option");
+			link = $(this).children("a");
 			$(box).css('display','none');
 			$(link).removeClass("active");
-			$(".subheader .category-box .category-menu-item").removeClass('active');
+			$(".category-box .category-menu-item").removeClass('active');
 		});
 		//Displays the subcategories on the category select
-		$(".subheader .category-box .category-menu-item").click(function(){
+		$(".category-box .category-menu-item").click(function(){
 			// Display appropriate subcategory
 			var data_name = $(this).attr("data-name");
 			$(".category-info").css('display','none');
 			$("#menu-"+data_name).css('display','block');
 			
 			// Add active to category-menu-item
-			$(".subheader .category-box .category-menu-item").removeClass('active');
+			$(".category-box .category-menu-item").removeClass('active');
 			$(this).addClass("active");
 		});
 	 });
@@ -566,7 +731,7 @@ var noImageURL = '{{STATIC_URL}}img/noimage/noimage.jpg';
 					$(".category-info").css('display','none');
 					$("#menu-"+data_name).css('display','block');
 					// Add active to category-menu-item
-					$(".subheader .category-box .category-menu-item").removeClass('activate');
+					$(".category-box .category-menu-item").removeClass('activate');
 					$(handle).children('a').addClass("activate");
 				},  // fired on row activation
 				deactivate: function(handle){
