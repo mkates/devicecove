@@ -36,6 +36,12 @@ def trending(request):
 	return render_to_response('account/pages/browse/trending.html',{'browse_trending':True},context_instance=RequestContext(request))
 def deals(request):
 	return render_to_response('account/pages/browse/deals.html',{'browse_deals':True},context_instance=RequestContext(request))
+def rewardsRewards(request):
+	return render_to_response('account/pages/browse/rewards/rewards.html',{'browse_rewards':True},context_instance=RequestContext(request))
+def rewardsStore(request):
+	return render_to_response('account/pages/browse/rewars/store.html',{'browse_rewards':True},context_instance=RequestContext(request))
+def rewardsHistory(request):
+	return render_to_response('account/pages/browse/rewards/history.html',{'browse_rewards':True},context_instance=RequestContext(request))
 
 ###########################################
 #### Portal Pages #########################

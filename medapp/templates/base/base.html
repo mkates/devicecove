@@ -7,7 +7,7 @@
 <!-- Meta Information -->
 <meta http-equiv="content-type" content="text/html;charset=UTF-8">
 <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0"> -->
-<meta name="viewport" content="width=800, initial-scale=1.0">
+<meta name="viewport" content="width=800">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta property="og:title" content="VetCove" />
 <meta property="og:description" content="Deals on used veterinary pharmaceuticals, vaccines, compounders, and medical equipment" />
@@ -622,8 +622,9 @@ var noImageURL = '{{STATIC_URL}}img/noimage/noimage.jpg';
 		var max_height = 0;
 		$.each(same_height,function(index,newvalue){
 			if ($(newvalue).attr('data-height') == data_height){
-				max_height = Math.max(max_height+10,parseInt($(newvalue).height()));
+				max_height = Math.max(max_height,parseInt($(newvalue).height()));
 			}
+			console.log(max_height);
 		});
 		$(value).css('height',max_height);
 	});

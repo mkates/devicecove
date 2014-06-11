@@ -322,15 +322,6 @@ $(document).ready(function() {
 	</a>
 </div> -->
 <div class="row introrow">
-	<div class="intro-box-container">
-		<div class="intro-box">
-			<div class="intro-image" style='background-image:url("{{STATIC_URL}}img/misc/topicons.png");background-position: -0px 0' ></div>
-			<h3 class="page-title">Dashboard<div class="gradient"></div></h3>
-			<div class="links">
-				<a class='active'>Most Recent</a> | <a>Most Popular</a> | <a> Newest</a> | <a> Largest Discount</a>
-			</div>
-		</div>
-	</div>
 	{% block browse_content %}
 		{% include 'account/pages/browse/dealrow-base.html' %}
 		{% include 'account/pages/browse/productrow-base.html' with row_title=row_one %}

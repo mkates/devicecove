@@ -891,7 +891,64 @@ input::-moz-focus-inner {
 .completebar5 {
 	background-position: -120px 0;
 }
-
+/**********************************/
+/******  TableCell  ***************/
+/**********************************/
+.tablecell{
+	margin-top: -10px;
+    margin-left: -10px;
+    display:table;
+    width: calc(100% + 20px);
+    border-collapse:separate;
+    border-spacing:10px;
+    height: 100%;
+}
+.tablecell-col {
+	display:table-cell;
+	height: 100%;
+}
+.tablecell-6 {
+	width: 50%;
+}
+.tablecell-5 {
+	width: 41.66%;
+}
+.tablecell-45 {
+	width: 37.5%;
+}
+.tablecell-4 {
+	width: 33.33%;
+}
+.tablecell-3 {
+	width: 25%;
+}
+.tablecell-2 {
+	width: 16.66%;
+}
+/**********************************/
+/******  SideBar Layout  **********/
+/**********************************/
+.side-layout {
+  display: table;
+  width: 100%;
+}
+.side-layout-col {
+  display: table-cell;
+  vertical-align: top;
+}
+.side-layout .mainbar-container {
+	background: #fff;
+	border-top-left-radius: 3px;
+	border-bottom-left-radius: 3px;
+}
+.side-layout-col.sidebar-container {
+	width: 250px;
+	border-left:1px solid #ddd;
+	background: #fafafa;
+	box-shadow: 0 0 10px rgba(0,0,0,.1) inset;
+	border-top-right-radius: 3px;
+	border-bottom-right-radius: 3px;
+}
 /**********************************/
 /******  Back to Top **************/
 /**********************************/

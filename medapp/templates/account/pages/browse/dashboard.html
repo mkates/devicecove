@@ -4,113 +4,87 @@
 
 {% block browse_css %}
 <style>
-.split-row {
-	padding: 0;
+.dashboard-row {
+	margin-bottom: 0px;
 }
-.split-row .d-row {
-	float: left;
-	padding: 15px 15px 50px 15px;
-	position:relative;
-	text-align: center;
+.dashboard-row  .title {
+	border-bottom:1px solid #dadada;
+	padding: 10px 20px;
 }
-.split-row .more-link {
+.dashboard-row  .more-link {
 	position:absolute;
 	bottom: 15px;
 	right: 15px;
 	font-size: 13px;
 }
-.split-row .more-link:hover {
+.dashboard-row  .more-link:hover {
 	text-decoration: underline;
 }
-.split-row h3 {
+.dashboard-row  h3 {
+	padding: 0;
 	font-weight: 200;
 	font-size: 18px;
 	color: #555;
 	margin: 0;
 }
-.split-row .subtext {
+.dashboard-row .subtext {
 	font-size: 12px;
-	font-weight: 200;
-	letter-spacing: .2px;
 	color: #777;
+	margin-bottom: 0;
 }
-.credits {
-	width: 40%;
-	border-right:1px solid #eee;
-	border-top-right-radius: 0px;
-	border-bottom-right-radius: 0px;
+.split-box-body {
+	padding: 10px 10px 40px 10px;
+}
+.credits,.order-history, .news {
+	position:relative;
+	height: 100%;
+	display:block;
+	width: 100%;
+	overflow: auto;
 }
 .credits .goal {
-	width: 50%;
+	display:table;
+	width: 100%;
 	text-align: center;
-	float: left;
-	margin: 30px 0 15px 0;
+	margin: 0px 0 0px 0;
+}
+.credits .goal .meter {
+	width: 60px;
+	display:table-cell;
+	vertical-align: top;
+}
+.credits .goal .info {
+	padding-left: 20px;
+	text-align: left;
+	display:table-cell;
+	vertical-align: top;
+}
+.credits .goal .label {
+	vertical-align: top;
+	margin-top: 2px;
+	background: #eee;
+	border: 1px solid #ddd;
+	display:inline-block;
+	color: #888;
 }
 .credits .goal p {
-	color: #555;
+	color: #333;
 	font-size: 13px;
 	margin-bottom: 3px;
 }
 .credits .goal h6 {
 	margin: 0;
-	background: #eee;
-	border: 1px solid #ddd;
-	border-radius: 3px;
-	padding: 2px 5px;
+	display:inline-block;
+	clear:both;
+	font-size: 12px;
 	color: #888;
-	display:inline-block;
-}
-.reviews {
-	width: 60%;
-	float: left;
-	border-left: none;
-	overflow: hidden;
-	border-top-left-radius: 0px;
-	border-bottom-left-radius: 0px;
-}
-.review {
-	margin: 40px 10px;
-}
-.review .product-preview-box-container {
-	width: 33.3%;
-	float: left;
-	margin: 0px;
-	text-align:center;
-}
-.review .product-preview-box-container .button {
-	display:inline-block;
-	margin-bottom: 10px;
-}
-.review .product-preview-box-container .button:hover {
-	background: #d6d6d6;
-}
-
-/* E-Row */
-.small-split-row {
-	margin: 20px 0;
-}
-.split-one {
-	width: 50%;
-	border-right:1px solid #eee;
-	border-top-right-radius: 0px;
-	border-bottom-right-radius: 0px;
-}
-.split-two {
-	width: 50%;
-	border-left:none;
-	border-top-left-radius: 0px;
-	border-bottom-left-radius: 0px;
 }
 /* Recent Orders */
 .second-table {
-	text-align: center;
-	padding: 10px 20px;
+	padding: 0px 10px;
 	font-size: 13px;
 	border-bottom:1px solid #d6d6d6;
 	color: #333;
-}
-.second-table th {
-	text-align: center;
 }
 /*Listing */
 .nolisting {
@@ -156,6 +130,66 @@
 	color: #777;
 	margin: 2px 0 0 0;
 }
+/*News */
+.news-item {
+	margin-bottom: 15px;
+	padding: 0 10px;
+}
+.news-item p {
+	font-size: 12px;
+	margin-bottom: 0;
+}
+.news-item .date {
+	color: #aaa;
+	font-size: 11px;
+}
+/*Reviews Row */
+.full-row {
+	margin-bottom: 10px;
+	position:relative;
+	/*border-top:none;
+	border-top-right-radius: 0px;
+	border-top-left-radius: 0px;*/
+	/*background-image: -moz-linear-gradient(bottom, #FFFFFF 0%, #fafafa 80%, #EEEEEE 100%);*/
+}
+.full-row h3 {
+	border-bottom:1px solid #dadada;
+	margin: 5px 0px;
+	padding: 5px 20px 10px 20px;
+	font-weight: 200;
+	font-size: 18px;
+	color: #555;
+	text-align:left;
+}
+.full-row h3 span {
+	position:absolute;
+	right: 20px;
+	padding-top: 6px;
+	font-size: 13px;
+}
+.review {
+	padding: 10px 5px 20px 5px;
+}
+.review .product-preview-box-container {
+	width: 20%;
+	float: left;
+	margin: 0px;
+	text-align:center;
+}
+.review .product-preview-box-container .button {
+	display:inline-block;
+	margin-bottom: 10px;
+	letter-spacing: .2px;
+}
+.review .product-preview-box-container .button:hover {
+	background: #d6d6d6;
+}
+.review .product-preview-box-container {
+	border:none;
+}
+.review .product-preview-box-container a:hover {
+	box-shadow: none;
+}
 </style>
 {% endblock %}
 {% block browse_js %}
@@ -164,10 +198,9 @@
 $(document).ready(function(){
 	$(".dial").knob({
 		thickness:.15,
-		angleOffset:-100,
-		angleArc:200,
+		angleArc:360,
 		readOnly:true,
-		width: 100,
+		width: 60,
 		height:60,
 		fgColor:'#6ac3e8',
 		'draw' : function () { 
@@ -178,181 +211,222 @@ $(document).ready(function(){
 	       	}
 	      }
 	});
-	$('.dial').css('font-size','16px')
-	$(".reviews").css('height',$('.credits').css('height'));
-	var max = 0
-	$.each($('.small-split'),function(index,value){
-		console.log(value);
-		max = Math.max(max,parseInt($(value).css('height')));
-	});
-	$(".small-split").css('height',max);
+	$('.dial').css('font-size','14px')
 });
 </script>
 {% endblock %}
 {% block browse_content %}
-	<div class="split-row">
-		<div class="credits d-row vetbox">
-			<h3>Credit Goals For May</h3>
-			<p class="subtext">You have 13 days left to reach these goals. <a href='/account/credits'>Learn More</a></p>
+<div class="intro-box-container">
+	<div class="intro-box">
+		<div class="intro-image" style='background-image:url("{{STATIC_URL}}img/misc/topicons.png");background-position: -0px 0' ></div>
+		<h3 class="page-title">Dashboard<div class="gradient"></div></h3>
+		<div class="links">
+			<a class='active'>Most Recent</a> | <a>Most Popular</a> | <a> Newest</a> | <a> Largest Discount</a>
+		</div>
+	</div>
+</div>
+
+<div class="tablecell dashboard-row">
+  <div class="tablecell-col tablecell-45 vetbox">
+  	<div class="credits">
+		<div class="title">
+			<h3>Rewards For Month of May</h3>
+			<p class="subtext">You have <strong>13 days</strong> left to reach these goals. <a href='/account/credits'>Learn More</a></p>
+		</div>
+		<div class="split-box-body">
 			<div class="goal">
-				<input type="text" class="dial" value="2" data-max="8" data-type="ratio">
-				<p>Write 8 Reviews</p>
-				<h6>50 Credits</h6>
+				<div class="meter">
+					<input type="text" class="dial" value="2" data-max="8" data-type="ratio">
+				</div>
+				<div class="info">
+					<p>Write 8 Reviews <span>for 50 credits</span></p>
+					<h6>You have 2 out of 8 reviews complete</h6>
+				</div>
 			</div>
 			<div class="goal">
-				<input type="text" class="dial" value="60" data-max="100" data-type="dollar">
-				<p>Spend $1,200 on VetCove</p>
-				<h6>200 Credits</h6>
+				<div class="meter">
+					<input type="text" class="dial" value="98" data-max="99" data-type="ratio">
+				</div>
+				<div class="info">
+					<p>Write 8 Reviews</p>
+					<h6>Reward: 50 Credits | 2 out of 8 reviews complete</h6>
+				</div>
 			</div>
 			<div class="goal">
-				<input type="text" class="dial" value="0" data-max="2" data-type="ratio">
-				<p>Refer 2 Clinics</p>
-				<h6>400 Credits</h6>
+				<div class="meter">
+					<input type="text" class="dial" value="2" data-max="8" data-type="ratio">
+				</div>
+				<div class="info">
+					<p>Write 8 Reviews</p>
+					<h6>Reward: 50 Credits | 2 out of 8 reviews complete</h6>
+				</div>
 			</div>
 			<div class="goal">
-				<input type="text" class="dial" value="2" data-max="3" data-type="ratio">
-				<p>Buy 3 A&G Products</p>
-				<h6>300 Credits</h6>
+				<div class="meter">
+					<input type="text" class="dial" value="2" data-max="8" data-type="ratio">
+				</div>
+				<div class="info">
+					<p>Write 8 Reviews</p>
+					<h6>Reward: 50 Credits | 2 out of 8 reviews complete</h6>
+				</div>
 			</div>
 			<div class="clear"></div>
-			<a class="more-link" href="/account/credits">View and Redeem Credits &rarr;</a>
 		</div>
-		<div class="reviews d-row vetbox">
-			<h3>Review Products</h3>
-			<p class="subtext">Reviewing products can help you reach your credit goals.</p>
-			<div class="review">
-				<div class="product-preview-box-container first">
-					<a href='#'>
-				  		<div class="product-preview-box">
-				  			<div class="product-preview-image" style='background-image:url("{{STATIC_URL}}img/placeholder_pics/1.gif")'>
-				  			</div>
-				  			<div class="product-preview-info">
-				  				<p class="title">Potomavac Bacterin Stocked</p>
-				  				<div class="ratings">
-				  					<div class="star blackstar star{{rating}}"></div><span>(8)</span>
-				  				</div>
-				  				<button class="button button-rounded button-tiny button-flat">Review This Product</button>
-				  			</div>
-				  		</div>
-				  	</a>
-				</div>
-				<div class="product-preview-box-container">
-					<a href='#'>
-				  		<div class="product-preview-box">
-				  			<div class="product-preview-image" style='background-image:url("{{STATIC_URL}}img/placeholder_pics/1.gif")'>
-				  			</div>
-				  			<div class="product-preview-info">
-				  				<p class="title">Potomavac Bacterin Stocked</p>
-				  				<div class="ratings">
-				  					<div class="star blackstar star{{rating}}"></div><span>(8)</span>
-				  				</div>
-				  				<button class="button button-rounded button-tiny button-flat">Review This Product</button>
-				  			</div>
-				  		</div>
-				  	</a>
-				</div>
-				<div class="product-preview-box-container last">
-					<a href='#'>
-				  		<div class="product-preview-box">
-				  			<div class="product-preview-image" style='background-image:url("{{STATIC_URL}}img/placeholder_pics/1.gif")'>
-				  			</div>
-				  			<div class="product-preview-info">
-				  				<p class="title">Potomavac Bacterin Stocked</p>
-				  				<div class="ratings">
-				  					<div class="star blackstar star{{rating}}"></div><span>(8)</span>
-				  				</div>
-				  				<button class="button button-rounded button-tiny button-flat">Review This Product</button>
-				  			</div>
-				  		</div>
-				  	</a>
-				</div>
+		<a class="more-link" href="/rewards">View All Rewards &rarr;</a>
+  	</div>
+  </div>
+  <div class="tablecell-col tablecell-45 vetbox">
+  	<div class="order-history">
+  		<div class="title">
+			<h3>Order History</h3>
+			<p class="subtext">Recently Ordered Items</p>
+		</div>
+		<div class="split-box-body">
+			<table class="table table-striped second-table">
+				<thead>
+					<th>Order</th>
+					<th>Date</th>
+					<th>Amount</th>
+					<th>Status</th>
+				</thead>
+				<tbody>	
+					<tr>
+						<td><a href="#">#43D9S3J</a></td>
+						<td>Sept 3</td>
+						<td>$89.92</td>
+						<td>Completed</td>
+					</tr>
+					<tr>
+						<td><a href="#">#43D9S3J</a></td>
+						<td>Sept 3</td>
+						<td>$89.92</td>
+						<td>Completed</td>
+					</tr>
+					<tr>
+						<td><a href="#">#43D9S3J</a></td>
+						<td>Sept 3</td>
+						<td>$89.92</td>
+						<td>Completed</td>
+					</tr>
+					<tr>
+						<td><a href="#">#43D9S3J</a></td>
+						<td>Sept 3</td>
+						<td>$89.92</td>
+						<td>Completed</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<a class="more-link" href="/account/orderhistory">View full order histroy &rarr;</a>
+  	</div>
+  </div>
+   <div class="tablecell-col tablecell-3 vetbox">
+  	<div class="news">
+  		<div class="title">
+			<h3>News</h3>
+			<p class="subtext">Industry News</p>
+		</div>
+		<div class="split-box-body">
+			<div class="news-item">
+				<p><span class="label label-info">New Product</span> Bayer has introduced a new product, Phenyrezone <span> 2 days ago</span></p>
+				<p class="date">2 days ago</p>
 			</div>
-			<a class="more-link" href="/account/credits">View all Reviews &rarr;</a>
+			<div class="news-item">
+				<p><span class="label label-danger">Backorder</span> Bayer has introduced a new product, Phenyrezone <span> 2 days ago</span></p>
+				<p class="date">2 days ago</p>
+			</div>
+			<div class="news-item">
+				<p><span class="label label-success">Promotion</span> Bayer has introduced a new product, Phenyrezone <span> 2 days ago</span></p>
+				<p class="date">2 days ago</p>
+			</div>
+			<div class="news-item">
+				<p><span class="label label-info">New Product</span> Bayer has introduced a new product, Phenyrezone <span> 2 days ago</span></p>
+				<p class="date">2 days ago</p>
+			</div>
 		</div>
-		<div class="clear"></div>
+		<a class="more-link" href="/news">View all news &rarr;</a>
+  	</div>
+  </div>
+</div>
+	<div class="full-row vetbox">
+		<h3> Review Recent Products<span><a class="more-link" href="/account/credits">View all Reviews &rarr;</a><span></h3>
+		<div class="review">
+			<div class="product-preview-box-container first">
+				<a href='#'>
+			  		<div class="product-preview-box">
+			  			<div class="product-preview-image" style='background-image:url("{{STATIC_URL}}img/placeholder_pics/1.gif")'>
+			  			</div>
+			  			<div class="product-preview-info">
+			  				<p class="title">Potomavac Bacterin Stocked</p>
+			  				<div class="ratings">
+			  					<div class="star blackstar star{{rating}}"></div><span>(8)</span>
+			  				</div>
+			  				<button class="button button-rounded button-tiny button-flat">Review This Product</button>
+			  			</div>
+			  		</div>
+			  	</a>
+			</div>
+			<div class="product-preview-box-container">
+				<a href='#'>
+			  		<div class="product-preview-box">
+			  			<div class="product-preview-image" style='background-image:url("{{STATIC_URL}}img/placeholder_pics/1.gif")'>
+			  			</div>
+			  			<div class="product-preview-info">
+			  				<p class="title">Potomavac Bacterin Stocked</p>
+			  				<div class="ratings">
+			  					<div class="star blackstar star{{rating}}"></div><span>(8)</span>
+			  				</div>
+			  				<button class="button button-rounded button-tiny button-flat">Review This Product</button>
+			  			</div>
+			  		</div>
+			  	</a>
+			</div>
+			<div class="product-preview-box-container last">
+				<a href='#'>
+			  		<div class="product-preview-box">
+			  			<div class="product-preview-image" style='background-image:url("{{STATIC_URL}}img/placeholder_pics/1.gif")'>
+			  			</div>
+			  			<div class="product-preview-info">
+			  				<p class="title">Potomavac Bacterin Stocked</p>
+			  				<div class="ratings">
+			  					<div class="star blackstar star{{rating}}"></div><span>(8)</span>
+			  				</div>
+			  				<button class="button button-rounded button-tiny button-flat">Review This Product</button>
+			  			</div>
+			  		</div>
+			  	</a>
+			</div>
+			<div class="product-preview-box-container">
+				<a href='#'>
+			  		<div class="product-preview-box">
+			  			<div class="product-preview-image" style='background-image:url("{{STATIC_URL}}img/placeholder_pics/1.gif")'>
+			  			</div>
+			  			<div class="product-preview-info">
+			  				<p class="title">Potomavac Bacterin Stocked</p>
+			  				<div class="ratings">
+			  					<div class="star blackstar star{{rating}}"></div><span>(8)</span>
+			  				</div>
+			  				<button class="button button-rounded button-tiny button-flat">Review This Product</button>
+			  			</div>
+			  		</div>
+			  	</a>
+			</div>
+			<div class="product-preview-box-container last">
+				<a href='#'>
+			  		<div class="product-preview-box">
+			  			<div class="product-preview-image" style='background-image:url("{{STATIC_URL}}img/placeholder_pics/1.gif")'>
+			  			</div>
+			  			<div class="product-preview-info">
+			  				<p class="title">Potomavac Bacterin Stocked</p>
+			  				<div class="ratings">
+			  					<div class="star blackstar star{{rating}}"></div><span>(8)</span>
+			  				</div>
+			  				<button class="button button-rounded button-tiny button-flat">Review This Product</button>
+			  			</div>
+			  		</div>
+			  	</a>
+			</div>
+			<div class="clear"></div>
+		</div>
 	</div>
-	<div class="split-row small-split-row">
-		<div class="split-one small-split d-row vetbox">
-			<h3>Buying: Recent Order History</h3>
-			<p class="subtext">Your Recently Ordered Items</p>
-			<a href='#'>
-				<table class="table table-striped second-table">
-					<thead>
-						<th>Date</th>
-						<th>Amount</th>
-						<th>Status</th>
-					</thead>
-					<tbody>
-						<tr>
-							<td>Sept 14</td>
-							<td>$242.92</td>
-							<td>Completed</td>
-						</tr>
-						<tr>
-							<td>Sept 11</td>
-							<td>$2,322.92</td>
-							<td>Completed</td>
-						</tr>
-						<tr>
-							<td>Sept 6</td>
-							<td>$42.92</td>
-							<td>Completed</td>
-						</tr>
-						<tr>
-							<td>Sept 3</td>
-							<td>$89.92</td>
-							<td>Completed</td>
-						</tr>
-						<tr>
-							<td>Sept 1</td>
-							<td>$242.92</td>
-							<td>Completed</td>
-						</tr>
-					</tbody>
-				</table>
-			</a>
-			<a class="more-link" href="/account/credits">View all Recent Orders &rarr;</a>
-		</div>
-		<div class="split-two small-split d-row vetbox">
-			<h3>Selling: VetCove Marketplace</h3>
-			<p class="subtext">Your Most Recent Equipment Listings and Status</p>
-			<div class="nolisting">
-				<p>You have not yet listed any equipment on the VetCove marketplace. VetCove marketplace is a service to help veterinarians connect and sell used equipment to one another. <strong>Your first item is 100% commission free!</strong></p>
-				<a href='#' class="button button-rounded button-flat-primary">How To List Equipment</a>
-			</div>
-			<div class="listing">
-				<table>
-					<tr>
-						<td class="image-td"><img src="{{STATIC_URL}}img/placeholder_pics/1.gif"></td>
-				  		<td class="info-td">
-				  			<a>Ultrasound XP400 with Extra Probes</a>
-				  			<p>Questions: 0 | Views: 21 | Saves: 2 </p>
-				  			<p>This item was listed on September 14th, 2014 </p>
-				  		</td>
-					</tr>
-					<tr>
-						<td class="image-td"><img src="{{STATIC_URL}}img/placeholder_pics/2.gif"></td>
-				  		<td class="info-td">
-				  			<a>Ultrasound XP400 with Extra Probes (lightly used)</a>
-				  			<p>Questions: 0 | Views: 21 | Saves: 2 </p>
-				  			<p>This item was listed on September 14th, 2014 </p>
-				  		</td>
-					</tr>
-					<tr>
-						<td class="image-td"><img src="{{STATIC_URL}}img/placeholder_pics/3.gif"></td>
-				  		<td class="info-td">
-				  			<a>Ultrasound XP400 with Extra Probes</a>
-				  			<p>Questions: 0 | Views: 21 | Saves: 2 </p>
-				  			<p>This item was listed on September 14th, 2014 </p>
-				  		</td>
-					</tr>
-				</table>
-			</div>
-			<a class="more-link" href="/account/credits">Mange All Marketplace Listings &rarr;</a>
-		</div>
-		<div class="clear"></div>
-	</div>
-	{% for key,values in product_rows.items %}
-		{% include 'account/pages/browse/productrow-base.html' with row_title=key %}
-	{% endfor %}
 {% endblock %}

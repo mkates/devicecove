@@ -1,0 +1,400 @@
+{% extends 'account/pages/browse/base.html' %}
+
+{% block headertitle %}VetCove Dashboard{% endblock %}
+
+{% block browse_css %}
+<style>
+.dashboard-row {
+	margin-bottom: 0px;
+}
+.dashboard-row  .title {
+	border-bottom:1px solid #dadada;
+	padding: 10px 20px;
+}
+.dashboard-row  .more-link {
+	position:absolute;
+	bottom: 15px;
+	right: 15px;
+	font-size: 13px;
+}
+.dashboard-row  .more-link:hover {
+	text-decoration: underline;
+}
+.dashboard-row  h3 {
+	padding: 0;
+	font-weight: 200;
+	font-size: 18px;
+	color: #555;
+	margin: 0;
+}
+.dashboard-row .subtext {
+	font-size: 12px;
+	color: #777;
+	margin-bottom: 0;
+}
+.split-box-body {
+	padding: 10px 10px 40px 10px;
+}
+.credits,.order-history, .news {
+	position:relative;
+	height: 100%;
+	display:block;
+	width: 100%;
+	overflow: auto;
+}
+.credits .goal {
+	display:table;
+	width: 100%;
+	text-align: center;
+	margin: 0px 0 0px 0;
+}
+.credits .goal .meter {
+	width: 60px;
+	display:table-cell;
+	vertical-align: top;
+}
+.credits .goal .info {
+	padding-left: 20px;
+	text-align: left;
+	display:table-cell;
+	vertical-align: top;
+}
+.credits .goal .label {
+	vertical-align: top;
+	margin-top: 2px;
+	background: #eee;
+	border: 1px solid #ddd;
+	display:inline-block;
+	color: #888;
+}
+.credits .goal p {
+	color: #333;
+	font-size: 13px;
+	margin-bottom: 3px;
+}
+.credits .goal h6 {
+	margin: 0;
+	display:inline-block;
+	clear:both;
+	font-size: 12px;
+	color: #888;
+}
+
+.side-layout {
+  display: table;
+  width: 100%;
+}
+.side-layout-col {
+  display: table-cell;
+  vertical-align: top;
+}
+.side-layout .mainbar-container {
+	background: #fff;
+	border-top-left-radius: 3px;
+	border-bottom-left-radius: 3px;
+}
+.side-layout-col.sidebar-container {
+	width: 250px;
+	border-left:1px solid #ddd;
+	background: #fafafa;
+	box-shadow: 0 0 10px rgba(0,0,0,.1) inset;
+	border-top-right-radius: 3px;
+	border-bottom-right-radius: 3px;
+}
+
+.explanation {
+	margin: 20px 30px 25px 30px;
+	padding-bottom: 25px;
+	border-bottom:1px solid #eaeaea;
+	font-weight: normal;
+	font-size: 13px;
+}
+.goal-container {
+	margin: 40px 30px 50px 30px;
+	border-bottom:1px solid #eaeaea;
+	padding-bottom: 40px;
+	position:relative;
+}
+.goal-description {
+	margin-bottom: 15px;
+}
+.goal-description h3 {
+	font-size: 15px;
+	color: #555;
+	margin-bottom: 0;
+}
+.goal-description p {
+	color: #777;
+	font-size: 12px;
+	margin: 0 100px 0 0;
+}
+.goal-description .prize {
+	float: right;
+	position:absolute;
+	top: 0;
+	right: 0;
+	text-align: center;
+	background: #edf8eb;
+	border: 1px solid #61a256;
+	border-radius: 3px;
+	padding: 0px 5px;
+}
+.goal-description .prize h4 {
+	margin: 0;
+	font-size: 15px;
+	color: #37762c;
+}
+.goal-description .prize p {
+	color: #666;
+	font-size: 10px;
+	letter-spacing: .3px;
+	font-weight: 200;
+	margin: 0;
+}
+.goal-container .progress {
+	margin-bottom: 0px;
+	margin-top: -5px;
+	height: 15px;
+
+}
+.goal-container .progress .progress-bar {
+	background: #5ecadf;}
+.goal-container .progress .progress-bar-orange {
+	background: #f78b26;
+}
+.goal-container .progress .progress-bar-purple {
+	background: #b161c2;
+}
+.goal-container .progress .progress-bar-green {
+	background: #0aab89;
+}
+.progress-meter {
+	display:inline-block;
+	width: 200px;
+	margin-left:-100px;
+	margin-bottom: -10px;
+	text-align: center;
+}
+.progress-text {
+	display:inline-block;
+	position:relative;
+}
+.progress-text .status {
+	background: #333;
+	color: white;
+	border-radius: 3px;
+	font-weight: 200;
+	font-size: 11px;
+	letter-spacing: .2px;
+	padding:2px 5px;
+	margin: 0;
+	position:relative;
+	z-index: 1;
+}
+.progress-text .down-arrow {
+	position:relative;
+	z-index: 0;
+	color: #333;
+	vertical-align: top;
+	line-height: 12px;
+	height: 12px;
+	margin-top: -6px;
+	margin-bottom: 0px;
+}
+.tickmarks {
+	border:1px solid green;
+	position
+}
+.tickmarks .arrow {
+	color:red;
+	margin: -6px 0 0 0;
+}
+/*Stats */
+.stats {
+	padding: 20px 0 30px 0;
+	margin: 0 10px;
+	border-bottom:1px solid #eee;
+	text-align: center;
+	overflow: auto;
+}
+.stats .stat {
+	padding: 0px 0 10px 0;
+}
+.stats .stat .number {
+	font-size: 35px;
+	font-weight: bold;
+	color: #555;
+	letter-spacing: 1px;
+	line-height: 38px;
+	margin-bottom: 0;
+}
+.stats .stat .description {
+	text-transform: uppercase;
+	font-size: 11px;
+	font-weight: bold;
+	color: #999;
+}
+.fact {
+	text-align: center;
+	padding: 5px;
+	margin: 0 10px;
+	border-bottom:1px solid #eaeaea;
+}
+.fact p {
+	margin-bottom: 0px;
+	font-size: 13px;
+	color: #888;
+}
+</style>
+{% endblock %}
+{% block browse_js %}
+<script src="{{STATIC_URL}}js/plugins/jquery.knob.js" type="text/javascript" ></script>
+<script>
+$(document).ready(function(){
+	$(".dial").knob({
+		thickness:.15,
+		angleArc:360,
+		readOnly:true,
+		width: 60,
+		height:60,
+		fgColor:'#6ac3e8',
+		'draw' : function () { 
+			if ($(this.$).attr('data-type')=='dollar') {
+				$(this.i).val(this.cv+"%");
+			} else {
+	       		$(this.i).val(this.cv + '/'+$(this.$).attr('data-max'));
+	       	}
+	      }
+	});
+	$('.dial').css('font-size','14px')
+});
+</script>
+{% endblock %}
+{% block browse_content %}
+<div class="intro-box-container">
+	<div class="intro-box">
+		<div class="intro-image" style='background-image:url("{{STATIC_URL}}img/misc/topicons.png");background-position: -56px 0' ></div>
+		<h3 class="page-title">Rewards<div class="gradient"></div></h3>
+		<div class="links">
+			<a class='active'>Rewards For May</a> | <a class=''>Redeem Your Credits</a> | <a>Credit History</a>
+		</div>
+	</div>
+</div>
+<div class="side-layout vetbox">
+    <div class="side-layout-col mainbar-container">
+    	<div class="mainbar">
+    		<div class="explanation">
+    			<p>Every month, we offer a different set of reward perks for completing set missions. If you complete the goal by the end of the month, we will automatically add the credits to your account, which can be redeemed for awesome rewards!</p>
+    		</div>
+    		<div class="">
+				<div class="goal-container">
+					<div class="goal-description">
+						<h3>Get 20 upvotes on reviews you write</h3>
+						<p>An upvote occurs when another clinic finds your review helpful</p>
+						<div class="prize">
+							<h4>50</h4>
+							<p>credit prize</p>
+						</div>
+					</div>
+					<div class="progress-meter-container" style="padding-left:80%">
+						<div class="progress-meter">
+							<div class="progress-text">
+								<p class="status">4 upvotes received</p>
+								<p class="down-arrow">&#x25BE;</p>
+							</div>
+						</div>
+					</div>
+					<div class="progress">
+						<div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 80%;">
+						</div>
+					</div>
+				</div>
+
+				<div class="goal-container">
+					<div class="goal-description">
+						<h3>Write 8 Reviews For Purchased Products</h3>
+						<p>For any products you have purchased through VetCove, you can write a review of at least 50 words</p>
+						<div class="prize">
+							<h4>100</h4>
+							<p>credit prize</p>
+						</div>
+					</div>
+					<div class="progress-meter-container" style="padding-left:20%">
+						<div class="progress-meter">
+							<div class="progress-text">
+								<p class="status">2 of 8 reviews complete</p>
+								<p class="down-arrow">&#x25BE;</p>
+							</div>
+						</div>
+					</div>
+					<div class="progress">
+						<div class="progress-bar progress-bar-orange" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 20%;">
+						</div>
+					</div>
+				</div>
+
+				<div class="goal-container">
+					<div class="goal-description">
+						<h3>Make $5,000 in purchases</h3>
+						<p>Credit for the purchase will occur 48 hours after the item is shipped</p>
+						<div class="prize">
+							<h4>200</h4>
+							<p>credit prize</p>
+						</div>
+					</div>
+					<div class="progress-meter-container" style="padding-left:30%">
+						<div class="progress-meter">
+							<div class="progress-text">
+								<p class="status">$1,200 in purchases</p>
+								<p class="down-arrow">&#x25BE;</p>
+							</div>
+						</div>
+					</div>
+					<div class="progress">
+						<div class="progress-bar progress-bar-purple" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 30%;">
+						</div>
+					</div>
+				</div>
+
+				<div class="goal-container">
+					<div class="goal-description">
+						<h3>Refer 2 clinics</h3>
+						<p>Send a referral link to 2 clinics, once they sign up and make their first purchase, you will be credited with a successful referral</p>
+						<div class="prize">
+							<h4>500</h4>
+							<p>credit prize</p>
+						</div>
+					</div>
+					<div class="progress-meter-container" style="padding-left:50%">
+						<div class="progress-meter">
+							<div class="progress-text">
+								<p class="status">1 referral</p>
+								<p class="down-arrow">&#x25BE;</p>
+							</div>
+						</div>
+					</div>
+					<div class="progress">
+						<div class="progress-bar progress-bar-green" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 50%;">
+						</div>
+					</div>
+				</div>
+			</div>
+    	</div>
+    </div>
+    <div class="side-layout-col sidebar-container">
+    	<div class="sidebar">
+    		<div class="stats">
+	    		<div class="stat">
+	    			<p class="number">320</p>
+	    			<p class="description">Current Credit Balance</p>
+	    		</div>
+	    		<a href='#' class="button button-rounded button-flat-primary"> Redeem Your Credits</a>
+	    	</div>
+	    	<div class="fact">
+	    		<p>1,240 Lifetime Credits Earned</p>
+	    	</div>
+		</div>
+    </div>
+</div>
+
+{% endblock %}
