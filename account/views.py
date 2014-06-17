@@ -19,15 +19,7 @@ from helper.model_imports import *
 #### Basic Pages ##########################
 ###########################################
 def dashboard(request):
-	categories = ['Biologicals','Dental Care','Diagnostics','Eye and Ear','Fluid and Drugs','Nutrition','Pharmaceutical','Surgery','Wound Care','X-Ray']
-	products_one,products_two,products_three,products_four = None,None,None,None
-	product_rows = {'Recently Viewed Items You May Be Interested In':products_one,
-			'New VetCove Marketplace Items':products_one,
-			'Promotional Products You May Be Interested In':products_two,
-			'Newly Added Products You May Be Interested In':products_three,
-			'Top Products Trending on VetCove':products_four
-				}
-	return render_to_response('account/pages/browse/dashboard.html',{'dashboard':True,'product_rows':product_rows,'categories':categories},context_instance=RequestContext(request))
+	return render_to_response('account/pages/browse/dashboard.html',{'dashboard':True},context_instance=RequestContext(request))
 def new(request):
 	return render_to_response('account/pages/browse/new.html',{'browse_new':True},context_instance=RequestContext(request))
 def recent(request):
@@ -37,20 +29,46 @@ def trending(request):
 def deals(request):
 	return render_to_response('account/pages/browse/deals.html',{'browse_deals':True},context_instance=RequestContext(request))
 def rewardsRewards(request):
-	return render_to_response('account/pages/browse/rewards/rewards.html',{'browse_rewards':True},context_instance=RequestContext(request))
+	return render_to_response('account/pages/browse/rewards/rewards.html',{'browse_rewards':True, 'browse_rewards_rewards':True},context_instance=RequestContext(request))
 def rewardsStore(request):
-	return render_to_response('account/pages/browse/rewars/store.html',{'browse_rewards':True},context_instance=RequestContext(request))
+	return render_to_response('account/pages/browse/rewards/store.html',{'browse_rewards':True, 'browse_rewards_store':True},context_instance=RequestContext(request))
 def rewardsHistory(request):
-	return render_to_response('account/pages/browse/rewards/history.html',{'browse_rewards':True},context_instance=RequestContext(request))
+	return render_to_response('account/pages/browse/rewards/history.html',{'browse_rewards':True, 'browse_rewards_history':True},context_instance=RequestContext(request))
 
 ###########################################
 #### Portal Pages #########################
 ###########################################
 def product(request,productname):
 	product = Product.objects.get(name=productname)
-	return render_to_response('product/product2.html',{'product':product},context_instance=RequestContext(request))
+	products = Product.objects.all()
+	for pdt in products:
+		pdt.details = getItemDetailsFromAProduct(pdt)
+	return render_to_response('product/product2.html',{'product':product,'products':products},context_instance=RequestContext(request))
 def company(request,companyname):
 	return render_to_response('search/company.html',{},context_instance=RequestContext(request))
+
+### Given a product, get details from all the item's listings ####
+def getItemDetailsFromAProduct(product):
+	items = product.item_set.all()
+	lowprice,highprice = None, None
+	msrp_lowprice,msrp_highprice = None,None
+	suppliers = []
+	quantity = 0
+	for item in items:
+		if not msrp_lowprice or item.msrp_price < msrp_lowprice:
+			msrp_lowprice = item.msrp_price
+		if not msrp_highprice or item.msrp_price > msrp_highprice:
+			msrp_highprice = item.msrp_price 
+		inventories = item.inventory_set.all()
+		for inventory in inventories:
+			if inventory.supplier not in suppliers:
+				suppliers.append(inventory.supplier)
+			quantity += inventory.quantity_available
+			if not lowprice or inventory.base_price < lowprice:
+				lowprice = inventory.base_price
+			if not highprice or inventory.base_price > highprice:
+				highprice = inventory.base_price
+	return {'lowprice':lowprice,'highprice':highprice,'msrp_lowprice':msrp_lowprice,'msrp_highprice':msrp_highprice,'quantity':quantity,'suppliers':suppliers}
 
 ### Credits ###
 #@login_required
@@ -160,8 +178,8 @@ def wishlist(request):
 #### Login and Sign Up ####################
 ###########################################
 def signin(request):
-	next = request.GET.get('next',None)
-	action = request.GET.get('action',None)
+	next = request.GET.get('next','')
+	action = request.GET.get('action','')
 	if request.user.is_authenticated():
 		return HttpResponseRedirect("/account/profile")
 	return render_to_response('account/sign/signin.html',{'next':next,'action':action,'login':True},context_instance=RequestContext(request))

@@ -101,21 +101,21 @@ $(document).ready(function(){
 {% endblock %}
 {% block content %}
 <h3 class="page-title">
-	Inventory Management<span><a href='#'>Need Help? Just Ask</a> &middot; <a href='#'>Inventory Settings</a></span>
+	Mange Your Live Listings<span><a href='#'>Need Help? Just Ask</a> &middot; <a href='#'>Inventory Settings</a></span>
 	<div class="gradient"></div>
 </h3>
 <div class="table-responseive listing-table-container">
 	<div class="vetbox management">
 		<div class="quickfacts">
-			<h3>Patterson Veterinary Supply</h3>
-			<p class="update"><strong>Last Updated: </strong> May 21st, 7:35PM</p>
+			<h3>Wedgewood Pharmacy</h3>
+			<p class="update"><strong>Last Updated: </strong> June 14th, 7:35PM</p>
 			<div class="stats">
 				<div class="stat">
-					<h5>23</h5>
+					<h5>42</h5>
 					<p>Total Units Listed</p>
 				</div>
 				<div class="stat">
-					<h5>13</h5>
+					<h5>6</h5>
 					<p>Total Items Listed</p>
 				</div>
 			</div>
@@ -128,7 +128,7 @@ $(document).ready(function(){
 						<input type="text" class="form-control">
 					</div>
 					<div class="new_inventory">
-						<p>Manufactuer</p>
+						<p>Manufacturer</p>
 						<input type="text" class="form-control long">
 					</div>
 					<div class="new_inventory">
@@ -169,7 +169,7 @@ $(document).ready(function(){
 			<th class="center"><p data-toggle="tooltip" title="This is the price if a clinic buys an item anonymously from you" class='tooltip-p'>Anonymous Price</p></th>
 			<th class="center"><p>Quantity In Stock</p></th>
 			<th class="center"><p>Edit</p></th>
-			<th class="center"><p>Sales History</p></th>
+			<th class="center"><p>View</p></th>
 		</thead>
 		<tbody>
 			{% for inventory in inventories %}
@@ -203,7 +203,7 @@ $(document).ready(function(){
 							<a class="edit button button-rounded button-flat button-flat-primary button-tiny">Edit</a>
 						</td>
 						<td class="center">
-							<a href="details" class="button button-rounded button-flat button-flat-royal button-tiny">Details</a>
+							<a href='/product/{{inventory.item.product.name}}' class="button button-rounded button-flat button-flat-royal button-tiny">View</a>
 						</td>
 					</tr>
 				{% endwith %}{% endwith %}

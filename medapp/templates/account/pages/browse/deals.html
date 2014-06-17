@@ -1,3 +1,148 @@
 {% extends 'account/pages/browse/base.html' %}
 
-{% block headertitle %}VetCove Deals{% endblock %}
+{% block headertitle %}Promotions, Specials, and Deals{% endblock %}
+
+{% block browse_css %}
+<style>
+.product-preview-info .discount {
+	font-weight: bold;
+	font-size: 15px;
+	color: #4ab0d2;
+	margin-top: -10px;
+}
+</style>
+{% endblock %}
+{% block browse_js %}
+
+{% endblock %}
+{% block browse_content %}
+<div class="intro-box-container">
+	<div class="intro-box">
+		<div class="intro-image" style='background-image:url("{{STATIC_URL}}img/misc/topicons.png");background-position: -28px 0' ></div>
+		<h3 class="page-title">{% block title %}Promotions and Specials{% endblock %}<div class="gradient"></div></h3>
+		<div class="links">
+			<a {% if True %}class="active"{% endif %} href='/rewards'>Top Specials</a> | <a {% if browse_rewards_store %}class="active"{% endif %} href='/rewards/store'>Newest Specials</a> | <a {% if browse_rewards_history %}class="active"{% endif %} href='/rewards/history'>Largest Discount Specials</a>
+		</div>
+	</div>
+</div>
+{% include 'account/pages/browse/dealrow-base.html' %}
+<div class="product-row">
+	<!-- <h3 class="row-title">{{row_title}} <a href='#'>View all {{row_title}} &rarr;<a></h3> -->
+	<div class="products">
+		<div class="product-preview-box-container first">
+			<a href='#'>
+		  		<div class="product-preview-box">
+		  			<div class="product-preview-image" style='background-image:url("{{STATIC_URL}}img/placeholder_pics/6.gif")'>
+		  			</div>
+		  			<div class="product-preview-info">
+		  				<p class="title">Rimadyl 5mg</p>
+		  				<div class="ratings">
+		  					<div class="star blackstar star{{rating}}"></div><span>(8)</span>
+		  				</div>
+		  				<p class="discount">23% off retail price</p>
+		  				<div class="price">
+		  					$17.31<span>$14.22</span>
+		  				</div>
+		  			</div>
+		  		</div>
+		  	</a>
+		</div>
+		<div class="product-preview-box-container">
+			<a href='#'>
+		  		<div class="product-preview-box">
+		  			<div class="product-preview-image" style='background-image:url("{{STATIC_URL}}img/placeholder_pics/7.gif")'>
+		  			</div>
+		  			<div class="product-preview-info">
+		  				<p class="title">Fuxaject 50mg</p>
+		  				<div class="ratings">
+		  					<div class="star blackstar star{{rating}}"></div><span>(3)</span>
+		  				</div>
+		  				<p class="discount">Buy 2, Get 1 Free</p>
+		  				<div class="price">
+		  					$51.39<span>$68.14</span>
+		  				</div>
+		  			</div>
+		  		</div>
+		  	</a>
+		</div>
+		<div class="product-preview-box-container">
+			<a href='#'>
+		  		<div class="product-preview-box">
+		  			<div class="product-preview-image" style='background-image:url("{{STATIC_URL}}img/placeholder_pics/18.gif")'>
+		  			</div>
+		  			<div class="product-preview-info">
+		  				<p class="title">1.0 Dine Complex Bolus</p>
+		  				<div class="ratings">
+		  					<div class="star blackstar star30"></div><span>(4)</span>
+		  				</div>
+		  				<p class="discount">Buy 6, Get 2 Free</p>
+		  				<div class="price">
+		  					$17.31<span>$14.22</span>
+		  				</div>
+		  			</div>
+		  		</div>
+		  	</a>
+		</div>
+		<div class="product-preview-box-container">
+			<a href='#'>
+		  		<div class="product-preview-box">
+		  			<div class="product-preview-image" style='background-image:url("{{STATIC_URL}}img/placeholder_pics/9.gif")'>
+		  			</div>
+		  			<div class="product-preview-info">
+		  				<p class="title">Flunixject</p>
+		  				<div class="ratings">
+		  					<div class="star blackstar star35"></div><span>(1)</span>
+		  				</div>
+		  				<p class="discount">54% off retail price</p>
+		  				<div class="price">
+		  					$93.89<span>$188.43</span>
+		  				</div>
+		  			</div>
+		  		</div>
+		  	</a>
+		</div>
+		<div class="product-preview-box-container last">
+			<a href='#'>
+		  		<div class="product-preview-box">
+		  			<div class="product-preview-image" style='background-image:url("{{STATIC_URL}}img/placeholder_pics/10.gif")'>
+		  			</div>
+		  			<div class="product-preview-info">
+		  				<p class="title">HEXtra Chews for Dogs</p>
+		  				<div class="ratings">
+		  					<div class="star blackstar star50"></div><span>(12)</span>
+		  				</div>
+		  				<p class="discount">Buy 10, Get $20 Gift Card</p>
+		  				<div class="price">
+		  					$116.86<span>$180.43</span>
+		  				</div>
+		  			</div>
+		  		</div>
+		  	</a>
+		</div>
+		<div class="clear"></div>
+	</div>
+</div>	
+<div class="dealbox">
+	<div class="deal-title pill-bg">
+		<h3>The Sweetest</h3>
+		<h3>Pharmaceutical</h3>
+		<h3>Deals Yet</h3>
+	</div>
+	<div class="deals">
+		<div class="row">
+			<div class="col-md-5 col-sm-5 deal-image">
+				<img src="{{STATIC_URL}}img/placeholder_pics/8.gif"/>
+			</div>
+			<div class="col-md-7 col-sm-7 deal-info">
+				<h4>Banamine Injectable Solution</h4>
+				<h5>$50.76 <span>(23% off retail price)<span></h5>
+				<a href="/special" class="button button-flat-primary button-rounded">View Details</a>
+			</div>
+		</div>
+	</div>
+	<div class="clear"></div>
+</div>
+{% include 'account/pages/browse/productrow-base.html' with row_title=row_one %}
+	
+
+{% endblock %}

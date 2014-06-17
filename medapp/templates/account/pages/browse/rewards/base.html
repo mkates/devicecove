@@ -4,87 +4,30 @@
 
 {% block browse_css %}
 <style>
-/* Dashboard CSS */
-
-.dashboard-row {
-	margin-bottom: 0px;
+.side-layout {
+  display: table;
+  width: 100%;
 }
-.dashboard-row  .title {
-	border-bottom:1px solid #dadada;
-	padding: 10px 20px;
+.side-layout-col {
+  display: table-cell;
+  vertical-align: top;
 }
-.dashboard-row  .more-link {
-	position:absolute;
-	bottom: 15px;
-	right: 15px;
-	font-size: 13px;
+.side-layout .mainbar-container {
+	background: #fff;
+	border-top-left-radius: 3px;
+	border-bottom-left-radius: 3px;
 }
-.dashboard-row  .more-link:hover {
-	text-decoration: underline;
-}
-.dashboard-row  h3 {
-	padding: 0;
-	font-weight: 200;
-	font-size: 18px;
-	color: #555;
-	margin: 0;
-}
-.dashboard-row .subtext {
-	font-size: 12px;
-	color: #777;
-	margin-bottom: 0;
-}
-.split-box-body {
-	padding: 10px 10px 40px 10px;
-}
-.credits,.order-history, .news {
-	position:relative;
-	height: 100%;
-	display:block;
-	width: 100%;
-	overflow: auto;
-}
-/*Credit Goals CSS */
-.credits .goal {
-	display:table;
-	width: 100%;
-	text-align: center;
-	margin: 0px 0 0px 0;
-}
-.credits .goal .meter {
-	width: 60px;
-	display:table-cell;
-	vertical-align: top;
-}
-.credits .goal .info {
-	padding-left: 20px;
-	text-align: left;
-	display:table-cell;
-	vertical-align: top;
-}
-.credits .goal .label {
-	vertical-align: top;
-	margin-top: 2px;
-	background: #eee;
-	border: 1px solid #ddd;
-	display:inline-block;
-	color: #888;
-}
-.credits .goal p {
-	color: #333;
-	font-size: 13px;
-	margin-bottom: 3px;
-}
-.credits .goal h6 {
-	margin: 0;
-	display:inline-block;
-	clear:both;
-	font-size: 12px;
-	color: #888;
+.side-layout-col.sidebar-container {
+	width: 250px;
+	border-left:1px solid #ddd;
+	background: #fafafa;
+	box-shadow: 0 0 10px rgba(0,0,0,.1) inset;
+	border-top-right-radius: 3px;
+	border-bottom-right-radius: 3px;
 }
 
 .explanation {
-	margin: 20px 30px 25px 30px;
+	margin: 40px 30px 25px 30px;
 	padding-bottom: 25px;
 	border-bottom:1px solid #eaeaea;
 	font-weight: normal;
@@ -191,6 +134,10 @@
 	margin: -6px 0 0 0;
 }
 /*Stats */
+.side-layout-col.sidebar-container {
+	padding-bottom: 40px;
+	padding-top: 15px;
+}
 .stats {
 	padding: 20px 0 30px 0;
 	margin: 0 10px;
@@ -227,119 +174,26 @@
 	color: #888;
 }
 </style>
+{% block rewards_css %}{% endblock %}
 {% endblock %}
 {% block browse_js %}
-
+{% block rewards_js %}{% endblock %}
 {% endblock %}
 {% block browse_content %}
 <div class="intro-box-container">
 	<div class="intro-box">
-		<div class="intro-image" style='background-image:url("{{STATIC_URL}}img/misc/topicons.png");background-position: -56px 0' ></div>
-		<h3 class="page-title">Rewards<div class="gradient"></div></h3>
+		<div class="intro-image" style='background-image:url("{{STATIC_URL}}img/misc/topicons.png");background-position: -112px 0' ></div>
+		<h3 class="page-title">{% block title %}Rewards{% endblock %}<div class="gradient"></div></h3>
 		<div class="links">
-			<a class='active'>Rewards For May</a> | <a class=''>Redeem Your Credits</a> | <a>Credit History</a>
+			<a {% if browse_rewards_rewards %}class="active"{% endif %} href='/rewards'>Monthly Rewards</a> | <a {% if browse_rewards_store %}class="active"{% endif %} href='/rewards/store'>Redeem Your Credits</a> | <a {% if browse_rewards_history %}class="active"{% endif %} href='/rewards/history'>Rewards History</a>
 		</div>
 	</div>
 </div>
 <div class="side-layout vetbox">
     <div class="side-layout-col mainbar-container">
     	<div class="mainbar">
-    		<div class="explanation">
-    			<p>Every month, we offer a different set of reward perks for completing set missions. If you complete the goal by the end of the month, we will automatically add the credits to your account, which can be redeemed for awesome rewards!</p>
-    		</div>
-    		<div class="">
-				<div class="goal-container">
-					<div class="goal-description">
-						<h3>Get 20 upvotes on reviews you write</h3>
-						<p>An upvote occurs when another clinic finds your review helpful</p>
-						<div class="prize">
-							<h4>50</h4>
-							<p>credit prize</p>
-						</div>
-					</div>
-					<div class="progress-meter-container" style="padding-left:80%">
-						<div class="progress-meter">
-							<div class="progress-text">
-								<p class="status">4 upvotes received</p>
-								<p class="down-arrow">&#x25BE;</p>
-							</div>
-						</div>
-					</div>
-					<div class="progress">
-						<div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 80%;">
-						</div>
-					</div>
-				</div>
-
-				<div class="goal-container">
-					<div class="goal-description">
-						<h3>Write 8 Reviews For Purchased Products</h3>
-						<p>For any products you have purchased through VetCove, you can write a review of at least 50 words</p>
-						<div class="prize">
-							<h4>100</h4>
-							<p>credit prize</p>
-						</div>
-					</div>
-					<div class="progress-meter-container" style="padding-left:20%">
-						<div class="progress-meter">
-							<div class="progress-text">
-								<p class="status">2 of 8 reviews complete</p>
-								<p class="down-arrow">&#x25BE;</p>
-							</div>
-						</div>
-					</div>
-					<div class="progress">
-						<div class="progress-bar progress-bar-orange" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 20%;">
-						</div>
-					</div>
-				</div>
-
-				<div class="goal-container">
-					<div class="goal-description">
-						<h3>Make $5,000 in purchases</h3>
-						<p>Credit for the purchase will occur 48 hours after the item is shipped</p>
-						<div class="prize">
-							<h4>200</h4>
-							<p>credit prize</p>
-						</div>
-					</div>
-					<div class="progress-meter-container" style="padding-left:30%">
-						<div class="progress-meter">
-							<div class="progress-text">
-								<p class="status">$1,200 in purchases</p>
-								<p class="down-arrow">&#x25BE;</p>
-							</div>
-						</div>
-					</div>
-					<div class="progress">
-						<div class="progress-bar progress-bar-purple" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 30%;">
-						</div>
-					</div>
-				</div>
-
-				<div class="goal-container">
-					<div class="goal-description">
-						<h3>Refer 2 clinics</h3>
-						<p>Send a referral link to 2 clinics, once they sign up and make their first purchase, you will be credited with a successful referral</p>
-						<div class="prize">
-							<h4>500</h4>
-							<p>credit prize</p>
-						</div>
-					</div>
-					<div class="progress-meter-container" style="padding-left:50%">
-						<div class="progress-meter">
-							<div class="progress-text">
-								<p class="status">1 referral</p>
-								<p class="down-arrow">&#x25BE;</p>
-							</div>
-						</div>
-					</div>
-					<div class="progress">
-						<div class="progress-bar progress-bar-green" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 50%;">
-						</div>
-					</div>
-				</div>
-			</div>
+    		{% block rewards %}
+			{% endblock %}
     	</div>
     </div>
     <div class="side-layout-col sidebar-container">
@@ -349,13 +203,18 @@
 	    			<p class="number">320</p>
 	    			<p class="description">Current Credit Balance</p>
 	    		</div>
-	    		<a href='#' class="button button-rounded button-flat-primary"> Redeem Your Credits</a>
+	    		<a href='/rewards/store' class="button button-rounded button-flat-primary"> Redeem Your Credits</a>
 	    	</div>
 	    	<div class="fact">
 	    		<p>1,240 Lifetime Credits Earned</p>
 	    	</div>
+	    	<div class="fact">
+	    		<p>8 Total Goals Reached</p>
+	    	</div>
+	    	<div class="fact">
+	    		<p>16% of Goals Achieved</p>
+	    	</div>
 		</div>
     </div>
 </div>
-
 {% endblock %}

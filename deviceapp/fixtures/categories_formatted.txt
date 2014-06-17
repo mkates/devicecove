@@ -1,0 +1,368 @@
+1!Anesthesia
+2!Animal Control & Behavior
+3!Biologicals
+4!Critical Care and Recovery
+5!Controlled Substances
+6!Dental
+7!Dermatology & Allergies
+8!Diagnostic
+10!Diets & Nutritiion
+11!Eye and Ear Care
+12!Fluids & Drug Administration
+13!General Supplies
+14!Grooming
+15!Instrument Care & Sterilization
+16!Joint Care
+17!Monitors
+18!Obstetrics
+19!Orthopedics
+20!Parasiticides
+21!Pharmaceuticals
+22!Protective Wear
+23!Reproduction
+24!Specialized Care
+25!Structural Hardware
+26!Surgery
+27!Wound Care
+28!X-Ray
+1002!Absorbents!1
+1003!Alarms!1
+1004!Anesthesia Machines!1
+1005!Anesthesia Bags!1
+1006!Circuits!1
+1007!--Circuit Accessories!1006
+1008!Gas Evacuation!1
+1009!Gas Supply!1
+1010!Induction Chambers!1
+1011!Laryngoscopes!1
+1012!Anesthesia Masks!1
+1013!Oxygen Concentrators!1
+1014!Anesthesia Safety Accessories!1
+1015!Endotracheal Tubes!1
+1016!--Endotracheal Tubes Accessories!1015
+1017!Vaporizers!1
+1018!Ventilators!1
+1022!Twitches!2
+1023!Whips!2
+1024!Calming Remedies!2
+1025!Chew/Lick Prevention!2
+1026!Coprophagy Prevention!2
+1027!Training Aids!2
+1031!Vaccines!3
+1035!Feeding Tubes!4
+1036!Genito Urinary Catheters!4
+1037!Casting!4
+1038!--Padding!1037
+1039!--Splints!1037
+1040!--Spreaders!1037
+1041!-- Casting Wraps & Tapes!1037
+1042!Wraps & Tapes!4
+1045!Hand Instruments!6
+1046!--Burs!1045
+1047!--Elevators!1045
+1048!--Floats!1045
+1049!--Forceps & Spreaders!1045
+1050!--Fulcrums!1045
+1051!--Dental Mirrors!1045
+1052!--Dental Kits!1045
+1053!--Dental Cases!1045
+1054!--Dental Discs!1045
+1055!Power Floats!6
+1056!--Power Floats Machines!1055
+1057!--Power Float Accessories!1055
+1058!Headlights!6
+1059!Periodontal Unit!6
+1060!Speculums!6
+1061!Support & Restraint!6
+1064!Topicals!7
+1065!--Antifungals!1064
+1066!--Antimicrobials!1064
+1067!--Antimicrobial + Antifungal!1064
+1068!--Antipruritics!1064
+1069!--Emollients!1064
+1070!--Keratolytics!1064
+1071!Supplements!7
+1072!Shampoos & Conditioners!7
+1073!--Antiseborrheic!1072
+1074!--Antimicrobial!1072
+1075!--Antimicrobial+ Antifungal!1072
+1076!--Antimicrobial + Antiseborrheic!1072
+1077!--Antipruritic and/or Anti-Inflammatory!1072
+1078!--Hypoallergenic!1072
+1079!--Routine Grooming!1072
+1080!Wipes!7
+1084!Ultrasonography!8
+1085!Dermatoscopes!8
+1086!Stethoscopes!8
+1087!Espohageal Stethoscope!8
+1088!Thermometers!8
+1089!Oral Speculums!8
+1090!Pen Lights!8
+1091!Diagnsotic Lab Equipment!8
+1092!-- Analyzers!1091
+1093!****Chemistry Analyzers!1092
+1094!****Hematology Analyzers!1092
+1095!****Electrolyte Analyzers!1092
+1096!****Urine Analyzers!1092
+1097!****Coagulation Analyzers!1092
+1098!--Diagnostic Test Kits!1091
+1099!--Fecal Analysis!1091
+1100!--Refractometers!1091
+1101!--Timers!1091
+1102!--Glassware!1091
+1103!--Centrifuges!1091
+1104!****Centrifuge Tubes & Adapters!1103
+1105!Microscopes!8
+1107!--Microscope Accessories!1105
+1109!Sample Collection!8
+1110!--Bags!1109
+1111!--Biopsy Bottles!1109
+1112!--Biopsy Punches!1109
+1113!--Biopsy Needles!1109
+1114!--Blood Collection!1109
+1115!--Culture & Transport Swabs!1109
+1116!--Pipettes & Bulbs!1109
+1117!--Specimen Containers!1109
+1118!--Tracheal Wash Kits!1109
+1119!--Stopper Tubes!1109
+1123!Antioxidants!10
+1124!Anhidrosis!10
+1125!Breeding Performance!10
+1126!Digestive Health!10
+1127!--Antacid!1126
+1128!--Dexypanthenol Treatment!1126
+1129!--Enzymes & Probiotics!1126
+1130!--Ulcer Prevention!1126
+1131!Energy, High-Calorie Supplements!10
+1132!Fiber Supplements!10
+1133!Geriatric Support!10
+1134!Immune System Support!10
+1135!Hoof Support!10
+1136!Meal Replacers & Supplements!10
+1137!Performance Supplements!10
+1138!Vitamins & Nutritionals!10
+1139!--General Vitamin Wellness!1138
+1140!--Targeted Nutritional Deficeiencies!1138
+1142!Ear Care!11
+1143!--Otics!1142
+1144!Eyecare!11
+1145!--Contact Lenses!1144
+1146!--Eye Patches!1144
+1147!--Lacrimal Duct Access!1144
+1148!--Lavage Kits!1144
+1149!--Viscoelastics!1144
+1150!--Opthalmic Preparation!1144
+1154!Anticoagulants!12
+1155!Blood Transfusion!12
+1156!Fluid Warmers!12
+1157!IV Management!12
+1158!--IV Pumps!1157
+1159!--IV Hardware!1157
+1160!--IV Bags!1157
+1161!IV Catheters!12
+1162!--Catheter Adapters!1161
+1163!--Catheter Connectors!1161
+1164!--Catheter Injection Caps!1161
+1165!--Catheter Plugs!1161
+1166!--Catheter IV Accessories!1161
+1167!--Catheter Stopcocks!1161
+1168!--IV Sets!1161
+1169!Needle Gauge Chart!12
+1170!Needle/Syringe Combination!12
+1171!Needles!12
+1172!--Specialty Needles!1171
+1173!Syringes!12
+1174!Insulin Syringes!12
+1175!Tuberculin Syringes!12
+1176!Drenches & Feeders!12
+1177!Stomach Pumps!12
+1178!Stomach Tubes!12
+1179!Respiratory Care!12
+1180!Medication Dispensing!12
+1181!--Gelatin Capsules!1180
+1182!--Medicine Bottles!1180
+1183!--Pharmacy Supplies!1180
+1184!--Pill Crushers & Cutters!1180
+1185!--Pill Counters!1180
+1186!--Oral Dosers!1180
+1187!--Automatic Syringes!1180
+1191!Inventory Cabinets!13
+1192!Narcotic Safes!13
+1193!Containers & Dispensers!13
+1194!Sanitation & Odor Control!13
+1195!--Laundry Detergents!1194
+1196!--Scrubs,Surgical Prep & Antiseptic Hand Soaps!1194
+1197!--Premises Cleaners,Disinfectants & Germicides!1194
+1198!Soap & Chemical Dispensers!13
+1199!Waste Management!13
+1200!--Sharps Disposal!1199
+1201!--Waste Disposal!1199
+1205!Clippers & Trimmers!14
+1206!Clipper Blades!14
+1207!Clipper Combs!14
+1208!Blade Care Accessories!14
+1209!Blade Care Lubricants & Cleaners!14
+1210!Grooming Tools!14
+1211!Grooming Hair Polish!14
+1215!Autoclaves!15
+1216!Autoclave Supplies!15
+1217!--Chamber Cleaners!1216
+1218!--Integrators!1216
+1219!--Indicators!1216
+1220!--Pouches!1216
+1221!--Tubing!1216
+1222!Ultrasonic Cleaners!15
+1223!Cleaners & Presoaks!15
+1224!Containers!15
+1225!Instrument Care Accessories!15
+1229!Anti-Arthritics!16
+1230!Joint Supplements!16
+1234!Blood Pressure Monitors!17
+1235!Blood Pressure Cuffs!17
+1236!Pulse Oximetry!17
+1237!Sensors!17
+1238!Electrocardiography!17
+1239!Capnography!17
+1240!Multiparamter!17
+1244!Obstetrics Instruments!18
+1245!--Embryotomy Knives!1244
+1246!--Fetatomes!1244
+1247!Obstetric Delivery Assistance!18
+1248!--Calf Pullers!1247
+1249!--OB Chains & Handles!1247
+1250!--OB Wire!1247
+1251!--OB Wire Guides!1247
+1252!--OB Lubes!18
+1256!Laryngoplasty Kits!19
+1257!External Skeletal Fixation!19
+1258!Drill Bit!19
+1259!Internal Fixation Products!19
+1263!Anthelmintics & Boticides!20
+1264!Insecticides!20
+1265!--Environmental Treatments!1264
+1266!****Baits!1265
+1267!****Foggers!1265
+1268!****Spray & Liquids!1265
+1269!****Strips & Traps!1265
+1270!--Feed-Through!1264
+1271!--Topical!1264
+1275!Anabolic Agents!21
+1276!Analgesics!21
+1277!Antacid & Adsorbent Preparations!21
+1278!Antibiotics!21
+1279!--Boluses!1278
+1280!--Injectables!1278
+1281!--Soluble Powders!1278
+1282!Antidiarrheals!21
+1283!Antidotes!21
+1284!Antihistamines!21
+1285!Anti-inflammatories!21
+1286!Antiprotozoal Agents!21
+1287!Antiseptics!21
+1288!Antitussives!21
+1289!Autonomic Drugs!21
+1290!Bronchodilators & Expectorants!21
+1291!Counterirritants!21
+1292!Diuretics!21
+1293!Dopamine Receptor Agonists!21
+1294!Euthanasia Agents!21
+1295!Fluid Therapy!21
+1296!Hormones & Analogs!21
+1297!--Oxytocin!1296
+1298!Progestins!21
+1299!Thyroid & Analogs!21
+1300!Immunostimulants!21
+1301!Joint Lavage!21
+1302!Laxatives!21
+1303!Respiratory Stimulants!21
+1304!Sedatives & Tranquilizers!21
+1305!Sterile Water, Diluents & Stabilizers!21
+1306!Surgical Tissue Protectants!21
+1307!Uterine Preparations!21
+1311!Headware!22
+1312!Ear Protection!22
+1313!Eyewear!22
+1314!Masks!22
+1315!Finger Cots!22
+1316!Gloves!22
+1317!--Utility Gloves!1316
+1318!--Exam Gloves!1316
+1319!--Surgical Gloves!1316
+1320!Sleeves!22
+1321!Gowns!22
+1322!Coveralls!22
+1323!Scrubs & Lab Coats!22
+1324!OB Protective Wear!22
+1325!Boot & Shoe Covers!22
+1329!Collection!23
+1330!--Artificial Vaginas!1329
+1331!--Breeding Bags & Collection Filters!1329
+1332!--Semen Collection Cones!1329
+1333!--Embryo Collection!1329
+1334!Lubes!23
+1335!Evaluation Dishes!23
+1336!Insemination!23
+1337!--Infusion Pipettes!1336
+1338!--Kits!1336
+1339!--Transfer Devices!1336
+1340!Cryopreservation!23
+1341!Holding Media!23
+1342!Transfer Filters!23
+1343!Transfer Solutions!23
+1344!Semen Extenders!23
+1345!Sheath Care Products!23
+1346!Reproduction Instruments!23
+1350!Foot/Hoof Care!24
+1351!--Hoof Support Stands!1350
+1352!--Blocks & Adhesives!1350
+1353!--Hoof Care Instruments!1350
+1354!--Hoof Repair Kits!1350
+1355!--Protective Coverings!1350
+1356!--Treatments, Padding & Dressing!1350
+1360!Boarding & Holding!25
+1361!Cabinets!25
+1362!Lighting!25
+1363!Scales!25
+1364!Seating!25
+1365!Sinks & Tubs!25
+1366!Tables!25
+1370!Cryosurgery!26
+1371!Electrosurgery!26
+1372!Endoscopy!26
+1373!Surgical Instruments!26
+1374!--Surgical Packs!1373
+1375!--Surgical Forceps!1373
+1376!--Surgical Needle Holders!1373
+1377!--Surgical Scalpels!1373
+1378!--Scissors!1373
+1379!Staples & Staple Removers!26
+1380!Suture Needles!26
+1381!Sutures!26
+1382!Towels!26
+1386!Wound Flushing!27
+1387!PRP Kits!27
+1388!Blood Stop Products!27
+1389!Topical Wound Treatments!27
+1390!Disinfectants!27
+1391!Cotton!27
+1392!Dressings!27
+1393!Gauze & Sponges!27
+1397!X-Ray Machines!28
+1398!--Stationary X-Ray Machines!1397
+1399!--Portable X-Ray Machines!1397
+1400!--Stationary X-Ray Accessories!1397
+1401!X-Ray Positioners!28
+1402!Cassettes!28
+1403!Screens!28
+1404!Film!28
+1405!Film Accessories!28
+1406!Film Storage Bins!28
+1407!Illuminators!28
+1408!Safelights!28
+1409!Film Processors!28
+1410!Tank Thermometers!28
+1411!X-Ray Chemicals!28
+1412!X-Ray Aprons!28
+1413!X-Ray Gloves & Hand Shields!28
+1414!X-Ray Collars!28
+1415!X-Ray Lead Blockers!28

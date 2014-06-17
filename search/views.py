@@ -66,48 +66,38 @@ def productsearch(request,industryterm,categoryterm,subcategoryterm):
 def autosuggest(request):
 	results=[]
 	searchterm = request.GET['searchterm']
-	#Spaces in the search return 0 results without the following line
-	searchterm = searchterm.replace(' ','')
+	searchterm = searchterm.replace(' ','').replace('-','').lower()# Spaces in the search return 0 results without the following line
 	industry = Industry.objects.get(id=1)
 	
 	# Find all categories that match the search term
-	categories = Category.objects.filter(name__icontains=searchterm).filter(totalunits__gte=showItems)
+	categories = Category.objects.filter(name__icontains=searchterm)
 	# Add all matched categories
 	for cat in categories:
-		results.append({'type':'category','name':cat.displayname,'results':'','link':"/productsearch/"+industry.name+"/"+cat.name+"/all"})
+		results.append({'type':'category','name':cat.displayname,'results':'','link':"productsearch/"+cat.name})
 		results = results[0:5]
-	 
-	# Find all sub-categories that match the search term
-	subcategories = SubCategory.objects.filter(name__icontains=searchterm).filter(totalunits__gte=showItems)
-	for subcat in subcategories:
-		results.append({'type':'subcategory','name':subcat.displayname,'results':'','link':"/productsearch/"+industry.name+"/all/"+subcat.name})
-		results = results[0:10]
 		
-	# Find all items that match the search term
-	item = Item.objects.filter(subcategory__name__icontains=searchterm).filter(liststatus='active')
-	for itm in item:
-		dict = {'type':'product','name':itm.name,'category':itm.subcategory.displayname,'mainimage':checkMainImage(itm),'link':"/item/"+str(itm.id)+"/details"};
-		print dict
-		results.append(dict);
+	# # Find all items that match the search term
+	# item = Item.objects.filter(product__name__icontains=searchterm).filter(liststatus='active')
+	# for itm in item:
+	# 	dict = {'type':'product','name':itm.name,'category':itm.product.category.displayname,'mainimage':checkMainImage(itm),'link':"/item/"+str(itm.id)+"/details"};
+	# 	print dict
+	# 	results.append(dict);
 	
-	if len(results) == 0:
-		items = closeCategories(searchterm)
-		for itm in items:
-			dict = {'type':'product','name':itm.name,'category':itm.subcategory.displayname,'mainimage':checkMainImage(itm),'link':"/item/"+str(itm.id)+"/details"};
-			results.append(dict);
+	# if len(results) == 0:
+	# 	items = closeCategories(searchterm)
+	# 	for itm in items:
+	# 		dict = {'type':'product','name':itm.name,'category':itm.subcategory.displayname,'mainimage':checkMainImage(itm),'link':"/item/"+str(itm.id)+"/details"};
+	# 		results.append(dict);
 
-	# Do a relative match if no results are found
-	if len(results) == 0:
-		allcategories = Category.objects.filter(totalunits__gte=showItems)
-		subcategories = SubCategory.objects.filter(totalunits__gte=showItems)
-		for cat in categories:
-			if difflib.SequenceMatcher(None,searchterm,cat.name.lower()).ratio() > .5:
-				_cat = {'type':'category','name':cat.displayname,'results':'','link':"/productsearch/"+industry.name+"/"+cat.name+"/all"}
-				results.append(_cat)
-		for subcat in subcategories:
-			if difflib.SequenceMatcher(None,searchterm,subcat.name.lower()).ratio() > .5:
-				sub = {'type':'subcategory','name':subcat.displayname,'results':'','link':"/productsearch/"+industry.name+"/all/"+subcat.name}
-				results.append(sub)
+	# # Do a relative match if no results are found
+	# if len(results) == 0:
+	# 	allcategories = Category.objects.filter(totalunits__gte=showItems)
+	# 	for cat in categories:
+	# 		if difflib.SequenceMatcher(None,searchterm,cat.name.lower()).ratio() > .5:
+	# 			_cat = {'type':'category','name':cat.displayname,'results':'','link':"/productsearch/"+industry.name+"/"+cat.name+"/all"}
+	# 			results.append(_cat)
+	print results
+	print 'cool'
 	return HttpResponse(json.dumps(results[0:15]), content_type='application/json')
 
 def customsearch(request):

@@ -31,6 +31,7 @@ def category(request,category):
 	products = Product.objects.filter(category__in=child_categories)
 	dictionary = {'child_categories':child_categories,'category':category}
 	details = getDetailsFromSearch(products)
+	print products
 	return render_to_response('search/search2.html',dict(dictionary.items()+details.items()),context_instance=RequestContext(request))
 
 def manufacturer(request,category):
@@ -62,15 +63,15 @@ def autosuggest(request):
 # Finds all descendants of a category
 def allCategoriesInTree(category):
 	categories = [category]
-	category_type = category.category_type
-	if category_type == 'maincategory':
-		for secondcategory in category.parents.filter(category_type='secondcategory'):
-			categories.append(secondcategory)
-			for thirdcategory in secondcategory.parents.filter(category_type='thirdcategory'):
-				categories.append(thirdcategory)
-	elif category_type == 'secondcategory':
-		for secondcategory in category.parents.filter(category_type='thirdcategory'):
-			categories.append(secondcategory)
+	for i in category.category_set.all():
+		if i not in categories:
+			categories.append(i)
+		for j in i:
+			if j not in categories:
+				categories.append(j)
+			for k in j:
+				if k not in categories:
+					categories.append(k)
 	return categories
 
 # Returns the eligible items based on the category and the filters

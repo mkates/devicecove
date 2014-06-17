@@ -1,0 +1,216 @@
+{% extends 'account/pages/browse/rewards/base.html' %}
+
+{% block headertitle %}VetCove Store | Redeem Credits{% endblock %}
+
+{% block title %}Rewards Store{% endblock %}
+
+{% block rewards_css %}
+<style>
+/* Redeem Div */
+.store-row {
+	margin: 40px 30px;
+}
+.store-row .col-md-3 {
+	padding: 0;
+}
+.redeem-div {
+	border:1px solid #eee;
+	text-align: center;
+}
+.redeem-div:hover {
+	box-shadow: 0 0 12px rgba(0,0,0,.1) inset;
+	cursor:pointer;
+}
+.redeem-div img {
+	width: 70%;
+	margin: 20px 0;
+}
+.redeem-div .card-details {
+	margin: 0 10px 10px 10px;
+	padding-top: 5px;
+	border-top:1px solid #eee;
+}
+.redeem-div .card-details h4 {
+	font-size: 13px;
+	font-weight: 200;
+	margin: 0;
+	white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.redeem-div .card-details h5 {
+	margin: 10px 0;
+}
+.redeem-div .card-details h6 {
+	font-size: 11px;
+	margin: 0;
+	color: #aaa;
+}
+
+/* Gift Overlay */
+.gift-overlay {
+	width: 100%;
+	height: 100%;
+	position:absolute;
+	background-image:url("{{STATIC_URL}}img/transparency/blacktransparency.png");
+	z-index: 1;
+	display:none;
+}
+.gift-overlay .exit-redeem {
+	color: #eee;
+	position:absolute;
+	right: 5px;
+	top: 5px;
+	font-size: 27px;
+	line-height: 23px;
+	display:block;
+	padding: 0px 4px;
+}
+.gift-overlay .exit-redeem:hover{
+	text-decoration: none;
+	color: #ccc;
+}
+.gift-overlay p {
+	color: #eee;
+	padding: 0 10px;
+	margin:50px 0 30px 0;
+}
+.gift-overlay .too-low {
+	color: #ffd6d6;
+}
+</style>
+{% endblock %}
+
+{% block rewards_js %}
+<script>
+$(document).ready(function(){
+	$('.redeem-info').click(function(){
+		$(".redeem-div .gift-overlay").fadeOut();
+		var overlay = $(this).parent().children('.gift-overlay').fadeIn('fast');
+	});
+	$('.exit-redeem').click(function(){
+		$(this).parent().fadeOut('fast');
+	});
+});
+</script>
+{% endblock %}
+
+{% block rewards %}
+<div class="explanation">
+	<p>Select a gift from the choices below. While we may change our reward options from time to time, your credits never expire. We will ship all gift cards via standard delivery to the default address specified in your settings.</p>
+</div>
+<div class="row store-row">
+	<div class="col-md-3 col-sm-3 col-xs-12">
+		<div class="redeem-div">
+			<div class="gift-overlay">
+				<a class="exit-redeem">&#x2716;</a>
+				<p>This gift card will deduct <strong>450 credits</strong> from your balance</p>
+				<form>
+					<button class="button button-rounded button-tiny button-flat-action">Yes! I want it</button>
+				</form>
+			</div>
+			<div class="redeem-info">
+				<img src="{{STATIC_URL}}img/giftcards/amazon.png"/>
+				<div class="card-details">
+					<h4>3 $10 Amazon Gift Cards</h4>
+					<h5>300 credits</h5>
+					<h6>Total Gift Value: $30 </h6>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="col-md-3 col-sm-3 col-xs-12">
+		<div class="redeem-div">
+			<div class="gift-overlay">
+				<a class="exit-redeem">&#x2716;</a>
+				<p class="too-low">You do not have enough credit in your balance to get this reward</p>
+			</div>
+			<div class="redeem-info">
+				<img src="{{STATIC_URL}}img/giftcards/applebees.png"/>
+				<div class="card-details">
+					<h4>3 $20 Applebee's Gift Cards</h4>
+					<h5>600 credits</h5>
+					<h6>Total Gift Value: $60 </h6>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="col-md-3 col-sm-3 col-xs-12">
+		<div class="redeem-div">
+			<div class="gift-overlay">
+				<a class="exit-redeem">&#x2716;</a>
+				<p>This gift card will deduct <strong>450 credits</strong> from your balance</p>
+				<button class="button button-tiny button-flat-action">Yes! I want it</button>
+			</div>
+			<div class="redeem-info">
+				<img src="{{STATIC_URL}}img/giftcards/chilis.png"/>
+				<div class="card-details">
+					<h4>3 $15 Chili's Gift Cards</h4>
+					<h5>450 credits</h5>
+					<h6>Total Gift Value: $45 </h6>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="col-md-3 col-sm-3 col-xs-12">
+		<div class="redeem-div">
+			<div class="credits">
+			</div>
+			<img src="{{STATIC_URL}}img/giftcards/starbucks.png"/>
+			<div class="card-details">
+				<h4>3 $15 Starbucks Gift Cards</h4>
+				<h5>450 credits</h5>
+				<h6>Total Gift Value: $45 </h6>
+			</div>
+		</div>
+	</div>
+	<div class="col-md-3 col-sm-3 col-xs-12">
+		<div class="redeem-div">
+			<div class="credits">
+			</div>
+			<img src="{{STATIC_URL}}img/giftcards/dd.png"/>
+			<div class="card-details">
+				<h4>3 $10 Dunkin Donuts Gift Cards</h4>
+				<h5>300 credits</h5>
+				<h6>Total Gift Value: $30 </h6>
+			</div>
+		</div>
+	</div>
+	<div class="col-md-3 col-sm-3 col-xs-12">
+		<div class="redeem-div">
+			<div class="credits">
+			</div>
+			<img src="{{STATIC_URL}}img/giftcards/itunes.png"/>
+			<div class="card-details">
+				<h4>3 $15 Itunes Gift Cards</h4>
+				<h5>450 credits</h5>
+				<h6>Total Gift Value: $45 </h6>
+			</div>
+		</div>
+	</div>
+	<div class="col-md-3 col-sm-3 col-xs-12">
+		<div class="redeem-div">
+			<div class="credits">
+			</div>
+			<img src="{{STATIC_URL}}img/giftcards/macys.png"/>
+			<div class="card-details">
+				<h4>3 $15 Macy's Gift Cards</h4>
+				<h5>450 credits</h5>
+				<h6>Total Gift Value: $45 </h6>
+			</div>
+		</div>
+	</div>
+	<div class="col-md-3 col-sm-3 col-xs-12">
+		<div class="redeem-div">
+			<div class="credits">
+			</div>
+			<img src="{{STATIC_URL}}img/giftcards/landt.png"/>
+			<div class="card-details">
+				<h4>3 $20 Starbucks Gift Cards</h4>
+				<h5>600 credits</h5>
+				<h6>Total Gift Value: $60 </h6>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}

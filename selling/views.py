@@ -12,6 +12,7 @@ import medapp.settings as settings
 import json
 import balanced
 from listing.models import *
+from account.models import *
 import payment.views as payment_view
 import emails.views as email_view
 import helper.commission as commission
@@ -23,12 +24,13 @@ def portalHelp(request):
 
 def portalInventory(request):
 	### !!! Add Security Layer Here ###
-	inventories = Inventory.objects.all()
+	supplier = Supplier.objects.get(id=2)
+	inventories = Inventory.objects.filter(supplier=supplier)
 	return render_to_response('sellerportal/inventory.html',{'seller':True,'portal_inventory':True,'inventories':inventories},context_instance=RequestContext(request))
 
 def portalProduct(request):
 	### !!! Add Security Layer Here ###
-	products = Product.objects.all()
+	products = Product.objects.filter(id__in=[5,7,8])
 	return render_to_response('sellerportal/product/home.html',{'seller':True,'portal_product':True,'products':products},context_instance=RequestContext(request))
  
 def portalProductEdit(request,productid):

@@ -19,7 +19,28 @@ $(document).ready(function(){
 	    "type": "serial",
 	    "theme": "none",
 	    "pathToImages": img_location,
-	    "dataProvider": chartData,
+	    "dataProvider": [
+		    {
+	            "date": "2012-07-03",
+	            "value": 1
+	        }, {
+	            "date": "2012-07-04",
+	            "value": 0
+	        }, {
+	            "date": "2012-07-05",
+	            "value": 0
+	        },
+	        {
+	            "date": "2012-07-06",
+	            "value": 2
+	        }, {
+	            "date": "2012-07-07",
+	            "value": 1
+	        }, {
+	            "date": "2012-07-08",
+	            "value": 0
+	        }
+	    ],
 	    "valueAxes": [{
 	        "axisAlpha": 0.2,
 	        "dashLength": 1,
@@ -35,7 +56,7 @@ $(document).ready(function(){
 	        "hideBulletsCount": 50,
 	        "title": "red line",
 	        "type": "smoothedLine",
-	        "valueField": "visits",
+	        "valueField": "value",
 			"useLineColorForBulletBorder":true
 	    }],
 	    "chartScrollbar": {
@@ -62,6 +83,7 @@ $(document).ready(function(){
 	      }]  
 		}
 	});
+
 	var chart2 = AmCharts.makeChart("chartdiv2", {
 	    "type": "serial",
 	    "theme": "none",
@@ -74,7 +96,7 @@ $(document).ready(function(){
 	    }],
 	    "graphs": [{
 	        "id":"g1",
-	        "balloonText": "[[category]]<br /><b><span style='font-size:14px;'>Purchases: [[value]]</span></b>",
+	        "balloonText": "[[category]]<br /><b><span style='font-size:14px;'>Views: [[value]]</span></b>",
 	        "bullet": "round",
 	        "bulletBorderAlpha": 1,
 			"bulletColor":"#FFFFFF",
@@ -118,16 +140,16 @@ $(document).ready(function(){
 	    "dataProvider": [
 		{
 	        "type": "Large Animal",
-	        "purchases":141.2
+	        "purchases":3
 	    }, {
 	        "type": "Equine Only",
-	        "purchases": 201.1
+	        "purchases": 2
 	    }, {
 	        "type": "Companion Animal",
-	        "purchases": 165.8
+	        "purchases": 1
 	    }, {
 	        "type": "Mixed Animal",
-	        "purchases": 139.9
+	        "purchases": 1
 	    }],
 	    "valueField": "purchases",
 	    "titleField": "type",
@@ -151,14 +173,13 @@ $(document).ready(function(){
 	    var firstDate = new Date();
 	    firstDate.setDate(firstDate.getDate() - 5);
 
-	    for (var i = 0; i < 1000; i++) {
+	    for (var i = 0; i < 20; i++) {
 	        // we create date objects here. In your data, you can have date strings
 	        // and then set format of your dates using chart.dataDateFormat property,
 	        // however when possible, use date objects, as this will speed up chart rendering.
 	        var newDate = new Date(firstDate);
 	        newDate.setDate(newDate.getDate() + i);
-
-	        var visits = Math.round(Math.random() * (40 + i / 5)) + 20 + i;
+	        var visits = Math.round(Math.random() * (3));
 
 	        chartData.push({
 	            date: newDate,
@@ -267,7 +288,7 @@ $(document).ready(function() {
 			<div class="visual-container">
 				<h3>Response Rate</h3>
 				<div class="analytic-stat">
-					<h5>81%</h5>
+					<h5>50%</h5>
 					<p>Of questions</p>
 				</div>
 			</div>
@@ -285,7 +306,7 @@ $(document).ready(function() {
 			<div class="visual-container">
 				<h3>Average Purchase Size</h3>
 				<div class="analytic-stat">
-					<h5>2.1</h5>
+					<h5>2.0</h5>
 					<p>Items per purchase</p>
 				</div>
 			</div>
@@ -311,13 +332,13 @@ $(document).ready(function() {
 				<div class="chartdiv" id="chartdiv2"></div>
 			</div>
 		</div>
-		<div class="col-md-6 visualization same-height" data-type="analytics-row">
+		<div class="col-md-6 visualization">
 			<div class="visual-container">
 				<h3>Sales by Practice Type</h3>
 				<div class="chartdiv" id="piediv"></div>
 			</div>
 		</div>
-		<div class="col-md-6 visualization same-height" data-type="analytics-row">
+		<div class="col-md-6 visualization">
 			<div class="visual-container">
 				<h3>Top Sellers in The Category NSAIDs</h3>
 				<div class="chartdiv">
@@ -327,14 +348,13 @@ $(document).ready(function() {
 								<th>Product</th>
 								<th>Manufacturer</th>
 								<th>Monthly Volume</th>
-								<th>Monthly Amount</th>
 							</tr>
 						</thead>
 						<tbody>
 							<tr>
 								<td>
 									<a href="#">
-										Equizone Phenybutazone Powder
+										Equizone Phenybutazone Powder, 1.1lb Jar
 									</a>
 								</td>
 								<td>
@@ -343,46 +363,52 @@ $(document).ready(function() {
 									</a>
 								</td>
 								<td class="number">
-										16.7
-								</td>
-								<td class="number">
-										$2,432
-								</td>
-							</tr>
-							<tr class="active">
-								<td>
-									<a href="#">
-										Equizone Phenybutazone Powder
-									</a>
-								</td>
-								<td>
-									<a href='#'>
-										A & G Pharmaceuticals
-									</a>
-								</td>
-								<td class="number">
-										16.7
-								</td>
-								<td class="number">
-										$2,432
+									2.7
 								</td>
 							</tr>
 							<tr>
 								<td>
 									<a href="#">
-										Equizone Phenybutazone Powder
+										Apple Flavored Asprin Powder
 									</a>
 								</td>
 								<td>
 									<a href='#'>
-										A & G Pharmaceuticals
+										Bayer
 									</a>
 								</td>
 								<td class="number">
-										16.7
+									2.2
+								</td>
+							</tr>
+							<tr class='active'>
+								<td>
+									<a href="#">
+										Phenylbutazone Oral Paste, 1gm/5ml
+									</a>
+								</td>
+								<td>
+									<a href='#'>
+										Wedgewood Pharmacy
+									</a>
 								</td>
 								<td class="number">
-										$2,432
+									1.8
+								</td>
+							</tr>
+							<tr class=''>
+								<td>
+									<a href="#">
+										Banamine Injectable Solution
+									</a>
+								</td>
+								<td>
+									<a href='#'>
+										Merck
+									</a>
+								</td>
+								<td class="number">
+									1.2
 								</td>
 							</tr>
 						</tbody>

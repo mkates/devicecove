@@ -191,7 +191,7 @@
 }
 .chartdiv {
 	width: 100%;
-	height: 350px;
+	min-height: 350px;
 	border:1px solid #eaeaea;
 	box-shadow: 0 0 20px rgba(0,0,0,.1) inset;
 	border-radius: 3px;
@@ -232,7 +232,7 @@
 				<img src="http://placehold.it/80x80">
 			</td>
 			<td class="title">
-				<a href='/product/{{product.name}}'><h3>Equizone Phenylbutazone Powder</h3></a>
+				<a href='/product/{{product.name}}'><h3>Phenylbutazone Oral Paste, 1gm/5ml</h3></a>
 				<div class="star star45"></div>
 				<p><strong>Last Updated:</strong> May 1st, 2014</p>
 			</td>
@@ -240,11 +240,11 @@
 	</table>
 	<div class="stats">
 		<div class="stat">
-			<h6>824</h6>
+			<h6>{{product.views}}</h6>
 			<p>Page Views</p>
 		</div>
 		<div class="stat">
-			<h6>23</h6>
+			<h6>{{product.purchases}}</h6>
 			<p>Purchases</p>
 		</div>
 		<div class="stat">

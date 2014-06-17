@@ -8,18 +8,15 @@
 				<p>
 					{% if product.details.lowprice == product.details.highprice %}
 						{{product.details.lowprice|dollars}}
-						{{product.details.lowprice|dollars}} - {{product.details.highprice|dollars}}
 					{% else %}
-						
-						$11.12-$17.28
+						{{product.details.lowprice|dollars}} - {{product.details.highprice|dollars}}
 					{% endif %}
 				</p>
 				<p class="msrp_price">
 					{% if product.details.msrp_lowprice == product.details.msrp_highprice %}
 						{{product.details.msrp_lowprice|dollars}}
-						{{product.details.msrp_lowprice|dollars}} - {{product.details.msrp_highprice|dollars}}
 					{% else %}
-						$16.22-$23.45
+						{{product.details.msrp_lowprice|dollars}} - {{product.details.msrp_highprice|dollars}}
 					{% endif %}
 
 				</p>
@@ -27,34 +24,38 @@
 			</div>
 			<div class='col-md-3 col-md-push-7 col-sm-4 col-sm-push-6 col-xs-12 imgdiv'>	
 				<!-- <img src="{%if product.mainimage %}{{product.mainimage.photo_medium.url}}{% else %}{{STATIC_URL}}img/noimage/noimage.jpg{% endif %}" alt="{{product.name}}"/>		 -->
-				<img src='http://www.myvetdirect.com/grandvalley/images/products/034378.gif'/>
+				<img src='{{STATIC_URL}}img/placeholder_pics/search/{{product.id}}.jpg'/>
 			</div>
 			
 			<div class='textdiv col-md-7 col-md-pull-3 col-sm-6 col-sm-pull-4 col-xs-12'>
-				<p class="manufacturer">A&G Pharmaceuticals</p>
-				<h2 class="itemname"><a href="/product/{{product.name}}">Equizone Phenylbutazone Powder</a></h2>
+				<p class="manufacturer">{{product.manufacturer.displayname}}</p>
+				<h2 class="itemname"><a href="/product/{{product.name}}">{{product.displayname}}</a></h2>
 				<div class="reviews">
 					<!-- <div class="star star{{product.averagerating|ratingstars}}"></div>
 					<div class="rating">
 						<a href='#'><strong>{{product.averagerating|ratingtext}}</strong> - 22 Reviews</a>
 					</div> -->
-					<div class="star star45"></div>
+					<div class="star star{{product.averagerating|ratingstars}}"></div>
 					<div class="rating">
-						<a href='#'><strong>Excellent</strong> - 22 Reviews</a>
+						<a href='#'><strong>{{product.averagerating|ratingtext}}</strong></a>
 					</div>
 				</div>
 				<h6 class="tags"> 
-					{% if product %}<p data-toggle="tooltip" title="This item is in stock" class='result-darkgreen'><span class="glyphicon glyphicon-ok"></span> In Stock</p>{% endif %} 
-					{% if not product %}<p data-toggle="tooltip" title="This item is currently out of stock" class='result-red'><span class="glyphicon glyphicon-remove-sign"></span> Out of Stock</p>{% endif %} 
-					{% if product %}<p data-toggle="tooltip" title="The item is currently 50% off retail price" class='result-lightgreen'><span class="glyphicon glyphicon-tag"></span> Promotion</p>{% endif %} 
-					{% if not product %}<pdata-toggle="tooltip" title="This item is currently on backorder"  class='result-green'><span class="glyphicon glyphicon-warning-sign"></span> Backorder</p>{% endif %} 
-					{% if not product %}<p data-toggle="tooltip" title="This item is shipped directly from the manufacturer" class='result-orange'><span class=" glyphicon glyphicon-plane"></span> Drop Shipped</p>{% endif %} 
+					{% if product.id != 3 %}<p data-toggle="tooltip" title="This item is in stock" class='result-darkgreen'><span class="glyphicon glyphicon-ok"></span> In Stock</p>{% endif %} 
+					{% if product.id == 3 %}<p data-toggle="tooltip" title="This item is currently out of stock" class='result-red'><span class="glyphicon glyphicon-remove-sign"></span> Out of Stock</p>{% endif %} 
+					{% if product.id == 4 %}<p data-toggle="tooltip" title="The item is currently 50% off retail price" class='result-lightgreen'><span class="glyphicon glyphicon-tag"></span> Promotion</p>{% endif %} 
+					{% if product.id == 3 %}<p data-toggle="tooltip" title="This item is currently on backorder"  class='result-green'><span class="glyphicon glyphicon-warning-sign"></span> Backorder</p>{% endif %} 
+					{% if product.id == 2 %}<p data-toggle="tooltip" title="This item is shipped directly from the manufacturer" class='result-orange'><span class=" glyphicon glyphicon-plane"></span> Drop Shipped</p>{% endif %} 
 					{% if not product %}<p data-toggle="tooltip" title="Additional Information is required to order this item" class='result-blue'><span class="glyphicon glyphicon-earphone"></span> More Info Req'd</p>{% endif %} 
-					{% if product %}<p data-toggle="tooltip" title="You last ordered this item on Sept 14, 2013" class='result-purple'><span class="glyphicon glyphicon-shopping-cart"></span> Ordered Before</p>{% endif %} 
+					{% if product.id == 1 or product.id == 3 %}<p data-toggle="tooltip" title="You last ordered this item on Sept 14, 2013" class='result-purple'><span class="glyphicon glyphicon-shopping-cart"></span> Ordered Before</p>{% endif %} 
 					{% if not product %}<p class='result-lightred'><span class="glyphicon glyphicon-ban-circle"></span> Indefinite BackOrder</p>{% endif %} 
 				</h6>
 				<div class="availableoptions">
-					<p><strong>Available Options:</strong> <span>1.1lb Jar, 2.2lb Jar</span></p>
+					<p><strong>Available Options:</strong> <span>
+						{% for item in product.item_set.all %}
+							{{item.description}}{% if not forloop.last %},{% endif %}
+							{% endfor %}
+					</span></p>
 				</div>
 				{% load multiply %}
 				
@@ -63,13 +64,12 @@
 					<button class='button button-tiny infobutton conditionbutton' data-ref="#purchasehistory_{{product.id}}">Purchase History</button>
 					<button class='button button-tiny infobutton specsbutton' data-ref="#reviews_{{product.id}}">Reviews</button>
 					<button class='button button-tiny infobutton conditionbutton' data-ref="#question_{{product.id}}">Questions</button>
-					<button class='button button-tiny infobutton conditionbutton' data-ref="#buyingoptions_{{product.id}}">Buying Options</button>
 				</div>
 			</div>
  		</div>
 	<div id="description_{{product.id}}" class='previewdiv'>
 		<div class="clear"></div>
-		<p>A stay at b2 miami downtown places you in the heart of Miami, walking distance from Bayside Marketplace and Island Queen Cruises. This hotel is within close proximity of Freedom Tower and Wallflower Gallery. Make yourself at home in one of the 243 guestrooms featuring iPod docking stations and LCD televisions. Windows open to city and sea views.</p>
+		<p>{{product.description}}</p>
 		<div class='morediv'>
 			<a href="/item/{{product.id}}/details"> View complete product details &#8594;</a>
 			<button class='button button-rounded button-tiny closebutton'>Close</button>
@@ -135,65 +135,6 @@
 		<p class="thin">You have not yet purchased this item</p>
 		<div class='morediv'>
 			<a href="/item/{{product.id}}/details"> View complete purchase history &#8594;</a>
-			<button class='button button-rounded button-tiny closebutton'>Close</button>
-		</div>
-	</div>
-	<div id="buyingoptions_{{product.id}}" class='buyingoptionsdiv previewdiv row'>
-		<div class="options">
-			<p class="buying-options"><strong>Buying Options:</strong></p>
-			<table class="buytable">
-				<thead>
-					<th>Description</th>
-					<th>Price</th>
-					<th class="align-right">Add to Cart</th>
-				</thead>
-				<tbody>
-					<tr>
-						<td class="description">Powder, 1.1lb</td>
-						<td class="price"><span>$16.22</span> $11.12</td>
-						<td class="quantity">
-							<div class="change-quantity">
-								<div class="quantity-box float">
-									<div class="quantity-minus quantity-change"><span class="glyphicon glyphicon-minus"></span></div>
-									<input type="number" class="form-control" value="1">
-									<div class="quantity-plus quantity-change"><span class="glyphicon glyphicon-plus"></span></div>
-								</div>
-								<div class="addtocart-button quantity-button float">
-									<button class="button button-tiny button-flat-action">Add to Cart ($11.12)</button>
-								</div>
-								<div class="remove-button quantity-button float">
-									<button class="button button-tiny button-flat-caution">Remove quantity <span>2</span> from cart</button>
-								</div>
-								<div class="clear"></div>
-							</div>
-						</td>
-					</tr>
-					<tr>
-						<td class="description">Powder, 2.2lb</td>
-						<td class="price"><span>$23.45</span> $17.28</td>
-						<td class="quantity">
-							<div class="change-quantity">
-								<div class="quantity-box float">
-									<div class="quantity-minus quantity-change"><span class="glyphicon glyphicon-minus"></span></div>
-									<input type="number" class="form-control" value="1">
-									<div class="quantity-plus quantity-change"><span class="glyphicon glyphicon-plus"></span></div>
-								</div>
-								<div class="addtocart-button quantity-button float">
-									<button class="button button-tiny button-flat-action">Add to Cart ($16.23)</button>
-								</div>
-								<div class="remove-button quantity-button float">
-									<button class="button button-tiny button-flat-caution">Remove quantity <span>2</span> from cart</button>
-								</div>
-								<div class="clear"></div>
-							</div>
-						</td>
-					</tr>
-					
-				</tbody>
-			</table>
-		</div>
-		<div class='morediv'>
-			<a href="/item/{{product.id}}/details"> View all buying options &#8594;</a>
 			<button class='button button-rounded button-tiny closebutton'>Close</button>
 		</div>
 	</div>

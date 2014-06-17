@@ -13,8 +13,7 @@
 	padding-right: 0;
 }
 /* Intro Box */
-.intro-box {
-}
+
 .intro-box .intro-image {
 	height: 34.666px;
 	margin: 3px 5px 2px 5px;
@@ -37,7 +36,7 @@
 	font-weight: normal;
 	position:relative;
 	z-index: 2;
-	padding-top: 18px;
+	padding-top: 20px;
 	font-size: 13px;
 }
 .intro-box .links a {
@@ -86,7 +85,7 @@
 	border:1px solid #dadada;
 	border-radius:4px;
 	background: white;
-	margin: 10px 0px 40px 0px;
+	margin: 0px 0px 10px 0px;
 	position: relative;
 }
 .dealbox .deal-title h3 {
@@ -140,7 +139,6 @@
 	max-height: 100%;
 	max-width: 100%;
 	vertical-align:center;
-	margin-top: 45px;
 }
 .dealbox .deals .deal {
 	margin-bottom: 20px;
@@ -256,118 +254,16 @@
 {% block browse_css %}{% endblock %}
 {% endblock %}
 {% block js %}
-<script>
-{% if dashboard %}
-$(document).ready(function() {
-	//Auto Focus on the search bar when page loads
-	$("#searchinput").focus();
-	var items = $(".selections .item");
-	// $.each(items,function(index,value) {
-	// 	$(value).delay(index*80).animate({
-	// 		top:-5,
-	// 	},400).animate({
-	// 		top:2,
-	// 	},200);
-	// });
-});
-{% endif %}
-</script>
 {% block browse_js %}{% endblock %}
 {% endblock %}
 {% block content %}
-<!-- <div class="selections row">
-	<a href='/dashboard' class="col12-8 first {% if dashboard %}active{% endif %}">
-		<div class="item">
-			<div class="item-image" style='background-image:url("{{STATIC_URL}}img/misc/topicons.png")'></div>
-			<p>Dashboard</p>
-		</div>
-	</a>
-	<a href='/deals' class="col12-8 {% if browse_deals %}active{% endif %}">
-		<div class="item">
-			<div class="item-image" style='background-image:url("{{STATIC_URL}}img/misc/topicons.png");background-position: -35px 0'></div>
-			<p>Promotions</p>
-		</div>
-	</a>
-	<a href='/trending' class="col12-8{% if browse_trending %} active{% endif %}">
-		<div class="item">
-			<div class="img">
-				<div class="item-image" style='background-image:url("{{STATIC_URL}}img/misc/topicons.png");background-position: -70px 0' ></div>
-			</div>
-			<p>Trending</p>
-		</div>
-	</a>
-	<a href='/new' class="col12-8 {% if browse_new %} active{% endif %}">
-		<div class="item">
-			<div class="img">
-				<div class="item-image" style='background-image:url("{{STATIC_URL}}img/misc/topicons.png");background-position: -140px 0'></div>
-			</div>
-			<p>New Products</p>
-		</div>
-	</a>
-	<a href='/recent' class="col12-8 {% if browse_recent %} active{% endif %}">
-		<div class="item">
-			<div class="img">
-				<div class="item-image" style='background-image:url("{{STATIC_URL}}img/misc/topicons.png");background-position: -105px 0' ></div>
-			</div>
-			<p>Recently Viewed</p>
-		</div>
-	</a>
-	<a href='/recent' class="col12-8 last{% if browse_recent %} active{% endif %}">
-		<div class="item">
-			<div class="img">
-				<div class="item-image" style='background-image:url("{{STATIC_URL}}img/misc/topicons.png");background-position: -175px 0' ></div>
-			</div>
-			<p>Marketplace</p>
-		</div>
-	</a>
-</div> -->
+
 <div class="row introrow">
 	{% block browse_content %}
 		{% include 'account/pages/browse/dealrow-base.html' %}
 		{% include 'account/pages/browse/productrow-base.html' with row_title=row_one %}
 		{% include 'account/pages/browse/productrow-base.html' with row_title=row_two %}		
 	{% endblock %}
-
-	<!-- <div class="col-md-3 sidecol">
-		<div class="homebox referral">
-			<h3>Share The Love</h3>
-			<p>Send 200 credits to another clinic, and receive 200 credits!</p>
-			<a href='#' class='button button-flat button-rounded button-flat-royal'>Share The Deal</a>
-		</div>
-		<div class="homebox">
-			<h4>Back Order Tracker <a href="#">View All</a></h4>
-			<div class="backorder">
-				<p class="drug-name">Amikacin 250mg/ml Injection 50ml</p>
-				<p><span class="label label-danger">On Backorder</span><span class="date">as of May 15th, 2014</span></p>
-				<a href='#'>See alternatives and compounds &rarr;</a>
-			</div>
-			<div class="backorder">
-				<p class="drug-name">Cisapride Formulations</p>
-				<p><span class="label label-warning">Under Inspection</span><span class="date">as of May 6th, 2014</span></p>
-				<a href='#'>See alternatives and compounds &rarr;</a>
-			</div>
-			<div class="backorder">
-				<p class="drug-name">Ivermectin 10mg/ml Suspension</p>
-				<p><span class="label label-danger">On Backorder</span><span class="date">as of April 28tb, 2014</span></p>
-				<a href='#'>See alternatives and compounds &rarr;</a>
-			</div>
-			<div class="backorder">
-				<p class="drug-name">Ivermectin 0.01% Otic Suspension</p>
-				<p><span class="label label-danger">On Backorder</span><span class="date">as of April 22nd, 2014</span></p>
-				<a href='#'>See alternatives and compounds &rarr;</a>
-			</div>
-		</div>
-		<div class="homebox usedequipment">
-			<h3>Sell Used Equipment</h3>
-			<p>List a used piece of equipment on VetCove, and receive <strong>100% of the sale</strong> as credits towards future VetCove purchases</p>
-			<a href='#' class='button button-flat button-rounded button-flat-primary'>List Equipment</a>
-		</div>
-		<div class="homebox analytics">
-			<h3>Show off Your Savings</h3>
-			<p>Show your practice how much you saved with our advanced, printable analytics reports</p>
-			<a href='#' class='button button-flat button-rounded button-flat-action'>View Reports</a>
-		</div>
-	</div> -->
 </div>
 {% endblock %}
 

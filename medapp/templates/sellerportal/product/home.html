@@ -66,11 +66,11 @@ $(document).ready(function(){
 					<div class="value hidden">45</div>
 					<div class="star star45"></div>
 				</td>
-				<td class="bold center">234</td>
-				<td class="bold center">23</td>
+				<td class="bold center">{{product.views}}</td>
+				<td class="bold center">{{product.purchases}}</td>
 				<td>
 					<div class="value hidden">1</div>
-					<div class="center completebar completebar1"></div>
+					<div class="center completebar completebar{{product.quality}}"></div>
 				</td>
 				<td class="center">
 					<a href="/portal/product/{{product.id}}/edit" class="button button-rounded button-flat button-flat-action button-tiny">Edit</a>

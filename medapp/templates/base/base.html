@@ -35,33 +35,10 @@
 	<header class="header">
 		<div class="mainheader">
 			<div class="left-header mainheader-div">
-				<!-- <a id="simple-menu" href="#sidr">
-					<span class="icon-bar"></span>
-	        		<span class="icon-bar"></span>
-	        		<span class="icon-bar"></span>
-	        		<span class="sr-only">Menu</span>
-	        	</a> -->
 				<div class="header-logo">
 					<a href='/'><img id="main-logo" src="{{STATIC_URL}}img/logo/paw_logo_beta.png" alt="VetCove"/></a>
 				</div>
 			</div>
-			<!-- <div class="right-header mainheader-div">
-				<ul>
-					{% if user.is_staff %}
-					<li><a class="" href="/staff/overview">Staff Portal</a></li>
-					{% endif %}
-
-					<li><a href='/login'>Today's Deal</a></li>
-					<li><a href='/login'>Freebies</a></li>
-					<li><a href='/sell'>New Items</a></li>
-					<li><a href='/sell'>Sell</a></li>
-					<li><a href='/faq'>Help</a></li>
-
-					{% if user.is_authenticated %}
-						<li><a href='/account/credits'>Credits<span class="label label-success">{{user.basicuser.credits|dollars}}</span></a></li>
-			        {% endif %}
-				</ul>
-			</div> -->
 			<div class="selections">
 				<a href='/dashboard' class="col12-8 first {% if dashboard %}active{% endif %}">
 					<div class="item">
@@ -80,7 +57,7 @@
 						<div class="img">
 							<div class="item-image" style='background-image:url("{{STATIC_URL}}img/misc/topicons.png");background-position: -42px 0' ></div>
 						</div>
-						<p>Browse</p>
+						<p>Trending</p>
 					</div>
 				</a>
 				<a href='/new' class="col12-8 {% if browse_new %} active{% endif %}">
@@ -88,34 +65,27 @@
 						<div class="img">
 							<div class="item-image" style='background-image:url("{{STATIC_URL}}img/misc/topicons.png");background-position: -63px 0'></div>
 						</div>
-						<p>Rewards</p>
+						<p>New Products</p>
 					</div>
 				</a>
-				<a href='/recent' class="col12-8 {% if browse_recent %} active{% endif %}">
+				<a href='/rewards' class="col12-8 last{% if browse_rewards %} active{% endif %}">
 					<div class="item">
 						<div class="img">
 							<div class="item-image" style='background-image:url("{{STATIC_URL}}img/misc/topicons.png");background-position: -84px 0' ></div>
 						</div>
-						<p>Community</p>
+						<p>Rewards</p>
 					</div>
 				</a>
-				<a href='/recent' class="col12-8 last{% if browse_recent %} active{% endif %}">
-					<div class="item">
-						<div class="img">
-							<div class="item-image" style='background-image:url("{{STATIC_URL}}img/misc/topicons.png");background-position: -105px 0' ></div>
-						</div>
-						<p>Marketplace</p>
-					</div>
-				</a>
+				
 			</div>
 		</div>
 		{% block secondheader %}
 		<div class="dynamic-row">
 			<div class="fixed element noborder custom-dropdown category-div">
 				<div class="element-relative">
-					<a class="bar">
+					<a class="bar inlined-bar">
 						<div class="inlined two-row">
-							<!-- <p>Browse by</p> -->
+							<p class="browse">Browse by</p>
 							<p>Categories <b class="caret"></b></p>
 						</div>
 					</a>
@@ -123,27 +93,24 @@
 						<div class="category-menu">
 							<ul id="category-menu-ul">
 								{% for category in categories %}
-									<li><a data-name="{{category}}" class="category-menu-item">{{category}}<span> &rsaquo; </span></a></li>
+									<li><a data-name="{{category.name}}" class="category-menu-item" href='/category/{{category.name}}'>{{category.displayname}}<span> &rsaquo; </span></a></li>
 								{% endfor %}
 								<li><a href='/categories' class="full-directory">See Full Directory</a></li>
 							</ul>
 						</div>
 						<div class="category-content">
-							<div id="menu-{{category}}" class="category-info">
-								<h1>Dentistry</h1>
+							{% for category in categories %}
+							<div id="menu-{{category.name}}" class="category-info">
+								<h1>{{category.displayname}}</h1>
 								<div class="category-info-box">
-									<ul class="reformat">
-									  <li><a href='#'>Aloe</a></li>
-									  <li>Bergamot</li>
-									  <li>Calendula</li>
-									  <li>Damiana</li>
-									  <li>Elderflower</li>
-									  <li>Feverfew</li>
-									  <li>Ginger</li>
-									  <li>Hops</li>
-									</ul>
+									{% for subcat in category.category_set.all %}
+									<div class="subcat">
+										<a href='/category/{{subcat.name}}'>{{subcat.displayname}}</a>
+									</div>
+									{% endfor %}
 								</div>
 							</div>
+							{% endfor %}
 							<div id="menu-diagnosticexams" class="category-info">
 								<h1>Diagnostic Exams</h1>
 							</div>
@@ -184,44 +151,47 @@
 			<div class="fixed element">
 				<div class="element-relative">
 					<a href="#" class="bar">
-						<div class="inlined two-row">
-							<p><span class="glyphicon glyphicon-record"></span> Credits <span class="label label-success">240</span> <b class="caret"></b></p>
+						<div class="two-row">
+							<p><span class="glyphicon glyphicon-record"></span> Credits {% if basicuser %}<span class="label label-success">320</span>{% endif %}<b class="caret"></b></p>
 						</div>
 					</a>
 					<div class="dropdown-box">
-						<p class="balance"><strong>Credit Balance: 240 credits</strong></p>
-						<a class="" href="#">Earn More Credits</a>
-						<a class="" href="#">Redeem Your Credits</a>
-						<a class="" href="#">View Credits History</a>
+						{% if basicuser %}
+						<p class="balance"><strong>Credit Balance: 320 credits</strong></p>
+						{% endif %}
+						<a class="" href="/rewards">Monthly Rewards</a>
+						<a class="" href="/rewards/store">Redeem Your Credits</a>
 					</div>
 				</div>
 			</div>
 			<div class="fixed element">
 				<div class="element-relative">
 					<a href="#" class="bar">
-						<div class="inlined two-row">
-							<p><span class="glyphicon glyphicon-shopping-cart"></span> Cart <span class="label label-success">2</span> <b class="caret"></b></p>
+						<div class="two-row">
+							<p><span class="glyphicon glyphicon-shopping-cart"></span> Cart {% if basicuser %}<span class="label label-success">2</span> {% endif %}<b class="caret"></b></p>
 						</div>
 					</a>
 					<div class="dropdown-box product-dropdown">
+						{% if basicuser %}
 						<div class="product-item">
 							<div class="product-item-image product-item-div">
-								<img src='{{STATIC_URL}}img/noimage/noimage_75x100.jpg'>
+								<img src='{{STATIC_URL}}img/placeholder_pics/search/3.jpg'>
 							</div>
 							<div class="product-item-info product-item-div">
-								<p class="product-item-name">Salix Solution 5% Injectable with salin compund and </p>
-								<p class="product-item-details">Quantity: 2 | $12.23</p>
+								<p class="product-item-name">Banamine Injectable Solution</p>
+								<p class="product-item-details">Quantity: 2 | $54.23</p>
 							</div>
 						</div>
 						<div class="product-item">
 							<div class="product-item-image product-item-div">
-								<img src='{{STATIC_URL}}img/noimage/noimage_75x100.jpg'>
+								<img src='{{STATIC_URL}}img/placeholder_pics/17.gif'>
 							</div>
 							<div class="product-item-info product-item-div">
-								<p class="product-item-name">Salix  </p>
-								<p class="product-item-details">$12.23</p>
+								<p class="product-item-name">Stethoscope - Dual Padded Economy</p>
+								<p class="product-item-details">$3.92</p>
 							</div>
 						</div>
+						{% endif %}
 						<div class="cart-button">
 							<a href="/cart" class="button button-rounded button-primary">View Cart and Checkout <span class="glyphicon glyphicon-arrow-right"></span></a>
 						</div>
@@ -231,21 +201,22 @@
 			<div class="fixed element">
 				<div class="element-relative">
 					<a href="#" class="bar">
-						<div class="inlined two-row">
-							<p><span class="glyphicon glyphicon-flag"></span> Updates <span class="label label-success">2</span> <b class="caret"></b></p>
+						<div class="two-row">
+							<p><span class="glyphicon glyphicon-th-list"></span> Lists <b class="caret"></b></p>
 						</div>
 					</a>
 					<div class="dropdown-box">
-						<a class="" href="#">Your Subscriptions</a>
-						<a class="" href="#">Your Orders</a>
-						<a class="" href="#">Your Wishlist</a>
+						<a class="" href="#">Your Saved Items</a>
+						<a class="" href="#">Frequent Orders</a>
+						<a class="" href="#">Manage Lists</a>
+						<a class="" href="#">Create a New List</a>
 					</div>
 				</div>
 			</div>
 			<div class="fixed element noborder">
 				<div class="element-relative">
 					<a href="#" class="bar">
-						<div class="inlined two-row">
+						<div class="two-row">
 							<p><span class="glyphicon glyphicon-cog"></span> Account <b class="caret"></b></p>
 						</div>
 					</a>
@@ -256,191 +227,19 @@
 						<div class="divider"></div>
 					{% endif %}
 						<a class="" href="/account/profile">Your Account</a>
-						<a class="" href="#">Your Subscriptions</a>
 						<a class="" href="#">Your Orders</a>
-						<a class="" href="#">Your Wishlist</a>
-						<a class="" href="#">Your Rebate Programs</a>
+						<a class="" href="#">Your Returns</a>
+						<a class="" href="#">Purchase Analytics</a>
 						<div class="divider"></div>
-						<a class="" href="#">Your Questions</a>
+						<a class="" href="/account/questions">Your Questions</a>
 						<a class="" href="/account/reviews">Your Reviews</a>
 						<div class="divider"></div>
-						<a class="" href="/logout">Not {{basicuser.clinic}}? Sign Out</a>
+						<a class="" href="/account/sell">Your Listed Items</a>
+						{% if basicuser %}
+						<div class="divider"></div>
+						<a class="" href="/logout">Not {{user.email}}? Sign Out</a>
+						{% endif %}
 					</div>
-				</div>
-			</div>
-		</div>
-		<div class="subheader row">
-			<div class="col-12-10 custom-dropdown category-div">
-				<a class="categories subheader-option two-rows">
-					<p class="first">Browse by</p>
-					<p>Category <b class="caret"></b></p>
-				</a>
-				<div class="category-box dropdown-box">
-					<div class="category-menu">
-						<ul id="category-menu-ul">
-							{% for category in categories %}
-								<li><a data-name="{{category}}" class="category-menu-item">{{category}}<span> &rsaquo; </span></a></li>
-							{% endfor %}
-							<li><a href='/categories' class="full-directory">See Full Directory</a></li>
-						</ul>
-					</div>
-					<div class="category-content">
-						<div id="menu-{{category}}" class="category-info">
-							<h1>Dentistry</h1>
-							<div class="category-info-box">
-								<ul class="reformat">
-								  <li><a href='#'>Aloe</a></li>
-								  <li>Bergamot</li>
-								  <li>Calendula</li>
-								  <li>Damiana</li>
-								  <li>Elderflower</li>
-								  <li>Feverfew</li>
-								  <li>Ginger</li>
-								  <li>Hops</li>
-								</ul>
-							</div>
-						</div>
-						<div id="menu-diagnosticexams" class="category-info">
-							<h1>Diagnostic Exams</h1>
-						</div>
-						<div id="menu-diagnostics" class="category-info">
-							<h1>Diagnostics</h1>
-						</div>
-					</div>
-				</div>
-			</div>
-			<div class="searchbar">
-				<form id="searchform">
-					<table>
-						<tr>
-							<td class="searchinput-td">
-								<input type="text" id="searchinput" autocomplete="off" placeholder="Search Equipment and Supplies. . ." class="form-control">
-								<span id="search-exit">&#10006;</span>
-							</td>
-							<td class="searchbutton-td">
-								<button class="button">Go</button>
-							</td>
-						</tr>
-					</table>
-				</form>
-				<div id="autosuggest" >
-					<div class="section categoriesheader">
-						Categories
-					</div>
-					<div id="categoriessection" class="section-content">
-					</div>
-					<div class="section productsheader">
-						Products
-					</div>
-					<div id="productssection" class="section-content">
-					</div>
-					<div class="section manufacturerheader">
-						Manufacturers
-					</div>
-					<div id="manufacturerssection" class="section-content">
-					</div>
-				</div>
-			</div>
-			<div class="col-12-10 custom-dropdown">
-				<a href='#' class="subheader-option two-rows account">
-					<p class="first">{% if not basicuser %}Hello. Sign in.{% else %}Your{% endif %}</p>
-					<p>Account<b class="caret"></b></p>
-				</a>
-				<div class="dropdown-box account-dropdown">
-				{% if not basicuser %}
-					<a href='/signin' class="button button-rounded button-primary">Sign In</a>
-					<p class="newcustomer">New Customer? <a href='/signup'>Sign Up Here</a></p>
-					<div class="divider"></div>
-				{% endif %}
-					<a class="" href="/account/profile">Your Account</a>
-					<a class="" href="#">Your Subscriptions</a>
-					<a class="" href="#">Your Orders</a>
-					<a class="" href="#">Your Wishlist</a>
-					<a class="" href="#">Your Rebate Programs</a>
-					<div class="divider"></div>
-					<a class="" href="#">Your Questions</a>
-					<a class="" href="/account/reviews">Your Reviews</a>
-					<div class="divider"></div>
-					<a class="" href="/logout">Not {{basicuser.clinic}}? Sign Out</a>
-				</div>
-			</div>
-			<div class="col-12-10 custom-dropdown">
-				<a href='#' class="subheader-option two-rows account">
-					<p class="first">Your</p>
-					<p>Saved<b class="caret"></b></p>
-				</a>
-				<div class="dropdown-box product-dropdown">
-					<div class="product-item">
-						<div class="product-item-image product-item-div">
-							<img src='{{STATIC_URL}}/img/noimage_75x100.jpg'>
-						</div>
-						<div class="product-item-info product-item-div">
-							<p class="product-item-name">Salix Solution 5% Injectable with salin compund and </p>
-							<p class="product-item-details">Quantity: 2</p>
-							<p class="product-item-details">$12.23 ( at $12.13 each)</p>
-						</div>
-					</div>
-					<div class="product-item">
-						<div class="product-item-image product-item-div">
-							<img src='{{STATIC_URL}}/img/noimage_75x100.jpg'>
-						</div>
-						<div class="product-item-info product-item-div">
-							<p class="product-item-name">Salix  </p>
-							<p class="product-item-details">$12.23</p>
-						</div>
-					</div>
-					<div class="cart-button">
-						<a href="/cart" class="button button-rounded button-action">View All Saved (2) <span class="glyphicon glyphicon-arrow-right"></span></a>
-					</div>
-				</div>
-			</div>
-			<div class="col-12-10 custom-dropdown">
-				<a  href='#' class="subheader-option">
-					<p>Cart <span class="glyphicon glyphicon-shopping-cart"></span><span class="notification-count green-count">2</span><b class="caret"></b></p>
-				</a>
-				<div class="dropdown-box product-dropdown">
-					<div class="product-item">
-						<div class="product-item-image product-item-div">
-							<img src='{{STATIC_URL}}/img/noimage_75x100.jpg'>
-						</div>
-						<div class="product-item-info product-item-div">
-							<p class="product-item-name">Salix Solution 5% Injectable with salin compund and </p>
-							<p class="product-item-details">Quantity: 2</p>
-							<p class="product-item-details">$12.23 ( at $12.13 each)</p>
-						</div>
-					</div>
-					<div class="product-item">
-						<div class="product-item-image product-item-div">
-							<img src='{{STATIC_URL}}/img/noimage_75x100.jpg'>
-						</div>
-						<div class="product-item-info product-item-div">
-							<p class="product-item-name">Salix  </p>
-							<p class="product-item-details">$12.23</p>
-						</div>
-					</div>
-					<div class="product-item">
-						<div class="product-item-image product-item-div">
-							<img src='{{STATIC_URL}}/img/noimage_75x100.jpg'>
-						</div>
-						<div class="product-item-info product-item-div">
-							<p class="product-item-name">Salix Solution 5% Injectable with salin compund and </p>
-							<p class="product-item-details">$12.23 (4x at $12.13 each)</p>
-						</div>
-					</div>
-					<div class="cart-button">
-						<a href="/cart" class="button button-rounded button-primary">View Cart (2) <span class="glyphicon glyphicon-arrow-right"></span></a>
-					</div>
-				</div>
-			</div>
-			<div class="col-12-10 custom-dropdown">
-				<a href='#' class="subheader-option">
-					<p>Updates<span class="notification-count red-count">2</span><b class="caret"></b></p>
-				</a>
-				<div class="dropdown-box account-dropdown">
-					<a class="" href="#">Recently Ordered Items</a>
-					<a class="" href="#">Recently Viewed Items</a>
-					<a class="" href="#">QuickLists</a>
-					<a class="" href="#">Subscriptions</a>
 				</div>
 			</div>
 		</div>

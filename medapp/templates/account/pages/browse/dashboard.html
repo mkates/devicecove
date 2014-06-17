@@ -11,13 +11,13 @@
 	border-bottom:1px solid #dadada;
 	padding: 10px 20px;
 }
-.dashboard-row  .more-link {
+.dashboard-row .more-link {
 	position:absolute;
-	bottom: 15px;
-	right: 15px;
+	bottom: 5px;
+	right: 10px;
 	font-size: 13px;
 }
-.dashboard-row  .more-link:hover {
+.more-link:hover {
 	text-decoration: underline;
 }
 .dashboard-row  h3 {
@@ -33,15 +33,9 @@
 	margin-bottom: 0;
 }
 .split-box-body {
-	padding: 10px 10px 40px 10px;
+	padding: 10px 10px 20px 10px;
 }
-.credits,.order-history, .news {
-	position:relative;
-	height: 100%;
-	display:block;
-	width: 100%;
-	overflow: auto;
-}
+
 .credits .goal {
 	display:table;
 	width: 100%;
@@ -85,6 +79,21 @@
 	font-size: 13px;
 	border-bottom:1px solid #d6d6d6;
 	color: #333;
+}
+.second-table a:hover {
+	text-decoration: underline;
+}
+.second-table .complete {
+	font-weight:bold;
+	color: #2fb950;
+}
+.second-table .transit {
+	font-weight:bold;
+	color: #d28726;
+}
+.second-table .process {
+	font-weight:bold;
+	color: #488ace;
 }
 /*Listing */
 .nolisting {
@@ -190,6 +199,51 @@
 .review .product-preview-box-container a:hover {
 	box-shadow: none;
 }
+
+/*Listing */
+.nolisting {
+display:none;
+}
+.nolisting p {
+margin: 30px 20px 20px 20px;
+font-size: 13px;
+color: #666;
+}
+.listing {
+margin: 10px 10px;
+}
+.listing .image-td {
+width: 100px;
+text-align: center;
+}
+.listing table {
+	width: 100%;
+}
+.listing table td {
+vertical-align: top;
+padding-bottom: 20px;
+}
+.listing .image-td img {
+max-width: 100px;
+border-radius: 3px;
+padding: 10px;
+box-shadow: 0 0 2px #eee;
+border:1px solid #eee;
+max-height: 60px;
+}
+.listing .info-td {
+padding-left: 10px;
+text-align: left;
+}
+.listing .info-td a {
+font-size: 13px;
+color: #333;
+}
+.listing .info-td p {
+font-size: 12px;
+color: #777;
+margin: 2px 0 0 0;
+}
 </style>
 {% endblock %}
 {% block browse_js %}
@@ -212,6 +266,22 @@ $(document).ready(function(){
 	      }
 	});
 	$('.dial').css('font-size','14px')
+	$(".dial2").knob({
+		thickness:.15,
+		angleArc:360,
+		readOnly:true,
+		width: 60,
+		height:60,
+		fgColor:'#40c659',
+		'draw' : function () { 
+			if ($(this.$).attr('data-type')=='dollar') {
+				$(this.i).val(this.cv+"%");
+			} else {
+	       		$(this.i).val(this.cv + '/'+$(this.$).attr('data-max'));
+	       	}
+	      }
+	});
+	$('.dial2').css('font-size','14px')
 });
 </script>
 {% endblock %}
@@ -221,17 +291,15 @@ $(document).ready(function(){
 		<div class="intro-image" style='background-image:url("{{STATIC_URL}}img/misc/topicons.png");background-position: -0px 0' ></div>
 		<h3 class="page-title">Dashboard<div class="gradient"></div></h3>
 		<div class="links">
-			<a class='active'>Most Recent</a> | <a>Most Popular</a> | <a> Newest</a> | <a> Largest Discount</a>
 		</div>
 	</div>
 </div>
-
 <div class="tablecell dashboard-row">
-  <div class="tablecell-col tablecell-45 vetbox">
-  	<div class="credits">
+  <div class="tablecell-col tablecell-4 vetbox">
+  	<div class="credits tablecell-content">
 		<div class="title">
-			<h3>Rewards For Month of May</h3>
-			<p class="subtext">You have <strong>13 days</strong> left to reach these goals. <a href='/account/credits'>Learn More</a></p>
+			<h3>VetCove Rewards</h3>
+			<p class="subtext">You have <strong>14 days</strong> left to reach these goals. <a href='/account/credits'>Learn More</a></p>
 		</div>
 		<div class="split-box-body">
 			<div class="goal">
@@ -239,35 +307,35 @@ $(document).ready(function(){
 					<input type="text" class="dial" value="2" data-max="8" data-type="ratio">
 				</div>
 				<div class="info">
-					<p>Write 8 Reviews <span>for 50 credits</span></p>
-					<h6>You have 2 out of 8 reviews complete</h6>
+					<p>Write 8 Product Reviews</p>
+					<h6>Reward: 300 Credits | 2 out of 8 reviews complete</h6>
 				</div>
 			</div>
 			<div class="goal">
 				<div class="meter">
-					<input type="text" class="dial" value="98" data-max="99" data-type="ratio">
+					<input type="text" class="dial" value="76" data-max="100" data-type="dollar">
 				</div>
 				<div class="info">
-					<p>Write 8 Reviews</p>
-					<h6>Reward: 50 Credits | 2 out of 8 reviews complete</h6>
+					<p>Purchase $300 in Compunded Medications</p>
+					<h6>Reward: 300 Credits | $230/$300 purchased</h6>
 				</div>
 			</div>
 			<div class="goal">
 				<div class="meter">
-					<input type="text" class="dial" value="2" data-max="8" data-type="ratio">
+					<input type="text" class="dial" value="1" data-max="2" data-type="ratio">
 				</div>
 				<div class="info">
-					<p>Write 8 Reviews</p>
-					<h6>Reward: 50 Credits | 2 out of 8 reviews complete</h6>
+					<p>Refer 2 New Clinics to VetCove</p>
+					<h6>Reward: 400 Credits | 1 of 2 clinics referred</h6>
 				</div>
 			</div>
 			<div class="goal">
 				<div class="meter">
-					<input type="text" class="dial" value="2" data-max="8" data-type="ratio">
+					<input type="text" class="dial" value="100" data-max="100" data-type="dollar">
 				</div>
 				<div class="info">
-					<p>Write 8 Reviews</p>
-					<h6>Reward: 50 Credits | 2 out of 8 reviews complete</h6>
+					<p>Purchase 5 Wedgewood Products</p>
+					<h6>Reward: 130 Credits | GOAL COMPLETE</h6>
 				</div>
 			</div>
 			<div class="clear"></div>
@@ -275,8 +343,8 @@ $(document).ready(function(){
 		<a class="more-link" href="/rewards">View All Rewards &rarr;</a>
   	</div>
   </div>
-  <div class="tablecell-col tablecell-45 vetbox">
-  	<div class="order-history">
+  <div class="tablecell-col tablecell-4 vetbox">
+  	<div class="order-history tablecell-content">
   		<div class="title">
 			<h3>Order History</h3>
 			<p class="subtext">Recently Ordered Items</p>
@@ -291,142 +359,278 @@ $(document).ready(function(){
 				</thead>
 				<tbody>	
 					<tr>
-						<td><a href="#">#43D9S3J</a></td>
-						<td>Sept 3</td>
-						<td>$89.92</td>
-						<td>Completed</td>
+						<td><a href="#">#DH82J28</a></td>
+						<td>June 14</td>
+						<td>$349.92</td>
+						<td class="process">Processing</td>
 					</tr>
 					<tr>
-						<td><a href="#">#43D9S3J</a></td>
-						<td>Sept 3</td>
-						<td>$89.92</td>
-						<td>Completed</td>
+						<td><a href="#">#D82HD92</a></td>
+						<td>June 11</td>
+						<td>$289.12</td>
+						<td class="transit">In Transit</td>
 					</tr>
 					<tr>
-						<td><a href="#">#43D9S3J</a></td>
-						<td>Sept 3</td>
-						<td>$89.92</td>
-						<td>Completed</td>
+						<td><a href="#">#29HD82H</a></td>
+						<td>June 4</td>
+						<td>$1,423.12</td>
+						<td class="complete">Complete</td>
 					</tr>
 					<tr>
-						<td><a href="#">#43D9S3J</a></td>
-						<td>Sept 3</td>
-						<td>$89.92</td>
-						<td>Completed</td>
+						<td><a href="#">#ASD89J2</a></td>
+						<td>June 3</td>
+						<td>$16.13</td>
+						<td class="complete">Complete</td>
+					</tr>
+					<tr>
+						<td><a href="#">#29FS3DH</a></td>
+						<td>June 1</td>
+						<td>$832.21</td>
+						<td class="complete">Complete</td>
+					</tr>
+					<tr>
+						<td><a href="#">#29DISQJ2</a></td>
+						<td>May 30</td>
+						<td>$192.21</td>
+						<td class="complete">Complete</td>
 					</tr>
 				</tbody>
 			</table>
 		</div>
-		<a class="more-link" href="/account/orderhistory">View full order histroy &rarr;</a>
+		<a class="more-link" href="/account/orderhistory">View Full Order History &rarr;</a>
   	</div>
   </div>
-   <div class="tablecell-col tablecell-3 vetbox">
-  	<div class="news">
+   <div class="tablecell-col tablecell-4 vetbox">
+  	<div class="news tablecell-content">
   		<div class="title">
 			<h3>News</h3>
 			<p class="subtext">Industry News</p>
 		</div>
 		<div class="split-box-body">
 			<div class="news-item">
-				<p><span class="label label-info">New Product</span> Bayer has introduced a new product, Phenyrezone <span> 2 days ago</span></p>
+				<p><span class="label label-info">New Product</span> A/B Science has introduced a new product, Kinavet, for canine mast cell tumors</p>
 				<p class="date">2 days ago</p>
 			</div>
 			<div class="news-item">
-				<p><span class="label label-danger">Backorder</span> Bayer has introduced a new product, Phenyrezone <span> 2 days ago</span></p>
+				<p><span class="label label-danger">Backorder</span> Gastrogard by Merial has been placed on indefinite backorder. <a href="/">View Alternatives</a></p>
 				<p class="date">2 days ago</p>
 			</div>
 			<div class="news-item">
-				<p><span class="label label-success">Promotion</span> Bayer has introduced a new product, Phenyrezone <span> 2 days ago</span></p>
+				<p><span class="label label-success">Promotion</span> Glycoflex is now on sale. Buy 10 and receive 2 bottles free, through July 1, 2014</p>
 				<p class="date">2 days ago</p>
 			</div>
 			<div class="news-item">
-				<p><span class="label label-info">New Product</span> Bayer has introduced a new product, Phenyrezone <span> 2 days ago</span></p>
+				<p><span class="label label-success">Promotion</span> Synacore digestive health has been marked down an additional 10%. It is now 25% off MSRP</p>
 				<p class="date">2 days ago</p>
+			</div>
+			<div class="news-item">
+				<p><span class="label label-info">New Product</span> Wedgewood Pharmacy now has phenylbutazone powder available in an oral paste</p>
+				<p class="date">3 days ago</p>
 			</div>
 		</div>
-		<a class="more-link" href="/news">View all news &rarr;</a>
+		<a class="more-link" href="/news">View All News &rarr;</a>
   	</div>
   </div>
 </div>
-	<div class="full-row vetbox">
-		<h3> Review Recent Products<span><a class="more-link" href="/account/credits">View all Reviews &rarr;</a><span></h3>
-		<div class="review">
-			<div class="product-preview-box-container first">
-				<a href='#'>
-			  		<div class="product-preview-box">
-			  			<div class="product-preview-image" style='background-image:url("{{STATIC_URL}}img/placeholder_pics/1.gif")'>
-			  			</div>
-			  			<div class="product-preview-info">
-			  				<p class="title">Potomavac Bacterin Stocked</p>
-			  				<div class="ratings">
-			  					<div class="star blackstar star{{rating}}"></div><span>(8)</span>
-			  				</div>
-			  				<button class="button button-rounded button-tiny button-flat">Review This Product</button>
-			  			</div>
-			  		</div>
-			  	</a>
+
+<div class="tablecell dashboard-row">
+	<div class="tablecell-col tablecell-4 vetbox">
+	  	<div class="order-history tablecell-content">
+	  		<div class="title">
+				<h3>Recommended Products</h3>
+				<p class="subtext">Items Likely Needed to be Reordered</p>
 			</div>
-			<div class="product-preview-box-container">
-				<a href='#'>
-			  		<div class="product-preview-box">
-			  			<div class="product-preview-image" style='background-image:url("{{STATIC_URL}}img/placeholder_pics/1.gif")'>
-			  			</div>
-			  			<div class="product-preview-info">
-			  				<p class="title">Potomavac Bacterin Stocked</p>
-			  				<div class="ratings">
-			  					<div class="star blackstar star{{rating}}"></div><span>(8)</span>
-			  				</div>
-			  				<button class="button button-rounded button-tiny button-flat">Review This Product</button>
-			  			</div>
-			  		</div>
-			  	</a>
+			<div class="split-box-body">
+				<div class="listing">
+					<table>
+						<tr>
+							<td class="image-td"><img src="{{STATIC_URL}}img/placeholder_pics/1.gif"></td>
+							<td class="info-td">
+								<a href='#'>Potomavac Bacterin Stocked</a>
+								<p>Last ordered 8 days ago</p>
+							</td>
+						</tr>
+						<tr>
+							<td class="image-td"><img src="{{STATIC_URL}}img/placeholder_pics/2.gif"></td>
+							<td class="info-td">
+								<a href='#'>Bovax B</a>
+								<p>Last ordered 20 days ago</p>
+							</td>
+						</tr>
+						<tr>
+							<td class="image-td"><img src="{{STATIC_URL}}img/placeholder_pics/3.gif"></td>
+							<td class="info-td">
+								<a href='#'>Pneumabort K+1B</a>
+								<p>Last ordered 6 days ago</p>
+							</td>
+						</tr>
+						<tr>
+							<td class="image-td"><img src="{{STATIC_URL}}img/placeholder_pics/4.gif"></td>
+							<td class="info-td">
+								<a href='#'>Pinnacle IN</a>
+								<p>Last ordered 18 days ago</p>
+							</td>
+						</tr>
+					</table>
+				</div>
 			</div>
-			<div class="product-preview-box-container last">
-				<a href='#'>
-			  		<div class="product-preview-box">
-			  			<div class="product-preview-image" style='background-image:url("{{STATIC_URL}}img/placeholder_pics/1.gif")'>
-			  			</div>
-			  			<div class="product-preview-info">
-			  				<p class="title">Potomavac Bacterin Stocked</p>
-			  				<div class="ratings">
-			  					<div class="star blackstar star{{rating}}"></div><span>(8)</span>
-			  				</div>
-			  				<button class="button button-rounded button-tiny button-flat">Review This Product</button>
-			  			</div>
-			  		</div>
-			  	</a>
+			<a class="more-link" href="/account/orderhistory">View All Recommended Products &rarr;</a>
+	  	</div>
+	</div>
+ 
+  <div class="tablecell-col tablecell-4 vetbox">
+  	<div class="news tablecell-content">
+  		<div class="title">
+			<h3>Community</h3>
+			<p class="subtext">Community Activity</p>
+		</div>
+		<div class="split-box-body">
+			<div class="news-item">
+				<p><span class="label label-warning">Answered Question</span> Joe from Merial has answered your question, 'Is red bumps a common side effect of this medication?"</p>
+				<p class="date">2 days ago</p>
 			</div>
-			<div class="product-preview-box-container">
-				<a href='#'>
-			  		<div class="product-preview-box">
-			  			<div class="product-preview-image" style='background-image:url("{{STATIC_URL}}img/placeholder_pics/1.gif")'>
-			  			</div>
-			  			<div class="product-preview-info">
-			  				<p class="title">Potomavac Bacterin Stocked</p>
-			  				<div class="ratings">
-			  					<div class="star blackstar star{{rating}}"></div><span>(8)</span>
-			  				</div>
-			  				<button class="button button-rounded button-tiny button-flat">Review This Product</button>
-			  			</div>
-			  		</div>
-			  	</a>
+			<div class="news-item">
+				<p><span class="label label-primary">Review Comment</span> Office Manager in Central NJ commented on your review of Salix Solution</p>
+				<p class="date">4 days ago</p>
 			</div>
-			<div class="product-preview-box-container last">
-				<a href='#'>
-			  		<div class="product-preview-box">
-			  			<div class="product-preview-image" style='background-image:url("{{STATIC_URL}}img/placeholder_pics/1.gif")'>
-			  			</div>
-			  			<div class="product-preview-info">
-			  				<p class="title">Potomavac Bacterin Stocked</p>
-			  				<div class="ratings">
-			  					<div class="star blackstar star{{rating}}"></div><span>(8)</span>
-			  				</div>
-			  				<button class="button button-rounded button-tiny button-flat">Review This Product</button>
-			  			</div>
-			  		</div>
-			  	</a>
+			<div class="news-item">
+				<p><span class="label label-warning">Answered Question</span> Mike from Wedgewood has answered your question, 'Is this product a good substitute from phenylbutazone?"</p>
+				<p class="date">6 days ago</p>
+			</div>
+		</div>
+		<a class="more-link" href="/news">View All Community Activity &rarr;</a>
+  	</div>
+  </div>
+  <div class="tablecell-col tablecell-4 vetbox">
+  	<div class="credits tablecell-content">
+		<div class="title">
+			<h3>Manufacturer Rebate Programs</h3>
+			<p class="subtext">We track participating manufacturer rebate programs <a href='/account/credits'>Learn More</a></p>
+		</div>
+		<div class="split-box-body">
+			<div class="goal">
+				<div class="meter">
+					<input type="text" class="dial2" value="40" data-max="100" data-type="dollar">
+				</div>
+				<div class="info">
+					<p>Bayer Vet Hormone Rebate Offer </p>
+					<h6>Reward: 5% Back | $1,200/$3,000 purchased</h6>
+				</div>
+			</div>
+			<div class="goal">
+				<div class="meter">
+					<input type="text" class="dial2" value="16" data-max="72" data-type="ratio">
+				</div>
+				<div class="info">
+					<p>Ceva Vectra New User Promotion</p>
+					<h6>Reward: $500 Visa Gift Card | 16/72 bottles purchased</h6>
+				</div>
+			</div>
+			<div class="goal">
+				<div class="meter">
+					<input type="text" class="dial2" value="1" data-max="2" data-type="ratio">
+				</div>
+				<div class="info">
+					<p>Dechra Vetoryl Promotion </p>
+					<h6>Reward: 1 bottle of Cosyntropinfor Injection | 1 of 6 boxes purchased</h6>
+				</div>
+			</div>
+			<div class="goal">
+				<div class="meter">
+					<input type="text" class="dial2" value="0" data-max="100" data-type="dollar">
+				</div>
+				<div class="info">
+					<p>Elanco Rebate Program</p>
+					<h6>Reward: 6% Back | $0/$1,500 purchased</h6>
+				</div>
 			</div>
 			<div class="clear"></div>
 		</div>
+		<a class="more-link" href="/rewards">View All Manufacturer Programs &rarr;</a>
+  	</div>
+  </div>
+</div>
+
+
+<div class="full-row vetbox">
+	<h3> Review Recent Products<span><a class="more-link" href="/account/credits">View all Reviews &rarr;</a><span></h3>
+	<div class="review">
+		<div class="product-preview-box-container first">
+			<a href='/account/reviews/writereview/1'>
+		  		<div class="product-preview-box">
+		  			<div class="product-preview-image" style='background-image:url("{{STATIC_URL}}img/placeholder_pics/1.gif")'>
+		  			</div>
+		  			<div class="product-preview-info">
+		  				<p class="title">Potomavac Bacterin Stocked</p>
+		  				<div class="ratings">
+		  					<div class="star blackstar star40"></div><span>(3)</span>
+		  				</div>
+		  				<button class="button button-rounded button-tiny button-flat">Review This Product</button>
+		  			</div>
+		  		</div>
+		  	</a>
+		</div>
+		<div class="product-preview-box-container">
+			<a href='/account/reviews/writereview/1'>
+		  		<div class="product-preview-box">
+		  			<div class="product-preview-image" style='background-image:url("{{STATIC_URL}}img/placeholder_pics/2.gif")'>
+		  			</div>
+		  			<div class="product-preview-info">
+		  				<p class="title">Potomavac Bacterin Stocked</p>
+		  				<div class="ratings">
+		  					<div class="star blackstar star25"></div><span>(5)</span>
+		  				</div>
+		  				<button class="button button-rounded button-tiny button-flat">Review This Product</button>
+		  			</div>
+		  		</div>
+		  	</a>
+		</div>
+		<div class="product-preview-box-container last">
+			<a href='/account/reviews/writereview/1'>
+		  		<div class="product-preview-box">
+		  			<div class="product-preview-image" style='background-image:url("{{STATIC_URL}}img/placeholder_pics/3.gif")'>
+		  			</div>
+		  			<div class="product-preview-info">
+		  				<p class="title">Potomavac Bacterin Stocked</p>
+		  				<div class="ratings">
+		  					<div class="star blackstar star45"></div><span>(12)</span>
+		  				</div>
+		  				<button class="button button-rounded button-tiny button-flat">Review This Product</button>
+		  			</div>
+		  		</div>
+		  	</a>
+		</div>
+		<div class="product-preview-box-container">
+			<a href='/account/reviews/writereview/1'>
+		  		<div class="product-preview-box">
+		  			<div class="product-preview-image" style='background-image:url("{{STATIC_URL}}img/placeholder_pics/4.gif")'>
+		  			</div>
+		  			<div class="product-preview-info">
+		  				<p class="title">Potomavac Bacterin Stocked</p>
+		  				<div class="ratings">
+		  					<div class="star blackstar star40"></div><span>(8)</span>
+		  				</div>
+		  				<button class="button button-rounded button-tiny button-flat">Review This Product</button>
+		  			</div>
+		  		</div>
+		  	</a>
+		</div>
+		<div class="product-preview-box-container last">
+			<a href='/account/reviews/writereview/1'>
+		  		<div class="product-preview-box">
+		  			<div class="product-preview-image" style='background-image:url("{{STATIC_URL}}img/placeholder_pics/5.gif")'>
+		  			</div>
+		  			<div class="product-preview-info">
+		  				<p class="title">Potomavac Bacterin Stocked</p>
+		  				<div class="ratings">
+		  					<div class="star blackstar star30"></div><span>(2)</span>
+		  				</div>
+		  				<button class="button button-rounded button-tiny button-flat">Review This Product</button>
+		  			</div>
+		  		</div>
+		  	</a>
+		</div>
+		<div class="clear"></div>
 	</div>
+</div>
 {% endblock %}

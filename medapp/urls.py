@@ -50,7 +50,6 @@ urlpatterns = patterns('',
 
     ### Basic Pages ###
     url(r'^new/','account.views.new'),
-    url(r'^recent/','account.views.recent'),
     url(r'^trending/','account.views.trending'),
     url(r'^deals/','account.views.deals'),
     url(r'^rewards/rewards','account.views.rewardsRewards'),
@@ -58,7 +57,6 @@ urlpatterns = patterns('',
     url(r'^rewards/history','account.views.rewardsHistory'),
     url(r'^rewards','account.views.rewardsRewards'),
     url(r'^dashboard','account.views.dashboard'),
-    url(r'^wishlist','account.views.wishlist'),
     url(r'^account/credits/missions','account.views.creditsMissions'),
     url(r'^account/credits/store','account.views.creditsStore'),
     url(r'^account/credits/history','account.views.creditsHistory'),
@@ -104,7 +102,7 @@ urlpatterns = patterns('',
 
     ########## Checkout #####################
     #########################################
-    url(r'^cart','checkout.views.cart'),
+    url(r'^cart','account.views.cart'),
 
     ########## Seller Portal ################
     #########################################

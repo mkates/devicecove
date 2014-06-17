@@ -29,13 +29,14 @@ class Category(models.Model):
 	name = models.CharField(max_length=60,unique=True)
 	displayname = models.CharField(max_length=50)
 	totalunits = models.IntegerField(default=0) # Script updates this
-	parents = models.ManyToManyField('self') # Points to it's parents in the category tree
+	parent = models.ForeignKey('self',null=True,blank=True)
 	industry = models.ManyToManyField(Industry)
+	main = models.BooleanField(default=False) # Is it a top level category?
 	# Having a category type makes it very convenient to find all subcategories and for display purposes
-	CATEGORY_TYPES = (('maincategory','maincategory'),('secondcategory','secondcategory'),('thirdcategory','thirdcategory'))
-	category_type = models.CharField(max_length=20,choices=CATEGORY_TYPES)
+	#CATEGORY_TYPES = (('maincategory','maincategory'),('secondcategory','secondcategory'),('thirdcategory','thirdcategory'))
+	#category_type = models.CharField(max_length=20,choices=CATEGORY_TYPES)
 	def __unicode__(self):
-		return self.category_type+": "+self.displayname
+		return self.displayname
 
 ############################################
 ############ Catalog #######################
@@ -55,35 +56,40 @@ class Product(models.Model):
 	description = models.TextField()
 	mainimage = models.ForeignKey('Image',null=True,blank=True)
 	averagerating = models.IntegerField(max_length=2,default=0) # Multiplied by 10, so 50 is 5 stars and 10 is 1 star
+	views = models.IntegerField(default=0)
+	purchases = models.IntegerField(default=0)
 	def __unicode__(self):
 		return self.displayname
 
-### Pharma Listings ###
-class Pharma(Product):
-	rx = models.BooleanField(default=True)
-	compendium = models.CharField(max_length=200)
-	human_label = models.BooleanField(default=False)
-	ingredient = models.ManyToManyField('Ingredient',null=True,blank=True)
+	def quality(self):
+		from random import randrange
+		return randrange(1,6)
+# ### Pharma Listings ###
+# class Pharma(Product):
+# 	rx = models.BooleanField(default=True)
+# 	compendium = models.CharField(max_length=200)
+# 	human_label = models.BooleanField(default=False)
+# 	ingredient = models.ManyToManyField('Ingredient',null=True,blank=True)
 
-### Needles Listing ###
-class Needles(Product):
-	type = models.CharField(max_length=20)
-	length = models.IntegerField(max_length=5) #inches
-	wound_support = models.CharField(max_length=10)
-	colors = models.ManyToManyField('Color')
+# ### Needles Listing ###
+# class Needles(Product):
+# 	type = models.CharField(max_length=20)
+# 	length = models.IntegerField(max_length=5) #inches
+# 	wound_support = models.CharField(max_length=10)
+# 	colors = models.ManyToManyField('Color')
 
-### Small Equipment Listing ### (Scissors, etc.) ###
-class Equipment(Product): 
-	details = models.TextField(max_length=100)
+# ### Small Equipment Listing ### (Scissors, etc.) ###
+# class Equipment(Product): 
+# 	details = models.TextField(max_length=100)
 
-### Small Equipment Listing ### (I.E. Ultrasounds, Endoscopes, things with warranties and contracts)
-class Device(Product): # Large devices
-	features = models.TextField() # !~ is the delimiter
-	modelyear = models.IntegerField(max_length=4,null=True,blank=True) # Only if not new
-	### Warranty + Service Contracts ###
-	CONTRACT_OPTIONS =  (('warranty', 'Warranty'),('servicecontract', 'Service Contract'),('none', 'None'))
-	contract = models.CharField(max_length=40, choices=CONTRACT_OPTIONS,default="none")
-	contractdescription = models.TextField(blank=True)
+# ### Small Equipment Listing ### (I.E. Ultrasounds, Endoscopes, things with warranties and contracts)
+# class Device(Product): # Large devices
+# 	features = models.TextField() # !~ is the delimiter
+# 	modelyear = models.IntegerField(max_length=4,null=True,blank=True) # Only if not new
+# 	### Warranty + Service Contracts ###
+# 	CONTRACT_OPTIONS =  (('warranty', 'Warranty'),('servicecontract', 'Service Contract'),('none', 'None'))
+# 	contract = models.CharField(max_length=40, choices=CONTRACT_OPTIONS,default="none")
+# 	contractdescription = models.TextField(blank=True)
 
 
 ############################################
@@ -97,7 +103,7 @@ class Item(models.Model):
 	description = models.TextField()
 	itemimage = models.ForeignKey('Image',related_name="itemimage",null=True,blank=True) # if size specific image is available
 	msrp_price = models.BigIntegerField(max_length=13)
-
+	purchases = models.IntegerField(default=0)
 	def __unicode__(self):
 		return self.product.name
 

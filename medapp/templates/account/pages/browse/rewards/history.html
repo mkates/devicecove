@@ -1,0 +1,74 @@
+{% extends 'account/pages/browse/rewards/base.html' %}
+
+{% block headertitle %}VetCove Rewards | History{% endblock %}
+
+{% block title %}Rewards History{% endblock %}
+
+{% block rewards_css %}
+<style>
+.credits-history {
+	margin: 40px 30px 20px 30px;
+}
+.credits-history-table {
+	width: 100%;
+	border:1px solid #eaeaea;
+}
+.credits-history-table tr.spend {
+	background: #f2f2f2;
+}
+.credits-history-table .amount-th {
+	text-align: right;
+}
+.credits-history-table .amount {
+	color: green;
+	font-weight: bold;
+	font-size: 15px;
+	text-align: right;
+}
+.credits-history-table .red-amount {
+	color: red;
+}
+</style>
+{% endblock %}
+
+{% block rewards %}
+<div class="explanation">
+	<p>Find a complete history of all rewards that you reached and any prizes you received. If you believe there was an error in which credits you received, please contact us to sort out any problems.</p>
+</div>
+<div class="credits-history">
+	<table class="table table-striped credits-history-table">
+		<thead>
+			<th>Date</th>
+			<th>Type</th>
+			<th>Description</th>
+			<th class="amount-th">Credits</th>
+		</thead>
+		<tbody>
+			<tr class="spend">
+				<td>May 15th, 2014</td>
+				<td>Reward</td>
+				<td>3 $15 GiftCards to Starbucks</td>
+				<td class="amount red-amount">-450</td>
+			</tr>
+			<tr>
+				<td>May 14, 2014</td>
+				<td>Goal Reached</td>
+				<td>You completed the VetCove survey</td>
+				<td class="amount">100</td>
+			</tr>
+			<tr>
+				<td>May 6th, 2014</td>
+				<td>Goal Reached</td>
+				<td>You wrote 8 product reviews</td>
+				<td class="amount">100</td>
+			</tr>
+			<tr>
+				<td>April 30th, 2014</td>
+				<td>Goal Reached</td>
+				<td>You spent $2,000 in the month of April</td>
+				<td class="amount">300</td>
+			</tr>
+		</tbody>
+	</table>
+</div>
+{% endblock %}

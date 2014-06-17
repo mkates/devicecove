@@ -34,11 +34,13 @@ def index(request):
 ### Category Directory ###
 def categories(request):
 	categories = Category.objects.all()
-	maincategories = categories.filter(category_type='maincategory').order_by('displayname')
-	# Format the subcategories into alphabetical rows of 3
-	for cat in maincategories:
-		subcategories = cat.parents.filter(category_type='secondcategory').order_by('displayname')
-		cat.subcat = subcategories
+	maincategories = categories.filter(main=True).order_by('displayname')
+	pm = maincategories[0]
+	print pm.parents_set
+	print maincategories[0].category_set.all()
+	# for cat in maincategories:
+	# 	subcategories = cat.parents.filter(category_type='secondcategory').order_by('displayname')
+	# 	cat.subcat = subcategories
 	return render_to_response('general/categories.html',{'categories':maincategories},context_instance=RequestContext(request))
 
 ### Referral Landing Page ###

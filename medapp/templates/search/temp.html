@@ -1,0 +1,114 @@
+{% load dollars %}{% load humanize %}{% load dates %}{% load zipcodify %}
+<div id="resultcontainer">
+{% for product in products %}
+<div class="resultitem covebox">
+	<div class="row">
+			<div class='col-md-2 col-sm-2 col-xs-12 pricediv'>
+				<p>{{product.price|dollars}}</p>
+				<p class="msrp_price">{{product.msrp_price|dollars}}</p>
+				<a class='button button-rounded button-primary' href="/item/{{product.id}}">View</a>
+				{% if wishlist %}
+					<form action="/removeitem" method="POST">
+						{% csrf_token %}
+						<input type="hidden" name="itemid" value="{{product.id}}">
+						<button value="submit" name="submit" class='button button-tiny button-rounded button-caution'>Remove</button>
+					</form>
+				{% endif %}
+			</div>
+			<div class='col-md-4 col-md-push-6 col-sm-4 col-sm-push-6 col-xs-12 imgdiv'>	
+				<img src="{%if product.mainimage %}{{product.mainimage.photo_medium.url}}{% else %}{{STATIC_URL}}img/noimage.jpg{% endif %}" alt="{{product.name}}"/>		
+			</div>
+			
+			<div class='textdiv col-md-6 col-md-pull-4 col-sm-6 col-sm-pull-4 col-xs-12'>
+				<a href="/item/{{product.id}}/details"><h2 class="itemname">{{ product.name }}</h2></a>
+				<h6 class="resulttag"> 
+					{% if product.conditiontype == 'refurbished' %}<span class="refurbished">refurbished</span>{% endif %} 
+					{% if product.conditiontype == 'preowned' %}<span class="preowned">preowned</span>{% endif %} 
+					{% if product.conditiontype == 'new' %}<span class="verified">new</span>{% endif %} 
+					{% if product.user.verified %}<span class="verified">verified seller</span>{% endif %} 
+					{% if product.offlineviewing %}<span class="lightorange">view in person</span>{% endif %} 
+					{% if not product.offlineviewing %}<span class="buyonline">buy online</span>{% endif %} 
+					{% if not product.shippingincluded %}<span class="lightred">local pickup only</span>{% endif %} 
+					{% if product.creation_date|days_since < 7 %}<span class="lightgreen">new listing</span>{% endif %}
+				</h6>
+				{% load multiply %}
+				<h4>Percent off MSRP<span><strong>{{ product.price|dividepercent:product.msrp_price }}</strong></span></h4>
+				<h4>Condition
+					<span>
+						{% if product.item_type == 'usedequipment' %}
+						{{product.item_handle.get_conditionquality_display}}
+						{% else %}
+						Brand New
+						{% endif %}
+					</span>
+				</h4>
+				<h4>Location<span>{% if product.user.city %}{{product.user.city}}, {{product.user.state}}{% else %}Zipcode: {{product.user.zipcode|zipcodify}}{%endif %}{% if product.distance or product.distance == 0%}{% if product.distance != -1 %} ( ~{{product.distance |intcomma}} miles away ){% endif %}{% endif %}</span></h4>
+				<div class='buttondiv'>
+					<button class='btn-custom-gray infobutton detailsbutton' data-ref="#moredetails_{{product.id}}">Details</button>
+					<button class='btn-custom-gray infobutton specsbutton' data-ref="#quickfacts_{{product.id}}">Quick Facts</button>
+					
+					<button class='btn-custom-gray infobutton conditionbutton' data-ref="#morecondition_{{product.id}}">Condition</button>
+				</div>
+			</div>
+ 		</div>
+	<div id="quickfacts_{{product.id}}" class='specsdiv previewdiv row'>
+		<div class="col-md-6 col-sm-6 col-xs-12">
+			<p>Category<span>{{product.subcategory}}</span></p>
+			<p>Contract<span>{{product.get_contract_display}}</span></p>
+			<p>Manufacturer<span>{{product.manufacturer}}</span></p>
+			<p>Model Year<span>{{product.modelyear}}</span></p>
+			<p>Listed Date<span>{{product.creation_date}} ({{product.creation_date|days_since}} days ago)</span></p>
+		</div>
+		<div class="col-md-6 col-sm-6 col-xs-12">
+			<p>Shipping Included<span>{{product.shippingincluded|yesno:"Included,Not Included"}}</span></p>
+			<p>Offline Viewing<span>{{product.offlineviewing|yesno:"Yes,No"}}</span></p>
+			<p>Original Owner<span>{{product.originalowner|yesno:"Yes,No"}}</span></p>
+			<p>Verified Seller<span>{{product.user.verified|yesno:"Yes,No"}}</span></p>
+		</div>
+		<div class="clear"></div>
+		<div class='morediv'>
+			<a href="/item/{{product.id}}/details"> View complete product details &#8594;</a>
+			<button class='btn-custom-gray closebutton'>Close</button>
+		</div>
+	</div>
+	<div id="moredetails_{{product.id}}" class='detailsdiv previewdiv row'>
+		{% if product.productdescription %}
+			<p>{{product.productdescription}}</p>
+			<div class="whitefade"></div>
+		{% else %}
+			<p class="thin">The seller has not provided a product description for this item</p>
+		{% endif %}
+		<div class='morediv'>
+			<a href="/item/{{product.id}}/details"> View complete product details &#8594;</a>
+			<button class='btn-custom-gray closebutton'>Close</button>
+		</div>
+	</div>
+	<div id="morecondition_{{product.id}}" class='conditiondiv previewdiv row'>
+		{% if product.conditiondescription %}
+			<p>{{ product.conditiondescription }}</p>
+			<div class="whitefade"></div>
+		{% else %}
+			<p class="thin">The seller has not provided a condition description for this item</p>
+		{% endif %}
+		<div class='morediv'>
+			<a href="/item/{{product.id}}/details"> View complete product details &#8594;</a>
+			<button class='btn-custom-gray closebutton'>Close</button>
+		</div>
+	</div>
+	<div class="mobile-select">
+		<div class='col-md-2 col-sm-2 col-xs-12 pricediv'>
+			<p>{{product.price|dollars}}</p>
+			<a class='button button-rounded button-primary' href="/item/{{product.id}}/details">View</a>
+			{% if savedpage %}
+				<form action="/removeitem" method="POST">
+					{% csrf_token %}
+					<input type="hidden" name="itemid" value="{{product.id}}">
+					<button value="submit" name="submit" class='button button-tiny button-rounded button-caution'>Remove</button>
+				</form>
+			{% endif %}
+		</div>
+	</div>
+</div>
+
+{% endfor %}
+</div>

@@ -1,10 +1,199 @@
 {% extends 'account/pages/browse/base.html' %}
 
-{% block headertitle %}New Products{% endblock %}
+{% block headertitle %}Promotions, Specials, and Deals{% endblock %}
 
+{% block browse_css %}
+<style>
+.product-row {
+	border:none;
+
+}
+.product-row {
+	border:1px solid transparent;
+}
+.product-preview-box-container {
+	width: 33.3%;
+	text-align: center;
+}
+</style>
+{% endblock %}
+{% block browse_js %}
+
+{% endblock %}
 {% block browse_content %}
-	{% include 'account/pages/browse/productrow-base.html' with row_title=row_one %}
-	{% include 'account/pages/browse/productrow-base.html' with row_title=row_two %}	
-	{% include 'account/pages/browse/productrow-base.html' with row_title=row_one %}
-	{% include 'account/pages/browse/productrow-base.html' with row_title=row_two %}		
+<div class="intro-box-container">
+	<div class="intro-box">
+		<div class="intro-image" style='background-image:url("{{STATIC_URL}}img/misc/topicons.png");background-position: -84px 0' ></div>
+		<h3 class="page-title">{% block title %}New Products{% endblock %}<div class="gradient"></div></h3>
+	</div>
+</div>
+
+<div class="product-row">
+	<div class="products">
+		<div class="product-preview-box-container first">
+			<a href='#'>
+		  		<div class="product-preview-box">
+		  			<div class="product-preview-image" style='background-image:url("{{STATIC_URL}}img/placeholder_pics/1.gif")'>
+		  			</div>
+		  			<div class="product-preview-info">
+		  				<p class="title">Chonodorctye Solution</p>
+		  				<div class="ratings">
+		  					<div class="star blackstar star35"></div><span>(6)</span>
+		  				</div>
+		  				<div class="price">
+		  					$15.22<span>$20.31</span>
+		  				</div>
+		  			</div>
+		  		</div>
+		  	</a>
+		</div>
+		<div class="product-preview-box-container">
+			<a href='#'>
+		  		<div class="product-preview-box">
+		  			<div class="product-preview-image" style='background-image:url("{{STATIC_URL}}img/placeholder_pics/2.gif")'>
+		  			</div>
+		  			<div class="product-preview-info">
+		  				<p class="title">Corta-FLX Rx 100 Ultimate Solution</p>
+		  				<div class="ratings">
+		  					<div class="star blackstar star25"></div><span>(5)</span>
+		  				</div>
+		  				<div class="price">
+		  					$48.39<span>$51.14</span>
+		  				</div>
+		  			</div>
+		  		</div>
+		  	</a>
+		</div>
+		<div class="product-preview-box-container last">
+			<a href='#'>
+		  		<div class="product-preview-box">
+		  			<div class="product-preview-image" style='background-image:url("{{STATIC_URL}}img/placeholder_pics/3.gif")'>
+		  			</div>
+		  			<div class="product-preview-info">
+		  				<p class="title">Ivomec (ivermectin) .06% Solution</p>
+		  				<div class="ratings">
+		  					<div class="star blackstar star30"></div><span>(4)</span>
+		  				</div>
+		  				<div class="price">
+		  					$14.31<span>$17.22</span>
+		  				</div>
+		  			</div>
+		  		</div>
+		  	</a>
+		</div>
+		<div class="clear"></div>
+	</div>
+</div>
+<div class="product-row">
+	<div class="products">
+		<div class="product-preview-box-container first">
+			<a href='#'>
+		  		<div class="product-preview-box">
+		  			<div class="product-preview-image" style='background-image:url("{{STATIC_URL}}img/placeholder_pics/4.gif")'>
+		  			</div>
+		  			<div class="product-preview-info">
+		  				<p class="title">Encephalomyelitis Influenza Vaccine</p>
+		  				<div class="ratings">
+		  					<div class="star blackstar star35"></div><span>(4)</span>
+		  				</div>
+		  				<div class="price">
+		  					$63.31<span>$75.22</span>
+		  				</div>
+		  			</div>
+		  		</div>
+		  	</a>
+		</div>
+		<div class="product-preview-box-container">
+			<a href='#'>
+		  		<div class="product-preview-box">
+		  			<div class="product-preview-image" style='background-image:url("{{STATIC_URL}}img/placeholder_pics/5.gif")'>
+		  			</div>
+		  			<div class="product-preview-info">
+		  				<p class="title">IV Catheters - SURFLO Teflon</p>
+		  				<div class="ratings">
+		  					<div class="star blackstar star40"></div><span>(6)</span>
+		  				</div>
+		  				<div class="price">
+		  					$12.11<span>$15.22</span>
+		  				</div>
+		  			</div>
+		  		</div>
+		  	</a>
+		</div>
+		<div class="product-preview-box-container last">
+			<a href='#'>
+		  		<div class="product-preview-box">
+		  			<div class="product-preview-image" style='background-image:url("{{STATIC_URL}}img/placeholder_pics/6.gif")'>
+		  			</div>
+		  			<div class="product-preview-info">
+		  				<p class="title">Stethoscope - Dual Headed Economy</p>
+		  				<div class="ratings">
+		  					<div class="star blackstar star30"></div><span>(4)</span>
+		  				</div>
+		  				<div class="price">
+		  					$3.31<span>$4.92</span>
+		  				</div>
+		  			</div>
+		  		</div>
+		  	</a>
+		</div>
+		<div class="clear"></div>
+	</div>
+</div>
+<div class="product-row">
+	<div class="products">
+		<div class="product-preview-box-container first">
+			<a href='#'>
+		  		<div class="product-preview-box">
+		  			<div class="product-preview-image" style='background-image:url("{{STATIC_URL}}img/placeholder_pics/7.gif")'>
+		  			</div>
+		  			<div class="product-preview-info">
+		  				<p class="title">1.0 Dine Complex Bolus</p>
+		  				<div class="ratings">
+		  					<div class="star blackstar star50"></div><span>(19)</span>
+		  				</div>
+		  				<div class="price">
+		  					$34.21<span>$39.22</span>
+		  				</div>
+		  			</div>
+		  		</div>
+		  	</a>
+		</div>
+		<div class="product-preview-box-container">
+			<a href='#'>
+		  		<div class="product-preview-box">
+		  			<div class="product-preview-image" style='background-image:url("{{STATIC_URL}}img/placeholder_pics/8.gif")'>
+		  			</div>
+		  			<div class="product-preview-info">
+		  				<p class="title">Xenodine Spray</p>
+		  				<div class="ratings">
+		  					<div class="star blackstar star{{rating}}"></div><span>(6)</span>
+		  				</div>
+		  				<div class="price">
+		  					$8.31<span>$11.14</span>
+		  				</div>
+		  			</div>
+		  		</div>
+		  	</a>
+		</div>
+		<div class="product-preview-box-container last">
+			<a href='#'>
+		  		<div class="product-preview-box">
+		  			<div class="product-preview-image" style='background-image:url("{{STATIC_URL}}img/placeholder_pics/9.gif")'>
+		  			</div>
+		  			<div class="product-preview-info">
+		  				<p class="title">Clotrimazole Solution USP, 1%</p>
+		  				<div class="ratings">
+		  					<div class="star blackstar star40"></div><span>(7)</span>
+		  				</div>
+		  				<div class="price">
+		  					$5.43<span>$6.82</span>
+		  				</div>
+		  			</div>
+		  		</div>
+		  	</a>
+		</div>
+		<div class="clear"></div>
+	</div>
+</div>
 {% endblock %}

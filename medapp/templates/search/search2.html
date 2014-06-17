@@ -164,11 +164,7 @@ $(document).ready(function(){
   			<div class='checkbox'>
           {% for manufacturer in manufacturers %}
   				<input class="checkbox_manufacturer" id='manufacturer_{{manufacturer}}' type='checkbox' name='{{manufacturer}}'>
-  				<label for='manufacturer_{{manufacturer}}'>Zoetis<span>12</span></label>
-          <label for='manufacturer_{{manufacturer}}'>Bayer<span>8</span></label>
-          <label for='manufacturer_{{manufacturer}}'>Merck<span>6</span></label>
-          <label for='manufacturer_{{manufacturer}}'>Luitpold<span>4</span></label>
-
+  				<label for='manufacturer_{{manufacturer}}'>{{manufacturer.displayname}}<span>1</span></label>
           {% endfor %}
   			</div>
   		</div>
