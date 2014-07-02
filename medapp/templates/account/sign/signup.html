@@ -1,9 +1,9 @@
 {% extends 'account/sign/sign_base.html' %}
 
 {% block sign_content %}
-<form id="signupform" class="form" action='/signupform' method="POST">{% csrf_token %}
-	<div class="signupdiv row">
-		<div class="col-md-7 signup-form">
+<form class="form sign-container validated-form" action='/form/signupform' method="POST">{% csrf_token %}
+	<div class="signdiv row">
+		<div class="col-md-7 sign-form">
 			<h3>Create Your VetCove Account</h3>
 			<h4>Already have an account? <a href="/signin">Sign In Here</a></h4>
 				<!-- <div class="name">
@@ -55,8 +55,11 @@
 						<span class="glyphicon glyphicon-remove"></span>
 					</div>
 				</div>
+				<div class="form-group submit-group">
+					<button class="button button-primary button-rounded">Complete Sign Up</button>
+				</div>
 		</div>
-		<div class="col-md-5 signup-info">
+		<div class="col-md-5 sign-info">
 			<div class="feature">
 				<p>Market Leading Prices</p>
 				<img src='{{STATIC_URL}}img/signin_images/marketprice.png'/>
@@ -65,14 +68,6 @@
 				<p>Unmatched Shopping Experience</p>
 				<img src='{{STATIC_URL}}img/signin_images/computers.png'/>
 			</div>
-		</div>
-	</div>
-	<div class="signup-progress">
-		<div class="back form-error">
-			<p>You are missing several fields</p>
-		</div>
-		<div class="next">
-			<button class="button button-primary button-rounded">Complete Sign Up</button>
 		</div>
 	</div>
 </form>

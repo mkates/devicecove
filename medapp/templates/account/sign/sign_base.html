@@ -1,181 +1,135 @@
 {% extends 'base/base.html' %}
 {% block css %}
 <style>
-.clear {
-	clear:both;
-}
+/* General Sign Formatting */
 body {
 	margin: 0;
 	padding: 0;
+	background: #fafafa;
 	background-image: -moz-linear-gradient(left, #E8F4FC 0%, #F5F2FF 50%, #F2FAF0 100%);
+	background-image: -ms-linear-gradient(left, #E8F4FC 0%, #F5F2FF 50%, #F2FAF0 100%);
+	background-image: -moz-linear-gradient(left, #E8F4FC 0%, #F5F2FF 50%, #F2FAF0 100%);
+	background-image: -o-linear-gradient(left, #E8F4FC 0%, #F5F2FF 50%, #F2FAF0 100%);
+	background-image: -webkit-gradient(linear, left top, right top, color-stop(0, #E8F4FC), color-stop(0.5, #F5F2FF), color-stop(1, #F2FAF0));
+	background-image: -webkit-linear-gradient(left, #E8F4FC 0%, #F5F2FF 50%, #F2FAF0 100%);
+	background-image: linear-gradient(to right, #E8F4FC 0%, #F5F2FF 50%, #F2FAF0 100%);
 	background-attachment: fixed;
 }
-#signup-container {
+#sign-container {
 	margin: 40px auto 40px auto;
 	max-width: 800px;
 }
-#signup-container .logodiv {
+#sign-container .logodiv {
 	text-align: center;
 	margin-bottom: 30px;
 }
-#signup-container .logodiv a img{
+#sign-container .logodiv a img{
 	max-width: 230px;
 }
 .topcolor {
 	background: #5ecadf;
 	height: 5px;
-	border:1px solid #ccc;
+	border:1px solid #aaa;
 	border-bottom: none;
 }
-.signupdiv {
+.sign-container {
 	background: white;
 	border:1px solid #ccc;
-	border-bottom:none;
 	border-top: none;
-	padding: 15px;
 }
-.signupdiv h3 {
+.sign-container h3 {
 	font-weight: 400;
+	margin-bottom: 5px;
 }
-.signupdiv h4 {
-	font-size: 14px;
+.sign-container h4 {
+	font-size: 13px;
+	margin-top: 0;
 }
-.signupdiv .forgotpassword {
-	font-size: 12px;
-	text-align: right;
-	margin-top: -10px;
-}
-.signupdiv .forgotpassword a:hover {
+.sign-container h4 a:hover {
 	text-decoration: underline;
 }
-.signupdiv h4 a:hover {
-	text-decoration: underline;
-}
-.signup-progress {
-	background: #f1f1f1;
-	background-image: -moz-linear-gradient(top, #eee 0%, #e6e6e6 100%);
+/* Sign Progress Bar (on bottom) */
+.sign-progress {
+	background: #eee;
+	background-image: -moz-linear-gradient(top, #fafafa 0%, #eeeeee 100%);
 	height: 70px;
-	border:1px solid #ccc;
 	border-top:1px solid #ccc;
+	border-bottom:1px solid #ccc;
 	position:relative;
 }
-.signup-progress .next {
+.sign-progress .next {
 	position:absolute;
-	right: 30px;
+	right: 20px;
 	top: 15px;
 }
-.signup-progress .form-error {
+.sign-progress .previous {
+	position:absolute;
+	left: 20px;
+	top: 15px;
+}
+.sign-progress .form-error {
 	position:absolute;
 	left: 30px;
 	top: 20px;
 	display:none;
 }
-.signup-progress .form-error p {
+.sign-progress .form-error p {
 	color: red;
 	font-weight: 800;
 }
-.signupdiv .signup-form {
-	border-right:1px solid #eee;
+/* Password Forget */
+.sign-container .forgotpassword {
+	font-size: 12px;
+	text-align: right;
+	margin-top: -10px;
 }
-.signup-info {
+.sign-container .forgotpassword a:hover {
+	text-decoration: underline;
+}
+
+/*Two Column Formatting */
+.sign-container .sign-form {
+	border-right:1px solid #eee;
+	padding-bottom: 25px;
+}
+.sign-info {
 	padding-top: 25px;
 	text-align: center;
 }
-.signup-info .feature {
+.sign-info .feature {
 	margin-bottom: 40px;
 }
-.signup-info .feature h5 {
+.sign-info .feature h5 {
 	font-size: 40px;
 }
-.signup-info .feature h6 {
+.sign-info .feature h6 {
 	font-weight: 200;
 	color: #777;
 	font-size: 13px;
 }
-.signup-info .feature img {
+.sign-info .feature img {
 	width: 160px;
 	max-width: 100%;
 }
-.signup-info p {
+.sign-info p {
 	text-align: center;
 	color: #888;
 	font-size: 15px;
 	font-weight: 200;
 }
-.signup-info .feature .feature-explain {
+.sign-info .feature .feature-explain {
 	font-size: 12px;
 	font-weight: normal;
 }
 
-.signupdiv .form-group p {
-	font-weight: 200;
-	font-size: 13px;
-	margin: 0;
-	padding-bottom: 2px;
-}
-.signupdiv .form select {
-}
+/* Specific Form Formatting */
 
-.form-group.status-group {
-	margin-bottom: 10px;
-	text-align: left;
-	position:relative;
-}
-.form-group.status-group label {
-	font-weight: normal;
-}
-.status-group .status {
-	position:absolute;
-	right: 0;
-	bottom: 10px;
-	color: green;
-	text-align: center;
-}
-.form-group.status-group .status .glyphicon {
-	margin-top: 9px;
-	margin-right: 8px;
-	font-size: 15px;
-	opacity: .8;
-	display:none;
-}
-.form-group.status-group .status .glyphicon-remove {
-	color: red;
-}
-.form-group.status-group .error {
-	color: red;
-	font-weight: normal;
-	float:right;
-	display:none;
-}
-.form-group.status-group .success {
-	color: green;
-	font-weight: normal;
-	float:right;
-	display:block;
-}
-.signupdiv .inline .form-group {
-	width: 50%;
-	vertical-align: top;
-	display:inline-block;
-}
-.signupdiv .inline .status-group.first-group {
-	padding-right: 5px;
-}
-.signupdiv .inline .status-group.first-group .status {
-	right: 5px;
-}
-.signupdiv .form-group input.has-error {
-	border:1px solid red;
-}
-.signupdiv .alert-danger {
-	padding: 5px 10px;
-}
 </style>
 {% block sign_css %}{% endblock %}
 {% endblock %}
 
 {% block body_content %}
-<div id="signup-container">
+<div id="sign-container">
 	<div class="logodiv">
 		<a href='/'><img src="{{STATIC_URL}}img/logo/paw_logo.png" alt='VetCove'></a>
 	</div>
@@ -188,6 +142,6 @@ body {
 
 {% block main_js %}{% endblock %}
 {% block js %}
-<script src="{{STATIC_URL}}js/basic/signup.js" type="text/javascript" ></script>
+<script src="{{STATIC_URL}}js/basic/form.js" type="text/javascript" ></script>
 {% block sign_js %}{% endblock %}
 {% endblock %}

@@ -30,7 +30,8 @@ def portalInventory(request):
 
 def portalProduct(request):
 	### !!! Add Security Layer Here ###
-	products = Product.objects.filter(id__in=[5,7,8])
+	manufacturer = Manufacturer.objects.get(id=7)
+	products = Product.objects.filter(manufacturer=manufacturer)
 	return render_to_response('sellerportal/product/home.html',{'seller':True,'portal_product':True,'products':products},context_instance=RequestContext(request))
  
 def portalProductEdit(request,productid):

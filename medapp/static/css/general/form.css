@@ -1,0 +1,79 @@
+/* Form Elements */
+.form-error {
+	display:none;
+	text-align: center;
+}
+.form-group.status-group p {
+	font-weight: 200;
+	font-size: 13px;
+	margin: 0;
+	padding-bottom: 2px;
+}
+.form-group .checkbox input {
+	margin-top: 2px;
+}
+.form-group.status-group {
+	margin-bottom: 10px;
+	text-align: left;
+	position:relative;
+}
+.form-group.status-group label {
+	font-weight: normal;
+}
+.form-group.status-group .status {
+	position:absolute;
+	right: 0;
+	top: 20px;
+	color: green;
+	text-align: center;
+}
+.form-group.status-group .status .glyphicon {
+	margin-top: 9px;
+	margin-right: 8px;
+	font-size: 15px;
+	opacity: .8;
+	display:none;
+}
+.form-group.status-group .status .glyphicon-remove {
+	color: red;
+}
+.form-group.status-group .error {
+	color: red;
+	font-weight: normal;
+	float:right;
+	display:none;
+}
+.form-group.status-group .success {
+	color: green;
+	font-weight: normal;
+	float:right;
+	display:block;
+}
+.form-group.submit-group {
+	margin-top: 15px;
+}
+.inline .form-group.status-group {
+	width: 50%;
+	vertical-align: top;
+	display:inline-block;
+}
+.inline .form-group.status-group.first-group {
+	padding-right: 5px;
+}
+.inline .form-group.status-group.first-group .status {
+	right: 5px;
+}
+.form-group.status-group input.has-error {
+	border:1px solid red;
+}
+.form-group.status-group select.has-error {
+	border:1px solid red;
+}
+.form-group.status-group .help-text {
+	font-weight: normal;
+	font-size: 11px;
+	color: #555;
+}
+.alert-danger {
+	padding: 5px 10px;
+}

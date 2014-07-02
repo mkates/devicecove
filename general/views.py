@@ -33,15 +33,11 @@ def index(request):
 
 ### Category Directory ###
 def categories(request):
-	categories = Category.objects.all()
+	categories = Category.objects.all().prefetch_related('parent').order_by('displayname')
 	maincategories = categories.filter(main=True).order_by('displayname')
-	pm = maincategories[0]
-	print pm.parents_set
-	print maincategories[0].category_set.all()
-	# for cat in maincategories:
-	# 	subcategories = cat.parents.filter(category_type='secondcategory').order_by('displayname')
-	# 	cat.subcat = subcategories
-	return render_to_response('general/categories.html',{'categories':maincategories},context_instance=RequestContext(request))
+	for maincat in maincategories:
+	 	maincat.subcategories = [subcat for subcat in categories if subcat.parent == maincat]
+	return render_to_response('general/categories.html',{'pagecategories':maincategories},context_instance=RequestContext(request))
 
 ### Referral Landing Page ###
 def newReferral(request,referral_id):

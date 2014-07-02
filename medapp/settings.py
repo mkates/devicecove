@@ -244,6 +244,8 @@ CONTACT_PHONE_NUMBER = 7325986434
 DEFAULT_FROM_EMAIL = 'info@vetcove.com'
 SERVER_EMAIL = 'info@vetcove.com'
 
+### Namecheap SPF Records should read as follows:
+# v=spf1 include:spf.efwd.registrar-servers.com include:spf.mandrillapp.com ~all 
 MANDRILL_API_KEY = "iSqtoSVWpB1aSTzA_YqaXg"
 EMAIL_BACKEND = "djrill.mail.backends.djrill.DjrillBackend"
 BALANCED_MARKETPLACE_ID = 'MP3D5qjr7obzojCvs5rfyK2Q'

@@ -10,7 +10,7 @@ var searchtext = '';
 var autosuggestcall = function autosuggestcall(bar) {
 	var data = (bar == 'desktop' ) ? $("#searchinput").val() : $("#mobile-searchbar input").val();
 	$.ajax({
-		url: '/method/autosuggest',
+		url: '/form/autosuggest',
 		type: 'GET',
 		data: {"searchterm":data},
 		cache:true,
@@ -98,15 +98,6 @@ $(document).ready(function() {
 		}
 		if (e.keyCode != 40 && e.keyCode !=38) {
 			searchtext =  $("#searchinput").val();
-		}
-	});
-
-	//On key up searching with mobile
-	$("#mobile-searchbar input").keyup(function(e) {
-		if ($("#mobile-searchbar input").val().length > 0) {
-			autosuggestcall('mobile');
-		} else {
-			$("#sidr-searchresults").empty();
 		}
 	});
 

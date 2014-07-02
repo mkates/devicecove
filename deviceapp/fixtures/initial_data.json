@@ -2,7 +2,7 @@
 {"pk": 1, "model": "listing.industry", "fields": {"displayname": "Equine", "name": "equine"}},
 {
      "pk": 1,
-    "model": "account.basic",
+    "model": "account.group",
     "fields": {
          "creation_date":"2013-10-28T04:36:12.295Z",
          "last_login":"2013-10-28T04:36:12.295Z",
@@ -17,18 +17,17 @@
     "fields": {
          "creation_date":"2013-10-28T04:36:12.295Z",
          "last_login":"2013-10-28T04:36:12.295Z",
-         "company_name":"Colts Neck Equine",
+         "name":"Colts Neck Equine",
          "email":"cnequine@gmail.com",
          "referrer_id":"ABCD1234",
          "practitioner_name": "Dr. Eric Kates",
          "phonenumber": "732-123-4567",
-         "website":"www.cnequine.com",
-         "equine":true
+         "website":"www.cnequine.com"
     }
 },
 {
     "pk": 2,
-    "model": "account.basic",
+    "model": "account.group",
     "fields": {
          "creation_date":"2013-10-28T04:36:12.295Z",
          "last_login":"2013-10-28T04:36:12.295Z",
@@ -47,7 +46,7 @@
 },
 {
     "pk": 3,
-    "model": "account.basic",
+    "model": "account.group",
     "fields": {
          "creation_date":"2013-10-28T04:36:12.295Z",
          "last_login":"2013-10-28T04:36:12.295Z",
@@ -70,7 +69,7 @@
     "pk": 1,
     "model": "account.address",
     "fields": {
-    	 "basic":1,
+    	 "group":1,
     	 "name": "Colts Neck Equine",
     	 "address_one":"1 Pacer Court",
     	 "city": "Colts Neck",
@@ -83,7 +82,7 @@
     "pk": 1,
     "model": "checkout.shoppingcart",
     "fields": {
-         "clinic":1,
+         "group":1,
          "creation_date":"2013-10-28T04:36:12.295Z"
     }
 },
@@ -134,7 +133,7 @@
     "model": "account.basicuser",
     "fields": {
     	 "user": 1,
-    	 "member":1,
+    	 "group":1,
     	 "creation_date": "2014-02-26",
          "last_login":"2013-10-28T04:36:12.295Z"
     }

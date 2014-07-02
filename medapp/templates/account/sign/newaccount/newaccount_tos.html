@@ -1,0 +1,42 @@
+{% extends 'account/sign/newaccount/newaccount_base.html' %}
+
+{% block headertitle %}New Account | Terms of Service{% endblock %}
+
+{% block newaccount_previous %}<a href='/newaccount/info' class="button button-rounded">Back to Details</a>{% endblock %}
+{% block newaccount_next %}<button class="button button-action button-rounded">Complete Application</button>{% endblock %}
+{% block newaccount_content %}
+<div class="col-md-12 newaccount-header">
+	<h3>Terms of Using VetCove</h3>
+	<h4>Please verify the following VetCove terms of use </h4>
+</div>
+<div class="sign-form">
+	<div class="form-group status-group">
+		<div class="checkbox">
+			<label>
+				<input name="large_animal" type="checkbox" required> I hereby acknowledge that I am a licensed veterinarian in the Unites States.
+			</label>
+		</div>
+	</div>
+	<div class="form-group status-group">
+		<div class="checkbox">
+			<label>
+				<input name="large_animal" type="checkbox" required> I authorize the facility located at the address provided can receive products on behalf of my veterinary license.
+			</label>
+		</div>
+	</div>
+	<div class="form-group status-group">
+		<div class="checkbox">
+			<label>
+				<input name="large_animal" type="checkbox" required> I agree to the <a target="_blank" href='/tos'>terms of service</a> of using all VetCove services
+			</label>
+		</div>
+	</div>
+	<div class="form-group status-group">
+		<div class="checkbox">
+			<label>
+				<input name="large_animal" type="checkbox" required> I authorize the facility located at the address provided can receive products on behalf of my veterinary license.
+			</label>
+		</div>
+	</div>
+</div>
+{% endblock %}

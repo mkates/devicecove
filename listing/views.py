@@ -27,15 +27,17 @@ from django.db.models import Q
 # Search by a category
 def category(request,category):
 	category = Category.objects.get(name=category)
-	child_categories = allCategoriesInTree(category) #Gets all categories below it in the tree
+	child_categories = allCategoriesInTree(category) # Gets all categories below it in the tree
 	products = Product.objects.filter(category__in=child_categories)
 	dictionary = {'child_categories':child_categories,'category':category}
 	details = getDetailsFromSearch(products)
-	print products
 	return render_to_response('search/search2.html',dict(dictionary.items()+details.items()),context_instance=RequestContext(request))
 
-def manufacturer(request,category):
-	pass
+# Bring up the company pages if they select a company
+def manufacturer(request,manufacturer):
+	manufacturer = Manufacturer.objects.get(name=manufacturer)
+	products = Product.objects.all()[0:7]
+	return render_to_response('search/company.html',{'manufacturer':manufacturer,'products':products},context_instance=RequestContext(request))
 
 def ingredient(request,ingredient):
 	pass
@@ -62,16 +64,10 @@ def autosuggest(request):
 
 # Finds all descendants of a category
 def allCategoriesInTree(category):
+	# TODO!!! Eventually here, pre store all children in the database in a field
 	categories = [category]
-	for i in category.category_set.all():
-		if i not in categories:
-			categories.append(i)
-		for j in i:
-			if j not in categories:
-				categories.append(j)
-			for k in j:
-				if k not in categories:
-					categories.append(k)
+	for cat in category.category_set.all():
+		categories.append(cat)
 	return categories
 
 # Returns the eligible items based on the category and the filters

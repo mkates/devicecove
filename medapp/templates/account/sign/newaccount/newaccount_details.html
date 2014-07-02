@@ -1,0 +1,144 @@
+{% extends 'account/sign/newaccount/newaccount_base.html' %}
+
+{% block headertitle %}New Account | Details{% endblock %}
+
+{% block newaccount_previous %}<a href='/newaccount/info' class="button button-rounded">Back to Basic Info</a>{% endblock %}
+{% block newaccount_next %}<button class="button button-primary button-rounded">Save and Continue</button>{% endblock %}
+{% block newaccount_content %}
+	<div class="col-md-12 newaccount-header">
+		<h3>Clinic Details</h3>
+		<h4>Please provide some clinic details</h4>
+	</div>
+	<div class="sign-form">
+		<div class="form-group status-group">
+			<p>Clinic Address (Street Address, P.O. Box)<span class="error">Required</span></p>
+			<input data-type="text" data-required="true" name="address_one" class="form-control" type="text" placeholder="Street Address, P.O. Box, Company Name, C/O">
+			<div class="status">
+				<span class="glyphicon glyphicon-ok"></span>
+				<span class="glyphicon glyphicon-remove"></span>
+			</div>
+		</div>
+		<div class="form-group status-group">
+			<p>Clinic Address (Apartment, Suite, Unit, Building, Floor, etc.)</p>
+			<input data-type="text" data-required="false" name="address_two" class="form-control" type="text" placeholder="Apartment, Suite, Unit, Building, Floor, etc.">
+			<div class="status">
+				<span class="glyphicon glyphicon-ok"></span>
+				<span class="glyphicon glyphicon-remove"></span>
+			</div>
+		</div>
+		<div class="form-group status-group">
+				<p>City<span class="error">Required</span></p>
+				<input data-type="text" data-required="true" name="city" class="form-control" type="text" placeholder="City">
+				<div class="status">
+					<span class="glyphicon glyphicon-ok"></span>
+					<span class="glyphicon glyphicon-remove"></span>
+				</div>
+			</div>
+		<div class="inline">
+			<div class="form-group status-group first-group">
+				<p>State<span class="error">Required</span></p>
+				<select name="state" class="form-control">
+					<option>New Jersey</option>
+					<option>New York</option>
+					<option>Kentucky</option>
+				</select>
+			</div><div class="form-group status-group">
+				<p>Zipccode / Postal Code<span class="error">Required</span></p>
+				<input data-type="text" data-required="true" name="zipcode" class="form-control" type="text" placeholder="Zipcode">
+				<div class="status">
+					<span class="glyphicon glyphicon-ok"></span>
+					<span class="glyphicon glyphicon-remove"></span>
+				</div>
+			</div>
+		</div>
+		<div class="form-group status-group">
+			<p>Phone Number<span class="error">Required</span></p>
+			<input data-type="phonenumber" data-required="true" name="phonenumber" class="form-control" type="text" placeholder="Phone Number">
+			<div class="status">
+				<span class="glyphicon glyphicon-ok"></span>
+				<span class="glyphicon glyphicon-remove"></span>
+			</div>
+		</div>
+			<div class="form-group status-group">
+			<p>Type of Organization</p>
+			<select name="organization_type" class="form-control">
+				<option>Individual</option>
+				<option>LLC</option>
+				<option>Personal</option>
+				<option>Sole-Proprietor</option>
+				<option>Non-Profit</option>
+				<option>Corporation</option>
+				<option>Partnership</option>
+			</select>
+		</div>
+		<div class="form-group status-group">
+			<p>Clinic Website URL (if applicable)</p>
+			<input data-type="text" data-required="false" name="url" class="form-control" type="text" placeholder="Clinic Website URL">
+			<div class="status">
+				<span class="glyphicon glyphicon-ok"></span>
+				<span class="glyphicon glyphicon-remove"></span>
+			</div>
+		</div>
+		<div class="inline">
+			<div class="form-group status-group first-group">
+				<p>Number of Veterinarians in Practice <span class="error">Required</span></p>
+				<select name="state" class="form-control">
+					<option>1</option>
+					<option>2</option>
+					<option>3</option>
+					<option>4</option>
+					<option>5</option>
+					<option>6</option>
+					<option>7</option>
+					<option>8</option>
+					<option>9</option>
+					<option>10</option>
+					<option>11+</option>
+				</select>
+			</div><div class="form-group status-group first-group">
+				<p>Total Practice Size <span class="error">Required</span></p>
+				<select name="state" class="form-control">
+					<option>1</option>
+					<option>2-3</option>
+					<option>4-5</option>
+					<option>6-10</option>
+					<option>11-15</option>
+					<option>16-20</option>
+					<option>21+</option>
+				</select>
+			</div>
+		</div>
+		<div class="form-group status-group">
+			<p>Practice Type (check all that apply)</p>
+			<div class="checkboxes">
+				<div class="checkbox">
+					<label>
+						<input name="large_animal" type="checkbox">Large Animal
+					</label>
+				</div>
+				<div class="checkbox">
+					<label>
+						<input name="small_animal" type="checkbox">Small Animal
+					</label>
+				</div>
+				<div class="checkbox">
+					<label>
+						<input name="equine" type="checkbox">Equine
+					</label>
+				</div>
+			</div>
+		</div>
+		<div class="form-group status-group">
+			<p>Group Purchasing Organizations (Check all that apply, we verify with the GPOs)</p>
+			<div class="checkboxes">
+				{% for gpo in gpos %}
+				<div class="checkbox">
+					<label>
+						<input name="gpo_{{gpo.name}}" type="checkbox">{{gpo.name}}
+					</label>
+				</div>
+				{% endfor %}
+			</div>
+		</div>
+	</div>
+{% endblock %}

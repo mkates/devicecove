@@ -1,0 +1,151 @@
+{% extends 'account/sign/sign_base.html' %}
+{% block headertitle %}New Account{% endblock %}
+{% block sign_css %}
+<style>
+.newaccount-header {
+	text-align: center;
+	width: auto;
+	padding-bottom: 5px;
+	margin: 0 20px 25px 20px;
+	border-bottom:1px solid #eee;
+}
+.newaccount-header h3 {
+	font-weight: 200;
+}
+.newaccount-header h4 {
+	color: #888;
+}
+.sign-form {
+	max-width: 500px;
+	margin: 0 auto;
+}
+.sign-container .sign-form {
+	border:none;
+}
+
+.checkboxes .checkbox {
+	width: 49%;
+	display:inline-block;
+	margin: 5px 0 2px 0;
+	font-size: 12px;
+	color: #555;
+}
+
+/*Progress Bar */
+.progress-meter {
+	border:1px solid transparent;
+	position:relative;
+}
+.progress-meter .step-container {
+	width: 25%;
+	float: left;
+}
+.progress-meter .step {
+	margin: 5px;
+	color: #666;
+	padding: 3px;
+	text-align: center;
+	border-radius: 3px;
+	background: #eee;
+	background-image: -moz-linear-gradient(top, #FFFFFF 0%, #EEEEEE 80%, #DDDDDD 100%);
+	background-image: -moz-linear-gradient(top, #FFFFFF 0%, #EEEEEE 80%, #DDDDDD 100%);
+	background-image: -o-linear-gradient(top, #FFFFFF 0%, #EEEEEE 80%, #DDDDDD 100%);
+	background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #FFFFFF), color-stop(.8, #EEEEEE), color-stop(1, #DDDDDD));
+	background-image: -webkit-linear-gradient(top, #FFFFFF 0%, #EEEEEE 80%, #DDDDDD 100%); 
+	background-image: linear-gradient(to bottom, #FFFFFF 0%, #EEEEEE 80%, #DDDDDD 100%);
+	border:1px solid #ddd;
+	opacity: .3;
+}
+.progress-meter .step.active {
+	opacity: 1;
+}
+.progress-meter .step:not(.active) span {
+	display:none;
+}
+.progress-meter .step span {
+	color: #27AE60;
+}
+
+/*Help */
+.help {
+	text-align: center;
+	margin-top: 14px;
+	color: #555;
+	font-size: 13px;
+}
+/*License */
+.license {
+	background: #fafafa;
+	border:1px solid #ccc;
+	padding: 10px 10px 0 10px;
+	border-radius: 4px;
+}
+.license .checkbox {
+	border-top:1px solid #d6d6d6;
+	padding-top: 8px;
+	font-size: 12px;
+}
+.file-input {
+	padding: 3px;
+	display:none;
+}
+.file-input .file-image img {
+	border:1px solid #ddd;
+}
+.file-input .file-image{
+	position:relative;
+	display:inline-block;
+}
+.file-input .delete {
+	position:absolute;
+	bottom: 0;
+	width: 100%;
+	background: #333;
+	color: #eee;
+	text-align: center;
+}
+</style>
+{% endblock %}
+
+{% block sign_js %}
+
+{% endblock %}
+{% block sign_content %}
+<form class="form validated-form sign-container" action='{% block newaccount_action %}{% endblock %}' method="POST">{% csrf_token %}
+	<div class="progress-meter">
+		<div class="step-container">
+			<div class="step{% if newaccount_info%} active{% endif %}">
+				<span class="glyphicon glyphicon-ok"></span> 1. Basic Info
+			</div>
+		</div>
+		<div class="step-container">
+			<div class="step{% if newaccount_details%} active{% endif %}">
+				<span class="glyphicon glyphicon-ok"></span> 2. Clinic Details
+			</div>
+		</div>
+		<div class="step-container">
+			<div class="step{% if newaccount_docs%} active{% endif %}">
+				<span class="glyphicon glyphicon-ok"></span> 2. Documents
+			</div>
+		</div>
+		<div class="step-container">
+			<div class="step{% if newaccount_tos%} active{% endif %}">
+				<span class="glyphicon glyphicon-ok"></span> 3. Terms of Use
+			</div>
+		</div>
+		<div class="clear"></div>
+	</div>
+	{% block newaccount_content %}
+
+	{% endblock %}
+	<div class="sign-progress">
+		<div class="previous">
+			{% block newaccount_previous %}{% endblock %}
+		</div>
+		<div class="next">
+			{% block newaccount_next %}{% endblock %}
+		</div>
+	</div>
+</form>
+<p class="help">Questions? Call us at 732-938-4240 to speak with a customer success rep</p>
+{% endblock %}

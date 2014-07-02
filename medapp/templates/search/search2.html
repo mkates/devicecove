@@ -164,7 +164,7 @@ $(document).ready(function(){
   			<div class='checkbox'>
           {% for manufacturer in manufacturers %}
   				<input class="checkbox_manufacturer" id='manufacturer_{{manufacturer}}' type='checkbox' name='{{manufacturer}}'>
-  				<label for='manufacturer_{{manufacturer}}'>{{manufacturer.displayname}}<span>1</span></label>
+  				<label for='manufacturer_{{manufacturer}}'>{{manufacturer.displayname}}<span></span></label>
           {% endfor %}
   			</div>
   		</div>
@@ -231,7 +231,7 @@ $(document).ready(function(){
           <span class="glyphicon glyphicon-th-list"></span> List View
         </div>
       </div>
-  		<p id="searchquery">Searching for Bute</p>
+  		<p id="searchquery">Searching for anti-inflammatories</p>
   		<div class='clear'></div>
   		{% if relatedItems %}
   		<div id="related-results">

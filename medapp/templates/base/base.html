@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<title>{% block headertitle %}VetCove | Deals on used veterinary medical equipment and pharmaceuticals{% endblock%}</title>
+<title>{% block headertitle %}VetCove | Veterinary Supply. Simplified.{% endblock%}</title>
 
 <!-- Meta Information -->
 <meta http-equiv="content-type" content="text/html;charset=UTF-8">
@@ -10,11 +10,13 @@
 <meta name="viewport" content="width=800">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta property="og:title" content="VetCove" />
-<meta property="og:description" content="Deals on used veterinary pharmaceuticals, vaccines, compounders, and medical equipment" />
+<meta property="og:description" content="VetCove is an intelligent online portal where industry suppliers come together to offer veterinary practices dead simple supply purchasing" />
 <meta property="og:image" content="{{STATIC_URL}}img/dog_walk.png" />
 
 <!--CSS-->
-<link rel="icon" type="image/png" href="{{STATIC_URL}}img/favicon32.png">
+<!-- <link rel="icon" type="image/png" href="{{STATIC_URL}}img/favicon32.png"> -->
+<link rel="shortcut icon" href="{{STATIC_URL}}img/logo/favicon.png" type="image/x-icon">
+<link rel="icon" href="{{STATIC_URL}}img/logo/favicon.png" type="image/x-icon">
 <link href="{{STATIC_URL}}css/plugins/bootstrap.min.css" rel="stylesheet" type="text/css" />
 <link rel="stylesheet" href="{{STATIC_URL}}css/plugins/font-awesome.min.css">
 
@@ -22,6 +24,7 @@
 <link href="{{STATIC_URL}}css/plugins/jquery.sidr.dark.css" rel="stylesheet" type="text/css" />
 <link href="{{STATIC_URL}}css/plugins/buttons.css" rel="stylesheet" type="text/css" />
 <link href="{{STATIC_URL}}css/general/base.css" rel="stylesheet" type="text/css" />
+<link href="{{STATIC_URL}}css/general/form.css" rel="stylesheet" type="text/css" />
 <link rel="stylesheet" href="{{STATIC_URL}}css/navbar/sidenav.css">
 {% if seller %}
 <link href="{{STATIC_URL}}css/navbar/sidenav.css" rel="stylesheet" type="text/css" />
@@ -34,11 +37,15 @@
 <div class="body-container">
 	<header class="header">
 		<div class="mainheader">
-			<div class="left-header mainheader-div">
-				<div class="header-logo">
-					<a href='/'><img id="main-logo" src="{{STATIC_URL}}img/logo/paw_logo_beta.png" alt="VetCove"/></a>
-				</div>
+			<div class="left-header">
+				<a href='/'>
+					<div class="header-logo">
+						<img id="main-logo" src="{{STATIC_URL}}img/logo/paw_logo_beta.png" alt="VetCove"/>
+						<img id="main-logo-alt" src="{{STATIC_URL}}img/logo/paw_logo_beta_purple.png" alt="VetCove"/>
+					</div>
+				</a>
 			</div>
+			{% if basicuser %}
 			<div class="selections">
 				<a href='/dashboard' class="col12-8 first {% if dashboard %}active{% endif %}">
 					<div class="item">
@@ -76,8 +83,36 @@
 						<p>Rewards</p>
 					</div>
 				</a>
-				
 			</div>
+			{% else %}
+			<div class="selections text-selections right">
+				<div class="menu-item">
+					<a href='/learn/features' class="first">
+						Veterinarians
+					</a>
+				</div><div class="menu-item">
+					<a href='/learn/manufacturer' class="">
+						Manufacturers
+					</a>
+				</div><div class="menu-item">
+					<a href='/learn/suppliers' class="">
+						Suppliers
+					</a>
+				</div><div class="menu-item">
+					<a href='/about' class="">
+						About
+					</a>
+				</div><div class="menu-item">
+					<a href='/signup' class="">
+						Sign Up
+					</a>
+				</div><div class="menu-item">
+					<a href='/signin' class="last">
+						Log In
+					</a>
+				</div>
+			</div>
+			{% endif %}
 		</div>
 		{% block secondheader %}
 		<div class="dynamic-row">
@@ -92,24 +127,23 @@
 					<div class="category-box dropdown-box">
 						<div class="category-menu">
 							<ul id="category-menu-ul">
-								{% for category in categories %}
+								{% for key,category in maincategories.items %}
 									<li><a data-name="{{category.name}}" class="category-menu-item" href='/category/{{category.name}}'>{{category.displayname}}<span> &rsaquo; </span></a></li>
 								{% endfor %}
 								<li><a href='/categories' class="full-directory">See Full Directory</a></li>
 							</ul>
 						</div>
 						<div class="category-content">
-							{% for category in categories %}
-							<div id="menu-{{category.name}}" class="category-info">
-								<h1>{{category.displayname}}</h1>
-								<div class="category-info-box">
-									{% for subcat in category.category_set.all %}
-									<div class="subcat">
-										<a href='/category/{{subcat.name}}'>{{subcat.displayname}}</a>
-									</div>
-									{% endfor %}
+							{% for key,category in maincategories.items %}
+								<div id="menu-{{category.name}}" class="category-info">
+									<h1>{{category.displayname}}</h1>
+										{% for subcategory in category.subcat %}
+										<div class="category-info-box">
+											<a href='/category/{{subcategory.0}}'>{{subcategory.1}}</a>
+										</div>
+										{% endfor %}
+									
 								</div>
-							</div>
 							{% endfor %}
 							<div id="menu-diagnosticexams" class="category-info">
 								<h1>Diagnostic Exams</h1>
@@ -123,12 +157,14 @@
 			</div>
 			<div class="variable element noborder">
 				<div class="element-relative">
-					<table id="search-table">
-						<tr>
-							<td><input class="form-control" id="searchinput" autocomplete="off" placeholder="Search Equipment and Supplies. . ."/><span id="search-exit">&#10006;</span></td>
-							<td class="button-td"><button class="button button-rounded">Go</button></td>
-						</tr>
-					</table>
+					<form action='/form/search' method="POST">
+						<table id="search-table">
+							<tr>
+								<td><input class="form-control" id="searchinput" autocomplete="off" name="search" placeholder="Search Equipment and Supplies. . ."/><span id="search-exit">&#10006;</span></td>
+								<td class="button-td"><button value="submit" class="button button-rounded">Go</button></td>
+							</tr>
+						</table>
+					</form>
 					<div id="autosuggest" >
 						<div class="section categoriesheader">
 							Categories
@@ -244,73 +280,9 @@
 			</div>
 		</div>
 		{% endblock %}
-		{% block thirdheader %}
-		<div class="thirdheader row">
-			<div class="col-12-10">
-				<a href='#' class="noleftborder">Alarms</a>
-			</div>
-			<div class="col-12-10">
-				<a href='#' class="noleftborder">Alarms</a>
-			</div>
-			<div class="col-12-10">
-				<a href='#'>Absorbents</a>
-			</div>
-			<div class="col-12-10">
-				<a href='#'>Vaccines</a>
-			</div>
-			<div class="col-12-10">
-				<a href='#'>Endoscopy</a>
-			</div>
-			<div class="col-12-10">
-				<a href='#'>Suture Needles</a>
-			</div>
-			<div class="col-12-10">
-				<a href='#'>Staplers</a>
-			</div>
-			<div class="col-12-10">
-				<a href='#'>Ultrasounds</a>
-			</div>
-			<div class="col-12-10">
-				<a href='#'>Syringes</a>
-			</div>
-			<div class="col-12-10">
-				<a href='#'  class="norightborder">Cotton Swabs</a>
-			</div>
-		</div>
-		{% endblock %}
 		{% if seller %}
 			{% include 'sellerportal/navbar.html' %}
 		{% endif %}
-		<div id="sidr">
-			<div id="mobile-searchbar">
-				<form class="form form-inline">
-					<input type="text" class="form-control" placeholder="Search. . .">
-				</form>
-				<div class="search-cancel">&#10006;</div>
-			</div>
-			<div id="sidr-searchresults">
-			</div>
-			<div class="sidr-menu">
-				<h3>Buying</h3>
-				<a href='#'>My VetCove</a>
-				<a href='#'>Shop</a>
-				<a href='#'>Sell</a>
-				<a href='#'>Deals</a>
-				<a href='#'>Wishlist</a>
-				<h3>Selling</h3>
-				<a href='#'>My VetCove</a>
-				<a href='#'>Shop</a>
-				<a href='#'>Sell</a>
-				<a href='#'>Deals</a>
-				<a href='#'>Wishlist</a>
-				<h3>Account</h3>
-				<a href='#'>My VetCove</a>
-				<a href='#'>Shop</a>
-				<a href='#'>Sell</a>
-				<a href='#'>Deals</a>
-				<a href='#'>Wishlist</a>
-			</div>
-		</div>
 	</header>
 	<div class="content">
 		{% block content %}
@@ -388,7 +360,11 @@
 			</div>
 		</div>
 		<div class="row copyright-row">
-			<p>VetCove is the leading platform for <a href='#'>veterinary pharmaceuticals</a> | <a href='#'>discount medications</a> | <a href='#'>medical equipment</a> | <a href='#'>pharmaceuticals</a> | <a href='#'>supply ordering</a> | <a href='#'>cheap supplies</a></p>
+			<p>VetCove is the leading platform for 
+				{% for key,category in maincategories.items %}
+					<a href='/category/{{category.name}}'>{{category.displayname}}</a> {% if not forloop.last %}|{% endif %}
+				{% endfor %}
+			</p>
 			<p> Copyright 2014. All rights reserved</p>
 		</div>
 	</footer>
@@ -407,7 +383,6 @@ var noImageURL = '{{STATIC_URL}}img/noimage/noimage.jpg';
 {% block main_js %}
 <script src="{{STATIC_URL}}js/plugins/jquery.menu-aim.js" type="text/javascript" ></script>
 <script src="{{STATIC_URL}}js/django/csrf_alternate.js" type="text/javascript" ></script>
-<script src="{{STATIC_URL}}js/plugins/jquery.sidr.min.js" type="text/javascript" ></script>
 <script src="{{STATIC_URL}}js/plugins/hoverIntent.js" type="text/javascript" ></script>
 <script src="{{STATIC_URL}}js/basic/autosuggest.js" type="text/javascript" ></script>
 
@@ -428,19 +403,22 @@ var noImageURL = '{{STATIC_URL}}img/noimage/noimage.jpg';
 		$(value).css('height',max_height);
 	});
 
-
 	//*************************************************
-	//************** Side Menu ************************
+	//************** Logo Effect **********************
 	//*************************************************
-	$(document).ready(function() {
-		//$('#simple-menu').sidr();
-		$(window).resize(function(handler) {
-			if ($(this).width() > 767) {
-				$.sidr('close', 'sidr');
-			}
+	$(document).ready(function(){
+		$(".header-logo").hover(function(){
+			$("#main-logo-alt").stop();
+			$("#main-logo-alt").animate({
+				opacity:1
+			},500);
+		},function(){
+			$("#main-logo-alt").stop();
+			$("#main-logo-alt").animate({
+				opacity:0
+			},500)
 		});
 	});
-
 	//*************************************************
 	//************ Mobile Search Bar ******************
 	//*************************************************

@@ -366,26 +366,27 @@
 {"pk": 366, "model": "listing.category", "fields": {"industry": [1], "main": false, "displayname": "X-Ray Gloves & Hand Shields", "name": "xray_gloves_and_hand_shields", "parent": 27}},
 {"pk": 367, "model": "listing.category", "fields": {"industry": [1], "main": false, "displayname": "X-Ray Collars", "name": "xray_collars", "parent": 27}},
 {"pk": 368, "model": "listing.category", "fields": {"industry": [1], "main": false, "displayname": "X-Ray Lead Blockers", "name": "xray_lead_blockers", "parent": 27}},
-{"pk": 1, "model": "listing.manufacturer", "fields": {"name":"zoetis", "displayname": "Zoetis"}},
+{"pk": 1, "model": "listing.manufacturer", "fields": {"name":"zoetis", "displayname": "Zoetis","description":"Zoetis is a global animal health company dedicated to supporting customers and their businesses in ever better ways."}},
 {"pk": 2, "model": "listing.manufacturer", "fields": {"name":"merck", "displayname": "Merck"}},
 {"pk": 3, "model": "listing.manufacturer", "fields": {"name":"merial", "displayname": "Merial"}},
 {"pk": 4, "model": "listing.manufacturer", "fields": {"name":"wedgewood", "displayname": "Wedgewood Pharmacy"}},
 {"pk": 5, "model": "listing.manufacturer", "fields": {"name":"abscience", "displayname": "A/B Sciences"}},
-{"pk": 5, "model": "listing.manufacturer", "fields": {"name":"agpharmaceutical", "displayname": "A&G Pharmaceuticals"}},
+{"pk": 6, "model": "listing.manufacturer", "fields": {"name":"agpharmaceutical", "displayname": "A&G Pharmaceuticals"}},
+{"pk": 7, "model": "listing.manufacturer", "fields": {"name":"pattersonvet", "displayname": "Patterson Vet"}},
 
-{"pk": 1, "model": "listing.product", "fields": {"name":"banamine_paste", "displayname":"Banamine Paste","description": "Banamine Paste Description","category":259,"manufacturer":2,"averagerating":32}},
+{"pk": 1, "model": "listing.product", "fields": {"name":"banamine_paste", "displayname":"Banamine Paste","description": "Banamine Paste Description","category":259,"manufacturer":1,"averagerating":32}},
 {"pk": 2, "model": "listing.product", "fields": {"name":"rimadyl_chewable_tablets", "displayname":"Rimadyl Chewable Tablets","description": "Rimadyl Description","category":259,"manufacturer":1,"averagerating":42}},
 {"pk": 3, "model": "listing.product", "fields": {"name":"butaject_phenylbutazone_20", "displayname":"Butaject Phenylbutazone 20%","description": "Banamine Paste Description","category":259,"manufacturer":2,"averagerating":28}},
 {"pk": 4, "model": "listing.product", "fields": {"name":"apple_flavored_aspirin_powder", "displayname":"Apple Flavored Aspirin Powder","description": "Apple Flavored Aspirin Powder Description","category":259,"manufacturer":3,"averagerating":25}},
-{"pk": 5, "model": "listing.product", "fields": {"name":"phenylbutazone_oral_paste", "displayname":"Phenylbutazone Oral Paste, 1gm/5ml","description": "Oral Paste Description","category":259,"manufacturer":4,"averagerating":50,"views":32,"purchases":6}},
+{"pk": 5, "model": "listing.product", "fields": {"name":"phenylbutazone_oral_paste", "displayname":"Phenylbutazone Oral Paste","description": "Oral Paste Description","category":259,"manufacturer":7,"averagerating":50,"views":32,"purchases":6}},
 {"pk": 6, "model": "listing.product", "fields": {"name":"equizone_phenybutazone_powder", 
 													"displayname":"Equizone Phenylbutazone Powder",
 													"description": "Equizone 100  was the  FIRST FDA approved phenylbutazone powder on the market.  A  palatable bute ( citrus flavored) powder approved for oral use in horses by the FDA.  Equizone 100 and Equizone 50 are  both made from all natural sweetners, no artificial sweetners added.",
 													"category":259,
-													"manufacturer":4,
+													"manufacturer":5,
 													"averagerating":50}},
-{"pk": 7, "model": "listing.product", "fields": {"name":"ivermectin_oral_suspension", "displayname":"Ivermectin: Oral Suspension","description": "Oral Paste Description","category":230,"manufacturer":4,"averagerating":50,"views":40,"purchases":3}},
-{"pk": 8, "model": "listing.product", "fields": {"name":"reserpine_oral_granules", "displayname":"Resperine: Oral Granules","description": "Oral Paste Description","category":230,"manufacturer":4,"averagerating":40,"views":62,"purchases":7}},
+{"pk": 7, "model": "listing.product", "fields": {"name":"ivermectin_capsules", "displayname":"Ivermectin Capsules","description": "Oral Paste Description","category":230,"manufacturer":7,"averagerating":50,"views":40,"purchases":3}},
+{"pk": 8, "model": "listing.product", "fields": {"name":"reserpine_oral_granules", "displayname":"Resperine: Oral Granules","description": "Oral Paste Description","category":230,"manufacturer":7,"averagerating":40,"views":62,"purchases":7}},
 
 
 {"pk": 1, "model": "listing.item", "fields": {"product":1, "manufacturer_no": 1234567,"description":"1500mg Syringe","msrp_price":5431}},
@@ -405,7 +406,7 @@
 {"pk": 4, "model": "listing.inventory", "fields": {"item":3, "base_price": 4992,"supplier":2,"quantity_available":8}},
 {"pk": 5, "model": "listing.inventory", "fields": {"item":4, "base_price": 5092,"supplier":3,"quantity_available":4}},
 {"pk": 6, "model": "listing.inventory", "fields": {"item":5, "base_price": 4992,"supplier":2,"quantity_available":8}},
-{"pk": 7, "model": "listing.inventory", "fields": {"item":6, "base_price": 1392,"supplier":2,"quantity_available":8}},
+{"pk": 7, "model": "listing.inventory", "fields": {"item":6, "base_price": 1392,"supplier":3,"quantity_available":8}},
 {"pk": 8, "model": "listing.inventory", "fields": {"item":7, "base_price": 2091,"supplier":2,"quantity_available":8}}
 ]
 

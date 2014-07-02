@@ -10,7 +10,7 @@ from django.shortcuts import render
 from django.core.exceptions import ObjectDoesNotExist
 from django.conf import settings
 from django.utils.timezone import utc
-import json, math, difflib, locale, time, re, string, balanced
+import json, math, difflib, locale, time, re, string, balanced, random
 from datetime import datetime
 from account.forms import *
 from helper.model_imports import *
@@ -44,8 +44,6 @@ def product(request,productname):
 	for pdt in products:
 		pdt.details = getItemDetailsFromAProduct(pdt)
 	return render_to_response('product/product2.html',{'product':product,'products':products},context_instance=RequestContext(request))
-def company(request,companyname):
-	return render_to_response('search/company.html',{},context_instance=RequestContext(request))
 
 ### Given a product, get details from all the item's listings ####
 def getItemDetailsFromAProduct(product):
@@ -71,89 +69,89 @@ def getItemDetailsFromAProduct(product):
 	return {'lowprice':lowprice,'highprice':highprice,'msrp_lowprice':msrp_lowprice,'msrp_highprice':msrp_highprice,'quantity':quantity,'suppliers':suppliers}
 
 ### Credits ###
-#@login_required
+@login_required
 def creditsMissions(request):
 	today = datetime.now()
 	month = today.strftime('%B')
 	return render_to_response('account/pages/credits/creditsmissions.html',{'account_credits_missions':True,'month':month},context_instance=RequestContext(request))
 
-#@login_required
+@login_required
 def creditsStore(request):
 	return render_to_response('account/pages/credits/creditsstore.html',{'account_credits_store':True},context_instance=RequestContext(request))
 
-#@login_required
+@login_required
 def creditsHistory(request):
 	return render_to_response('account/pages/credits/creditshistory.html',{'account_credits_history':True},context_instance=RequestContext(request))
 
 ### Orders ###
-#@login_required
+@login_required
 def orders(request):
 	return render_to_response('account/pages/orders.html',{'account_orders':True},context_instance=RequestContext(request))
 
 ### Returns ###
-#@login_required
+@login_required
 def returns(request):
 	return render_to_response('account/pages/returns.html',{'account_returns':True},context_instance=RequestContext(request))
 
 ### Analytics ###
-#@login_required
+@login_required
 def analytics(request):
 	return render_to_response('account/pages/analytics.html',{'account_analytics':True},context_instance=RequestContext(request))
 
 ### Questions ###
-#@login_required
+@login_required
 def answeredQuestions(request):
 	return render_to_response('account/pages/questions/questions.html',{'account_questions':True},context_instance=RequestContext(request))
 
-#@login_required
+@login_required
 def askedQuestions(request):
 	return render_to_response('account/pages/questions/questions.html',{'account_questions':True},context_instance=RequestContext(request))
 
-#@login_required
+@login_required
 def answerQuestion(request,questionid):
 	return render_to_response('account/pages/questions/writequestion.html',{'account_questions':True},context_instance=RequestContext(request))
 
-#@login_required
+@login_required
 def askQuestion(request,productid):
 	return render_to_response('account/pages/questions/writequestion.html',{'account_questions':True},context_instance=RequestContext(request))
 
 ### Reviews ###
-#@login_required
+@login_required
 def reviewsReviews(request):
 	return render_to_response('account/pages/reviews/reviews.html',{'account_reviews':True},context_instance=RequestContext(request))
 
-#@login_required
+@login_required
 def reviewsHistory(request):
 	return render_to_response('account/pages/reviews/reviewshistory.html',{'account_reviews':True},context_instance=RequestContext(request))
 
-#@login_required
+@login_required
 def reviewsWriteReview(request,reviewid):
 	if request.method=="GET":
 		next = request.GET.get('next',False)
 	return render_to_response('account/pages/reviews/writereview.html',{'account_reviews':True,'next':next},context_instance=RequestContext(request))
 
 ### Referrals ###
-#@login_required
+@login_required
 def referrals(request):
 	return render_to_response('account/pages/referrals.html',{'account_referrals':True},context_instance=RequestContext(request))
 
 ### Sell ###
-#@login_required
+@login_required
 def sell(request):
 	return render_to_response('account/pages/sell.html',{'account_sell':True},context_instance=RequestContext(request))
 
 ### Payments ###
-#@login_required
+@login_required
 def payments(request):
 	return render_to_response('account/pages/payments.html',{'account_payments':True},context_instance=RequestContext(request))
 
 ### Settings ###
-#@login_required
+@login_required
 def settings(request):
 	return render_to_response('account/pages/settings.html',{'account_settings':True},context_instance=RequestContext(request))
 
 ### Profile ###
-#@login_required
+@login_required
 def profile(request):
 	return render_to_response('account/pages/profile.html',{'account_profile':True},context_instance=RequestContext(request))
 
@@ -165,11 +163,12 @@ def profile(request):
 
 
 ### Cart ###
+@login_required
 def cart(request):
 	return render_to_response('account/pages/cart.html',context_instance=RequestContext(request))
 
 ### Wishlist ###
-#@login_required
+@login_required
 def wishlist(request):
 	return render_to_response('account/pages/wishlist.html',context_instance=RequestContext(request))
 
@@ -190,11 +189,6 @@ def signup(request):
 	if request.user.is_authenticated():
 		return HttpResponseRedirect("/account/profile")
 	return render_to_response('account/sign/signup.html',{'next':next,'action':action},context_instance=RequestContext(request))
-
-##@login_required
-def newAccountBasic(request):
-	gpos = GPO.objects.all()
-	return render_to_response('account/sign/newaccount_base.html',{'gpos':gpos},context_instance=RequestContext(request))
 
 def loginform(request):
 	action = request.POST.get('action','')
@@ -218,28 +212,36 @@ def loginform(request):
 		else:
 			return render_to_response('account/sign/signin.html',{'login':True,'login_outcome':'This account no longer exists'},context_instance=RequestContext(request))
 	else:
-		return render_to_response('account/sign/signin.html',{'login':True,'login_outcome':'Your email and/or password was incorrect'},context_instance=RequestContext(request))
+		return render_to_response('account/sign/signin.html',{'login':True,'login_outcome':'Your email and/or password were incorrect'},context_instance=RequestContext(request))
 	return HttpResponseRedirect("/")
 
 def signupform(request):
 	action = request.POST.get('action','')
-	rememberme = request.POST.get('rememberme','')
-	firstname = request.POST.get('firstname')
-	lastname = request.POST.get('lastname')
 	username = request.POST.get('username')
 	password = request.POST['password']
 	confirmpassword = request.POST['confirmpassword']
 	if password != confirmpassword:
-		return render_to_response('account/sign/signin.html',{'signup':True,'signup_outcome':'Passwords do not match'},context_instance=RequestContext(request))
-	user = User.objects.create_user(username,username,password)
-	user.save()
+		return render_to_response('account/sign/signup.html',{'signup':True,'signup_outcome':'Passwords do not match'},context_instance=RequestContext(request))
+	## Create a User Object ##
+	try:
+		user = User.objects.create_user(username,username,password)
+		user.save()
+	except:
+		return render_to_response('account/sign/signup.html',{'signup':True,'signup_outcome':'Username already used'},context_instance=RequestContext(request))
+	## Create a Clinic Object ##
+	referrer_id = ''.join(random.choice(string.ascii_uppercase + string.digits) for x in range(8))
+	clinic = Clinic(email=username,referrer_id=referrer_id)
+	clinic.save()
+	## Create a Basic User Object ##
 	basicuser = BasicUser(user=user)
+	basicuser.group = clinic
 	basicuser.save()
+	## Log User In ##
 	user = authenticate(username=user,password=password)
 	login(request,user)
-	return HttpResponseRedirect("/newaccount/basic")
+	return HttpResponseRedirect("/newaccount/info")
 
-#@login_required
+@login_required
 def newaccountform(request):
 	bu = request.user.basicuser
 	practitioner_name = request.POST.get('practitioner_name','')
@@ -283,6 +285,48 @@ def newaccountform(request):
 	#Create a shopping cart for this clinic
 	shoppingcart = ShoppingCart(clinic=clinic_object,)
 	return HttpResponseRedirect("/account/profile")
+
+
+#@login_required
+def newAccountInfo(request):
+	return render_to_response('account/sign/newaccount/newaccount_info.html',{'newaccount_info':True},context_instance=RequestContext(request))
+
+#@login_required
+def newAccountInfoForm(request):
+	return HttpResponseRedirect('/newaccount/details')
+
+#@login_required
+def newAccountDetails(request):
+	gpos = GPO.objects.all()
+	return render_to_response('account/sign/newaccount/newaccount_details.html',{'newaccount_details':True,'gpos':gpos},context_instance=RequestContext(request))
+
+#@login_required
+def newAccountDocs(request):
+	return render_to_response('account/sign/newaccount/newaccount_docs.html',{'newaccount_docs':True},context_instance=RequestContext(request))
+
+#@login_required
+def newAccountTOS(request):
+	return render_to_response('account/sign/newaccount/newaccount_tos.html',{'newaccount_tos':True},context_instance=RequestContext(request))
+
+#@login_required
+def newAccountComplete(request):
+	return render_to_response('account/sign/newaccount/newaccount_complete.html',{'newaccount_complete':True},context_instance=RequestContext(request))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 ###########################################
 #### Logins and new users #################
@@ -357,12 +401,12 @@ def forgotpassword(request):
 #### Account Settings #####################
 ###########################################
 
-#@login_required
+@login_required
 def notifications(request):
 	notifications = request.user.basicuser.notification_set.all()
 	return render_to_response('account/notifications.html',{'notification_set':notifications},context_instance=RequestContext(request))	
 
-#@login_required
+@login_required
 def clearNotifications(request):
 	notifications = Notification.objects.filter(user=request.user.basicuser)
 	for notification in notifications:
@@ -371,7 +415,7 @@ def clearNotifications(request):
 			notification.save()
 	return HttpResponseRedirect('/account/notifications')
 
-#@login_required
+@login_required
 def updateNotification(request):
 	if request.method == "POST":
 		notification = Notification.objects.get(id=request.POST.get('notification_id',''))
@@ -399,7 +443,7 @@ def updateNotification(request):
 					return HttpResponseRedirect('/account/payment')	
 	return HttpResponseRedirect('/account/notifications')
 
-#@login_required
+@login_required
 def updateGeneralSettings(request):
 	if request.user.is_authenticated() and request.method=="POST":
 		bu = request.user.basicuser
@@ -414,7 +458,7 @@ def updateGeneralSettings(request):
 	else:
    		return render_to_response('general/index.html',context_instance=RequestContext(request))
 
-#@login_required
+@login_required
 def updateSellerSettings(request):
 	if request.user.is_authenticated() and request.method=="POST":
 		bu = request.user.basicuser
@@ -436,7 +480,7 @@ def updateSellerSettings(request):
 	else:
 		return render_to_response('general/index.html',context_instance=RequestContext(request))
 
-#@login_required
+@login_required
 def updatePassword(request):
 	if request.user.is_authenticated() and request.method=="POST":
 		bu = request.user.basicuser
@@ -451,7 +495,7 @@ def updatePassword(request):
 	else:
 		return render_to_response('general/index.html',context_instance=RequestContext(request))
 
-#@login_required
+@login_required
 def updatesettingsnewsletter(request):
 	if request.user.is_authenticated() and request.method=="POST":
 		if request.POST.get('newsletter',''):
@@ -463,7 +507,7 @@ def updatesettingsnewsletter(request):
 	else:
 		return render_to_response('general/index.html',context_instance=RequestContext(request)) 
 
-#@login_required
+@login_required
 def deleteAccount(request):
 	if request.user.is_authenticated() and request.method=="POST":
 		for item in request.user.basicuser.item_set.all():
@@ -474,7 +518,7 @@ def deleteAccount(request):
 		logout(request)
 		return HttpResponseRedirect('/')
 
-#@login_required
+@login_required
 def wishlist(request):
 	if request.user.is_authenticated():
 		bu = request.user.basicuser
@@ -486,7 +530,7 @@ def wishlist(request):
 	else:
    		return render_to_response('general/index.html', context_instance=RequestContext(request))
   
-#@login_required
+@login_required
 def bonus(request):
 	if request.user.is_authenticated():
 		bu = request.user.basicuser
@@ -495,7 +539,7 @@ def bonus(request):
 	else:
    		return render_to_response('general/index.html', context_instance=RequestContext(request))
  
-#@login_required
+@login_required
 def referral(request):
 	if request.user.is_authenticated():
 		bu = request.user.basicuser
@@ -503,7 +547,7 @@ def referral(request):
 	else:
    		return render_to_response('general/index.html', context_instance=RequestContext(request))
 
-#@login_required
+@login_required
 def feedback(request):
 	if request.user.is_authenticated():
 		bu = request.user.basicuser
@@ -511,7 +555,7 @@ def feedback(request):
 	else:
    		return render_to_response('general/index.html', context_instance=RequestContext(request))
   
-#@login_required
+@login_required
 def feedbackForm(request):
 	if request.method == 'POST':
 		form = FeedbackForm(request.POST)
@@ -525,11 +569,11 @@ def feedbackForm(request):
 	else:
    		return render_to_response('general/index.html', context_instance=RequestContext(request))
 
-#@login_required
+@login_required
 def feedbackThanks(request):
 	return render_to_response('account/bonus/feedback.html',{"bonus":True,"success":True},context_instance=RequestContext(request))
 
-#@login_required
+@login_required
 def referralForm(request):
 	if request.method == 'POST':
 		form = ReferralForm(request.POST)
@@ -544,11 +588,11 @@ def referralForm(request):
 	else:
    		return render_to_response('general/index.html', context_instance=RequestContext(request))
 
-#@login_required
+@login_required
 def referralThanks(request):
 	return render_to_response('account/bonus/referral.html',{"bonus":True,"success":True},context_instance=RequestContext(request))
 	
-#@login_required
+@login_required
 def bonusHistory(request):
 	if request.user.is_authenticated():
 		bu = request.user.basicuser
@@ -557,7 +601,7 @@ def bonusHistory(request):
 	else:
    		return render_to_response('general/index.html', context_instance=RequestContext(request))
 
-#@login_required
+@login_required
 def contactMessages(request):
 	if request.user.is_authenticated():
 		bu = request.user.basicuser
@@ -566,7 +610,7 @@ def contactMessages(request):
 	else:
    		return render_to_response('general/index.html', context_instance=RequestContext(request))
    		
-#@login_required
+@login_required
 def listings(request,listingtype):
 	if request.user.is_authenticated():
 		bu = request.user.basicuser
@@ -580,14 +624,14 @@ def listings(request,listingtype):
 	else:
    		return render_to_response('general/index.html', context_instance=RequestContext(request))
  
-#@login_required
+@login_required
 def buyhistory(request):
 	if request.user.is_authenticated():
 		return render_to_response('account/buying/buyhistory.html',{'buyhistory':True},context_instance=RequestContext(request))
 	else:
    		return render_to_response('general/index.html',context_instance=RequestContext(request))
 
-#@login_required
+@login_required
 def payoutHistory(request):
 	dict = {}
 	payout_set = request.user.basicuser.payout_set.all()
@@ -604,14 +648,14 @@ def payoutHistory(request):
 		dict['total_items_average'] = 0
    	return render_to_response('account/selling/payouthistory.html',dict,context_instance=RequestContext(request))
 
-#@login_required
+@login_required
 def sellhistory(request):
 	if request.user.is_authenticated():
 		return render_to_response('account/selling/sellhistory.html',{'sellhistory':True},context_instance=RequestContext(request))
 	else:
    		return render_to_response('general/index.html',context_instance=RequestContext(request))
 
-#@login_required
+@login_required
 def usersettings(request):
 	basicuser = request.user.basicuser
 	providers = BasicUser.objects.all()
@@ -622,7 +666,7 @@ def usersettings(request):
 	else:
    		return render_to_response('general/index.html',context_instance=RequestContext(request))
 
-#@login_required
+@login_required
 def updateProviders(request):
 	if request.method == 'POST' and request.user.is_authenticated():
 		provider_id = request.POST.get('provider-id','')
@@ -639,7 +683,7 @@ def updateProviders(request):
 	return HttpResponse(json.dumps({'status':500}), content_type='application/json')
 
 
-# #@login_required
+# @login_required
 # def profile(request):
 # 	if request.user.is_authenticated():
 # 		bu = request.user.basicuser
@@ -653,7 +697,7 @@ def updateProviders(request):
 # 	else:
 #    		return render_to_response('general/index.html',context_instance=RequestContext(request))
 
-#@login_required
+@login_required
 def payment(request):
 	return render_to_response('account/payment.html',{'payment':True,'BALANCED_MARKETPLACE_ID':settings.BALANCED_MARKETPLACE_ID},context_instance=RequestContext(request))
 
@@ -662,7 +706,7 @@ def payment(request):
 #################################################
 
 #Calls the addBalancedBankAccount method
-#@login_required
+@login_required
 def addBankAccount(request):
 	if request.method == "POST":
 		addBA = payment_view.addBalancedBankAccount(request)
@@ -670,14 +714,14 @@ def addBankAccount(request):
 	return HttpResponse(json.dumps({'status':500,'error': 'Not a POST method'}), content_type='application/json')
 
 #Calls the addBalancedCard method
-#@login_required
+@login_required
 def addCreditCard(request):
 	if request.method == "POST":
 		addCC = payment_view.addBalancedCard(request)
 		return HttpResponse(json.dumps({'status':addCC['status'],'error':addCC['error']}), content_type='application/json')
 	return HttpResponse(json.dumps({'status':500,'error': 'Not a POST method'}), content_type='application/json')
 	
-#@login_required
+@login_required
 def account_deletecreditcard(request,creditcardid):
 	if request.method=="POST":
 		bc = BalancedCard.objects.get(id=creditcardid)
@@ -687,7 +731,7 @@ def account_deletecreditcard(request,creditcardid):
 ###########################################
 #### Updating Listings ####################
 ###########################################
-#@login_required
+@login_required
 def editListingInactive(request,itemid):
 	item = Item.objects.get(id=itemid)
 	if request.method == "POST" and item.user == request.user.basicuser:
@@ -698,7 +742,7 @@ def editListingInactive(request,itemid):
 		email_view.composeInactiveRequest(inactive_model)
 	return HttpResponseRedirect(request.POST['page'])
 
-#@login_required
+@login_required
 def editListingActive(request,itemid):
 	item = Item.objects.get(id=itemid)
 	if request.method == "POST" and item.user == request.user.basicuser:
@@ -707,7 +751,7 @@ def editListingActive(request,itemid):
 			item.save()
 	return HttpResponseRedirect(request.POST['page'])
 
-#@login_required
+@login_required
 def editListingRelist(request,itemid):
 	item = Item.objects.get(id=itemid)
 	if request.method == "POST" and item.user == request.user.basicuser:
@@ -740,7 +784,7 @@ def saveitem(request):
 		redirectURL = str('/login?next=/item/'+str(item.id)+"/details&action=save")
 		return HttpResponse(json.dumps({'status':"400",'redirect':redirectURL}), content_type='application/json')
 
-#@login_required
+@login_required
 def removeitem(request):
 	if request.method == "POST" and request.user.is_authenticated():
 		item = Item.objects.get(id=int(request.POST['itemid']))

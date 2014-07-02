@@ -6,29 +6,44 @@
 	margin: 0;
 }
 .hero {
-	min-height: 550px;
+	min-height: 480px;
 	background: #555;
-	background-image: url("{{STATIC_URL}}img/large_background/puppybg.jpg");
-	background-size:cover;
+	background-image: url("{{STATIC_URL}}img/backgrounds/fabric_plaid.png");
+	/*background-size:cover;*/
 	overflow: auto;
 	text-align: center;
+	position:relative;
+	border-bottom:1px solid #ddd;
+}
+.hero .faded {
+	height: 200px;
+	background-image: url("{{STATIC_URL}}img/backgrounds/fabric_plaid2.png");
+	position:absolute;
+	top:0;
+	width: 100%;
+	z-index: 1;
 }
 .hero h1 {
-	color: #fff;
-	font-size: 50px;
+	color: #58bfd4;
+	font-size: 60px;
 	font-weight: 200;
-	text-shadow: 0 0 4px #000;
-	margin-top: 130px;
+	text-shadow: 0 0 2px #fff;
+	margin-top: 70px;
 	padding-bottom: 10px;
 	letter-spacing: .25px;
+	position:relative;
+	z-index: 2;
+	padding: 0 20px;
 } 
 .hero h2 {
-	color: #eee;
-	text-shadow: 0 0 6px #000;
+	color: #666;
 	letter-spacing: .5px;
 	font-weight: 600;
 	font-size: 19px;
-	margin-bottom: 70px;
+	margin-bottom: 50px;
+	position:relative;
+	z-index: 2;
+	padding: 0 20px;
 }
 .hero a {
 	font-size: 18px;
@@ -86,6 +101,93 @@
 .signup-box p {
 	color: #af5a5a;
 }
+/* Video-container */
+.video-container {
+	margin-top: -80px;
+	text-align: center;
+	margin-bottom: 40px;
+	position:relative;
+	z-index: 3;
+}
+.video-container .video img, .video-container .video .video-frame{
+	border:15px solid #f1f1f1;
+	border-top-right-radius: 3px;
+	border-top-left-radius: 3px;
+}
+
+.groups {
+	text-align: center;
+	border-top:1px solid #ddd;
+	padding: 30px;
+	background: url("{{STATIC_URL}}img/backgrounds/fabric_plaid.png");
+}
+.groups .button-container {
+	background-image: url("{{STATIC_URL}}img/transparency/blacktransparency_2.png");
+	padding: 5px;
+	margin: 20px 10px 0 10px;
+	display:inline-block;
+	border-radius: 4px;
+}
+.groups .button-container .button {
+	font-weight: 100;
+	letter-spacing: 1px;
+}
+.groups .group {
+	padding-bottom: 30px;
+}
+.group-img {
+	width: 272px;
+	margin: 0 auto;
+	height: 318px;
+	background-size: 816px 318px;
+	background-image: url("{{STATIC_URL}}img/misc/main_hex.png");
+	overflow: hidden;
+}
+.group2 {
+	background-position: -272px 0;
+}
+.group3 {
+	background-position: -544px 0;
+}
+/*Signup */
+.signup {
+	background-image: url("{{STATIC_URL}}img/transparency/blacktransparency_2.png");
+	width: 450px;
+	margin: 0 auto;
+	padding: 10px 20px;
+	border:4px solid #777;
+	border-radius: 3px;
+}
+.signup .join {
+}
+.signup .thanks {
+	color: #afe6e8;
+	font-weight: 800;
+	display:none;
+}
+.signup .join p {
+	font-size: 12px;
+	color: #ddd;
+	text-align: left;
+	line-height: 1.2;
+	margin-bottom: 3px;
+}
+.signup-form {
+	margin-top: 10px;
+	display:inline-table;
+	width: 100%;
+}
+.signup-form input {
+	display:table-cell;
+	width: 84%;
+	min-width: 200px;
+}
+.signup-form button {
+	width: 15%;
+	height: 35px;
+	margin-left: 3px;
+	display:table-cell;
+}
 </style>
 {% endblock %}
 
@@ -98,13 +200,62 @@
 
 {% block content %}
 <div class="hero">
-	<h1>Veterinary Ordering Made Simple</h1>
+	<div class="faded"></div>
+	<h1>Veterinary Supply Ordering Made Simple</h1>
 	<h2>VetCove's intelligent online portal is the fastest and cheapest way to order pharmaceuticals, supplies, and equipment</h2>
-	<div class="button-container"><a class="button button-flat-primary button-rounded" href="/learn/features">For Veterinarians</a></div>
-	<div class="button-container"><a class="button button-flat-highlight button-flat button-rounded" href="/learn/supplier">For Suppliers</a></div>
-	<div class="button-container"><a class="button button-flat-royal button-flat button-rounded" href="/learn/manufacturer">For Manufacturers</a></div>
+	<div class="signup">
+		<form action="">
+			<div class="join">
+				<p>We have not yet launched, but if you want important updates, or would like to become a beta user or VetCove partner, please enter your email below: </p>
+				<div class="signup-form">
+					<input class='form-control' placeholder="Email Address">
+					<button class="button button-rounded button-small button-primary"><span class="glyphicon glyphicon-chevron-right"></span></button>
+				</div>
+			</div>
+			<div class="thanks">
+				<p>Your email has been recorded! We look forward to improving veterinary supply together!</p>
+			</div>
+		</form>
+	</div>
 </div>
 
+
+<div class="video-container">
+	<div class="video">
+		<img src='http://placehold.it/840x472'>
+		<!-- <iframe class="video-frame" width="760" height="472" src="//www.youtube.com/embed/x0AKyUA5prQ?showinfo=0&rel=0" frameborder="0" allowfullscreen></iframe> -->
+	</div>
+</div>
+
+<div class="groups row">
+	<div class="col-xs-4">
+		<div class="group">
+			<div class="group-img group1"></div>
+			<div class="clear"></div>
+			<div class="button-container">
+				<a href='/learn/features' class="button button-large button-rounded button-flat-primary">Veterinarians</a>
+			</div>
+		</div>
+	</div>
+	<div class="col-xs-4">
+		<div class="group">
+			<div class="group-img group2"></div>
+			<div class="clear"></div>
+			<div class="button-container">
+				<a href='/learn/supplier' class="button button-large button-rounded button-flat-royal">Suppliers</a>
+			</div>
+		</div>
+	</div>
+	<div class="col-xs-4">
+		<div class="group">
+			<div class="group-img group3"></div>
+			<div class="clear"></div>
+			<div class="button-container">
+				<a href='/learn/manufacturer' class="button button-large button-rounded button-flat-action">Manufacturers</a>
+			</div>
+		</div>
+	</div>
+</div>
 
 <div class="testimonial-container">
 	<div class="testimonial row">
@@ -127,6 +278,5 @@
 			</tr></table>
 		</div>
 	</div>
-
 </div>
 {% endblock %}

@@ -7,19 +7,20 @@ from imagekit.models import ProcessedImageField
 ####### Product Database Models ############
 ############################################
 
-# Industries in our case can be small_animal, bovine, and equine. Eventually include human industries as well #
+# Industries in our case can be small_animal, bovine, and equine. Eventually include human industries (dentist) as well #
 class Industry(models.Model):
 	name = models.CharField(max_length=40)
 	displayname = models.CharField(max_length=50)
 	def __unicode__(self):
 		return self.displayname
 
+# These are the manufacturers of the products in the system (not the manufacturer users!) #
 class Manufacturer(models.Model):
 	name = models.CharField(max_length=40)
+	description = models.TextField(blank=True) # One sentence description of this manufacturer
 	displayname = models.CharField(max_length=50)
 	image = models.ForeignKey('Image',null=True,blank=True)
 	totalunits = models.IntegerField(default=0) # Script updates this
-	members = models.ManyToManyField('account.BasicUser') # Certain users can edit the product pages of these products #
 	def __unicode__(self):
 		return self.displayname
 
@@ -31,10 +32,7 @@ class Category(models.Model):
 	totalunits = models.IntegerField(default=0) # Script updates this
 	parent = models.ForeignKey('self',null=True,blank=True)
 	industry = models.ManyToManyField(Industry)
-	main = models.BooleanField(default=False) # Is it a top level category?
-	# Having a category type makes it very convenient to find all subcategories and for display purposes
-	#CATEGORY_TYPES = (('maincategory','maincategory'),('secondcategory','secondcategory'),('thirdcategory','thirdcategory'))
-	#category_type = models.CharField(max_length=20,choices=CATEGORY_TYPES)
+	main = models.BooleanField(default=False) # Is it a top level category? For display purposes
 	def __unicode__(self):
 		return self.displayname
 
@@ -61,14 +59,16 @@ class Product(models.Model):
 	def __unicode__(self):
 		return self.displayname
 
+	# Temporary way to handle quality rankings #
 	def quality(self):
 		from random import randrange
 		return randrange(1,6)
+
 # ### Pharma Listings ###
 # class Pharma(Product):
 # 	rx = models.BooleanField(default=True)
 # 	compendium = models.CharField(max_length=200)
-# 	human_label = models.BooleanField(default=False)
+# 	-human_label = models.BooleanField(default=False)
 # 	ingredient = models.ManyToManyField('Ingredient',null=True,blank=True)
 
 # ### Needles Listing ###

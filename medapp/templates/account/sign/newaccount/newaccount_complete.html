@@ -1,0 +1,47 @@
+{% extends 'account/sign/sign_base.html' %}
+{% block headertitle %}New Account{% endblock %}
+{% block sign_css %}
+<style>
+.sign-container {
+	padding: 20px;
+	text-align: center;
+}
+.sign-container h3 {
+	margin: 0;
+	padding: 5px 10px 15px 10px;
+	color: #333;
+}
+.sign-container p {
+	font-size: 13px;
+}
+.sign-container .forms {
+	margin-top: 20px;
+	padding-top: 20px;
+	border-top:1px solid #ddd;
+}
+.sign-container .forms .file {
+	font-size: 16px;
+	font-weight: bold;
+}
+.sign-container .forms .file span {
+	color: #4ccd76;
+}
+</style>
+{% endblock %}
+
+{% block sign_js %}
+
+{% endblock %}
+{% block sign_content %}
+<div class="sign-container">
+	<h3>Your application is almost complete!</h3>
+	<p>Once we receive any missing information (listed below), we will review your application and confirm your provided credentials, <strong>typically responding within 60 minutes</strong>. If you have any additional questions,
+		you can reach us directly at xxx xxx-xxxx.</p>
+	<div class="forms">
+		<p>You chose to submit your veterinary license and sales exemption forms via fax. Please fax the following forms to (732) 123-4567:</p>
+		<p class="file"><span class="glyphicon glyphicon-asterisk"></span> Copy of Veterinary License for Dr. Eric Kates (#2023920DUS)</p>
+		<p class="file"><span class="glyphicon glyphicon-asterisk"></span> Sales Tax Exemption Certificate for #903902-DEF </p>
+	</div>
+</div>
+
+{% endblock %}

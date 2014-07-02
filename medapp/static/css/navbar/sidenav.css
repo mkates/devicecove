@@ -3,7 +3,9 @@
 	position:relative;
 	min-height: 500px;
 }
-
+.header {
+	border-bottom: none;
+}
 .sidenav {
 	padding: 2px 0 0 0;
 	background: #5ecadf;

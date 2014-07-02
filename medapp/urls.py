@@ -79,23 +79,27 @@ urlpatterns = patterns('',
     url(r'^account/profile','account.views.profile'),
 
     url(r'^product/(?P<productname>\w+)','account.views.product'),
-    url(r'^company/(?P<companyname>\w+)','account.views.company'),
 
     ########## Login ########################
     #########################################
-    url(r'^loginform','account.views.loginform'),
     url(r'^login','account.views.signin'),
-    url(r'^signupform','account.views.signupform'),
+    url(r'^form/signupform','account.views.signupform'),
+    url(r'^form/loginform','account.views.loginform'),
     url(r'^signin','account.views.signin'),
     url(r'^signup','account.views.signup'),
-    url(r'^newaccount/basic','account.views.newAccountBasic'),
-    url(r'^newaccountform','account.views.newaccountform'),
+    url(r'^newaccount/info','account.views.newAccountInfo'),
+    url(r'^form/newaccount/info','account.views.newAccountInfoForm'),
+    url(r'^newaccount/details','account.views.newAccountDetails'),
+    url(r'^newaccount/docs','account.views.newAccountDocs'),
+    url(r'^newaccount/tos','account.views.newAccountTOS'),
+    url(r'^newaccount/complete','account.views.newAccountComplete'),
     url(r'^checkemail','account.views.checkemail'),
-     url(r'^checkpromo','account.views.checkpromo'),
+    url(r'^checkpromo','account.views.checkpromo'),
 
     ########## Listing ######################
     #########################################
-    url(r'^method/autosuggest/','listing.views.autosuggest'),
+    url(r'^form/autosuggest/','listing.views.autosuggest'),
+    url(r'^form/search','search.views.searchform'),
     url(r'^category/(?P<category>\w+)','listing.views.category'),
     url(r'^manufacturer/(?P<manufacturer>\w+)','listing.views.manufacturer'),
     url(r'^ingredient/(?P<ingredient>\w+)','listing.views.ingredient'),
@@ -120,6 +124,14 @@ urlpatterns = patterns('',
     url(r'^portal/account','selling.views.portalAccount'),
     url(r'^portal/reports','selling.views.portalReports'),
     url(r'^portal/','selling.views.portalProduct'),
+
+
+
+
+
+
+
+
 
 
 
@@ -243,7 +255,6 @@ urlpatterns = patterns('',
     url(r'^searchquery','search.views.searchquery'),
     url(r'^autosuggest','search.views.autosuggest'),
     url(r'^customsearch','search.views.customsearch'),
-    url(r'^productsearch/(?P<industryterm>\w+)/(?P<categoryterm>\w+)/(?P<subcategoryterm>\w+)','search.views.productsearch'),
  
 )
 #####################################################################

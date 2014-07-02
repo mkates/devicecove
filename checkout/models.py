@@ -3,7 +3,7 @@ from django.db.models import Q
 
 class ShoppingCart(models.Model):
 	creation_date = models.DateTimeField(auto_now_add=True)
-	clinic = models.OneToOneField('account.Clinic')
+	group = models.OneToOneField('account.Group')
 	
 	# Get list of items
 	def cart_items(self):

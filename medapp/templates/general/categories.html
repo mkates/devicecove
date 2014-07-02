@@ -34,22 +34,33 @@
 	background-image: linear-gradient(to top, #FFFFFF 0%, #DDDDDD 100%);
 }
 .category-container {
-	padding: 20px;
+	padding: 0 20px 20px 20px;
 }
 .category-container h5 {
+	color: #aaa;
 	margin:40px 0 20px 0;
 	padding-bottom: 10px;
 	border-bottom:1px solid #eee;
 }
-
+.category-container h5 a:hover {
+	text-decoration:underline;
+}
 .category-container .sublink-container {
 	margin: 2px 0;
 }
-.category-container .sublink  span {
+.category-container .sublink {
 	color: #bbb;
 }
-.category-container .sublink span a {
+.category-container .sublink a {
 	color: #555;
+	font-size: 13px;
+	display:inline-block;
+}
+.category-container .sublink .count {
+	font-size: 12px;
+	display:inline-block;
+	padding: 0 3px;
+	margin: 0 0 3px 0;
 }
 .category-container .sublink a:hover {
 	text-decoration: underline;
@@ -72,19 +83,6 @@
 	text-decoration: underline;
 	color: #009cc3;
 }
-@media (max-width: 768px) {	
-	.category-container {
-		padding: 10px;
-	}
-	.category-container a {
-		font-size: 17px;
-		padding: 5px 0;
-	}
-	.category-container h5 a {
-		font-size: 20px;
-	}
-}
-
 </style>
 {% endblock%}
 
@@ -95,20 +93,18 @@
 		<div class="vetbox topcontainer">
 			<h3>All Categories</h3>
 			<div class="category-container row">
-				{% for cat in categories %}
-				<h5><a href="/productsearch/veterinary/{{cat.name}}/all">{{cat.displayname}} ({{cat.totalunits}})</a></h5>
+				{% for cat in pagecategories %}
+				<h5><a href="/productsearch/veterinary/{{cat.name}}/all">{{cat.displayname}}</a> ({{cat.totalunits}})</h5>
 				<div class="row">
-					{% for subcat in cat.parents_set.all %}
-						<div class="col-md-4 col-sm-4">
+					{% for subcat in cat.subcategories %}
+						<div class="col-md-4 col-sm-6 col-xs-6">
 							<div class="sublink">
-								<span><a href='#' class="sublink">{{subcat.displayname}}</a> ({{subcat.totalunits}})</span>
+								<a href='/category/{{subcat.name}}' class="sublink">{{subcat.displayname}}</a>
+								<p class="count">({{subcat.totalunits}})</p>
 							</div>
 						</div>
 					{% endfor %}
 				</div>
-				{% if forloop.counter|divisibleby:"3" %}
-				<div class="clear"></div>
-				{% endif %}
 				{% endfor %}
 			</div>
 		</div>
@@ -117,16 +113,16 @@
 		<div class="recent-searches">
 			<h3>Recent Searches</h3>
 			<div>
-				<a href='#'>Ultrasound Cleaners</a>
+				<a href='#'>Anti-Inflammatories</a>
 			</div>
 			<div>
-				<a href='#'>Ultrasound Cleaners</a>
+				<a href='#'>Equizone Powder</a>
 			</div>
 			<div>
-				<a href='#'>Ultrasound Cleaners</a>
+				<a href='#'>Syringe Needles</a>
 			</div>
 			<div>
-				<a href='#'>Ultrasound Cleaners</a>
+				<a href='#'>Ultrasounds</a>
 			</div>
 		</div>
 	</div>
