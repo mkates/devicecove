@@ -22,13 +22,10 @@ from helper.model_imports import *
 ##### The cart page #########
 @login_required
 def cart(request):
-	shoppingcart = request.user.basicuser.clinic.shoppingcart
+	shoppingcart = request.user.basicuser.group_handle().shoppingcart
 	cartitems = shoppingcart.cartitem_set.all()
-	cartitems_l = []
-	for i in range(3):
-		cartitems_l.append(cartitems[0])
 	shoppingcart_totals = getShoppingCartTotals(shoppingcart)
-	return render_to_response('account/pages/cart.html',{'totals':shoppingcart_totals,'cartitems':cartitems_l},context_instance=RequestContext(request))
+	return render_to_response('account/pages/cart.html',{'totals':shoppingcart_totals,'cartitems':cartitems},context_instance=RequestContext(request))
 
 ##### Add an item to the cart ######
 @login_required

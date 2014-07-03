@@ -5,7 +5,7 @@ from django.db import models
 ############################################
 
 class Payment(models.Model):
-	user = models.ForeignKey('account.BasicUser',null=True,blank=True)
+	user = models.ForeignKey('account.Group',null=True,blank=True)
 	datecreated = models.DateTimeField(auto_now_add=True)
 	
 #### Payment/Payout by Check ##################

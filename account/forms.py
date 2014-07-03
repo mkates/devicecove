@@ -19,3 +19,20 @@ class FeedbackForm(forms.Form):
 
 class ReferralForm(forms.Form):
 	emails = forms.CharField(widget = forms.Textarea)
+
+class NewAccountDetailsForm(forms.Form):
+	name = forms.CharField()
+	organization_type = forms.CharField()
+	number_of_vets = forms.IntegerField()
+	practice_size = forms.IntegerField()
+	website = forms.CharField(required=False)
+	large = forms.BooleanField(required=False)
+	small = forms.BooleanField(required=False)
+	mixed = forms.BooleanField(required=False)
+
+class NewAccountAddressForm(forms.Form):
+	address_one = forms.CharField()
+	address_two = forms.CharField(required=False)
+	city = forms.CharField()
+	state = forms.CharField()
+	zipcode = forms.CharField()

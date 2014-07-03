@@ -87,26 +87,29 @@ urlpatterns = patterns('',
     url(r'^form/loginform','account.views.loginform'),
     url(r'^signin','account.views.signin'),
     url(r'^signup','account.views.signup'),
-    url(r'^newaccount/info','account.views.newAccountInfo'),
-    url(r'^form/newaccount/info','account.views.newAccountInfoForm'),
     url(r'^newaccount/details','account.views.newAccountDetails'),
-    url(r'^newaccount/docs','account.views.newAccountDocs'),
+    url(r'^newaccount/address','account.views.newAccountAddress'),
+    url(r'^newaccount/verification','account.views.newAccountVerification'),
     url(r'^newaccount/tos','account.views.newAccountTOS'),
-    url(r'^newaccount/complete','account.views.newAccountComplete'),
+    url(r'^newaccount/','account.views.newAccount'),
+    url(r'^form/newaccount/details','account.views.newAccountDetailsForm'),
+    url(r'^form/newaccount/address','account.views.newAccountAddressForm'),
+    url(r'^form/newaccount/verification','account.views.newAccountVerificationForm'),
+    url(r'^form/newaccount/tos','account.views.newAccountTOSForm'),
     url(r'^checkemail','account.views.checkemail'),
     url(r'^checkpromo','account.views.checkpromo'),
 
     ########## Listing ######################
     #########################################
     url(r'^form/autosuggest/','listing.views.autosuggest'),
-    url(r'^form/search','search.views.searchform'),
+    #url(r'^form/search','search.views.searchform'),
     url(r'^category/(?P<category>\w+)','listing.views.category'),
     url(r'^manufacturer/(?P<manufacturer>\w+)','listing.views.manufacturer'),
     url(r'^ingredient/(?P<ingredient>\w+)','listing.views.ingredient'),
 
     ########## Checkout #####################
     #########################################
-    url(r'^cart','account.views.cart'),
+    url(r'^cart','checkout.views.cart'),
 
     ########## Seller Portal ################
     #########################################

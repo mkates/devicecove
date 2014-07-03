@@ -59,9 +59,7 @@
 .progress-meter .step.active {
 	opacity: 1;
 }
-.progress-meter .step:not(.active) span {
-	display:none;
-}
+
 .progress-meter .step span {
 	color: #27AE60;
 }
@@ -114,23 +112,23 @@
 <form class="form validated-form sign-container" action='{% block newaccount_action %}{% endblock %}' method="POST">{% csrf_token %}
 	<div class="progress-meter">
 		<div class="step-container">
-			<div class="step{% if newaccount_info%} active{% endif %}">
-				<span class="glyphicon glyphicon-ok"></span> 1. Basic Info
+			<div class="step{% if newaccount_details %} active{% endif %}">
+				{% if clinic_status.details %}<span class="glyphicon glyphicon-ok"></span>{% endif %} 1. Clinic Details
 			</div>
 		</div>
 		<div class="step-container">
-			<div class="step{% if newaccount_details%} active{% endif %}">
-				<span class="glyphicon glyphicon-ok"></span> 2. Clinic Details
+			<div class="step{% if newaccount_address %} active{% endif %}">
+				{% if clinic_status.address %}<span class="glyphicon glyphicon-ok"></span>{% endif %} 2. Address
 			</div>
 		</div>
 		<div class="step-container">
-			<div class="step{% if newaccount_docs%} active{% endif %}">
-				<span class="glyphicon glyphicon-ok"></span> 2. Documents
+			<div class="step{% if newaccount_verification %} active{% endif %}">
+				{% if clinic_status.verification %}<span class="glyphicon glyphicon-ok"></span>{% endif %} 3. Verification
 			</div>
 		</div>
 		<div class="step-container">
-			<div class="step{% if newaccount_tos%} active{% endif %}">
-				<span class="glyphicon glyphicon-ok"></span> 3. Terms of Use
+			<div class="step{% if newaccount_tos %} active{% endif %}">
+				{% if clinic_status.tos %}<span class="glyphicon glyphicon-ok"></span>{% endif %} 4. Terms of Use
 			</div>
 		</div>
 		<div class="clear"></div>

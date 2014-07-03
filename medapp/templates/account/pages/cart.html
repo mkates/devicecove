@@ -172,7 +172,8 @@
 				<div class="row">
 					<div class="item-image col-pic">
 						<div class="item-image-div">
-							<img src="{%if item.mainimage %}{{item.mainimage.photo_medium.url}}{% elif product.mainimage %}{{product.mainimage.photo_medium.url}}{% else %}{{STATIC_URL}}img/noimage/noimage_300x400.jpg{% endif %}" alt="{{cartitem.item.name}}"/>	
+							<!-- <img src="{%if item.mainimage %}{{item.mainimage.photo_medium.url}}{% elif product.mainimage %}{{product.mainimage.photo_medium.url}}{% else %}{{STATIC_URL}}img/noimage/noimage_300x400.jpg{% endif %}" alt="{{cartitem.item.name}}"/>	 -->
+							<img src='{{STATIC_URL}}img/placeholder_pics/search/{{product.id}}.jpg'>
 						</div>	
 					</div>
 					<div class="item-information col-text">
@@ -206,7 +207,7 @@
 						<p class="msrp-price">{{item.msrp_price|dollars}}</p>
 					</div>
 					<div class="item-price col-price">
-						1 <a>change</a> 
+						1 <!-- <a>change</a>  -->
 					</div>
 					<div class="item-price col-price">
 						<p class="final-price">{{cartitem.amount|dollars}}</p>
@@ -216,28 +217,26 @@
 				{% endwith %}
 				{% endwith %}
 			{% endfor %}
+			{% if not cartitems %}
 			<div class="noitems">
 				<img style="opacity:.7" src='{{STATIC_URL}}img/misc/emptybox.png'>
 				<p>You do not currently have any items in your cart</p>
 			</div>
-			
+			{% endif %}
 		</div>
 		<div class="right-row col-md-3 col-sm-3 col-xs-12">
 			<div class="cart-summary covebox">
 				<h6> Order Summary</h6>
-				<p>Items (<span id="itemcount" class="itemcount">{{totals.items_count}}</span>)<span class="totalprice">{{totals.total}}</span></p>
-				<p>Tax<span class="totalprice">$13.14</span></p>
+				<p>Items (<span id="itemcount" class="itemcount">1</span>)<span class="totalprice">$99.84</span></p>
+				<p>Tax<span class="totalprice">$4.14</span></p>
 				{% if user.basicuser %}<p class="credit">VetCove Credit: <span>- $5.00</span></p>{% endif %}
-				<p class="total">Total:<span class="totalprice">{{shoppingcart.summary.total|dollars}}</span></p>
+				<p class="total">Total:<span class="totalprice">$97.48</span></p>
 				<a class="button-small button button-rounded button-action proceedtocheckout" href="/checkout/verify">Proceed To Checkout <span class="glyphicon glyphicon-shopping-cart"></span></a>
 			</div>
-			<div class="last-minute">
+			<!-- <div class="last-minute">
 				<h3>Don't Forget These Last Minute Items</h3>
-			</div>
-		</div>
-		
+			</div> -->
+		</div>	
 	</div>
 </div>
-
-
 {% endblock %}

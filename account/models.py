@@ -96,13 +96,16 @@ class Clinic(Group):
 	sales = models.FileField(upload_to=create_sales_path,null=True,blank=True)
 	
 	### Details ###
+	organization_type = models.CharField(max_length=100,null=True,blank=True)
 	number_of_vets = models.PositiveIntegerField(default=1)
 	practice_size = models.PositiveIntegerField(default=1)
 	website = models.CharField(max_length=60,blank=True,null=True)
 	PRACTICE_TYPES = (('small_animal','Small Animal'),('large_animal','Large Animal'),('mixed','Mixed'))
-	practice_type = models.CharField(max_length=60,choices=PRACTICE_TYPES,default="mixed")
+	practice_type = models.CharField(max_length=60,choices=PRACTICE_TYPES,null=True,blank=True)
 	
 	tos = models.BooleanField(default=False) # Did they agree to the TOS?
+
+
 	verified = models.BooleanField(default=False) # Are they eligible to purchase on our system?
 	
 	def __unicode__(self):
