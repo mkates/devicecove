@@ -10,7 +10,7 @@ from django.shortcuts import render
 from django.core.exceptions import ObjectDoesNotExist
 from django.conf import settings
 from django.utils.timezone import utc
-import json, math, difflib, locale, time, re, string, balanced, random
+import json, math, difflib, locale, time, re, string, balanced, random, us
 from datetime import datetime
 from account.forms import *
 from helper.model_imports import *
@@ -176,6 +176,8 @@ def wishlist(request):
 ###########################################
 #### Login and Sign Up ####################
 ###########################################
+
+# Sign in Page #
 def signin(request):
 	next = request.GET.get('next','')
 	action = request.GET.get('action','')
@@ -183,13 +185,15 @@ def signin(request):
 		return HttpResponseRedirect("/dashboard")
 	return render_to_response('account/sign/signin.html',{'next':next,'action':action,'login':True},context_instance=RequestContext(request))
 
+# Sign up Page #
 def signup(request):
 	next = request.GET.get('next',None)
 	action = request.GET.get('action',None)
 	if request.user.is_authenticated():
-		return HttpResponseRedirect("/account/profile")
+		return HttpResponseRedirect("/")
 	return render_to_response('account/sign/signup.html',{'next':next,'action':action},context_instance=RequestContext(request))
 
+# Log In Form #
 def loginform(request):
 	action = request.POST.get('action','')
 	rememberme = request.POST.get('rememberme','')
@@ -210,98 +214,113 @@ def loginform(request):
 			else:
 				return HttpResponseRedirect("/")
 		else:
-			return render_to_response('account/sign/signin.html',{'login':True,'login_outcome':'This account no longer exists'},context_instance=RequestContext(request))
+			return render_to_response('account/sign/signin.html',{'login':True,'login_outcome':'This account is no longer active'},context_instance=RequestContext(request))
 	else:
 		return render_to_response('account/sign/signin.html',{'login':True,'login_outcome':'Your email and/or password were incorrect'},context_instance=RequestContext(request))
 	return HttpResponseRedirect("/")
 
+# Sign up Form #
 def signupform(request):
-	action = request.POST.get('action','')
-	username = request.POST.get('username')
-	password = request.POST['password']
-	confirmpassword = request.POST['confirmpassword']
-	if password != confirmpassword:
-		return render_to_response('account/sign/signup.html',{'signup':True,'signup_outcome':'Passwords do not match'},context_instance=RequestContext(request))
-	## Create a User Object ##
-	try:
-		user = User.objects.create_user(username,username,password)
-		user.save()
-	except:
-		return render_to_response('account/sign/signup.html',{'signup':True,'signup_outcome':'Username already used'},context_instance=RequestContext(request))
-	## Create a Clinic Object ##
-	referrer_id = ''.join(random.choice(string.ascii_uppercase + string.digits) for x in range(8))
-	clinic = Clinic(email=username,referrer_id=referrer_id)
-	clinic.save()
-	## Create a Basic User Object ##
-	basicuser = BasicUser(user=user)
-	basicuser.group = clinic
-	basicuser.save()
-	## Log User In ##
-	user = authenticate(username=user,password=password)
-	login(request,user)
-	return HttpResponseRedirect("/newaccount")
+	if request.method == 'POST':
+		form = SignUpForm(request.POST)
+		if form.is_valid():
+			# 1. Get Cleaned Form Elements
+			username = form.cleaned_data['username']
+			password = form.cleaned_data['password']
+			confirmpassword = form.cleaned_data['confirmpassword']
+			promocode = form.cleaned_data['promocode']
+			usertype = form.cleaned_data['usertype']
+			# 2. Check passwords match
+			if password != confirmpassword: # Confirm passwords match
+				return render_to_response('account/sign/signup.html',{'signup':True,'signup_outcome':'Passwords do not match','form':form},context_instance=RequestContext(request))
+			# 3. Create the user object, make sure the username is unique
+			try:
+				user = User.objects.create_user(username,username,password)
+				user.save()
+			except:
+				return render_to_response('account/sign/signup.html',{'signup':True,'signup_outcome':'Username already used'},context_instance=RequestContext(request))
+			# 4. Create a Clinic Object or Create a Supplier Object
+			basicuser = BasicUser(user=user)
+			referrer_id = ''.join(random.choice(string.ascii_uppercase + string.digits) for x in range(8))
+			if usertype == 'clinic':
+				clinic = Clinic(email=username,referrer_id=referrer_id)
+				clinic.save()
+				basicuser.group = clinic
+			else:
+				supplier = Supplier(email=username,referrer_id=referrer_id)
+				supplier.save()
+				basicuser.group = supplier
+			basicuser.save()
+			# 6. Log User In 
+			user = authenticate(username=user,password=password)
+			login(request,user)
+			if usertype=='clinic':
+				return HttpResponseRedirect("/newaccount")
+			else:
+				return HttpResponseRedirect("/supplier/signup")
+		else: # Form is not valid (should not happen because we check everything client side as well, but just in case)
+			return render_to_response('account/sign/signup.html',{'signup':True,'signup_outcome':'Invalid Input'},context_instance=RequestContext(request))
+	else: # If it is a GET request, send them back to /signup page
+		return HttpResponseRedirect("/signup")
 
 @login_required
-def newaccountform(request):
-	bu = request.user.basicuser
-	practitioner_name = request.POST.get('practitioner_name','')
-	clinic_name = request.POST.get('clinic_name','')
-	website = request.POST.get('url','')
-	address_one = request.POST.get('address_one','')
-	address_two = request.POST.get('address_two','')
-	city = request.POST.get('city','')
-	state = request.POST.get('state','')
-	zipcode = request.POST.get('zipcode','')
-	phonenumber = request.POST.get('phonenumber','')
-	organization = request.POST.get('organization','')
-	large_animal = request.POST.get('large_animal','')
-	small_animal = request.POST.get('small_animal','')
-	equine =  request.POST.get('equine','')
-	address = Address(name=clinic_name,
-						address_one=address_one,
-						address_two=address_two,
-						city=city,
-						state=state,
-						zipcode=zipcode)
-	address.save()
-	clinic_object = Clinic(clinic_name=clinic_name,
-						website=website,
-						email=request.user.username,
-						address=address,
-						phonenumber=phonenumber,
-						organization_type=organization,
-						large_animal=large_animal,
-						small_animal=small_animal,
-						equine=equine)
-	clinic_object.save()
-	bu.clinic = clinic_object
-	bu.save()
-	gpos = GPO.objects.all()
-	for gpo in gpos:
-		gpo_name = request.POST.get("gpo_"+gpo.name,'') # Is this GPO selected?
-		if gpo_name:
-			gpo.clinics.add(clinic_object)
-			gpo.save()
-	#Create a shopping cart for this clinic
-	shoppingcart = ShoppingCart(clinic=clinic_object,)
-	return HttpResponseRedirect("/account/profile")
+def newSupplierSignup(request):
+	supplier = request.user.basicuser.group_handle()
+	if supplier.application_submitted == True:
+		return render_to_response('account/sign/newaccount/supplier_complete.html',{'supplier':True},context_instance=RequestContext(request))
+	else:
+		states = [state.name for state in us.states.STATES] # Generates a list of all 50 states
+		return render_to_response('account/sign/newaccount/supplier_signup.html',{'supplier':True,'states':states},context_instance=RequestContext(request))
 
+@login_required
+def supplierSignupForm(request):
+	states = [state.name for state in us.states.STATES] # Generates a list of all 50 states
+	supplier = request.user.basicuser.group_handle()
+	if request.method == 'POST':
+		form = SupplierSignupForm(request.POST)
+		if form.is_valid():
+			supplier.name = form.cleaned_data['name']
+			supplier.primary_contact = form.cleaned_data['primary_contact']
+			supplier.phonenumber = form.cleaned_data['phonenumber']
+			address_one = form.cleaned_data['address_one']
+			address_two = form.cleaned_data['address_two']
+			city = form.cleaned_data['city']
+			state = form.cleaned_data['state']
+			zipcode = form.cleaned_data['zipcode']
+			address = Address(group = request.user.basicuser.group,
+				name = supplier.name,
+				address_one=address_one,
+				address_two=address_two,
+				city=city,
+				state = state,
+				zipcode = zipcode
+				)
+			supplier.website = form.cleaned_data['website']
+			supplier.current_selling_method = form.cleaned_data['current_selling_method']
+			supplier.interest_listings = form.cleaned_data['interest_listings']
+			supplier.interest_community = form.cleaned_data['interest_community']
+			supplier.interest_promotions = form.cleaned_data['interest_promotions']
+			supplier.interest_direct = form.cleaned_data['interest_direct']
+			supplier.application_submitted = True
+			supplier.save()
+	return HttpResponseRedirect('/supplier/signup')
 
 # This method looks at a clinic's current field values to determine
-# which parts of the sign up process are complete
+# which parts of the sign up process are complete. It returns a dictionary with the completed steps
 def clinicSignUpStatus(clinic):
 	c = clinic
-	signup_status = {'details':False,'verification':False,'address':False,'tos':False}
+	signup_status = {'details':False,'address':False,'verification':False,'tos':False}
 	if c.name and c.phonenumber and c.practice_type and c.organization_type and c.practice_type:
 		signup_status['details'] = True
 	if c.address:
 		signup_status['address'] = True
-	if c.payment_method:
+	if c.license_no and c.practitioner_name:
 		signup_status['verification'] = True
 	if c.tos:
 		signup_status['tos'] = True
 	return signup_status
 
+### The generic new account link, which automatically redirects to the last uncompleted step ###
 @login_required
 def newAccount(request):
 	# Get the handle of the clinic and check the user is of type clinic
@@ -312,60 +331,86 @@ def newAccount(request):
 	signup_status = clinicSignUpStatus(group_handle)
 	if not signup_status['details']:
 		gpos = GPO.objects.all()
-		return render_to_response('account/sign/newaccount/newaccount_details.html',{'newaccount_details':True,'clinic_status':signup_status,'gpos':gpos},context_instance=RequestContext(request))
+		return HttpResponseRedirect('/newaccount/details')
 	if not signup_status['address']:
-		return render_to_response('account/sign/newaccount/newaccount_address.html',{'newaccount_address':True,'clinic_status':signup_status},context_instance=RequestContext(request))
+		return HttpResponseRedirect('/newaccount/address')	
 	if not signup_status['verification']:
-		return render_to_response('account/sign/newaccount/newaccount_verification.html',{'newaccount_verification':True,'clinic_status':signup_status},context_instance=RequestContext(request))
+		return HttpResponseRedirect('/newaccount/verification')
 	if not signup_status['tos']:
-		return render_to_response('account/sign/newaccount/newaccount_tos.html',{'newaccount_tos':True,'clinic_status':signup_status},context_instance=RequestContext(request))
-	# If reached here, all forms on their end are complete
+		return HttpResponseRedirect('/newaccount/tos')
+	# If reached here, all forms on their end are complete, but still need final verification #
 	if not group_handle.verified:
-		return render_to_response('account/sign/newaccount/newaccount_complete.html',{'newaccount_complete':True,'clinic_status':clinic_status},context_instance=RequestContext(request))
-	return HttpResponseRedirect('/dashboard')
+		return HttpResponseRedirect('/newaccount/complete')
+	
+	return HttpResponseRedirect('/')
 
+### New account step 1 (details) ###
 @login_required
 def newAccountDetails(request):
 	group_handle = request.user.basicuser.group_handle()
 	if not hasattr(group_handle,'clinic'):
 		return HttpResponseRedirect('/')
 	signup_status = clinicSignUpStatus(group_handle)
-	gpos = GPO.objects.all()
-	return render_to_response('account/sign/newaccount/newaccount_details.html',{'newaccount_details':True,'clinic_status':signup_status,'gpos':gpos},context_instance=RequestContext(request))
+	gpos = GPO.objects.all() # Grab all GPOS in the database
+	size_range = range(1,41) # Used for the inputs to practice size and total number of vets
+	return render_to_response('account/sign/newaccount/newaccount_details.html',{'newaccount_details':True,'clinic_status':signup_status,'gpos':gpos,'clinic':group_handle,'size_range':size_range},context_instance=RequestContext(request))
 
+### New account step 2 (address) ###
 @login_required
 def newAccountAddress(request):
 	group_handle = request.user.basicuser.group_handle()
 	if not hasattr(group_handle,'clinic'):
 		return HttpResponseRedirect('/')
 	signup_status = clinicSignUpStatus(group_handle)
-	return render_to_response('account/sign/newaccount/newaccount_address.html',{'newaccount_address':True,'clinic_status':signup_status},context_instance=RequestContext(request))
+	if not signup_status['details']:
+		return HttpResponseRedirect('/newaccount/details')
+	states = [state.name for state in us.states.STATES] # Generates a list of all 50 states
+	return render_to_response('account/sign/newaccount/newaccount_address.html',{'newaccount_address':True,'clinic_status':signup_status,'clinic':group_handle,'states':states},context_instance=RequestContext(request))
 
+### New account step 3 (verification) ###
 @login_required
 def newAccountVerification(request):
 	group_handle = request.user.basicuser.group_handle()
 	if not hasattr(group_handle,'clinic'):
 		return HttpResponseRedirect('/')
 	signup_status = clinicSignUpStatus(group_handle)
-	return render_to_response('account/sign/newaccount/newaccount_verification.html',{'newaccount_verification':True,'clinic_status':signup_status},context_instance=RequestContext(request))
+	if not signup_status['details']:
+		return HttpResponseRedirect('/newaccount/details')
+	if not signup_status['address']:
+		return HttpResponseRedirect('/newaccount/adress')
+	signup_status = clinicSignUpStatus(group_handle)
+	states = [state.name for state in us.states.STATES] # Generates a list of all 50 states
+	return render_to_response('account/sign/newaccount/newaccount_verification.html',{'newaccount_verification':True,'clinic_status':signup_status,'clinic':group_handle,'states':states},context_instance=RequestContext(request))
 
+### New account step 4 (tos) ###
 @login_required
 def newAccountTOS(request):
 	group_handle = request.user.basicuser.group_handle()
+	signup_status = clinicSignUpStatus(group_handle)
 	if not hasattr(group_handle,'clinic'):
 		return HttpResponseRedirect('/')
-	signup_status = clinicSignUpStatus(group_handle)
-	return render_to_response('account/sign/newaccount/newaccount_tos.html',{'newaccount_tos':True,'clinic_status':signup_status},context_instance=RequestContext(request))
-
+	if not signup_status['details']:
+		return HttpResponseRedirect('/newaccount/details')
+	if not signup_status['address']:
+		return HttpResponseRedirect('/newaccount/adress')
+	if not signup_status['verification']:
+		return HttpResponseRedirect('/newaccount/verification')
+	return render_to_response('account/sign/newaccount/newaccount_tos.html',{'newaccount_tos':True,'clinic_status':signup_status,'clinic':group_handle},context_instance=RequestContext(request))
 
 @login_required
-def newAccountAddress(request):
+def newAccountComplete(request):
 	group_handle = request.user.basicuser.group_handle()
+	signup_status = clinicSignUpStatus(group_handle)
 	if not hasattr(group_handle,'clinic'):
 		return HttpResponseRedirect('/')
-	signup_status = clinicSignUpStatus(group_handle)
-	return render_to_response('account/sign/newaccount/newaccount_address.html',{'newaccount_address':True,'clinic_status':signup_status},context_instance=RequestContext(request))
+	for key,value in signup_status.items():
+		if value != True:
+			return HttpResponseRedirect('/newaccount')
+	license = True if (not group_handle.license) else False
+	sales = True if (group_handle.sales_no and not group_handle.sales) else False
+	return render_to_response('account/sign/newaccount/newaccount_complete.html',{'newaccount_complete':True,'clinic_status':signup_status,'clinic':group_handle,'license':license,'sales':sales},context_instance=RequestContext(request))
 
+### New account step 1 (details) form ###
 @login_required
 def newAccountDetailsForm(request):
 	clinic = request.user.basicuser.group_handle()
@@ -384,10 +429,11 @@ def newAccountDetailsForm(request):
 			mixed = number_of_vets = form.cleaned_data['mixed']
 			clinic.practice_type = str(large)+";"+str(small)+";"+str(mixed)
 			clinic.save()
+			return HttpResponseRedirect('/newaccount/address')
 		else:
-			return HttpResponse("FORM ERROR!!!")
+			return HttpResponseRedirect('/newaccount/details')
 	else:
-		return HttpResponseRedirect('/newaccount')
+		return HttpResponseRedirect('/newaccount/details')
 
 @login_required
 def newAccountAddressForm(request):
@@ -401,76 +447,59 @@ def newAccountAddressForm(request):
 			city = form.cleaned_data['city']
 			state = form.cleaned_data['state']
 			zipcode = form.cleaned_data['zipcode']
-			address = Address(group = request.user.basicuser.group,
-				name = clinic.name,
-				address_one=address_one,
-				address_two=address_two,
-				city=city,
-				state = state,
-				zipcode = zipcode
-				)
-			address.save()
-			clinic.address = address
+			if not clinic.address: # Make an address object if they do not have one
+				address = Address(group = request.user.basicuser.group,
+					name = clinic.name,
+					address_one=address_one,
+					address_two=address_two,
+					city=city,
+					state = state,
+					zipcode = zipcode
+					)
+				address.save()
+				clinic.address = address
+			else: # Update their current address object
+				address = clinic.address
+				address.address_one = address_one
+				address.address_two = address_two
+				address.city = city
+				address.state = state
+				address.zipcode = zipcode
+				address.save()
 			clinic.save()
-			return HttpResponseRedirect('/newaccount')
+			return HttpResponseRedirect('/newaccount/verification')
 		else:
-			return HttpResponse("FORM ERROR!!!")
+			return HttpResponseRedirect('/newaccount/address')
 	else:
-		return HttpResponseRedirect('/newaccount')
+		return HttpResponseRedirect('/newaccount/address')
 
 @login_required
 def newAccountVerificationForm(request):
 	clinic = request.user.basicuser.group_handle()
 	signup_status = clinicSignUpStatus(clinic)
 	if request.method == 'POST':
-		form = NewAccountDetailsForm(request.POST)
+		form = NewAccountVerificationForm(request.POST)
 		if form.is_valid():
-			clinic.name = form.cleaned_data['name']
-			clinic.phonenumber = form.cleaned_data['phonenumber']
-			clinic.organization_type = form.cleaned_data['organization_type']
-			clinic.number_of_vets = form.cleaned_data['number_of_vets']
-			clinic.practice_size = form.cleaned_data['practice_size']
-			clinic.website = form.cleaned_data['website']
-			large = number_of_vets = form.cleaned_data['large']
-			small = number_of_vets = form.cleaned_data['small']
-			mixed = number_of_vets = form.cleaned_data['mixed']
-			clinic.practice_type = str(large)+";"+str(small)+";"+str(mixed)
+			clinic.practitioner_name = form.cleaned_data['practitioner_name']
+			clinic.license_no = form.cleaned_data['license_no']
+			clinic.sales_no = form.cleaned_data['sales_no']
 			clinic.save()
+			return HttpResponseRedirect('/newaccount/tos')
 		else:
-			return HttpReponse("FORM ERROR!!!")
+			return HttpResponseRedirect('/newaccount/verification')
 	else:
-		return HttpResponseRedirect('/newaccount')
+		return HttpResponseRedirect('/newaccount/verification')
 
 @login_required
 def newAccountTOSForm(request):
 	clinic = request.user.basicuser.group_handle()
 	signup_status = clinicSignUpStatus(clinic)
 	if request.method == 'POST':
-		form = NewAccountDetailsForm(request.POST)
-		if form.is_valid():
-			clinic.name = form.cleaned_data['name']
-			clinic.phonenumber = form.cleaned_data['phonenumber']
-			clinic.organization_type = form.cleaned_data['organization_type']
-			clinic.number_of_vets = form.cleaned_data['number_of_vets']
-			clinic.practice_size = form.cleaned_data['practice_size']
-			clinic.website = form.cleaned_data['website']
-			large = number_of_vets = form.cleaned_data['large']
-			small = number_of_vets = form.cleaned_data['small']
-			mixed = number_of_vets = form.cleaned_data['mixed']
-			clinic.practice_type = str(large)+";"+str(small)+";"+str(mixed)
-			clinic.save()
-		else:
-			return HttpReponse("FORM ERROR!!!")
+		clinic.tos = True
+		clinic.save()
+		return HttpResponseRedirect("/newaccount")
 	else:
-		return HttpResponseRedirect('/newaccount')
-
-#@login_required
-def newAccountTOS(request):
-	return render_to_response('account/sign/newaccount/newaccount_tos.html',{'newaccount_tos':True},context_instance=RequestContext(request))
-
-#@login_required
-def newAccountComplete(request):
-	return render_to_response('account/sign/newaccount/newaccount_complete.html',{'newaccount_complete':True},context_instance=RequestContext(request))
+		return HttpReponseRedirect("/newaccount/tos")
 
 
 

@@ -34,13 +34,30 @@
 {% endblock %}
 {% block sign_content %}
 <div class="sign-container">
-	<h3>Your application is almost complete!</h3>
-	<p>Once we receive any missing information (listed below), we will review your application and confirm your provided credentials, <strong>typically responding within 60 minutes</strong>. If you have any additional questions,
-		you can reach us directly at xxx xxx-xxxx.</p>
+	<h3>
+		{% if license or sales %}
+		Action required to complete your application!
+		{% else %} 
+		Your application is pending our review!
+		{% endif %} 
+	</h3>
+	<p>
+		{% if license or sales %}
+		You still need to fax us the following information (listed below).
+		{% else %} 
+		Thank you submitting your application.
+		{% endif %}
+		We will review your application and confirm your provided credentials, <strong>typically responding by the end of the business day</strong>. If you have any additional questions,
+		you can reach us directly at xxx xxx-xxxx.
+	</p>
 	<div class="forms">
-		<p>You chose to submit your veterinary license and sales exemption forms via fax. Please fax the following forms to (732) 123-4567:</p>
-		<p class="file"><span class="glyphicon glyphicon-asterisk"></span> Copy of Veterinary License for Dr. Eric Kates (#2023920DUS)</p>
-		<p class="file"><span class="glyphicon glyphicon-asterisk"></span> Sales Tax Exemption Certificate for #903902-DEF </p>
+		<p>You chose to submit your veterinary license and sales exemption forms via fax. Please fax the following forms to (xxx) xxx-xxxx:</p>
+		{% if license %}
+		<p class="file"><span class="glyphicon glyphicon-asterisk"></span> Copy of Veterinary License for {{clinic.practitioner_name}} (#{{clinic.license_no}})</p>
+		{% endif %}
+		{% if sales %}
+		<p class="file"><span class="glyphicon glyphicon-asterisk"></span> Sales and/or Resale Exemption Certificate for #{{clinic.sales_no}} </p>
+		{% endif %}
 	</div>
 </div>
 

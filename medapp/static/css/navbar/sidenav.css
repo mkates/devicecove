@@ -10,8 +10,6 @@
 	padding: 2px 0 0 0;
 	background: #5ecadf;
 	background-image: -moz-linear-gradient(top, #5ECADF 0%, #56B9CC 100%);
-	border-top:1px solid #bbb;
-	margin-bottom: 20px;
 	box-shadow: 0 0 10px rgba(0,0,0,.3) inset;
 }
 

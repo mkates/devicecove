@@ -1,31 +1,19 @@
 {% extends 'account/sign/sign_base.html' %}
 
 {% block sign_content %}
-<form class="form sign-container validated-form" action='/form/signupform' method="POST">{% csrf_token %}
+<form class="form validated-form sign-container" action='/form/signupform' method="POST">{% csrf_token %}
 	<div class="signdiv row">
 		<div class="col-md-7 sign-form">
 			<h3>Create Your VetCove Account</h3>
 			<h4>Already have an account? <a href="/signin">Sign In Here</a></h4>
-				<!-- <div class="name">
-					<div class="form-group status-group firstname-group">
-						<p>First Name<span class="error" id="firstnametext"></span></p>
-						<input name="firstname" id="firstname" class="form-control" type="text" placeholder="First Name">
-						<div class="status">
-							<span class="glyphicon glyphicon-ok"></span>
-							<span class="glyphicon glyphicon-remove"></span>
-						</div>
-					</div><div class="form-group status-group">
-						<p>Last Name<span class="error" id="lastnametext"></span></p>
-						<input name="lastname" id="lastname" class="form-control" type="text" placeholder="Last Name">
-						<div class="status">
-							<span class="glyphicon glyphicon-ok"></span>
-							<span class="glyphicon glyphicon-remove"></span>
-						</div>
-					</div>
-				</div> -->
+			{% if signup_outcome %}
+			<div class="alert alert-danger">
+				<p>{{signup_outcome}}</p>
+			</div>
+			{% endif %}
 				<div class="form-group status-group">
 					<p>Email<span class="error">Invalid Email</span></p>
-					<input data-required='true' data-type='email' name="username" class="form-control" type="text" placeholder="Email">
+					<input data-required='true' data-type='email' name="username" class="form-control input" type="text" placeholder="Email" value='{{form.username.value}}'>
 					<div class="status">
 						<span class="glyphicon glyphicon-ok"></span>
 						<span class="glyphicon glyphicon-remove"></span>
@@ -33,7 +21,7 @@
 				</div>
 				<div class="form-group status-group">
 					<p>Password<span class="error">Minimum length 6</span></p>
-					<input data-required='true' data-type='password' name="password" class="form-control password" type="password" placeholder="Password">
+					<input data-required='true' data-type='password' name="password" class="form-control input password" type="password" placeholder="Password">
 					<div class="status">
 						<span class="glyphicon glyphicon-ok"></span>
 						<span class="glyphicon glyphicon-remove"></span>
@@ -41,7 +29,7 @@
 				</div>
 				<div class="form-group status-group">
 					<p>Re-enter Password<span class="error">Passwords do not match</span></p>
-					<input data-required='true' data-type='confirmpassword' name="confirmpassword" id="confirmpassword" class="form-control" type="password" placeholder="Re-enter Password">
+					<input data-required='true' data-type='confirmpassword' name="confirmpassword" id="confirmpassword" class="form-control input" type="password" placeholder="Re-enter Password">
 					<div class="status">
 						<span class="glyphicon glyphicon-ok"></span>
 						<span class="glyphicon glyphicon-remove"></span>
@@ -49,14 +37,26 @@
 				</div>
 				<div class="form-group status-group">
 					<p>Promotional Code<span class="success"></span></p>
-					<input data-required='false' data-type='promocode' name="promocode" id="promocode" class="form-control" type="text" placeholder="Promotional Code">
+					<input data-required='false' data-type='promocode' name="promocode" id="promocode" class="form-control input" type="text" placeholder="Promotional Code" value='{{form.promocode.value}}'>
+					<div class="status">
+						<span class="glyphicon glyphicon-ok"></span>
+						<span class="glyphicon glyphicon-remove"></span>
+					</div>
+				</div>
+				<div class="form-group status-group">
+					<p>Type of VetCove User<span class="error">Required</span></p>
+					<select data-type="select" name="usertype" data-required="true" class="form-control">
+						<option value="">Select VetCove User Type. . . </option>
+						<option value="clinic">Veterinarian, Clinic, or Hospital</option>
+						<option value="supplier">Manufacturer, Supplier, or Refurbisher</option>
+					</select>
 					<div class="status">
 						<span class="glyphicon glyphicon-ok"></span>
 						<span class="glyphicon glyphicon-remove"></span>
 					</div>
 				</div>
 				<div class="form-group submit-group">
-					<button class="button button-primary button-rounded">Complete Sign Up</button>
+					<button class="button button-primary button-rounded">Sign Up</button>
 				</div>
 		</div>
 		<div class="col-md-5 sign-info">

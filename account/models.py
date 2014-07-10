@@ -27,8 +27,7 @@ class BasicUser(models.Model):
 	user = models.OneToOneField(User)
 	creation_date = models.DateTimeField(auto_now_add=True)
 	last_login = models.DateTimeField(auto_now_add=True)
-
-	# Points to the parent group class, which can be a clinic, supplier, (or even an individual)#
+	### Points to the parent group class, which can be a clinic, supplier, individual, etc. ###
 	group = models.ForeignKey('Group',blank=True,null=True)
 	
 	def __unicode__(self):
@@ -101,7 +100,7 @@ class Clinic(Group):
 	practice_size = models.PositiveIntegerField(default=1)
 	website = models.CharField(max_length=60,blank=True,null=True)
 	PRACTICE_TYPES = (('small_animal','Small Animal'),('large_animal','Large Animal'),('mixed','Mixed'))
-	practice_type = models.CharField(max_length=60,choices=PRACTICE_TYPES,null=True,blank=True)
+	practice_type = models.CharField(max_length=60,choices=PRACTICE_TYPES,null=True,blank=True,default='')
 	
 	tos = models.BooleanField(default=False) # Did they agree to the TOS?
 
@@ -119,14 +118,26 @@ class Clinic(Group):
 ####### Supplier ###########################
 ############################################
 class Supplier(Group):
-	### Basic Information ###
-	company_name = models.CharField(max_length=60)
-	website = models.CharField(max_length=60,blank=True,null=True)
+	### Basic Information From Initial Form ###
+	name = models.CharField(max_length=50,unique=True,null=True,blank=True)
+	primary_contact = models.CharField(max_length=100,null=True,blank=True)
+	website = models.CharField(max_length=100,null=True,blank=True)
+	current_selling_method = models.CharField(max_length=100,null=True,blank=True)
+	interest_listings = models.BooleanField(default=False)
+	interest_community = models.BooleanField(default=False)
+	interest_promotions = models.BooleanField(default=False)
+	interest_direct = models.BooleanField(default=False)
+	product_size = models.CharField(max_length=100,null=True,blank=True)
+	referral_source = models.CharField(max_length=100,null=True,blank=True)
+	application_submitted = models.BooleanField(default=False) # Did they submit the new supplier form? #
+	
+	### Seconday Information ###
+	# logo_field
 	description = models.TextField()
 	can_sell_rx = models.BooleanField(default=False)
 
 	def __unicode__(self):
-		return self.company_name
+		return self.name
 
 
 ### Names of All the GPOs ###

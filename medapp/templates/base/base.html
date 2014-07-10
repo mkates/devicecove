@@ -271,9 +271,9 @@
 			</div>
 		</div>
 		{% endblock %}
-		{% if seller %}
+		{% if user.basicuser %}{% if user.basicuser.group_type == 'supplier' %}
 			{% include 'sellerportal/navbar.html' %}
-		{% endif %}
+		{% endif %}{% endif %}
 	</header>
 	<div class="content">
 		{% block content %}

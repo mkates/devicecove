@@ -40,7 +40,7 @@
     "pk": 2,
     "model": "account.supplier",
     "fields": {
-         "company_name":"Henry Schein",
+         "name":"Henry Schein",
          "website":"www.cnequine.com"
     }
 },
@@ -59,12 +59,10 @@
     "pk": 3,
     "model": "account.supplier",
     "fields": {
-         "company_name":"Midwest",
+         "name":"Midwest",
          "website":"www.cnequine.com"
     }
 },
-
-
 {
     "pk": 1,
     "model": "account.address",

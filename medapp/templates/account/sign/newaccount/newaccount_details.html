@@ -12,27 +12,29 @@
 	<div class="sign-form">
 		<div class="form-group status-group">
 			<p>Legal Entity Name<span class="error">Required</span></p>
-			<input data-type="text" data-required="true" name="name" class="form-control input" type="text" placeholder="Clinic Name">
+			<input data-type="text" data-required="true" name="name" class="form-control input" type="text" placeholder="Clinic Name" value="{% if clinic.name %}{{clinic.name}}{% endif %}">
 			<div class="status">
 				<span class="glyphicon glyphicon-ok"></span>
 				<span class="glyphicon glyphicon-remove"></span>
 			</div>
 		</div>
 		<div class="form-group status-group">
-			<p>Type of Organization</p>
-			<select name="organization_type" class="form-control">
-				<option>Individual</option>
-				<option>LLC</option>
-				<option>Personal</option>
-				<option>Sole-Proprietor</option>
-				<option>Non-Profit</option>
-				<option>Corporation</option>
-				<option>Partnership</option>
+			<p>Type of Organization <span class="error">Required</span></p>
+			<select name="organization_type" class="form-control" data-required="true" data-type="select">
+				<option value=''>Select Organization Type. . . </option>
+				<option {% if clinic.organization_type == 'Individual' %}selected{% endif %}>Individual</option>
+				<option {% if clinic.organization_type == 'LLC' %}selected{% endif %}>LLC</option>
+				<option {% if clinic.organization_type == 'Personal' %}selected{% endif %}>Personal</option>
+				<option {% if clinic.organization_type == 'Sole-Proprietor' %}selected{% endif %}>Sole-Proprietor</option>
+				<option {% if clinic.organization_type == 'Non-Profit' %}selected{% endif %}>Non-Profit</option>
+				<option {% if clinic.organization_type == 'Corporation' %}selected{% endif %}>Corporation</option>
+				<option {% if clinic.organization_type == 'Partnership' %}selected{% endif %}>Partnership</option>
+				<option {% if clinic.organization_type == 'Other' %}selected{% endif %}>Other</option>
 			</select>
 		</div>
 		<div class="form-group status-group">
 			<p>Clinic Website URL (if applicable)</p>
-			<input data-type="text" data-required="false" name="website" class="form-control" type="text" placeholder="Clinic Website URL">
+			<input data-type="text" data-required="false" name="website" class="form-control input" type="text" placeholder="Clinic Website URL" value="{% if clinic.website %}{{clinic.website}}{% endif %}">
 			<div class="status">
 				<span class="glyphicon glyphicon-ok"></span>
 				<span class="glyphicon glyphicon-remove"></span>
@@ -40,7 +42,7 @@
 		</div>
 		<div class="form-group status-group">
 			<p>Phone Number</p>
-			<input data-type="text" data-required="false" name="phonenumber" class="form-control" type="text" placeholder="Clinic Website URL">
+			<input data-type="text" data-required="true" name="phonenumber" class="form-control input" type="text" placeholder="Phone Number" value="{% if clinic.phonenumber %}{{clinic.phonenumber}}{% endif %}">
 			<div class="status">
 				<span class="glyphicon glyphicon-ok"></span>
 				<span class="glyphicon glyphicon-remove"></span>
@@ -48,30 +50,20 @@
 		</div>
 		<div class="inline">
 			<div class="form-group status-group first-group">
-				<p>Number of Veterinarians in Practice <span class="error">Required</span></p>
-				<select name="number_of_vets" class="form-control">
-					<option>1</option>
-					<option>2</option>
-					<option>3</option>
-					<option>4</option>
-					<option>5</option>
-					<option>6</option>
-					<option>7</option>
-					<option>8</option>
-					<option>9</option>
-					<option>10</option>
-					<option>11+</option>
+				<p>Number of Vets in Practice <span class="error">Required</span></p>
+				<select name="number_of_vets" class="form-control" data-required="true" data-type="select">
+					<option value=''>Select Number of Vets. . . </option>
+					{% for i in size_range %}
+						<option {% if clinic.number_of_vets == i %}selected{% endif %} value='{{i}}'>{{i}} veterinarians</option>
+					{% endfor %}
 				</select>
 			</div><div class="form-group status-group first-group">
 				<p>Total Practice Size <span class="error">Required</span></p>
-				<select name="practice_size" class="form-control">
-					<option>1</option>
-					<option>2-3</option>
-					<option>4-5</option>
-					<option>6-10</option>
-					<option>11-15</option>
-					<option>16-20</option>
-					<option>21+</option>
+				<select name="practice_size" class="form-control" data-required="true" data-type="select">
+					<option value=''>Select Practice Size. . . </option>
+					{% for i in size_range %}
+						<option {% if clinic.practice_size == i %}selected{% endif %} value='{{i}}'>{{i}} people</option>
+					{% endfor %}
 				</select>
 			</div>
 		</div>
