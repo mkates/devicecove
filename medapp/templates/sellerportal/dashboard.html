@@ -1,13 +1,418 @@
-{% extends 'base/base.html' %}
+{% extends 'account/pages/browse/base.html' %}
+{% block headertitle %}VetCove Dashboard{% endblock %}
 
-{% block css %}
+{% block browse_css %}
+<style>
+.dashboard-row {
+	margin-bottom: 0px;
+}
+.dashboard-row  .title {
+	border-bottom:1px solid #dadada;
+	padding: 10px 20px;
+}
+.dashboard-row .more-link {
+	position:absolute;
+	bottom: 5px;
+	right: 10px;
+	font-size: 13px;
+}
+.more-link:hover {
+	text-decoration: underline;
+}
+.dashboard-row  h3 {
+	padding: 0;
+	font-weight: 200;
+	font-size: 18px;
+	color: #555;
+	margin: 0;
+}
+.dashboard-row .subtext {
+	font-size: 12px;
+	color: #777;
+	margin-bottom: 0;
+}
+.split-box-body {
+	padding: 10px 10px 20px 10px;
+}
+
+.credits .goal {
+	display:table;
+	width: 100%;
+	text-align: center;
+	margin: 0px 0 0px 0;
+}
+.credits .goal .meter {
+	width: 60px;
+	display:table-cell;
+	vertical-align: top;
+}
+.credits .goal .info {
+	padding-left: 20px;
+	text-align: left;
+	display:table-cell;
+	vertical-align: top;
+}
+.credits .goal .label {
+	vertical-align: top;
+	margin-top: 2px;
+	background: #eee;
+	border: 1px solid #ddd;
+	display:inline-block;
+	color: #888;
+}
+.credits .goal p {
+	color: #333;
+	font-size: 13px;
+	margin-bottom: 3px;
+}
+.credits .goal h6 {
+	margin: 0;
+	display:inline-block;
+	clear:both;
+	font-size: 12px;
+	color: #888;
+}
+/* Recent Orders */
+.second-table {
+	padding: 0px 10px;
+	font-size: 13px;
+	border-bottom:1px solid #d6d6d6;
+	color: #333;
+}
+.second-table a:hover {
+	text-decoration: underline;
+}
+.second-table .complete {
+	font-weight:bold;
+	color: #2fb950;
+}
+.second-table .transit {
+	font-weight:bold;
+	color: #d28726;
+}
+.second-table .process {
+	font-weight:bold;
+	color: #488ace;
+}
+/*Listing */
+.nolisting {
+	display:none;
+}
+.nolisting p {
+	margin: 30px 20px 20px 20px;
+	font-size: 13px;
+	color: #666;
+}
+.listing {
+	margin-top: 25px;
+}
+.listing .image-td {
+	width: 100px;
+	text-align: center;
+}
+.listing table {
+	margin: 0 auto;
+}
+.listing table td {
+	vertical-align: top;
+	padding-bottom: 20px;
+}
+.listing .image-td img {
+	max-width: 100px;
+	border-radius: 3px;
+	padding: 10px;
+	box-shadow: 0 0 2px #eee;
+	border:1px solid #eee;
+	max-height: 60px;
+}
+.listing .info-td {
+	padding-left: 10px;
+	text-align: left;
+}
+.listing .info-td a {
+	font-size: 14px;
+	color: #333;
+}
+.listing .info-td p {
+	font-size: 12px;
+	color: #777;
+	margin: 2px 0 0 0;
+}
+/*News */
+.news-item {
+	margin-bottom: 15px;
+	padding: 0 10px;
+}
+.news-item p {
+	font-size: 12px;
+	margin-bottom: 0;
+}
+.news-item a {
+	font-size: 12px;
+	margin-bottom: 0;
+}
+.news-item .date {
+	color: #aaa;
+	font-size: 11px;
+}
+/*Reviews Row */
+.full-row {
+	margin-bottom: 10px;
+	position:relative;
+	/*border-top:none;
+	border-top-right-radius: 0px;
+	border-top-left-radius: 0px;*/
+	/*background-image: -moz-linear-gradient(bottom, #FFFFFF 0%, #fafafa 80%, #EEEEEE 100%);*/
+}
+.full-row h3 {
+	border-bottom:1px solid #dadada;
+	margin: 5px 0px;
+	padding: 5px 20px 10px 20px;
+	font-weight: 200;
+	font-size: 18px;
+	color: #555;
+	text-align:left;
+}
+.full-row h3 span {
+	position:absolute;
+	right: 20px;
+	padding-top: 6px;
+	font-size: 13px;
+}
+.review {
+	padding: 10px 5px 20px 5px;
+}
+.review .product-preview-box-container {
+	width: 20%;
+	float: left;
+	margin: 0px;
+	text-align:center;
+}
+.review .product-preview-box-container .button {
+	display:inline-block;
+	margin-bottom: 10px;
+	letter-spacing: .2px;
+}
+.review .product-preview-box-container .button:hover {
+	background: #d6d6d6;
+}
+.review .product-preview-box-container {
+	border:none;
+}
+.review .product-preview-box-container a:hover {
+	box-shadow: none;
+}
+
+/*Listing */
+.nolisting {
+display:none;
+}
+.nolisting p {
+margin: 30px 20px 20px 20px;
+font-size: 13px;
+color: #666;
+}
+.listing {
+margin: 10px 10px;
+}
+.listing .image-td {
+width: 100px;
+text-align: center;
+}
+.listing table {
+	width: 100%;
+}
+.listing table td {
+vertical-align: top;
+padding-bottom: 20px;
+}
+.listing .image-td img {
+max-width: 100px;
+border-radius: 3px;
+padding: 10px;
+box-shadow: 0 0 2px #eee;
+border:1px solid #eee;
+max-height: 60px;
+}
+.listing .info-td {
+padding-left: 10px;
+text-align: left;
+}
+.listing .info-td a {
+font-size: 13px;
+color: #333;
+}
+.listing .info-td p {
+font-size: 12px;
+color: #777;
+margin: 2px 0 0 0;
+}
+
+/*Additional dashboard styling */
+.stat {
+	text-align: center;
+}
+.stat h2 {
+	margin:10px 5px 0 5px;
+	font-size: 36px;
+	color: #009cc3;
+}
+.stat p {
+	font-size: 12px;
+	color: #888;
+}
 </style>
 {% endblock %}
-
-{% block js %}
-
+{% block browse_js %}
+<script>
+$(document).ready(function(){
+	$('.tooltip-div').tooltip();
+});
 </script>
 {% endblock %}
-{% block content %}
-Seller Dashboard Not Yet Complete
+{% block browse_content %}
+<div class="intro-box-container">
+	<div class="intro-box">
+		<div class="intro-image" style='background-image:url("{{STATIC_URL}}img/misc/topicons.png");background-position: -0px 0' ></div>
+		<h3 class="page-title">Dashboard<div class="gradient"></div></h3>
+		<div class="links">
+		</div>
+	</div>
+</div>
+<div class="tablecell dashboard-row">
+	<div class="tablecell-col tablecell-2 vetbox stat">
+		<h2>6</h2>
+		<p>Active Listings</p>
+	</div>
+	<div class="tablecell-col tablecell-2 vetbox stat">
+		<h2>24</h2>
+		<p>Products Sold</p>
+	</div>
+	<div class="tablecell-col tablecell-2 vetbox stat">
+		<h2>$6,312</h2>
+		<p>In Sales</p>
+	</div>
+	<div class="tablecell-col tablecell-2 vetbox stat">
+		<h2>334</h2>
+		<p>Product Page Views</p>
+	</div>
+	<div class="tablecell-col tablecell-2 vetbox stat">
+		<h2>B+</h2>
+		<p>VetCove Response Rate</p>
+	</div>
+	<div class="tablecell-col tablecell-2 vetbox stat">
+		<h2>3</h2>
+		<p>Promotions Run</p>
+	</div>
+</div>
+<div class="tablecell dashboard-row">
+  <div class="tablecell-col tablecell-4 vetbox">
+  	<div class="order-history tablecell-content">
+  		<div class="title">
+			<h3>Recent Sales History</h3>
+			<p class="subtext">Recently Sold Items</p>
+		</div>
+		<div class="split-box-body">
+			<table class="table table-striped second-table">
+				<thead>
+					<th>Order</th>
+					<th>Date</th>
+					<th>Amount</th>
+					<th>Status</th>
+				</thead>
+				<tbody>	
+					<tr>
+						<td><a href="#">#DH82J28</a></td>
+						<td>June 14</td>
+						<td>$349.92</td>
+						<td class="transit tooltip-div" data-toggle="tooltip" data-placement="left" title="Location: Meral Park, NJ. Expected arrval June 12th, 9-12AM">In Transit</td>
+					</tr>
+					<tr>
+						<td><a href="#">#D82HD92</a></td>
+						<td>June 11</td>
+						<td>$289.12</td>
+						<td class="transit tooltip-div" data-toggle="tooltip" data-placement="left" title="Location: Dawson, DE. Expected arrval June 12th, 12-5PM">In Transit</td>
+					</tr>
+					<tr>
+						<td><a href="#">#29HD82H</a></td>
+						<td>June 4</td>
+						<td>$1,423.12</td>
+						<td class="process tooltip-div" data-toggle="tooltip" data-placement="left" title="Pending processing and shipment">Processing</td>
+					</tr>
+					<tr>
+						<td><a href="#">#ASD89J2</a></td>
+						<td>June 3</td>
+						<td>$16.13</td>
+						<td class="complete">Complete</td>
+					</tr>
+					<tr>
+						<td><a href="#">#29FS3DH</a></td>
+						<td>June 1</td>
+						<td>$832.21</td>
+						<td class="complete">Complete</td>
+					</tr>
+					<tr>
+						<td><a href="#">#29DISQJ2</a></td>
+						<td>May 30</td>
+						<td>$192.21</td>
+						<td class="complete">Complete</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<a class="more-link" href="/account/orderhistory">View Full Sales History &rarr;</a>
+  	</div>
+  </div>
+  <div class="tablecell-col tablecell-4 vetbox">
+  	<div class="news tablecell-content">
+  		<div class="title">
+			<h3>Community</h3>
+			<p class="subtext">Community Activity</p>
+		</div>
+		<div class="split-box-body">
+			<div class="news-item">
+				<p><span class="label label-warning">Answered Question</span> Joe from Merial has answered your question, 'Is red bumps a common side effect of this medication?"</p>
+				<p class="date">2 days ago</p>
+			</div>
+			<div class="news-item">
+				<p><span class="label label-primary">Review Comment</span> Office Manager in Central NJ commented on your review of Salix Solution</p>
+				<p class="date">4 days ago</p>
+			</div>
+			<div class="news-item">
+				<p><span class="label label-warning">Answered Question</span> Mike from Pheonix has answered your question, 'Is this product a good substitute for phenylbutazone?"</p>
+				<p class="date">6 days ago</p>
+			</div>
+		</div>
+		<a class="more-link" href="/news">View All Community Activity &rarr;</a>
+  	</div>
+  </div>
+   <div class="tablecell-col tablecell-4 vetbox">
+  	<div class="news tablecell-content">
+  		<div class="title">
+			<h3>Promotions</h3>
+			<p class="subtext">You currently have <strong>3</strong> active promotions</p>
+		</div>
+		<div class="split-box-body">
+			<div class="news-item">
+				<p><span class="label label-info">Manufacturer Promotion</span> Receive a $100 Visa Gift Card if you reach $5,000 in sales</p>
+				<p class="date">Runs May 1st, 2014 - Aug 1st, 2014</p>
+				<a href='#'>View promotion details and performance &rarr;</a>
+			</div>
+			<div class="news-item">
+				<p><span class="label label-info">Manufacturer Promotion</span> Receive a $250 Visa Gift Card if you reach $10,000 in sales</p>
+				<p class="date">Runs May 1st, 2014 - Aug 1st, 2014</p>
+				<a href='#'>View promotion details and performance &rarr;</a>
+			</div>
+			<div class="news-item">
+				<p><span class="label label-success">VetCove Promotion</span> Buy $250 in Pheonix products, and earn 250 in VetCove credits</p>
+				<p class="date">Credit Goal for July</p>
+				<a href='#'>View promotion details and performance &rarr;</a>
+			</div>
+		</div>
+		<a class="more-link" href="/news">View All Promotions &rarr;</a>
+  	</div>
+  </div>
+</div>
+
+
 {% endblock %}

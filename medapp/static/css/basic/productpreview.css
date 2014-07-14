@@ -48,6 +48,7 @@
 .product-preview-box-container a:hover{
 	box-shadow: 0 0 12px rgba(0,0,0,.1) inset;
 	background: #fff;
+	text-decoration:none;
 }
 .product-preview-image {
 	background:none;

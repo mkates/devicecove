@@ -71,10 +71,14 @@
 
 {% endblock %}
 {% block content %}
-<h3 class="page-title">
-	Community Activity<span><a href='/portal/help'>Need help? Just ask</a></span>
-	<div class="gradient"></div>
-</h3>
+<div class="intro-box-container">
+	<div class="intro-box">
+		<div class="intro-image" style='background-image:url("{{STATIC_URL}}img/misc/topicons.png");background-position: -140px 0' ></div>
+		<h3 class="page-title">Community Activity<div class="gradient"></div></h3>
+		<div class="links">
+		</div>
+	</div>
+</div>
 <div class="vetbox help row">
 	<div class="col-sm-2 sidebar">
 		<table class="stats">

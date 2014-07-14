@@ -26,7 +26,11 @@ def browserUpgrade(request):
 def index(request):
 	# If the user is authenticated, show the appropriate homepage
 	if request.user.is_authenticated():
-		return HttpResponseRedirect('/dashboard')
+		group_type = request.user.basicuser.group_type() 
+		if group_type == 'supplier':
+			return HttpResponseRedirect('/portal/dashboard')
+		else:
+			return HttpResponseRedirect('/dashboard')
 	# If the user is not logged in, render the generic page
 	else:
 		return render_to_response('general/index.html',{},context_instance=RequestContext(request))

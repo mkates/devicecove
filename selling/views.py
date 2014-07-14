@@ -22,6 +22,9 @@ import helper.commission as commission
 def portalHelp(request):
 	return render_to_response('sellerportal/help.html',{'seller':True},context_instance=RequestContext(request))
 
+def portalDashboard(request):
+	return render_to_response('sellerportal/dashboard.html',{'seller':True,'portal_dashboard':True},context_instance=RequestContext(request))
+
 def portalInventory(request):
 	### !!! Add Security Layer Here ###
 	supplier = Supplier.objects.get(id=2)
@@ -32,7 +35,7 @@ def portalProduct(request):
 	### !!! Add Security Layer Here ###
 	manufacturer = Manufacturer.objects.get(id=7)
 	products = Product.objects.filter(manufacturer=manufacturer)
-	return render_to_response('sellerportal/product/home.html',{'seller':True,'portal_product':True,'products':products},context_instance=RequestContext(request))
+	return render_to_response('sellerportal/product/home.html',{'seller':True,'portal_products':True,'products':products},context_instance=RequestContext(request))
  
 def portalProductEdit(request,productid):
 	### !!! Add Security Layer Here ###

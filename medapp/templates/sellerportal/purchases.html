@@ -22,10 +22,15 @@ $(document).ready(function(){
 </script>
 {% endblock %}
 {% block content %}
-<h3 class="page-title">
-	Purchases<span><a href='#'>Need Help? Just Ask</a></span>
-	<div class="gradient"></div>
-</h3>
+<div class="intro-box-container">
+	<div class="intro-box">
+		<div class="intro-image" style='background-image:url("{{STATIC_URL}}img/misc/topicons.png");background-position: -280px 0' ></div>
+		<h3 class="page-title">Your Sales<div class="gradient"></div></h3>
+		<div class="links">
+
+		</div>
+	</div>
+</div>
 <div class="table-responseive listing-table-container">
 	<table id="listing-table" class="table table-striped tablesorter">
 		<thead>

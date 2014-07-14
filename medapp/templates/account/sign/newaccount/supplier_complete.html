@@ -1,0 +1,43 @@
+{% extends 'account/sign/sign_base.html' %}
+{% block headertitle %}New Account{% endblock %}
+{% block sign_css %}
+<style>
+.sign-container {
+	padding: 20px;
+	text-align: center;
+}
+.sign-container h3 {
+	margin: 0;
+	padding: 5px 10px 15px 10px;
+	color: #333;
+}
+.sign-container p {
+	font-size: 13px;
+}
+.sign-container .forms {
+	margin-top: 20px;
+	padding-top: 20px;
+	border-top:1px solid #ddd;
+}
+.sign-container .forms .file {
+	font-size: 16px;
+	font-weight: bold;
+}
+.sign-container .forms .file span {
+	color: #4ccd76;
+}
+</style>
+{% endblock %}
+
+{% block sign_js %}
+
+{% endblock %}
+{% block sign_content %}
+<div class="sign-container">
+	<h3>We have received your information!</h3>
+	<p>
+		We will be calling you shortly to verify your information, and walk you through how you can use VetCove to maximize the sales and community buiding of your brand and products!
+	</p>
+</div>
+
+{% endblock %}

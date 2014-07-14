@@ -129,7 +129,8 @@ urlpatterns = patterns('',
     url(r'^portal/analytics','selling.views.portalAnalytics'),
     url(r'^portal/account','selling.views.portalAccount'),
     url(r'^portal/reports','selling.views.portalReports'),
-    url(r'^portal/','selling.views.portalProduct'),
+    url(r'^portal/dashboard','selling.views.portalDashboard'),
+    url(r'^portal/','selling.views.portalDashboard'),
 
 
 

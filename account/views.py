@@ -275,7 +275,8 @@ def newSupplierSignup(request):
 @login_required
 def supplierSignupForm(request):
 	states = [state.name for state in us.states.STATES] # Generates a list of all 50 states
-	supplier = request.user.basicuser.group_handle()
+	basicuser = request.user.basicuser
+	supplier = basicuser.group_handle()
 	if request.method == 'POST':
 		form = SupplierSignupForm(request.POST)
 		if form.is_valid():
@@ -287,7 +288,7 @@ def supplierSignupForm(request):
 			city = form.cleaned_data['city']
 			state = form.cleaned_data['state']
 			zipcode = form.cleaned_data['zipcode']
-			address = Address(group = request.user.basicuser.group,
+			address = Address(group = basicuser.group,
 				name = supplier.name,
 				address_one=address_one,
 				address_two=address_two,
@@ -295,6 +296,8 @@ def supplierSignupForm(request):
 				state = state,
 				zipcode = zipcode
 				)
+			address.save()
+			supplier.address = address
 			supplier.website = form.cleaned_data['website']
 			supplier.current_selling_method = form.cleaned_data['current_selling_method']
 			supplier.interest_listings = form.cleaned_data['interest_listings']

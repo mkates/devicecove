@@ -35,6 +35,10 @@
 <body>
 {% block body_content %}
 <div class="body-container">
+	<!-- <div class="alert alert-danger alert-dismissible alert-top" role="alert">
+	  <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+	  <strong>Action Still Required!</strong> You cannot access pricing until all verification forms are completed.
+	</div> -->
 	<header class="header">
 		<div class="mainheader">
 			<div class="left-header">
@@ -46,44 +50,113 @@
 				</a>
 			</div>
 			{% if basicuser %}
-			<div class="selections">
-				<a href='/dashboard' class="col12-8 first {% if dashboard %}active{% endif %}">
-					<div class="item">
-						<div class="item-image" style='background-image:url("{{STATIC_URL}}img/misc/topicons.png")'></div>
-						<p>Dashboard</p>
+				{% if clinic %}
+					<div class="selections">
+						<a href='/dashboard' class="col12-8 first {% if dashboard %}active{% endif %}">
+							<div class="item">
+								<div class="item-image" style='background-image:url("{{STATIC_URL}}img/misc/topicons.png")'></div>
+								<p>Dashboard</p>
+							</div>
+						</a>
+						<a href='/deals' class="col12-8 {% if browse_deals %}active{% endif %}">
+							<div class="item">
+								<div class="item-image" style='background-image:url("{{STATIC_URL}}img/misc/topicons.png");background-position: -21px 0'></div>
+								<p>Promotions</p>
+							</div>
+						</a>
+						<a href='/trending' class="col12-8{% if browse_trending %} active{% endif %}">
+							<div class="item">
+								<div class="img">
+									<div class="item-image" style='background-image:url("{{STATIC_URL}}img/misc/topicons.png");background-position: -42px 0' ></div>
+								</div>
+								<p>Trending</p>
+							</div>
+						</a>
+						<a href='/new' class="col12-8 {% if browse_new %} active{% endif %}">
+							<div class="item">
+								<div class="img">
+									<div class="item-image" style='background-image:url("{{STATIC_URL}}img/misc/topicons.png");background-position: -63px 0'></div>
+								</div>
+								<p>New Products</p>
+							</div>
+						</a>
+						<a href='/rewards' class="col12-8 last{% if browse_rewards %} active{% endif %}">
+							<div class="item">
+								<div class="img">
+									<div class="item-image" style='background-image:url("{{STATIC_URL}}img/misc/topicons.png");background-position: -84px 0' ></div>
+								</div>
+								<p>Rewards</p>
+							</div>
+						</a>
 					</div>
-				</a>
-				<a href='/deals' class="col12-8 {% if browse_deals %}active{% endif %}">
-					<div class="item">
-						<div class="item-image" style='background-image:url("{{STATIC_URL}}img/misc/topicons.png");background-position: -21px 0'></div>
-						<p>Promotions</p>
+				{% elif supplier %}
+					<div class="selections selections-supplier">
+						<a href='/portal/dashboard' class="col12-8 first {% if portal_dashboard %} active{% endif %}">
+							<div class="item">
+								<div class="img">
+									<div class="item-image" style='background-image:url("{{STATIC_URL}}img/misc/topicons.png");background-position: -0px 0' ></div>
+								</div>
+								<p>Dashboard</p>
+							</div>
+						</a>
+						<a href='/portal/inventory' class="col12-8{% if portal_inventory %} active{% endif %}">
+							<div class="item">
+								<div class="img">
+									<div class="item-image" style='background-image:url("{{STATIC_URL}}img/misc/topicons.png");background-position: -147px 0' ></div>
+								</div>
+								<p>Live Listings</p>
+							</div>
+						</a>
+						<a href='/portal/products' class="col12-8 {% if portal_products %} active{% endif %}">
+							<div class="item">
+								<div class="img">
+									<div class="item-image" style='background-image:url("{{STATIC_URL}}img/misc/topicons.png");background-position: -168px 0' ></div>
+								</div>
+								<p>Products</p>
+							</div>
+						</a>
+						<a href='/portal/purchases' class="col12-8{% if portal_purchases %} active{% endif %}">
+							<div class="item">
+								<div class="img">
+									<div class="item-image" style='background-image:url("{{STATIC_URL}}img/misc/topicons.png");background-position: -210px 0' ></div>
+								</div>
+								<p>Sales</p>
+							</div>
+						</a>
+						<a href='/portal/community' class="col12-8 {% if portal_community %} active{% endif %}">
+							<div class="item">
+								<div class="img">
+									<div class="item-image" style='background-image:url("{{STATIC_URL}}img/misc/topicons.png");background-position: -105px 0' ></div>
+								</div>
+								<p>Community</p>
+							</div>
+						</a>
+						<a href='/portal/promotions' class="col12-8{% if portal_promotions %} active{% endif %}">
+							<div class="item">
+								<div class="img">
+									<div class="item-image" style='background-image:url("{{STATIC_URL}}img/misc/topicons.png");background-position: -21px 0' ></div>
+								</div>
+								<p>Promotions</p>
+							</div>
+						</a>
+						<!-- <a href='/portal/performance' class="col12-8{% if portal_performance %} active{% endif %}">
+							<div class="item">
+								<div class="img">
+									<div class="item-image" style='background-image:url("{{STATIC_URL}}img/misc/topicons.png");background-position: -189px 0' ></div>
+								</div>
+								<p>Performance</p>
+							</div>
+						</a> -->
+						<a href='/portal/reports' class="col12-8 last {% if portal_reports %} active{% endif %}">
+							<div class="item last">
+								<div class="img">
+									<div class="item-image" style='background-image:url("{{STATIC_URL}}img/misc/topicons.png");background-position: -42px 0' ></div>
+								</div>
+								<p>Reports</p>
+							</div>
+						</a>
 					</div>
-				</a>
-				<a href='/trending' class="col12-8{% if browse_trending %} active{% endif %}">
-					<div class="item">
-						<div class="img">
-							<div class="item-image" style='background-image:url("{{STATIC_URL}}img/misc/topicons.png");background-position: -42px 0' ></div>
-						</div>
-						<p>Trending</p>
-					</div>
-				</a>
-				<a href='/new' class="col12-8 {% if browse_new %} active{% endif %}">
-					<div class="item">
-						<div class="img">
-							<div class="item-image" style='background-image:url("{{STATIC_URL}}img/misc/topicons.png");background-position: -63px 0'></div>
-						</div>
-						<p>New Products</p>
-					</div>
-				</a>
-				<a href='/rewards' class="col12-8 last{% if browse_rewards %} active{% endif %}">
-					<div class="item">
-						<div class="img">
-							<div class="item-image" style='background-image:url("{{STATIC_URL}}img/misc/topicons.png");background-position: -84px 0' ></div>
-						</div>
-						<p>Rewards</p>
-					</div>
-				</a>
-			</div>
+				{% endif %}
 			{% else %}
 			<div class="selections text-selections right">
 				<div class="menu-item">
@@ -160,7 +233,7 @@
 					<form action='/form/search' method="POST">
 						<table id="search-table">
 							<tr>
-								<td><input class="form-control" id="searchinput" autocomplete="off" name="search" placeholder="Search Equipment and Supplies. . ."/><span id="search-exit">&#10006;</span></td>
+								<td><input class="form-control" id="searchinput" autocomplete="off" name="search" placeholder="{% if supplier %}Search products, inventory, purchases, veterinarians{% else %}Search Equipment and Supplies. . .{% endif %}"/><span id="search-exit">&#10006;</span></td>
 								<td class="button-td"><button value="submit" class="button button-rounded">Go</button></td>
 							</tr>
 						</table>
@@ -184,6 +257,7 @@
 					</div>
 				</div>
 			</div>
+			{% if not supplier %}
 			<div class="fixed element">
 				<div class="element-relative">
 					<a href="#" class="bar">
@@ -240,6 +314,25 @@
 					</div>
 				</div>
 			</div>
+			{% endif %}
+			{% if supplier %}
+			<div class="fixed element">
+				<div class="element-relative">
+					<a href="#" class="bar">
+						<div class="two-row">
+							<p><span class="glyphicon glyphicon-flag"></span> Notifications <span class="label">4</span> <b class="caret"></b></p>
+						</div>
+					</a>
+					<div class="dropdown-box notification-dropdown">
+						<a class="" href="#">Colts Neck Equine has made a purchase <span>2 min ago</span></a>
+						<a class="" href="#">Joe from Midville asked a question about Phenylbutazone Powder <span>6 hrs ago</span></a>
+						<a class="" href="#">Mike (Colts Neck Equine) commented on your answer <span>1 day ago</span></a>
+						<a class="" href="#">Your promotion has ended! View promotion results. <span>1 day ago</span></a>
+						<a class="button button-rounded button-flat" href="#">View all Notifications &rarr;</a>
+					</div>
+				</div>
+			</div>
+			{% endif %}
 			<div class="fixed element noborder">
 				<div class="element-relative">
 					<a href="#" class="bar">
@@ -253,15 +346,21 @@
 						<p class="newcustomer">New Customer? <a href='/signup'>Sign Up Here</a></p>
 						<div class="divider"></div>
 					{% endif %}
-						<a class="" href="/account/profile">Your Account</a>
-						<a class="" href="#">Your Orders</a>
-						<a class="" href="#">Your Returns</a>
-						<a class="" href="#">Purchase Analytics</a>
-						<div class="divider"></div>
-						<a class="" href="/account/questions">Your Questions</a>
-						<a class="" href="/account/reviews">Your Reviews</a>
-						<div class="divider"></div>
-						<a class="" href="/account/sell">Your Listed Items</a>
+						{% if not supplier %}
+							<a class="" href="/account/profile">Your Account</a>
+							<a class="" href="#">Your Orders</a>
+							<a class="" href="#">Your Returns</a>
+							<a class="" href="#">Purchase Analytics</a>
+							<div class="divider"></div>
+							<a class="" href="/account/questions">Your Questions</a>
+							<a class="" href="/account/reviews">Your Reviews</a>
+							<div class="divider"></div>
+							<a class="" href="/account/sell">Your Listed Items</a>
+						{% else %}
+							<a class="" href="/account/profile">Your Account</a>
+							<a class="" href="#">Settings</a>
+							<a class="" href="#">Help</a>
+						{% endif %}
 						{% if basicuser %}
 						<div class="divider"></div>
 						<a class="" href="/logout">Not {{user.email}}? Sign Out</a>
@@ -271,9 +370,6 @@
 			</div>
 		</div>
 		{% endblock %}
-		{% if user.basicuser %}{% if user.basicuser.group_type == 'supplier' %}
-			{% include 'sellerportal/navbar.html' %}
-		{% endif %}{% endif %}
 	</header>
 	<div class="content">
 		{% block content %}
@@ -408,25 +504,6 @@ var noImageURL = '{{STATIC_URL}}img/noimage/noimage.jpg';
 			$("#main-logo-alt").animate({
 				opacity:0
 			},500)
-		});
-	});
-	//*************************************************
-	//************ Mobile Search Bar ******************
-	//*************************************************
-	$(document).ready(function() {
-		$("#mobile-searchbar input").focus(function() {
-			console.log("SUP");
-			$("#sidr").css('width','100%');
-			$(".sidr-menu").css('display','none');
-			$("#mobile-searchbar .search-cancel").css('display','block');
-			$("#sidr-searchresults").css('display','block');
-		});
-		$("#mobile-searchbar .search-cancel").click(function() {
-			$("#sidr").css('width','260px');
-			$(".sidr-menu").css('display','block');
-			$("#mobile-searchbar .search-cancel").css('display','none');
-			$("#sidr-searchresults").css('display','none');
-			$("#mobile-searchbar input").val('');
 		});
 	});
 

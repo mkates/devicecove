@@ -1,0 +1,154 @@
+{% extends 'account/sign/newaccount/newaccount_base.html' %}
+
+{% block headertitle %}Supplier | Registration {% endblock %}
+{% block newaccount_action %}/form/supplier/signup{% endblock %}
+
+{% block newaccount_previous %}{% endblock %}
+{% block newaccount_next %}<button class="button button-primary button-rounded">Join VetCove</button>{% endblock %}
+{% block newaccount_content %}
+	<div class="col-md-12 newaccount-header">
+		<h3>Manufacturer and Supplier Sign Up</h3>
+		<h4>Join our growing community of maufacturers and distributors. Reach more veterinarians where they purchase!</h4>
+	</div>
+	<div class="sign-form">
+		{% with clinic.address as address %}
+		<div class="form-group status-group">
+			<p>Company Name <span class="error">Required</span></p>
+			<input data-type="text" data-required="true" name="name" class="form-control input" type="text" placeholder="Company Name">
+			<div class="status">
+				<span class="glyphicon glyphicon-ok"></span>
+				<span class="glyphicon glyphicon-remove"></span>
+			</div>
+		</div>
+
+		<div class="form-group status-group">
+			<p>Primary Contact Name <span class="error">Required</span></p>
+			<input data-type="text" data-required="true" name="primary_contact" class="form-control input" type="text" placeholder="Primary Contact Name">
+			<div class="status">
+				<span class="glyphicon glyphicon-ok"></span>
+				<span class="glyphicon glyphicon-remove"></span>
+			</div>
+		</div>
+		<div class="form-group status-group">
+			<p>Phone Number <span class="error">Required</span></p>
+			<input data-type="text" data-required="true" name="phonenumber" class="form-control input" type="text" placeholder="Phone Number" value="{% if address %}{{address.address_two}}{% endif %}">
+			<div class="status">
+				<span class="glyphicon glyphicon-ok"></span>
+				<span class="glyphicon glyphicon-remove"></span>
+			</div>
+		</div>
+		<div class="form-group status-group">
+			<p>Clinic Address (Street Address, P.O. Box)<span class="error">Required</span></p>
+			<input data-type="text" data-required="true" name="address_one" class="form-control input" type="text" placeholder="Street Address, P.O. Box, Company Name, C/O" value="{% if address %}{{address.address_one}}{% endif %}">
+			<div class="status">
+				<span class="glyphicon glyphicon-ok"></span>
+				<span class="glyphicon glyphicon-remove"></span>
+			</div>
+		</div>
+		<div class="form-group status-group">
+			<p>Clinic Address (Apartment, Suite, Unit, Building, Floor, etc.)</p>
+			<input data-type="text" data-required="false" name="address_two" class="form-control input" type="text" placeholder="Apartment, Suite, Unit, Building, Floor, etc." value="{% if address %}{{address.address_two}}{% endif %}">
+			<div class="status">
+				<span class="glyphicon glyphicon-ok"></span>
+				<span class="glyphicon glyphicon-remove"></span>
+			</div>
+		</div>
+		<div class="form-group status-group">
+				<p>City<span class="error">Required</span></p>
+				<input data-type="text" data-required="true" name="city" class="form-control input" type="text" placeholder="City" value="{% if address %}{{address.city}}{% endif %}">
+				<div class="status">
+					<span class="glyphicon glyphicon-ok"></span>
+					<span class="glyphicon glyphicon-remove"></span>
+				</div>
+			</div>
+		<div class="inline">
+			<div class="form-group status-group first-group">
+				<p>State<span class="error">Required</span></p>
+				<select name="state" class="form-control" data-required='true' data-type="select">
+					<option value=''>Select State. . . </option>
+					{% for state in states %}
+						<option value="{{state}}" {% if address %}{% if address.state == state %}selected{% endif %}{% endif %}>{{state}}</option>
+					{% endfor %}
+				</select>
+			</div><div class="form-group status-group">
+				<p>Zipcode / Postal Code<span class="error">Required</span></p>
+				<input data-type="text" data-required="true" name="zipcode" class="form-control input" type="text" placeholder="Zipcode" value="{% if address %}{{address.zipcode}}{% endif %}">
+				<div class="status">
+					<span class="glyphicon glyphicon-ok"></span>
+					<span class="glyphicon glyphicon-remove"></span>
+				</div>
+			</div>
+		</div>
+		<div class="form-group status-group">
+			<p>Website URL <span class="error">Required</span></p>
+			<input data-type="text" data-required="true" name="website" class="form-control input" type="text" placeholder="Website URL">
+			<div class="status">
+				<span class="glyphicon glyphicon-ok"></span>
+				<span class="glyphicon glyphicon-remove"></span>
+			</div>
+		</div>
+		<div class="form-group status-group">
+			<p>How do you currently sell your products</p>
+			<select name="current_selling_method" class="form-control" data-required='true' data-type="select">
+				<option value=''>Select an option. . . </option>
+				<option value='3'>Exclusively through distributors</option>
+				<option value='5'>Predominantly through distributors</option>
+				<option value='10'>Mixed between distributors and direct to veterinarians</option>
+				<option value='15'>Predominantly direct to veterinarians</option>
+				<option value='20'>Exclusively to veterinarians</option>
+			</select>
+		</div>
+		<div class="form-group status-group">
+			<p>What would you potentially be interested in using VetCove for? (check all that apply)</p>
+			<div class="checkbox">
+				<label>
+					<input name="interest_listings" type="checkbox">Enhancing your product's listings with higher quality images and content
+				</label>
+			</div>
+			<div class="checkbox">
+				<label>
+					<input name="interest_community" type="checkbox">Interacting directly with veterinarians by answering their product questions, responding to reviews, etc.
+				</label>
+			</div>
+			<div class="checkbox">
+				<label>
+					<input name="interest_promotions" type="checkbox">Running real time, targeted promotions through VetCove
+				</label>
+			</div>
+			<div class="checkbox">
+				<label>
+					<input name="interest_direct" type="checkbox">Selling (direct shipping) products directly on VetCove
+				</label>
+			</div>
+		</div>
+		<div class="inline">
+			<div class="form-group status-group first-group">
+				<p>Number of Products You Sell<span class="error">Required</span></p>
+				<select name="product_size" class="form-control" data-required='true' data-type="select">
+					<option value=''>Select a range. . . </option>
+					<option value='3'>Less than 3</option>
+					<option value='5'>3-5</option>
+					<option value='10'>6-10</option>
+					<option value='15'>11-15</option>
+					<option value='20'>16-20</option>
+					<option value='30'>21-30</option>
+					<option value='40'>31-40</option>
+					<option value='50'>41-50</option>
+					<option value='100'>51-100</option>
+					<option value='101'>100+</option>
+				</select>
+			</div><div class="form-group status-group">
+				<p>How did you hear about us?<span class="error">Required</span></p>
+				<select name="referral_source" class="form-control" data-required='true' data-type="select">
+					<option value=''>Select an option. . . </option>
+					<option value='3'>Phone Call</option>
+					<option value='5'>Online</option>
+					<option value='10'>Conference</option>
+					<option value='15'>Friend / Colleague</option>
+					<option value='20'>Other</option>
+				</select>
+			</div>
+		</div>
+		{% endwith %}
+	</div>
+{% endblock %}
