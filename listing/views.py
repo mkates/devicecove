@@ -59,7 +59,8 @@ def autosuggest(request):
 			dict.append({'type':'item','name':item.displayname + item.manufacturer_no,'link':item.name})
 		elif items[2] == 'product':
 			product = Product.objects.get(name=items[0])
-			dict.append({'type':'product','name':product.displayname,'link':product.name,'mainimage':product.mainimage,'category':product.category.displayname})
+			mainimage = settings.STATIC_URL+"img/placeholder_pics/"+str(product.id)+".gif" # Temporarily image display
+			dict.append({'type':'product','name':product.displayname,'link':product.name,'mainimage':mainimage,'category':product.category.displayname})
 	return HttpResponse(json.dumps(dict), content_type='application/json')
 
 # Finds all descendants of a category

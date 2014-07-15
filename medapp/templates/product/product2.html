@@ -92,6 +92,9 @@
 .dummy {
     padding-top: 70%; /* forces 1:2 aspect ratio */
 }
+.product-image-container:hover {
+	cursor:pointer;
+}
 .product-image-container .slider-nav {
 	position:absolute;
 	z-index: 9;
@@ -495,6 +498,8 @@
 .page-zoom .item img {
 	text-align: center;
 	margin: 0 auto;
+	max-height: 700px;
+	margin-top: -50px;
 }
 .page-zoom .exit {
 	font-size: 40px;
@@ -735,6 +740,13 @@ $(document).ready(function(){
 			    </div>
 			</div>
 	    </div>
+	    <div class="item">
+	      	<div class="fullscreen-carousel vertical-block" style="">
+			    <div class="centered">
+			        <img src="{{STATIC_URL}}img/placeholder_pics/product/3.jpg" alt="...">
+			    </div>
+			</div>
+	    </div>
 	  </div>
 
 	  <!-- Controls -->
@@ -846,15 +858,15 @@ $(document).ready(function(){
 		<div class="col-lg-3 col-md-3 col-sm-4 product-cart-container">
 			<div class="product-cart">
 				<div class="option price">
-					<h5>$13.76</h5>
+					<h5>$11.29</h5>
 					<table>
 						<tr>
 							<td>List Price:</td>
-							<td class="list-price">$22.93</td>
+							<td class="list-price">$14.94</td>
 						</tr>
 						<tr>
 							<td>You Save:</td>
-							<td>$9.17 (40%)</td>
+							<td>$3.65 (25%)</td>
 						</tr>
 					</table>
 					<p>+ 20 Instant Credits</p>
@@ -925,6 +937,8 @@ $(document).ready(function(){
 						<div id="details-1" class="details-div active">
 							<h4>Description</h4>
 							<p>Equizone 100  was the  FIRST FDA approved phenylbutazone powder on the market.  A  palatable bute ( citrus flavored) powder approved for oral use in horses by the FDA.  Equizone 100 and Equizone 50 are  both made from all natural sweetners, no artificial sweetners added.</p>
+							<p><strong>EQUIZONE 50</strong> Powder is supplied in 1.1 lb (0.5 kg) jars each containing a dispensing scoop. One level scoop delivers 10 grams of powder containing 1 gram of phenylbutazone</p>
+							<p><strong>EQUIZONE 100</strong> Powder is supplied in 2.2 lb (1 kg) jars each containing a dispensing scoop. One level scoop delivers 10 grams of powder containing 1 gram of phenylbutazone</p>
 						</div>
 						<div id="details-2" class="details-div">
 							<h4>FDA Approval</h4>
@@ -943,7 +957,18 @@ $(document).ready(function(){
 						</div>
 						<div id="details-4" class="details-div">
 							<h4>Usage</h4>
-							
+							<p><strong>For Horses Only:</strong> Administer orally  (using the 0.6 ounce (18 mL) scoop provided) on a small amount of palatable feed and mix well. Give 1 to 2 level scoops per 500 pounds of body weight, but do not exceed 4 scoops per animal daily. Use the high dose for the first 48 hours, then gradually reduce to a maintenance dose.</p>
+
+
+							<p>Each 10 grams of powder contains:</p>
+							<p>Phenylbutazone ............................. 1 gram</p>
+							<p>One level scoop delivers 10 grams of powder.</p>
+
+							<p><strong>WARNING:</strong> Do not use in horses intended for human consumption.</p>
+
+							<p><strong>HUMAN WARNINGS:</strong> Keep this and all medications out of reach of children. Dispense in tight, child resistant containers.</p>
+
+							<p><strong>PRECAUTION:</strong> Concomitant use with other anti-inflammatory drugs, such as NSAIDs or corticosteroids, should be avoided or closely monitored.</p>
 						</div>
 					</div>
 				</div>

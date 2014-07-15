@@ -14,7 +14,6 @@ from datetime import datetime
 from django.utils.timezone import utc
 import balanced
 from helper.model_imports import *
-
 ###################################
 ### General Cart Functions ########
 ###################################
@@ -25,7 +24,34 @@ def cart(request):
 	shoppingcart = request.user.basicuser.group_handle().shoppingcart
 	cartitems = shoppingcart.cartitem_set.all()
 	shoppingcart_totals = getShoppingCartTotals(shoppingcart)
-	return render_to_response('account/pages/cart.html',{'totals':shoppingcart_totals,'cartitems':cartitems},context_instance=RequestContext(request))
+	products = Product.objects.all()
+	for pdt in products:
+		pdt.details = getItemDetailsFromAProduct(pdt)
+	return render_to_response('account/pages/cart.html',{'totals':shoppingcart_totals,'cartitems':cartitems,'products':products},context_instance=RequestContext(request))
+
+def getItemDetailsFromAProduct(product):
+	items = product.item_set.all()
+	lowprice,highprice = None, None
+	msrp_lowprice,msrp_highprice = None,None
+	suppliers = []
+	quantity = 0
+	for item in items:
+		if not msrp_lowprice or item.msrp_price < msrp_lowprice:
+			msrp_lowprice = item.msrp_price
+		if not msrp_highprice or item.msrp_price > msrp_highprice:
+			msrp_highprice = item.msrp_price 
+		inventories = item.inventory_set.all()
+		for inventory in inventories:
+			if inventory.supplier not in suppliers:
+				suppliers.append(inventory.supplier)
+			quantity += inventory.quantity_available
+			if not lowprice or inventory.base_price < lowprice:
+				lowprice = inventory.base_price
+			if not highprice or inventory.base_price > highprice:
+				highprice = inventory.base_price
+	return {'lowprice':lowprice,'highprice':highprice,'msrp_lowprice':msrp_lowprice,'msrp_highprice':msrp_highprice,'quantity':quantity,'suppliers':suppliers}
+
+
 
 ##### Add an item to the cart ######
 @login_required

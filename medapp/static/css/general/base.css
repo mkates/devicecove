@@ -630,13 +630,18 @@ input::-moz-focus-inner {
 	padding: 0 5px 5px 5px;
 	border-bottom:1px solid #eee;
 }
+#autosuggest .productitem .img-div {
+	float: right;
+	width: 60px;
+	height: 45px;
+	margin-top: 2px;
+	text-align: center;
+}
 #autosuggest .productitem img {
 	max-width: 60px;
-	max-height: 45px;
+	max-height: 43px;
 	border-radius: 3px;
 	box-shadow: 0 0 3px #fff;
-	float: right;
-	margin-top: 2px;
 }
 
 #autosuggest .producttext {
@@ -986,4 +991,5 @@ table, tr { height: 100%; }
 
 .back-to-top:hover {	
 	background-color: #333;
+	text-decoration: none;
 }	

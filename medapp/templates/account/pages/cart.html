@@ -1,7 +1,15 @@
 {% extends 'base/base.html' %}
-{% block css %}
+{% block css %}{% load rating %}
 <link href="{{STATIC_URL}}css/basic/cartitem.css" rel="stylesheet" type="text/css" />
+<link href="{{STATIC_URL}}css/basic/productpreview.css" rel="stylesheet" type="text/css" />
 <style>
+.product-preview-box-container {
+	width: 100%;
+	border:none;
+	margin-bottom: 10px;
+	text-align:center;
+	box-shadow: 0 0 12px rgba(0,0,0,.1) inset;
+}
 .content {
 	margin: 0 0 0px 0;
 	padding-bottom: 40px;
@@ -46,6 +54,7 @@
 	padding: 10px 10px 20px 10px;
 	border:5px solid #7dbb53;
 	background: white;
+	margin-bottom: 25px;
 }
 .cart-summary h6 {
 	font-size: 15px;
@@ -203,11 +212,11 @@
 						</span>
 					</div>
 					<div class="item-price col-price">
-						<p class="unit-price">{{cartitem.inventory.base_price|dollars}}</p>
+						<p class="unit-price">{{cartitem.base_price|dollars}}</p>
 						<p class="msrp-price">{{item.msrp_price|dollars}}</p>
 					</div>
 					<div class="item-price col-price">
-						1 <!-- <a>change</a>  -->
+						{{cartitem.quantity}} <!-- <a>change</a>  -->
 					</div>
 					<div class="item-price col-price">
 						<p class="final-price">{{cartitem.amount|dollars}}</p>
@@ -233,6 +242,28 @@
 				<p class="total">Total:<span class="totalprice">$97.48</span></p>
 				<a class="button-small button button-rounded button-action proceedtocheckout" href="/checkout/verify">Proceed To Checkout <span class="glyphicon glyphicon-shopping-cart"></span></a>
 			</div>
+			<h5>Don't Forget These Last Minute Items</h5>
+			{% for alt_product in products %}
+				{% if alt_product != product %}
+					<div class="product-preview-box-container">
+						<a href='#'>
+					  		<div class="product-preview-box">
+					  			<div class="product-preview-image" style='background-image:url("{{STATIC_URL}}img/placeholder_pics/search/{{alt_product.id}}.jpg")'>
+					  			</div>
+					  			<div class="product-preview-info">
+					  				<p class="title">{{alt_product.displayname}}</p>
+					  				<div class="ratings">
+					  					<div class="star blackstar star{{alt_product.averagerating|ratingstars}}"></div><span></span>
+					  				</div>
+					  				<div class="price">
+					  					{{alt_product.details.msrp_lowprice|dollars}}<span>{{alt_product.details.lowprice|dollars}}</span>
+					  				</div>
+					  			</div>
+					  		</div>
+					  	</a>
+					</div>
+				{% endif %}
+			{% endfor %}
 			<!-- <div class="last-minute">
 				<h3>Don't Forget These Last Minute Items</h3>
 			</div> -->

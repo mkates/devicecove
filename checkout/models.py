@@ -22,5 +22,8 @@ class CartItem(models.Model):
 	address = models.ForeignKey('account.Address')
 	quantity = models.IntegerField(default=1,max_length=4)
 
+	def base_price(self):
+		return self.inventory.base_price
+		
 	def amount(self):
 		return self.inventory.base_price*self.quantity

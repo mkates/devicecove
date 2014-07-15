@@ -3,6 +3,13 @@
 {% block css %}
 <link href="{{STATIC_URL}}css/basic/productpreview.css" rel="stylesheet" type="text/css" />
 <style>
+.background-image {
+  height: 250px;
+  width: 100%;
+  border-radius: 5px;
+  margin-bottom: 20px;
+  background-size:cover;
+}
 .company-header {
   margin: 10px 15px 10px 15px;
   padding: 20px;
@@ -26,7 +33,7 @@
   margin-right: 10px;
   border-radius: 3px;
 }
-.company-header img {
+.company-header .image img {
   display:inline-block;
   max-width: 100px;
   max-height: 100px;
@@ -167,6 +174,55 @@
   width: 25%;
   float: left;
 }
+
+/* Tab Formatting */
+.account-tabs-navigation {
+  padding: 0;
+  position:relative;
+  z-index: 1;
+}
+.account-tab {
+  background: #f6f6f6;
+  color: #333;
+  z-index: 1;
+  position:relative;
+  font-weight: 400;
+  font-size: 14px;
+  padding: 5px 5px;
+  text-align: center;
+  border:1px solid #ccc;
+  margin-bottom: -1px;
+}
+.account-tabs-navigation .account-col {
+  padding: 0 5px;
+}
+.account-tab.active {
+  background: #fff;
+  border:1px solid #ccc;
+  border-bottom: 1px solid transparent;
+}
+.account-tab:not(.active):hover {
+  cursor:pointer;
+  background: #e6e6e6;
+  border:1px solid #dfdfdf;
+  border-bottom:1px solid #ddd;
+}
+.account-tab-content {
+  position:relative;
+  z-index:0;
+  margin-top: 0px;
+  padding: 10px;
+}
+.account-tab-div {
+  display:none;
+}
+.account-tab-div h3 {
+  border-bottom:1px solid #eee;
+  padding-bottom: 5px;
+  margin-bottom: 15px;
+}
+.account-tab-div.first {
+  display:block;
 }
 </style>
 {% endblock %}
@@ -184,6 +240,7 @@ $(document).ready(function(){
 {% block content %}
 
 <div class="vetbox company-header">
+  <div class="background-image" style="background-image:url('http://www.lippincott.com/cache/made/cc190b03fd288467/Zoetis_Page_13_959_487_90_c1.jpg')"></div>
   <table>
     <tr>
       <td class="image-td">
@@ -204,6 +261,44 @@ $(document).ready(function(){
 </div>
 <div class="row">
   <div class="col-sm-9 col-md-10 company-main-container">
+    <div class="account-tabs">
+      <div class="account-tabs-navigation row">
+        <div class="col-md-3 account-col">
+          <div class="active account-tab" data-href='#account-tab-1'>
+            Products
+          </div>
+        </div>
+        <div class="col-md-3 account-col">
+          <div class="account-tab" data-href='#account-tab-2'>
+            News
+          </div>
+        </div>
+        <div class="col-md-3 account-col">
+          <div class="account-tab" data-href='#account-tab-3'>
+            Purchase History
+          </div>
+        </div>
+        <div class="col-md-3 account-col">
+          <div class="account-tab" data-href='#account-tab-3'>
+            Promotions
+          </div>
+        </div>
+      </div>
+      <!-- <div class="account-tab-content">
+        <div class="account-tab-div first" id="account-tab-1">
+          <h3>Start A New Return</h3>
+          <p> Create A Review</p>
+        </div>
+        <div class="account-tab-div" id="account-tab-2">
+          <h3>Review Your Recently Purchased Items</h3>
+          <p>We only allow. . . </p>
+        </div>
+        <div class="account-tab-div" id="account-tab-3">
+          <h3>How Returns Work</h3>
+          <p>We only allow. . . </p>
+        </div>
+      </div> -->
+    </div>
     <div class="vetbox company-main">
        <div class="search">
           <table class="company-search">
@@ -230,7 +325,7 @@ $(document).ready(function(){
             <div class="product-preview-info">
               <p class="title">{{product.displayname}}</p>
               <div class="ratings">
-                <div class="star blackstar star{{product.averagerating|ratingstars}}""></div><span>(8)</span>
+                <div class="star blackstar star{{product.averagerating|ratingstars}}"></div><span>(8)</span>
               </div>
               <div class="price">
                 $17.31<span>$14.22</span>
@@ -263,8 +358,8 @@ $(document).ready(function(){
         <div class="section stats">
           <h6>Selling Statistics</h6>
           <p>VetCove Activity<span>Excellent</p>
-          <p>Products Listed<span>3</p>
-          <p>Customet Satisfaction<span>81%</p>
+          <p>Products Listed<span>7</p>
+          <p>Customer Satisfaction<span>81%</p>
         </div>
         <div class="section social noborder">
           <a href='#' class="social-icon"><i class="fa fa-facebook-square fa-2x"></i></a>
