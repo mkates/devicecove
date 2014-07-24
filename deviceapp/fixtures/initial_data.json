@@ -1,5 +1,4 @@
 [
-{"pk": 1, "model": "listing.industry", "fields": {"displayname": "Equine", "name": "equine"}},
 {
      "pk": 1,
     "model": "account.group",
@@ -82,42 +81,6 @@
     "fields": {
          "group":1,
          "creation_date":"2013-10-28T04:36:12.295Z"
-    }
-},
-{
-    "pk": 1,
-    "model": "checkout.cartitem",
-    "fields": {
-         "shoppingcart":1,
-         "date_added":"2013-10-28T04:36:12.295Z",
-         "address":1,
-         "inventory":2,
-         "item":1,
-         "quantity": 4
-    }
-},
-{
-    "pk": 2,
-    "model": "checkout.cartitem",
-    "fields": {
-         "shoppingcart":1,
-         "date_added":"2013-10-28T04:36:12.295Z",
-         "address":1,
-         "inventory":7,
-         "item":7,
-         "quantity": 4
-    }
-},
-{
-    "pk": 1,
-    "model": "checkout.cartitem",
-    "fields": {
-         "shoppingcart":1,
-         "date_added":"2013-10-28T04:36:12.295Z",
-         "address":1,
-         "inventory":7,
-         "item":2,
-         "quantity": 2
     }
 },
 {

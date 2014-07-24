@@ -1,4 +1,6 @@
-[{"pk": 1, "model": "listing.category", "fields": {"industry": [1], "main": true, "displayname": "Anesthesia", "name": "anesthesia", "parent": null}},
+[
+{"pk": 1, "model": "listing.industry", "fields": {"displayname": "Equine", "name": "equine"}},
+{"pk": 1, "model": "listing.category", "fields": {"industry": [1], "main": true, "displayname": "Anesthesia", "name": "anesthesia", "parent": null}},
 {"pk": 2, "model": "listing.category", "fields": {"industry": [1], "main": true, "displayname": "Animal Control & Behavior", "name": "animal_control_and_behavior", "parent": null}},
 {"pk": 3, "model": "listing.category", "fields": {"industry": [1], "main": true, "displayname": "Biologicals", "name": "biologicals", "parent": null}},
 {"pk": 4, "model": "listing.category", "fields": {"industry": [1], "main": true, "displayname": "Critical Care and Recovery", "name": "critical_care_and_recovery", "parent": null}},
@@ -408,8 +410,43 @@
 {"pk": 6, "model": "listing.inventory", "fields": {"item":5, "base_price": 4992,"supplier":2,"quantity_available":8}},
 {"pk": 7, "model": "listing.inventory", "fields": {"item":6, "base_price": 1392,"supplier":3,"quantity_available":8}},
 {"pk": 8, "model": "listing.inventory", "fields": {"item":7, "base_price": 1129,"supplier":2,"quantity_available":4}},
-{"pk": 9, "model": "listing.inventory", "fields": {"item":8, "base_price": 1376,"supplier":2,"quantity_available":4}}
-
+{"pk": 9, "model": "listing.inventory", "fields": {"item":8, "base_price": 1376,"supplier":2,"quantity_available":4}},
+{
+    "pk": 1,
+    "model": "checkout.cartitem",
+    "fields": {
+         "shoppingcart":1,
+         "date_added":"2013-10-28T04:36:12.295Z",
+         "address":1,
+         "inventory":2,
+         "item":1,
+         "quantity": 4
+    }
+},
+{
+    "pk": 2,
+    "model": "checkout.cartitem",
+    "fields": {
+         "shoppingcart":1,
+         "date_added":"2013-10-28T04:36:12.295Z",
+         "address":1,
+         "inventory":7,
+         "item":7,
+         "quantity": 4
+    }
+},
+{
+    "pk": 1,
+    "model": "checkout.cartitem",
+    "fields": {
+         "shoppingcart":1,
+         "date_added":"2013-10-28T04:36:12.295Z",
+         "address":1,
+         "inventory":7,
+         "item":2,
+         "quantity": 2
+    }
+}
 ]
 
 
