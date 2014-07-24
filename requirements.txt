@@ -20,6 +20,7 @@ django-extensions==1.2.5
 django-filer==0.9.4
 django-fresh==1.0.5
 django-imagekit==3.0.4
+django-model-utils==2.0.3
 django-mptt==0.5.5
 django-password-reset==0.5.1
 django-polymorphic==0.5.3
@@ -34,6 +35,7 @@ easypost==2.0.6
 fuzzywuzzy==0.2
 gunicorn==18.0
 iso8601==0.1.4
+jellyfish==0.2.1
 mock==0.8.0
 newrelic==2.8.0.7
 pathtools==0.1.2
@@ -48,5 +50,6 @@ simplejson==2.3.2
 six==1.4.1
 sqlparse==0.1.11
 static==0.4
+us==0.8.0
 watchdog==0.7.1
 wsgiref==0.1.2
