@@ -40,31 +40,6 @@
 
 {% block js %}
 <script>
-//Quantity Box Functionality
-$(document).ready(function(){
-  $('.quantity-box .quantity-change').click(function() {
-    var input = $(this).parent().children('input')
-    if ($(this).hasClass('quantity-minus')) {
-      input.val(Math.max(1,input.val()-1))
-    } else {
-      input.val(parseInt(input.val())+1)
-    }
-  });
-  $('.addtocart-button button').click(function() {
-    var obj = $(this).parent().parent();
-    var input =  $(obj).find('input').val();
-    $(obj).find('.remove-button button span').text(input);
-    $(obj).children('.addtocart-button').css('display','none');
-    $(obj).children('.quantity-box').css('display','none');
-    $(obj).children('.remove-button').css('display','block');
-  });
- $('.remove-button button').click(function(){
-    var obj = $(this).parent().parent();
-    $(obj).children('.remove-button').css('display','none');
-    $(obj).children('.quantity-box').css('display','block');
-    $(obj).children('.addtocart-button').css('display','block');
- });
-});
 //Information Tag Tooltips
 $(document).ready(function(){
   $('.tags p').tooltip({
@@ -72,6 +47,7 @@ $(document).ready(function(){
 
   });
 });
+
 //More information
 $(document).ready(function(){
   $('.infobutton').click(function (){
@@ -87,6 +63,8 @@ $(document).ready(function(){
   })
 });
 </script>
+
+
 {% endblock %}
 
 
@@ -214,11 +192,10 @@ $(document).ready(function(){
   			<p> Sort By: </p>
   			<select id="sortby-select" class='form-control'>
   				<option value="relevance"> Relevance</option>
-  				<option value="price-high"> Price: Highest First</option>
-  				<option value="price-low">Price: Lowest First</option>
-  				<option value="distance">Distance: Nearest First</option>
-  				<option value="mostrecent">Time: Newly Listed First</option>
-  				<option value="leastrecent">Time: Oldest Listed First</option>
+  				<option value="price-low"> Price: Lowest First</option>
+  				<option value="price-high">Price: Highest First</option>
+  				<option value="review">Average Customer Review</option>
+  				<option value="new">Newest Arrivals</option>
   				<option value="msrp-discount">Percent off MSRP: Highest First</option>
   			</select>
   		</div>

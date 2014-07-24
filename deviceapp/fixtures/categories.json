@@ -369,7 +369,7 @@
 {"pk": 1, "model": "listing.manufacturer", "fields": {"name":"zoetis", "displayname": "Zoetis","description":"Zoetis is a global animal health company dedicated to supporting customers and their businesses in ever better ways."}},
 {"pk": 2, "model": "listing.manufacturer", "fields": {"name":"merck", "displayname": "Merck"}},
 {"pk": 3, "model": "listing.manufacturer", "fields": {"name":"merial", "displayname": "Merial"}},
-{"pk": 4, "model": "listing.manufacturer", "fields": {"name":"wedgewood", "displayname": "Wedgewood Pharmacy"}},
+{"pk": 4, "model": "listing.manufacturer", "fields": {"name":"wickliffe", "displayname": "Wickliffe Veterinary Pharmacy"}},
 {"pk": 5, "model": "listing.manufacturer", "fields": {"name":"abscience", "displayname": "A/B Sciences"}},
 {"pk": 6, "model": "listing.manufacturer", "fields": {"name":"agpharmaceutical", "displayname": "A&G Pharmaceuticals"}},
 {"pk": 7, "model": "listing.manufacturer", "fields": {"name":"henryschein", "displayname": "Henry Schein"}},

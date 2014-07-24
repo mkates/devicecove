@@ -24,30 +24,45 @@ from django.db.models import Q
 #### Listing Pages  #######################
 ###########################################
 
+##### Predefined Search Pages #############
+
 # Search by a category
 def category(request,category):
 	category = Category.objects.get(name=category)
 	child_categories = allCategoriesInTree(category) # Gets all categories below it in the tree
-	products = Product.objects.filter(category__in=child_categories)
+	products = Product.objects.filter(category__in=child_categories) # Get all the products in the child_categories
 	dictionary = {'child_categories':child_categories,'category':category}
-	details = getDetailsFromSearch(products)
+	details = getDetailsFromSearch(products) # Get details for each product
 	return render_to_response('search/search2.html',dict(dictionary.items()+details.items()),context_instance=RequestContext(request))
 
-# Bring up the company pages if they select a company
+# Bring up the company pages if they select a company #
 def manufacturer(request,manufacturer):
 	manufacturer = Manufacturer.objects.get(name=manufacturer)
-	products = Product.objects.all()[0:7]
+	products = Product.objects.all()[0:7] # Temporary list of products, will replace with the company's products
 	return render_to_response('search/company.html',{'manufacturer':manufacturer,'products':products},context_instance=RequestContext(request))
 
 def ingredient(request,ingredient):
 	pass
 
+def product(request,product):
+	pass
+
+def item(request,item):
+	pass
+
+
+
+##### Search Algorithms #############
+
+# Autosuggest search #
+# TODO: augment with cache for commonly searched for items
 def autosuggest(request):
 	searchterm = request.GET.get('searchterm','')
 	bestmatches = relatedProductsFromSearchWord(searchterm,10)
 	dict = []
+	# Generate the links from the matches
 	for items in bestmatches:
-		#Item format ('equipose','90','product')
+		# Item format ('equipose','90','product')
 		if items[2] == 'category':
 			category = Category.objects.get(name=items[0])
 			dict.append({'type':'category','name':category.displayname,'link':category.name})
@@ -63,13 +78,6 @@ def autosuggest(request):
 			dict.append({'type':'product','name':product.displayname,'link':product.name,'mainimage':mainimage,'category':product.category.displayname})
 	return HttpResponse(json.dumps(dict), content_type='application/json')
 
-# Finds all descendants of a category
-def allCategoriesInTree(category):
-	# TODO!!! Eventually here, pre store all children in the database in a field
-	categories = [category]
-	for cat in category.category_set.all():
-		categories.append(cat)
-	return categories
 
 # Returns the eligible items based on the category and the filters
 def filterSearch(category,filters):
@@ -79,7 +87,7 @@ def filterSearch(category,filters):
 	eligibleItems = []
 	for product in products:
 		items = product.item_set.all()
-		if product.averagerating < int(filters['stars']-1)*10: #Product Rating
+		if product.averagerating < int(filters['stars']-1)*10: # Product Rating
 			continue
 		if filters['manufacturers']: # Manufacturer
 			if product.manufacturer not in filters['manufacturers']:
@@ -87,7 +95,7 @@ def filterSearch(category,filters):
 		eligibleItems.append(product)
 	return eligibleItems
 
-# Find related products with a custom search
+# Find related products with a custom search, GOAL_AMOUNT is the number of results to return
 def relatedProductsFromSearchWord(searchword,GOAL_AMOUNT):
 	results = []
 
@@ -106,7 +114,7 @@ def relatedProductsFromSearchWord(searchword,GOAL_AMOUNT):
 	# Ingredients
 	ingredients = Ingredient.objects.values_list('name',flat=True)
 
-	#Sort and limit results
+	# Sort and limit results
 	results= results+ getTopMatches(results,searchword,items,'ingredients',5)
 	sorted_results = sorted(results, key=lambda tup: tup[1], reverse=True)[0:GOAL_AMOUNT]
 	return sorted_results
@@ -156,9 +164,16 @@ def getItemDetailsFromAProduct(product):
 	return {'lowprice':lowprice,'highprice':highprice,'msrp_lowprice':msrp_lowprice,'msrp_highprice':msrp_highprice,'quantity':quantity,'suppliers':suppliers}
 
 
+##### Search Helper Methods #############
 
 
-
+# Finds all descendants of a category
+def allCategoriesInTree(category):
+	# TODO!!! Eventually here, pre store all children in the database in a field
+	categories = [category]
+	for cat in category.category_set.all():
+		categories.append(cat)
+	return categories
 
 
 

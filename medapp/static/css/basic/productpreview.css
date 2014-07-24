@@ -29,6 +29,7 @@
 	border:1px solid #dadada;
 	border-right:none;
 	background: #fff;
+	position:relative;
 }
 .product-preview-box-container.first {
 	border-bottom-left-radius: 4px;

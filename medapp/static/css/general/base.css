@@ -70,6 +70,22 @@ input::-moz-focus-inner {
 }
 
 /*******************/
+/** Banners *******/
+/*******************/
+.banner-ribbon {
+	position:absolute;
+	right: 0;
+	top: 0;
+	width: 95px;
+	height: 89px;
+	background-size: 95px 89px;
+}
+.banner-ribbon.banner-topdeal {background-image: url("../../img/banner/topdeal.png")}
+.banner-ribbon.banner-recommended {background-image: url("../../img/banner/recommended.png")}
+.banner-ribbon.banner-topseller {background-image: url("../../img/banner/topseller.png")}
+.banner-ribbon.banner-exclusive {background-image: url("../../img/banner/exclusive.png")}
+
+/*******************/
 /***** Header ******/
 /*******************/
 

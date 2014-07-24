@@ -105,7 +105,7 @@ class Clinic(Group):
 	tos = models.BooleanField(default=False) # Did they agree to the TOS?
 
 
-	verified = models.BooleanField(default=False) # Are they eligible to purchase on our system?
+	verified = models.BooleanField(default=False) # Are they eligible to purchase on our system, manually turned on?
 	
 	def __unicode__(self):
 		return self.name
