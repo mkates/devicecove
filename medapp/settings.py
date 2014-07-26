@@ -239,8 +239,8 @@ CONTACT_PHONE_NUMBER = 7325986434
 # These are set in the heroku:config file only on the server
 
 #Email Credentials
-DEFAULT_FROM_EMAIL = 'info@vetcove.com'
-SERVER_EMAIL = 'info@vetcove.com'
+#DEFAULT_FROM_EMAIL = 'info@vetcove.com'
+#SERVER_EMAIL = 'info@vetcove.com'
 
 ### Namecheap SPF Records should read as follows:
 # v=spf1 include:spf.efwd.registrar-servers.com include:spf.mandrillapp.com ~all 

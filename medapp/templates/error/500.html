@@ -1,18 +1,14 @@
-{% extends 'base.html' %}
-{% block headertitle %}<title>VetCove | 404</title>{% endblock%}
-{% block headercss %}
+{% extends 'base/base.html' %}
+{% block headertitle %}VetCove | 500{% endblock%}
+{% block css %}
 
 <style>
 
-<style>
-.maincontainer-padding {
-	padding: 0 20px;
-}
 .maincontainer {
 	background: #fff;
+	margin: 40px auto;
 	min-height: 200px;
-	max-width: 1000px;
-	margin: 30px auto;
+	width: 600px;
 	text-align: center;
 }
 .maincontainer h4 {
@@ -48,15 +44,11 @@
 
 
 {% block content %}
-<div class="maincontainer-padding">
-	<div class="maincontainer covebox">
-		<h4>Internal Server Error. We have our best developers on the case</h4>
-		<img src="{{STATIC_URL}}img/dogoncomputer.jpg" alt=""/>
-		<span>
-		<a href="/productsearh/veterinary/all/all">Buy Equipment</a>&sdot;
-		<a href="/listintro">Sell Equipment</a>&sdot;
-		<a href="/faq">FAQ</a></span>
-	</div>
+<div class="maincontainer vetbox">
+	<h4>We have an error processing your request. . . </h4>
+	<img src="{{STATIC_URL}}img/dogs/dogoncomputer.jpg" alt=""/>
+	<span>
+	<a href="/"> Return Home</a>
 </div>
 
 {% endblock %}

@@ -120,6 +120,7 @@ def contactform(request):
 #############################################################
 
 def my_404_view(request):
+	print 'here'
 	return render_to_response('error/404.html',context_instance=RequestContext(request))
 
 def my_500_view(request):
