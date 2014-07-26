@@ -87,7 +87,7 @@
     "pk": 1,
     "model": "auth.user",
     "fields": {
-        "username": "mitch@aim.com",
+        "username": "clinic@vetcove.com",
         "first_name": "",
         "last_name": "",
         "is_active": true,
@@ -96,7 +96,7 @@
         "last_login": "2013-10-28T04:37:02.515Z",
         "groups": [],
         "user_permissions": [],
-        "password": "pbkdf2_sha256$10000$baG2jbKu2fmr$GQMak8dwaoerfKjoVBxom27VVhAlm5IAOlcE5wW1fQw=",
+        "password": "pbkdf2_sha256$12000$6hM9JtLyxJBH$IIgkGkdSB9LawIApuRcBubCc3rKeIp9Ny728V3eYvcc=",
         "email": "mitch@aim.com",
         "date_joined": "2013-10-28T04:36:12.295Z"
     }
@@ -108,6 +108,34 @@
     	 "user": 1,
     	 "group":1,
     	 "creation_date": "2014-02-26",
+         "last_login":"2013-10-28T04:36:12.295Z"
+    }
+},
+{
+    "pk": 2,
+    "model": "auth.user",
+    "fields": {
+        "username": "supplier@vetcove.com",
+        "first_name": "",
+        "last_name": "",
+        "is_active": true,
+        "is_superuser": false,
+        "is_staff": true,
+        "last_login": "2013-10-28T04:37:02.515Z",
+        "groups": [],
+        "user_permissions": [],
+        "password": "pbkdf2_sha256$12000$6hM9JtLyxJBH$IIgkGkdSB9LawIApuRcBubCc3rKeIp9Ny728V3eYvcc=",
+        "email": "mitch@aim.com",
+        "date_joined": "2013-10-28T04:36:12.295Z"
+    }
+},
+{
+    "pk": 2,
+    "model": "account.basicuser",
+    "fields": {
+         "user": 2,
+         "group":2,
+         "creation_date": "2014-02-26",
          "last_login":"2013-10-28T04:36:12.295Z"
     }
 },
