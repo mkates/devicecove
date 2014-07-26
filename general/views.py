@@ -120,10 +120,10 @@ def contactform(request):
 #############################################################
 
 def my_404_view(request):
-	return render_to_response('404.html',context_instance=RequestContext(request))
+	return render_to_response('error/404.html',context_instance=RequestContext(request))
 
 def my_500_view(request):
-	return render_to_response('500.html',context_instance=RequestContext(request))
+	return render_to_response('error/500.html',context_instance=RequestContext(request))
 
 ### Anytime there is an error, send the user here ####
 def error(request,errorname):

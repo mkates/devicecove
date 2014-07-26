@@ -82,6 +82,8 @@
 }
 .company-main {
   padding: 20px;
+  border-top-right-radius: 0px;
+  border-top-left-radius: 0px;
   margin-bottom: 50px;
 }
 .company-side {
@@ -182,19 +184,26 @@
   z-index: 1;
 }
 .account-tab {
-  background: #f6f6f6;
+  background-image: -moz-linear-gradient(top, #Fafafa 45%, #f2f2f2 55%);
   color: #333;
   z-index: 1;
   position:relative;
   font-weight: 400;
-  font-size: 14px;
+  font-size: 13px;
   padding: 5px 5px;
   text-align: center;
   border:1px solid #ccc;
   margin-bottom: -1px;
 }
+
 .account-tabs-navigation .account-col {
   padding: 0 5px;
+}
+.account-tabs-navigation .account-col.first {
+  padding-left: 0px;
+}
+.account-tabs-navigation .account-col.last {
+  padding-right: 0px;
 }
 .account-tab.active {
   background: #fff;
@@ -203,8 +212,8 @@
 }
 .account-tab:not(.active):hover {
   cursor:pointer;
-  background: #e6e6e6;
-  border:1px solid #dfdfdf;
+  background-image: -moz-linear-gradient(top, #F6f6f6 45%, #eee 55%);
+  border:1px solid #ccc;
   border-bottom:1px solid #ddd;
 }
 .account-tab-content {
@@ -263,7 +272,7 @@ $(document).ready(function(){
   <div class="col-sm-9 col-md-10 company-main-container">
     <div class="account-tabs">
       <div class="account-tabs-navigation row">
-        <div class="col-md-3 account-col">
+        <div class="col-md-3 account-col first">
           <div class="active account-tab" data-href='#account-tab-1'>
             Products
           </div>
@@ -278,7 +287,7 @@ $(document).ready(function(){
             Purchase History
           </div>
         </div>
-        <div class="col-md-3 account-col">
+        <div class="col-md-3 account-col last">
           <div class="account-tab" data-href='#account-tab-3'>
             Promotions
           </div>
