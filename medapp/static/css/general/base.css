@@ -101,7 +101,7 @@ input::-moz-focus-inner {
 	border-bottom:1px solid #ccc;
 }
 .header .mainheader {
-	padding-bottom: 5px;
+	padding-bottom: 15px;
 }
 /* Left Header */
 .header .mainheader .left-header {
@@ -284,14 +284,13 @@ input::-moz-focus-inner {
 	background: #46ae4d;
 	font-weight: normal;
 }
-.dynamic-row .two-row .glyphicon, .dynamic-row .two-row .caret {
+.dynamic-row .two-row .glyphicon {
 	font-size: 15px;
 	margin-top: -4px;
 	position:relative;
 	vertical-align: middle;
 	z-index: 0;
 	opacity: .75;
-	display:none;
 }
 .dynamic-row .element .two-row p .caret {
 	border-bottom-color: #FFFFFF;
