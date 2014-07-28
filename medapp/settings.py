@@ -61,7 +61,7 @@ MEDIA_URL = ''
 # Don't put anything in this directory yourself; store your static files
 # in apps' "static/" subdirectories and in STATICFILES_DIRS.
 # Example: "/var/www/example.com/static/"
-STATIC_ROOT = ''
+STATIC_ROOT = '/compress/'
 
 # URL prefix for static files.
 # Example: "http://example.com/static/", "http://static.example.com/"
@@ -105,6 +105,7 @@ CACHES = get_cache()
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder'
+    'compressor.finders.CompressorFinder',
     #'django.contrib.staticfiles.finders.DefaultStorageFinder', # I removed this to get debug toolbar to work, if causes problems re-add it
 )
 
@@ -144,11 +145,12 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'livereload', # A small app that works with livereload to include automatic reloads for python files
     'django.contrib.admin',
     'django.contrib.admindocs',
     'django.contrib.humanize',
     'boto', # For S3 File Storage
-    ## All the VetCove Apps ###
+     ## All the VetCove Apps ###
     'account',
     'reviews',
     'checkout',
@@ -168,7 +170,8 @@ INSTALLED_APPS = (
     'django_extensions',
     'password_reset', # Password reset app
     'djrill', #Django-Mandrill App
-    'collectfast' #Used for quicker S3 Collectstatic (also fixes modified_time bug in s3 uploads)
+    'collectfast', #Used for quicker S3 Collectstatic (also fixes modified_time bug in s3 uploads)
+    'compressor' #A way to compress .less and .coffeescript files
 )
 
 SESSION_SERIALIZER = 'django.contrib.sessions.serializers.JSONSerializer'

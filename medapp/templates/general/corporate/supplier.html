@@ -6,32 +6,41 @@
 	background: #eee;
 }
 .sell-container {
-	min-height: 600px;
-	background-image: url("{{STATIC_URL}}img/corporate/worldmap.png");
+	min-height: 350px;
+	background-image: linear-gradient(to top, #6eb341, #98df69);
 	background-position: top center;
 	background-repeat: no-repeat;
 	overflow: auto;
+	position:relative;
+	border-bottom:1px solid #888;
+}
+.map-bg {
+	position:absolute;
+	width: 100%;
+	height: 100%;
+	background-image: url("{{STATIC_URL}}img/corporate/worldmap.png");
+	opacity: 1;
 }
 .hero {
 	text-align: center;
 	margin-bottom: 10px;
+	position:relative;
+	z-index: 2;
 }
 .hero h1 {
-	color: #333;
+	color: #fff;
 	font-size: 50px;
 	font-weight: 200;
-	text-shadow: 0 0 6px #fff;
-	margin-top: 120px;
+	margin-top: 95px;
 	padding-bottom: 10px;
 	letter-spacing: .25px;
 } 
 .hero h2 {
-	color: #555;
-	text-shadow: 0 0 6px #fff;
+	color: #eee;
 	letter-spacing: .5px;
 	font-weight: 600;
 	font-size: 19px;
-	margin-bottom: 45px;
+	margin-bottom: 80px;
 }
 .hero a {
 	font-size: 18px;
@@ -157,11 +166,13 @@
 
 {% block content %}
 <div class="sell-container">
+	<div class="map-bg"></div>
 	<div class="hero">
 		<h1>Sell More with VetCove</h1>
 		<h2>Use VetCove's online purchasing platform to reach more customers where they buy</h2>
 	</div>
-
+</div>
+<div>
 	<div class="feature-container">
 		<div class="row firstrow">
 			<div class="feature col-md-4 col-sm-4 col-xs-12">

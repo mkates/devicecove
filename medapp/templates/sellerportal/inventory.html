@@ -84,6 +84,31 @@
 .management .upload-div button {
 	height: 30px;
 }
+
+/*Selections */
+.selections-container {
+	margin: 20px 20px 0 20px;
+}
+.selections {
+	position:relative;
+	width: 100%;
+	max-width: 100%;
+	margin: 0;
+}
+.selections a {
+	width: 12.5%;
+	height: 65px;
+}
+.selections a .item {
+	border-top:1px solid #ddd;
+}
+.selections .item .item-image {
+	height: 39px;
+	background-size: 346.5px 39px;
+	width: 31.5px;
+	margin-top: 5px;
+	opacity: 1;
+}
 </style>
 {% endblock %}
 
@@ -100,6 +125,86 @@ $(document).ready(function(){
 </script>
 {% endblock %}
 {% block content %}
+<div class="selections-container">
+<div class="selections">
+	<a href='/portal/dashboard' class="col12-8 first {% if portal_dashboard %} active{% endif %}">
+		<div class="item">
+			<div class="img">
+				<div class="item-image" style='background-image:url("{{STATIC_URL}}img/misc/topicons.png");background-position: -0px 0' ></div>
+			</div>
+			<p>Dashboard</p>
+		</div>
+	</a>
+	<a href='/portal/inventory' class="col12-8{% if portal_inventory %} active{% endif %}">
+		<div class="item">
+			<div class="img">
+				<div class="item-image" style='background-image:url("{{STATIC_URL}}img/misc/topicons.png");background-position: -147px 0' ></div>
+			</div>
+			<p>Live Listings</p>
+		</div>
+	</a>
+	<a href='/portal/inventory' class="col12-8">
+		<div class="item">
+			<div class="img">
+				<div class="item-image" style='background-image:url("{{STATIC_URL}}img/misc/topicons.png");background-position: -147px 0' ></div>
+			</div>
+			<p>Live Listings</p>
+		</div>
+	</a>
+	<a href='/portal/products' class="col12-8 {% if portal_product %} active{% endif %}">
+		<div class="item">
+			<div class="img">
+				<div class="item-image" style='background-image:url("{{STATIC_URL}}img/misc/topicons.png");background-position: -168px 0' ></div>
+			</div>
+			<p>Products</p>
+		</div>
+	</a>
+	<a href='/portal/purchases' class="col12-8{% if portal_purchases %} active{% endif %}">
+		<div class="item">
+			<div class="img">
+				<div class="item-image" style='background-image:url("{{STATIC_URL}}img/misc/topicons.png");background-position: -210px 0' ></div>
+			</div>
+			<p>Sales</p>
+		</div>
+	</a>
+	<a href='/portal/community' class="col12-8 {% if portal_community %} active{% endif %}">
+		<div class="item">
+			<div class="img">
+				<div class="item-image" style='background-image:url("{{STATIC_URL}}img/misc/topicons.png");background-position: -105px 0' ></div>
+			</div>
+			<p>Community</p>
+		</div>
+	</a>
+	<a href='/portal/promotions' class="col12-8{% if portal_promotions %} active{% endif %}">
+		<div class="item">
+			<div class="img">
+				<div class="item-image" style='background-image:url("{{STATIC_URL}}img/misc/topicons.png");background-position: -21px 0' ></div>
+			</div>
+			<p>Promotions</p>
+		</div>
+	</a>
+	<!-- <a href='/portal/performance' class="col12-8{% if portal_performance %} active{% endif %}">
+		<div class="item">
+			<div class="img">
+				<div class="item-image" style='background-image:url("{{STATIC_URL}}img/misc/topicons.png");background-position: -189px 0' ></div>
+			</div>
+			<p>Performance</p>
+		</div>
+	</a> -->
+	<a href='/portal/reports' class="col12-8 last {% if portal_reports %} active{% endif %}">
+		<div class="item last">
+			<div class="img">
+				<div class="item-image" style='background-image:url("{{STATIC_URL}}img/misc/topicons.png");background-position: -42px 0' ></div>
+			</div>
+			<p>Reports</p>
+		</div>
+	</a>
+</div>
+</div>
+
+
+
+
 <div class="intro-box-container">
 	<div class="intro-box">
 		<div class="intro-image" style='background-image:url("{{STATIC_URL}}img/misc/topicons.png");background-position: -196px 0' ></div>

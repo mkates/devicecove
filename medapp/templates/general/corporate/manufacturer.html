@@ -9,23 +9,29 @@
 	background: #fff;
 }
 .hero {
-	height: 350px;
-	background-image: url("{{STATIC_URL}}img/corporate/man_pill.png");
+	background-image: linear-gradient(to bottom, #fb9c44, #fc4831);
 	background-repeat: no-repeat;
 	background-position: center bottom;
-	padding: 20px;
+	padding: 0px 0px 0 0px;
 	font-family: proxima-nova,sans-serif;
 	text-align: center;
-	border-bottom:1px solid #777;
+	border-bottom:1px solid #999;
+	color: #fff;
 }
 .hero h1 {
 	font-weight: 200;
-	margin-top: 40px;
-	font-size: 40px;
+	padding-top: 60px;
+	margin-top: 0px;
+	font-size: 45px;
 }
 .hero h2 {
-	font-size: 18px;
-	color: #444;
+	font-size: 20px;
+	color: #eee;
+}
+.hero img {
+	margin-top: 60px;
+	width: 100%;
+	opacity: 1;
 }
 .feature-container {
 	background: #fff;
@@ -88,8 +94,9 @@ $(document).ready(function(){
 
 {% block content %}
 <div class="hero">
-	<h1>Seperate your products from the competition</h1>
+	<h1>Separate your products from the competition</h1>
 	<h2>Find the resources to more effectively connect with veterinarians with a new way to advertise products</h2>
+	<img src="{{STATIC_URL}}img/corporate/man_pill.png">
 </div>
 <div class="feature-container">
 	<div class="feature row">

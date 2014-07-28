@@ -101,7 +101,7 @@ input::-moz-focus-inner {
 	border-bottom:1px solid #ccc;
 }
 .header .mainheader {
-	padding-bottom: 15px;
+	padding-bottom: 10px;
 }
 /* Left Header */
 .header .mainheader .left-header {
@@ -112,7 +112,7 @@ input::-moz-focus-inner {
 	height: 40px;
 	margin-bottom: 8px;
 	padding-top: 10px;
-	margin-left: 24px;
+	margin-left: 21px;
 	position:relative;
 }
 .header .mainheader .left-header .header-logo img {
@@ -122,13 +122,111 @@ input::-moz-focus-inner {
 #main-logo-alt {
 	opacity: 0;
 }
-/* Selectioins */
+
+.top-menu {
+	position:absolute;
+	right: 20px;
+	top: 0px;
+}
+.top-menu .menu-item {
+	display:inline-block;
+	padding-top: 12px;
+	vertical-align: top;
+}
+.top-menu .menu-item .label {
+	vertical-align:top;
+	display:inline-block;
+	border-radius: 5px;
+	margin-top: 3px;
+}
+.top-menu .menu-item a {
+	padding: 0px 5px 5px 5px;
+	margin: 0 5px;
+	color: #444;
+	font-size: 13px;
+	transition: color .1s;
+}
+.top-menu .menu-item a:hover {
+	color: #009cc3;
+	text-decoration:none;
+}
+/*.top-menu .menu-item .menu-button {
+	background: #009cc3;
+	border-radius: 3px;
+	color: #eee;
+	font-size: 12px;
+	margin-left: 5px;
+	letter-spacing: .2px;
+	text-transform: uppercase;
+}*/
+.checkout-box {
+	padding: 6px 6px 6px 6px;
+	vertical-align: top;
+	background: #ddd;
+	border:1px solid #dadada;
+	background-image: -moz-linear-gradient(bottom, #e6e6e6 0%, #fff 100%);
+	border-top:none;
+	display:inline-block;
+	border-bottom-right-radius: 2px;
+	border-bottom-left-radius: 2px;
+}
+.checkout-box a {
+	display:inline-block;
+	vertical-align: top;
+}
+.checkout-box .checkout-box-div {
+	padding: 3px 10px;
+	line-height: 25px;
+	border-radius: 3px;
+	background-image: -moz-linear-gradient(top, #88daea 0%, #63cade 10%, #37aaea 100%);
+	background: -moz-linear-gradient(center top , #00b5e5, #008db2) repeat scroll 0 0 #00a1cb;
+    border:1px solid #aaa;
+    box-shadow: 0 1px 1px 0 #6fc5f5 inset;
+    color: #fff;
+	font-size: 12px;
+	letter-spacing: .2px;
+	text-transform: uppercase;
+}
+.checkout-box .seller-portal {
+	background: -moz-linear-gradient(center top , #00b5e5, #008db2) repeat scroll 0 0 #00a1cb;
+}
+.checkout-box .checkout-box-div.shopping-cart {
+	font-size: 18px;
+	border:1px solid #aaa;
+	box-shadow: 0 1px 1px 0 #eee inset;
+	background-image: -moz-linear-gradient(top, #ccc 0%, #ddd 10%, #aaa 100%);
+	color: #555;
+	position:relative;
+}
+.checkout-box .checkout-box-div.shopping-cart .glyphicon-shopping-cart {
+	display:inline-block;
+	font-size: 16px;
+}
+.checkout-box .checkout-box-div.shopping-cart .label {
+	background-image: -moz-linear-gradient(top, #88daea 0%, #63cade 10%, #37aaea 100%);
+	background: #e29d24;
+	border-radius: 8px;
+	box-shadow: 0 0 3px #fff;
+	color: #fff;
+	margin-top: 4px;
+	margin-left: 3px;
+	text-shadow: 0 0 1px #444;
+	vertical-align: top;
+	padding: 2px 4px;
+	display:inline-block;
+}
+
+.top-menu .checkout-box-div.checkout .glyphicon-chevron-right {
+	opacity: .7;
+}
+
+/* Selections */
 .selections {
 	position:absolute;
 	width: 70%;
-	max-width: 630px;
+	max-width: 530px;
 	top: 0;
-	right: 0;
+	right: 185px;
 	margin: 0px 20px 0px 20px;
 }
 .col12-8 {
@@ -138,18 +236,19 @@ input::-moz-focus-inner {
 .selections a {
 	overflow:hidden;
 	display:block;
-	height: 53px;
+	height: 47px;
 	position:relative;
 	border:1px solid #dadada;
 	border-right: none;
 	border-top:none;
-	background: #fff;
+	background: #fafafa;
+	background-image: -moz-linear-gradient(bottom, #e6e6e6 0%, #fff 100%);
 	transition-duration: 0.5s, 0.5s, 100ms;
     transition-property: transform, left, box-shadow;
     transition-timing-function: ease-in-out, ease-in-out, ease-in-out;
 }
 .selections a:hover {
-	box-shadow: 0 8px 10px #EBEBEB inset, 4px 35px 65px 5px rgba(242, 242, 242, 0.5) inset;
+	box-shadow: 0 8px 10px #dbdbdb inset, 4px 35px 65px 5px rgba(242, 242, 242, 0.5) inset;
 }
 .selections a.active {
 	background: -moz-linear-gradient(center top , #5A5A5A 0px, rgba(255, 255, 255, 0.5) 10%) repeat scroll 0 0%, -moz-linear-gradient(center top , rgba(122, 122, 122, 0.7) 40%, rgba(255, 255, 255, 0.5) 100%) repeat scroll 0 0 rgba(0, 0, 0, 0);
@@ -175,7 +274,7 @@ input::-moz-focus-inner {
 	height: 26px;
 	background-size: 231px 26px;
 	width: 21px;
-	margin-top: 5px;
+	margin-top: 2px;
 	opacity: 1;
 }
 .selections .item p {
@@ -214,7 +313,7 @@ input::-moz-focus-inner {
 	width: 100%;
 	padding: 0 20px;
 	background: #555;
-	border-bottom:1px solid #9a9a9a;
+	/*border-bottom:1px solid #9a9a9a;*/
 	background: #666;
 	background-image: -ms-linear-gradient(bottom, #555555 0%, #666666 50%, #6F6F6F 50%, #999999 100%);
 	background-image: -moz-linear-gradient(bottom, #555555 0%, #666666 50%, #6F6F6F 50%, #999999 100%);
@@ -236,6 +335,11 @@ input::-moz-focus-inner {
 .dynamic-row.blue-row .element {
 	border-right:none;
 }
+.dynamic-row .element a {
+	-moz-osx-font-smoothing: grayscale;
+	font-family: "Square Market",Helvetica,Arial,sans-serif;
+	text-shadow: 0 0 1px #555;
+}
 .dynamic-row .element a:hover {
 	text-decoration:none;
 }
@@ -243,33 +347,39 @@ input::-moz-focus-inner {
 	position:relative;
 }
 .dynamic-row .element .bar {
-	margin-top: 4px;
 	padding: 6px 5px 10px 5px;
 	display:block;
 	color: #fff;
-	font-weight: 200;
-	letter-spacing: .8px;
-	border-top-right-radius: 2px;
-	border-top-left-radius: 2px;
+	letter-spacing: 0px;
+	border-right:1px solid rgba(255,255,255,.1);
 }
 .dynamic-row .element .bar:hover {
 	cursor:pointer;
+	background-image: -moz-linear-gradient(bottom, #111 0%, #333 100%);
 }
 .dynamic-row .element .bar.active {
-	background: white;
-	color: #333;
+	background-image: -moz-linear-gradient(bottom, #444 0%, #555 50%, #5f5f5f 50%, #888 100%);
 }
-.dynamic-row .element.noborder {
-	border-right:none;
+.dynamic-row .element .bar.selected {
+	color: #fff;
+	background: -moz-linear-gradient(center top , #111 0px, #444 40%);
+	box-shadow: 0 0 20px rgba(0,0,0,.3) inset;
 }
 .dynamic-row .element .bar.inlined-bar {
 	height: auto;
+	border:1px solid rgba(0,0,0,.3);
+	background: rgba(0,0,0,.2);
+	padding-bottom: 0px;
+	margin: 3px 0;
+	border-radius: 2px;
+}
+.dynamic-row .element .bar.inlined-bar .two-row p {
+	font-size: 11px;
 	padding-bottom: 0px;
 }
 .dynamic-row .element .two-row p{
 	font-size: 12px;
 	margin: 0;
-	padding: 4px 2px 2px 2px;
 	vertical-align: middle;
 	overflow:hidden;
 	text-overflow: ellipsis;
@@ -284,7 +394,7 @@ input::-moz-focus-inner {
 	background: #46ae4d;
 	font-weight: normal;
 }
-.dynamic-row .two-row .glyphicon {
+.dynamic-row .two-row .glyphicon, .dynamic-row .two-row .caret{
 	font-size: 15px;
 	margin-top: -4px;
 	position:relative;
@@ -308,7 +418,8 @@ input::-moz-focus-inner {
 }
 .dynamic-row .variable {
 	width: 100%;
-	padding: 2px;
+	padding: 2px 4px;
+	border-right:1px solid rgba(255,255,255,.1);
 }
 .dynamic-row .fixed .inlined {
 	display:inline-block;
@@ -328,6 +439,10 @@ input::-moz-focus-inner {
 .dynamic-row #search-table input {
 	border-top-right-radius: 0;
 	border-bottom-right-radius: 0px;
+	background: #fbfbfb;
+}
+.dynamic-row #search-table input:focus {
+	background: #fff;
 }
 .dynamic-row #search-table .button-td {
 	width: 50px;
@@ -342,7 +457,9 @@ input::-moz-focus-inner {
 	border-bottom-left-radius: 0px;
 }
 
-
+.dynamic-row .element.noborder .bar {
+	border-right:none;
+}
 /* General Dropdown Functionality */
 .subheader {
 	display:none;

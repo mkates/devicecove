@@ -26,6 +26,10 @@
 <link href="{{STATIC_URL}}css/general/base.css" rel="stylesheet" type="text/css" />
 <link href="{{STATIC_URL}}css/general/form.css" rel="stylesheet" type="text/css" />
 <link rel="stylesheet" href="{{STATIC_URL}}css/navbar/sidenav.css">
+<!-- Less Testing -->
+<link href="{{STATIC_URL}}css/general/base.less" rel="stylesheet/less" type="text/css" />
+<link href="{{STATIC_URL}}css/general/general.less" rel="stylesheet/less" type="text/css" />
+<script src="{{STATIC_URL}}js/plugins/less.js"></script>
 {% if seller %}
 <link href="{{STATIC_URL}}css/navbar/sidenav.css" rel="stylesheet" type="text/css" />
 {% endif %}
@@ -158,38 +162,57 @@
 					</div>
 				{% endif %}
 			{% else %}
-			<div class="selections text-selections right">
+			<div class="top-menu">
 				<div class="menu-item">
-					<a href='/learn/features' class="first">
-						Veterinarians
-					</a>
-				</div><div class="menu-item">
 					<a href='/learn/manufacturer' class="">
-						Manufacturers
-					</a>
-				</div><div class="menu-item">
-					<a href='/learn/suppliers' class="">
-						Suppliers
+						Credits <strong> (320) </strong> <b class="caret"></b>
 					</a>
 				</div><div class="menu-item">
 					<a href='/about' class="">
-						About
+						Notifications <span class="label-info label">2</span> <b class="caret"></b>
 					</a>
-				</div><div class="menu-item">
-					<a href='/signup' class="">
-						Sign Up
+				</div><!-- <div class="menu-item">
+					<a href='/learn/supplier' class="">
+						Lists <b class="caret"></b>
 					</a>
-				</div><div class="menu-item">
-					<a href='/signin' class="last">
-						Log In
+				</div> -->
+				<div class="menu-item">
+					<a href='/learn/features' class="first">
+						<span class="glyphicon glyphicon-user"></span> Colts Neck Equine <b class="caret"></b>
+					</a>
+				</div>
+				<div class="checkout-box">
+					<a href='#' class="">
+						<div class="checkout-box-div shopping-cart">
+							<span class="glyphicon glyphicon-shopping-cart"></span><span class="label">2</span>
+						</div>
+					</a>
+					<a href='#' class="checkout">
+						<div class="checkout-box-div checkout">
+							Checkout <span class="glyphicon glyphicon-chevron-right">
+						</div>
 					</a>
 				</div>
 			</div>
 			{% endif %}
+			<div class="top-menu">
+				<div class="checkout-box">
+					<a href='#' class="">
+						<div class="checkout-box-div shopping-cart">
+							<span class="glyphicon glyphicon-shopping-cart"></span><span class="label">2</span>
+						</div>
+					</a>
+					<a href='#' class="checkout">
+						<div class="checkout-box-div checkout">
+							Checkout <span class="glyphicon glyphicon-chevron-right">
+						</div>
+					</a>
+				</div>
+			</div>
 		</div>
 		{% block secondheader %}
 		<div class="dynamic-row">
-			<div class="fixed element noborder custom-dropdown category-div">
+			<div class="fixed element custom-dropdown category-div">
 				<div class="element-relative">
 					<a class="bar inlined-bar">
 						<div class="inlined two-row">
@@ -228,7 +251,7 @@
 					</div>
 				</div>
 			</div>
-			<div class="variable element noborder">
+			<div class="variable element">
 				<div class="element-relative">
 					<form action='/form/search' method="POST">
 						<table id="search-table">
@@ -260,9 +283,10 @@
 			{% if not supplier %}
 			<div class="fixed element">
 				<div class="element-relative">
-					<a href="#" class="bar">
-						<div class="two-row">
-							<p><span class="glyphicon glyphicon-record"></span> Rewards {% if basicuser %}<span class="label label-success">320</span>{% endif %}<b class="caret"></b></p>
+					<a class="bar inlined-bar">
+						<div class="inlined two-row">
+							<p class="browse">Colts Neck Equine</p>
+							<p>Your Account <b class="caret"></b></p>
 						</div>
 					</a>
 					<div class="dropdown-box">
@@ -276,9 +300,9 @@
 			</div>
 			<div class="fixed element">
 				<div class="element-relative">
-					<a href="#" class="bar">
+					<a href="#" class="bar selected">
 						<div class="two-row">
-							<p><span class="glyphicon glyphicon-shopping-cart"></span> Cart {% if basicuser %}<span class="label label-success">2</span> {% endif %}<b class="caret"></b></p>
+							<p>Help <b class="caret"></b></p>
 						</div>
 					</a>
 					<div class="dropdown-box product-dropdown">
@@ -308,28 +332,13 @@
 					</div>
 				</div>
 			</div>
-			<div class="fixed element">
-				<div class="element-relative">
-					<a href="#" class="bar">
-						<div class="two-row">
-							<p><span class="glyphicon glyphicon-th-list"></span> Lists <b class="caret"></b></p>
-						</div>
-					</a>
-					<div class="dropdown-box">
-						<a class="" href="#">Your Saved Items</a>
-						<a class="" href="#">Frequent Orders</a>
-						<a class="" href="#">Manage Lists</a>
-						<a class="" href="#">Create a New List</a>
-					</div>
-				</div>
-			</div>
 			{% endif %}
 			{% if supplier %}
 			<div class="fixed element">
 				<div class="element-relative">
 					<a href="#" class="bar">
 						<div class="two-row">
-							<p><span class="glyphicon glyphicon-flag"></span> Rewards <span class="label">4</span> <b class="caret"></b></p>
+							<p><span class="glyphicon glyphicon-flag"></span><b class="caret"></b></p>
 						</div>
 					</a>
 					<div class="dropdown-box notification-dropdown">
@@ -342,11 +351,11 @@
 				</div>
 			</div>
 			{% endif %}
-			<div class="fixed element noborder">
+			<div class="fixed element">
 				<div class="element-relative">
 					<a href="#" class="bar">
 						<div class="two-row">
-							<p><span class="glyphicon glyphicon-cog"></span> Account <b class="caret"></b></p>
+							<p><span style="font-size:22px" class="glyphicon glyphicon-globe"></span> <span class="label">4</span>  <b class="caret"></b></p>
 						</div>
 					</a>
 					<div class="dropdown-box account-dropdown">
@@ -380,6 +389,8 @@
 		</div>
 		{% endblock %}
 	</header>
+
+	
 	<div class="content">
 		{% block content %}
 		{% endblock %}
@@ -524,7 +535,7 @@ var noImageURL = '{{STATIC_URL}}img/noimage/noimage.jpg';
 			activatingDropdown($(this));
 		});
 
-		$(".dynamic-row .element-relative").hoverIntent(function(){
+		$(".dynamic-row .element-relative").hover(function(){
 			activatingDropdown($(this).children("a"));
 		},function() {
 			box = $(this).children(".dropdown-box");
@@ -549,7 +560,7 @@ var noImageURL = '{{STATIC_URL}}img/noimage/noimage.jpg';
 	function activatingDropdown(handle) {
 		box = $(handle).parent().children(".dropdown-box");
 		link = $(handle);
-		$(box).css('display','block');
+		//$(box).css('display','block');
 		$(link).addClass("active");
 	}
 
