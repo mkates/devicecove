@@ -54,15 +54,15 @@ def newReferral(request,referral_id):
 
 ### Features for Veterinarians ###
 def features(request):
-	return render_to_response('general/corporate/features.html',{},context_instance=RequestContext(request))
+	return render_to_response('general/corporate/features.html',{'learn_features':True},context_instance=RequestContext(request))
 
 ### Features for Manufacturer ###
 def manufacturer(request):
-	return render_to_response('general/corporate/manufacturer.html',{},context_instance=RequestContext(request))
+	return render_to_response('general/corporate/manufacturer.html',{'learn_manufacturer':True},context_instance=RequestContext(request))
 
 ### Features for Distributor ###
 def supplier(request):
-	return render_to_response('general/corporate/supplier.html',{},context_instance=RequestContext(request))
+	return render_to_response('general/corporate/supplier.html',{'learn_supplier':True},context_instance=RequestContext(request))
 
 #############################################################
 ######## Information Pages ##################################

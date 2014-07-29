@@ -39,358 +39,242 @@
 <body>
 {% block body_content %}
 <div class="body-container">
-	<!-- <div class="alert alert-danger alert-dismissible alert-top" role="alert">
-	  <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-	  <strong>Action Still Required!</strong> You cannot access pricing until all verification forms are completed.
-	</div> -->
-	<header class="header">
-		<div class="mainheader">
-			<div class="left-header">
-				<a href='/'>
-					<div class="header-logo">
-						<img id="main-logo" src="{{STATIC_URL}}img/logo/paw_logo_beta.png" alt="VetCove"/>
-						<img id="main-logo-alt" src="{{STATIC_URL}}img/logo/paw_logo_beta_purple.png" alt="VetCove"/>
-					</div>
+	<!-- Alerts -->
+	<div class="page-alert"></div>
+	<!-- Header -->
+	<div class="header">
+		<!-- Main Header Bar -->
+		<div class="header-main">
+			<div class="header-left">
+				<a class="header-logo" href='/'>
+					<img id="main-logo" src="{{STATIC_URL}}img/logo/paw_logo_beta.png" alt="VetCove"/>
+					<img id="main-logo-alt" src="{{STATIC_URL}}img/logo/paw_logo_beta_purple.png" alt="VetCove"/>
 				</a>
 			</div>
-			{% if basicuser %}
-				{% if clinic %}
-					<div class="selections">
-						<a href='/dashboard' class="col12-8 first {% if dashboard %}active{% endif %}">
-							<div class="item">
-								<div class="item-image" style='background-image:url("{{STATIC_URL}}img/misc/topicons.png")'></div>
-								<p>Dashboard</p>
-							</div>
+			<div class="header-right">
+				{% if basicuser %}
+					{% if clinic %}
+					<div class="header-right-element navigation-menu">
+						<a href='/dashboard' class="item">
+							<div class="image"></div>
+							<p>Dashboard</p>
+						</a><a href='/dashboard' class="item">
+							<div class="image" style='background-position: -21px 0'></div>
+							<p>Promotions</p>
+						</a><a href='/dashboard' class="item">
+							<div class="image" style='background-position: -42px 0'></div>
+							<p>Trending</p>
+						</a><a href='/dashboard' class="item">
+							<div class="image" style='background-position: -63px 0'></div>
+							<p>New Products</p>
+						</a><a href='/dashboard' class="item">
+							<div class="image" style='background-position: -84px 0'></div>
+							<p>Rewards</p>
 						</a>
-						<a href='/deals' class="col12-8 {% if browse_deals %}active{% endif %}">
-							<div class="item">
-								<div class="item-image" style='background-image:url("{{STATIC_URL}}img/misc/topicons.png");background-position: -21px 0'></div>
-								<p>Promotions</p>
-							</div>
-						</a>
-						<a href='/trending' class="col12-8{% if browse_trending %} active{% endif %}">
-							<div class="item">
-								<div class="img">
-									<div class="item-image" style='background-image:url("{{STATIC_URL}}img/misc/topicons.png");background-position: -42px 0' ></div>
+					</div>
+					<div class="header-right-element actions">
+						<div class="dropdown">
+							<a href='' data-delay='200' id="cart" type="button" class="dropdown-toggle button button-rounded">
+								<div class="shopping-cart">
+									<span class="glyphicon glyphicon-shopping-cart"></span><span class="label">2</span>
 								</div>
-								<p>Trending</p>
-							</div>
-						</a>
-						<a href='/new' class="col12-8 {% if browse_new %} active{% endif %}">
-							<div class="item">
-								<div class="img">
-									<div class="item-image" style='background-image:url("{{STATIC_URL}}img/misc/topicons.png");background-position: -63px 0'></div>
+							</a>
+							<div class="dropdown-box product-dropdown" role="menu" aria-labelledby="cart">
+								{% if basicuser %}
+								<div class="product-item">
+									<div class="product-item-image product-item-div">
+										<img src='{{STATIC_URL}}img/placeholder_pics/search/2.jpg'>
+									</div>
+									<div class="product-item-info product-item-div">
+										<p class="product-item-name">Rimadyl Chewable Tablets</p>
+										<p class="product-item-details">Quantity: 2 | $13.92</p>
+									</div>
 								</div>
-								<p>New Products</p>
-							</div>
-						</a>
-						<a href='/rewards' class="col12-8 last{% if browse_rewards %} active{% endif %}">
-							<div class="item">
-								<div class="img">
-									<div class="item-image" style='background-image:url("{{STATIC_URL}}img/misc/topicons.png");background-position: -84px 0' ></div>
+								<div class="product-item">
+									<div class="product-item-image product-item-div">
+										<img src='{{STATIC_URL}}img/placeholder_pics/search/6.jpg'>
+									</div>
+									<div class="product-item-info product-item-div">
+										<p class="product-item-name">Equizone Phenylbutazone Powder</p>
+										<p class="product-item-details">Quantity: 4 | $13.92</p>
+									</div>
 								</div>
-								<p>Rewards</p>
+								{% endif %}
+								<div class="cart-button">
+									<a href="/cart" class="button button-rounded button-primary">View Cart and Checkout <span class="glyphicon glyphicon-arrow-right"></span></a>
+								</div>
+							</div>
+						</div>
+						<a href='#' class="button button-primary button-rounded">
+							<div class="checkout">
+								Checkout <span class="glyphicon glyphicon-chevron-right"></span>
 							</div>
 						</a>
 					</div>
-				{% elif supplier %}
-					<div class="selections selections-supplier">
-						<a href='/portal/dashboard' class="col12-8 first {% if portal_dashboard %} active{% endif %}">
-							<div class="item">
-								<div class="img">
-									<div class="item-image" style='background-image:url("{{STATIC_URL}}img/misc/topicons.png");background-position: -0px 0' ></div>
-								</div>
-								<p>Dashboard</p>
-							</div>
+					{% else %}
+					<div class="header-right-element navigation-menu">
+						<a href='/dashboard' class="item">
+							<div class="image"></div>
+							<p>Dashboard</p>
+						</a><a href='/portal/inventory' class="item">
+							<div class="image" style='background-position: -147px 0'></div>
+							<p>Inventory</p>
+						</a><a href='/portal/product' class="item">
+							<div class="image" style='background-position: -168px 0'></div>
+							<p>Listings</p>
+						</a><a href='/portal/purchases' class="item">
+							<div class="image" style='background-position: -210px 0'></div>
+							<p>Orders</p>
+						</a><a href='/portal/community' class="item">
+							<div class="image" style='background-position: -105px 0'></div>
+							<p>Community</p>
+						</a><a href='/portal/promotions' class="item">
+							<div class="image" style='background-position: -21px 0'></div>
+							<p>Promotions</p>
+						</a><a href='/portal/reports' class="item">
+							<div class="image" style='background-position: -42px 0'></div>
+							<p>Reports</p>
 						</a>
-						<a href='/portal/inventory' class="col12-8{% if portal_inventory %} active{% endif %}">
-							<div class="item">
-								<div class="img">
-									<div class="item-image" style='background-image:url("{{STATIC_URL}}img/misc/topicons.png");background-position: -147px 0' ></div>
-								</div>
-								<p>Live Listings</p>
+					</div>
+					{% endif %}
+				{% else %}
+					<ul class="generic-menu">
+						<li><a class="{% if learn_features %}active{% endif %}" href='/learn/features'>Veterinarians</a></li>
+						<li><a class="{% if learn_supplier %}active{% endif %}" href='/learn/supplier'>Suppliers</a></li>
+						<li><a class="{% if about %}active{% endif %}" href='/about'>About</a></li>
+						<li><a class="{% if faq %}active{% endif %}" href='/faq'>Help</a></li>
+						<li><a class="action-button" href='/signup'>Sign Up</a></li>
+						<li><a class="action-button" href='/signin'>Log In</a></li>
+					</ul>
+				{% endif %}
+			</div>
+		</div>
+
+		<!-- Second Header Bar (Search Bar) -->
+		<div class="header-bar">
+			<div class="element fixed categories-element">
+				<a href='/categories' class="element-link categories double-row">
+					<p>Browse by</p>
+					<p>Categories <b class="caret"></b></p>
+				</a>
+				<div class="category-box dropdown-box">
+					<div class="category-menu">
+						<ul id="category-menu-ul">
+							{% for key,category in maincategories.items %}
+								<li><a data-name="{{category.name}}" class="category-menu-item" href='/category/{{category.name}}'>{{category.displayname}}<span> &rsaquo; </span></a></li>
+							{% endfor %}
+							<li><a href='/categories' class="full-directory">See Full Directory</a></li>
+						</ul>
+					</div>
+					<div class="category-content">
+						{% for key,category in maincategories.items %}
+							<div id="menu-{{category.name}}" class="category-info">
+								<h1>{{category.displayname}}</h1>
+									{% for subcategory in category.subcat %}
+									<div class="category-info-box">
+										<a href='/category/{{subcategory.0}}'>{{subcategory.1}}</a>
+									</div>
+									{% endfor %}
+								
 							</div>
-						</a>
-						<a href='/portal/products' class="col12-8 {% if portal_product %} active{% endif %}">
-							<div class="item">
-								<div class="img">
-									<div class="item-image" style='background-image:url("{{STATIC_URL}}img/misc/topicons.png");background-position: -168px 0' ></div>
-								</div>
-								<p>Products</p>
-							</div>
-						</a>
-						<a href='/portal/purchases' class="col12-8{% if portal_purchases %} active{% endif %}">
-							<div class="item">
-								<div class="img">
-									<div class="item-image" style='background-image:url("{{STATIC_URL}}img/misc/topicons.png");background-position: -210px 0' ></div>
-								</div>
-								<p>Sales</p>
-							</div>
-						</a>
-						<a href='/portal/community' class="col12-8 {% if portal_community %} active{% endif %}">
-							<div class="item">
-								<div class="img">
-									<div class="item-image" style='background-image:url("{{STATIC_URL}}img/misc/topicons.png");background-position: -105px 0' ></div>
-								</div>
-								<p>Community</p>
-							</div>
-						</a>
-						<a href='/portal/promotions' class="col12-8{% if portal_promotions %} active{% endif %}">
-							<div class="item">
-								<div class="img">
-									<div class="item-image" style='background-image:url("{{STATIC_URL}}img/misc/topicons.png");background-position: -21px 0' ></div>
-								</div>
-								<p>Promotions</p>
-							</div>
-						</a>
-						<!-- <a href='/portal/performance' class="col12-8{% if portal_performance %} active{% endif %}">
-							<div class="item">
-								<div class="img">
-									<div class="item-image" style='background-image:url("{{STATIC_URL}}img/misc/topicons.png");background-position: -189px 0' ></div>
-								</div>
-								<p>Performance</p>
-							</div>
-						</a> -->
-						<a href='/portal/reports' class="col12-8 last {% if portal_reports %} active{% endif %}">
-							<div class="item last">
-								<div class="img">
-									<div class="item-image" style='background-image:url("{{STATIC_URL}}img/misc/topicons.png");background-position: -42px 0' ></div>
-								</div>
-								<p>Reports</p>
-							</div>
-						</a>
+						{% endfor %}
+						<div id="menu-diagnosticexams" class="category-info">
+							<h1>Diagnostic Exams</h1>
+						</div>
+						<div id="menu-diagnostics" class="category-info">
+							<h1>Diagnostics</h1>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="element variable search-element">
+				<form class="search" action='/form/search' method="POST">
+					<table id="search-table" class="search-table">
+						<tr>
+							<td><input class="form-control" id="searchinput" autocomplete="off" name="search" placeholder="{% if supplier %}Search products, inventory, purchases, veterinarians{% else %}Search Equipment by Name, ID, Ingredients, Features . . .{% endif %}"/><span id="search-exit">&#10006;</span></td>
+							<td class="button-td"><button value="submit" class="button button-rounded">Go</button></td>
+						</tr>
+					</table>
+				</form>
+				<div id="autosuggest" >
+					<div class="section categoriesheader">
+						Categories
+					</div>
+					<div id="categoriessection" class="section-content">
+					</div>
+					<div class="section productsheader">
+						Products
+					</div>
+					<div id="productssection" class="section-content">
+					</div>
+					<div class="section manufacturerheader">
+						Manufacturers
+					</div>
+					<div id="manufacturerssection" class="section-content">
+					</div>
+				</div>
+			</div>
+			<div class="element fixed">
+				<a href='/notifications' class="element-link notification">
+					<p><span class="glyphicon glyphicon-comment"></span> <span class="label">4</span></p>
+				</a>
+				<div class="dropdown-box notification-dropdown dropdown-left">
+					<p class="">No New Notifications</p>
+				</div>
+			</div>
+			<div class="element fixed">
+				<a href='/rewards' class="element-link double-row">
+					<p>Your</p>
+					<p>Credits <b class="caret"></b></p>
+				</a>
+				<div class="dropdown-box goal-dropdown dropdown-left">
+					{% if basicuser %}
+					<p class="highlight"><strong>Credit Balance: 320 credits</strong></p>
+					{% endif %}
+					<a class="" href="/rewards">Monthly VetCove Rewards</a>
+					<a class="" href="/rewards">Manufacturer Rebates</a>
+					<a class="" href="/rewards/store">Redeem Your Credits</a>
+				</div>
+			</div>
+			<div class="element fixed account-element">
+				<a href='/account' class="element-link double-row account">
+					<p class="companyname">Colts Neck Equine</p>
+					<p>Your Account <b class="caret"></b></p>
+				</a>
+				<div class="dropdown-box account-dropdown dropdown-left">
+				{% if not basicuser %}
+					<div class="portal-enter">
+						<div>
+							<a href='/signin' class="sigin button button-rounded button-primary">Log In</a>
+						</div>
+						<span class="newcustomer"><p>New Customer?</p> <a href='/signup'>Sign Up Here</a></span>
+						<div class="divider"></div>
 					</div>
 				{% endif %}
-			{% else %}
-			<div class="top-menu">
-				<div class="menu-item">
-					<a href='/learn/manufacturer' class="">
-						Credits <strong> (320) </strong> <b class="caret"></b>
-					</a>
-				</div><div class="menu-item">
-					<a href='/about' class="">
-						Notifications <span class="label-info label">2</span> <b class="caret"></b>
-					</a>
-				</div><!-- <div class="menu-item">
-					<a href='/learn/supplier' class="">
-						Lists <b class="caret"></b>
-					</a>
-				</div> -->
-				<div class="menu-item">
-					<a href='/learn/features' class="first">
-						<span class="glyphicon glyphicon-user"></span> Colts Neck Equine <b class="caret"></b>
-					</a>
-				</div>
-				<div class="checkout-box">
-					<a href='#' class="">
-						<div class="checkout-box-div shopping-cart">
-							<span class="glyphicon glyphicon-shopping-cart"></span><span class="label">2</span>
-						</div>
-					</a>
-					<a href='#' class="checkout">
-						<div class="checkout-box-div checkout">
-							Checkout <span class="glyphicon glyphicon-chevron-right">
-						</div>
-					</a>
-				</div>
-			</div>
-			{% endif %}
-			<div class="top-menu">
-				<div class="checkout-box">
-					<a href='#' class="">
-						<div class="checkout-box-div shopping-cart">
-							<span class="glyphicon glyphicon-shopping-cart"></span><span class="label">2</span>
-						</div>
-					</a>
-					<a href='#' class="checkout">
-						<div class="checkout-box-div checkout">
-							Checkout <span class="glyphicon glyphicon-chevron-right">
-						</div>
-					</a>
-				</div>
-			</div>
-		</div>
-		{% block secondheader %}
-		<div class="dynamic-row">
-			<div class="fixed element custom-dropdown category-div">
-				<div class="element-relative">
-					<a class="bar inlined-bar">
-						<div class="inlined two-row">
-							<p class="browse">Browse by</p>
-							<p>Categories <b class="caret"></b></p>
-						</div>
-					</a>
-					<div class="category-box dropdown-box">
-						<div class="category-menu">
-							<ul id="category-menu-ul">
-								{% for key,category in maincategories.items %}
-									<li><a data-name="{{category.name}}" class="category-menu-item" href='/category/{{category.name}}'>{{category.displayname}}<span> &rsaquo; </span></a></li>
-								{% endfor %}
-								<li><a href='/categories' class="full-directory">See Full Directory</a></li>
-							</ul>
-						</div>
-						<div class="category-content">
-							{% for key,category in maincategories.items %}
-								<div id="menu-{{category.name}}" class="category-info">
-									<h1>{{category.displayname}}</h1>
-										{% for subcategory in category.subcat %}
-										<div class="category-info-box">
-											<a href='/category/{{subcategory.0}}'>{{subcategory.1}}</a>
-										</div>
-										{% endfor %}
-									
-								</div>
-							{% endfor %}
-							<div id="menu-diagnosticexams" class="category-info">
-								<h1>Diagnostic Exams</h1>
-							</div>
-							<div id="menu-diagnostics" class="category-info">
-								<h1>Diagnostics</h1>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-			<div class="variable element">
-				<div class="element-relative">
-					<form action='/form/search' method="POST">
-						<table id="search-table">
-							<tr>
-								<td><input class="form-control" id="searchinput" autocomplete="off" name="search" placeholder="{% if supplier %}Search products, inventory, purchases, veterinarians{% else %}Search Equipment and Supplies. . .{% endif %}"/><span id="search-exit">&#10006;</span></td>
-								<td class="button-td"><button value="submit" class="button button-rounded">Go</button></td>
-							</tr>
-						</table>
-					</form>
-					<div id="autosuggest" >
-						<div class="section categoriesheader">
-							Categories
-						</div>
-						<div id="categoriessection" class="section-content">
-						</div>
-						<div class="section productsheader">
-							Products
-						</div>
-						<div id="productssection" class="section-content">
-						</div>
-						<div class="section manufacturerheader">
-							Manufacturers
-						</div>
-						<div id="manufacturerssection" class="section-content">
-						</div>
-					</div>
-				</div>
-			</div>
-			{% if not supplier %}
-			<div class="fixed element">
-				<div class="element-relative">
-					<a class="bar inlined-bar">
-						<div class="inlined two-row">
-							<p class="browse">Colts Neck Equine</p>
-							<p>Your Account <b class="caret"></b></p>
-						</div>
-					</a>
-					<div class="dropdown-box">
-						{% if basicuser %}
-						<p class="balance"><strong>Credit Balance: 320 credits</strong></p>
-						{% endif %}
-						<a class="" href="/rewards">Monthly Rewards</a>
-						<a class="" href="/rewards/store">Redeem Your Credits</a>
-					</div>
-				</div>
-			</div>
-			<div class="fixed element">
-				<div class="element-relative">
-					<a href="#" class="bar selected">
-						<div class="two-row">
-							<p>Help <b class="caret"></b></p>
-						</div>
-					</a>
-					<div class="dropdown-box product-dropdown">
-						{% if basicuser %}
-						<div class="product-item">
-							<div class="product-item-image product-item-div">
-								<img src='{{STATIC_URL}}img/placeholder_pics/search/2.jpg'>
-							</div>
-							<div class="product-item-info product-item-div">
-								<p class="product-item-name">Rimadyl Chewable Tablets</p>
-								<p class="product-item-details">Quantity: 2 | $13.92</p>
-							</div>
-						</div>
-						<div class="product-item">
-							<div class="product-item-image product-item-div">
-								<img src='{{STATIC_URL}}img/placeholder_pics/search/6.jpg'>
-							</div>
-							<div class="product-item-info product-item-div">
-								<p class="product-item-name">Equizone Phenylbutazone Powder</p>
-								<p class="product-item-details">Quantity: 4 | $13.92</p>
-							</div>
-						</div>
-						{% endif %}
-						<div class="cart-button">
-							<a href="/cart" class="button button-rounded button-primary">View Cart and Checkout <span class="glyphicon glyphicon-arrow-right"></span></a>
-						</div>
-					</div>
-				</div>
-			</div>
-			{% endif %}
-			{% if supplier %}
-			<div class="fixed element">
-				<div class="element-relative">
-					<a href="#" class="bar">
-						<div class="two-row">
-							<p><span class="glyphicon glyphicon-flag"></span><b class="caret"></b></p>
-						</div>
-					</a>
-					<div class="dropdown-box notification-dropdown">
-						<a class="" href="#">Colts Neck Equine has made a purchase <span>2 min ago</span></a>
-						<a class="" href="#">Joe from Midville asked a question about Phenylbutazone Powder <span>6 hrs ago</span></a>
-						<a class="" href="#">Mike (Colts Neck Equine) commented on your answer <span>1 day ago</span></a>
-						<a class="" href="#">Your promotion has ended! View promotion results. <span>1 day ago</span></a>
-						<a class="button button-rounded button-flat" href="#">View all Notifications &rarr;</a>
-					</div>
-				</div>
-			</div>
-			{% endif %}
-			<div class="fixed element">
-				<div class="element-relative">
-					<a href="#" class="bar">
-						<div class="two-row">
-							<p><span style="font-size:22px" class="glyphicon glyphicon-globe"></span> <span class="label">4</span>  <b class="caret"></b></p>
-						</div>
-					</a>
-					<div class="dropdown-box account-dropdown">
-					{% if not basicuser %}
-						<a href='/signin' class="button button-rounded button-primary">Sign In</a>
-						<p class="newcustomer">New Customer? <a href='/signup'>Sign Up Here</a></p>
-						<div class="divider"></div>
+					{% if not supplier %}
+					<a class="" href="/account/profile">Your Account</a>
+					<a class="" href="#">Your Orders</a>
+					<a class="" href="#">Your Returns</a>
+					<a class="" href="#">Purchase Analytics</a>
+					<div class="divider"></div>
+					<a class="" href="/account/questions">Your Questions</a>
+					<a class="" href="/account/reviews">Your Reviews</a>
+					<div class="divider"></div>
+					<a class="" href="/account/sell">Your Listed Items</a>
+					{% else %}
+					<a class="" href="/account/profile">Your Account</a>
+					<a class="" href="#">Settings</a>
+					<a class="" href="#">Help</a>
 					{% endif %}
-						{% if not supplier %}
-							<a class="" href="/account/profile">Your Account</a>
-							<a class="" href="#">Your Orders</a>
-							<a class="" href="#">Your Returns</a>
-							<a class="" href="#">Purchase Analytics</a>
-							<div class="divider"></div>
-							<a class="" href="/account/questions">Your Questions</a>
-							<a class="" href="/account/reviews">Your Reviews</a>
-							<div class="divider"></div>
-							<a class="" href="/account/sell">Your Listed Items</a>
-						{% else %}
-							<a class="" href="/account/profile">Your Account</a>
-							<a class="" href="#">Settings</a>
-							<a class="" href="#">Help</a>
-						{% endif %}
-						{% if basicuser %}
-						<div class="divider"></div>
-						<a class="" href="/logout">Not {{user.email}}? Sign Out</a>
-						{% endif %}
-					</div>
+					{% if basicuser %}
+					<div class="divider"></div>
+					<a class="" href="/logout">Logout</a>
+					{% endif %}
 				</div>
 			</div>
-		</div>
-		{% endblock %}
-	</header>
+		</div><!-- End of Second Header -->
+	</div><!-- End of Header -->
 
-	
 	<div class="content">
 		{% block content %}
 		{% endblock %}
@@ -487,6 +371,7 @@ var noImageURL = '{{STATIC_URL}}img/noimage/noimage.jpg';
 </script>
 <script src="{{STATIC_URL}}js/plugins/jquery-2.1.1.min.js" type="text/javascript" ></script>
 <script src="{{STATIC_URL}}js/plugins/bootstrap/bootstrap.min.js" type="text/javascript" ></script>
+<script src="{{STATIC_URL}}js/plugins/bootstrap/bootstrap-hover-dropdown.js" type="text/javascript" ></script>
 {% block main_js %}
 <script src="{{STATIC_URL}}js/plugins/jquery.menu-aim.js" type="text/javascript" ></script>
 <script src="{{STATIC_URL}}js/django/csrf_alternate.js" type="text/javascript" ></script>
@@ -531,15 +416,14 @@ var noImageURL = '{{STATIC_URL}}img/noimage/noimage.jpg';
 	//************** Categories ***********************
 	//*************************************************
 	$(document).ready(function() {
-		$(".dynamic-row .element-relative a").click(function(){
-			activatingDropdown($(this));
-		});
-
-		$(".dynamic-row .element-relative").hover(function(){
-			activatingDropdown($(this).children("a"));
+		// $(".header-bar .element a").click(function(){
+		// 	activatingDropdown($(this));
+		// });
+		$(".header-bar .element").hoverIntent(function(){
+			activatingDropdown($(this).children('.element-link'));
 		},function() {
 			box = $(this).children(".dropdown-box");
-			link = $(this).children("a");
+			link = $(this).children('.element-link');
 			$(box).css('display','none');
 			$(link).removeClass("active");
 			$(".category-box .category-menu-item").removeClass('active');
@@ -560,7 +444,7 @@ var noImageURL = '{{STATIC_URL}}img/noimage/noimage.jpg';
 	function activatingDropdown(handle) {
 		box = $(handle).parent().children(".dropdown-box");
 		link = $(handle);
-		//$(box).css('display','block');
+		$(box).css('display','block');
 		$(link).addClass("active");
 	}
 
