@@ -19,21 +19,21 @@ from helper.model_imports import *
 #### Basic Pages ##########################
 ###########################################
 def dashboard(request):
-	return render_to_response('account/pages/browse/dashboard.html',{'dashboard':True},context_instance=RequestContext(request))
+	return render_to_response('account/pages/browse/dashboard.html',{'page_dashboard':True},context_instance=RequestContext(request))
 def new(request):
-	return render_to_response('account/pages/browse/new.html',{'browse_new':True},context_instance=RequestContext(request))
+	return render_to_response('account/pages/browse/new.html',{'page_new':True},context_instance=RequestContext(request))
 def recent(request):
-	return render_to_response('account/pages/browse/recent.html',{'browse_recent':True},context_instance=RequestContext(request))
+	return render_to_response('account/pages/browse/recent.html',{'page_recent':True},context_instance=RequestContext(request))
 def trending(request):
-	return render_to_response('account/pages/browse/trending.html',{'browse_trending':True},context_instance=RequestContext(request))
+	return render_to_response('account/pages/browse/trending.html',{'page_trending':True},context_instance=RequestContext(request))
 def deals(request):
-	return render_to_response('account/pages/browse/deals.html',{'browse_deals':True},context_instance=RequestContext(request))
+	return render_to_response('account/pages/browse/deals.html',{'page_deals':True},context_instance=RequestContext(request))
 def rewardsRewards(request):
-	return render_to_response('account/pages/browse/rewards/rewards.html',{'browse_rewards':True, 'browse_rewards_rewards':True},context_instance=RequestContext(request))
+	return render_to_response('account/pages/browse/rewards/rewards.html',{'page_rewards':True, 'browse_rewards_rewards':True},context_instance=RequestContext(request))
 def rewardsStore(request):
-	return render_to_response('account/pages/browse/rewards/store.html',{'browse_rewards':True, 'browse_rewards_store':True},context_instance=RequestContext(request))
+	return render_to_response('account/pages/browse/rewards/store.html',{'page_rewards':True, 'browse_rewards_store':True},context_instance=RequestContext(request))
 def rewardsHistory(request):
-	return render_to_response('account/pages/browse/rewards/history.html',{'browse_rewards':True, 'browse_rewards_history':True},context_instance=RequestContext(request))
+	return render_to_response('account/pages/browse/rewards/history.html',{'page_rewards':True, 'browse_rewards_history':True},context_instance=RequestContext(request))
 
 ###########################################
 #### Portal Pages #########################

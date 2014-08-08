@@ -1,7 +1,14 @@
 {% extends 'sellerportal/product/base.html' %}
 {% block headertitle %}Analytics | {{product.displayname}}{% endblock %}
 {% block product_css %}
-
+<style>
+.analytics-content .col-md-6 {
+	padding-right: 20px;
+}
+.analytics-content .col-md-6.right {
+	padding-right: 0px;
+}
+</style>
 {% endblock %}
 
 {% block product_js %}
@@ -326,7 +333,7 @@ $(document).ready(function() {
 				<div class="chartdiv" id="chartdiv"></div>
 			</div>
 		</div>
-		<div class="col-md-6 visualization">
+		<div class="col-md-6 visualization right">
 			<div class="visual-container">
 				<h3>Page Views (All VetCove Users)</h3>
 				<div class="chartdiv" id="chartdiv2"></div>
@@ -338,7 +345,7 @@ $(document).ready(function() {
 				<div class="chartdiv" id="piediv"></div>
 			</div>
 		</div>
-		<div class="col-md-6 visualization">
+		<div class="col-md-6 visualization right">
 			<div class="visual-container">
 				<h3>Top Sellers in The Category NSAIDs</h3>
 				<div class="chartdiv">

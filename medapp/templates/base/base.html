@@ -1,143 +1,150 @@
-{% load dollars %}
 <!DOCTYPE html>
+<!-- Site Designed and Built by Mitchell Kates, www.mitchellkates.com -->
+
+{% load dollars %} <!-- Load In Template Tags -->
+
 <html lang="en">
 <head>
-<title>{% block headertitle %}VetCove | Veterinary Supply. Simplified.{% endblock%}</title>
+<title>{% block headertitle %}VetCove | Veterinary Supply Starts Here{% endblock%}</title>
 
-<!-- Meta Information -->
+<!-- Meta Page Information -->
 <meta http-equiv="content-type" content="text/html;charset=UTF-8">
-<!-- <meta name="viewport" content="width=device-width, initial-scale=1.0"> -->
-<meta name="viewport" content="width=1100">
+<meta name="viewport" content="width=1100"> <!-- Set default minimum page width to 1100px on smaller devices -->
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta property="og:title" content="VetCove" />
-<meta property="og:description" content="VetCove is an intelligent online portal where industry suppliers come together to offer veterinary practices dead simple supply purchasing" />
-<meta property="og:image" content="{{STATIC_URL}}img/dog_walk.png" />
+<meta property="og:description" content="VetCove is an online ordering platform and community where industry suppliers come together to offer veterinary practices dead simple supply purchasing" />
+<meta property="og:image" content="{{STATIC_URL}}img/logo/paw_logo.png" /> <!-- Image used when sharing on social networks -->
 
-<!--CSS-->
-<!-- <link rel="icon" type="image/png" href="{{STATIC_URL}}img/favicon32.png"> -->
+<!-- Favicons -->
 <link rel="shortcut icon" href="{{STATIC_URL}}img/logo/favicon.png" type="image/x-icon">
 <link rel="icon" href="{{STATIC_URL}}img/logo/favicon.png" type="image/x-icon">
+
+<!--CSS-->
 <link href="{{STATIC_URL}}css/plugins/bootstrap.min.css" rel="stylesheet" type="text/css" />
 <link rel="stylesheet" href="{{STATIC_URL}}css/plugins/font-awesome.min.css">
-
-{% block main_css %}
-<link href="{{STATIC_URL}}css/plugins/jquery.sidr.dark.css" rel="stylesheet" type="text/css" />
 <link href="{{STATIC_URL}}css/plugins/buttons.css" rel="stylesheet" type="text/css" />
-<link href="{{STATIC_URL}}css/general/base.css" rel="stylesheet" type="text/css" />
 <link href="{{STATIC_URL}}css/general/form.css" rel="stylesheet" type="text/css" />
-<link rel="stylesheet" href="{{STATIC_URL}}css/navbar/sidenav.css">
-<!-- Less Testing -->
+
+<!-- Less Files -->
 <link href="{{STATIC_URL}}css/general/base.less" rel="stylesheet/less" type="text/css" />
 <link href="{{STATIC_URL}}css/general/general.less" rel="stylesheet/less" type="text/css" />
 <script src="{{STATIC_URL}}js/plugins/less.js"></script>
-{% if seller %}
-<link href="{{STATIC_URL}}css/navbar/sidenav.css" rel="stylesheet" type="text/css" />
-{% endif %}
-{% endblock %}
-{% block css %}{% endblock %}
+<!-- End of Less Files -->
+<link href="{{STATIC_URL}}css/general/base.css" rel="stylesheet/less" type="text/css" />
+<!-- End of CSS -->
+
+{% block css %}{% endblock %} <!-- Custom CSS For Inherited Pages Goes Here -->
+
 </head>
 <body>
 {% block body_content %}
 <div class="body-container">
-	<!-- Alerts -->
+	<!-- Top Alerts -->
 	<div class="page-alert"></div>
+
 	<!-- Header -->
 	<div class="header">
 		<!-- Main Header Bar -->
 		<div class="header-main">
+			<!-- Logo -->
 			<div class="header-left">
 				<a class="header-logo" href='/'>
 					<img id="main-logo" src="{{STATIC_URL}}img/logo/paw_logo_beta.png" alt="VetCove"/>
 					<img id="main-logo-alt" src="{{STATIC_URL}}img/logo/paw_logo_beta_purple.png" alt="VetCove"/>
 				</a>
 			</div>
+			<!-- Right Side Navigation -->
 			<div class="header-right">
 				{% if basicuser %}
 					{% if clinic %}
-					<div class="header-right-element navigation-menu">
-						<a href='/dashboard' class="item">
-							<div class="image"></div>
-							<p>Dashboard</p>
-						</a><a href='/dashboard' class="item">
-							<div class="image" style='background-position: -21px 0'></div>
-							<p>Promotions</p>
-						</a><a href='/dashboard' class="item">
-							<div class="image" style='background-position: -42px 0'></div>
-							<p>Trending</p>
-						</a><a href='/dashboard' class="item">
-							<div class="image" style='background-position: -63px 0'></div>
-							<p>New Products</p>
-						</a><a href='/dashboard' class="item">
-							<div class="image" style='background-position: -84px 0'></div>
-							<p>Rewards</p>
-						</a>
-					</div>
-					<div class="header-right-element actions">
-						<div class="dropdown">
-							<a href='' data-delay='200' id="cart" type="button" class="dropdown-toggle button button-rounded">
-								<div class="shopping-cart">
+					    <!-- Main Browsing Bar -->
+						<div class="header-right-element navigation-menu">
+							<a href='/dashboard' class="item{% if page_dashboard %} active{% endif %}">
+								<div class="image"></div>
+								<p>Dashboard</p>
+							</a><a href='/deals' class="item{% if page_deals %} active{% endif %}">
+								<div class="image" style='background-position: -21px 0'></div>
+								<p>Deals</p>
+							</a><a href='/trending' class="item{% if page_trending %} active{% endif %}">
+								<div class="image" style='background-position: -42px 0'></div>
+								<p>Trending</p>
+							</a><a href='/new' class="item{% if page_new %} active{% endif %}">
+								<div class="image" style='background-position: -63px 0'></div>
+								<p>New Products</p>
+							</a><a href='/rewards' class="item{% if page_rewards %} active{% endif %}">
+								<div class="image" style='background-position: -84px 0'></div>
+								<p>Rewards</p>
+							</a>
+						</div>
+						<!-- Cart and Checkout -->
+						<div class='header-right-element actions'>
+							<!-- Cart Button -->
+							<div class="cart-container dropdown-container">
+								<a href='/cart' class="button button-rounded dropdown-handle cart-button" data-dropdown="cart-dropdown">
 									<span class="glyphicon glyphicon-shopping-cart"></span><span class="label">2</span>
+								</a>
+								<div id="cart-dropdown" class="dropdown-box cart-dropdown">
+									{% if basicuser %}
+										<a href='/cart' class="cart-item">
+											<div class="cart-item-image cart-item-div">
+												<img src='{{STATIC_URL}}img/placeholder_pics/search/2.jpg'>
+											</div>
+											<div class="cart-item-info cart-item-div">
+												<p class="cart-item-name">Rimadyl Chewable Tablets</p>
+												<p class="cart-item-details">Quantity: 2 | $13.92</p>
+											</div>
+										</a>
+										<a href='/cart' class="cart-item">
+											<div class="cart-item-image cart-item-div">
+												<img src='{{STATIC_URL}}img/placeholder_pics/search/6.jpg'>
+											</div>
+											<div class="cart-item-info cart-item-div">
+												<p class="cart-item-name">Equizone Phenylbutazone Powder</p>
+												<p class="cart-item-details">Quantity: 4 | $13.92</p>
+											</div>
+										</a>
+									{% endif %}
+									<div class="cart-button">
+										<a href="/cart" class="button button-rounded">View Cart <span class="glyphicon glyphicon-chevron-right"></span></a>
+									</div>
+								</div>
+							</div>
+							<!-- Checkout Button -->
+							<a href='/cart' class="button button-primary button-rounded">
+								<div class="checkout">
+									Checkout <span class="glyphicon glyphicon-chevron-right"></span>
 								</div>
 							</a>
-							<div class="dropdown-box product-dropdown" role="menu" aria-labelledby="cart">
-								{% if basicuser %}
-								<div class="product-item">
-									<div class="product-item-image product-item-div">
-										<img src='{{STATIC_URL}}img/placeholder_pics/search/2.jpg'>
-									</div>
-									<div class="product-item-info product-item-div">
-										<p class="product-item-name">Rimadyl Chewable Tablets</p>
-										<p class="product-item-details">Quantity: 2 | $13.92</p>
-									</div>
-								</div>
-								<div class="product-item">
-									<div class="product-item-image product-item-div">
-										<img src='{{STATIC_URL}}img/placeholder_pics/search/6.jpg'>
-									</div>
-									<div class="product-item-info product-item-div">
-										<p class="product-item-name">Equizone Phenylbutazone Powder</p>
-										<p class="product-item-details">Quantity: 4 | $13.92</p>
-									</div>
-								</div>
-								{% endif %}
-								<div class="cart-button">
-									<a href="/cart" class="button button-rounded button-primary">View Cart and Checkout <span class="glyphicon glyphicon-arrow-right"></span></a>
-								</div>
-							</div>
 						</div>
-						<a href='#' class="button button-primary button-rounded">
-							<div class="checkout">
-								Checkout <span class="glyphicon glyphicon-chevron-right"></span>
-							</div>
-						</a>
-					</div>
 					{% else %}
-					<div class="header-right-element navigation-menu">
-						<a href='/dashboard' class="item">
-							<div class="image"></div>
-							<p>Dashboard</p>
-						</a><a href='/portal/inventory' class="item">
-							<div class="image" style='background-position: -147px 0'></div>
-							<p>Inventory</p>
-						</a><a href='/portal/product' class="item">
-							<div class="image" style='background-position: -168px 0'></div>
-							<p>Listings</p>
-						</a><a href='/portal/purchases' class="item">
-							<div class="image" style='background-position: -210px 0'></div>
-							<p>Orders</p>
-						</a><a href='/portal/community' class="item">
-							<div class="image" style='background-position: -105px 0'></div>
-							<p>Community</p>
-						</a><a href='/portal/promotions' class="item">
-							<div class="image" style='background-position: -21px 0'></div>
-							<p>Promotions</p>
-						</a><a href='/portal/reports' class="item">
-							<div class="image" style='background-position: -42px 0'></div>
-							<p>Reports</p>
-						</a>
-					</div>
+						<!-- Main Supplier Bar -->
+						<div class="header-right-element navigation-menu">
+							<a href='/portal/dashboard' class="item{% if portal_dashboard %} active{% endif %}">
+								<div class="image"></div>
+								<p>Dashboard</p>
+							</a><a href='/portal/inventory' class="item{% if portal_inventory %} active{% endif %}">
+								<div class="image" style='background-position: -147px 0'></div>
+								<p>Inventory</p>
+							</a><a href='/portal/product' class="item{% if portal_product %} active{% endif %}">
+								<div class="image" style='background-position: -168px 0'></div>
+								<p>Products</p>
+							</a><a href='/portal/purchases' class="item{% if portal_purchases %} active{% endif %}">
+								<div class="image" style='background-position: -210px 0'></div>
+								<p>Orders</p>
+							</a><a href='/portal/community' class="item{% if portal_community %} active{% endif %}">
+								<div class="image" style='background-position: -105px 0'></div>
+								<p>Community</p>
+							</a><a href='/portal/promotions' class="item{% if portal_promotions %} active{% endif %}">
+								<div class="image" style='background-position: -21px 0'></div>
+								<p>Promotions</p>
+							</a><a href='/portal/reports' class="item{% if portal_reports %} active{% endif %}">
+								<div class="image" style='background-position: -42px 0'></div>
+								<p>Reports</p>
+							</a>
+						</div>
 					{% endif %}
 				{% else %}
+					<!-- Generic Menu When Not Logged In -->
 					<ul class="generic-menu">
 						<li><a class="{% if learn_features %}active{% endif %}" href='/learn/features'>Veterinarians</a></li>
 						<li><a class="{% if learn_supplier %}active{% endif %}" href='/learn/supplier'>Suppliers</a></li>
@@ -152,12 +159,12 @@
 
 		<!-- Second Header Bar (Search Bar) -->
 		<div class="header-bar">
-			<div class="element fixed categories-element">
-				<a href='/categories' class="element-link categories double-row">
+			<div class="element fixed categories-element dropdown-container">
+				<a href='/categories' class="element-link categories double-row dropdown-handle" data-dropdown="categories-dropdown">
 					<p>Browse by</p>
 					<p>Categories <b class="caret"></b></p>
 				</a>
-				<div class="category-box dropdown-box">
+				<div id="categories-dropdown" class="category-box dropdown-box">
 					<div class="category-menu">
 						<ul id="category-menu-ul">
 							{% for key,category in maincategories.items %}
@@ -214,20 +221,24 @@
 					</div>
 				</div>
 			</div>
-			<div class="element fixed">
-				<a href='/notifications' class="element-link notification">
-					<p><span class="glyphicon glyphicon-comment"></span> <span class="label">4</span></p>
+			<div class="element fixed dropdown-container">
+				<a href='/notifications' class="element-link notification dropdown-handle" data-dropdown="notification-dropdown">
+					<p><span class="glyphicon glyphicon-comment"></span> {% if basicuser %}<span class="label">2</span>{% endif %}</p>
 				</a>
-				<div class="dropdown-box notification-dropdown dropdown-left">
-					<p class="">No New Notifications</p>
+				<div id="notification-dropdown" class="dropdown-box notification-dropdown dropdown-left">
+					{# <p style="text-align: center; padding: 20px" class="">No New Notifications</p> #}
+					<a class="" href="#">Your order #93DUJ32 has shipped</a>
+					<a class="" href="#">Joe from Merial has answered your question</a>
+					<a class="divider"></a>
+					<a class='#'>View all Notifications</a>
 				</div>
 			</div>
-			<div class="element fixed">
-				<a href='/rewards' class="element-link double-row">
+			<div class="element fixed dropdown-container">
+				<a href='/rewards' class="element-link double-row dropdown-handle" data-dropdown='credit-dropdown'>
 					<p>Your</p>
 					<p>Credits <b class="caret"></b></p>
 				</a>
-				<div class="dropdown-box goal-dropdown dropdown-left">
+				<div id="credit-dropdown" class="dropdown-box goal-dropdown dropdown-left">
 					{% if basicuser %}
 					<p class="highlight"><strong>Credit Balance: 320 credits</strong></p>
 					{% endif %}
@@ -236,12 +247,12 @@
 					<a class="" href="/rewards/store">Redeem Your Credits</a>
 				</div>
 			</div>
-			<div class="element fixed account-element">
-				<a href='/account' class="element-link double-row account">
-					<p class="companyname">Colts Neck Equine</p>
+			<div class="element fixed account-element dropdown-container">
+				<a href='/account' class="element-link double-row account dropdown-handle" data-dropdown="account-dropdown">
+					<p class="companyname">{% if basicuser %}Colts Neck Equine{% else %}Hello. Log In{% endif %}</p>
 					<p>Your Account <b class="caret"></b></p>
 				</a>
-				<div class="dropdown-box account-dropdown dropdown-left">
+				<div id="account-dropdown" class="dropdown-box account-dropdown dropdown-left">
 				{% if not basicuser %}
 					<div class="portal-enter">
 						<div>
@@ -283,7 +294,7 @@
 	<footer class="footer">
 		<img id="footer-shadow" src="{{STATIC_URL}}img/misc/shadow.png"/>
 		<div class="row">
-			<div class="col-md-2 col-sm-2 col-xs-6">
+			<div class="col-xs-2">
 				<h3>Browsing</h3>
 				<ul>
 					<li><a href='/categories'>Categories</a></li>
@@ -295,7 +306,7 @@
 					<li><a href='#'>Redeem Credits</a></li>
 				</ul>
 			</div>
-			<div class="col-md-2 col-sm-2 col-xs-6">
+			<div class="col-xs-2">
 				<h3>General</h3>
 				<ul>
 					<li><a href='/sitemap'>Site Map</a></li>
@@ -309,7 +320,7 @@
 					<li><a href='/tos'>Clinics</a></li>
 				</ul>
 			</div>
-			<div class="col-md-2 col-sm-2 col-xs-6">
+			<div class="col-xs-2">
 				<h3>Account</h3>
 				<ul>
 					<li><a href='#'>Order History</a></li>
@@ -322,7 +333,7 @@
 					<li><a href='/contact'>Contact Us</a></li>
 				</ul>
 			</div>
-			<div class="col-md-2 col-sm-2 col-xs-6">
+			<div class="col-xs-2">
 				<h3>Community</h3>
 				<ul>
 					<li><a href='#'>Questions</a></li>
@@ -335,7 +346,7 @@
 					<li><a href='/about'>Team</a></li>
 				</ul>
 			</div>
-			<div class="col-md-4 col-sm-4 col-xs-6 contact-col">
+			<div class="col-xs-4 contact-col">
 				<h3>Contact Information</h3>
 				<ul>
 					<li>10 Pacer Court, Colts Neck NJ</li>
@@ -343,10 +354,10 @@
 					<li>info@vetcove.com</li>
 				</ul>
 				<div class='socialcontainer'>
-					<a href='https://twitter.com/vetcove'><div class="twitter-hover social-slide"></div></a>
-					<a href='https://www.facebook.com/vetcove'><div class="facebook-hover social-slide"></div></a>
-					<a href='http://www.linkedin.com'><div class="linkedin-hover social-slide"></div></a>
-					<a href='https://angel.co'><div class="angellist-hover social-slide"></div></a>
+					<a target="_blank" href='https://twitter.com/vetcove'><div class="twitter-hover social-slide"></div></a>
+					<a target="_blank" href='https://www.facebook.com/vetcove'><div class="facebook-hover social-slide"></div></a>
+					<a target="_blank" href='http://www.linkedin.com'><div class="linkedin-hover social-slide"></div></a>
+					<a target="_blank" href='https://angel.co'><div class="angellist-hover social-slide"></div></a>
 				</div>
 			</div>
 		</div>
@@ -371,10 +382,9 @@ var noImageURL = '{{STATIC_URL}}img/noimage/noimage.jpg';
 </script>
 <script src="{{STATIC_URL}}js/plugins/jquery-2.1.1.min.js" type="text/javascript" ></script>
 <script src="{{STATIC_URL}}js/plugins/bootstrap/bootstrap.min.js" type="text/javascript" ></script>
-<script src="{{STATIC_URL}}js/plugins/bootstrap/bootstrap-hover-dropdown.js" type="text/javascript" ></script>
+<script type="{{STATIC_URL}}js/plugins/retina.min.js"></script> 
 {% block main_js %}
 <script src="{{STATIC_URL}}js/plugins/jquery.menu-aim.js" type="text/javascript" ></script>
-<script src="{{STATIC_URL}}js/django/csrf_alternate.js" type="text/javascript" ></script>
 <script src="{{STATIC_URL}}js/plugins/hoverIntent.js" type="text/javascript" ></script>
 <script src="{{STATIC_URL}}js/basic/autosuggest.js" type="text/javascript" ></script>
 
@@ -413,17 +423,17 @@ var noImageURL = '{{STATIC_URL}}img/noimage/noimage.jpg';
 	});
 
 	//*************************************************
-	//************** Categories ***********************
+	//************** Dropdowns and Categories *********
 	//*************************************************
 	$(document).ready(function() {
 		// $(".header-bar .element a").click(function(){
 		// 	activatingDropdown($(this));
 		// });
-		$(".header-bar .element").hoverIntent(function(){
-			activatingDropdown($(this).children('.element-link'));
+		$(".dropdown-container").hoverIntent(function(){
+			activatingDropdown($(this).children('.dropdown-handle'));
 		},function() {
 			box = $(this).children(".dropdown-box");
-			link = $(this).children('.element-link');
+			link = $(this).children('.dropdown-handle');
 			$(box).css('display','none');
 			$(link).removeClass("active");
 			$(".category-box .category-menu-item").removeClass('active');
@@ -489,6 +499,13 @@ var noImageURL = '{{STATIC_URL}}img/noimage/noimage.jpg';
 				}  // fired on row deactivation
 			});
 		});
+	});
+
+	// *************************************************
+	// ********** Enable all tooltips ******************
+	// *************************************************
+	$(document).ready(function(){
+		$('.tooltip-div').tooltip();
 	});
 </script>
 {% endblock %}

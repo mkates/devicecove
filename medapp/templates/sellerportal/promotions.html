@@ -34,11 +34,24 @@
 	margin-top: 30px;
 }
 .promotion-options {
-	margin: 0 5px 40px 5px;
+	margin: 0 20px 40px 20px;
 }
 .promotion {
 	text-align: center;
 	padding: 15px 15px 0 15px;
+}
+.promotion.first {
+	border-bottom-right-radius: 0px;
+	border-top-right-radius: 0px;
+	border-right: none;
+}
+.promotion.middle {
+	border-radius: 0px;
+	border-right:none;
+}
+.promotion.last {
+	border-top-left-radius: 0px;
+	border-bottom-left-radius: 0px;
 }
 .promotion img {
 	max-width: 250px;
@@ -68,21 +81,21 @@
 </div>
 <div class="row promotion-options">
 	<div class="col-md-4 col-sm-4">
-		<div class="vetbox promotion">
+		<div class="vetbox promotion first">
 			<h4>Create a Monthly Goal</h4>
 			<p>Each month, vets are given a handful of goals to acheive that earns them credits towards gift cards and VetCove cash. Just select the eligible products and target amount.</p>
 			<img src="{{STATIC_URL}}img/misc/seller/promotion3.png">
 		</div>
 	</div>
 	<div class="col-md-4 col-sm-4">
-		<div class="vetbox promotion">
+		<div class="vetbox promotion middle">
 			<h4>Weekly Specials</h4>
 			<p>Each week, we feature the best promotions and specials on the vet's homepage. The better the promotion, the more likely your promotion will reach the #1 spot!</p>
 			<img src="{{STATIC_URL}}img/misc/seller/promotion2.png">
 		</div>
 	</div>
 	<div class="col-md-4 col-sm-4">
-		<div class="vetbox promotion">
+		<div class="vetbox promotion last">
 			<h4>Instant Credits</h4>
 			<p>You can offer instant credits for purchases on items in our system. For example, each case that is purchased can earn the clinic 200 instant credits.</p>
 			<img src="{{STATIC_URL}}img/misc/seller/promotion1.png">

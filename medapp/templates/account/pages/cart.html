@@ -15,17 +15,17 @@
 	padding-bottom: 40px;
 	background: #fbfbfb;
 }
-.cart-container {
+.cart-page-container {
 	padding: 10px 20px;
 	min-height: 500px;
 }
-.cart-container .cart-header {
-	margin: 0 15px 30px 15px;
+.cart-page-container .cart-header {
+	margin: 0 0px 30px 0px;
 	padding-bottom: 15px;
 	border-bottom:1px solid #eaeaea;
 }
 
-.cart-container .cart-header h3 {
+.cart-page-container .cart-header h3 {
 	margin-top: 20px;
 	padding: 0 0px;
 	margin-bottom: 0px;
@@ -33,12 +33,9 @@
 	color: #555;
 	letter-spacing: .4px;
 }
-.cart-container .cart-header h3 a {
+.cart-page-container .cart-header h3 a {
 	float: right;
-	border:1px solid #dadada;
-}
-.cart-container .cart-header h3 a:hover{
-	background: #ddd;
+	box-shadow: none;
 }
 .item-summary {
 	padding: 0;
@@ -50,6 +47,9 @@
 	text-decoration: underline;
 }
 /*Sidebar order summary */
+.right-row {
+	padding: 0 0 0 10px;
+}
 .cart-summary {
 	padding: 10px 10px 20px 10px;
 	border:5px solid #7dbb53;
@@ -89,7 +89,7 @@
 	float: none;
 }
 .last-minute {
-	margin-top: 50px;
+	margin: 50px 0 0 10px;
 }
 .last-minute h3 {
 	font-weight: 200;
@@ -153,9 +153,9 @@
 
 {% block content %}
 {% load dollars %}{% load zipcodify %}
-<div class="cart-container">
+<div class="cart-page-container">
 	<div class="cart-header">
-		<h3>You have {{totals.products_count}} item{% if totals.products_count != 1 %}s{% endif %} in your shopping cart <a href='/' class="button button-flat">Continue Shopping</a></h3>
+		<h3>You have {{totals.products_count}} item{% if totals.products_count != 1 %}s{% endif %} in your shopping cart <a href='/' class="button">Continue Shopping</a></h3>
 	</div>
 	<div class="row">
 		<div class="item-summary col-md-9 col-sm-9 col-xs-12">
