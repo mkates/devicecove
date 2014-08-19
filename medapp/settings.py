@@ -171,7 +171,8 @@ INSTALLED_APPS = (
     'password_reset', # Password reset app
     'djrill', #Django-Mandrill App
     'collectfast', #Used for quicker S3 Collectstatic (also fixes modified_time bug in s3 uploads)
-    'compressor' #A way to compress .less and .coffeescript files
+    'compressor', #A way to compress .less and .coffeescript files
+    'pipeline'
 )
 
 SESSION_SERIALIZER = 'django.contrib.sessions.serializers.JSONSerializer'
