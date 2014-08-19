@@ -105,7 +105,6 @@ CACHES = get_cache()
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder'
-    'compressor.finders.CompressorFinder',
     #'django.contrib.staticfiles.finders.DefaultStorageFinder', # I removed this to get debug toolbar to work, if causes problems re-add it
 )
 
@@ -171,7 +170,6 @@ INSTALLED_APPS = (
     'password_reset', # Password reset app
     'djrill', #Django-Mandrill App
     'collectfast', #Used for quicker S3 Collectstatic (also fixes modified_time bug in s3 uploads)
-    'compressor', #A way to compress .less and .coffeescript files
     'pipeline'
 )
 
