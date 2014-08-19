@@ -144,7 +144,6 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'livereload', # A small app that works with livereload to include automatic reloads for python files
     'django.contrib.admin',
     'django.contrib.admindocs',
     'django.contrib.humanize',
