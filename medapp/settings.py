@@ -144,6 +144,7 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    # 'livereload', # A small app that works with livereload to include automatic reloads for python files
     'django.contrib.admin',
     'django.contrib.admindocs',
     'django.contrib.humanize',
@@ -169,7 +170,6 @@ INSTALLED_APPS = (
     'password_reset', # Password reset app
     'djrill', #Django-Mandrill App
     'collectfast', #Used for quicker S3 Collectstatic (also fixes modified_time bug in s3 uploads)
-    'pipeline'
 )
 
 SESSION_SERIALIZER = 'django.contrib.sessions.serializers.JSONSerializer'
