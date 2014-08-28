@@ -7,7 +7,7 @@
 {% block write_content %}
 <h4>Salix Powder Formula with Extra Nutrition and Produ{{product.name}}</h4>
 <div class="rating">
-	<p class="form-label">Select a rating for this product <span>(choose between 1 and 5 stars)</span></p>
+	<p class="form-label">1. Select a rating for this product <span>(choose between 1 and 5 stars)</span></p>
 	<div class="rating">
 		<div id="raty"></div>
 		<div class="raty_score raty_1"></div>
@@ -15,17 +15,17 @@
 	<input id="review-rating" type="hidden" value="2" name="rating">
 </div>
 <div class="review-title input-container">
-	<p class="form-label">Title of the review <span>(please limit to 60 characters)</p>
+	<p class="form-label">2. Title your review <span>(please limit to 60 characters)</p>
 	<p class="error">Please provide a title for your review</p>
 	<input id="review-title" name="title" class="form-control required-field user-title">
 </div>
 <div class="textarea input-container">
-	<p class="form-label">Body of the review <span>(use the writing review tips as a guideline for your review, maximum 1500 characters)</p>
+	<p class="form-label">3. Body of the review <span>(use the writing review tips as a guideline for your review, maximum 1500 characters)</p>
 	<p class="error">Please provide content for your review</p>
 	<textarea  id="write-content" name="review" class="form-control required-field user-content"></textarea>
 </div>
 <div class="reviewer">
-	<p class="form-label">Review <span>(select who wrote the review)</p>
+	<p class="form-label">4. Select the Reviewer <span>(you can stay anonymous or identify yourself)</p>
 	<select id="signature" name="review" class="form-control">
 		<option>Veterinary Clinic in NJ</option>
 		<option>Office Manager in in NJ</option>
@@ -67,4 +67,5 @@
 	<li>The most helpful comments help others make informed decisions about a product. Explain why your clinic likes or dislikes the product, focusing on the product's features, functionality, usability, and effectiveness.</li>
 	<li>It is very helpful to personalize the review to your experiences.</li>
 	<li>DO NOT post single word reviews, inappropriate language, or contact information in your reviews.</li>
+	<li>Your review will only be visible to other veterinary practices and manufacturers.</li>
 {% endblock %}

@@ -108,20 +108,20 @@
 {% block account_js %}
 <script src="{{STATIC_URL}}js/plugins/raty/jquery.raty.js" type="text/javascript" ></script>
 <script>
-$(document).ready(function(){
-	$('.raty').raty({
-	    size      : 24,
-	    starOff   : 'star-off.png',
-	    starOn    : 'star-on.png',
-	    starHalf      : 'star-half.png',
-	    target : '.raty_1',
-	    hints: ['Hate it', "Don't like it", "It's okay", 'Like it', 'Love it'],
-	    path: '{{ STATIC_URL }}js/plugins/raty',
-	    click: function(score, evt) {
-		  }
-	});
-	//$('#raty').raty('score', 0);
-});
+// $(document).ready(function(){
+// 	$('#raty').raty({
+// 	    size      : 24,
+// 	    starOff   : 'star-off.png',
+// 	    starOn    : 'star-on.png',
+// 	    starHalf      : 'star-half.png',
+// 	    target : '.raty_1',
+// 	    hints: ['Hate it', "Don't like it", "It's okay", 'Like it', 'Love it'],
+// 	    path: '{{ STATIC_URL }}js/plugins/raty',
+// 	    click: function(score, evt) {
+// 		  }
+// 	});
+// 	$('#raty').raty('score', 0);
+// });
 </script>
 {% endblock %}
 {% block account_content %}

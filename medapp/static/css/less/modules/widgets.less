@@ -1,0 +1,186 @@
+//
+// Widgets
+// Includes box, ribbons, piecounter, stars, completeness bar, backtotop
+// =====================================
+
+
+// ***************
+// **** Boxes ****
+// ***************
+
+.box, .vetbox {
+	border:1px solid @borderColor;
+	.roundedCorners(@borderRadius);
+	background: #fff;
+}
+.box.shadowed:hover {
+	.box-shadow(@insetShadow);
+}
+
+// *****************
+// **** Ribbons ****
+// *****************
+
+.ribbon {
+	position:absolute;
+	right: 0;
+	top: 0;
+	width: 95px;
+	height: 89px;
+	background-size: 95px 89px;
+	background-image: url("../../img/banner/exclusive.png")
+}
+.ribbon.ribbon-topdeal {background-image: url("../../img/banner/topdeal.png")}
+.ribbon.ribbon-recommended {background-image: url("../../img/banner/recommended.png")}
+.ribbon.ribbon-topseller {background-image: url("../../img/banner/topseller.png")}
+.ribbon.ribbon-exclusive {background-image: url("../../img/banner/exclusive.png")}
+
+// **********************
+// **** Pie Counters ****
+// **********************
+
+@piecounter-size: 18px;
+
+.piecounter {
+	height: @piecounter-size;
+	display:inline-block;
+	vertical-align: top;
+	width: @piecounter-size;
+	overflow: hidden;
+	background-size: @piecounter-size*6 @piecounter-size;
+	background-image: url("../../img/misc/piecounter.png");
+}
+.piecounter5 { background-position: @piecounter-size*-1 0;}
+.piecounter4 { background-position: @piecounter-size*-2 0;}
+.piecounter3 { background-position: @piecounter-size*-3 0;}
+.piecounter2 { background-position: @piecounter-size*-4 0;}
+.piecounter1 { background-position: @piecounter-size*-5 0;}
+
+// *****************
+// **** Stars ******
+// *****************
+
+.star {
+	height: 16px;
+	width: 85px;
+	overflow: hidden;
+	background-size: 170px 16px;
+	background-image: url("../../img/misc/blackstars.png");
+}
+.halfstar {
+	background-image: url("../../img/misc/blackstars_half.png");
+	background-size: 186px 16px;
+}
+.star45 {
+	.halfstar;
+	background-position: -17px 0;
+}
+.star35 {
+	.halfstar;
+	background-position: -34px 0;
+}
+.star25 {
+	.halfstar;
+	background-position: -51px 0;
+}
+.star15 {
+	.halfstar;
+	background-position: -68px 0;
+}
+.star5 {
+	.halfstar;
+	background-position: -85px 0;
+}
+.star40 {
+	background-position: -17px 0;
+}
+.star30 {
+	background-position: -34px 0;
+}
+.star20 {
+	background-position: -51px 0;
+}
+.star10 {
+	background-position: -68px 0;
+}
+.star0 {
+	background-position: -85px 0;
+}
+
+/**********************************/
+/******  Top Bar Color Accent *****/
+/**********************************/
+
+.topcolor {
+	height: 5px;
+	opacity: .5;
+	border-bottom:1px solid #888;
+}
+.topcolorblue {
+	background: #6bc5ea;
+}
+
+/**********************************/
+/** Seller Completeness Bars ******/
+/**********************************/
+// These are used for showing how complete a listing is
+
+.completebar {
+	background-image:url("../../img/misc/seller/completebars.png");
+	background-size: 150px 36px;
+	width: 30px;
+	height: 36px;
+}
+.completebar-large {
+	width: 60px;
+	height: 72px;
+	background-size: 300px 72px;
+}
+.completebar2-large {
+	background-position: -60px 0;
+}
+.completebar3-large {
+	background-position: -120px 0;
+}
+.completebar4-large {
+	background-position: -180px 0;
+}
+.completebar5-large {
+	background-position: -240px 0;
+}
+
+.completebar2 {
+	background-position: -30px 0;
+}
+.completebar3 {
+	background-position: 60px 0;
+}
+.completebar4 {
+	background-position: -90px 0;
+}
+.completebar5 {
+	background-position: -120px 0;
+}
+
+/**********************************/
+/******  Back to Top **************/
+/**********************************/
+
+.back-to-top {
+	position: fixed;
+	bottom: 2em;
+	right: 0px;
+	text-decoration: none;
+	color: #fff;
+	background-image:url("../../img/transparency/blacktransparency.png");
+	font-size: 12px;
+	border-bottom-left-radius: 3px;
+	border-top-left-radius: 3px;
+	padding: 1em;
+	display: none;
+	&:hover {
+		background-color: #333;
+		text-decoration: none;
+	}
+}
+	

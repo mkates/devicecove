@@ -1,0 +1,73 @@
+
+/**********************************/
+/******  TableCell  ***************/
+/**********************************/
+
+table, tr { height: 100%;} //Required for equal height table cells with abolsutely positioned elements (i.e. dashboard)
+
+.tablecell{
+	margin-top: -10px;
+    margin-left: -10px;
+    display:table;
+    width: calc(~"100% + 20px"); //Need the extra 20px to make up for the 10px border spacing
+    border-collapse:separate;
+    border-spacing:10px;
+    height: 100%;
+}
+.tablecell-content {
+	position:relative;
+	height: 100%;
+}
+.tablecell tr {
+	height: 100%;
+}
+.tablecell-col {
+	display:table-cell;
+	height: 100%;
+}
+.tablecell-6 {
+	width: 50%;
+}
+.tablecell-5 {
+	width: 41.66%;
+}
+.tablecell-45 {
+	width: 37.5%;
+}
+.tablecell-4 {
+	width: 33.33%;
+}
+.tablecell-3 {
+	width: 25%;
+}
+.tablecell-2 {
+	width: 16.66%;
+}
+
+
+/******************************************************/
+/******  2 Col Layout w/ fixed width sidebar **********/
+/******************************************************/
+// Used when there is a sidebar of a fixed width and the main container is variable width (uses CSS tables)
+
+.side-layout {
+	display: table;
+	width: 100%;
+	.side-layout-col {
+	  display: table-cell;
+	  vertical-align: top;
+	}
+	.mainbar-container {
+		background: #fff;
+		border-top-left-radius: 3px;
+		border-bottom-left-radius: 3px;
+	}
+	.sidebar-container {
+		width: 250px;
+		border-left:1px solid #ddd;
+		background: #fafafa;
+		box-shadow: 0 0 10px rgba(0,0,0,.1) inset;
+		border-top-right-radius: 3px;
+		border-bottom-right-radius: 3px;
+	}
+}

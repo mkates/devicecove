@@ -1,0 +1,101 @@
+//
+// Different Ways To Display A Product
+// 
+// =====================================
+
+//**************************************
+//*** Box Format ***********************
+//**************************************
+// .product-box {
+// 	max-width: 300px;
+// 	min-width: 200px;
+// 	display:block;
+// 	position:relative;
+// 	&:hover {
+// 		text-decoration: none;
+// 		.box-shadow(@insetShadow);
+// 	}
+// 	.image {
+// 		.background-contain;
+// 		height: 130px;
+// 		margin: 15px 15px 15px 15px;
+// 	}
+// 	.details {
+// 		border-top:1px solid #eee;
+// 		margin: 0 15px;
+// 		padding: 2px 0 5px;
+// 		text-align: center;
+// 		.name {
+// 			.ellipsis;
+// 			display:inline-block;
+// 			padding: 0;
+// 			max-width: 100%;
+// 			margin: 5px 0 0 0;
+// 			color: #333;
+// 			&:hover {
+// 				text-decoration: underline;
+// 			}
+// 		}
+// 		.rating {
+// 			margin-top: -6px;
+// 			.star {
+// 				.inline-block-top;
+// 			}
+// 			.quantity {
+// 				.inline-block-top;
+// 				margin: 1px 0 0 5px;
+// 				.p-counts
+// 			}
+// 		}
+// 		.price {
+// 			line-height: 1.2;
+// 			margin-bottom: 3px;
+// 			.listprice {
+// 				font-weight: bold;
+// 				letter-spacing: .3px;
+// 				color: #3cab47;
+// 				font-size: 14px;
+// 				text-decoration:none;
+// 			}
+// 			.msrp {
+// 				.p-counts;
+// 				font-size: 11px;
+// 				padding-left: 5px;
+// 				text-decoration:line-through;
+// 			}
+// 		}
+// 	}
+// }
+
+// The associated HTML for a product box
+// <a href='#' class="product-box box">
+// 	<div class="ribbon"></div>
+// 	<div class="image" style='background-image:url("{{STATIC_URL}}img/large_background/horse_dark.png")'></div>
+// 	<div class="details">
+// 		<p class="name">Phenylbutazone Powder</p>
+// 		<div class="rating">
+// 			<div class="star blackstar star{{rating}}"></div><span class="quantity">(3)</span>
+// 		</div>
+// 		<p class="price"><span class="listprice">$1,743.31<span class="msrp">$2400.00</span></p>
+//  		<button class="button-review button button-tiny button-rounded button-flat">Review This Product</button>
+// 	</div>
+// </a>
+
+
+
+//**************************************
+//*** Review Box (extends box) *********
+//**************************************
+
+
+//**************************************
+//*** Search Item (List View )**********
+//**************************************
+
+
+//**************************************
+//*** Search Item (Grid View )**********
+//**************************************
+
+
+

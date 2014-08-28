@@ -25,9 +25,9 @@
 	margin-right: 5px;
 	padding: 1px 5px;
 	font-size: 12px;
-	font-weight: 200;
+	font-weight: 300;
 	color: #888;
-	font-weight: 200;
+	font-weight: 300;
 	transition: background .2s;
 }
 .cart-item .item-information button:hover {
@@ -45,7 +45,7 @@
 	margin: 0;
 	padding-bottom: 3px;
 	font-size: 12px;
-	font-weight: 200;
+	font-weight: 300;
 }
 
 .cart-item .item-information span a {
@@ -73,7 +73,7 @@
 .cart-item .item-price .unit-price {
 	font-size: 13px;
 	margin-top: 0px;
-	font-weight: 200;
+	font-weight: 300;
 	margin-bottom: 2px;
 
 }
@@ -81,7 +81,7 @@
 	text-decoration:line-through;
 	color: #eb4a4a;
 	font-size: 12px;
-	font-weight: 200;
+	font-weight: 300;
 	margin: 0;
 }
 .cart-item .item-price .final-price {
@@ -95,7 +95,7 @@
 
 .cart-item .otherbuyers {
 	color: #aaa;
-	font-weight: 200;
+	font-weight: 300;
 }
 .cart-item .item-actions {
 	display: block;
@@ -104,8 +104,8 @@
 .noitems p {
 	padding-top: 25px;
 	text-align: center;
-	font-weight: 200;
+	font-weight: 300;
 	font-size: 15px;
 	color: #999;
-	font-weight: 200;
+	font-weight: 300;
 }

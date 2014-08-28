@@ -26,10 +26,10 @@
 <link href="{{STATIC_URL}}css/general/form.css" rel="stylesheet" type="text/css" />
 
 <!-- Less Files -->
-<link href="{{STATIC_URL}}css/general/base.less" rel="stylesheet/less" type="text/css" />
-<link href="{{STATIC_URL}}css/general/general.less" rel="stylesheet/less" type="text/css" />
+<link href="{{STATIC_URL}}css/less/main.less" rel="stylesheet/less" type="text/css" />
 <script src="{{STATIC_URL}}js/plugins/less.js"></script>
 <!-- End of Less Files -->
+
 <link href="{{STATIC_URL}}css/general/base.css" rel="stylesheet/less" type="text/css" />
 <!-- End of CSS -->
 
@@ -249,7 +249,7 @@
 			</div>
 			<div class="element fixed account-element dropdown-container">
 				<a href='/account' class="element-link double-row account dropdown-handle" data-dropdown="account-dropdown">
-					<p class="companyname">{% if basicuser %}Colts Neck Equine{% else %}Hello. Log In{% endif %}</p>
+					<p class="companyname">{% if basicuser %}{% if clinic %}Colts Neck Equine{% else %}Stokes Pharmacy{% endif %}{% else %}Hello. Log In{% endif %}</p>
 					<p>Your Account <b class="caret"></b></p>
 				</a>
 				<div id="account-dropdown" class="dropdown-box account-dropdown dropdown-left">

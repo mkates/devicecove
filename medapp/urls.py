@@ -10,6 +10,8 @@ admin.autodiscover()
 #####################################################################
 urlpatterns = patterns('',
 
+    #Testing PDFs
+    url(r'^pdf/', 'general.views.pdf'),
 	####### Admin and Staff URLS ############
     #########################################
 	url(r'^staff/overview/(?P<type>\w+)','staffportal.views.staffOverview'),

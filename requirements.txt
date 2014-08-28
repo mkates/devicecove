@@ -1,6 +1,6 @@
 Collectfast==0.1.13
 Django==1.6
-Pillow==2.2.2
+Pillow==2.4.0
 PyYAML==3.10
 South==0.8.2
 argh==0.24.1
@@ -15,14 +15,17 @@ dj-static==0.0.5
 django-appconf==0.6
 django-balanced==0.1.10
 django-boto==0.2.1
+django-compressor==1.4
 django-debug-toolbar==1.0.1
 django-extensions==1.2.5
 django-filer==0.9.4
 django-fresh==1.0.5
 django-imagekit==3.0.4
+django-livereload==1.0
 django-model-utils==2.0.3
 django-mptt==0.5.5
 django-password-reset==0.5.1
+django-pipeline==1.3.25
 django-polymorphic==0.5.3
 django-pylibmc-sasl==0.2.4
 django-redis==3.3
@@ -32,6 +35,7 @@ django-toolbelt==0.0.1
 djrill==0.7.0
 easy-thumbnails==1.4
 easypost==2.0.6
+futures==2.1.6
 fuzzywuzzy==0.2
 gunicorn==18.0
 iso8601==0.1.4
